@@ -1,0 +1,86 @@
+.sidebar {
+    position: fixed;
+    height: 100%;
+    width: 240px;
+    background: #052659;
+    transition: all 0.5s ease;
+}
+
+.sidebar.active {
+    width: 60px;
+}
+
+.sidebar.active~.home-section {
+    width: calc(100% - 60px);
+    left: 60px;
+}
+
+.sidebar.active~.home-section nav {
+    left: 60px;
+    width: calc(100% - 60px);
+}
+
+.sidebar .logo-details img {
+    height: 80px;
+    width: 110px;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    margin: 30px 30px 30px 65px;
+}
+
+.sidebar .nav-links {
+    margin-top: 10px;
+    margin-left: -32px;
+}
+
+.sidebar .nav-links li {
+    position: relative;
+    list-style: none;
+    height: 50px;
+}
+
+.sidebar .nav-links li a {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.4s ease;
+}
+
+.sidebar .nav-links li a.active {
+    background: #081d45;
+}
+
+.sidebar .nav-links li a:hover {
+    background: #081d45;
+}
+
+.sidebar .nav-links li i {
+    min-width: 60px;
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+}
+
+.sidebar .nav-links li i.profile {
+    min-width: 60px;
+    text-align: center;
+    font-size: 24px;
+    margin-left: 20px;
+    color: #fff;
+}
+
+.sidebar .nav-links li a .links_name {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.sidebar .nav-links .log_out {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
