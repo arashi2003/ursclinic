@@ -209,7 +209,7 @@ $module = 'transaction_add';
                         <div class="col-md-4 mb-2">
                             <div class="input-group input-group-md mb-2">
                                 <span class="input-group-text" id="inputGroup-sizing-md">Weight:</span>
-                                <input type="number" maxlength="7" class="form-control" name="weight" id="weight" required>
+                                <input type="text" maxlength="7" class="form-control" name="weight" id="weight" required>
                             </div>
                         </div>
                     </div>
@@ -325,7 +325,7 @@ $module = 'transaction_add';
                     </div>
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Other Dento-Facial Findings:</span>
-                        <input type="text" maxlength="45" class="form-control" name="dento_facial" id="dento_facial" required>
+                        <input type="text" maxlength="45" class="form-control" name="dento_facial" id="dento_facial">
                     </div>
                 </div>
 
@@ -335,7 +335,7 @@ $module = 'transaction_add';
                         <input type="text" class="form-control" name="remarks" id="remarks" >
                     </div>
                     <div class="input-group input-group-md mb-2">
-                        <span class="input-group-text" id="inputGroup-sizing-md">Referral:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-md">Recommendation:</span>
                         <input type="text" class="form-control" name="referral" id="referral" >
                     </div>
 
@@ -352,6 +352,10 @@ $module = 'transaction_add';
                                 <option value="<?= $row['medcase']; ?>"><?= "(" . ucfirst(strtolower( $row['type'])) . ") " . $row['medcase']; ?></option>
                             <?php } ?>
                         </select>
+                    </div>
+                    <div class="input-group input-group-md mb-2">
+                        <span class="input-group-text" id="inputGroup-sizing-md">Others:</span>
+                        <input type="text" maxlength="45" class="form-control" name="medcase_others" id="medcase_others" required>
                     </div>
                     
                     <div class="modal-footer">
