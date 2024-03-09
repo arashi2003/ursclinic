@@ -53,10 +53,12 @@ include('../../includes/pagination-limit.php')
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                
-            <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_accounts.php');">Export to PDF</button>
-                </div>
+                    <div class="schedule-button">
+                        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addaccount">Add Account</button>
+                        <?php include('modals/addaccount_modal.php');?>
+                        &ThickSpace;
+                        <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_accounts.php');">Export to PDF</button>
+                    </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
@@ -107,7 +109,7 @@ include('../../includes/pagination-limit.php')
                                 if (isset($_GET['account']) && $_GET['account'] != '') {
                                     $account = strtoupper($_GET['account']);
                                     $count = 1;
-                                    $sql = "SELECT * FROM account WHERE CONCAT(firstname, ' ', middlename, ' ' , lastname) LIKE '%$account%' OR CONCAT(firstname, ' ' , lastname) LIKE '%$account%' OR accountid LIKE '%$account%' WHERE campus = '$campus' AND accountid !='$user' ORDER BY accountid LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT * FROM account WHERE (CONCAT(firstname, ' ', middlename, ' ' , lastname) LIKE '%$account%' OR CONCAT(firstname, ' ' , lastname) LIKE '%$account%' OR accountid LIKE '%$account%') AND campus = '$campus' AND accountid !='$user' ORDER BY accountid LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 } elseif (isset($_GET['status']) && $_GET['status'] != '' || isset($_GET['usertype']) && $_GET['usertype'] != '' ) {
                                     //$campus = $_GET['campus'];

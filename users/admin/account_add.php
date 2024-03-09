@@ -11,7 +11,7 @@ $module = 'account_add';
 
 <head>
     <title>User Accounts</title>
-    <?php include('../../includes/header.php'); ?>
+    <?php include('../../includes/header.php');?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -38,7 +38,7 @@ $module = 'account_add';
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutmodal">Log Out</button></li>
-
+                            
                         </ul>
                     </div>
                 </div>
@@ -50,8 +50,7 @@ $module = 'account_add';
                 <div class="content">
                     <div class="row">
                         <div class="input-group input-group-md">
-                            <input id="fileInput" class="form-control" type="file" name="acccsv" accept=".jpg, .jpeg, .png, .csv">
-                            <button id="uploadButton" class="btn btn-primary" type="submit" disabled>Upload</button>
+                            <input class="form-control" type="file" name="acccsv" accept=".jpg, .jpeg, .png, .csv">
                         </div>
                     </div>
                 </div>
@@ -74,7 +73,7 @@ $module = 'account_add';
                                             include('connection.php');
                                             $sql = "SELECT * FROM campus ORDER BY campus";
                                             $result = mysqli_query($conn, $sql);
-                                            while ($row = mysqli_fetch_array($result)) { ?>
+                                            while ($row = mysqli_fetch_array($result)) {?>
                                                 <option value="<?= $row['campus']; ?>"><?= $row['campus']; ?></option>
                                             <?php } ?>
                                         </select>
@@ -89,7 +88,7 @@ $module = 'account_add';
                                             include('connection.php');
                                             $sql = "SELECT DISTINCT usertype FROM account ORDER BY usertype";
                                             $result = mysqli_query($conn, $sql);
-                                            while ($row = mysqli_fetch_array($result)) { ?>
+                                            while ($row = mysqli_fetch_array($result)) {?>
                                                 <option value="<?= $row['usertype']; ?>"><?= $row['usertype']; ?></option>
                                             <?php } ?>
                                         </select>
@@ -147,33 +146,34 @@ $module = 'account_add';
                                             $sql = "SELECT * FROM user_status ORDER BY status";
                                             $result = mysqli_query($conn, $sql);
                                             while ($row = mysqli_fetch_array($result)) {
-                                                if ($row['status'] == "ACTIVE") {
+                                                if ($row['status'] == "ACTIVE")
+                                                {
                                             ?>
-                                                    <option value="<?= $row['status']; ?>" selected><?= $row['status']; ?></option>
-                                                <?php } else { ?>
-                                                    <option value="<?= $row['status']; ?>"><?= $row['status']; ?></option>
-                                            <?php }
-                                            } ?>
+                                                <option value="<?= $row['status']; ?>" selected><?= $row['status']; ?></option>
+                                            <?php } else
+                                            {?>
+                                                <option value="<?= $row['status']; ?>"><?= $row['status']; ?></option>
+                                            <?php }} ?>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
-
+                                    
                                 </div>
                             </div>
 
+                                    
+                                    
+                                    
+                                    
 
-
-
-
-
-
-
+                                    
+                                    
 
                             <div class="modal-footer">
-                                <input type="submit" class="btn btn-primary" value="Add Account"></input>
+                                <input type="submit" class="btn btn-primary" value="Add Account"></input> 
                                 &ThickSpace;
                                 <input type="reset" class="btn btn-danger" value="Cancel"></input>
                             </div>
@@ -181,7 +181,6 @@ $module = 'account_add';
                     </div>
                 </div>
             </div>
-        </div>
 
         </div>
     </section>
@@ -202,17 +201,5 @@ $module = 'account_add';
     sidebarBtn.addEventListener("click", () => {
         sidebar.classList.toggle("close");
     });
-
-    const fileInput = document.getElementById('fileInput');
-    const uploadButton = document.getElementById('uploadButton');
-
-    fileInput.addEventListener('change', function() {
-        if (fileInput.files.length > 0) {
-            uploadButton.disabled = false;
-        } else {
-            uploadButton.disabled = true;
-        }
-    });
 </script>
-
 </html>

@@ -52,6 +52,11 @@ include('../../includes/pagination-limit.php')
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
+                <div class="schedule-button">
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addpatient">Add Patient</button>
+                    <?php include('modals/addpatient_modal.php');?>
+                    &ThickSpace;
+                </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">

@@ -19,8 +19,3 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $('#addcollege').on('hidden.bs.modal', function() {
-        $(this).find('form').trigger('reset');
-    });
-</script>

@@ -169,28 +169,37 @@
     $user = "URS-000";
 
     $query = mysqli_query($conn, "SELECT * FROM account WHERE accountid ='$user'");
-    while($data=mysqli_fetch_array($query))
+    if(mysqli_num_rows($query) > 0)
     {
-        if (count(explode(" ", $data['middlename'])) > 1)
+        while($data=mysqli_fetch_array($query))
         {
-            $middle = explode(" ", $data['middlename']);
-            $letter = $middle[0][0].$middle[1][0];
-            $middleinitial = $letter . ".";
-        }
-        else
-        {
-            $middle = $data['middlename'];
-            if ($middle == "" OR $middle == " ")
+            if (count(explode(" ", $data['middlename'])) > 1)
             {
-                $middleinitial = "";
+                $middle = explode(" ", $data['middlename']);
+                $letter = $middle[0][0].$middle[1][0];
+                $middleinitial = $letter . ".";
             }
             else
             {
-                $middleinitial = substr($middle, 0, 1) . ".";
-            }    
+                $middle = $data['middlename'];
+                if ($middle == "" OR $middle == " ")
+                {
+                    $middleinitial = "";
+                }
+                else
+                {
+                    $middleinitial = substr($middle, 0, 1) . ".";
+                }    
+            }
+            $camAbbrev = substr($data['campus'], 0, 1);
+            $name1 = $data['firstname'] . " " . $middleinitial . " " . $data['lastname'];
+            $title1 = "URS" . $camAbbrev . ", " . "Admin";
         }
+    }
+    else
+    {
         $camAbbrev = substr($data['campus'], 0, 1);
-        $name1 = $data['firstname'] . " " . $middleinitial . " " . $data['lastname'];
+        $name1 = "";
         $title1 = "URS" . $camAbbrev . ", " . "Admin";
     }
 

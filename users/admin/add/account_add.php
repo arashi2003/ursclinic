@@ -1,7 +1,7 @@
 <?php
     session_start();
     include('connection.php');
-    $accountid = $_POST['accountid'];
+    $accountid = strtoupper($_POST['accountid']);
     $password = $_POST['password'];
     $cpassword = $_POST['cpassword'];
     $usertype = $_POST['usertype'];
@@ -10,9 +10,7 @@
     $lastname = strtoupper($_POST['lastname']);
     $email = $_POST['email'];
     $contactno = $_POST['contactno'];
-    $campus = $_POST['campus'];
     $status = $_POST['status'];
-    $datetime = date("Y-m-d h:i:s");
     
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
@@ -36,7 +34,7 @@
         ?>
         <script>
             setTimeout(function() {
-                window.location = "../account_add.php";
+                window.location = "../account_users.php";
             });
         </script>
         <?php
@@ -48,7 +46,7 @@
         ?>
         <script>
             setTimeout(function() {
-                window.location = "../account_add.php";
+                window.location = "../account_users.php";
             });
         </script>
         <?php
@@ -56,7 +54,7 @@
     }
     else
     {
-        $sql[1] = "INSERT INTO account (accountid, password, usertype, firstname, middlename, lastname, email, contactno, campus, status, datetime_created, datetime_updated) VALUES ('$accountid', '$password', '$usertype', '$firstname', '$middle', '$lastname', '$email', '$contactno', '$campus', '$status', '$datetime', '$datetime')";
+        $sql[1] = "INSERT INTO account (accountid, password, usertype, firstname, middlename, lastname, email, contactno, campus, status, datetime_created, datetime_updated) VALUES ('$accountid', '$password', '$usertype', '$firstname', '$middle', '$lastname', '$email', '$contactno', '$campus', '$status', now(), now())";
         if (mysqli_query($conn, $sql[1]))
         {
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
@@ -65,7 +63,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../account_add.php";
+                        window.location = "../account_users.php";
                     });
                 </script>
                 <?php
@@ -76,7 +74,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../account_add.php";
+                        window.location = "../account_users.php";
                     });
                 </script>
                 <?php
@@ -85,21 +83,13 @@
         }
         else
         {
-            ?>
-            <script>
-                setTimeout(function() {
-                    window.location = "../account_add.php";
-                });
-            </script>
-            <?php
             // modal na password and confirm password does not match
-        }
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../account_add.php";
+        window.location = "../account_users.php";
     });
 </script>
 <?php
-}
+}}
 mysqli_close($conn);
