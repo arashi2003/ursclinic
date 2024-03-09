@@ -29,7 +29,7 @@
                     <li><a class="link_name" href="#">Appointment</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'patients') {
+            <li class="<?php if ($module == 'patient_add') {
                             echo 'active';
                         } ?>">
                 <a href="patients">
@@ -61,7 +61,7 @@
                 </ul>
             </li>
             <li>
-                <a href="#">
+                <a href="med_doc">
                     <i class='bx bx-file'></i>
                     <span class="link_name">Medical Documents</span>
                 </a>
