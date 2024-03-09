@@ -60,7 +60,9 @@
                     </li>
                 </ul>
             </li>
-            <li>
+            <li class="<?php if ($module == 'medical') {
+                            echo 'active';
+                        } ?>">
                 <a href="med_doc">
                     <i class='bx bx-file'></i>
                     <span class="link_name">Medical Documents</span>
