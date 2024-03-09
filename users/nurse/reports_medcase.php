@@ -12,7 +12,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 // get the total nr of rows.
-$records = $conn->query("SELECT * FROM reports_medcase WHERE campus = '$campus' AND date='$now'");
+$records = $conn->query("SELECT * FROM reports_medcase WHERE campus = '$campus'");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php');
@@ -132,7 +132,6 @@ include('../../includes/pagination-limit.php');
                                             ?>
                                             <tr>
                                                 <td><?php echo $row['medcase'] ?></td>
-                                                <td><?php echo number_format($buc, 2, '.') ?></td>
                                                 <td><?php echo $row['st'] ?></td>
                                                 <td><?php echo $row['pt'] ?></td>
                                                 <td><?php echo $row['gt'] ?></td>

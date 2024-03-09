@@ -98,7 +98,7 @@
     }
     else
     {
-        $ca = " WHERE t.campus = '$campus'";
+        $ca = " WHERE campus = '$campus'";
     }
     //date filter
     if ($dt_from =="" AND $dt_to =="")
@@ -152,7 +152,7 @@
     }
     
     $count = 1;
-    $query = mysqli_query($conn, "SELECT id, patient, firstname, middlename, lastname, designation, age, sex, department, college, program, birthday, yearlevel, section, type, transaction, purpose, height, weight, bp, pr, temp, heent, chest_lungs, heart, abdomen, extremities, bronchial_asthma, surgery, lmp, heart_disease, allergies, epilepsy, hernia, respiratory, oxygen_saturation, chief_complaint, findiag, remarks, medsup, pod_nod, medcase, medcase_others, datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial FROM transaction_history WHERE $ca $date ORDER BY datetime DESC "
+    $query = mysqli_query($conn, "SELECT id, patient, firstname, middlename, lastname, designation, age, sex, department, college, program, birthday, yearlevel, section, type, transaction, purpose, height, weight, bp, pr, temp, heent, chest_lungs, heart, abdomen, extremities, bronchial_asthma, surgery, lmp, heart_disease, allergies, epilepsy, hernia, respiratory, oxygen_saturation, chief_complaint, findiag, remarks, medsup, pod_nod, medcase, medcase_others, datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial FROM transaction_history $ca $date ORDER BY datetime DESC "
     );
     while($data=mysqli_fetch_array($query))
     {

@@ -86,8 +86,8 @@
 
     $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
-    $dt_from = date("Y-m-d");//$_POST['date_from'];
-    $dt_to = date("Y-m-t");//$_POST['date_to'];
+    $dt_from = "";//$_POST['date_from'];
+    $dt_to = "";//$_POST['date_to'];
     $pod =  "";//$_POST['physician'];
     
     //campus filter
