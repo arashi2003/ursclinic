@@ -1,7 +1,7 @@
 <?php
     session_start();
     include('connection.php');
-    $accountid = $_SESSION['accountid'];
+    $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $type = $_POST['type'];
     $unit_measure = $_POST['unit_measure'];

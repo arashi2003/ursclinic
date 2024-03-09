@@ -3,7 +3,7 @@
     include('connection.php');
     $apptype = $_POST['apptype'];
 
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "added an appointment type";

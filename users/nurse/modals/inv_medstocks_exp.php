@@ -3,8 +3,8 @@
     include('connection.php');
 
     //session accountid of nurse
-    $accountid = $_SESSION['accountid'];
-    $user = $_SESSION['accountid'];
+    $accountid = $_SESSION['userid'];
+    $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = $_SESSION['name'];
     $activity = "added medicine ID " . $_POST['medicine'] . " inventory stocks";
@@ -69,7 +69,7 @@
                     // if may existing entry ung medicine administration sa reports
                     if($resultCheck > 0)
                     {   
-                        $accountid = $_SESSION['accountid'];
+                        $accountid = $_SESSION['userid'];
                         $campus = $_SESSION['campus'];
                         $adminid = $_POST['admin'];
                         $batchid = "B" . date("Ymd");
@@ -192,7 +192,7 @@
                         else
                         {
                             $lastdate = date("Y-m-t", strtotime("- 1 month"));
-                            $accountid = $_SESSION['accountid'];
+                            $accountid = $_SESSION['userid'];
                             $campus = $_SESSION['campus'];
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
@@ -208,7 +208,7 @@
                             $resultCheck = mysqli_num_rows($result);
                             if($resultCheck > 0)// if may remaining stocks pa from previous month
                             {
-                                $accountid = $_SESSION['accountid'];
+                                $accountid = $_SESSION['userid'];
                                 $campus = $_SESSION['campus'];
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
@@ -286,7 +286,7 @@
                             else // no remaining stocks from last month
                             {
                                 $date = date("Y-m-t");
-                                $accountid = $_SESSION['accountid'];
+                                $accountid = $_SESSION['userid'];
                                 $campus = $_SESSION['campus'];
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
@@ -366,7 +366,7 @@
                     
                     else // if wala pang existing entry ung medicine administration sa reports
                     {
-                        $accountid = $_SESSION['accountid'];
+                        $accountid = $_SESSION['userid'];
                         $campus = $_SESSION['campus'];
                         $adminid = $_POST['admin'];
                         $batchid = "B" . date("Ymd");
@@ -388,7 +388,7 @@
                         $query = "INSERT INTO report_medsupinv (campus, type, admin, medid, medicine, bqty, buc, rqty, tqty, iqty, iamt, eqty, eamt, date) VALUES ('$campus', 'med_admin', '$medad', '$adminid', '$medad', '', '', '', '', '', '', '', '', '$enddate')";
                         if(mysqli_query($conn, $query))
                         {
-                            $accountid = $_SESSION['accountid'];
+                            $accountid = $_SESSION['userid'];
                             $campus = $_SESSION['campus'];
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
@@ -452,7 +452,7 @@
                                     $aieamt = $ucost * $eqty;
                                     $aeamt = number_format($aieamt, 2, ".");
                                 }
-                                $accountid = $_SESSION['accountid'];
+                                $accountid = $_SESSION['userid'];
                                 $campus = $_SESSION['campus'];
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
@@ -514,7 +514,7 @@
                                 $resultCheck = mysqli_num_rows($result);
                                 if($resultCheck > 0) // if may remaining stocks pa from previous month
                                 {   
-                                    $accountid = $_SESSION['accountid'];
+                                    $accountid = $_SESSION['userid'];
                                     $campus = $_SESSION['campus'];
                                     $adminid = $_POST['admin'];
                                     $batchid = "B" . date("Ymd");
@@ -594,7 +594,7 @@
                                 {
                                     
                                     $date = date("Y-m-t");
-                                    $accountid = $_SESSION['accountid'];
+                                    $accountid = $_SESSION['userid'];
                                     $campus = $_SESSION['campus'];
                                     $adminid = $_POST['admin'];
                                     $batchid = "B" . date("Ymd");
@@ -724,7 +724,7 @@
                     // if may existing entry ung medicine administration sa reports
                     if($resultCheck > 0)
                     {   
-                        $accountid = $_SESSION['accountid'];
+                        $accountid = $_SESSION['userid'];
                         $campus = $_SESSION['campus'];
                         $adminid = $_POST['admin'];
                         $batchid = "B" . date("Ymd");
@@ -847,7 +847,7 @@
                         else
                         {
                             $lastdate = date("Y-m-t", strtotime("- 1 month"));
-                            $accountid = $_SESSION['accountid'];
+                            $accountid = $_SESSION['userid'];
                             $campus = $_SESSION['campus'];
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
@@ -863,7 +863,7 @@
                             $resultCheck = mysqli_num_rows($result);
                             if($resultCheck > 0)// if may remaining stocks pa from previous month
                             {
-                                $accountid = $_SESSION['accountid'];
+                                $accountid = $_SESSION['userid'];
                                 $campus = $_SESSION['campus'];
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
@@ -941,7 +941,7 @@
                             else // no remaining stocks from last month
                             {
                                 $date = date("Y-m-t");
-                                $accountid = $_SESSION['accountid'];
+                                $accountid = $_SESSION['userid'];
                                 $campus = $_SESSION['campus'];
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
@@ -1021,7 +1021,7 @@
                     
                     else // if wala pang existing entry ung medicine administration sa reports
                     {
-                        $accountid = $_SESSION['accountid'];
+                        $accountid = $_SESSION['userid'];
                         $campus = $_SESSION['campus'];
                         $adminid = $_POST['admin'];
                         $batchid = "B" . date("Ymd");
@@ -1043,7 +1043,7 @@
                         $query = "INSERT INTO report_medsupinv (campus, type, admin, medid, medicine, bqty, buc, rqty, tqty, iqty, iamt, eqty, eamt, date) VALUES ('$campus', 'med_admin', '$medad', '$adminid', '$medad', '', '', '', '', '', '', '', '', '$enddate')";
                         if(mysqli_query($conn, $query))
                         {
-                            $accountid = $_SESSION['accountid'];
+                            $accountid = $_SESSION['userid'];
                             $campus = $_SESSION['campus'];
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
@@ -1107,7 +1107,7 @@
                                     $aieamt = $ucost * $eqty;
                                     $aeamt = number_format($aieamt, 2, ".");
                                 }
-                                $accountid = $_SESSION['accountid'];
+                                $accountid = $_SESSION['userid'];
                                 $campus = $_SESSION['campus'];
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
@@ -1169,7 +1169,7 @@
                                 $resultCheck = mysqli_num_rows($result);
                                 if($resultCheck > 0) // if may remaining stocks pa from previous month
                                 {   
-                                    $accountid = $_SESSION['accountid'];
+                                    $accountid = $_SESSION['userid'];
                                     $campus = $_SESSION['campus'];
                                     $adminid = $_POST['admin'];
                                     $batchid = "B" . date("Ymd");
@@ -1249,7 +1249,7 @@
                                 {
                                     
                                     $date = date("Y-m-t");
-                                    $accountid = $_SESSION['accountid'];
+                                    $accountid = $_SESSION['userid'];
                                     $campus = $_SESSION['campus'];
                                     $adminid = $_POST['admin'];
                                     $batchid = "B" . date("Ymd");

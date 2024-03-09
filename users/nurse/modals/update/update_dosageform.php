@@ -1,7 +1,7 @@
 <?php
     session_start();
     include('connection.php');
-    $accountid = $_SESSION['accountid'];
+    $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $dosage_form = $_POST['dosage_form'];
     $fullname = strtoupper($_SESSION['name']);

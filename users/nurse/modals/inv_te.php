@@ -4,7 +4,7 @@
     $te = $_POST['te'];
     $unit = $_POST['unit_measure'];
 
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     $fullname = $_SESSION['name'];
     $activity = "added a tool/equipment entry";
     $campus = $_SESSION['campus'];

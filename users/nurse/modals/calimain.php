@@ -1,7 +1,7 @@
 <?php
     session_start();
     include('connection.php');
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $date_from = $_POST['date_from'];
     $date_to = $_POST['date_to'];

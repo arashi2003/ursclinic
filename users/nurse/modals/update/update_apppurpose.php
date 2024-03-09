@@ -5,7 +5,7 @@
     $apppurpose = $_POST['apppurpose'];
     $type = $_POST['type'];
 
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "updated an appointment purpose entry";

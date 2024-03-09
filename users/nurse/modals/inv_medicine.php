@@ -1,7 +1,7 @@
 <?php
     session_start();
     include('connection.php');
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     $fullname = $_SESSION['name'];
     $activity = "added a medicine entry";
     $campus = $_SESSION['campus'];

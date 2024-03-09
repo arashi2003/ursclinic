@@ -2,8 +2,8 @@
     session_start();
     include('connection.php');
     
-    $accountid = $_SESSION['accountid'];
-    $user = $_SESSION['accountid'];
+    $accountid = $_SESSION['userid'];
+    $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = $_SESSION['name'];
     $activity = "added supply ID " . $_POST['supply'] . " inventory stocks";

@@ -5,7 +5,7 @@
     $unit = $_POST['unit_measure'];
     $state = $_POST['state'];
 
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = $_SESSION['name'];
     $activity = "added a medical supply entry";

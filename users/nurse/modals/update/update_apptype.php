@@ -4,7 +4,7 @@
     $apptype = $_POST['apptype'];
     $id=$_POST['id'];
 
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "updated an appointment type entry";

@@ -14,7 +14,7 @@
     $campus = $_POST['campus'];
     $status = $_POST['status'];
 
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "updated their account details";

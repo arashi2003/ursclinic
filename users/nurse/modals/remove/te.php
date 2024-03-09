@@ -2,7 +2,7 @@
     session_start();
     include('../connection.php');
     $id = $_GET['no'];
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "removed a tool/equipment entry";

@@ -2,7 +2,7 @@
     session_start();
     include('connection.php');
 
-    $accountid = $_SESSION['accountid'];
+    $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = $_SESSION['name'];
     $activity = "added tool/equipment ID " . $_POST['te'] . " inventory stocks";
@@ -40,7 +40,7 @@
         $query1 = "INSERT INTO inventory (campus, stock_type, batchid, stockid, closed, opened, qty, unit_cost, expiration, date, time)VALUES ('$campus', 'te', '$batchid', '$teid', '$c', '$o', '$qty', '$cost', '$exp', now(), now())";
         if(mysqli_query($conn, $query1))
         {
-            $accountid = $_SESSION['accountid'];
+            $accountid = $_SESSION['userid'];
             $campus = $_SESSION['campus'];
              
             $qty = 1;
