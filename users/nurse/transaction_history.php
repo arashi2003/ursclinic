@@ -3,8 +3,10 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
+
 $module = 'transaction_history';
-$campus=$_SESSION['campus'];
+
+$campus = $_SESSION['campus'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM transaction_history WHERE campus='$campus'");
@@ -18,7 +20,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Transaction</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -71,9 +73,8 @@ include('../../includes/pagination-limit.php');
                                                 <?php
                                                 $sql = "SELECT DISTINCT type FROM transaction_history WHERE campus='$campus' ORDER BY type";
                                                 $result = mysqli_query($conn, $sql);
-                                                foreach($result as $row)
-                                                {   ?>
-                                                <option value="<?php echo $row['type'];?> <?= isset($_GET['']) == true ? ($_GET[''] == $row['type'] ? 'selected' : '') : '' ?>"><?php echo $row['type']?></option><?php }?>
+                                                foreach ($result as $row) {   ?>
+                                                    <option value="<?php echo $row['type']; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row['type'] ? 'selected' : '') : '' ?>"><?php echo $row['type'] ?></option><?php } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2">
@@ -117,50 +118,33 @@ include('../../includes/pagination-limit.php');
                                     $count = 1;
 
                                     //date filter
-                                    if ($dt_from =="" AND $dt_to =="")
-                                    {
+                                    if ($dt_from == "" and $dt_to == "") {
                                         $date = "";
-                                    }
-                                    elseif ($dt_to == $dt_from)
-                                    {
+                                    } elseif ($dt_to == $dt_from) {
                                         $fdate = date("Y-m-d", strtotime($dt_from));
                                         $ldate = date("Y-m-d", strtotime($dt_to));
                                         $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
-                                    }
-
-                                    elseif ($dt_to == "" AND $dt_from != "" )
-                                    {
+                                    } elseif ($dt_to == "" and $dt_from != "") {
                                         $fdate = date("Y-m-d", strtotime($dt_from));
                                         $date = " AND datetime >= '$fdate'";
-                                    }
-                                    elseif ($dt_to == "" AND $dt_from != "" )
-                                    {
+                                    } elseif ($dt_to == "" and $dt_from != "") {
                                         $fdate = date("Y-m-d", strtotime($dt_from));
                                         $date = " AND datetime >= '$fdate'";
-                                    }
-                                    elseif ($dt_from == "" AND $dt_to != "" )
-                                    {
+                                    } elseif ($dt_from == "" and $dt_to != "") {
                                         $d = date("Y-m-d", strtotime($dt_to));
                                         $date = " AND datetime <= '$d'";
-                                    }
-                                    elseif ($dt_from != "" AND $dt_to != "" AND $dt_from != $dt_to)
-                                    {
+                                    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
                                         $fdate = date("Y-m-d", strtotime($dt_from));
                                         $ldate = date("Y-m-d", strtotime($dt_to));
                                         $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
                                     }
 
                                     //type filter
-                                    if ($type =="")
-                                    {
+                                    if ($type == "") {
                                         $tp = "";
-                                    }
-                                    elseif ($type !="" AND $date== "")
-                                    {
+                                    } elseif ($type != "" and $date == "") {
                                         $tp = " AND type = '$type'";
-                                    }
-                                    elseif ($date!= "" AND $type != "")
-                                    {
+                                    } elseif ($date != "" and $type != "") {
                                         $tp = " AND type = '$type'";
                                     }
 
@@ -194,7 +178,7 @@ include('../../includes/pagination-limit.php');
                                     $result = mysqli_query($conn, $sql);
                                 }
                                 if ($result) {
-                                    if ($row=mysqli_num_rows($result) > 0) {
+                                    if ($row = mysqli_num_rows($result) > 0) {
                                 ?>
                                         <table>
                                             <thead>
@@ -211,68 +195,57 @@ include('../../includes/pagination-limit.php');
                                             <tbody>
 
                                                 <?php
-                                                foreach($result as $data){
-                                                    if (count(explode(" ", $data['middlename'])) > 1)
-                                                    {
+                                                foreach ($result as $data) {
+                                                    if (count(explode(" ", $data['middlename'])) > 1) {
                                                         $middle = explode(" ", $data['middlename']);
-                                                        $letter = $middle[0][0].$middle[1][0];
+                                                        $letter = $middle[0][0] . $middle[1][0];
                                                         $middleinitial = $letter . ".";
-                                                    }
-                                                    else
-                                                    {
+                                                    } else {
                                                         $middle = $data['middlename'];
-                                                        if ($middle == "" OR $middle == " ")
-                                                        {
+                                                        if ($middle == "" or $middle == " ") {
                                                             $middleinitial = "";
-                                                        }
-                                                        else
-                                                        {
+                                                        } else {
                                                             $middleinitial = substr($middle, 0, 1) . ".";
-                                                        }    
+                                                        }
                                                     }
-                                                    $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " .ucwords(strtolower($data['lastname']));
+                                                    $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
 
-                                                    ?>
+                                                ?>
                                                     <tr>
                                                         <td><?= $data['id'] ?></td>
                                                         <td><?= $fullname ?></td>
                                                         <td><?= $data['pod_nod'] ?></td>
                                                         <td><?= $data['type'] ?></td>
                                                         <td><?= $data['transaction'] ?></td>
-                                                        <td><?= date("M. d, Y",strtotime($data['datetime'])) . " | " . date("g:i A",strtotime($data['datetime']))?></td>
+                                                        <td><?= date("M. d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'])) ?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
                                                         </td>
-                                                        
+
                                                     </tr>
-                                                    <?php
-                                                    if($data['transaction'] == 'Vitals')
-                                                    {
+                                            <?php
+                                                    if ($data['transaction'] == 'Vitals') {
                                                         include('modals/view_trans_vitals_modal.php');
-                                                    }
-                                                    elseif($data['transaction'] == 'Medical History')
-                                                    {
+                                                    } elseif ($data['transaction'] == 'Medical History') {
                                                         include('modals/view_trans_medhist_modal.php');
-                                                    }
-                                                    else
-                                                    {
+                                                    } else {
                                                         include('modals/view_trans_modal.php');
                                                     }
-                                                    
-                                                    }}?>
+                                                }
+                                            } ?>
                                             </tbody>
                                         </table>
-                                        <?php include('../../includes/pagination.php');?>
+                                        <?php include('../../includes/pagination.php'); ?>
                                     <?php
-                                    } else {
+                                } else {
                                     ?>
                                         <tr>
                                             <td colspan="7">No record Found</td>
                                         </tr>
-                                <?php
-                                    }
+                                    <?php
+                                }
                                 mysqli_close($conn);
-                                ?>
+                                    ?>
                             </div>
                         </div>
                     </div>
@@ -299,4 +272,5 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>
