@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" value="Add Entry"></input>
+                    <input type="submit" class="btn btn-primary" value="Save"></input>
                 </div>
             </form>
         </div>
