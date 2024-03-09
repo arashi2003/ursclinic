@@ -41,7 +41,7 @@
                 </ul>
             </li>
             <li>
-                <div class="iocn-link">
+                <div class="icon-link">
                     <a href="#">
                         <i class='bx bx-collection'></i>
                         <span class="link_name">Transaction</span>
@@ -65,7 +65,7 @@
                 </a>
             </li>
             <li>
-                <div class="iocn-link">
+                <div class="icon-link">
                     <a href="#">
                         <i class='bx bx-box'></i>
                         <span class="link_name">Inventory</span>
@@ -96,7 +96,7 @@
                 </ul>
             </li>
             <li>
-                <div class="iocn-link">
+                <div class="icon-link">
                     <a href="#">
                         <i class='bx bx-cog'></i>
                         <span class="link_name">Settings</span>
@@ -167,7 +167,7 @@
             <li class="<?php if ($module == 'transaction') {
                             echo 'active';
                         } ?>">
-                <div class="iocn-link">
+                <div class="icon-link">
                     <a href="#">
                         <i class='bx bx-collection'></i>
                         <span class="link_name">Transaction</span>
@@ -217,7 +217,7 @@
             <li class="<?php if ($module == 'transaction') {
                             echo 'active';
                         } ?>">
-                <div class="iocn-link">
+                <div class="icon-link">
                     <a href="#">
                         <i class='bx bx-collection'></i>
                         <span class="link_name">Transaction</span>
@@ -276,7 +276,7 @@
             </ul>
         </li>
         <li>
-            <div class="iocn-link">
+            <div class="icon-link">
                 <a href="#">
                     <i class='bx bx-cog'></i>
                     <span class="link_name">Settings</span>
@@ -338,7 +338,7 @@
             </ul>
         </li>
         <li>
-            <div class="iocn-link">
+            <div class="icon-link">
                 <a href="#">
                     <i class='bx bx-collection'></i>
                     <span class="link_name">Transaction</span>
@@ -410,7 +410,7 @@
             </ul>
         </li>
         <li>
-            <div class="iocn-link">
+            <div class="icon-link">
                 <a href="#">
                     <i class='bx bx-collection'></i>
                     <span class="link_name">Transaction</span>
