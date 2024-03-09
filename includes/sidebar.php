@@ -66,7 +66,9 @@
                     <span class="link_name">Medical Documents</span>
                 </a>
             </li>
-            <li>
+            <li class="<?php if ($module == 'entry' or $module == 'stocks' or $module == 'med_entry' or  $module == 'sup_entry' or $module == 'te_entry' or $module == 'med_stocks_total' or $module == 'sup_stocks_total' or $module == 'te_stocks') {
+                            echo 'active showMenu';
+                        } ?>">
                 <div class="icon-link">
                     <a href="#">
                         <i class='bx bx-box'></i>
@@ -77,16 +79,16 @@
                 <ul class="sub-menu">
                     <li><a class="link_name" href="#">Inventory</a></li>
 
-                    <li class="<?php if ($module == 'entry') {
-                                    echo 'active';
-                                } ?>">
-                        <a href="entry">Entry</a>
+                    <li>
+                        <a class="<?php if ($module == 'entry' or $module == 'med_entry' or  $module == 'sup_entry' or $module == 'te_entry') {
+                                        echo 'active';
+                                    } ?>" href="entry">Entry</a>
                     </li>
 
-                    <li class="<?php if ($module == 'stocks') {
-                                    echo 'active';
-                                } ?>">
-                        <a href="stocks">Stocks</a>
+                    <li>
+                        <a class="<?php if ($module == 'stocks' or $module == 'med_stocks_total' or $module == 'sup_stocks_total' or $module == 'te_stocks') {
+                                        echo 'active';
+                                    } ?>" href="stocks">Stocks</a>
                     </li>
                 </ul>
             </li>
