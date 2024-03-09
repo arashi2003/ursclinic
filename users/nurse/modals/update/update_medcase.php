@@ -3,14 +3,15 @@
     include('connection.php');
     $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
-    $medcase = $_POST['medcase'];
     $fullname = strtoupper($_SESSION['name']);
+    $au_status = "unread";
+    $medcase = $_POST['medcase'];
     $id=$_POST['id'];
 
     $query = "UPDATE med_case SET medcase='$medcase' WHERE id='$id'";
     if($result = mysqli_query($conn, $query))
     {
-        $query = "INSERT INTO audit_trail (user, fullname, activity, datetime) VALUES ('$accountid', '$fullname', 'updated a medical case entry', now())";
+        $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'updated a medical case entry', '$au_status', now())";
         if($result = mysqli_query($conn, $query))
         {
             ?>

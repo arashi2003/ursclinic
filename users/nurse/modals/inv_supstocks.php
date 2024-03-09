@@ -18,6 +18,7 @@
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "added supply id " . $medid . " stocks in medical supply inventory";
+    $au_status = "unread";
  
     //supply
     $query = mysqli_query($conn, "SELECT * FROM supply WHERE supid = '$medid'");
@@ -123,7 +124,7 @@
                         $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'supply'";
                         if(mysqli_query($conn, $query))
                         {
-                            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+                            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
                             if($result = mysqli_query($conn, $sql))
                             {
                                 ?>
@@ -196,7 +197,7 @@
                             ('$campus', 'supply', 0, '$medid', '$supply', '$obqty', '$obuc', '$orqty', '$tqty', 0, '0.00', '$eqty', '$ieamt', '$date')";
                             if(mysqli_query($conn, $query))
                             {
-                                $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+                                $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
                                 if($result = mysqli_query($conn, $sql))
                                 {
                                     ?>
@@ -258,7 +259,7 @@
                             $query = "INSERT INTO report_medsupinv (campus, type, admin, medid, medicine, bqty, buc, rqty, tqty, iqty, iamt, eqty, eamt, date) VALUES ('$campus', 'supply', '0', '$medid', '$supply', '$bqty', '$buc', '$rqty', '$tqty', '$iqty', '$iamt', '$eqty', '$eamt', '$date')";
                             if(mysqli_query($conn, $query))
                             {
-                                $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+                                $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
                                 if($result = mysqli_query($conn, $sql))
                                 {
                                     ?>
@@ -400,7 +401,7 @@
                         $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'supply'";
                         if(mysqli_query($conn, $query))
                         {
-                            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+                            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
                             if($result = mysqli_query($conn, $sql))
                             {
                                 ?>
@@ -473,7 +474,7 @@
                             ('$campus', 'supply', 0, '$medid', '$supply', '$obqty', '$obuc', '$orqty', '$tqty', 0, '0.00', '$eqty', '$ieamt', '$date')";
                             if(mysqli_query($conn, $query))
                             {
-                                $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+                                $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
                                 if($result = mysqli_query($conn, $sql))
                                 {
                                     ?>
@@ -535,7 +536,7 @@
                             $query = "INSERT INTO report_medsupinv (campus, type, admin, medid, medicine, bqty, buc, rqty, tqty, iqty, iamt, eqty, eamt, date) VALUES ('$campus', 'supply', '0', '$medid', '$supply', '$bqty', '$buc', '$rqty', '$tqty', '$iqty', '$iamt', '$eqty', '$eamt', '$date')";
                             if(mysqli_query($conn, $query))
                             {
-                                $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+                                $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
                                 if($result = mysqli_query($conn, $sql))
                                 {
                                     ?>

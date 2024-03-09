@@ -55,7 +55,7 @@ $module = 'transaction_add';
                     <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href = 'transaction_dental_consultation.php'">Dental Consultation</button>
                 </div>
                 <div class="content">
-                    <form method="POST" action="add/transaction_medhist.php" id="form">
+                    <form method="POST" action="add/transaction_vitals.php" id="form">
                     <h3><b>Patient</b></h3>
                     <div class="row">
                         <div class="col-md-4 mb-2">
@@ -195,8 +195,8 @@ $module = 'transaction_add';
                     <!-- responsive pag others pinili lalabas additional na textbox-->
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Chief Complaints:</span>
-                        <select class="form-control" aria-label=".form-select-md example" name="cc" id="cc">
-                            <option value="" disabled selected></option>
+                        <select class="form-control" aria-label=".form-select-md example" name="chief_complaint" id="chief_complaint">
+                            <option value="" selected></option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM chief_complaint ORDER BY chief_complaint";
@@ -249,7 +249,7 @@ $module = 'transaction_add';
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Findings/Diagnosis:</span>
                         <select class="form-control" aria-label=".form-select-md example" name="findiag" id="findiag">
-                            <option value="" disabled selected></option>
+                            <option value="" selected></option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM findiag ORDER BY findiag";
@@ -282,12 +282,19 @@ $module = 'transaction_add';
                             $sql = "SELECT * FROM med_case ORDER BY type, medcase";
                             $result = mysqli_query($conn, $sql);
                             while ($row = mysqli_fetch_array($result)) {?>
-                                <option value="<?= $row['medcase']; ?>"><?= "(" . ucfirst(strtolower( $row['type'])) . ") " . $row['medcase']; ?></option>
+                                <option value="<?= $row['id']; ?>"><?= "(" . ucfirst(strtolower( $row['type'])) . ") " . $row['medcase']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
+                    <div class="input-group input-group-md mb-2">
+                        <span class="input-group-text" id="inputGroup-sizing-md">Others:</span>
+                        <input type="text" class="form-control" name="medcase_others" id="medcase_others" >
+                    </div>
                     
                     <div class="modal-footer">
+                        <input type="text" class="form-control" name="service" value="Vitals" hidden>
+                        <input type="text" class="form-control" name="type" value="Checkup" hidden>
+                        <input type="text" class="form-control" name="transaction" value="Walk-In" hidden>
                         <input type="submit" class="btn btn-primary" value="Add Record"></input> 
                         &ThickSpace;
                         <input type="reset" class="btn btn-danger" value="Cancel"></input>

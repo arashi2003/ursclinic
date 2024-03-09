@@ -6,6 +6,7 @@
     $fullname= $_SESSION['name'];
     $transaction = $_POST['transaction'];
     $service = $_POST['service'];
+    $au_status = "unread";
     
     $query = "SELECT * FROM transaction WHERE transaction_type = '$transaction' AND service = '$service'";    
     $result = mysqli_query($conn, $query);
@@ -26,7 +27,7 @@
         $query = "INSERT INTO transaction (transaction_type, service) VALUES ('$transaction', '$service')";
         if($result = mysqli_query($conn, $query))
         {
-            $query = "INSERT INTO audit_trail (user, fullname, activity, datetime) VALUES ('$accountid', '$fullname', 'added a transaction and service', now())";
+            $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'added a transaction and service', '$au_status', now())";
             if($result = mysqli_query($conn, $query))
             {
                 ?>

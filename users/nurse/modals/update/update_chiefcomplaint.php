@@ -8,11 +8,12 @@
     $fullname = strtoupper($_SESSION['name']);
     $activity = "updated a chief complaint entry";
     $chief_complaint = $_POST['chief_complaint'];
+    $au_status = "unread";
 
     $query = "UPDATE chief_complaint SET chief_complaint='$chief_complaint' WHERE id='$id'";
     if($result = mysqli_query($conn, $query))
     {
-        $query = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', now())";
+        $query = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
         if($result = mysqli_query($conn, $query))
         {
             ?>

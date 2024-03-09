@@ -6,6 +6,7 @@
     $type = $_POST['type'];
     $unit_measure = $_POST['unit_measure'];
     $fullname = strtoupper($_SESSION['name']);
+    $au_status = "unread";
 
     $query = "SELECT * FROM unit_measure WHERE type = '$type' AND unit_measure = '$unit_measure'";    
     $result = mysqli_query($conn, $query);
@@ -26,7 +27,7 @@
         $query = "INSERT INTO unit_measure (type, unit_measure) VALUES ('$type', '$unit_measure')";
         if($result = mysqli_query($conn, $query))
         {
-            $query = "INSERT INTO audit_trail (user, fullname, activity, datetime) VALUES ('$accountid', '$fullname', 'added a unit measure', now())";
+            $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'added a unit measure', '$au_status', now())";
             if($result = mysqli_query($conn, $query))
             {
                 ?>

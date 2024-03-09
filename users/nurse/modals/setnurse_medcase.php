@@ -6,6 +6,7 @@
     $type = $_POST['type'];
     $medcase = $_POST['medcase'];
     $fullname = strtoupper($_SESSION['name']);
+    $au_status = "unread";
 
     $query = "SELECT * FROM med_case WHERE medcase = '$medcase' AND type='$type'";    
     $result = mysqli_query($conn, $query);
@@ -26,7 +27,7 @@
         $query = "INSERT INTO med_case SET medcase='$medcase', type='$type'";
         if($result = mysqli_query($conn, $query))
         {
-            $query = "INSERT INTO audit_trail (user, fullname, activity, datetime) VALUES ('$accountid', '$fullname', 'added a medical case', now())";
+            $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'added a medical case', '$au_status', now())";
             if($result = mysqli_query($conn, $query))
             {
                 ?>

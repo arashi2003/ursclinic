@@ -11,6 +11,7 @@
     $dform = $_POST['dform'];
     $unit = $_POST['unit_measure'];
     $state = $_POST['state'];
+    $au_status = "unread";
 
     $query = "SELECT * FROM medicine WHERE med_admin = '$madmin' AND medicine = '$medicine' AND dosage = '$dose' AND dosage_form = '$dform' AND unit_measure = '$unit'";    
     $result = mysqli_query($conn, $query);
@@ -31,7 +32,7 @@
       $query = "INSERT INTO medicine (med_admin, medicine, dosage, dosage_form, unit_measure, datetime, state) VALUES ('$madmin', '$medicine', '$dose', '$dform', '$unit', now(), '$state')";
       if($result = mysqli_query($conn, $query))
       {
-        $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+        $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
         if($result = mysqli_query($conn, $sql))
         {
           ?>

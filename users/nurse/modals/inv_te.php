@@ -8,6 +8,7 @@
     $fullname = $_SESSION['name'];
     $activity = "added a tool/equipment entry";
     $campus = $_SESSION['campus'];
+    $au_status = "unread";
 
     $query = "SELECT * FROM tools_equip WHERE tools_equip = '$te' AND unit_measure = '$unit'";    
     $result = mysqli_query($conn, $query);
@@ -28,7 +29,7 @@
         $query = "INSERT INTO tools_equip (te, unit_measure, datetime) VALUES ('$te', '$unit', now())";
         if($result = mysqli_query($conn, $query))
         {
-            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
             if($result = mysqli_query($conn, $sql))
             {
                 ?>

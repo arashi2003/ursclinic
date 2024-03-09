@@ -13,6 +13,7 @@
     $t = $_POST['t'];
     $fullname = $_SESSION['name'];
     $activity = "added a record to the calibration and maintenance of " . $te;
+    $au_status = "unread";
 
     $query = "SELECT te_status FROM te_status WHERE id='$status'";    
     $result = mysqli_query($conn, $query);
@@ -93,7 +94,7 @@
         $sql = "UPDATE report_teinv SET $end WHERE date='$ldate'";
         if($result = mysqli_query($conn, $sql))
         {
-          $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+          $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
           if($result = mysqli_query($conn, $sql))
           {
             ?>
@@ -120,7 +121,7 @@
       }
       else
       {
-        $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+        $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
         if($result = mysqli_query($conn, $sql))
         {
           ?>

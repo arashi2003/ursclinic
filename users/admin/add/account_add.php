@@ -16,6 +16,7 @@
     $campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "added an account";
+    $au_status = "unread";
 
     if ($middlename == "" || $middlename == NULL)
     {
@@ -57,7 +58,7 @@
         $sql[1] = "INSERT INTO account (accountid, password, usertype, firstname, middlename, lastname, email, contactno, campus, status, datetime_created, datetime_updated) VALUES ('$accountid', '$password', '$usertype', '$firstname', '$middle', '$lastname', '$email', '$contactno', '$campus', '$status', now(), now())";
         if (mysqli_query($conn, $sql[1]))
         {
-            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
             if($result = mysqli_query($conn, $sql))
             {
                 ?>

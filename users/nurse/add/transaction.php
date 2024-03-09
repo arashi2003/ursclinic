@@ -31,7 +31,7 @@
     $medicine = $_POST['medicine'];
     $supply = $_POST['supply'];
     $quantity = $_POST['quantity'];
-    $referral = $_POST['refferal'];
+    $referral = $_POST['referral'];
     $medcase = $_POST['medcase'];
     $medcase_others = $_POST['medcase_others'];
     $pod_nod = $fullname;

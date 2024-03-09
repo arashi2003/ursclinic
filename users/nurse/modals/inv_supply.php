@@ -9,6 +9,7 @@
     $campus = $_SESSION['campus'];
     $fullname = $_SESSION['name'];
     $activity = "added a medical supply entry";
+    $au_status = "unread";
 
     if ($_POST['volume'] == 0 || $_POST['volume'] == "")
     {
@@ -38,7 +39,7 @@
         $query = "INSERT INTO supply (supply, volume, unit_measure, datetime, state) VALUES ('$supply', '$volume', '$unit', now(), '$state')";
         if($result = mysqli_query($conn, $query))
         {
-            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
             if($result = mysqli_query($conn, $sql))
             {
                 ?>

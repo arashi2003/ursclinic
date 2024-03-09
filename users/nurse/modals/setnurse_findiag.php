@@ -5,6 +5,7 @@
     $campus = $_SESSION['campus'];
     $findiag = $_POST['findiag'];
     $fullname = strtoupper($_SESSION['name']);
+    $au_status = "unread";
 
     $query = "SELECT * FROM findiag WHERE findiag = '$findiag'";    
     $result = mysqli_query($conn, $query);
@@ -25,7 +26,7 @@
         $query = "INSERT INTO findiag SET findiag='$findiag'";
         if($result = mysqli_query($conn, $query))
         {
-            $query = "INSERT INTO audit_trail (user, fullname, activity, datetime) VALUES ('$accountid', '$fullname', 'added a findings/diagnosis', now())";
+            $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'added a findings/diagnosis', '$au_status', now())";
             if($result = mysqli_query($conn, $query))
             {
                 ?>

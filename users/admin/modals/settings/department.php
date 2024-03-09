@@ -7,6 +7,7 @@
     $campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "added a department";
+    $au_status = "unread";
     
     $sql = "SELECT * FROM department WHERE department = '$department'";
     $result = mysqli_query($conn, $sql);
@@ -26,7 +27,7 @@
         $sql = "INSERT INTO department (department, abbrev) VALUES ('$department', '$abbrev')";
         if($result = mysqli_query($conn, $sql))
         {
-            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
             if($result = mysqli_query($conn, $sql))
             {
                 ?>

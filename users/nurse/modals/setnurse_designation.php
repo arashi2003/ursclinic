@@ -6,8 +6,8 @@
     $fullname = strtoupper($_SESSION['name']);
     $campus = $_SESSION['campus'];
     $designation = $_POST['designation'];
+    $au_status = "unread";
 
-    
     $query = "SELECT * FROM designation WHERE designation = '$designation'";    
     $result = mysqli_query($conn, $query);
     $resultCheck = mysqli_num_rows($result);
@@ -27,7 +27,7 @@
         $query = "INSERT INTO designation SET designation='$designation'";
         if($result = mysqli_query($conn, $query))
         {
-            $query = "INSERT INTO audit_trail (user, fullname, activity, datetime) VALUES ('$accountid', '$fullname', 'added a designation', now())";
+            $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'added a designation', '$au_status', now())";
             if($result = mysqli_query($conn, $query))
             {
                 

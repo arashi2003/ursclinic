@@ -1,9 +1,11 @@
 <?php
     session_start();
     include('../connection.php');
+    
     $accountid = $_SESSION['userid'];
-    $fullname = $_SESSION['name'];
     $campus = $_SESSION['campus'];
+    $fullname = strtoupper($_SESSION['name']);
+    $au_status = "unread";
     $transaction = $_POST['transaction'];
     $service = $_POST['service'];
     $id = $_POST['id'];
@@ -11,7 +13,7 @@
     $query = "UPDATE transaction SET transaction_type='$transaction', service='$service' WHERE id='$id'";
     if($result = mysqli_query($conn, $query))
     {
-        $query = "INSERT INTO audit_trail (user, fullname, activity, datetime) VALUES ('$accountid', '$fullname', 'updated a transaction and service entry', now())";
+        $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'updated a transaction and service entry', '$au_status', now())";
         if($result = mysqli_query($conn, $query))
         {
             ?>

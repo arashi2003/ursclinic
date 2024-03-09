@@ -14,6 +14,7 @@
     $cost = $_POST['unit_cost'];
     $exp = "";
     $status = $_POST['status'];
+    $au_status = "unread";
     
     //te
     $query = mysqli_query($conn, "SELECT * FROM tools_equip WHERE teid = '$teid'");
@@ -145,7 +146,7 @@
                 $query = "UPDATE report_teinv SET campus = '$campus', bnw = '$bnw', bum = '$bum', bgc = '$bgc', bd = '$bd', btqty = '$no_btqty', buc = '$buc', rnw = '$rnw', rum = '$rum', rgc = '$rgc', rd = '$rd', rtqty = '$rtqty', enw = '$enw', eum = '$eum', egc = '$egc', ed = '$ed', etqty = '$etqty', eamt = '$eamt' WHERE teid = '$teid' AND date = '$enddate'";
                 if(mysqli_query($conn, $query))
                 {
-                    $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+                    $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
                     if($result = mysqli_query($conn, $sql))
                     {
                         ?>
@@ -369,7 +370,7 @@
                     $query = "INSERT INTO report_teinv (campus, teid, tools_equip, bnw, bum, bgc, bd, btqty, buc, rnw, rum, rgc, rd, rtqty, enw, eum, egc, ed, etqty, eamt, date) VALUES ('$campus', '$teid', '$te', '$bnw', '$bum', '$bgc', '$bd', '$btqty', 0, '$rnw', '$rum', '$rgc', '$rd', '$rtqty', '$enw', '$eum', '$egc', '$ed', '$etqty', '$eamt', '$enddate')";
                     if(mysqli_query($conn, $query))
                     {
-                        $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+                        $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
                         if($result = mysqli_query($conn, $sql))
                         {
                             ?>

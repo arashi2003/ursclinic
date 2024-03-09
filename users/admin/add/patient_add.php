@@ -23,6 +23,7 @@
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "added a patient information";
+    $au_status = "unread";
 
     $sql= "SELECT accountid, firstname, lastname FROM account WHERE accountid = '$accountid' AND firstname = '$firstname' AND lastname='$lastname'";
     $result = mysqli_query($conn, $sql);
@@ -35,7 +36,7 @@
                 $sql= "INSERT INTO patient_image (patient_id, image,created_at) VALUES ('$accountid', 'noptofile.png', now())";
                 if (mysqli_query($conn, $sql))
                 {
-                    $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', now())";
+                    $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
                     if($result = mysqli_query($conn, $sql))
                     {
                         ?>
@@ -61,7 +62,7 @@
                 }
                 else
                 {
-                    $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', now())";
+                    $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
                     if($result = mysqli_query($conn, $sql))
                     {
                         ?>

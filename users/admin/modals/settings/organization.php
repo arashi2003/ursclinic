@@ -11,6 +11,7 @@
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "added an entry to organization";
+    $au_status = "unread";
 
     if($_POST['middlename'] == "")
     {
@@ -49,7 +50,7 @@
         $sql = "INSERT INTO organization (campus, adminid, firstname, middlename, lastname, extension, title) VALUES ('$campus', '$adminid', '$firstname', '$middle', '$lastname', '$extension', '$title')";
         if($result = mysqli_query($conn, $sql))
         {
-            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', now())";
+            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
             if($result = mysqli_query($conn, $sql))
             {
                 ?>
