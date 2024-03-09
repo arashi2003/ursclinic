@@ -2,7 +2,7 @@
     session_start();
     require('../../../fpdf/fpdf.php');
     include('connection.php');
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     
     class PDF extends FPDF
@@ -36,7 +36,7 @@
         function Footer()
         {
             $this->SetY(-12);
-            $user = $_SESSION['accountid'];
+            $user = $_SESSION['userid'];
             $activity = "saved a pdf for dental form";
             // code for revision number  
             include('connection.php');        

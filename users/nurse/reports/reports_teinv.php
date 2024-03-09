@@ -3,7 +3,7 @@
     require('../../../fpdf/fpdf.php');
     include('connection.php');
     $campus = $_SESSION['campus'];
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     
     class PDF extends FPDF
     {
@@ -84,7 +84,7 @@
         function Footer()
         {
             $this->SetY(-12);
-            $user = $_SESSION['accountid'];
+            $user = $_SESSION['userid'];
             $dt = date("Y-m-t");//$_POST['month'];
             $date =  date("Y-m-d", strtotime($dt));
             $activity = "saved a pdf report of tools and equipment inventory for" . $date;

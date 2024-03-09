@@ -2,7 +2,7 @@
     session_start();
     require('../../../fpdf/fpdf.php');
     include('connection.php');
-    $accountid = $_SESSION['accountid'];
+    $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     
     class PDF extends FPDF

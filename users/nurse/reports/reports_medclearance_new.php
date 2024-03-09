@@ -56,7 +56,7 @@
     $pdf->SetAutoPageBreak(true, 15);
     $pdf->SetFont('Arial', '', 10);
 
-    $accountid = $_SESSION['accountid'];
+    $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     
     $fullname = strtoupper($_POST['firstname'] . " ". $_POST['middlename'] . " " . $_POST['lastname']);

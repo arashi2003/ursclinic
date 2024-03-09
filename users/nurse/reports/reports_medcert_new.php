@@ -92,7 +92,7 @@
     $bp = $_POST['bp'];
     $pr = $_POST['pr'];
     $temp = $_POST['temp'];
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $query = mysqli_query($conn, "SELECT campus FROM account WHERE accountid = '$user'");
     while($data=mysqli_fetch_array($query))

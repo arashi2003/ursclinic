@@ -2,7 +2,7 @@
     session_start();
     require('../../../fpdf/fpdf.php');
     include('connection.php');
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     
     class PDF extends FPDF
@@ -48,7 +48,7 @@
         function Footer()
         {
             $this->SetY(-12);
-            $user = $_SESSION['accountid'];
+            $user = $_SESSION['userid'];
             $activity = "saved a pdf report for appointment";
             // code for revision number  
             include('connection.php');        
@@ -84,7 +84,7 @@
     $pdf->SetAutoPageBreak(true, 15);
     $pdf->SetFont('Arial', '', 8);
 
-    $accountid = $_SESSION['accountid'];
+    $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $dt_from = date("Y-m-d");//$_POST['date_from'];
     $dt_to = date("Y-m-t");//$_POST['date_to'];
