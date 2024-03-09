@@ -51,15 +51,7 @@
         }
         else
         {
-            ?>
-            <script>
-                setTimeout(function() {
-                    window.location = "../dform_set.php";
-                });
-                </script>
-            <?php
             // modal message box saying "Dosage Form was not added."
-        }
 ?>
 <script>
     setTimeout(function() {
@@ -67,5 +59,5 @@
     });
     </script>
 <?php
-}
+}}
 mysqli_close($conn);

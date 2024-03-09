@@ -53,15 +53,8 @@
         }
         else
         {
-            ?>
-            <script>
-                setTimeout(function() {
-                    window.location = "../chiefcomplaint.php";
-                });
-            </script>
-            <?php
             // modal message box saying "Chief Complaint was not added."
-        }
+        
 ?>
 <script>
     setTimeout(function() {
@@ -69,5 +62,5 @@
     });
     </script>
 <?php
-}
+}}
 mysqli_close($conn);

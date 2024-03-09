@@ -3,9 +3,9 @@
     include('connection.php');
     $accountid = $_SESSION['accountid'];
     $campus = $_SESSION['campus'];
+    $fullname= $_SESSION['name'];
     $transaction = $_POST['transaction'];
     $service = $_POST['service'];
-    $id=$_POST['id'];
     
     $query = "SELECT * FROM transaction WHERE transaction_type = '$transaction' AND service = '$service'";    
     $result = mysqli_query($conn, $query);
@@ -15,7 +15,7 @@
         ?>
         <script>
             setTimeout(function() {
-                window.location = "../service.php";
+                window.location = "../services.php";
             });
             </script>
         <?php
@@ -32,7 +32,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../service.php";
+                        window.location = "../services.php";
                     });
                     </script>
                 <?php 
@@ -43,7 +43,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../service.php";
+                        window.location = "../services.php";
                     });
                     </script>
                 <?php 
@@ -55,7 +55,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../service.php";
+                    window.location = "../services.php";
                 });
                 </script>
             <?php 

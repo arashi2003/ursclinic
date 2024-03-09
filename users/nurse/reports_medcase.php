@@ -106,12 +106,12 @@ include('../../includes/pagination-limit.php');
                                     $month = date("Y-m-t", strtotime($_GET['month']));
                                     $count = 1;
 
-                                    $sql = "SELECT * FROM report_teinv WHERE campus = '$campus' AND date='$month' ORDER BY tools_equip LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT * FROM reports_medcase WHERE campus = '$campus' AND date='$month' LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 } else {
                                     $count = 1;
                                     $now = date("Y-m-t");
-                                    $sql = "SELECT * FROM report_teinv WHERE campus = '$campus' AND date='$now' ORDER BY tools_equip LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT * FROM reports_medcase WHERE campus = '$campus' AND date='$now' LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 }
                                 if ($result) {
@@ -120,41 +120,22 @@ include('../../includes/pagination-limit.php');
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>Tool/Equipment</th>
-                                            <th>Unit Cost</th>
-                                            <th>Not Working</th>
-                                            <th>Under Maintenance</th>
-                                            <th>Damaged</th>
-                                            <th>Good Condition</th>
-                                            <th>Ending Qty.</th>
-                                            <th>Ending Amt.</th>
+                                            <th>Medical Case</th>
+                                            <th>Students</th>
+                                            <th>Personnel</th>
+                                            <th>Grand Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
                                             foreach($result as $row) {
-                                                if($row['buc'] = 0)
-                                                {
-                                                    $buc = $row['eamt']/$row['etqty'];
-                                                }
-                                                elseif($row['eamt'] != 0)
-                                                {
-                                                    $buc = $row['eamt']/$row['etqty'];
-                                                }
-                                                elseif($row['buc'] != 0)
-                                                {
-                                                    $buc = $row['buc'];
-                                                }
                                             ?>
                                             <tr>
-                                                <td><?php echo $row['tools_equip'] ?></td>
+                                                <td><?php echo $row['medcase'] ?></td>
                                                 <td><?php echo number_format($buc, 2, '.') ?></td>
-                                                <td><?php echo $row['enw'] ?></td>
-                                                <td><?php echo $row['eum'] ?></td>
-                                                <td><?php echo $row['ed'] ?></td>
-                                                <td><?php echo $row['egc'] ?></td>
-                                                <td><?php echo $row['etqty'] ?></td>
-                                                <td><?php echo number_format($row['eamt'], 2, '.') ?></td>
+                                                <td><?php echo $row['st'] ?></td>
+                                                <td><?php echo $row['pt'] ?></td>
+                                                <td><?php echo $row['gt'] ?></td>
                                             </tr>  
                                         <?php
                                         }}}

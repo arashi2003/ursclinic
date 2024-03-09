@@ -109,7 +109,7 @@ include('../../includes/pagination-limit.php');
                                                                 $middleinitial = substr($middle, 0, 1) . ".";
                                                             }    
                                                         }
-                                                        $physician = $row["firstname"] . " " . $middleinitial . " " .  $row["lastname"];?>
+                                                        $physician = ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " .ucwords(strtolower($row['lastname']));?>
                                                 <option value="<?php echo $row['accountid'];?> <?= isset($_GET['']) == true ? ($_GET[''] == $physician ? 'selected' : '') : '' ?>"><?php echo $physician;?></option><?php }}?>
                                             </select>
                                         </div>

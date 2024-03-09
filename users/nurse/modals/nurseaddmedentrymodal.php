@@ -57,6 +57,14 @@
                             <?php } ?>
                         </select>
                     </div>
+                    <div class="mb-2">
+                        <label for="um" class="form-label">Issuance:</label>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="state" id="state" required>
+                            <option value="" disabled selected>-Select Issuance State-</option>
+                            <option value="per piece">Per Piece</option>
+                            <option value="open-close">Opened/Close</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-primary" value="Add Medicine"></input>

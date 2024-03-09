@@ -7,15 +7,13 @@
             </div>
             <form method="POST" action="modals/update/update_transaction.php" id="form">
                 <div class="modal-body">
-                    <label for="transaction" class="form-label">Transaction:</label>
                     <div class="mb-2">
-                        <input type="text" value="<?php echo $data['id']?>" hidden>
+                        <label for="transaction" class="form-label">Transaction:</label>
+                        <input type="text" name="id" value="<?php echo $data['id']?>" hidden>
                         <input type="text" class="form-control" name="transaction" id="transaction" value="<?php echo $data['transaction_type']?>" required>
                     </div>
-                </div>
-                <div class="modal-body">
-                    <label for="service" class="form-label">Service:</label>
                     <div class="mb-2">
+                        <label for="service" class="form-label">Service:</label>
                         <input type="text" class="form-control" name="service" value="<?php echo $data['service']?>" id="service">
                     </div>
                 </div>

@@ -4,9 +4,7 @@ session_start();
 $campus = $_SESSION['campus'];
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
-
 $module = 'med_stocks_total';
-$userid = $_SESSION['userid'];
 $lastd = date("Y-m-t");
 
 // get the total nr of rows.
@@ -21,7 +19,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Inventory</title>
-    <?php include('../../includes/header.php'); ?>
+    <?php include('../../includes/header.php');?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -34,22 +32,7 @@ include('../../includes/pagination-limit.php');
             </div>
             <div class="right-nav">
                 <div class="notification-button">
-                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
-                        <i class='bx bx-bell'></i>
-                        <?php
-                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
-                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
-                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
-                        $result = mysqli_query($conn, $sql);
-                        if ($row = mysqli_num_rows($result)) {
-                        ?>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                <?= $row ?>
-                            </span>
-                        <?php
-                        }
-                        ?>
-                    </button>
+                    <i class='bx bx-bell'></i>
                 </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
@@ -71,14 +54,28 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmedstocks">Add Entry</button>
-                    <?php include('modals/nurseaddmedstocks_total_modal.php'); ?>
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addmedstocks">Add Entry</button>
+                    <?php include('modals/nurseaddmedstocks_total_modal.php');?>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
+                                    <form action="stocks_filter.php" method="POST">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <select name="stocks" class="form-select">
+                                                    <option value="medicine" selected>Medicine Stocks</option>
+                                                    <option value="supply">Medical Supply Stocks</option>
+                                                    <option value="te">Tools and Equipment Stocks</option>
+                                                </select>
+                                            </div>
+                                            <div class="col mb-2">
+                                                <button type="submit" class="btn btn-primary">View</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                     <form action="medinv_viewfilter.php" method="POST">
                                         <div class="row">
                                             <div class="col-md-2 mb-3">
@@ -110,11 +107,11 @@ include('../../includes/pagination-limit.php');
                                 if (isset($_GET['medicine']) && $_GET['medicine'] != '') {
                                     $medicine = $_GET['medicine'];
                                     $count = 1;
-                                    $sql = "SELECT * from report_medsupinv WHERE campus = '$campus' AND type = 'medicine' AND medicine LIKE '%$medicine%' AND date = '$lastd' ORDER BY medicine LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT * from inv_total WHERE campus = '$campus' AND type = 'medicine' AND stock_name LIKE '%$medicine%' ORDER BY stock_name LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 } else {
                                     $count = 1;
-                                    $sql = "SELECT * from report_medsupinv WHERE campus = '$campus' AND type = 'medicine' AND date = '$lastd' ORDER BY medicine LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT * from inv_total WHERE campus = '$campus' AND type = 'medicine' ORDER BY stock_name LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 }
                                 if ($result) {
@@ -133,40 +130,30 @@ include('../../includes/pagination-limit.php');
                                             <tbody>
 
                                                 <?php
-                                                while ($data = mysqli_fetch_array($result)) {
-                                                    if ($data['buc'] = 0) {
-                                                        $buc = $data['eamt'] / $data['eqty'];
-                                                    } elseif ($data['eamt'] != 0 and $data['eqty'] == 0) {
-                                                        $buc = $data['eamt'] / $data['tqty'];
-                                                    } elseif ($data['eamt'] != 0 and $data['eqty'] != 0) {
-                                                        $buc = $data['eamt'] / $data['eqty'];
-                                                    } elseif ($data['buc'] != 0) {
-                                                        $buc = $data['buc'];
-                                                    }
-                                                ?>
+                                                while($data = mysqli_fetch_array($result)){
+                                                    ?>
                                                     <tr>
                                                         <td><?php echo $data['id']; ?></td>
-                                                        <td><?php echo $data['medicine'] ?></td>
-                                                        <td><?php echo $data['eqty'] ?></td>
-                                                        <td><?php echo number_format($buc, 2, '.'); ?></td>
-                                                        <td><?php echo $data['eamt'];
-                                                        } ?></td>
+                                                        <td><?php echo $data['stock_name']?></td>
+                                                        <td><?php echo $data['qty']?></td>
+                                                        <td><?php echo number_format($data['unit_cost'], 2, '.');?></td>
+                                                        <td><?php echo number_format(($data['unit_cost'] * $data['qty']), 2, '.');}?></td>
                                                     </tr>
-                                                <?php
-                                            } ?>
+                                                    <?php
+                                                    }?>
                                             </tbody>
                                         </table>
-                                        <?php include('../../includes/pagination.php'); ?>
+                                        <?php include('../../includes/pagination.php');?>
                                     <?php
-                                } else {
+                                    } else {
                                     ?>
                                         <tr>
                                             <td colspan="7">No record Found</td>
                                         </tr>
-                                    <?php
-                                }
+                                <?php
+                                    }
                                 mysqli_close($conn);
-                                    ?>
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -193,5 +180,4 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
-
 </html>

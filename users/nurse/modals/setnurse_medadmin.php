@@ -52,7 +52,6 @@
         else
         {
             // modal message box saying "Medicine Administration was not added."
-        
 ?>
 <script>
     setTimeout(function() {

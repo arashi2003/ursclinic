@@ -39,7 +39,7 @@
                 <div class="modal-body">
                     <label for="um" class="form-label">Unit Measure:</label>
                     <div class="mb-2">
-                        <input type="text" value="<?php echo $data['id']?>" hidden>
+                        <input type="text" name="id" value="<?php echo $data['id']?>" hidden>
                         <input type="text" class="form-control" name="unit_measure" id="unit_measure" value="<?php echo $data['unit_measure']?>" required>
                     </div>
                 </div>

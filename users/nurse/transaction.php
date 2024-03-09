@@ -77,7 +77,6 @@ $campus = $_SESSION['campus'];
             </div>
         </div>
     </section>
-
 </body>
 
 <script>

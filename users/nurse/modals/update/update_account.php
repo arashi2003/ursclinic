@@ -136,7 +136,6 @@
         else
         {
             // modal na account details has not been updated
-        }
     ?>
 <script>
     setTimeout(function() {
@@ -144,5 +143,5 @@
     });
 </script>
 <?php
-}
+}}
 mysqli_close($conn);

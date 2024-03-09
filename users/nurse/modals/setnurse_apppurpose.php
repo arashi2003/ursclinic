@@ -53,15 +53,7 @@
         }
         else
         {
-            ?>
-            <script>
-                setTimeout(function() {
-                    window.location = "../apppurpose_set.php";
-                });
-            </script>
-            <?php
             // modal Entry has not been added
-        }
     ?>
 <script>
     setTimeout(function() {
@@ -69,5 +61,5 @@
     });
 </script>
 <?php
-}
+}}
 mysqli_close($conn);

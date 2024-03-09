@@ -3,7 +3,7 @@
     include('connection.php');
     $supply = $_POST['supply'];
     $unit = $_POST['unit_measure'];
-    $state = "open-close";
+    $state = $_POST['state'];
     $id=$_POST['supid'];
 
     if ($_POST['volume'] == 0 || $_POST['volume'] == "")
@@ -15,7 +15,7 @@
         $volume = $_POST['volume'];
     }
     
-    $query = "INSERT INTO supply SET supply='$supply', volume='$volume', unit_measure=,'$unit' datetime=now() WHERE supid='$id'";
+    $query = "UPDATE supply SET supply='$supply', volume='$volume', unit_measure=,'$unit' datetime=now() WHERE supid='$id'";
     if($result = mysqli_query($conn, $query))
     {
         $query = "INSERT INTO audit_trail (user, fullname, activity, datetime) VALUES ('$accountid', '$fullname', 'updated a medical supply entry', now())";
@@ -28,7 +28,7 @@
                 });
             </script>
             <?php       
-            // modal message box saying "Medical Supply added."
+            // modal message box saying "Medical Supply updated."
         }
         else
         {
@@ -39,12 +39,12 @@
                 });
             </script>
             <?php       
-            // modal message box saying "Medical Supply added."
+            // modal message box saying "Medical Supply updated."
         }
     }
     else
     {
-        // modal message box saying "Medical Supply was not added."
+        // modal message box saying "Medical Supply was not updated."
     ?>
 <script>
     setTimeout(function() {

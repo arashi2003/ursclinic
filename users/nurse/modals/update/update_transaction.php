@@ -1,11 +1,12 @@
 <?php
     session_start();
-    include('connection.php');
+    include('../connection.php');
     $accountid = $_SESSION['accountid'];
+    $fullname = $_SESSION['name'];
     $campus = $_SESSION['campus'];
     $transaction = $_POST['transaction'];
     $service = $_POST['service'];
-    $id=$_POST['id'];
+    $id = $_POST['id'];
     
     $query = "UPDATE transaction SET transaction_type='$transaction', service='$service' WHERE id='$id'";
     if($result = mysqli_query($conn, $query))
@@ -16,7 +17,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../services.php";
+                    window.location = "../../services.php";
                 });
                 </script>
             <?php
@@ -27,7 +28,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../services.php";
+                    window.location = "../../services.php";
                 });
                 </script>
             <?php
@@ -40,7 +41,7 @@
 ?>
 <script>
     setTimeout(function() {
-        window.location = "../services.php";
+        window.location = "../../services.php";
     });
     </script>
 <?php

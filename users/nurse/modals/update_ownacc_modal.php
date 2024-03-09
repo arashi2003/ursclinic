@@ -11,13 +11,15 @@
                         <label for="accountid" class="form-label">Account ID:</label>
                         <input type="text" class="form-control" name="accountid" id="accountid" value="<?php echo $userid?>" readonly disabled>
                     </div>
-                    <div class="mb-2">
-                        <label for="campus" class="form-label">Campus:</label>
-                        <input type="text" class="form-control" name="campus" id="campus" value="<?php echo $row['campus']?>" readonly disabled>
-                    </div>
-                    <div class="mb-2">
-                        <label for="usertype" class="form-label">Usertype:</label>
-                        <input type="text" class="form-control" name="usertype" id="usertype" value="<?php echo $row['usertype']?>" readonly disabled>
+                    <div class="row">
+                        <div class="col mb-2">
+                            <label for="campus" class="form-label">Campus:</label>
+                            <input type="text" class="form-control" name="campus" id="campus" value="<?php echo $row['campus']?>" readonly disabled>
+                        </div>
+                        <div class="col mb-2">
+                            <label for="usertype" class="form-label">Usertype:</label>
+                            <input type="text" class="form-control" name="usertype" id="usertype" value="<?php echo $row['usertype']?>" readonly disabled>
+                        </div>
                     </div>
                     <div class="mb-2">
                         <label for="firstname" class="form-label">First Name:</label>

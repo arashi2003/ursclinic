@@ -3,10 +3,8 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
-
 $module = 'appointment';
 $campus = $_SESSION['campus'];
-$userid = $_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("select * from appointment WHERE status='Pending'");
@@ -20,7 +18,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Appointment</title>
-    <?php include('../../includes/header.php'); ?>
+    <?php include('../../includes/header.php');?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -33,22 +31,7 @@ include('../../includes/pagination-limit.php');
             </div>
             <div class="right-nav">
                 <div class="notification-button">
-                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
-                        <i class='bx bx-bell'></i>
-                        <?php
-                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
-                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
-                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
-                        $result = mysqli_query($conn, $sql);
-                        if ($row = mysqli_num_rows($result)) {
-                        ?>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                <?= $row ?>
-                            </span>
-                        <?php
-                        }
-                        ?>
-                    </button>
+                    <i class='bx bx-bell'></i>
                 </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
@@ -93,9 +76,32 @@ include('../../includes/pagination-limit.php');
                                         <div class="col-md-2 mb-3">
                                             <select name="physician" class="form-select">
                                                 <option value="">Select Physician</option>
-                                                <option value="NONE" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
-                                                <option value="GODWIN A. OLIVAS" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == 'GODWIN A. OLIVAS' ? 'selected' : '') : '' ?>>GODWIN A. OLIVAS</option>
-                                                <option value="EDNA C. MAYCACAYAN" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == 'EDNA C. MAYCACAYAN' ? 'selected' : '') : '' ?>>EDNA C. MAYCACAYAN</option>
+                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                <?php
+                                                $sql = "SELECT * FROM account WHERE usertype='DOCTOR' OR usertype='DENTIST' ORDER BY firstname";
+                                                if($result = mysqli_query($conn, $sql))
+                                                {   while($row = mysqli_fetch_array($result) )
+                                                    {   
+                                                        if (count(explode(" ", $row['middlename'])) > 1)
+                                                        {
+                                                            $middle = explode(" ", $row['middlename']);
+                                                            $letter = $middle[0][0].$middle[1][0];
+                                                            $middleinitial = $letter . ".";
+                                                        }
+                                                        else
+                                                        {
+                                                            $middle = $row['middlename'];
+                                                            if ($middle == "" OR $middle == " ")
+                                                            {
+                                                                $middleinitial = "";
+                                                            }
+                                                            else
+                                                            {
+                                                                $middleinitial = substr($middle, 0, 1) . ".";
+                                                            }    
+                                                        }
+                                                        $physician = strtoupper($row['firstname'] . " " . $middleinitial . " " .$row['lastname']);?>
+                                                <option value="<?php echo $physician;?> <?= isset($_GET['']) == true ? ($_GET[''] == $physician ? 'selected' : '') : '' ?>"><?php echo $physician;?></option><?php }}?>
                                             </select>
                                         </div>
                                         <div class="col mb-3">
@@ -166,17 +172,17 @@ include('../../includes/pagination-limit.php');
                                                         <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
                                                         <td><?php echo date("g:i A", strtotime($data['time_from'])) ?></td>
                                                         <td><?php echo date("g:i A", strtotime($data['time_to'])) ?></td>
-                                                        <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])) ?></td>
+                                                        <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " .ucwords(strtolower($data['lastname'])) ?></td>
                                                         <td><?php echo $physician; ?></td>
-                                                        <td><?php echo $data['status']; ?>
-                                                        </td>
+                                                        <td><?php echo $data['status'];?>
+                                                    </td>
                                                     </tr>
                                                 <?php
                                                 }
                                                 ?>
                                             </tbody>
                                         </table>
-                                        <?php include('../../includes/pagination.php'); ?>
+                                        <?php include('../../includes/pagination.php');?>
                                     <?php
                                     } else {
                                     ?>
@@ -214,5 +220,4 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
-
 </html>

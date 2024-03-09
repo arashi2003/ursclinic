@@ -5,7 +5,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Add Medical Supply Stocks</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../nurse/sup_stocks_total'"></button>
             </div>
-            <form method="POST" action="modals/inv_supstocks_total.php" id="form">
+            <form method="POST" action="modals/inv_supply_total.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="supply" class="form-label">Medical Supply:</label>
@@ -28,6 +28,10 @@
                     <div class="mb-2">
                         <label for="close" class="form-label">Quantity of Unopened Stocks:</label>
                         <input type="number" min=”0″ class="form-control" name="close" id="close" required>
+                    </div>
+                    <div class="mb-2">
+                        <label for="close" class="form-label">Quantity:</label>
+                        <input type="number" min="0" class="form-control" name="qty" id="qty" required>
                     </div>
                     <div class="mb-2">
                         <label for="cost" class="form-label">Unit Cost:</label>

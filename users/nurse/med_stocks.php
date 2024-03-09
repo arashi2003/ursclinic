@@ -62,6 +62,20 @@ include('../../includes/pagination-limit.php');
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
+                                    <form action="stocks_filter.php" method="POST">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <select name="stocks" class="form-select">
+                                                    <option value="medicine" selected>Medicine Stocks</option>
+                                                    <option value="supply">Medical Supply Stocks</option>
+                                                    <option value="te">Tools and Equipment Stocks</option>
+                                                </select>
+                                            </div>
+                                            <div class="col mb-2">
+                                                <button type="submit" class="btn btn-primary">View</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                     <form action="medinv_viewfilter.php" method="POST">
                                         <div class="row">
                                             <div class="col-md-2 mb-3">

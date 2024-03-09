@@ -44,6 +44,10 @@
                         <input type="number" min=”0″ class="form-control" name="close" id="close" required>
                     </div>
                     <div class="mb-2">
+                        <label for="close" class="form-label">Quantity:</label>
+                        <input type="number" min="0" class="form-control" name="qty" id="qty" required>
+                    </div>
+                    <div class="mb-2">
                         <label for="cost" class="form-label">Unit Cost:</label>
                         <input type="number" step=".01" min=”0″ class="form-control" name="unit_cost" id="unit_cost" required>
                     </div>

@@ -7,8 +7,17 @@
             </div>
             <form method="POST" action="modals/setnurse_medcase.php" id="form">
                 <div class="modal-body">
-                    <label for="medcase" class="form-label">Medical Case:</label>
                     <div class="mb-2">
+                        <label for="type" class="form-label">Type:</label>
+                        <select name="type" class="form-control" id="type" required>
+                            <option value="" disabled selected>-Select Medical Case Type-</option>
+                            <option value="main">Main</option>
+                            <option value="checkups">Checkups</option>
+                            <option value="others">Others</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label for="medcase" class="form-label">Medical Case:</label>
                         <input type="text" class="form-control" name="medcase" id="medcase" required>
                     </div>
                 </div>

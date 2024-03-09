@@ -15,43 +15,45 @@
                         <label for="firstname" class="form-label">Full Name:</label>
                         <input type="text" class="form-control" name="firstname" id="firstname" value="<?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname']));?>" readonly disabled>
                     </div>
-                    <div class="mb-2">
-                        <label for="designation" class="form-label">Designation:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="designation" id="designation" required>
-                            <option value="" disabled selected>-Select Designation-</option>
-                            <?php
-                            include('connection.php');
-                            $sql = "SELECT * FROM designation ORDER BY designation";
-                            $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_array($result)) {
-                                if ($data['designation'] == $row['designation'])
-                                {
-                            ?>
-                                <option value="<?= $row['designation']; ?>" selected><?= $row['designation']; ?></option>
-                            <?php } else
-                            {?>
-                                <option value="<?= $row['designation']; ?>"><?= $row['designation']; ?></option>
-                            <?php }} ?>
-                        </select>
-                    </div>
-                    <div class="mb-2">
-                        <label for="email" class="form-label">Age:</label>
-                        <input type="number" maxlength="3" class="form-control" name="age" id="age" value="<?php echo $data['age']?>" required>
-                    </div>
-                    <div class="mb-2">
-                        <label for="sex" class="form-label">Sex:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sex" id="sex" required>
-                            <option value="" disabled selected>-Select Sex-</option>
-                            <?php
-                                if ($data['sex'] == "MALE")
-                                {
-                            ?>
-                                <option value="MALE>" selected>MALE</option>
-                            <?php } else
-                            {?>
-                                <option value="FEMALE>" selected>FEMALE</option>
-                            <?php } ?>
-                        </select>
+                    <div class="row">
+                        <div class="col mb-2">
+                            <label for="designation" class="form-label">Designation:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="designation" id="designation" required>
+                                <option value="" disabled selected>-Select Designation-</option>
+                                <?php
+                                include('connection.php');
+                                $sql = "SELECT * FROM designation ORDER BY designation";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                    if ($data['designation'] == $row['designation'])
+                                    {
+                                ?>
+                                    <option value="<?= $row['designation']; ?>" selected><?= $row['designation']; ?></option>
+                                <?php } else
+                                {?>
+                                    <option value="<?= $row['designation']; ?>"><?= $row['designation']; ?></option>
+                                <?php }} ?>
+                            </select>
+                        </div>
+                        <div class="col mb-2">
+                            <label for="email" class="form-label">Age:</label>
+                            <input type="number" maxlength="3" class="form-control" name="age" id="age" value="<?php echo $data['age']?>" required>
+                        </div>
+                        <div class="col mb-2">
+                            <label for="sex" class="form-label">Sex:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sex" id="sex" required>
+                                <option value="" disabled selected>-Select Sex-</option>
+                                <?php
+                                    if ($data['sex'] == "MALE")
+                                    {
+                                ?>
+                                    <option value="MALE>" selected>MALE</option>
+                                <?php } else
+                                {?>
+                                    <option value="FEMALE>" selected>FEMALE</option>
+                                <?php } ?>
+                            </select>
+                        </div>
                     </div>
                     <div class="mb-2">
                         <label for="birthday" class="form-label">Birthday:</label>
@@ -121,7 +123,7 @@
                             <?php }} ?>
                         </select>
                     </div>
-                    <div class="mb-2">
+                    <div class="col mb-2">
                         <label for="yearlevel" class="form-label">Year Level:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="yearlevel" id="yearlevel" disabled>
                             <option value="" disabled selected></option>
@@ -140,10 +142,11 @@
                             <?php }} ?>
                         </select>
                     </div>
-                    <div class="mb-2">
+                    <div class="col mb-2">
                         <label for="section" class="form-label">Section:</label>
                         <input type="text" class="form-control" name="section" id="section" value="<?php echo $data['section']?>" disabled>
                     </div>
+                    
                     <?php }
                     else
                     {?>

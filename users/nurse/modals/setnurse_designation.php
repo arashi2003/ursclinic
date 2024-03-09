@@ -55,15 +55,7 @@
         }
         else
         {
-            ?>
-            <script>
-                setTimeout(function() {
-                    window.location = "../designation.php";
-                });
-            </script>
-            <?php
             // modal message box saying "Designation was not added."
-        }
 ?>
 <script>
     setTimeout(function() {
@@ -71,5 +63,5 @@
     });
     </script>
 <?php
-}
+}}
 mysqli_close($conn);

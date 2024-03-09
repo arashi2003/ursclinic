@@ -3,9 +3,7 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
-
 $module = 'med_entry';
-$userid = $_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM medicine");
@@ -19,7 +17,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Inventory</title>
-    <?php include('../../includes/header.php'); ?>
+    <?php include('../../includes/header.php');?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -32,22 +30,7 @@ include('../../includes/pagination-limit.php');
             </div>
             <div class="right-nav">
                 <div class="notification-button">
-                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
-                        <i class='bx bx-bell'></i>
-                        <?php
-                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
-                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
-                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
-                        $result = mysqli_query($conn, $sql);
-                        if ($row = mysqli_num_rows($result)) {
-                        ?>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                <?= $row ?>
-                            </span>
-                        <?php
-                        }
-                        ?>
-                    </button>
+                    <i class='bx bx-bell'></i>
                 </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
@@ -69,13 +52,27 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmedentry">Add Entry</button>
-                    <?php include('modals/nurseaddmedentrymodal.php'); ?>
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addmedentry">Add Entry</button>
+                    <?php include('modals/nurseaddmedentrymodal.php');?>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
+                                <form action="entry_filter.php" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <select name="entry" class="form-select">
+                                                <option value="medicine" selected>Medicine Entry</option>
+                                                <option value="supply">Medical Supply Entry</option>
+                                                <option value="te">Tools and Equipment Entry</option>
+                                            </select>
+                                        </div>
+                                        <div class="col mb-2">
+                                            <button type="submit" class="btn btn-primary">View</button>
+                                        </div>
+                                    </div>
+                                </form>
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
@@ -90,11 +87,10 @@ include('../../includes/pagination-limit.php');
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT med_admin FROM medicine ORDER BY med_admin ASC";
-                                                if ($result = mysqli_query($conn, $sql)) {
-                                                    while ($row = mysqli_fetch_array($result)) {
-                                                        $admin = $row["med_admin"]; ?>
-                                                        <option value="<?php echo $row["med_admin"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["med_admin"] ? 'selected' : '') : '' ?>"><?php echo $row["med_admin"]; ?></option><?php }
-                                                                                                                                                                                                                                    } ?>
+                                                if($result = mysqli_query($conn, $sql))
+                                                {   while($row = mysqli_fetch_array($result) )
+                                                    {   $admin = $row["med_admin"];?>
+                                                <option value="<?php echo $row["med_admin"];?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["med_admin"] ? 'selected' : '') : '' ?>"><?php echo $row["med_admin"];?></option><?php }}?>
                                             </select>
                                         </div>
                                         <div class="col-md-2 mb-3">
@@ -103,11 +99,10 @@ include('../../includes/pagination-limit.php');
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT dosage_form FROM medicine ORDER BY dosage_form ASC";
-                                                if ($result = mysqli_query($conn, $sql)) {
-                                                    while ($row = mysqli_fetch_array($result)) {
-                                                        $dform = $row["dosage_form"]; ?>
-                                                        <option value="<?php echo $dform; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $dform ? 'selected' : '') : '' ?>"><?php echo $dform; ?></option><?php }
-                                                                                                                                                                                                    } ?>
+                                                if($result = mysqli_query($conn, $sql))
+                                                {   while($row = mysqli_fetch_array($result) )
+                                                    {   $dform = $row["dosage_form"];?>
+                                                <option value="<?php echo $dform;?> <?= isset($_GET['']) == true ? ($_GET[''] == $dform ? 'selected' : '') : '' ?>"><?php echo $dform;?></option><?php }}?>
                                             </select>
                                         </div>
                                         <div class="col mb-3">
@@ -129,16 +124,24 @@ include('../../includes/pagination-limit.php');
                                 } elseif (isset($_GET['med_admin']) && $_GET['med_admin'] != '' || isset($_GET['dform']) && $_GET['dform'] != '') {
                                     $med_admin = $_GET['med_admin'];
                                     $dform = $_GET['dform'];
-                                    if ($med_admin == "") {
+                                    if($med_admin == "")
+                                    {
                                         $medadmin = "";
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         $medadmin = "WHERE med_admin = '$med_admin'";
                                     }
-                                    if ($dform != "" and $med_admin != "") {
+                                    if($dform != "" and $med_admin != "")
+                                    {
                                         $dosage = " AND dosage_form = '$dform'";
-                                    } elseif ($dform != "" and $med_admin == "") {
+                                    }
+                                    elseif($dform != "" and $med_admin == "")
+                                    {
                                         $dosage = "WHERE dosage_form = '$dform'";
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         $dosage = "";
                                     }
 
@@ -165,35 +168,34 @@ include('../../includes/pagination-limit.php');
                                             <tbody>
 
                                                 <?php
-                                                foreach ($result as $data) { ?>
+                                                foreach($result as $data){?>
                                                     <tr>
                                                         <td><?php echo $data['medid']; ?></td>
                                                         <td><?php echo $data['med_admin'] ?></td>
                                                         <td><?php echo $data['dosage_form'] ?></td>
-                                                        <td><?php echo $data['medicine'] . " " . $data['dosage'] . $data['unit_measure']; ?></td>
+                                                        <td><?php echo $data['medicine'] . " " . $data['dosage'] . $data['unit_measure'];?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatemed<?php echo $data['medid']; ?>">Update</button>
-                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removemed<?php echo $data['medid']; ?>">Remove</button>
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatemed<?php echo $data['medid']; ?>">Update</button>
+                                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removemed<?php echo $data['medid']; ?>">Remove</button>
                                                         </td>
-                                                    </tr>
-                                            <?php
+                                                    </tr> 
+                                                    <?php
                                                     include('modals/rem_medicine_modal.php');
                                                     include('modals/update_medicine_modal.php');
-                                                }
-                                            } ?>
+                                                    }}?>
                                             </tbody>
                                         </table>
-                                        <?php include('../../includes/pagination.php'); ?>
+                                        <?php include('../../includes/pagination.php');?>
                                     <?php
-                                } else {
+                                    } else {
                                     ?>
                                         <tr>
                                             <td colspan="7">No record Found</td>
                                         </tr>
-                                    <?php
-                                }
+                                <?php
+                                    }
                                 mysqli_close($conn);
-                                    ?>
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -220,5 +222,4 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
-
 </html>
