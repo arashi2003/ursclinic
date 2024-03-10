@@ -363,6 +363,11 @@ nav .profile-details i {
   padding: 0 20px;
 }
 
+.home-content .overview-boxes .nav-tabs {
+  border: none;
+}
+
+
 .home-content .sales-boxes {
   display: flex;
   justify-content: space-between;
@@ -479,7 +484,7 @@ nav .profile-details i {
   width: 100%;
   background: #fff;
   padding: 15px 14px;
-  border-radius: 12px;
+  border-radius: 0 12px 12px 12px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 

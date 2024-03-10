@@ -21,7 +21,7 @@
             <li class="<?php if ($module == 'appointment') {
                             echo 'active';
                         } ?>">
-                <a href="appointment">
+                <a href="appointment?tab=pending">
                     <i class='bx bx-calendar'></i>
                     <span class="link_name">Appointment</span>
                 </a>

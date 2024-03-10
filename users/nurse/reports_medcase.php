@@ -3,9 +3,9 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
+
 $module = 'reports_medcase';
 $campus = $_SESSION['campus'];
-$now = date("Y-m-t");
 $userid=$_SESSION['userid'];
 
 if (!isset($_SESSION['username'])) {
@@ -238,7 +238,7 @@ if ($pages > 4) {
                             </div>
                             <ul class="pagination justify-content-end">
                                 <?php 
-                                if (!empty($_GET['month'])) : ?>
+                                if (mysqli_num_rows($result) > 0) : ?>
                                     <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
                                         <a class="page-link" href="?<?= isset($_GET['month']) ? 'month=' . $_GET['month'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
                                     </li>
