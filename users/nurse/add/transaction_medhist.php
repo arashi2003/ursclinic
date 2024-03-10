@@ -30,7 +30,7 @@
     $bp = $_POST['bp'];
     $pr = $_POST['pr'];
     $temp = $_POST['temp'];
-    $height = $_POST['height'];
+    $height = $_POST['height'] . " cm";
     $weight = $_POST['weight'];
     $heent = $_POST['heent'];
     $chest_lungs = $_POST['chest_lungs'];

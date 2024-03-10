@@ -684,7 +684,7 @@ $campus = $_SESSION['campus'];
                             $sql = "SELECT * FROM med_case ORDER BY type, medcase";
                             $result = mysqli_query($conn, $sql);
                             while ($row = mysqli_fetch_array($result)) {?>
-                                <option value="<?= $row['medcase']; ?>"><?= "(" . ucfirst(strtolower( $row['type'])) . ") " . $row['medcase']; ?></option>
+                                <option value="<?= $row['id']; ?>"><?= "(" . ucfirst(strtolower( $row['type'])) . ") " . $row['medcase']; ?></option>
                             <?php } ?>
                         </select>
                     </div>

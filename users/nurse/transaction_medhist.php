@@ -202,8 +202,8 @@ $module = 'transaction_add';
                         </div>
                         <div class="col-md-4 mb-2">
                             <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Height:</span>
-                                <input type="text" maxlength="7" class="form-control" name="height" id="height" required>
+                                <span class="input-group-text" id="inputGroup-sizing-md">Height (cm):</span>
+                                <input type="number" maxlength="7" class="form-control" name="height" id="height" required>
                             </div>
                         </div>
                         <div class="col-md-4 mb-2">
@@ -305,20 +305,24 @@ $module = 'transaction_add';
                     <h3><b>Dental</b></h3>
                     <div class="row">
                         <div class="col-md-6 mb-2">
+                            <input type="text" id="ddefects" name="ddefects" value="" hidden>
                             <input type="checkbox" id="ddefects" name="ddefects" value="x">
                             <label for="ddefects"> No Dental Defects</label>
                         </div>
                         <div class="col-md-6 mb-2">
+                            <input type="text" id="dcs" name="dcs" value="" hidden>
                             <input type="checkbox" id="dcs" name="dcs" value="x">
                             <label for="dcs"> Presence of Oral Debris, Calculi (tartar) deposits, Stains/discoloration</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-2">
+                            <input type="text" id="gp" name="gp" value="" hidden>
                             <input type="checkbox" id="gp" name="gp" value="x">
                             <label for="gp"> Presence of GINGIVITIS and/or PERIODONTITIS</label>
                         </div>
                         <div class="col-md-6 mb-2">
+                            <input type="text" id="scaling_polish" name="scaling_polish" value="" hidden>
                             <input type="checkbox" id="scaling_polish" name="scaling_polish" value="x">
                             <label for="scaling_polish"> For Tooth Scaling and Polishing</label>
                         </div>
@@ -349,16 +353,19 @@ $module = 'transaction_add';
                             $sql = "SELECT * FROM med_case ORDER BY type, medcase";
                             $result = mysqli_query($conn, $sql);
                             while ($row = mysqli_fetch_array($result)) {?>
-                                <option value="<?= $row['medcase']; ?>"><?= "(" . ucfirst(strtolower( $row['type'])) . ") " . $row['medcase']; ?></option>
+                                <option value="<?= $row['id']; ?>"><?= "(" . ucfirst(strtolower( $row['type'])) . ") " . $row['medcase']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Others:</span>
-                        <input type="text" maxlength="45" class="form-control" name="medcase_others" id="medcase_others" required>
+                        <input type="text" maxlength="45" class="form-control" name="medcase_others" id="medcase_others">
                     </div>
                     
                     <div class="modal-footer">
+                        <input type="text" class="form-control" value="Walk-In" name="type" hidden>
+                        <input type="text" class="form-control" value="Checkup" name="transaction" hidden>
+                        <input type="text" class="form-control" value="Medical History" name="service" hidden>
                         <input type="submit" class="btn btn-primary" value="Add Record"></input> 
                         &ThickSpace;
                         <input type="reset" class="btn btn-danger" value="Cancel"></input>

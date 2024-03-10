@@ -109,7 +109,7 @@ include('../../includes/pagination-limit.php');
                                     datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial
                                     WHERE campus='$campus' AND (patient LIKE '%$account%' OR 
                                     CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' 
-                                    OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                    OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%') AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 } elseif (isset($_GET['type']) && $_GET['type'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
                                     $type = $_GET['type'];
@@ -159,7 +159,7 @@ include('../../includes/pagination-limit.php');
                                     remarks, medsup, pod_nod, medcase, medcase_others, 
                                     datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial
                                     FROM transaction_history 
-                                    WHERE campus='$campus' $date $tp ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                    WHERE campus='$campus' $date $tp AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 } else {
                                     $count = 1;
@@ -174,7 +174,7 @@ include('../../includes/pagination-limit.php');
                                     remarks, medsup, pod_nod, medcase, medcase_others, 
                                     datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial
                                     FROM transaction_history 
-                                    WHERE campus='$campus' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                    WHERE campus='$campus' AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 }
                                 if ($result) {
@@ -224,13 +224,13 @@ include('../../includes/pagination-limit.php');
 
                                                     </tr>
                                             <?php
-                                                    if ($data['transaction'] == 'Vitals') {
+                                                    /*if ($data['transaction'] == 'Vitals') {
                                                         include('modals/view_trans_vitals_modal.php');
                                                     } elseif ($data['transaction'] == 'Medical History') {
                                                         include('modals/view_trans_medhist_modal.php');
-                                                    } else {
+                                                    } else {*/
                                                         include('modals/view_trans_modal.php');
-                                                    }
+                                                    /*}*/
                                                 }
                                             } ?>
                                             </tbody>
