@@ -4,6 +4,7 @@ session_start();
 include('../../connection.php');
 include('../../includes/admin-auth.php');
 $module = 'college';
+$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM college");
@@ -29,9 +30,6 @@ include('../../includes/pagination-limit.php')
                 <span class="dashboard">COLLEGE</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <i class='bx bx-bell'></i>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
                     <div class="dropdown">
@@ -62,7 +60,7 @@ include('../../includes/pagination-limit.php')
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-2">
                                                 <input type="text" name="college" value="<?= isset($_GET['college']) == true ? $_GET['college'] : '' ?>" class="form-control" placeholder="Search college">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
@@ -101,8 +99,8 @@ include('../../includes/pagination-limit.php')
                                                     <tr>
                                                         <td><?php echo $data['college'];?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatecollege<?php echo $data['id']; ?>">Update</button>
-                                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removecollege<?php echo $data['id']; ?>">Remove</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatecollege<?php echo $data['id']; ?>">Update</button>
+                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removecollege<?php echo $data['id']; ?>">Remove</button>
                                                         <?php $count++; ?></td>
                                                         
                                                     </tr>

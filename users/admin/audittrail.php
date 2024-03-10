@@ -5,6 +5,7 @@ include('../../connection.php');
 include('../../includes/admin-auth.php');
 $module = 'audittrail';
 $campus = $_SESSION['campus'];
+$userid=$_SESSION['userid'];
 
 if (!isset($_SESSION['username'])) {
     header('location:../../index');
@@ -34,9 +35,6 @@ include('../../includes/pagination-limit.php')
                 <span class="dashboard">AUDIT TRAIL</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <i class='bx bx-bell'></i>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
                     <div class="dropdown">
@@ -65,13 +63,13 @@ include('../../includes/pagination-limit.php')
                             <div class="col-md-12">
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <input type="date" name="date_from" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>" class="form-control">
                                         </div>
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <input type="date" name="date_to" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>" class="form-control">
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                             <a href="audittrail" class="btn btn-danger">Reset</a>
                                         </div>

@@ -5,6 +5,7 @@ include('../../connection.php');
 include('../../includes/nurse-auth.php');
 $module = 'appointment';
 $campus = $_SESSION['campus'];
+$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("select * from appointment WHERE status='Pending'");
@@ -31,7 +32,22 @@ include('../../includes/pagination-limit.php');
             </div>
             <div class="right-nav">
                 <div class="notification-button">
-                    <i class='bx bx-bell'></i>
+                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
+                        <i class='bx bx-bell'></i>
+                        <?php
+                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
+                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
+                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
+                        $result = mysqli_query($conn, $sql);
+                        if ($row = mysqli_num_rows($result)) {
+                        ?>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <?= $row ?>
+                        </span>
+                        <?php
+                        }
+                        ?>
+                    </button>
                 </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
@@ -52,11 +68,6 @@ include('../../includes/pagination-limit.php');
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                <!--<div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addappointment">Add Appointment</button>
-                    <?php //include('modals/nurseappointmentaddmodal.php');
-                    ?>
-                </div>-->
                 <div class="content">
                     <h3>Pending Appointments</h3>
                     <div class="row">
@@ -65,15 +76,15 @@ include('../../includes/pagination-limit.php');
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-2">
                                                 <input type="text" name="patient" value="<?= isset($_GET['patient']) == true ? $_GET['patient'] : '' ?>" class="form-control" placeholder="Search patient">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
                                         </div>
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="physician" class="form-select">
                                                 <option value="">Select Physician</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>

@@ -3,7 +3,6 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
-
 $module = 'reports';
 $userid = $_SESSION['userid'];
 $campus = $_SESSION['campus'];

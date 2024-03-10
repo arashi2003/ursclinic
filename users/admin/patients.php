@@ -5,6 +5,7 @@ include('../../connection.php');
 include('../../includes/admin-auth.php');
 $module = 'patient_add';
 $campus = $_SESSION['campus'];
+$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM patient_info WHERE campus='$campus'");
@@ -30,9 +31,6 @@ include('../../includes/pagination-limit.php')
                 <span class="dashboard">PATIENTS</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <i class='bx bx-bell'></i>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
                     <div class="dropdown">
@@ -64,12 +62,12 @@ include('../../includes/pagination-limit.php')
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-2">
                                                 <input type="text" name="patient" value="<?= isset($_GET['patient']) == true ? $_GET['patient'] : '' ?>" class="form-control" placeholder="Search patient">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="designation" class="form-select">
                                                 <option value="">Select Designation</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -81,7 +79,7 @@ include('../../includes/pagination-limit.php')
                                                 <option value="<?php echo $row["designation"];?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["designation"] ? 'selected' : '') : '' ?>"><?php echo $row["designation"];?></option><?php }}?>
                                             </select>
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                             <a href="patients" class="btn btn-danger">Reset</a>
                                         </div>
@@ -159,7 +157,7 @@ include('../../includes/pagination-limit.php')
                                                         <td><?php echo $data['college'];?></td>
                                                         <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname'])); ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatepatient<?php echo $data['patientid']; ?>">Expand</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatepatient<?php echo $data['patientid']; ?>">Expand</button>
                                                         <?php $count++; ?>
                                                         </td>
                                                     </tr>

@@ -5,6 +5,7 @@ $campus = $_SESSION['campus'];
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
 $module = 'sup_stocks_exp';
+$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT i.id, i.open, i.closed, i.campus, i.supid, i.qty, i.unit_cost, i.expiration, m.supply, m.volume, m.unit_measure, m.supid FROM inventory_supply i INNER JOIN supply m on m.supid=i.supid WHERE campus = '$campus' ORDER BY expiration ");
@@ -31,7 +32,22 @@ include('../../includes/pagination-limit.php');
             </div>
             <div class="right-nav">
                 <div class="notification-button">
-                    <i class='bx bx-bell'></i>
+                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
+                        <i class='bx bx-bell'></i>
+                        <?php
+                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
+                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
+                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
+                        $result = mysqli_query($conn, $sql);
+                        if ($row = mysqli_num_rows($result)) {
+                        ?>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <?= $row ?>
+                        </span>
+                        <?php
+                        }
+                        ?>
+                    </button>
                 </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
@@ -62,7 +78,7 @@ include('../../includes/pagination-limit.php');
                             <div class="col-md-12">
                                 <form action="stocks_filter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-2 mb-2">
                                             <select name="stocks" class="form-select">
                                                 <option value="medicine">Medicine Stocks</option>
                                                 <option value="supply" selected>Medical Supply Stocks</option>
@@ -76,14 +92,14 @@ include('../../includes/pagination-limit.php');
                                 </form>
                                 <form action="supinv_viewfilter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="medinv_view" class="form-select">
                                                 <option value="batch">By Batch</option>
                                                 <option value="expiration" selected>By Expiration</option>
                                                 <option value="total">By Total</option>
                                             </select>
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                         </div>
                                     </div>
@@ -91,7 +107,7 @@ include('../../includes/pagination-limit.php');
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-2">
                                                 <input type="text" name="supply" value="<?= isset($_GET['supply']) == true ? $_GET['supply'] : '' ?>" class="form-control" placeholder="Search medical supply">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>

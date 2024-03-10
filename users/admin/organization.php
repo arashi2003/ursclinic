@@ -4,6 +4,7 @@ session_start();
 include('../../connection.php');
 include('../../includes/admin-auth.php');
 $module = 'organization';
+$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM organization");
@@ -29,9 +30,6 @@ include('../../includes/pagination-limit.php')
                 <span class="dashboard">ORGANIZATION</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <i class='bx bx-bell'></i>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
                     <div class="dropdown">
@@ -62,12 +60,12 @@ include('../../includes/pagination-limit.php')
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-2">
                                                 <input type="text" name="organization" value="<?= isset($_GET['organization']) == true ? $_GET['organization'] : '' ?>" class="form-control" placeholder="Search organization">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="campus" class="form-select">
                                                 <option value="">Select Campus</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -88,7 +86,7 @@ include('../../includes/pagination-limit.php')
                                                 <option value="<?php echo $campus;?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["campus"] ? 'selected' : '') : '' ?>"><?php echo $campus;?></option><?php }}?>
                                             </select>
                                         </div>
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="title" class="form-select">
                                                 <option value="">Select Position</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -97,7 +95,7 @@ include('../../includes/pagination-limit.php')
                                                 <option value="Campus Nurse" <?= isset($_GET['']) == true ? ($_GET[''] == 'Campus Nurse' ? 'selected' : '') : '' ?>>Campus Nurse</option>
                                                 </select>
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                             <a href="organization" class="btn btn-danger">Reset</a>
                                         </div>
@@ -179,8 +177,8 @@ include('../../includes/pagination-limit.php')
                                                         <td><?php echo $data['title'];?></td>
                                                         <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " .ucwords(strtolower($data['lastname'])) . ", " .  $data['extension'];?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateorganization<?php echo $data['id']; ?>">Update</button>
-                                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removeorganization<?php echo $data['id']; ?>">Remove</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateorganization<?php echo $data['id']; ?>">Update</button>
+                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeorganization<?php echo $data['id']; ?>">Remove</button>
                                                         <?php $count++; ?></td>
                                                         
                                                     </tr>

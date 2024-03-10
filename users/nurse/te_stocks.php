@@ -5,6 +5,7 @@ include('../../connection.php');
 include('../../includes/nurse-auth.php');
 $campus = $_SESSION['campus'];
 $module = 'te_stocks';
+$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM inventory_te WHERE campus='$campus'");
@@ -31,7 +32,22 @@ include('../../includes/pagination-limit.php');
             </div>
             <div class="right-nav">
                 <div class="notification-button">
-                    <i class='bx bx-bell'></i>
+                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
+                        <i class='bx bx-bell'></i>
+                        <?php
+                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
+                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
+                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
+                        $result = mysqli_query($conn, $sql);
+                        if ($row = mysqli_num_rows($result)) {
+                        ?>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <?= $row ?>
+                        </span>
+                        <?php
+                        }
+                        ?>
+                    </button>
                 </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
@@ -62,7 +78,7 @@ include('../../includes/pagination-limit.php');
                             <div class="col-md-12">
                                 <form action="stocks_filter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-2 mb-2">
                                             <select name="stocks" class="form-select">
                                                 <option value="medicine">Medicine Stocks</option>
                                                 <option value="supply">Medical Supply Stocks</option>
@@ -77,12 +93,12 @@ include('../../includes/pagination-limit.php');
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-2">
                                                 <input type="text" name="te" value="<?= isset($_GET['te']) == true ? $_GET['te'] : '' ?>" class="form-control" placeholder="Search tool/equipment">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="te_status" class="form-select">
                                                 <option value="Select Status">Select Status</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -95,7 +111,7 @@ include('../../includes/pagination-limit.php');
                                                 <option value="<?php echo $id;?> <?= isset($_GET['']) == true ? ($_GET[''] == $te_status ? 'selected' : '') : '' ?>"><?php echo $te_status;?></option><?php }}?>
                                             </select>
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                             <a href="te_stocks" class="btn btn-danger">Reset</a>
                                         </div>

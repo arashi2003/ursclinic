@@ -4,6 +4,7 @@ session_start();
 include('../../connection.php');
 include('../../includes/admin-auth.php');
 $module = 'campus';
+$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM campus ORDER BY campus");
@@ -29,9 +30,6 @@ include('../../includes/pagination-limit.php')
                 <span class="dashboard">CAMPUS</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <i class='bx bx-bell'></i>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
                     <div class="dropdown">
@@ -102,8 +100,8 @@ include('../../includes/pagination-limit.php')
                                                         <td><?php echo $data['campus'];?></td>
                                                         <td hidden><?php echo $data['id'];?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatecampus<?php echo $data['id']; ?>">Update</button>
-                                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removecampus<?php echo $data['id']; ?>">Remove</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatecampus<?php echo $data['id']; ?>">Update</button>
+                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removecampus<?php echo $data['id']; ?>">Remove</button>
                                                         <?php $count++; ?></td>
                                                         
                                                     </tr>
