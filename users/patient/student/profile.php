@@ -77,7 +77,7 @@ $name = $_SESSION['username'];
                 <div class="profile-info box">
                     <div class="row">
                         <?php
-                        $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.campus, p.college, p.program, p.yearlevel, p.section, p.block, p.email, p.contactno, a.firstname, a.middlename, a.lastname from patient_info p INNER JOIN account a on a.accountid=patientid";
+                        $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.campus, p.college, p.program, p.yearlevel, p.section, p.block, p.email, p.contactno, a.firstname, a.middlename, a.lastname from patient_info p INNER JOIN account a on a.accountid='$userid'";
                         $result = mysqli_query($conn, $sql);
                         $row = mysqli_fetch_assoc($result);
                         if (count(explode(" ", $row['middlename'])) > 1) {
