@@ -4,7 +4,7 @@ session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
 $module = 'profile';
-$userid = $_SESSION['accountid'];
+$userid = $_SESSION['userid'];
 $usertype = $_SESSION['usertype'];
 $name = $_SESSION['username'];
 ?>

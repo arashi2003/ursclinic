@@ -4,7 +4,6 @@ session_start();
 include('../../connection.php');
 include('../../includes/admin-auth.php');
 $module = 'department';
-$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM department");
