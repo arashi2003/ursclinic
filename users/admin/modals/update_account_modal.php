@@ -9,8 +9,7 @@
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="accountid" class="form-label">Account ID:</label>
-                        <input type="hidden" name="accountid" value="<?php echo $data['accountid']?>" readonly>
-                        <input type="text" class="form-control" name="accountid" id="accountid" value="<?php echo $data['accountid']?>" readonly disabled>
+                        <input type="text" class="form-control" name="accountid" id="accountid" value="<?php echo $data['accountid']?>" required>
                     </div>
                     <div class="row">
                         <div class="col mb-2">

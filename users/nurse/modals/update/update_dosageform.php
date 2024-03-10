@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include('connection.php');
+    include('../connection.php');
     $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $dosage_form = $_POST['dosage_form'];
@@ -17,7 +17,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../dform_set.php";
+                    window.location = "../../dform_set.php";
                 });
                 </script>
             <?php
@@ -28,7 +28,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../dform_set.php";
+                    window.location = "../../dform_set.php";
                 });
                 </script>
             <?php
@@ -41,7 +41,7 @@
 ?>
 <script>
     setTimeout(function() {
-        window.location = "../dform_set.php";
+        window.location = "../../dform_set.php";
     });
     </script>
 <?php

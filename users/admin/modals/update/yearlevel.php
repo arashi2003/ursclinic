@@ -3,7 +3,7 @@
     include('../../add/connection.php');
     $id = $_POST['ylid'];
     $yearlevel = $_POST['yearlevel'];
-    $department = $_POST['department'];
+    $department = strtoupper($_POST['department']);
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);

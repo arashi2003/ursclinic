@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include('connection.php');
+    include('../connection.php');
     $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $findiag = $_POST['findiag'];
@@ -17,7 +17,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../findings.php";
+                    window.location = "../../findings.php";
                 });
                 </script>
             <?php
@@ -28,7 +28,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../findings.php";
+                    window.location = "../../findings.php";
                 });
                 </script>
             <?php
@@ -42,7 +42,7 @@
 ?>
 <script>
     setTimeout(function() {
-        window.location = "../findings.php";
+        window.location = "../../findings.php";
     });
     </script>
 <?php

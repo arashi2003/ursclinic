@@ -1,5 +1,7 @@
 <?php 
-    $a = "Student";
+    $date="2003-08-25";
+    echo floor((time() - strtotime($date)) / 31556926);
+    /*$a = "Student";
     $b = "Female";
 
     switch(true)
@@ -14,5 +16,5 @@
             echo "wala";
             break;
         }
-    }
+    }*/
 ?>

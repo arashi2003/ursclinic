@@ -3,19 +3,30 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Account Details</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../admin/profile.php'"></button>
             </div>
             <form method="POST" action="modals/update/update_ownaccount.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="accountid" class="form-label">Account ID:</label>
-                        <input type="text" class="form-control" name="accountid" id="accountid" value="<?php echo $userid?>" hidden>
-                        <input type="text" class="form-control" name="accountid" id="accountid" value="<?php echo $userid?>" readonly disabled>
+                        <input type="text" class="form-control" name="accountid" id="accountid" value="<?php echo $userid?>" required>
                     </div>
                     <div class="mb-2">
                         <label for="campus" class="form-label">Campus:</label>
-                        <input type="text" class="form-control" name="campus" id="campus" value="<?php echo $row['campus']?>" hidden>
-                        <input type="text" class="form-control" name="campus" id="campus" value="<?php echo $row['campus']?>" readonly disabled>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="campus" id="campus" required>
+                            <option value="" disabled selected>-Select Campus-</option>
+                            <?php
+                            include('connection.php');
+                            $sql = "SELECT * FROM campus ORDER BY campus";
+                            $result = mysqli_query($conn, $sql);
+                            while ($data = mysqli_fetch_array($result)) {
+                            if($data['campus']=$row['campus'])
+                            {?>
+                                <option value="<?= $data['campus']; ?>" selected><?= $data['campus']; ?></option>
+                            <?php } else{?>
+                                <option value="<?= $data['campus']; ?>"><?= $data['campus']; ?></option>
+                            <?php }}?>
+                        </select>
                     </div>
                     <div class="mb-2">
                         <label for="usertype" class="form-label">Usertype:</label>

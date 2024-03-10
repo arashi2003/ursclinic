@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include('connection.php');
+    include('../connection.php');
     $te = $_POST['te'];
     $unit = $_POST['unit_measure'];
     $id=$_POST['teid'];
@@ -19,7 +19,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../te_entry.php";
+                    window.location = "../../te_entry.php";
                 });
                 </script>
             <?php
@@ -30,7 +30,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../te_entry.php";
+                    window.location = "../../te_entry.php";
                 });
                 </script>
             <?php
@@ -43,7 +43,7 @@
 ?>
 <script>
     setTimeout(function() {
-        window.location = "../te_entry.php";
+        window.location = "../../te_entry.php";
     });
     </script>
 <?php

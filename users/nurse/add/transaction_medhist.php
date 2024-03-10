@@ -4,7 +4,7 @@
     $user = $_SESSION['userid'];
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
-    $activity = "added a transaction record";
+    $activity = "added a transaction record for " . $_POST['patientid'];
     $au_status = "unread";
 
     //patient info
@@ -55,50 +55,45 @@
     $medcase_others = $_POST['medcase_others'];
     $pod_nod = $fullname;
     $enddate = date("Y-m-t");
-
     //kunin medcase as text
     $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
     $result = mysqli_query($conn, $sql);
     while($data=mysqli_fetch_array($result))
     {
-        $medcase_type = $data['type'];
-        $medcase = $data['medcase'];
+        if($data['medcase'] != 'Others:')
+        {
+            $medcase_type = $data['type'];
+            $medcase = $data['medcase'];
+        }
+        else
+        {
+            $medcase_type ="others";
+            $medcase = $medcase_others;
+        }
     }
 
-    $sql = "INSERT transaction_history (patient,
-    firstname, middlename, lastname, designation, 
-    age, sex, birthday, department, college, program, yearlevel, 
-    section, block, type, transaction, purpose, 
-    height, weight, bp, pr, temp, 
-    heent, chest_lungs, heart, abdomen, extremities, 
-    bronchial_asthma, surgery, lmp, heart_disease, 
-    allergies, epilepsy, hernia, ddefects,	
-    dcs, gp, scaling_polish, dento_facial, 
-    remarks, referral,	
-    pod_nod, medcase, medcase_others, campus, datetime)
-    VALUES
-    ('$patientid', '$firstname', '$middlename', '$lastname',' $designation', 
-    '$age', '$sex', '$birthday', '$department', '$college', '$program', '$yearlevel', 
-    '$section', '$block', '$type', '$transaction', '$purpose', 
-    '$height', '$weight', '$bp', '$pr', '$temp',
-    '$heent', '$chest_lungs', '$heart', '$abdomen', '$extremities', 
-    '$bronchial_asthma', '$surgery', '$lmp', '$heart_disease', 
-    '$allergies', '$epilepsy', '$hernia', '$ddefects',	
-    '$dcs', '$gp', '$scaling_polish', '$dento_facial',
-    '$remarks', '$referral', 	
-    '$pod_nod', '$medcase', '$medcase_others', '$au_campus', now())";
+    $sql = "INSERT transaction_history (patient, firstname, middlename, lastname, designation, age, sex, birthday, department, college, program, yearlevel, section, block, type, transaction, purpose, height, weight, bp, pr, temp, heent, chest_lungs, heart, abdomen, extremities, bronchial_asthma, surgery, lmp, heart_disease, allergies, epilepsy, hernia, ddefects,	dcs, gp, scaling_polish, dento_facial, remarks, referral, pod_nod, medcase, medcase_others, campus, datetime) VALUES ('$patientid', '$firstname', '$middlename', '$lastname','$designation', '$age', '$sex', '$birthday', '$department', '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction', '$purpose', '$height', '$weight', '$bp', '$pr', '$temp', '$heent', '$chest_lungs', '$heart', '$abdomen', '$extremities', '$bronchial_asthma', '$surgery', '$lmp', '$heart_disease', '$allergies', '$epilepsy', '$hernia', '$ddefects', '$dcs', '$gp', '$scaling_polish', '$dento_facial', '$remarks', '$referral', '$pod_nod', '$medcase', '$medcase_others', '$au_campus', now())";
     if($result = mysqli_query($conn, $sql))
     {
         // check if may existing na
         $enddate = date("Y-m-t");
+        $medcase_others = $_POST['medcase_others'];
 
         //kunin medcase as text
         $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
         $result = mysqli_query($conn, $sql);
         while($data=mysqli_fetch_array($result))
         {
-            $medcase_type = $data['type'];
-            $medcase = $data['medcase'];
+            if($data['medcase'] != 'Others:')
+            {
+                $medcase_type = $data['type'];
+                $medcase = $data['medcase'];
+            }
+            else
+            {
+                $medcase_type ="others";
+                $medcase = $medcase_others;
+            }
         }
 
         $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
@@ -110,14 +105,25 @@
             $enddate = date("Y-m-t");
             $designation = strtoupper($_POST['designation']);
             $sex = strtoupper($_POST['sex']);
+            $medcase_others = $_POST['medcase_others'];
+    
             //kunin medcase as text
             $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
             $result = mysqli_query($conn, $sql);
             while($data=mysqli_fetch_array($result))
             {
-                $medcase_type = $data['type'];
-                $medcase = $data['medcase'];
+                if($data['medcase'] != 'Others:')
+                {
+                    $medcase_type = $data['type'];
+                    $medcase = $data['medcase'];
+                }
+                else
+                {
+                    $medcase_type ="others";
+                    $medcase = $medcase_others;
+                }
             }
+
             $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
             $result = mysqli_query($conn, $sql);
             while($data=mysqli_fetch_array($result))
@@ -308,15 +314,25 @@
                 }
             }
             $enddate = date("Y-m-t");
+            $medcase_others = $_POST['medcase_others'];
 
             //kunin medcase as text
             $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
             $result = mysqli_query($conn, $sql);
             while($data=mysqli_fetch_array($result))
             {
-                $medcase_type = $data['type'];
-                $medcase = $data['medcase'];
+                if($data['medcase'] != 'Others:')
+                {
+                    $medcase_type = $data['type'];
+                    $medcase = $data['medcase'];
+                }
+                else
+                {
+                    $medcase_type ="others";
+                    $medcase = $medcase_others;
+                }
             }
+
             $sql = "INSERT INTO reports_medcase (campus, type, medcase, sm, sf, st, pm, pf, pt, gm, gf, gt, date) VALUES ('$au_campus', '$medcase_type', '$medcase', '$sm', '$sf', '$st', '$pm', '$pf', '$pt', '$gm', '$gf', '$gt', '$enddate')";
             if($result = mysqli_query($conn, $sql))
             {

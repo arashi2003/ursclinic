@@ -1,7 +1,6 @@
 <?php
     session_start();
-    include('connection.php');
-
+    include('../connection.php');
     $accountid = $_SESSION['userid'];
     $fullname = strtoupper($_SESSION['name']);
     $campus = $_SESSION['campus'];
@@ -19,7 +18,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../designation.php";
+                    window.location = "../../designation.php";
                 });
             </script>
             <?php

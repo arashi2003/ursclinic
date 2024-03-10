@@ -1,8 +1,8 @@
 <?php
     session_start();
     include('../../add/connection.php');
-    $id = $_REQUEST['id'];
-    $campus = $_POST['campus'];
+    $id = $_POST['id'];
+    $campus = strtoupper($_POST['campus']);
     $user = $_SESSION['userid'];
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);

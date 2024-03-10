@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include('connection.php');
+    include('../connection.php');
     $supply = $_POST['supply'];
     $unit = $_POST['unit_measure'];
     $state = $_POST['state'];
@@ -28,7 +28,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../sup_entry.php";
+                    window.location = "../../sup_entry.php";
                 });
             </script>
             <?php       
@@ -39,7 +39,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../sup_entry.php";
+                    window.location = "../../sup_entry.php";
                 });
             </script>
             <?php       
@@ -52,7 +52,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../sup_entry.php";
+        window.location = "../../sup_entry.php";
     });
 </script>
 <?php

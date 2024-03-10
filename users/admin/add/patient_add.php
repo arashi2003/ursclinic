@@ -3,11 +3,11 @@
     include('connection.php');
     $accountid = $_POST['patientid'];
     $designation = $_POST['designation'];
-    $firstname  = $_POST['firstname'];
-    $middlename = $_POST['middlename'];
-    $lastname  = $_POST['lastname'];
+    $firstname  = strtoupper($_POST['firstname']);
+    $middlename = strtoupper($_POST['middlename']);
+    $lastname  = strtoupper($_POST['lastname']);
     $age  = $_POST['age'];
-    $sex = $_POST['sex'];
+    $sex = strtoupper($_POST['sex']);
     $birthday = date("Y-m-d", strtotime($_POST['birthday']));
     $department = $_POST['department'];
     $college = $_POST['college'];

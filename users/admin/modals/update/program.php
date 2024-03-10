@@ -2,9 +2,9 @@
     session_start();
     include('../../add/connection.php');
     $id = $_POST['programid'];
-    $program = $_POST['program'];
-    $department = $_POST['department'];
-    $college = $_POST['college'];
+    $program = strtoupper($_POST['program']);
+    $department = strtoupper($_POST['department']);
+    $college = strtoupper($_POST['college']);
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);

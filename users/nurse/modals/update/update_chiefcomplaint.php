@@ -1,7 +1,6 @@
 <?php
     session_start();
-    include('connection.php');
-
+    include('../connection.php');
     $user = $_SESSION['userid'];
     $id=$_POST['id'];
     $au_campus = $_SESSION['campus'];
@@ -19,7 +18,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../chiefcomplaint.php";
+                    window.location = "../../chiefcomplaint.php";
                 });
             </script>
             <?php
@@ -30,7 +29,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../chiefcomplaint.php";
+                    window.location = "../../chiefcomplaint.php";
                 });
             </script>
             <?php
@@ -43,7 +42,7 @@
 ?>
 <script>
     setTimeout(function() {
-        window.location = "../chiefcomplaint.php";
+        window.location = "../../chiefcomplaint.php";
     });
     </script>
 <?php

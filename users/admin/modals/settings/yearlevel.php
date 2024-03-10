@@ -1,8 +1,8 @@
 <?php
     session_start();
     include('../../add/connection.php');
-    $yearlevel = $_POST['yearlevel'];
-    $department = $_POST['department'];
+    $yearlevel = strtoupper($_POST['yearlevel']);
+    $department = strtoupper($_POST['department']);
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);

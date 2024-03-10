@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include('connection.php');
+    include('../connection.php');
     $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
@@ -22,7 +22,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                window.location = "../med_entry.php";
+                window.location = "../../med_entry.php";
                 });
             </script>
             <?php 
@@ -33,7 +33,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                window.location = "../med_entry.php";
+                window.location = "../../med_entry.php";
                 });
             </script>
             <?php 
@@ -45,7 +45,7 @@
         ?>
         <script>
             setTimeout(function() {
-            window.location = "../med_entry.php";
+            window.location = "../../med_entry.php";
             });
         </script>
         <?php
@@ -53,7 +53,7 @@
 ?>
  <script>
     setTimeout(function() {
-      window.location = "../med_entry.php";
+      window.location = "../../med_entry.php";
     });
   </script>
 <?php

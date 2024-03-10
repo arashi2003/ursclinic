@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include('connection.php');
+    include('../connection.php');
     $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $med_admin = $_POST['med_admin'];
@@ -17,7 +17,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../medadmin_set.php";
+                    window.location = "../../medadmin_set.php";
                 });
                 </script>
             <?php
@@ -28,7 +28,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../medadmin_set.php";
+                    window.location = "../../medadmin_set.php";
                 });
                 </script>
             <?php
@@ -41,7 +41,7 @@
 ?>
 <script>
     setTimeout(function() {
-        window.location = "../medadmin_set.php";
+        window.location = "../../medadmin_set.php";
     });
     </script>
 <?php

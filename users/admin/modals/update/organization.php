@@ -2,9 +2,9 @@
     session_start();
     include('../../add/connection.php');
     $id = $_POST['adminid'];
-    $campus = $_POST['campus'];
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
+    $campus = strtoupper($_POST['campus']);
+    $firstname = strtoupper($_POST['firstname']);
+    $lastname = strtoupper($_POST['lastname']);
     $extension = $_POST['extension'];
     $title = $_POST['title'];
 
