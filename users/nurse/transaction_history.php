@@ -233,7 +233,7 @@ include('../../includes/pagination-limit.php');
                                                         <td><?= $data['transaction'] ?></td>
                                                         <td><?= date("M. d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'])) ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
                                                         </td>
 
                                                     </tr>

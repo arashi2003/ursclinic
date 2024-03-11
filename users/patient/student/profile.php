@@ -30,7 +30,7 @@ $campus = $_SESSION['campus'];
             </div>
             <div class="right-nav">
                 <div class="notification-button">
-                    <button type="button" class="btn btn-sm position-relative"  onclick="window.location.href = 'notification'">
+                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
                         <i class='bx bx-bell'></i>
                         <?php
                         $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus 
@@ -81,6 +81,9 @@ $campus = $_SESSION['campus'];
             </div>
         </nav>
         <div class="home-content">
+            <?php
+            include('../../../includes/alert.php')
+            ?>
             <div class="profile">
                 <div class="profile-pic box">
                     <?php
@@ -230,4 +233,5 @@ $campus = $_SESSION['campus'];
         document.getElementById("upload").style.display = "block";
     }
 </script>
+
 </html>

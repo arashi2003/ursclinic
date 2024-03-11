@@ -37,7 +37,7 @@ include('../../../includes/pagination-limit.php');
             </div>
             <div class="right-nav">
                 <div class="notification-button">
-                    <button type="button" class="btn btn-sm position-relative"  onclick="window.location.href = 'notification'">
+                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
                         <i class='bx bx-bell'></i>
                         <?php
                         $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus 
@@ -94,6 +94,9 @@ include('../../../includes/pagination-limit.php');
                     <?php include('modals/add-appointment-modal.php');
                     ?>
                 </div>
+                <?php
+                include('../../../includes/alert.php')
+                ?>
                 <div class="content">
                     <h3>Pending Appointments</h3>
                     <div class="row">

@@ -143,11 +143,22 @@
                                     $abuc = number_format($aobuc, 2, ".");
                                 }
 
+                                if($data['iqty'] == 0)
+                                {
+                                    $iamt = 0;
+                                    $iqty = 0;
+                                }
+                                else
+                                {
+                                    $iamt = $data['iqty'] * $aobuc;
+                                    $iqty = $data['iqty'];
+                                }
+
                                 $ucost = ($data['eamt'] + ($qty * $cost)) / $eqty;
                                 $aieamt = $ucost * $eqty;
                                 $aeamt = number_format($aieamt, 2, ".");
                                 
-                                $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine'";
+                                $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine'";
                                 if(mysqli_query($conn, $query))
                                 {
                                     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
@@ -448,6 +459,17 @@
                                         $aobuc = ($data['eamt'] + ($qty * $cost)) / $eqty;
                                     }
 
+                                    if($data['iqty'] == 0)
+                                    {
+                                        $iamt = 0;
+                                        $iqty = 0;
+                                    }
+                                    else
+                                    {
+                                        $iamt = $data['iqty'] * $aobuc;
+                                        $iqty = $data['iqty'];
+                                    }
+
                                     $abuc = number_format($aobuc, 2, ".");
                                     $ucost = ($data['eamt'] + ($qty * $cost)) / $eqty;
                                     $aieamt = $ucost * $eqty;
@@ -465,7 +487,7 @@
                                 $exp = $_POST['expiration'];
                                 $enddate = date("Y-m-t");
 
-                                $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine'";
+                                $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine'";
                                 if(mysqli_query($conn, $query))
                                 {
                                     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
@@ -798,11 +820,22 @@
                                     $abuc = number_format($aobuc, 2, ".");
                                 }
 
+                                if($data['iqty'] == 0)
+                                {
+                                    $iamt = 0;
+                                    $iqty = 0;
+                                }
+                                else
+                                {
+                                    $iamt = $data['iqty'] * $aobuc;
+                                    $iqty = $data['iqty'];
+                                }
+
                                 $ucost = ($data['eamt'] + ($qty * $cost)) / $eqty;
                                 $aieamt = $ucost * $eqty;
                                 $aeamt = number_format($aieamt, 2, ".");
                                 
-                                $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine'";
+                                $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine'";
                                 if(mysqli_query($conn, $query))
                                 {
                                     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
@@ -1103,6 +1136,17 @@
                                         $aobuc = ($data['eamt'] + ($qty * $cost)) / $eqty;
                                     }
 
+                                    if($data['iqty'] == 0)
+                                    {
+                                        $iamt = 0;
+                                        $iqty = 0;
+                                    }
+                                    else
+                                    {
+                                        $iamt = $data['iqty'] * $aobuc;
+                                        $iqty = $data['iqty'];
+                                    }
+
                                     $abuc = number_format($aobuc, 2, ".");
                                     $ucost = ($data['eamt'] + ($qty * $cost)) / $eqty;
                                     $aieamt = $ucost * $eqty;
@@ -1120,7 +1164,7 @@
                                 $exp = $_POST['expiration'];
                                 $enddate = date("Y-m-t");
 
-                                $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine'";
+                                $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine'";
                                 if(mysqli_query($conn, $query))
                                 {
                                     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";

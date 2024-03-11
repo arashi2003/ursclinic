@@ -54,18 +54,11 @@
                 $query1 = "INSERT INTO inventory (campus, stock_type, batchid, stockid, closed, opened, qty, unit_cost, expiration, date, time)VALUES ('$campus', 'supply', '$batchid', '$medid', '$c', '$o', '$qty', '$cost', '$exp', now(), now())";
                 if(mysqli_query($conn, $query1))
                 {
-                    //session accountid of nurse
-                    $accountid = 'URSN-001';
+                    $accountid = $_SESSION['userid'];
                     $medid = $_POST['supply'];
                     $qty = $_POST['opened'] + $_POST['close'];
                     $cost = $_POST['unit_cost'];
                     
-                    $conn = mysqli_connect("localhost","root","","dburs_usu");
-                    if ($conn==false) 
-                    {
-                        echo "ERROR: Failed to connect to the database,". mysqli_connect_error();
-                    }
-
                     //supply
                     $query = mysqli_query($conn, "SELECT * FROM supply WHERE supid = '$medid'");
                     while($data=mysqli_fetch_array($query))
@@ -108,6 +101,18 @@
                                 $aobuc = ($data['eamt'] + ($qty * $cost)) / $eqty;
                                 $abuc = number_format($aobuc, 2, ".");
                             }
+
+                            if($data['iqty'] == 0)
+                            {
+                                $iamt = 0;
+                                $iqty = 0;
+                            }
+                            else
+                            {
+                                $iamt = $data['iqty'] * $aobuc;
+                                $iqty = $data['iqty'];
+                            }
+
                             $ucost = ($data['eamt'] + ($qty * $cost));
                             $aeamt = number_format($ucost, 2, ".");
                         }
@@ -121,7 +126,7 @@
                             $supply = $data['supply'] . " " . $data['volume'] . $data['unit_measure'];
                         }
 
-                        $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'supply'";
+                        $query = "UPDATE report_medsupinv SET buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'supply' AND campus = '$campus'";
                         if(mysqli_query($conn, $query))
                         {
                             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
@@ -331,18 +336,11 @@
                 $query1 = "INSERT INTO inventory (campus, stock_type, batchid, stockid, closed, opened, qty, unit_cost, expiration, date, time)VALUES ('$campus', 'supply', '$batchid', '$medid', '$c', '$o', '$qty', '$cost', '$exp', now(), now())";
                 if(mysqli_query($conn, $query1))
                 {
-                    //session accountid of nurse
-                    $accountid = 'URSN-001';
+                    $accountid = $_SESSION['userid'];
                     $medid = $_POST['supply'];
                     $qty = $_POST['opened'] + $_POST['close'];
                     $cost = $_POST['unit_cost'];
                     
-                    $conn = mysqli_connect("localhost","root","","dburs_usu");
-                    if ($conn==false) 
-                    {
-                        echo "ERROR: Failed to connect to the database,". mysqli_connect_error();
-                    }
-
                     //supply
                     $query = mysqli_query($conn, "SELECT * FROM supply WHERE supid = '$medid'");
                     while($data=mysqli_fetch_array($query))
@@ -385,6 +383,18 @@
                                 $aobuc = ($data['eamt'] + ($qty * $cost)) / $eqty;
                                 $abuc = number_format($aobuc, 2, ".");
                             }
+
+                            if($data['iqty'] == 0)
+                            {
+                                $iamt = 0;
+                                $iqty = 0;
+                            }
+                            else
+                            {
+                                $iamt = $data['iqty'] * $aobuc;
+                                $iqty = $data['iqty'];
+                            }
+
                             $ucost = ($data['eamt'] + ($qty * $cost));
                             $aeamt = number_format($ucost, 2, ".");
                         }
@@ -398,7 +408,7 @@
                             $supply = $data['supply'] . " " . $data['volume'] . $data['unit_measure'];
                         }
 
-                        $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'supply'";
+                        $query = "UPDATE report_medsupinv SET buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'supply' AND campus = '$campus'";
                         if(mysqli_query($conn, $query))
                         {
                             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";

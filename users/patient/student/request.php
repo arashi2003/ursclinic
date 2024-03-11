@@ -3,8 +3,8 @@
 session_start();
 include('../../../connection.php');
 include('../../../includes/student-auth.php');
-$module = 'transaction';
 
+$module = 'request';
 $userid = $_SESSION['userid'];
 $usertype = $_SESSION['usertype'];
 $name = $_SESSION['username'];

@@ -143,7 +143,7 @@
                  
                 $enddate = date("Y-m-t");
 
-                $query = "UPDATE report_teinv SET campus = '$campus', bnw = '$bnw', bum = '$bum', bgc = '$bgc', bd = '$bd', btqty = '$no_btqty', buc = '$buc', rnw = '$rnw', rum = '$rum', rgc = '$rgc', rd = '$rd', rtqty = '$rtqty', enw = '$enw', eum = '$eum', egc = '$egc', ed = '$ed', etqty = '$etqty', eamt = '$eamt' WHERE teid = '$teid' AND date = '$enddate'";
+                $query = "UPDATE report_teinv SET bnw = '$bnw', bum = '$bum', bgc = '$bgc', bd = '$bd', btqty = '$no_btqty', buc = '$buc', rnw = '$rnw', rum = '$rum', rgc = '$rgc', rd = '$rd', rtqty = '$rtqty', enw = '$enw', eum = '$eum', egc = '$egc', ed = '$ed', etqty = '$etqty', eamt = '$eamt' WHERE teid = '$teid' AND date = '$enddate' AND campus = '$campus'";
                 if(mysqli_query($conn, $query))
                 {
                     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";

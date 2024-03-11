@@ -19,7 +19,7 @@ include('connection.php');
                         </div>
                         <div class="mb-2">
                             <label for="date" class="col-form-label">Date Pickup:</label>
-                            <input type="text" class="form-control" name="date" id="showDate" placeholder="dd/mm/yyyy" required>
+                            <input type="text" class="form-control" name="date" id="showDate" placeholder="mm/dd/yyyy" required>
                         </div>
                         <div class="mb-2">
                             <label for="time" class="col-form-label">Time Pickup:</label>
@@ -146,6 +146,7 @@ include('connection.php');
 
     $(document).ready(function() {
         $('#showDate').datepicker({
+            dateFormat: "yy-mm-dd",
             minDate: 0, // Disable past dates
             //altFormat: "yyyy-mm-dd",
             //format: "MM d, yyyy",
