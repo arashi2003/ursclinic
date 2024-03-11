@@ -4,6 +4,7 @@ session_start();
 $campus = $_SESSION['campus'];
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
+
 $module = 'sup_stocks_batch';
 $ldate = date("Y-m-t");
 $userid=$_SESSION['userid'];

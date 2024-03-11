@@ -484,6 +484,15 @@ nav .profile-details i {
   width: 100%;
   background: #fff;
   padding: 15px 14px;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.home-content .overview-boxes .content.appointment {
+  margin-bottom: 20px;
+  width: 100%;
+  background: #fff;
+  padding: 15px 14px;
   border-radius: 0 12px 12px 12px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
@@ -868,4 +877,12 @@ th {
   .container-notification {
     margin: 0;
   }
+}
+
+.content .error {
+  color: rgb(255, 90, 90);
+}
+.content .stock_name {
+  text-decoration: none;
+  color: #000;
 }

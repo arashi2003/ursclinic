@@ -25,6 +25,9 @@ if (isset($_GET['patient']) || isset($_GET['date']) || isset($_GET['physician'])
     if ($physician !== '') {
         $whereClause = " AND ap.physician = '$physician'";
     }
+    else {
+        $whereClause = "";
+    }
 
     // Construct and execute SQL query for pending appointments count
     $pending_sql_count = "SELECT COUNT(ap.id) AS total_rows 
@@ -217,7 +220,7 @@ if ($approved_pages > 4) {
                         </li>
                     </ul>
                     <div class="tab-pane fade <?= isset($_GET['tab']) && $_GET['tab'] == 'pending' ? 'show active' : '' ?>" id="pending" role="tabpanel" aria-labelledby="pending-tab">
-                        <div class="content">
+                        <div class="content appointment">
                             <h3>Pending Appointments</h3>
                             <div class="row">
                                 <div class="row">
@@ -379,7 +382,7 @@ if ($approved_pages > 4) {
                     </div>
 
                     <div class="tab-pane fade <?= isset($_GET['tab']) && $_GET['tab'] == 'approved' ? 'show active' : '' ?>" id="approve" role="tabpanel" aria-labelledby="approve-tab">
-                        <div class="content">
+                        <div class="content appointment">
                             <h3>Approved Appointments</h3>
                             <div class="row">
                                 <div class="row">

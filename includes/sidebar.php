@@ -29,7 +29,7 @@
                     <li><a class="link_name" href="#">Appointment</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'patient_add') {
+            <li class="<?php if ($module == 'patient_add' or $module == 'view_patient') {
                             echo 'active';
                         } ?>">
                 <a href="patients">
@@ -40,7 +40,9 @@
                     <li><a class="link_name" href="#">Patient Information</a></li>
                 </ul>
             </li>
-            <li>
+            <li class="<?php if ($module == 'transaction_add' or $module == 'transaction_history') {
+                            echo 'active showMenu';
+                        } ?>">
                 <div class="icon-link">
                     <a href="#">
                         <i class='bx bx-collection'></i>
@@ -51,12 +53,14 @@
                 <ul class="sub-menu">
                     <li><a class="link_name" href="#">Transaction</a></li>
                     <li>
-                        <a href="transaction_add">Add Transaction</a>
+                        <a class="<?php if ($module == 'transaction_add') {
+                                        echo 'active';
+                                    } ?>" href="transaction_add">Add Transaction</a>
                     </li>
-                    <li class="<?php if ($module == 'transaction_history') {
-                                    echo 'active';
-                                } ?>">
-                        <a href="transaction_history">Transaction History</a>
+                    <li>
+                        <a class="<?php if ($module == 'transaction_history') {
+                                        echo 'active';
+                                    } ?>" href="transaction_history">Transaction History</a>
                     </li>
                 </ul>
             </li>
@@ -68,7 +72,7 @@
                     <span class="link_name">Medical Documents</span>
                 </a>
             </li>
-            <li class="<?php if ($module == 'entry' or $module == 'stocks' or $module == 'med_entry' or  $module == 'sup_entry' or $module == 'te_entry' or $module == 'med_stocks_total' or $module == 'sup_stocks_total' or $module == 'te_stocks') {
+            <li class="<?php if ($module == 'entry' or $module == 'stocks' or $module == 'med_entry' or  $module == 'sup_entry' or $module == 'te_entry' or $module == 'med_stocks_total' or $module == 'med_stocks' or $module == 'sup_stocks_total' or $module == 'sup_stocks_batch' or $module == 'med_stocks_batch' or $module == 'sup_stocks_exp' or $module == 'te_stocks') {
                             echo 'active showMenu';
                         } ?>">
                 <div class="icon-link">
@@ -88,13 +92,15 @@
                     </li>
 
                     <li>
-                        <a class="<?php if ($module == 'stocks' or $module == 'med_stocks_total' or $module == 'sup_stocks_total' or $module == 'te_stocks') {
+                        <a class="<?php if ($module == 'stocks' or $module == 'med_stocks_total' or $module == 'med_stocks_batch' or $module == 'med_stocks' or $module == 'sup_stocks_total' or $module == 'sup_stocks_exp' or $module == 'sup_stocks_batch' or $module == 'te_stocks') {
                                         echo 'active';
                                     } ?>" href="stocks">Stocks</a>
                     </li>
                 </ul>
             </li>
-            <li>
+            <li class="<?php if ($module == 'reports') {
+                            echo 'active';
+                        } ?>">
                 <a href="reports.php">
                     <i class='bx bx-file'></i>
                     <span class="link_name">Reports</span>
@@ -103,7 +109,9 @@
                     <li><a class="link_name" href="#">Reports</a></li>
                 </ul>
             </li>
-            <li>
+            <li class="<?php if ($module == 'app' or $module == 'medrec' or $module == 'inv') {
+                            echo 'active showMenu';
+                        } ?>">
                 <div class="icon-link">
                     <a href="#">
                         <i class='bx bx-cog'></i>
@@ -112,20 +120,20 @@
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li <?php if ($module == 'app') {
-                            echo 'active';
-                        } ?>>
-                        <a href="app">Appointment</a>
+                    <li>
+                        <a class="<?php if ($module == 'app') {
+                                        echo 'active';
+                                    } ?>" href="app">Appointment</a>
                     </li>
-                    <li <?php if ($module == 'medrec') {
-                            echo 'active';
-                        } ?>>
-                        <a href="medrec">Medical Record</a>
+                    <li>
+                        <a class="<?php if ($module == 'medrec') {
+                                        echo 'active';
+                                    } ?>" href="medrec">Medical Record</a>
                     </li>
-                    <li <?php if ($module == 'inv') {
-                            echo 'active';
-                        } ?>>
-                        <a href="inv">Inventory</a>
+                    <li>
+                        <a class="<?php if ($module == 'inv') {
+                                        echo 'active';
+                                    } ?>" href="inv">Inventory</a>
                     </li>
                 </ul>
             </li>
@@ -175,8 +183,8 @@
                     <li><a class="link_name" href="medical">Medical Document</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'transaction') {
-                            echo 'active';
+            <li class="<?php if ($module == 'request' or $module == 'history') {
+                            echo 'active showMenu';
                         } ?>">
                 <div class="icon-link">
                     <a href="#">
@@ -187,8 +195,12 @@
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="#">Transaction</a></li>
-                    <li><a href="request">Request</a></li>
-                    <li><a href="history">History</a></li>
+                    <li><a class="<?php if ($module == 'request') {
+                                        echo 'active';
+                                    } ?>" href="request">Request</a></li>
+                    <li><a class="<?php if ($module == 'history') {
+                                        echo 'active';
+                                    } ?>" href="history">History</a></li>
                 </ul>
             </li>
         </ul>
