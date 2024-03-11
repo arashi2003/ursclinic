@@ -26,6 +26,7 @@ if (mysqli_query($conn, $sql)) {
   //audit trail
   //$sql = "INSERT INTO activitylogtbl SET campus='$campus', account_no='$userno', fullname='$fullname', activity='Add an appointment'";
   //mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  $_SESSION['alert'] = 'You have successfully request an appointment!';
 ?>
   <script>
     setTimeout(function() {
