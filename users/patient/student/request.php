@@ -8,6 +8,7 @@ $module = 'transaction';
 $userid = $_SESSION['userid'];
 $usertype = $_SESSION['usertype'];
 $name = $_SESSION['username'];
+$campus = $_SESSION['campus'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM transaction_request tr INNER JOIN request_type rt on rt.id=tr.request_type WHERE tr.patient='$userid' ORDER BY date_pickup, time_pickup");
@@ -34,12 +35,44 @@ include('../../../includes/pagination-limit.php')
                 <i class='bx bx-menu sidebarBtn'></i>
                 <span class="dashboard">REQUEST</span>
             </div>
+            
             <div class="right-nav">
                 <div class="notification-button">
-                    <i class='bx bx-bell'></i>
+                    <button type="button" class="btn btn-sm position-relative"  onclick="window.location.href = 'notification'">
+                        <i class='bx bx-bell'></i>
+                        <?php
+                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus 
+                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user WHERE 
+                        ((au.activity LIKE 'approved a request for%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'disapproved a request for%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'cancelled a request for%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'approved a request for%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'completed a request for%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'dismissed a request for%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'added%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'added a walk-in schedule%' AND au.activity LIKE '%$campus') 
+                        OR (au.activity LIKE 'cancelled a walk-in schedule%' AND au.activity LIKE '%$campus')) 
+                        AND au.status = 'unread' AND au.user != '$userid'";
+                        $result = mysqli_query($conn, $sql);
+                        if ($row = mysqli_num_rows($result)) {
+                        ?>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notifes">
+                                <?= $row ?>
+                            </span>
+                        <?php
+                        }
+                        ?>
+                    </button>
                 </div>
                 <div class="profile-details">
-                    <i class='bx bx-user-circle'></i>
+                    <?php
+                    $image = "SELECT * FROM patient_image WHERE patient_id = '$userid'";
+                    $result = mysqli_query($conn, $image);
+                    $row = mysqli_fetch_assoc($result);
+                    ?>
+                    <div class="profile">
+                        <img src="../../../images/<?php echo $row['image']; ?>">
+                    </div>
                     <div class="dropdown">
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
@@ -53,6 +86,7 @@ include('../../../includes/pagination-limit.php')
                         </ul>
                     </div>
                 </div>
+            </div>
         </nav>
         <div class="home-content">
             <div class="overview-boxes">

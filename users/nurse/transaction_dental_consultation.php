@@ -127,7 +127,11 @@ $userid=$_SESSION['userid'];
                         <div class="col-md-4 mb-2">
                             <div class="input-group input-group-md mb-2">
                                 <span class="input-group-text" id="inputGroup-sizing-md">Sex:</span>
-                                <input type="text" class="form-control" name="sex" id="sex" required>
+                                <select class="form-control" aria-label=".form-select-md example" name="sex" id="sex" required>
+                                    <option value="" disabled selected></option>
+                                    <option value="MALE">Male</option>
+                                    <option value="FEMALE">Female</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -206,10 +210,24 @@ $userid=$_SESSION['userid'];
                             </div>
                         </div>
                     </div>
-                    <div class="col mb-2">
-                        <div class="input-group input-group-md mb-2">
-                            <span class="input-group-text" id="inputGroup-sizing-md">Block:</span>
-                            <input type="text" class="form-control" name="block" id="block" >
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <div class="input-group input-group-md mb-2">
+                                <span class="input-group-text" id="inputGroup-sizing-md">Civl Status:</span>
+                                <select class="form-control" aria-label=".form-select-md example" name="civil_status" id="civil_status" required>
+                                    <option value="" disabled selected></option>
+                                    <option value="Single">Single</option>
+                                    <option value="Married">Married</option>
+                                    <option value="Widowed">Widowed</option>
+                                    <option value="Legally Separated">Legally Separated</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-8 mb-2">
+                            <div class="input-group input-group-md mb-2">
+                                <span class="input-group-text" id="inputGroup-sizing-md">Address:</span>
+                                <input type="text" class="form-control" name="address" id="address" >
+                            </div>
                         </div>
                     </div>
                 </div>
