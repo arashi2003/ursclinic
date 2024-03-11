@@ -7,7 +7,7 @@ include('connection.php');
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Request</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../student/request.php'"></button>
             </div>
             <form method="POST" action="#" id="add-request">
                 <div class="modal-body">
@@ -15,11 +15,11 @@ include('connection.php');
                         <div class="mb-2">
                             <input type="hidden" name="patient" value="<?php echo $_SESSION['userid'] ?>" readonly>
                             <label for="patientname" class="col-form-label">Patient Name:</label>
-                            <input type="text" class="form-control" name="patientname" value="<?php echo $_SESSION['name'] ?>" readonly>
+                            <input type="text" class="form-control" name="patientname" value="<?php echo $_SESSION['name'] ?>" disabled readonly>
                         </div>
                         <div class="mb-2">
                             <label for="date" class="col-form-label">Date Pickup:</label>
-                            <input type="text" class="form-control" name="date" id="showDate" placeholder="mm/dd/yyyy" required>
+                            <input type="text" class="form-control" name="date" id="showDate" placeholder="dd/mm/yyyy" required>
                         </div>
                         <div class="mb-2">
                             <label for="time" class="col-form-label">Time Pickup:</label>
@@ -79,10 +79,9 @@ include('connection.php');
                         </div>
                         <div class="mb-2 hidden" id="purpose">
                             <label for="purpose" class="col-form-label">Purpose:</label>
-                            <input type="text" class="form-control" name="purpose" id="purpose" placeholder="-Purpose-" required>
+                            <input type="text" class="form-control" name="purpose" id="purpose" required>
                         </div>
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <input type="submit" id="addbtn" class="btn btn-primary" value="Request"></input>
@@ -109,7 +108,7 @@ include('connection.php');
                 document.getElementById('medical').classList.add('hidden');
                 document.getElementById('medicine').classList.add('hidden');
                 document.getElementById('quantity').classList.add('hidden');
-                document.getElementById('purpose').classList.add('hidden');
+                document.getElementById('purpose').classList.remove('hidden');
             }
         }
     };
@@ -148,6 +147,8 @@ include('connection.php');
     $(document).ready(function() {
         $('#showDate').datepicker({
             minDate: 0, // Disable past dates
+            //altFormat: "yyyy-mm-dd",
+            //format: "MM d, yyyy",
             beforeShowDay: function(date) {
                 var day = date.getDay();
                 return [(day != 0)]; // Disable Sundays

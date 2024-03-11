@@ -271,8 +271,8 @@ $userid=$_SESSION['userid'];
                         <span class="input-group-text" id="inputGroup-sizing-md">Remarks:</span>
                         <input type="text" class="form-control" name="remarks" id="remarks" >
                     </div>
-                    <div class="row duplicate">
-                        <div class="col-md-4 mb-2">
+                    <div class="row duplicate_med">
+                        <div class="col-md-9 mb-2">
                             <div class="input-group input-group-md mb-2" id="medicine">
                                 <span class="input-group-text" id="inputGroup-sizing-md">Medicine:</span>
                                 <select class="form-select" aria-label=".form-select-md example" name="medicine[]" id="medicine">
@@ -287,10 +287,20 @@ $userid=$_SESSION['userid'];
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2" id="medical">
+                        <div class="col-md-3 mb-2">
+                            <div class="input-group input-group-md mb-2" id="quantity_med">
+                                <span class="input-group-text" id="inputGroup-sizing-md">Quantity:</span>
+                                <input type="number" class="form-control" name="quantity_med[]">
+                                &ThickSpace;
+                                <button type="button" class="btn btn-primary" onclick="duplicate_med()">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row duplicate_sup">
+                        <div class="col-md-9 mb-2">
+                            <div class="input-group input-group-md mb-2" id="supply">
                                 <span class="input-group-text" id="inputGroup-sizing-md">Medical Supply:</span>
-                                <select class="form-select" aria-label=".form-select-md example" name="medical[]" id="medical">
+                                <select class="form-select" aria-label=".form-select-md example" name="supply[]" id="supply">
                                     <option value="" disabled selected></option>
                                     <?php
                                     $sql = "SELECT * FROM inv_total WHERE type = 'supply' AND qty >= 0 AND campus='$campus'";
@@ -302,15 +312,14 @@ $userid=$_SESSION['userid'];
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2" id="quantity">
+                        <div class="col-md-3 mb-2">
+                            <div class="input-group input-group-md mb-2" id="quantity_sup">
                                 <span class="input-group-text" id="inputGroup-sizing-md">Quantity:</span>
-                                <input type="number" class="form-control" name="quantity[]" required>
+                                <input type="number" class="form-control" name="quantity_sup[]">
                                 &ThickSpace;
-                                <button type="button" class="btn btn-primary" onclick="duplicate()">+</button>
+                                <button type="button" class="btn btn-primary" onclick="duplicate_sup()">+</button>
                             </div>
                         </div>
-                        
                     </div>
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Referral:</span>
@@ -366,29 +375,65 @@ $userid=$_SESSION['userid'];
         sidebar.classList.toggle("close");
     });
 </script>
+<script>
+    function duplicate_med() {
+        var row = $('.duplicate_med').first().clone();
+        row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_med(this)');
+        $('.duplicate_med').last().after(row);
+    }
 
-<script type="text/javascript">
-    function enableOther(answer) {
-        console.log(answer.value);
-        {
-            if (answer.value == 1) {
-                document.getElementById('medical').classList.add('hidden');
-                document.getElementById('medicine').classList.remove('hidden');
-                document.getElementById('quantity').classList.remove('hidden');
-                document.getElementById('purpose').classList.remove('hidden');
-            } else if (answer.value == 2) {
-                document.getElementById('medicine').classList.add('hidden');
-                document.getElementById('medical').classList.remove('hidden');
-                document.getElementById('quantity').classList.remove('hidden');
-                document.getElementById('purpose').classList.remove('hidden');
-            } else {
-                document.getElementById('medical').classList.add('hidden');
-                document.getElementById('medicine').classList.add('hidden');
-                document.getElementById('quantity').classList.add('hidden');
-                document.getElementById('purpose').classList.add('hidden');
-            }
-        }
-    };
+    function remove_med(btn) {
+        $(btn).closest('.duplicate_med').remove();
+    }
+
+    $('select[name="request"]').change(function() {
+        $('.duplicate:not(:first)').remove();
+    });
+
+    $(document).ready(function() {
+        $('#add-request').submit(function(e) {
+            e.preventDefault();
+            $('#addbtn').val('Requesting...');
+            $.ajax({
+                url: 'action-add-request.php',
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    window.location.href = "request";
+                }
+            });
+        });
+    });
+</script>
+<script>
+    function duplicate_sup() {
+        var row = $('.duplicate_sup').first().clone();
+        row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_sup(this)');
+        $('.duplicate_sup').last().after(row);
+    }
+
+    function remove_sup(btn) {
+        $(btn).closest('.duplicate_sup').remove();
+    }
+
+    $('select[name="request"]').change(function() {
+        $('.duplicate:not(:first)').remove();
+    });
+
+    $(document).ready(function() {
+        $('#add-request').submit(function(e) {
+            e.preventDefault();
+            $('#addbtn').val('Requesting...');
+            $.ajax({
+                url: 'action-add-request.php',
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    window.location.href = "request";
+                }
+            });
+        });
+    });
 </script>
 
 <script>
