@@ -24,8 +24,7 @@ if (isset($_GET['patient']) || isset($_GET['date']) || isset($_GET['physician'])
     }
     if ($physician !== '') {
         $whereClause = " AND ap.physician = '$physician'";
-    }
-    else {
+    } else {
         $whereClause = "";
     }
 
@@ -209,6 +208,9 @@ if ($approved_pages > 4) {
             </div>
         </nav>
         <div class="home-content">
+            <?php
+            include('../../includes/alert.php')
+            ?>
             <div class="overview-boxes">
                 <div class="tab-content" id="myTabContent">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -335,10 +337,13 @@ if ($approved_pages > 4) {
                                                                 <td><?php echo $physician; ?></td>
                                                                 <td><?php echo $data['status']; ?></td>
                                                                 <td>
-                                                                    <button type="button" class="btn btn-primary btn-sm">Approve</button>
+                                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#approveappointment<?php echo $data['id'] ?>">Approve</button>
+                                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelappointment<?php echo $data['id'] ?>">Cancel</button>
                                                                 </td>
                                                             </tr>
                                                     <?php
+                                                            include('modals/approve-appointment-modal.php');
+                                                            include('modals/cancel-appointment-modal.php');
                                                         }
                                                     } else {
                                                         echo "<tr><td colspan='8'>No record Found</td></tr>";
@@ -498,10 +503,11 @@ if ($approved_pages > 4) {
                                                                 <td><?php echo $physician; ?></td>
                                                                 <td><?php echo $data['status']; ?></td>
                                                                 <td>
-                                                                    <button type="button" class="btn btn-primary btn-sm">Approve</button>
+                                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#completeappointment">Complete</button>
                                                                 </td>
                                                             </tr>
                                                     <?php
+                                                            include('modals/complete-appointment-modal.php');
                                                         }
                                                     } else {
                                                         echo "<tr><td colspan='8'>No record Found</td></tr>";
