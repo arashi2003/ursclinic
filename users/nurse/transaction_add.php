@@ -234,7 +234,7 @@ $userid=$_SESSION['userid'];
                     <!-- responsive pag others pinili lalabas additional na textbox-->
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Chief Complaints:</span>
-                        <select class="form-control" aria-label=".form-select-md example" name="cc" id="cc">
+                        <select class="form-control" aria-label=".form-select-md example" name="chief_complaint" id="chief_complaint">
                             <option value="" disabled selected></option>
                             <?php
                             include('connection.php');
@@ -276,7 +276,7 @@ $userid=$_SESSION['userid'];
                             <div class="input-group input-group-md mb-2" id="medicine">
                                 <span class="input-group-text" id="inputGroup-sizing-md">Medicine:</span>
                                 <select class="form-select" aria-label=".form-select-md example" name="medicine[]" id="medicine">
-                                    <option value="" disabled selected></option>
+                                    <option value="" selected></option>
                                     <?php
                                     $sql = "SELECT * FROM inv_total WHERE type = 'medicine' AND qty >= 0 AND campus='$campus'";
                                     $result = mysqli_query($conn, $sql);
@@ -301,7 +301,7 @@ $userid=$_SESSION['userid'];
                             <div class="input-group input-group-md mb-2" id="supply">
                                 <span class="input-group-text" id="inputGroup-sizing-md">Medical Supply:</span>
                                 <select class="form-select" aria-label=".form-select-md example" name="supply[]" id="supply">
-                                    <option value="" disabled selected></option>
+                                    <option value="" selected></option>
                                     <?php
                                     $sql = "SELECT * FROM inv_total WHERE type = 'supply' AND qty >= 0 AND campus='$campus'";
                                     $result = mysqli_query($conn, $sql);
@@ -348,6 +348,10 @@ $userid=$_SESSION['userid'];
                     <div class="modal-footer">
                         <input type="text" class="form-control" name="type" value="Walk-In" id="type" hidden>
                         <input type="text" class="form-control" name="transaction" value="Walk-In" id="transaction" hidden>
+                        <input type="text" class="form-control" name="supply[]" value="" id="supply[]" hidden>
+                        <input type="text" class="form-control" name="medicine[]" value="" id="medicine[]" hidden>
+                        <input type="text" class="form-control" name="quantity_sup[]" value="" id="quantity_sup[]" hidden>
+                        <input type="text" class="form-control" name="quantity_med[]" value="" id="quantity_med[]" hidden>
                         <input type="submit" class="btn btn-primary" value="Add Record"></input> 
                         &ThickSpace;
                         <input type="reset" class="btn btn-danger" value="Cancel"></input>

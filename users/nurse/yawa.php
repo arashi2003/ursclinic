@@ -64,56 +64,57 @@ $userid=$_SESSION['userid'];
             <div class="overview-boxes">
                 <div class="content">
                     <form method="POST" action="add/yawa.php" id="form">
-                        <div class="row duplicate_med">
-                            <div class="col-md-9 mb-2">
-                                <div class="input-group input-group-md mb-2" id="medicine">
-                                    <span class="input-group-text" id="inputGroup-sizing-md">Medicine:</span>
-                                    <select class="form-select" aria-label=".form-select-md example" name="medicine[]" id="medicine">
-                                        <option value="" disabled selected></option>
-                                        <?php
-                                        $sql = "SELECT * FROM inv_total WHERE type = 'medicine' AND qty >= 0 AND campus='$campus'";
-                                        $result = mysqli_query($conn, $sql);
-                                        while ($row = mysqli_fetch_array($result)) {
-                                        ?>
-                                            <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-2">
-                                <div class="input-group input-group-md mb-2" id="quantity_med">
-                                    <span class="input-group-text" id="inputGroup-sizing-md">Quantity:</span>
-                                    <input type="number" class="form-control" name="quantity_med[]">
-                                    &ThickSpace;
-                                    <button type="button" class="btn btn-primary" onclick="duplicate_med()">+</button>
-                                </div>
+                        
+                    <div class="row duplicate_med">
+                        <div class="col-md-9 mb-2">
+                            <div class="input-group input-group-md mb-2" id="medicine">
+                                <span class="input-group-text" id="inputGroup-sizing-md">Medicine:</span>
+                                <select class="form-select" aria-label=".form-select-md example" name="medicine[]" id="medicine">
+                                    <option value=""  selected></option>
+                                    <?php
+                                    $sql = "SELECT * FROM inv_total WHERE type = 'medicine' AND qty >= 0 AND campus='$campus'";
+                                    $result = mysqli_query($conn, $sql);
+                                    while ($row = mysqli_fetch_array($result)) {
+                                    ?>
+                                        <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
+                                    <?php } ?>
+                                </select>
                             </div>
                         </div>
-                        <div class="row duplicate_sup">
-                            <div class="col-md-9 mb-2">
-                                <div class="input-group input-group-md mb-2" id="supply">
-                                    <span class="input-group-text" id="inputGroup-sizing-md">Medical Supply:</span>
-                                    <select class="form-select" aria-label=".form-select-md example" name="supply[]" id="supply">
-                                        <option value="" disabled selected></option>
-                                        <?php
-                                        $sql = "SELECT * FROM inv_total WHERE type = 'supply' AND qty >= 0 AND campus='$campus'";
-                                        $result = mysqli_query($conn, $sql);
-                                        while ($row = mysqli_fetch_array($result)) {
-                                        ?>
-                                            <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-2">
-                                <div class="input-group input-group-md mb-2" id="quantity_sup">
-                                    <span class="input-group-text" id="inputGroup-sizing-md">Quantity:</span>
-                                    <input type="number" class="form-control" name="quantity_sup[]">
-                                    &ThickSpace;
-                                    <button type="button" class="btn btn-primary" onclick="duplicate_sup()">+</button>
-                                </div>
+                        <div class="col-md-3 mb-2">
+                            <div class="input-group input-group-md mb-2" id="quantity_med">
+                                <span class="input-group-text" id="inputGroup-sizing-md">Quantity:</span>
+                                <input type="number" class="form-control" name="quantity_med[]">
+                                &ThickSpace;
+                                <button type="button" class="btn btn-primary" onclick="duplicate_med()">+</button>
                             </div>
                         </div>
+                    </div>
+                    <div class="row duplicate_sup">
+                        <div class="col-md-9 mb-2">
+                            <div class="input-group input-group-md mb-2" id="supply">
+                                <span class="input-group-text" id="inputGroup-sizing-md">Medical Supply:</span>
+                                <select class="form-select" aria-label=".form-select-md example" name="supply[]" id="supply">
+                                    <option value=""  selected></option>
+                                    <?php
+                                    $sql = "SELECT * FROM inv_total WHERE type = 'supply' AND qty >= 0 AND campus='$campus'";
+                                    $result = mysqli_query($conn, $sql);
+                                    while ($row = mysqli_fetch_array($result)) {
+                                    ?>
+                                        <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <div class="input-group input-group-md mb-2" id="quantity_sup">
+                                <span class="input-group-text" id="inputGroup-sizing-md">Quantity:</span>
+                                <input type="number" class="form-control" name="quantity_sup[]">
+                                &ThickSpace;
+                                <button type="button" class="btn btn-primary" onclick="duplicate_sup()">+</button>
+                            </div>
+                        </div>
+                    </div>
                         <input type="submit" value="Submit">
                     </form>
                 </div>
@@ -138,7 +139,6 @@ $userid=$_SESSION['userid'];
         sidebar.classList.toggle("close");
     });
 </script>
-
 <script>
     function duplicate_med() {
         var row = $('.duplicate_med').first().clone();

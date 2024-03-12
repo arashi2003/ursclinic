@@ -1,25 +1,57 @@
 <?php
     include('../../../connection.php');
-    
-    $a = 1;
-    $b = 2;
-
-    if($a = 1)
+    // code for issued
+    $issued = "";
+    $qty_m = $_POST['quantity_med'];
+    $medicine = $_POST['medicine'];
+    $qty_s = $_POST['quantity_sup'];
+    $supply = $_POST['supply'];
+    for($a = 0; $a < count($medicine); $a++)
     {
-        echo "yes to " . $a . "<br>";
-        if($b = 2)
+        $sql = "SELECT * FROM medicine WHERE medid='$medicine[$a]'";
+        $result = mysqli_query($conn, $sql);
+        while($data=mysqli_fetch_array($result))
         {
-            echo "row to " . $b . "<br>";
+            $med = $data['medicine'].  $data['dosage'] .  $data['unit_measure']; 
+            $issued .= $qty_m[$a] . " " . $med . ", ";
+            if($a < count($medicine) - 1)
+            {
+                $issued .= ", ";
+            }
         }
     }
-    else
+    for($b = 0; $b < count($supply); $b++)
     {
-        echo "not " . $b;
+        $sql = "SELECT * FROM supply WHERE supid='$supply[$b]'";
+        $result = mysqli_query($conn, $sql);
+        while($data=mysqli_fetch_array($result))
+        {
+            $sup = $data['supply']. " " . $data['volume'] .  $data['unit_measure']; 
+            $quantity =$qty_s[$b];
+            $issued .= $quantity . " " . $sup;
+            if($b < count($supply) - 1)
+            {
+                $issued .= ", ";
+            }
+        }
     }
-
-    if($b = 2)
-    {
-        echo "hey to " . $b . "<br>";
-    }
-
+    echo  rtrim($issued, ", ");
     mysqli_close($conn);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

@@ -199,7 +199,6 @@ include('../../includes/pagination-limit.php');
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>Patient</th>
-                                                    <th>Physician/Nurse on Duty</th>
                                                     <th>Type of Transaction</th>
                                                     <th>Service</th>
                                                     <th>Date and Time</th>
@@ -228,9 +227,8 @@ include('../../includes/pagination-limit.php');
                                                     <tr>
                                                         <td><?= $data['id'] ?></td>
                                                         <td><?= $fullname ?></td>
-                                                        <td><?= $data['pod_nod'] ?></td>
-                                                        <td><?= $data['type'] ?></td>
                                                         <td><?= $data['transaction'] ?></td>
+                                                        <td><?= $data['purpose'] ?></td>
                                                         <td><?= date("M. d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'])) ?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
