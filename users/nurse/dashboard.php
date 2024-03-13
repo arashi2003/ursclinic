@@ -162,16 +162,27 @@ include('../../includes/pagination-limit.php');
                   </thead>
                   <tbody>
                     <?php
-                    $sql = "SELECT * FROM report_medsupinv WHERE eqty <= 10 AND type != 'med_admin' AND date = '$lastdt' ORDER BY type, eqty LIMIT $start, $rows_per_page";
+                    $sql = "SELECT * FROM inv_total WHERE qty <= 10 ORDER BY type, qty LIMIT $start, $rows_per_page";
                     $result = mysqli_query($conn, $sql);
                     if ($result) {
                       if (mysqli_num_rows($result) > 0) {
                         foreach ($result as $data) {
                     ?>
-                          <td><?php echo $data['medid']; ?></td>
+                          <td><?php echo $data['stockid']; ?></td>
                           <td><?php echo $data['type']; ?></td>
-                          <td><a class="stock_name" href="sup_stocks_exp.php?supply=<?php echo urlencode(substr($data['medicine'], 0, 10)); ?>"><span><?php echo $data['medicine']; ?></span></a><i class='bx bx-error error'></i></td>
-                          <td><?php echo $data['eqty']; ?></td>
+
+                          <?php
+                          if($data['type'] == 'supply')
+                          {
+                          ?>
+                            <td><a class="stock_name" href="sup_stocks_total.php?supply=<?php echo urlencode(substr($data['stock_name'], 0, 10)); ?>"><span><?php echo $data['stock_name']; ?></span></a> &ThickSpace; <i class='bx bx-error error'></i></td>
+                          
+                          <?php
+                          } else{
+                          ?>
+                            <td><a class="stock_name" href="med_stocks_total.php?medicine=<?php echo urlencode(substr($data['stock_name'], 0, 10)); ?>"><span><?php echo $data['stock_name']; ?></span></a> &ThickSpace; <i class='bx bx-error error'></i></td>
+                          <?php }?>
+                          <td><?php echo $data['qty']; ?></td>
                           </tr>
                         <?php
                         }

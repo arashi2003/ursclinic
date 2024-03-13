@@ -59,15 +59,19 @@
     }
    
     $issued = "";
+    //$qty_m = $_POST['quantity_med'];
+    //$medicine = $_POST['medicine'];
 
     if(isset($_POST['medicine']))
     {
-        $med_array = $_POST['medicine'];
+        //$med_array = $_POST['medicine'];
 
-        for($a = 0; $a < count($med_array); $a++)
-        {
-            $qty_m = implode($_POST['quantity_med']);
-            $medicine = implode($_POST['medicine']);
+        //for($a = 0; $a < count($med_array); $a++)
+        //{
+            //$qty_m = implode($_POST['quantity_med']);
+            //$medicine = implode($_POST['medicine']);
+
+
             $query0 = "SELECT state FROM medicine WHERE medid = '$medicine'";
             $result = mysqli_query($conn, $query0);
             while ($data = mysqli_fetch_assoc($result)) 
@@ -165,7 +169,7 @@
                     
                 }
             }
-        }
+        //}
     }
     elseif(isset($_POST['supply']))
     {
@@ -275,7 +279,7 @@
 
     $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
     $result = mysqli_query($conn, $sql);
-    while($data=mysqli_fetch_array($result))
+    foreach($result as $data)
     {
         // check san sya i-add na column sa database
         switch(true)
