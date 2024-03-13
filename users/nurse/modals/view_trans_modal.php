@@ -24,6 +24,10 @@
                         <input type="text" class="form-control" name="chief_complaint" value="<?php echo $data['chief_complaint']?>" id="chief_complaint" disabled>
                     </div>
                     <div class="mb-2">
+                        <label for="chief_complaint" class="form-label">Findings/Diagnosis:</label>
+                        <input type="text" class="form-control" name="findiag" value="<?php echo $data['findiag']?>" id="findiag" disabled>
+                    </div>
+                    <div class="mb-2">
                         <label for="remarks" class="form-label">Remarks:</label>
                         <input type="text" class="form-control" name="remarks" value="<?php echo $data['remarks']?>" id="remarks" disabled>
                     </div>

@@ -17,9 +17,11 @@ if ($result) {
     $fullname = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
     $campus = $row['campus'];
     $userno = $row['accountid'];
+    //activity variable 
+    // unread status variable
 
     //audit trail
-    $sql = "INSERT INTO audit_trail SET campus='$campus', user='$userno', fullname='$fullname', activity='Approve an appointment'";
+    $sql = "INSERT INTO audit_trail SET campus='$campus', user='$userno', fullname='$fullname', activity='$activity', status='$status'";
     mysqli_query($conn, $sql) or die(mysqli_error($conn));
     $_SESSION['alert'] = "You have successfully approved an appointment!"
 ?>

@@ -176,7 +176,7 @@ if ($pages > 4) {
                                         <div class="col-md-2">
                                             <input type="hidden" name="page" value="<?= $page ?>">
                                             <button type="submit" class="btn btn-primary">Filter</button>
-                                            <a href="reports_teinv" class="btn btn-danger">Reset</a>
+                                            <a href="reports_medcase" class="btn btn-danger">Reset</a>
                                         </div>
                                     </div>
                                 </form>
