@@ -26,9 +26,6 @@ $name = $_SESSION['username'];
                 <span class="dashboard">PROFILE</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <i class='bx bx-bell'></i>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
                     <div class="dropdown">
@@ -91,7 +88,7 @@ $name = $_SESSION['username'];
                         <input type="text" class="form-control" name="contactno" value="<?php echo $row['contactno'] ?>" readonly disabled>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateaccount<?php echo $userid; ?>">Update</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateaccount<?php echo $userid; ?>">Update</button>
                         <?php
                         include('modals/update_ownacc_modal.php');?>
                     </div>

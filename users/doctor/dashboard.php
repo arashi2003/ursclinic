@@ -68,7 +68,7 @@ include('../../includes/pagination-limit.php');
           </div>
         </div>
         <button type=button class="box" style="border: none;">
-          <a href="services_doctor.php" style="color:black; text-decoration: none;">
+          <a href="services.php" style="color:black; text-decoration: none;">
             <div class="right-side">
               <div class="box-topic">Available Services</div>
               <div class="number">
@@ -97,7 +97,7 @@ include('../../includes/pagination-limit.php');
                     {
                       $sched = $data['date'];
                     }
-                    echo date("M. d, Y", strtotime($sched));
+                    echo date("M. d, Y", strtotime($sched)) . "<br><h4>" . $data['campus'] . "</h4>";
                   }
                   else
                   {

@@ -21,7 +21,7 @@
             <li class="<?php if ($module == 'appointment') {
                             echo 'active';
                         } ?>">
-                <a href="appointment">
+                <a href="appointment?tab=pending">
                     <i class='bx bx-calendar'></i>
                     <span class="link_name">Appointment</span>
                 </a>
@@ -29,7 +29,7 @@
                     <li><a class="link_name" href="#">Appointment</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'patient_add') {
+            <li class="<?php if ($module == 'patient_add' or $module == 'view_patient') {
                             echo 'active';
                         } ?>">
                 <a href="patients">
@@ -40,7 +40,9 @@
                     <li><a class="link_name" href="#">Patient Information</a></li>
                 </ul>
             </li>
-            <li>
+            <li class="<?php if ($module == 'transaction_add' or $module == 'transaction_history') {
+                            echo 'active showMenu';
+                        } ?>">
                 <div class="icon-link">
                     <a href="#">
                         <i class='bx bx-collection'></i>
@@ -50,8 +52,16 @@
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="#">Transaction</a></li>
-                    <li><a href="transaction_add">Add Transaction</a></li>
-                    <li><a href="#">Transaction History</a></li>
+                    <li>
+                        <a class="<?php if ($module == 'transaction_add') {
+                                        echo 'active';
+                                    } ?>" href="transaction_add">Add Transaction</a>
+                    </li>
+                    <li>
+                        <a class="<?php if ($module == 'transaction_history') {
+                                        echo 'active';
+                                    } ?>" href="transaction_history">Transaction History</a>
+                    </li>
                 </ul>
             </li>
             <li class="<?php if ($module == 'medical') {
@@ -62,7 +72,7 @@
                     <span class="link_name">Medical Documents</span>
                 </a>
             </li>
-            <li class="<?php if ($module == 'med_entry' or  $module == 'sup_entry' or $module == 'te_entry' or $module == 'med_stocks_total' or $module == 'sup_stocks_total' or $module == 'te_stocks') {
+            <li class="<?php if ($module == 'entry' or $module == 'stocks' or $module == 'med_entry' or  $module == 'sup_entry' or $module == 'te_entry' or $module == 'med_stocks_total' or $module == 'med_stocks' or $module == 'sup_stocks_total' or $module == 'sup_stocks_batch' or $module == 'med_stocks_batch' or $module == 'sup_stocks_exp' or $module == 'te_stocks') {
                             echo 'active showMenu';
                         } ?>">
                 <div class="icon-link">
@@ -74,24 +84,18 @@
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="#">Inventory</a></li>
-                    <li><a class="<?php if ($module == 'med_entry') {
+
+                    <li>
+                        <a class="<?php if ($module == 'entry' or $module == 'med_entry' or  $module == 'sup_entry' or $module == 'te_entry') {
                                         echo 'active';
-                                    } ?>" href="med_entry">Medicine Entry</a></li>
-                    <li><a class="<?php if ($module == 'sup_entry') {
+                                    } ?>" href="entry">Entry</a>
+                    </li>
+
+                    <li>
+                        <a class="<?php if ($module == 'stocks' or $module == 'med_stocks_total' or $module == 'med_stocks_batch' or $module == 'med_stocks' or $module == 'sup_stocks_total' or $module == 'sup_stocks_exp' or $module == 'sup_stocks_batch' or $module == 'te_stocks') {
                                         echo 'active';
-                                    } ?>" href="sup_entry">Supply Entry</a></li>
-                    <li><a class="<?php if ($module == 'te_entry') {
-                                        echo 'active';
-                                    } ?>" href="te_entry">Tools and Equipment Entry</a></li>
-                    <li><a class="<?php if ($module == 'med_stocks_total') {
-                                        echo 'active';
-                                    } ?>" href="med_stocks_total">Medicine Stocks</a></li>
-                    <li><a class="<?php if ($module == 'sup_stocks_total') {
-                                        echo 'active';
-                                    } ?>" href="sup_stocks_total">Supply Stocks</a></li>
-                    <li><a class="<?php if ($module == 'te_stocks') {
-                                        echo 'active';
-                                    } ?>" href="te_stocks">Tools and Equipment Stocks</a></li>
+                                    } ?>" href="stocks">Stocks</a>
+                    </li>
                 </ul>
             </li>
             <li class="<?php if ($module == 'reports') {
@@ -105,8 +109,7 @@
                     <li><a class="link_name" href="#">Reports</a></li>
                 </ul>
             </li>
-
-            <li class="<?php if ($module == 'apptype_set' or $module == 'apppurpose_set' or $module == 'appcc_set' or $module == 'chiefcomplaint' or $module == 'findings' or $module == 'medcase' or $module == 'designation' or $module == 'medadmin_set' or $module == 'dform_set' or $module == 'umeasure_set') {
+            <li class="<?php if ($module == 'app' or $module == 'medrec' or $module == 'inv') {
                             echo 'active showMenu';
                         } ?>">
                 <div class="icon-link">
@@ -117,36 +120,21 @@
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="<?php if ($module == 'apptype_set') {
+                    <li>
+                        <a class="<?php if ($module == 'app') {
                                         echo 'active';
-                                    } ?>" href="apptype_set">Appointment Type</a></li>
-                    <li><a class="<?php if ($module == 'apppurpose_set') {
+                                    } ?>" href="app">Appointment</a>
+                    </li>
+                    <li>
+                        <a class="<?php if ($module == 'medrec') {
                                         echo 'active';
-                                    } ?>" href="apppurpose_set">Appointment Purpose</a></li>
-                    <li><a class="<?php if ($module == 'appcc_set') {
+                                    } ?>" href="medrec">Medical Record</a>
+                    </li>
+                    <li>
+                        <a class="<?php if ($module == 'inv') {
                                         echo 'active';
-                                    } ?>" href="appcc_set">Appointment Chief Complaint</a></li>
-                    <li><a class="<?php if ($module == 'chiefcomplaint') {
-                                        echo 'active';
-                                    } ?>" href="chiefcomplaint">Chief Complaint</a></li>
-                    <li><a class="<?php if ($module == 'findings') {
-                                        echo 'active';
-                                    } ?>" href="findings">Findings/Diagnosis</a></li>
-                    <li><a class="<?php if ($module == 'medcase') {
-                                        echo 'active';
-                                    } ?>" href="medcase_set">Medical Cases</a></li>
-                    <li><a class="<?php if ($module == 'designation') {
-                                        echo 'active';
-                                    } ?>" href="designation">Designation</a></li>
-                    <li><a class="<?php if ($module == 'medadmin_set') {
-                                        echo 'active';
-                                    } ?>" href="medadmin_set">Medical Administration</a></li>
-                    <li><a class="<?php if ($module == 'dform_set') {
-                                        echo 'active';
-                                    } ?>" href="dform_set">Dosage Form</a></li>
-                    <li><a class="<?php if ($module == 'umeasure_set') {
-                                        echo 'active';
-                                    } ?>" href="umeasure_set">Unit Measure</a></li>
+                                    } ?>" href="inv">Inventory</a>
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -195,8 +183,8 @@
                     <li><a class="link_name" href="medical">Medical Document</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'transaction') {
-                            echo 'active';
+            <li class="<?php if ($module == 'request' or $module == 'history') {
+                            echo 'active showMenu';
                         } ?>">
                 <div class="icon-link">
                     <a href="#">
@@ -207,8 +195,12 @@
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="#">Transaction</a></li>
-                    <li><a href="request">Request</a></li>
-                    <li><a href="history">History</a></li>
+                    <li><a class="<?php if ($module == 'request') {
+                                        echo 'active';
+                                    } ?>" href="request">Request</a></li>
+                    <li><a class="<?php if ($module == 'history') {
+                                        echo 'active';
+                                    } ?>" href="history">History</a></li>
                 </ul>
             </li>
         </ul>
@@ -273,46 +265,26 @@
             <span class="logo_name"><strong>URS</strong> Health Service</span>
         </div>
         <ul class="nav-links">
-            <li>
-                <div class="icon-link">
-                    <a href="#">
-                        <i class='bx bxs-user-account'></i>
-                        <span class="link_name">User Accounts</span>
-                    </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
-                </div>
-                <ul class="sub-menu">
-                    <li <?php if ($module == 'account_add') {
+            <li class="<?php if ($module == 'account_users') {
                             echo 'active';
-                        } ?>>
-                        <a href="account_add">Add Account</a>
-                    </li>
-                    <li <?php if ($module == 'account_users') {
-                            echo 'active';
-                        } ?>>
-                        <a href="account_users">Accounts</a>
-                    </li>
+                        } ?>">
+                <a href="account_users">
+                    <i class='bx bx-file'></i>
+                    <span class="link_name">Accounts</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="account_users">Accounts</a></li>
                 </ul>
             </li>
-            <li>
-                <div class="icon-link">
-                    <a href="#">
-                        <i class='bx bx-file'></i>
-                        <span class="link_name">Patient Information</span>
-                    </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
-                </div>
-                <ul class="sub-menu">
-                    <li <?php if ($module == 'patient_add') {
+            <li class="<?php if ($module == 'patients') {
                             echo 'active';
-                        } ?>>
-                        <a href="patient_add">Add Patient</a>
-                    </li>
-                    <li <?php if ($module == 'patients') {
-                            echo 'active';
-                        } ?>>
-                        <a href="patients">Patients</a>
-                    </li>
+                        } ?>">
+                <a href="patients">
+                    <i class='bx bx-file'></i>
+                    <span class="link_name">Patient Information</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="patients">Patient Information</a></li>
                 </ul>
             </li>
             <li class="<?php if ($module == 'audittrail') {
@@ -476,24 +448,13 @@
                         } ?>>
                         <a href="transaction_add">Add Transaction</a>
                     </li>
-                    <li><a href="#">Transaction History</a></li>
-                </ul>
-            </li>
-            <li class="<?php if ($module == 'patientinfo') {
+                    <li <?php if ($module == 'transaction_history') {
                             echo 'active';
-                        } ?>">
-                <a href="patientinfo">
-                    <i class='bx bx-file'></i>
-                    <span class="link_name">Patient Information</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="patientinfo">Patient Information</a></li>
+                        } ?>>
+                        <a href="transaction_history">Transaction History</a>
+                    </li>
                 </ul>
             </li>
         </ul>
     </div>
 <?php endif ?>
-
-<script>
-
-</script>

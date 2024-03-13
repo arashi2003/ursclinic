@@ -2,7 +2,7 @@
     session_start();
     require('../../../fpdf/fpdf.php');
     include('connection.php');
-    $accountid = $_SESSION['accountid'];
+    $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     
     class PDF extends FPDF
@@ -76,7 +76,7 @@
         function Footer()
         {
             $this->SetY(-12);
-            $user = $_SESSION['accountid'];
+            $user = $_SESSION['userid'];
 
             // itong date based sa datepicker na month at year lang
             $date = date("F Y");
@@ -404,83 +404,108 @@
     $line = "_____________________________";
 
     $query = mysqli_query($conn, "SELECT * FROM organization WHERE campus='$campus' AND title='Campus Nurse' AND adminid ='$accountid'");
-    while($data=mysqli_fetch_array($query))
+    if(mysqli_num_rows($query) > 0)
     {
-        if (count(explode(" ", $data['middlename'])) > 1)
+        while($data=mysqli_fetch_array($query))
         {
-            $middle = explode(" ", $data['middlename']);
-            $letter = $middle[0][0].$middle[1][0];
-            $middleinitial = $letter . ".";
-        }
-        else
-        {
-            $middle = $data['middlename'];
-            if ($middle == "" OR $middle == " ")
+            if (count(explode(" ", $data['middlename'])) > 1)
             {
-                $middleinitial = "";
+                $middle = explode(" ", $data['middlename']);
+                $letter = $middle[0][0].$middle[1][0];
+                $middleinitial = $letter . ".";
             }
             else
             {
-                $middleinitial = substr($middle, 0, 1) . ".";
-            }    
+                $middle = $data['middlename'];
+                if ($middle == "" OR $middle == " ")
+                {
+                    $middleinitial = "";
+                }
+                else
+                {
+                    $middleinitial = substr($middle, 0, 1) . ".";
+                }    
+            }
+            $camAbbrev = substr($data['campus'], 0, 1);
+            $name1 = $data['firstname'] . " " . $middleinitial . " " . $data['lastname'] . ", " . $data['extension'];
+            $title1 = "URS" . $camAbbrev . ", " . $data['title'];
         }
+    }
+    else
+    {
         $camAbbrev = substr($data['campus'], 0, 1);
-        $name1 = $data['firstname'] . " " . $middleinitial . " " . $data['lastname'] . ", " . $data['extension'];
-        $title1 = "URS" . $camAbbrev . ", " . $data['title'];
+        $name1 = "";
+        $title1 = "URS" . $camAbbrev . ", " . "Campus Nurse";
     }
 
     //campus director
     $query = mysqli_query($conn, "SELECT * FROM organization WHERE campus='$campus' AND title='Campus Director'");
-    while($data=mysqli_fetch_array($query))
+    if(mysqli_num_rows($query) > 0)
     {
-        if (count(explode(" ", $data['middlename'])) > 1)
+        while($data=mysqli_fetch_array($query))
         {
-            $middle = explode(" ", $data['middlename']);
-            $letter = $middle[0][0].$middle[1][0];
-            $middleinitial = $letter . ".";
-        }
-        else
-        {
-            $middle = $data['middlename'];
-            if ($middle == "" OR $middle == " ")
+            if (count(explode(" ", $data['middlename'])) > 1)
             {
-                $middleinitial = "";
+                $middle = explode(" ", $data['middlename']);
+                $letter = $middle[0][0].$middle[1][0];
+                $middleinitial = $letter . ".";
             }
             else
             {
-                $middleinitial = substr($middle, 0, 1) . ".";
-            }    
+                $middle = $data['middlename'];
+                if ($middle == "" OR $middle == " ")
+                {
+                    $middleinitial = "";
+                }
+                else
+                {
+                    $middleinitial = substr($middle, 0, 1) . ".";
+                }    
+            }
+            $camAbbrev = substr($data['campus'], 0, 1) . ".";
+            $name2 = $data['firstname'] . " " . $middleinitial . " " . $data['lastname'] . ", " . $data['extension'];
+            $title2 =  "URS" . $camAbbrev . ", " . $data['title'];
         }
-        $camAbbrev = substr($data['campus'], 0, 1);
-        $name2 = $data['firstname'] . " " . $middleinitial . " " . $data['lastname'] . ", " . $data['extension'];
-        $title2 = "URS" . $camAbbrev . ", " . $data['title'];
     }
-
+    else
+    {
+        $camAbbrev = substr($data['campus'], 0, 1);
+        $name2 = "";
+        $title2 = "URS" . $camAbbrev . ", " . "Campus Director";
+    }
 
     // med unit head
     $query = mysqli_query($conn, "SELECT * FROM organization WHERE title='Head, Health Services Unit'");
-    while($data=mysqli_fetch_array($query))
+    if(mysqli_num_rows($query) > 0)
     {
-        if (count(explode(" ", $data['middlename'])) > 1)
+        while($data=mysqli_fetch_array($query))
         {
-            $middle = explode(" ", $data['middlename']);
-            $letter = $middle[0][0].$middle[1][0];
-            $middleinitial = $letter . ".";
-        }
-        else
-        {
-            $middle = $data['middlename'];
-            if ($middle == "" OR $middle == " ")
+            if (count(explode(" ", $data['middlename'])) > 1)
             {
-                $middleinitial = "";
+                $middle = explode(" ", $data['middlename']);
+                $letter = $middle[0][0].$middle[1][0];
+                $middleinitial = $letter . ".";
             }
             else
             {
-                $middleinitial = substr($middle, 0, 1) . ".";
-            }    
+                $middle = $data['middlename'];
+                if ($middle == "" OR $middle == " ")
+                {
+                    $middleinitial = "";
+                }
+                else
+                {
+                    $middleinitial = substr($middle, 0, 1) . ".";
+                }    
+            }
+            $name3 = $data['firstname'] . " " . $middleinitial . " " . $data['lastname'] . ", " . $data['extension'];
+            $title3 = $data['title'];
         }
-        $name3 = $data['firstname'] . " " . $middleinitial . " " . $data['lastname'] . ", " . $data['extension'];
-        $title3 = $data['title'];
+    }
+    else
+    {
+        $name3 = "";
+        $title3 = "Head, Health Services Unit";
     }
 
     $pdf->Cell(0, 10, '', 0, 1);

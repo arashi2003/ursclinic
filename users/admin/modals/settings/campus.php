@@ -1,11 +1,12 @@
 <?php
     session_start();
     include('../../add/connection.php');
-    $campus = $_POST['campus'];
+    $campus = strtoupper($_POST['campus']);
     $user = $_SESSION['userid'];
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "added a campus";
+    $au_status = "unread";
     
     $sql = "SELECT * FROM campus WHERE campus = '$campus'";
     $result = mysqli_query($conn, $sql);
@@ -25,7 +26,7 @@
         $sql = "INSERT INTO campus (campus) VALUES ('$campus')";
         if($result = mysqli_query($conn, $sql))
         {
-            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', now())";
+            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
             if($result = mysqli_query($conn, $sql))
             {
                 ?>
@@ -51,15 +52,7 @@
         }
         else
         {
-            ?>
-            <script>
-                setTimeout(function() {
-                    window.location = "../../campus.php";
-                });
-            </script>
-            <?php
             // modal Entry has not been added
-        }
     ?>
 <script>
     setTimeout(function() {
@@ -67,5 +60,5 @@
     });
 </script>
 <?php
-}
+}}
 mysqli_close($conn);

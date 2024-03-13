@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Tools or Equipment Entry</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../te_entry.php'"></button>
             </div>
             <form method="POST" action="modals/update/update_te.php" id="form">
                 <div class="modal-body">

@@ -1,24 +1,24 @@
 <?php
     session_start();
-    include('connection.php');
-
-    $user = $_SESSION['accountid'];
+    include('../connection.php');
+    $user = $_SESSION['userid'];
     $id=$_POST['id'];
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "updated a chief complaint entry";
     $chief_complaint = $_POST['chief_complaint'];
+    $au_status = "unread";
 
     $query = "UPDATE chief_complaint SET chief_complaint='$chief_complaint' WHERE id='$id'";
     if($result = mysqli_query($conn, $query))
     {
-        $query = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', now())";
+        $query = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
         if($result = mysqli_query($conn, $query))
         {
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../chiefcomplaint.php";
+                    window.location = "../../chiefcomplaint.php";
                 });
             </script>
             <?php
@@ -29,7 +29,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../chiefcomplaint.php";
+                    window.location = "../../chiefcomplaint.php";
                 });
             </script>
             <?php
@@ -42,7 +42,7 @@
 ?>
 <script>
     setTimeout(function() {
-        window.location = "../chiefcomplaint.php";
+        window.location = "../../chiefcomplaint.php";
     });
     </script>
 <?php

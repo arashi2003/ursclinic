@@ -74,34 +74,38 @@ include('../../includes/pagination-limit.php');
     </nav>
     <div class="home-content">
       <div class="overview-boxes">
-        <div class="box">
-          <div class="right-side">
-            <div class="box-topic">Total Approved Appointment</div>
-            <div class="number">
-              <?php
-              $query = "SELECT * from appointment WHERE status='APPROVED'";
-              $result = mysqli_query($conn, $query);
-              $totalCount = mysqli_num_rows($result);
-              echo $totalCount;
-              ?>
+        <button type=button class="box" style="border: none;" onclick="window.location.href = 'appointment?tab=approved'">
+          <a href="appointment?tab=approved" style="color:black; text-decoration: none;">
+            <div class="right-side">
+              <div class="box-topic">Total Approved Appointment</div>
+              <div class="number">
+                <?php
+                $query = "SELECT * from appointment WHERE status='APPROVED'";
+                $result = mysqli_query($conn, $query);
+                $totalCount = mysqli_num_rows($result);
+                echo $totalCount;
+                ?>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="box">
-          <div class="right-side">
-            <div class="box-topic">Total Pending Appointment</div>
-            <div class="number">
-              <?php
-              $query = "SELECT * from appointment WHERE status='Pending'";
-              $result = mysqli_query($conn, $query);
-              $totalCount = mysqli_num_rows($result);
-              echo $totalCount;
-              ?>
+          </a>
+        </button>
+        <button type=button class="box" style="border: none;" onclick="window.location.href = 'appointment?tab=pending'">
+          <a href="appointment?tab=pending" style="color:black; text-decoration: none;">
+            <div class="right-side">
+              <div class="box-topic">Total Pending Appointment</div>
+              <div class="number">
+                <?php
+                $query = "SELECT * from appointment WHERE status='Pending'";
+                $result = mysqli_query($conn, $query);
+                $totalCount = mysqli_num_rows($result);
+                echo $totalCount;
+                ?>
+              </div>
             </div>
-          </div>
-        </div>
-        <button type=button class="box" style="border: none;">
-          <a href="services.php" style="color:black; text-decoration: none;">
+          </a>
+        </button>
+        <button type=button class="box" style="border: none;" onclick="window.location.href = 'services'">
+          <a href="services" style="color:black; text-decoration: none;">
             <div class="right-side">
               <div class="box-topic">Available Services</div>
               <div class="number">
@@ -115,8 +119,8 @@ include('../../includes/pagination-limit.php');
             </div>
           </a>
         </button>
-        <button type=button class="box" style="border: none;">
-          <a href="doc_visit_schedpage.php" style="color:black; text-decoration: none;">
+        <button type=button class="box" style="border: none;" onclick="window.location.href = 'doc_visit_schedpage'">
+          <a href="doc_visit_schedpage" style="color:black; text-decoration: none;">
             <div class="right-side">
               <div class="box-topic">Doctor's Visit</div>
               <div class="number">
@@ -166,7 +170,7 @@ include('../../includes/pagination-limit.php');
                     ?>
                           <td><?php echo $data['medid']; ?></td>
                           <td><?php echo $data['type']; ?></td>
-                          <td><?php echo $data['medicine']; ?></td>
+                          <td><a class="stock_name" href="sup_stocks_exp.php?supply=<?php echo urlencode(substr($data['medicine'], 0, 10)); ?>"><span><?php echo $data['medicine']; ?></span></a><i class='bx bx-error error'></i></td>
                           <td><?php echo $data['eqty']; ?></td>
                           </tr>
                         <?php
@@ -174,8 +178,8 @@ include('../../includes/pagination-limit.php');
                         ?>
                   </tbody>
                 </table>
-                <?php include('../../includes/pagination.php'); ?>
               <?php
+                        include('../../includes/pagination.php');
                       } else {
               ?>
                 <tr>

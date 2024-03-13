@@ -2,9 +2,9 @@
     session_start();
     include('../../add/connection.php');
     $id = $_POST['adminid'];
-    $campus = $_POST['campus'];
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
+    $campus = strtoupper($_POST['campus']);
+    $firstname = strtoupper($_POST['firstname']);
+    $lastname = strtoupper($_POST['lastname']);
     $extension = $_POST['extension'];
     $title = $_POST['title'];
 
@@ -12,6 +12,7 @@
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "updated an organization entry";
+    $au_status = "unread";
 
     if($_POST['middlename'] == "")
     {
@@ -35,7 +36,7 @@
     $sql = "UPDATE organization SET campus='$campus', adminid='$adminid', firstname='$firstname', middlename='$middle', lastname='$lastname', extension='$extension', title= '$title' WHERE id = '$id'";
     if($result = mysqli_query($conn, $sql))
     {
-        $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', now())";
+        $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
         if($result = mysqli_query($conn, $sql))
         {
             ?>

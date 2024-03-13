@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Entry</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../admin/organization.php'"></button>
             </div>
             <form method="POST" action="modals/update/organization.php" id="form">
                 <div class="modal-body">
@@ -43,35 +43,36 @@
                         <label for="lastname" class="form-label">Last Name:</label>
                         <input type="text" class="form-control" name="lastname" id="lastname" value="<?php echo $data['lastname']?>" required>
                     </div>
-                    <div class="mb-2">
-                        <label for="extension" class="form-label">Title:</label>
-                        <input type="text" class="form-control" name="extension" id="extension" value="<?php echo $data['extension']?>" required>
-                    </div>
-                    <div class="mb-2">
-                        <label for="title" class="form-label">Position:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="title" id="title" required>
-                            <option value="" disabled selected>-Select Position-</option>
-                            <?php
-                            include('connection.php');
-                            $sql = "SELECT DISTINCT title FROM organization ORDER BY title";
-                            $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_array($result)) {
-                                if ($data['title'] == $row['title'])
-                                {
-                            ?>
-                                <option value="<?= $row['title']; ?>" selected><?= $row['title']; ?></option>
-                            <?php } else
-                            {?>
-                                <option value="<?= $row['title']; ?>"><?= $row['title']; ?></option>
-                            <?php }} ?>
-                        </select>
+                    <div class="row">
+                        <div class="col mb-2">
+                            <label for="extension" class="form-label">Title:</label>
+                            <input type="text" class="form-control" name="extension" id="extension" value="<?php echo $data['extension']?>" required>
+                        </div>
+                        <div class="col mb-2">
+                            <label for="title" class="form-label">Position:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="title" id="title" required>
+                                <option value="" disabled selected>-Select Position-</option>
+                                <?php
+                                include('connection.php');
+                                $sql = "SELECT DISTINCT title FROM organization ORDER BY title";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                    if ($data['title'] == $row['title'])
+                                    {
+                                ?>
+                                    <option value="<?= $row['title']; ?>" selected><?= $row['title']; ?></option>
+                                <?php } else
+                                {?>
+                                    <option value="<?= $row['title']; ?>"><?= $row['title']; ?></option>
+                                <?php }} ?>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" value="Add Entry"></input>
+                    <input type="submit" class="btn btn-primary" value="Save"></input>
                 </div>
             </form>
         </div>
     </div>
-    <!-- ung script na clear form pag nag close-->
 </div>

@@ -5,6 +5,7 @@ include('../../connection.php');
 include('../../includes/admin-auth.php');
 $module = 'accounts_report';
 $campus = $_SESSION['campus'];
+$userid=$_SESSION['userid'];
 
 if (!isset($_SESSION['username'])) {
     header('location:../../index');
@@ -34,9 +35,6 @@ include('../../includes/pagination-limit.php')
                 <span class="dashboard">USER ACCOUNTS REPORT</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <i class='bx bx-bell'></i>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
                     <div class="dropdown">
@@ -71,14 +69,14 @@ include('../../includes/pagination-limit.php')
                                                 <option value="accounts" selected>User Accounts</option>
                                             </select>
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">View</button>
                                         </div>
                                     </div>
                                 </form>
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="status" class="form-select">
                                                 <option value="">Select Status</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -90,7 +88,7 @@ include('../../includes/pagination-limit.php')
                                                 <option value="<?php echo $row["status"];?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["status"] ? 'selected' : '') : '' ?>"><?php echo $row["status"];?></option><?php }}?>
                                             </select>
                                         </div>
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="usertype" class="form-select">
                                                 <option value="">Select Usertype</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -102,7 +100,7 @@ include('../../includes/pagination-limit.php')
                                                 <option value="<?php echo $row["usertype"];?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["usertype"] ? 'selected' : '') : '' ?>"><?php echo $row["usertype"];?></option><?php }}?>
                                             </select>
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                             <a href="account_users" class="btn btn-danger">Reset</a>
                                         </div>

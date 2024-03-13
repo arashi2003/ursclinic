@@ -4,6 +4,8 @@ session_start();
 $campus = $_SESSION['campus'];
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
+$userid=$_SESSION['userid'];
+$module='med_stocks_batch';
 
 // get the total nr of rows.
 $records = $conn->query("SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, m.medicine, m.dosage, m.unit_measure FROM inventory b INNER JOIN medicine m on m.medid=b.stockid WHERE stock_type = 'medicine' AND campus = '$campus' ORDER BY batchid, stockid ");
@@ -30,7 +32,22 @@ include('../../includes/pagination-limit.php');
             </div>
             <div class="right-nav">
                 <div class="notification-button">
-                    <i class='bx bx-bell'></i>
+                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
+                        <i class='bx bx-bell'></i>
+                        <?php
+                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
+                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
+                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
+                        $result = mysqli_query($conn, $sql);
+                        if ($row = mysqli_num_rows($result)) {
+                        ?>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <?= $row ?>
+                        </span>
+                        <?php
+                        }
+                        ?>
+                    </button>
                 </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
@@ -60,16 +77,30 @@ include('../../includes/pagination-limit.php');
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
+                                    <form action="stocks_filter.php" method="POST">
+                                        <div class="row">
+                                            <div class="col-md-2 mb-2">
+                                                <select name="stocks" class="form-select">
+                                                    <option value="medicine" selected>Medicine Stocks</option>
+                                                    <option value="supply">Medical Supply Stocks</option>
+                                                    <option value="te">Tools and Equipment Stocks</option>
+                                                </select>
+                                            </div>
+                                            <div class="col mb-2">
+                                                <button type="submit" class="btn btn-primary">View</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                     <form action="medinv_viewfilter.php" method="POST">
                                         <div class="row">
-                                            <div class="col-md-2 mb-3">
+                                            <div class="col-md-2 mb-2">
                                                 <select name="medinv_view" class="form-select">
                                                     <option value="batch" selected>By Batch</option>
                                                     <option value="expiration">By Expiration</option>
                                                     <option value="total">By Total</option>
                                                 </select>
                                             </div>
-                                            <div class="col mb-3">
+                                            <div class="col mb-2">
                                                 <button type="submit" class="btn btn-primary">View</button>
                                             </div>
                                         </div>
@@ -77,12 +108,12 @@ include('../../includes/pagination-limit.php');
                                     <form action="" method="get">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <div class="input-group mb-3">
+                                                <div class="input-group mb-2">
                                                     <input type="text" name="medicine" value="<?= isset($_GET['medicine']) == true ? $_GET['medicine'] : '' ?>" class="form-control" placeholder="Search medicine">
                                                     <button type="submit" class="btn btn-primary">Search</button>
                                                 </div>
                                             </div>
-                                            <div class="col-md-2 mb-3">
+                                            <div class="col-md-2 mb-2">
                                                 <select name="batch" class="form-select">
                                                     <option value="">Select Batch ID</option>
                                                     <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -94,7 +125,7 @@ include('../../includes/pagination-limit.php');
                                                     <option value="<?php echo $row["batchid"];?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["batchid"] ? 'selected' : '') : '' ?>"><?php echo $row["batchid"];?></option><?php }}?>
                                                 </select>
                                             </div>
-                                            <div class="col mb-3">
+                                            <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                         </div>
                                         </div>

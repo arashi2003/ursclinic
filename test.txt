@@ -1,0 +1,8 @@
+tangina mo
+gago ka pala e
+<<<<<<< HEAD
+tangina mo ulit
+=======
+gago ka din
+>>>>>>> bd40cb16c4b9171c9c7471347096d7d128d6b6d8
+waewaeksdmaskdmasdasds

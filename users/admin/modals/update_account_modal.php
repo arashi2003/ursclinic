@@ -9,46 +9,47 @@
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="accountid" class="form-label">Account ID:</label>
-                        <input type="hidden" name="accountid" value="<?php echo $data['accountid']?>" readonly>
-                        <input type="text" class="form-control" name="accountid" id="accountid" value="<?php echo $data['accountid']?>" readonly disabled>
+                        <input type="text" class="form-control" name="accountid" id="accountid" value="<?php echo $data['accountid']?>" required>
                     </div>
-                    <div class="mb-2">
-                        <label for="campus" class="form-label">Campus:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="campus" id="campus" required>
-                            <option value="" disabled selected>-Select Campus-</option>
-                            <?php
-                            include('connection.php');
-                            $sql = "SELECT * FROM campus ORDER BY campus";
-                            $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_array($result)) {
-                                if ($data['campus'] == $row['campus'])
-                                {
-                            ?>
-                                <option value="<?= $row['campus']; ?>" selected><?= $row['campus']; ?></option>
-                            <?php } else
-                            {?>
-                                <option value="<?= $row['campus']; ?>"><?= $row['campus']; ?></option>
-                            <?php }} ?>
-                        </select>
-                    </div>
-                    <div class="mb-2">
-                        <label for="usertype" class="form-label">Usertype:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="usertype" id="usertype" required>
-                            <option value="" disabled selected>-Select Usertype-</option>
-                            <?php
-                            include('connection.php');
-                            $sql = "SELECT DISTINCT usertype FROM account ORDER BY usertype";
-                            $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_array($result)) {
-                                if ($data['usertype'] == $row['usertype'])
-                                {
-                            ?>
-                                <option value="<?= $row['usertype']; ?>" selected><?= $row['usertype']; ?></option>
-                            <?php } else
-                            {?>
-                                <option value="<?= $row['usertype']; ?>"><?= $row['usertype']; ?></option>
-                            <?php }} ?>
-                        </select>
+                    <div class="row">
+                        <div class="col mb-2">
+                            <label for="campus" class="form-label">Campus:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="campus" id="campus" required>
+                                <option value="" disabled selected>-Select Campus-</option>
+                                <?php
+                                include('connection.php');
+                                $sql = "SELECT * FROM campus ORDER BY campus";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                    if ($data['campus'] == $row['campus'])
+                                    {
+                                ?>
+                                    <option value="<?= $row['campus']; ?>" selected><?= $row['campus']; ?></option>
+                                <?php } else
+                                {?>
+                                    <option value="<?= $row['campus']; ?>"><?= $row['campus']; ?></option>
+                                <?php }} ?>
+                            </select>
+                        </div>
+                        <div class="col mb-2">
+                            <label for="usertype" class="form-label">Usertype:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="usertype" id="usertype" required>
+                                <option value="" disabled selected>-Select Usertype-</option>
+                                <?php
+                                include('connection.php');
+                                $sql = "SELECT DISTINCT usertype FROM account ORDER BY usertype";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                    if ($data['usertype'] == $row['usertype'])
+                                    {
+                                ?>
+                                    <option value="<?= $row['usertype']; ?>" selected><?= $row['usertype']; ?></option>
+                                <?php } else
+                                {?>
+                                    <option value="<?= $row['usertype']; ?>"><?= $row['usertype']; ?></option>
+                                <?php }} ?>
+                            </select>
+                        </div>
                     </div>
                     <div class="mb-2">
                         <label for="firstname" class="form-label">First Name:</label>

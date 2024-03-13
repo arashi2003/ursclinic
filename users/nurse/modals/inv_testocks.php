@@ -2,8 +2,10 @@
     session_start();
     include('connection.php');
 
-    $accountid = $_SESSION['accountid'];
+    $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
+    $fullname = $_SESSION['name'];
+    $activity = "added tool/equipment ID " . $_POST['te'] . " inventory stocks";
     $batchid = "B" . date("Ymd");
     $teid = $_POST['te'];
     $qty = 1;
@@ -12,6 +14,7 @@
     $cost = $_POST['unit_cost'];
     $exp = "";
     $status = $_POST['status'];
+    $au_status = "unread";
     
     //te
     $query = mysqli_query($conn, "SELECT * FROM tools_equip WHERE teid = '$teid'");
@@ -38,7 +41,7 @@
         $query1 = "INSERT INTO inventory (campus, stock_type, batchid, stockid, closed, opened, qty, unit_cost, expiration, date, time)VALUES ('$campus', 'te', '$batchid', '$teid', '$c', '$o', '$qty', '$cost', '$exp', now(), now())";
         if(mysqli_query($conn, $query1))
         {
-            $accountid = $_SESSION['accountid'];
+            $accountid = $_SESSION['userid'];
             $campus = $_SESSION['campus'];
              
             $qty = 1;
@@ -140,15 +143,43 @@
                  
                 $enddate = date("Y-m-t");
 
-                $query = "UPDATE report_teinv SET campus = '$campus', bnw = '$bnw', bum = '$bum', bgc = '$bgc', bd = '$bd', btqty = '$no_btqty', buc = '$buc', rnw = '$rnw', rum = '$rum', rgc = '$rgc', rd = '$rd', rtqty = '$rtqty', enw = '$enw', eum = '$eum', egc = '$egc', ed = '$ed', etqty = '$etqty', eamt = '$eamt' WHERE teid = '$teid' AND date = '$enddate'";
+                $query = "UPDATE report_teinv SET bnw = '$bnw', bum = '$bum', bgc = '$bgc', bd = '$bd', btqty = '$no_btqty', buc = '$buc', rnw = '$rnw', rum = '$rum', rgc = '$rgc', rd = '$rd', rtqty = '$rtqty', enw = '$enw', eum = '$eum', egc = '$egc', ed = '$ed', etqty = '$etqty', eamt = '$eamt' WHERE teid = '$teid' AND date = '$enddate' AND campus = '$campus'";
                 if(mysqli_query($conn, $query))
                 {
-                    // modal message box saying "Tool/Equipment stocks added."
-                    // audit trail
+                    $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
+                    if($result = mysqli_query($conn, $sql))
+                    {
+                        ?>
+                        <script>
+                            setTimeout(function() {
+                                window.location = "../te_stocks.php";
+                            });
+                            </script>
+                        <?php
+                        // modal message box saying "Tool/Equipment stocks added."
+                    }
+                    else
+                    {
+                        ?>
+                        <script>
+                            setTimeout(function() {
+                                window.location = "../te_stocks.php";
+                            });
+                            </script>
+                        <?php
+                        //modal message box saying "Tool/Equipment stocks added."
+                    }
                 }
                 else
                 {
-                    // modal message box saying "Tool/Equipment was not stocks added."
+                    ?>
+                    <script>
+                        setTimeout(function() {
+                            window.location = "../te_stocks.php";
+                        });
+                        </script>
+                    <?php
+                    // modal message box saying "Tool/Equipment stocks added."
                 }
             }
 
@@ -240,13 +271,25 @@
                     $query = "INSERT INTO report_teinv (campus, teid, tools_equip, bnw, bum, bgc, bd, btqty, buc, rnw, rum, rgc, rd, rtqty, enw, eum, egc, ed, etqty, eamt, date) VALUES ('$campus', '$teid', '$te', '$bnw', '$bum', '$bgc', '$bd', '$btqty', '$buc', '$rnw', '$rum', '$rgc', '$rd', '$rtqty', '$enw', '$eum', '$egc', '$ed', '$etqty', '$eamt', '$enddate')";
                     if(mysqli_query($conn, $query))
                     {
+                        ?>
+                        <script>
+                            setTimeout(function() {
+                                window.location = "../te_stocks.php";
+                            });
+                            </script>
+                        <?php
                         // modal message box saying "Tool/Equipment stocks added."
-                        // audit trail
                     }
                     else
                     {
-                        // modal message box saying "Tool/Equipment stocks was not added."
-                        // audit trail
+                        ?>
+                        <script>
+                            setTimeout(function() {
+                                window.location = "../te_stocks.php";
+                            });
+                            </script>
+                        <?php
+                        //modal message box saying "Tool/Equipment stocks added"
                     }
                 }
                 else
@@ -327,11 +370,39 @@
                     $query = "INSERT INTO report_teinv (campus, teid, tools_equip, bnw, bum, bgc, bd, btqty, buc, rnw, rum, rgc, rd, rtqty, enw, eum, egc, ed, etqty, eamt, date) VALUES ('$campus', '$teid', '$te', '$bnw', '$bum', '$bgc', '$bd', '$btqty', 0, '$rnw', '$rum', '$rgc', '$rd', '$rtqty', '$enw', '$eum', '$egc', '$ed', '$etqty', '$eamt', '$enddate')";
                     if(mysqli_query($conn, $query))
                     {
-                        // modal message box saying "Tool/Equipment stocks added."
-                        // audit trail
+                        $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
+                        if($result = mysqli_query($conn, $sql))
+                        {
+                            ?>
+                            <script>
+                                setTimeout(function() {
+                                    window.location = "../te_stocks.php";
+                                });
+                                </script>
+                            <?php
+                            // modal message box saying "Tool/Equipment stocks added."
+                        }
+                        else
+                        {
+                            ?>
+                            <script>
+                                setTimeout(function() {
+                                    window.location = "../te_stocks.php";
+                                });
+                                </script>
+                            <?php
+                            //modal message box saying "Tool/Equipment stocks added."
+                        }
                     }
                     else
                     {
+                        ?>
+                        <script>
+                            setTimeout(function() {
+                                window.location = "../te_stocks.php";
+                            });
+                            </script>
+                        <?php
                         // modal message box saying "Tool/Equipment was not stocks added."
                     }
                 }
@@ -339,14 +410,19 @@
         }
         else
         {
+            ?>
+            <script>
+                setTimeout(function() {
+                    window.location = "../te_stocks.php";
+                });
+                </script>
+            <?php
             // modal message box saying "Tool/Equipment was not stocks added."
         }
     }
     else
     {
         // modal message box saying "Tool/Equipment was not stocks added."
-    }
-    
 ?>
 <script>
     setTimeout(function() {
@@ -354,5 +430,5 @@
     });
     </script>
 <?php
-
+    }
 mysqli_close($conn);

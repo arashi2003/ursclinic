@@ -16,7 +16,7 @@
                         $result = mysqli_query($conn, $sql);
                         while ($row = mysqli_fetch_array($result)) {
                         ?>
-                            <option value="<?= $row['type']; ?>"><?= $row['type']; ?></option>
+                            <option value="<?= $row['id']; ?>"><?= $row['type']; ?></option>
                         <?php } ?>
                     </select>
                 </div>

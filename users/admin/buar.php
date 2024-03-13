@@ -4,6 +4,7 @@ session_start();
 include('../../connection.php');
 include('../../includes/admin-auth.php');
 $module = 'buar';
+$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM audit_trail WHERE activity LIKE '%backed up the database%' OR activity LIKE '%restored the database%'");
@@ -28,9 +29,6 @@ include('../../includes/pagination-limit.php') ?>
                 <span class="dashboard">Backup and Restore</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <i class='bx bx-bell'></i>
-                </div>
                 <div class="profile-details">
                 <i class='bx bx-user-circle'></i>
                 <div class="dropdown">

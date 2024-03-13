@@ -1,13 +1,14 @@
 <?php
+session_start();
 include '../../../connection.php';
 if (isset($_FILES["fileImg"]["name"])) {
     $id = $_POST['id'];
-    
+
     $src = $_FILES["fileImg"]["tmp_name"];
 
     $extension = pathinfo($_FILES["fileImg"]["name"], PATHINFO_EXTENSION);
 
-    $imageName = $id.'-'.date('his').'.'.$extension;
+    $imageName = $id . '-' . date('his') . '.' . $extension;
 
     $target = "../../../images/" . $imageName;
 
@@ -15,6 +16,8 @@ if (isset($_FILES["fileImg"]["name"])) {
 
     $query = "UPDATE patient_image SET image = '$imageName' WHERE patient_id = '$id'";
     mysqli_query($conn, $query);
+
+    $_SESSION['alert'] = 'You have successfully change your profile!';
 
     header("Location: profile");
 }

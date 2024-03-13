@@ -8,6 +8,7 @@ $module = 'profile';
 $userid = $_SESSION['userid'];
 $usertype = $_SESSION['usertype'];
 $name = $_SESSION['username'];
+$campus = $_SESSION['campus'];
 
 ?>
 
@@ -29,10 +30,41 @@ $name = $_SESSION['username'];
             </div>
             <div class="right-nav">
                 <div class="notification-button">
-                    <i class='bx bx-bell'></i>
+                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
+                        <i class='bx bx-bell'></i>
+                        <?php
+                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus 
+                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user WHERE 
+                        ((au.activity LIKE 'approved a request for%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'disapproved a request for%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'cancelled a request for%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'approved a request for%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'completed a request for%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'dismissed a request for%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'added%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'added a walk-in schedule%' AND au.activity LIKE '%$campus') 
+                        OR (au.activity LIKE 'cancelled a walk-in schedule%' AND au.activity LIKE '%$campus')) 
+                        AND au.status = 'unread' AND au.user != '$userid'";
+                        $result = mysqli_query($conn, $sql);
+                        if ($row = mysqli_num_rows($result)) {
+                        ?>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notifes">
+                                <?= $row ?>
+                            </span>
+                        <?php
+                        }
+                        ?>
+                    </button>
                 </div>
                 <div class="profile-details">
-                    <i class='bx bx-user-circle'></i>
+                    <?php
+                    $image = "SELECT * FROM patient_image WHERE patient_id = '$userid'";
+                    $result = mysqli_query($conn, $image);
+                    $row = mysqli_fetch_assoc($result);
+                    ?>
+                    <div class="profile">
+                        <img src="../../../images/<?php echo $row['image']; ?>">
+                    </div>
                     <div class="dropdown">
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
@@ -46,8 +78,12 @@ $name = $_SESSION['username'];
                         </ul>
                     </div>
                 </div>
+            </div>
         </nav>
         <div class="home-content">
+            <?php
+            include('../../../includes/alert.php')
+            ?>
             <div class="profile">
                 <div class="profile-pic box">
                     <?php
@@ -77,7 +113,7 @@ $name = $_SESSION['username'];
                 <div class="profile-info box">
                     <div class="row">
                         <?php
-                        $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.campus, p.college, p.program, p.yearlevel, p.section, p.block, p.email, p.contactno, a.firstname, a.middlename, a.lastname from patient_info p INNER JOIN account a on a.accountid=patientid";
+                        $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.campus, p.college, p.program, p.yearlevel, p.section, p.block, p.email, p.contactno, a.firstname, a.middlename, a.lastname from patient_info p INNER JOIN account a on a.accountid='$userid'";
                         $result = mysqli_query($conn, $sql);
                         $row = mysqli_fetch_assoc($result);
                         if (count(explode(" ", $row['middlename'])) > 1) {
@@ -197,4 +233,5 @@ $name = $_SESSION['username'];
         document.getElementById("upload").style.display = "block";
     }
 </script>
+
 </html>

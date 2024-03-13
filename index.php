@@ -79,7 +79,8 @@ if (isset($_POST['submit'])) {
       $_SESSION['userid'] = $row['accountid'];
       $_SESSION['usertype'] = $row['usertype'];
       $_SESSION['name'] = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
-?>
+      $_SESSION['alert'] = 'You have successfully logged in!';
+    ?>
       <script>
         setTimeout(function() {
           window.location = "users/nurse/dashboard";
@@ -107,6 +108,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['campus'] = $row['campus'];
       $_SESSION['accountid'] = $row['accountid'];
       $_SESSION['name'] = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      $_SESSION['alert'] = 'You have successfully logged in!';
     ?>
       <script>
         setTimeout(function() {
@@ -136,6 +138,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['campus'] = $row['campus'];
       $_SESSION['userid'] = $row['accountid'];
       $_SESSION['name'] = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      $_SESSION['alert'] = 'You have successfully logged in!';
     ?>
       <script>
         setTimeout(function() {
@@ -165,6 +168,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['usertype'] = $row['usertype'];
       $_SESSION['campus'] = $row['campus'];
       $_SESSION['name'] = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      $_SESSION['alert'] = 'You have successfully logged in!';
     ?>
       <script>
         setTimeout(function() {
@@ -193,6 +197,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['usertype'] = $row['usertype'];
       $_SESSION['campus'] = $row['campus'];
       $_SESSION['name'] = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      $_SESSION['alert'] = 'You have successfully logged in!';
     ?>
       <script>
         setTimeout(function() {
@@ -235,6 +240,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['usertype'] = $row['usertype'];
       $_SESSION['campus'] = $row['campus'];
       $_SESSION['name'] = $row['firstname'] . ' ' . $middleinitial . ' ' . $row['lastname'];
+      $_SESSION['alert'] = 'You have successfully logged in!';
     ?>
       <script>
         setTimeout(function() {

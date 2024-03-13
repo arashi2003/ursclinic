@@ -3,9 +3,8 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
-
 $module = 'apptype_set';
-$userid = $_SESSION['userid'];
+$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM appointment_type");
@@ -19,7 +18,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Settings</title>
-    <?php include('../../includes/header.php'); ?>
+    <?php include('../../includes/header.php');?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -41,9 +40,9 @@ include('../../includes/pagination-limit.php');
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                <?= $row ?>
-                            </span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <?= $row ?>
+                        </span>
                         <?php
                         }
                         ?>
@@ -69,17 +68,31 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#apptype_set">Add Entry</button>
-                    <?php include('modals/apptype_set_modal.php'); ?>
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#apptype_set">Add Entry</button>
+                    <?php include('modals/apptype_set_modal.php');?>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
+                                <form action="app_filter.php" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-2 mb-2">
+                                            <select name="app" class="form-select">
+                                                <option value="type" selected>Type</option>
+                                                <option value="purpose">Purpose</option>
+                                                <option value="cc">Chief Complaint</option>
+                                            </select>
+                                        </div>
+                                        <div class="col mb-2">
+                                            <button type="submit" class="btn btn-primary">View</button>
+                                        </div>
+                                    </div>
+                                </form>
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-2">
                                                 <input type="text" name="apptype" value="<?= isset($_GET['apptype']) == true ? $_GET['apptype'] : '' ?>" class="form-control" placeholder="Search appointment type">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
@@ -115,40 +128,42 @@ include('../../includes/pagination-limit.php');
                                             <tbody>
 
                                                 <?php
-                                                foreach ($result as $data) { ?>
+                                                foreach($result as $data){?>
                                                     <tr>
-                                                        <td><?php echo $type = $data['id']; ?></td>
-                                                        <td><?php echo $data['type']; ?></td>
+                                                        <td><?php echo $type=$data['id']; ?></td>
+                                                        <td><?php echo $data['type'];?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateapptype_set<?php echo $data['id']; ?>">Update</button>
                                                             <?php
                                                             $sql = "SELECT type FROM appointment WHERE type LIKE '%$type%'";
                                                             $result = mysqli_query($conn, $sql);
-                                                            if (mysqli_num_rows($result) > 0) { ?>
+                                                                if (mysqli_num_rows($result) > 0) 
+                                                            {?>
                                                                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeapptype_set<?php echo $data['id']; ?>" disabled>Remove</button>
-                                                            <?php } else { ?>
-                                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removeapptype_set<?php echo $data['id'] ?>">Remove</button>
-                                                            <?php } ?>
+                                                            <?php }
+                                                            else
+                                                            {?>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeapptype_set<?php echo $data['id'] ?>">Remove</button>
+                                                            <?php }?> 
                                                         </td>
                                                     </tr>
-                                            <?php
+                                                    <?php
                                                     include('modals/update_apptype_set_modal.php');
                                                     include('modals/rem_apptype_set_modal.php');
-                                                }
-                                            } ?>
+                                                    }}?>
                                             </tbody>
                                         </table>
-                                        <?php include('../../includes/pagination.php'); ?>
+                                        <?php include('../../includes/pagination.php');?>
                                     <?php
-                                } else {
+                                    } else {
                                     ?>
                                         <tr>
                                             <td colspan="7">No record Found</td>
                                         </tr>
-                                    <?php
-                                }
+                                <?php
+                                    }
                                 mysqli_close($conn);
-                                    ?>
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -175,5 +190,4 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
-
 </html>

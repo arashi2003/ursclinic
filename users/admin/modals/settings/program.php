@@ -1,18 +1,26 @@
 <?php
     session_start();
     include('../../add/connection.php');
-    $program = $_POST['program'];
-    $department = $_POST['department'];
-    $college = $_POST['college'];
+    $program = strtoupper($_POST['program']);
+    $department = strtoupper($_POST['department']);
+    $college = strtoupper($_POST['college']);
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "added a program";
+    $au_status = "unread";
     
     $sql = "SELECT * FROM program WHERE department = '$department' AND program = '$program' AND college = '$college'";
     $result = mysqli_query($conn, $sql);
     if(mysqli_num_rows($result) > 0)
     {
+        ?>
+        <script>
+            setTimeout(function() {
+                window.location = "../../program.php";
+            });
+        </script>
+        <?php
         // modal Entry already exists
     }
     else
@@ -20,7 +28,7 @@
         $sql = "INSERT INTO program (department, college, program) VALUES ('$department', '$college', '$program')";
         if($result = mysqli_query($conn, $sql))
         {
-            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', now())";
+            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
             if($result = mysqli_query($conn, $sql))
             {
                 ?>
@@ -46,15 +54,7 @@
         }
         else
         {
-            ?>
-            <script>
-                setTimeout(function() {
-                    window.location = "../../program.php";
-                });
-            </script>
-            <?php
             // modal Entry has not been added
-        }
     ?>
 <script>
     setTimeout(function() {
@@ -62,5 +62,5 @@
     });
 </script>
 <?php
-}
+}}
 mysqli_close($conn);

@@ -3,7 +3,6 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
-
 $userid = $_SESSION['userid'];
 
 // get the total nr of rows.

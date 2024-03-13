@@ -354,6 +354,15 @@ nav .profile-details i {
   padding-top: 104px;
 }
 
+.home-content .tab-content {
+  width: 100%;
+}
+
+.alert-message {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
 
 .home-content .overview-boxes {
   display: flex;
@@ -362,6 +371,11 @@ nav .profile-details i {
   flex-wrap: wrap;
   padding: 0 20px;
 }
+
+.home-content .overview-boxes .nav-tabs {
+  border: none;
+}
+
 
 .home-content .sales-boxes {
   display: flex;
@@ -480,6 +494,15 @@ nav .profile-details i {
   background: #fff;
   padding: 15px 14px;
   border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.home-content .overview-boxes .content.appointment {
+  margin-bottom: 20px;
+  width: 100%;
+  background: #fff;
+  padding: 15px 14px;
+  border-radius: 0 12px 12px 12px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -863,4 +886,13 @@ th {
   .container-notification {
     margin: 0;
   }
+}
+
+.content .error {
+  color: rgb(255, 90, 90);
+}
+
+.content .stock_name {
+  text-decoration: none;
+  color: #000;
 }

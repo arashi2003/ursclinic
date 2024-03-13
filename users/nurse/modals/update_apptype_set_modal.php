@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Appointment Type</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../apptype_set.php'"></button>
             </div>
             <form method="POST" action="modals/update/update_apptype.php" id="form">
                 <div class="modal-body">

@@ -3,9 +3,8 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
-
 $module = 'te_entry';
-$userid = $_SESSION['userid'];
+$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM tools_equip");
@@ -19,7 +18,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Inventory</title>
-    <?php include('../../includes/header.php'); ?>
+    <?php include('../../includes/header.php');?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -41,9 +40,9 @@ include('../../includes/pagination-limit.php');
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                <?= $row ?>
-                            </span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <?= $row ?>
+                        </span>
                         <?php
                         }
                         ?>
@@ -69,17 +68,31 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addteentry">Add Entry</button>
-                    <?php include('modals/nurseaddteentrymodal.php'); ?>
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addteentry">Add Entry</button>
+                    <?php include('modals/nurseaddteentrymodal.php');?>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
+                                <form action="entry_filter.php" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-2 mb-2">
+                                            <select name="entry" class="form-select">
+                                                <option value="medicine">Medicine Entry</option>
+                                                <option value="supply">Medical Supply Entry</option>
+                                                <option value="te" selected>Tools and Equipment Entry</option>
+                                            </select>
+                                        </div>
+                                        <div class="col mb-2">
+                                            <button type="submit" class="btn btn-primary">View</button>
+                                        </div>
+                                    </div>
+                                </form>
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-2">
                                                 <input type="text" name="te" value="<?= isset($_GET['te']) == true ? $_GET['te'] : '' ?>" class="form-control" placeholder="Search tool/equipment entry">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
@@ -114,34 +127,33 @@ include('../../includes/pagination-limit.php');
                                             <tbody>
 
                                                 <?php
-                                                foreach ($result as $data) { ?>
+                                                foreach($result as $data){?>
                                                     <tr>
                                                         <td><?php echo $data['teid']; ?></td>
                                                         <td><?php echo $data['tools_equip'] . $data['unit_measure']; ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatete<?php echo $data['teid']; ?>">Update</button>
-                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removete<?php echo $data['teid']; ?>">Remove</button>
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatete<?php echo $data['teid']; ?>">Update</button>
+                                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removete<?php echo $data['teid']; ?>">Remove</button>
                                                         </td>
-
+                                                        
                                                     </tr>
-                                            <?php
+                                                    <?php
                                                     include('modals/rem_te_modal.php');
                                                     include('modals/update_te_modal.php');
-                                                }
-                                            } ?>
+                                                    }}?>
                                             </tbody>
                                         </table>
-                                        <?php include('../../includes/pagination.php'); ?>
+                                        <?php include('../../includes/pagination.php');?>
                                     <?php
-                                } else {
+                                    } else {
                                     ?>
                                         <tr>
                                             <td colspan="7">No record Found</td>
                                         </tr>
-                                    <?php
-                                }
+                                <?php
+                                    }
                                 mysqli_close($conn);
-                                    ?>
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -168,5 +180,4 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
-
 </html>

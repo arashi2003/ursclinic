@@ -3,9 +3,8 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
-
 $module = 'appcc_set';
-$userid = $_SESSION['userid'];
+$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT c.id, c.chief_complaint, t.type, p.purpose FROM appointment_cc c INNER JOIN appointment_purpose p ON p.id=c.purpose INNER JOIN appointment_type t ON t.id=p.type");
@@ -19,7 +18,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Settings</title>
-    <?php include('../../includes/header.php'); ?>
+    <?php include('../../includes/header.php');?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -41,9 +40,9 @@ include('../../includes/pagination-limit.php');
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                <?= $row ?>
-                            </span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <?= $row ?>
+                        </span>
                         <?php
                         }
                         ?>
@@ -69,16 +68,30 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appcc_set">Add Entry</button>
-                    <?php include('modals/appcc_set_modal.php'); ?>
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#appcc_set">Add Entry</button>
+                    <?php include('modals/appcc_set_modal.php');?>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
+                                <form action="app_filter.php" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-2 mb-2">
+                                            <select name="app" class="form-select">
+                                                <option value="type">Type</option>
+                                                <option value="purpose">Purpose</option>
+                                                <option value="cc" selected>Chief Complaint</option>
+                                            </select>
+                                        </div>
+                                        <div class="col mb-2">
+                                            <button type="submit" class="btn btn-primary">View</button>
+                                        </div>
+                                    </div>
+                                </form>
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="input-group mb-3">
                                                 <input type="text" name="addcc" value="<?= isset($_GET['addcc']) == true ? $_GET['addcc'] : '' ?>" class="form-control" placeholder="Search appointment chief complaint">
                                                 <button type="submit" class="btn btn-primary">Search</button>
@@ -115,36 +128,35 @@ include('../../includes/pagination-limit.php');
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                foreach ($result as $data) { ?>
+                                                foreach($result as $data){?>
                                                     <tr>
-                                                        <td><?php echo $data['id']; ?></td>
-                                                        <td><?php echo $data['type']; ?></td>
-                                                        <td><?php echo $data['purpose']; ?></td>
-                                                        <td><?php echo  $chief = $data['chief_complaint']; ?></td>
+                                                        <td><?php echo$data['id']; ?></td>
+                                                        <td><?php echo $data['type'];?></td>
+                                                        <td><?php echo $data['purpose'];?></td>
+                                                        <td><?php echo  $chief = $data['chief_complaint'];?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateappcc_set<?php echo $data['id']; ?>">Update</button>
-                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeappcc_set<?php echo $data['id']; ?>">Remove</button>
-                                                            <?php $count++; ?>
+                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeappcc_set<?php echo $data['id']; ?>" >Remove</button>
+                                                            <?php $count++;?>
                                                         </td>
                                                     </tr>
-                                            <?php
+                                                    <?php
                                                     include('modals/update_appcc_set_modal.php');
                                                     include('modals/rem_appcc_set_modal.php');
-                                                }
-                                            } ?>
+                                                    }}?>
                                             </tbody>
                                         </table>
                                         <?php include('../../includes/pagination.php') ?>
                                     <?php
-                                } else {
+                                    } else {
                                     ?>
                                         <tr>
                                             <td colspan="7">No record Found</td>
                                         </tr>
-                                    <?php
-                                }
+                                <?php
+                                    }
                                 mysqli_close($conn);
-                                    ?>
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -171,5 +183,4 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
-
 </html>

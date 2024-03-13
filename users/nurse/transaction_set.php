@@ -4,6 +4,7 @@ session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
 $module = 'transaction_set';
+$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM med_case");
@@ -30,7 +31,22 @@ include('../../includes/pagination-limit.php');
             </div>
             <div class="right-nav">
                 <div class="notification-button">
-                    <i class='bx bx-bell'></i>
+                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
+                        <i class='bx bx-bell'></i>
+                        <?php
+                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
+                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
+                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
+                        $result = mysqli_query($conn, $sql);
+                        if ($row = mysqli_num_rows($result)) {
+                        ?>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <?= $row ?>
+                        </span>
+                        <?php
+                        }
+                        ?>
+                    </button>
                 </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
@@ -62,7 +78,7 @@ include('../../includes/pagination-limit.php');
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-2">
                                                 <input type="text" name="transaction" value="<?= isset($_GET['transaction']) == true ? $_GET['transaction'] : '' ?>" class="form-control" placeholder="Search transaction or service">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
@@ -104,8 +120,8 @@ include('../../includes/pagination-limit.php');
                                                         <td><?php echo $data['transaction_type'];?></td>
                                                         <td><?php echo $data['service'];?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatetransaction_set<?php echo $data['id']; ?>">Update</button>
-                                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removetransaction_set<?php echo $data['id']; ?>">Remove</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatetransaction_set<?php echo $data['id']; ?>">Update</button>
+                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removetransaction_set<?php echo $data['id']; ?>">Remove</button>
                                                         </td>
                                                         
                                                     </tr>

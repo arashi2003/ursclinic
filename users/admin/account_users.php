@@ -31,9 +31,6 @@ include('../../includes/pagination-limit.php')
                 <span class="dashboard">USER ACCOUNTS</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <i class='bx bx-bell'></i>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
                     <div class="dropdown">
@@ -53,23 +50,25 @@ include('../../includes/pagination-limit.php')
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                
-            <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_accounts.php');">Export to PDF</button>
-                </div>
+                    <div class="schedule-button">
+                        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addaccount">Add Account</button>
+                        <?php include('modals/addaccount_modal.php');?>
+                        &ThickSpace;
+                        <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_accounts.php');">Export to PDF</button>
+                    </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="input-group mb-3">
                                                 <input type="text" name="account" value="<?= isset($_GET['account']) == true ? $_GET['account'] : '' ?>" class="form-control" placeholder="Search user account">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="status" class="form-select">
                                                 <option value="">Select Status</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -81,7 +80,7 @@ include('../../includes/pagination-limit.php')
                                                 <option value="<?php echo $row["status"];?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["status"] ? 'selected' : '') : '' ?>"><?php echo $row["status"];?></option><?php }}?>
                                             </select>
                                         </div>
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="usertype" class="form-select">
                                                 <option value="">Select Usertype</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -93,7 +92,7 @@ include('../../includes/pagination-limit.php')
                                                 <option value="<?php echo $row["usertype"];?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["usertype"] ? 'selected' : '') : '' ?>"><?php echo $row["usertype"];?></option><?php }}?>
                                             </select>
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                             <a href="account_users" class="btn btn-danger">Reset</a>
                                         </div>
@@ -107,7 +106,7 @@ include('../../includes/pagination-limit.php')
                                 if (isset($_GET['account']) && $_GET['account'] != '') {
                                     $account = strtoupper($_GET['account']);
                                     $count = 1;
-                                    $sql = "SELECT * FROM account WHERE CONCAT(firstname, ' ', middlename, ' ' , lastname) LIKE '%$account%' OR CONCAT(firstname, ' ' , lastname) LIKE '%$account%' OR accountid LIKE '%$account%' WHERE campus = '$campus' AND accountid !='$user' ORDER BY accountid LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT * FROM account WHERE (CONCAT(firstname, ' ', middlename, ' ' , lastname) LIKE '%$account%' OR CONCAT(firstname, ' ' , lastname) LIKE '%$account%' OR accountid LIKE '%$account%') AND campus = '$campus' AND accountid !='$user' ORDER BY accountid LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 } elseif (isset($_GET['status']) && $_GET['status'] != '' || isset($_GET['usertype']) && $_GET['usertype'] != '' ) {
                                     //$campus = $_GET['campus'];
@@ -183,7 +182,7 @@ include('../../includes/pagination-limit.php')
                                                         <td><?php echo $data['usertype'] ?></td>
                                                         <td><?php echo $data['status'] ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateacc<?php echo $data['accountid']; ?>">Expand</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateacc<?php echo $data['accountid']; ?>">Expand</button>
                                                         <?php $count++; ?>
                                                         </td>
                                                     </tr>

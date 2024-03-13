@@ -3,9 +3,8 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
-
 $module = 'medcase';
-$userid = $_SESSION['userid'];
+$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM med_case");
@@ -19,7 +18,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Settings</title>
-    <?php include('../../includes/header.php'); ?>
+    <?php include('../../includes/header.php');?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -41,9 +40,9 @@ include('../../includes/pagination-limit.php');
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                <?= $row ?>
-                            </span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <?= $row ?>
+                        </span>
                         <?php
                         }
                         ?>
@@ -69,16 +68,31 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmedcase">Add Entry</button>
-                    <?php include('modals/addmedcase_modal.php'); ?>
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addmedcase">Add Entry</button>
+                    <?php include('modals/addmedcase_modal.php');?>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
+                                <form action="medrec_filter.php" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-2 mb-2">
+                                            <select name="medrec" class="form-select">
+                                                <option value="cc">Chief Complaint</option>
+                                                <option value="findings">Findings/Diagnosis</option>
+                                                <option value="medcase" selected>Medical Case</option>
+                                                <option value="designation">Designation</option>
+                                            </select>
+                                        </div>
+                                        <div class="col mb-2">
+                                            <button type="submit" class="btn btn-primary">View</button>
+                                        </div>
+                                    </div>
+                                </form>
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <div class="input-group mb-3">
                                                 <input type="text" name="medcase" value="<?= isset($_GET['medcase']) == true ? $_GET['medcase'] : '' ?>" class="form-control" placeholder="Search medical case">
                                                 <button type="submit" class="btn btn-primary">Search</button>
@@ -114,33 +128,32 @@ include('../../includes/pagination-limit.php');
                                             <tbody>
 
                                                 <?php
-                                                foreach ($result as $data) { ?>
+                                                foreach($result as $data){?>
                                                     <tr>
                                                         <td><?php echo $data['id']; ?></td>
-                                                        <td><?php echo $data['medcase']; ?></td>
+                                                        <td><?php echo $data['medcase'];?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatemedcase<?php echo $data['id']; ?>">Update</button>
                                                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removemedcase<?php echo $data['id']; ?>">Remove</button>
                                                         </td>
                                                     </tr>
-                                            <?php
+                                                    <?php
                                                     include('modals/update_medcase_modal.php');
                                                     include('modals/rem_medcase_modal.php');
-                                                }
-                                            } ?>
+                                                    }}?>
                                             </tbody>
                                         </table>
-                                        <?php include('../../includes/pagination.php'); ?>
+                                        <?php include('../../includes/pagination.php');?>
                                     <?php
-                                } else {
+                                    } else {
                                     ?>
                                         <tr>
                                             <td colspan="7">No record Found</td>
                                         </tr>
-                                    <?php
-                                }
+                                <?php
+                                    }
                                 mysqli_close($conn);
-                                    ?>
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -167,5 +180,4 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
-
 </html>

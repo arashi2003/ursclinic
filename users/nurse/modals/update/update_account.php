@@ -14,10 +14,11 @@
     $campus = $_POST['campus'];
     $status = $_POST['status'];
 
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "updated their account details";
+    $au_status = "unread";
 
     if ($middlename == "" || $middlename == NULL)
     {
@@ -44,7 +45,7 @@
                 $sql= "UPDATE account SET password='$password', usertype='$usertype', firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', campus='$campus', status='$status', datetime_updated=now() WHERE accountid='$accountid'";
                 if (mysqli_query($conn, $sql))
                 {
-                    $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', now())";
+                    $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
                     if($result = mysqli_query($conn, $sql))
                     {
                         ?>
@@ -109,7 +110,7 @@
         $sql= "UPDATE account SET usertype='$usertype', firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', campus='$campus', status='$status', datetime_updated=now() WHERE accountid='$accountid'";
         if (mysqli_query($conn, $sql))
         {
-            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', now())";
+            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
             if($result = mysqli_query($conn, $sql))
             {
                 ?>
@@ -136,7 +137,6 @@
         else
         {
             // modal na account details has not been updated
-        }
     ?>
 <script>
     setTimeout(function() {
@@ -144,5 +144,5 @@
     });
 </script>
 <?php
-}
+}}
 mysqli_close($conn);

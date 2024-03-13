@@ -1,24 +1,24 @@
 <?php
     session_start();
-    include('connection.php');
-
-    $accountid = $_SESSION['accountid'];
+    include('../connection.php');
+    $accountid = $_SESSION['userid'];
     $fullname = strtoupper($_SESSION['name']);
     $campus = $_SESSION['campus'];
     $id=$_POST['id'];
     $designation = $_POST['designation'];
+    $au_status = "unread";
 
     $query = "UPDATE designation SET designation='$designation' WHERE id='$id'";
     if($result = mysqli_query($conn, $query))
     {
-        $query = "INSERT INTO audit_trail (user, fullname, activity, datetime) VALUES ('$accountid', '$fullname', 'updated a designation entry', now())";
+        $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'updated a designation entry', '$au_status', now())";
         if($result = mysqli_query($conn, $query))
         {
             
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../designation.php";
+                    window.location = "../../designation.php";
                 });
             </script>
             <?php

@@ -47,8 +47,9 @@ include('../../../includes/pagination-limit.php');
                         OR (au.activity LIKE 'approved a request for%' AND au.activity LIKE '%$userid') 
                         OR (au.activity LIKE 'completed a request for%' AND au.activity LIKE '%$userid') 
                         OR (au.activity LIKE 'dismissed a request for%' AND au.activity LIKE '%$userid') 
-                        OR (au.activity LIKE 'added a walk-in schedule%' AND au.activity LIKE '%$userid') 
-                        OR (au.activity LIKE 'cancelled a walk-in schedule%' AND au.activity LIKE '%BINANGONAN')) 
+                        OR (au.activity LIKE 'added%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'added a walk-in schedule%' AND au.activity LIKE '%$campus') 
+                        OR (au.activity LIKE 'cancelled a walk-in schedule%' AND au.activity LIKE '%$campus')) 
                         AND au.status = 'unread' AND au.user != '$userid'";
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
@@ -61,7 +62,6 @@ include('../../../includes/pagination-limit.php');
                         ?>
                     </button>
                 </div>
-
                 <div class="profile-details">
                     <?php
                     $image = "SELECT * FROM patient_image WHERE patient_id = '$userid'";
@@ -109,8 +109,9 @@ include('../../../includes/pagination-limit.php');
                                 OR (au.activity LIKE 'approved a request for%' AND au.activity LIKE '%$userid') 
                                 OR (au.activity LIKE 'completed a request for%' AND au.activity LIKE '%$userid') 
                                 OR (au.activity LIKE 'dismissed a request for%' AND au.activity LIKE '%$userid') 
-                                OR (au.activity LIKE 'added a walk-in schedule%' AND au.activity LIKE '%$userid') 
-                                OR (au.activity LIKE 'cancelled a walk-in schedule%' AND au.activity LIKE '%BINANGONAN')) 
+                                OR (au.activity LIKE 'added%' AND au.activity LIKE '%$userid') 
+                                OR (au.activity LIKE 'added a walk-in schedule%' AND au.activity LIKE '%$campus') 
+                                OR (au.activity LIKE 'cancelled a walk-in schedule%' AND au.activity LIKE '%$campus')) 
                                 AND au.status = 'unread' AND au.user != '$userid' ORDER BY au.datetime DESC");
                                 if ($query) {
                                     if (mysqli_num_rows($query) > 0) {
@@ -133,6 +134,12 @@ include('../../../includes/pagination-limit.php');
                                             } else {
                                                 $dt = date("g:i A", strtotime($data['datetime']));
                                             }
+
+                                            /*if($data['activity'] = "added a dental health record for $userid")
+                                            {
+                                                $activity = "added a new Dental Health Record in your Medical History";
+                                            }*/
+                                            
 
                                             $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
 

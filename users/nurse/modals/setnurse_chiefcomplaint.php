@@ -2,11 +2,12 @@
     session_start();
     include('connection.php');
 
-    $user = $_SESSION['accountid'];
+    $user = $_SESSION['userid'];
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "added a chief complaint";
     $chief_complaint = $_POST['chief_complaint'];
+    $au_status = "unread";
 
     $query = "SELECT * FROM chief_complaint WHERE chief_complaint = '$chief_complaint'";    
     $result = mysqli_query($conn, $query);
@@ -27,7 +28,7 @@
         $query = "INSERT INTO chief_complaint SET chief_complaint='$chief_complaint'";
         if($result = mysqli_query($conn, $query))
         {
-            $query = "INSERT INTO audit_trail (user, fullname, campus, activity, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', now())";
+            $query = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
             if($result = mysqli_query($conn, $query))
             {
                 ?>
@@ -53,15 +54,8 @@
         }
         else
         {
-            ?>
-            <script>
-                setTimeout(function() {
-                    window.location = "../chiefcomplaint.php";
-                });
-            </script>
-            <?php
             // modal message box saying "Chief Complaint was not added."
-        }
+        
 ?>
 <script>
     setTimeout(function() {
@@ -69,5 +63,5 @@
     });
     </script>
 <?php
-}
+}}
 mysqli_close($conn);

@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Unit Measure</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../umeasure_set.php'"></button>
             </div>
             <form method="POST" action="modals/update/update_unitmeasure.php" id="form">
                 <div class="modal-body">
@@ -39,7 +39,7 @@
                 <div class="modal-body">
                     <label for="um" class="form-label">Unit Measure:</label>
                     <div class="mb-2">
-                        <input type="text" value="<?php echo $data['id']?>" hidden>
+                        <input type="text" name="id" value="<?php echo $data['id']?>" hidden>
                         <input type="text" class="form-control" name="unit_measure" id="unit_measure" value="<?php echo $data['unit_measure']?>" required>
                     </div>
                 </div>
