@@ -111,19 +111,7 @@ include('../../includes/pagination-limit.php');
                                 if (isset($_GET['account']) && $_GET['account'] != '') {
                                     $account = $_GET['account'];
                                     $count = 1;
-                                    $sql = "SELECT id, patient, firstname, middlename, lastname, 
-                                    designation, age, sex, department, college, program, 
-                                    birthday, yearlevel, section, block,
-                                    type, transaction, purpose, height,
-                                    weight, bp, pr, temp, heent, chest_lungs,
-                                    heart, abdomen, extremities, bronchial_asthma, surgery, 
-                                    lmp, heart_disease, allergies, epilepsy, hernia,
-                                    respiratory, oxygen_saturation, chief_complaint, findiag,
-                                    remarks, medsup, pod_nod, medcase, medcase_others, 
-                                    datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial
-                                    WHERE campus='$campus' AND (patient LIKE '%$account%' OR 
-                                    CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' 
-                                    OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%') AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT * WHERE campus='$campus' AND (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%') AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 } elseif (isset($_GET['type']) && $_GET['type'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
                                     $type = $_GET['type'];
@@ -162,33 +150,11 @@ include('../../includes/pagination-limit.php');
                                         $tp = " AND type = '$type'";
                                     }
 
-                                    $sql = "SELECT id, patient, firstname, middlename, lastname, 
-                                    designation, age, sex, department, college, program, 
-                                    birthday, yearlevel, section, block,
-                                    type, transaction, purpose, height,
-                                    weight, bp, pr, temp, heent, chest_lungs,
-                                    heart, abdomen, extremities, bronchial_asthma, surgery, 
-                                    lmp, heart_disease, allergies, epilepsy, hernia,
-                                    respiratory, oxygen_saturation, chief_complaint, findiag,
-                                    remarks, medsup, pod_nod, medcase, medcase_others, 
-                                    datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial
-                                    FROM transaction_history 
-                                    WHERE campus='$campus' $date $tp AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT * FROM transaction_history WHERE campus='$campus' $date $tp AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 } else {
                                     $count = 1;
-                                    $sql = "SELECT id, patient, firstname, middlename, lastname, 
-                                    designation, age, sex, department, college, program, 
-                                    birthday, yearlevel, section, block,
-                                    type, transaction, purpose, height,
-                                    weight, bp, pr, temp, heent, chest_lungs,
-                                    heart, abdomen, extremities, bronchial_asthma, surgery, 
-                                    lmp, heart_disease, allergies, epilepsy, hernia,
-                                    respiratory, oxygen_saturation, chief_complaint, findiag,
-                                    remarks, medsup, pod_nod, medcase, medcase_others, 
-                                    datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial
-                                    FROM transaction_history 
-                                    WHERE campus='$campus' AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT * FROM transaction_history WHERE campus='$campus' AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 }
                                 if ($result) {
@@ -222,7 +188,6 @@ include('../../includes/pagination-limit.php');
                                                         }
                                                     }
                                                     $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
-
                                                 ?>
                                                     <tr>
                                                         <td><?= $data['id'] ?></td>
@@ -235,7 +200,7 @@ include('../../includes/pagination-limit.php');
                                                         </td>
 
                                                     </tr>
-                                            <?php
+                                            <?php   
                                                     /*if ($data['transaction'] == 'Vitals') {
                                                         include('modals/view_trans_vitals_modal.php');
                                                     } elseif ($data['transaction'] == 'Medical History') {

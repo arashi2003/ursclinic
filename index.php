@@ -3,24 +3,6 @@ session_start();
 //connection
 include('connection.php');
 
-// Check if user is already logged in, redirect to respective dashboard
-if (isset($_SESSION['usertype'])) {
-  if ($_SESSION['usertype'] == "NURSE") {
-    header('location:users/nurse/dashboard');
-  } elseif ($_SESSION['usertype'] == "STUDENT") {
-    header('location:users/patient/student/appointment');
-  } elseif ($_SESSION['usertype'] == "DOCTOR") {
-    header('location:users/doctor/dashboard');
-  } elseif ($_SESSION['usertype'] == "DENTIST") {
-    header('location:users/dentish/dashboard');
-  } elseif ($_SESSION['usertype'] == "ADMIN") {
-    header('location:users/admin/profile');
-  } elseif ($_SESSION['usertype'] == "FACULTY" || $_SESSION['usertype'] == "STAFF") {
-    header('location:users/patient/faculty/appointment');
-  }
-  exit(); // Stop executing further code
-}
-
 // Initialize login attempts counter
 if (!isset($_SESSION['login_attempts'])) {
   $_SESSION['login_attempts'] = 0;
@@ -34,6 +16,21 @@ if (!isset($_SESSION['timer_start'])) {
 // Initialize error message
 $error = '';
 
+if (isset($_SESSION['usertype']) == "NURSE") {
+  header('location:users/nurse/dashboard');
+} elseif (isset($_SESSION['usertype']) == "STUDENT") {
+  header('location:users/patient/student/studentappointment');
+} elseif (isset($_SESSION['usertype']) == "DOCTOR") {
+  header('location:users/doctor-dentist/dashboard');
+} elseif (isset($_SESSION['usertype']) == "DENTIST") {
+  header('location:users/doctor-dentist/dashboard');
+} elseif (isset($_SESSION['usertype']) == "ADMIN") {
+  header('location:users/admin/profile');
+} elseif (isset($_SESSION['usertype']) == "FACULTY") {
+  header('location:users/patient/faculty/facultyappointment');
+} elseif (isset($_SESSION['usertype']) == "STAFF") {
+  header('location:users/patient/faculty/facultyappointment');
+}
 
 //form validation
 if (isset($_POST['submit'])) {

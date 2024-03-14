@@ -123,11 +123,11 @@ include('../../includes/pagination-limit.php');
                                 if (isset($_GET['supply']) && $_GET['supply'] != '') {
                                     $supply = $_GET['supply'];
                                     $count = 1;
-                                    $sql = "SELECT * from inv_total WHERE campus = '$campus' AND type = 'supply' AND stock_name LIKE '%$supply%' ORDER BY stock_name LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid WHERE campus = '$campus' AND type = 'supply' AND stock_name LIKE '%$supply%' ORDER BY stock_name LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 } else {
                                     $count = 1;
-                                    $sql = "SELECT * from inv_total WHERE campus = '$campus' AND type = 'supply' ORDER BY stock_name LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid WHERE campus = '$campus' AND type = 'supply' ORDER BY stock_name LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 }
                                 if ($result) {
@@ -141,6 +141,7 @@ include('../../includes/pagination-limit.php');
                                                     <th>Qty.</th>
                                                     <th>Unit Cost</th>
                                                     <th>Total Amt.</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -152,9 +153,19 @@ include('../../includes/pagination-limit.php');
                                                         <td><?php echo $data['stock_name']?></td>
                                                         <td><?php echo $data['qty']?></td>
                                                         <td><?php echo number_format($data['unit_cost'], 2, '.');?></td>
-                                                        <td><?php echo number_format(($data['unit_cost']*$data['qty']), 2, '.');}?></td>
-                                                    </tr>
-                                                    <?php }?>
+                                                        <td><?php echo number_format(($data['unit_cost']*$data['qty']), 2, '.');?></td>
+                                                        <?php 
+                                                        if($data['state'] == 'open-close')
+                                                        {
+                                                        ?>
+                                                            <td><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatesup<?php echo $data['stockid']; ?>">Update</button></td>
+                                                        <?php }else{?>
+                                                            <td><button type="button" class="btn btn-primary btn-sm" disabled>Update</button></td>
+                                                        <?php } ?>
+                                                        </tr>
+                                                    <?php
+                                                    include('modals/update_supstocks_modal.php');
+                                                    }}?>
                                             </tbody>
                                         </table>
                                         <?php include('../../includes/pagination.php');?>

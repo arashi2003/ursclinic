@@ -129,8 +129,8 @@ $userid=$_SESSION['userid'];
                                 <span class="input-group-text" id="inputGroup-sizing-md">Sex:</span>
                                 <select class="form-control" aria-label=".form-select-md example" name="sex" id="sex" required>
                                     <option value="" disabled selected></option>
-                                    <option value="MALE">Male</option>
-                                    <option value="FEMALE">Female</option>
+                                    <option value="MALE">MALE</option>
+                                    <option value="FEMALE">FEMALE</option>
                                 </select>
                             </div>
                         </div>
