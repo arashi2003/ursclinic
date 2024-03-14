@@ -4,16 +4,16 @@
     switch($app)
     {
         case "cc":
-            header('Location: appcc_set.php');
+            header('Location: appcc_set');
             break;
         case "type":
-            header('Location: apptype_set.php');
+            header('Location: apptype_set');
             break;
         case "purpose":
-            header('Location: apppurpose_set.php');
+            header('Location: apppurpose_set');
             break;
         default:
-            header('Location: app.php');
+            header('Location: app');
             break;
     }
 ?>

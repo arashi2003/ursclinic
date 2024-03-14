@@ -14,7 +14,7 @@ $campus = $_SESSION['campus'];
 $records = $conn->query("SELECT * FROM transaction_request tr INNER JOIN request_type rt on rt.id=tr.request_type WHERE tr.patient='$userid' ORDER BY date_pickup, time_pickup");
 $nr_of_rows = $records->num_rows;
 
-include('../../../includes/pagination-limit.php') 
+include('../../../includes/pagination-limit.php')
 
 
 ?>
@@ -35,10 +35,10 @@ include('../../../includes/pagination-limit.php')
                 <i class='bx bx-menu sidebarBtn'></i>
                 <span class="dashboard">REQUEST</span>
             </div>
-            
+
             <div class="right-nav">
                 <div class="notification-button">
-                    <button type="button" class="btn btn-sm position-relative"  onclick="window.location.href = 'notification'">
+                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
                         <i class='bx bx-bell'></i>
                         <?php
                         $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus 
@@ -77,12 +77,16 @@ include('../../../includes/pagination-limit.php')
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $usertype . ' ' . $name ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
-                            <li><a class="dropdown-item" href="../../../logout">Logout</a></li>
+                            <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>

@@ -75,12 +75,16 @@ include('../../../includes/pagination-limit.php');
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $usertype . ' ' . $name ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
-                            <li><a class="dropdown-item" href="../../../logout">Logout</a></li>
+                            <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -139,7 +143,7 @@ include('../../../includes/pagination-limit.php');
                                             {
                                                 $activity = "added a new Dental Health Record in your Medical History";
                                             }*/
-                                            
+
 
                                             $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
 

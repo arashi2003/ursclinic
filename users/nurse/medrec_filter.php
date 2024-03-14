@@ -4,19 +4,19 @@
     switch($medrec)
     {
         case "cc":
-            header('Location: chiefcomplaint.php');
+            header('Location: chiefcomplaint');
             break;
         case "findings":
-            header('Location: findings.php');
+            header('Location: findings');
             break;
         case "medcase":
-            header('Location: medcase_set.php');
+            header('Location: medcase_set');
             break;
         case "designation":
-            header('Location: designation.php');
+            header('Location: designation');
             break;
         default:
-            header('Location: medrec.php');
+            header('Location: medrec');
             break;
     }
 ?>

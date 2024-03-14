@@ -7,6 +7,8 @@ include('../../includes/nurse-auth.php');
 $module = 'appointment';
 $campus = $_SESSION['campus'];
 $userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
 
 // Check if the month filter is set
 if (isset($_GET['patient']) || isset($_GET['date']) || isset($_GET['physician'])) {
@@ -196,12 +198,16 @@ if ($approved_pages > 4) {
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
-                            <li><a class="dropdown-item" href="../../logout">Logout</a></li>
+                            <li><a class="dropdown-item" href="../../../logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -264,7 +270,7 @@ if ($approved_pages > 4) {
                                                                                                                                                                                                                                             } ?>
                                                     </select>
                                                 </div>
-                                                <div class="col mb-3">
+                                                <div class="col mb-2">
                                                     <button type="submit" class="btn btn-primary">Filter</button>
                                                     <a href="appointment?tab=pending" class="btn btn-danger">Reset</a>
                                                 </div>
@@ -429,7 +435,7 @@ if ($approved_pages > 4) {
                                                                                                                                                                                                                                             } ?>
                                                     </select>
                                                 </div>
-                                                <div class="col mb-3">
+                                                <div class="col mb-2">
                                                     <button type="submit" class="btn btn-primary">Filter</button>
                                                     <a href="appointment?tab=approved" class="btn btn-danger">Reset</a>
                                                 </div>

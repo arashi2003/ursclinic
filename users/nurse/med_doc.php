@@ -58,10 +58,14 @@ include('../../includes/pagination-limit.php')
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $usertype . ' ' . $name ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -78,7 +82,7 @@ include('../../includes/pagination-limit.php')
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-2">
                                                 <input type="text" name="patient" value="<?= isset($_GET['patient']) == true ? $_GET['patient'] : '' ?>" class="form-control" placeholder="Search patient">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
@@ -140,7 +144,7 @@ include('../../includes/pagination-limit.php')
                                                         <td><?php echo $data['program']; ?></td>
                                                         <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname'])); ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'view_patient_doc.php?patientid=<?php echo $data['patientid'] ?>'">View</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'view_patient_doc?patientid=<?php echo $data['patientid'] ?>'">View</button>
                                                             <?php $count++; ?>
                                                         </td>
 

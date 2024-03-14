@@ -3,9 +3,12 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
+
 $module = 'transaction_history';
-$userid=$_SESSION['userid'];
+$userid = $_SESSION['userid'];
 $campus = $_SESSION['campus'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM transaction_history WHERE campus='$campus'");
@@ -41,9 +44,9 @@ include('../../includes/pagination-limit.php');
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            <?= $row ?>
-                        </span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $row ?>
+                            </span>
                         <?php
                         }
                         ?>
@@ -55,10 +58,14 @@ include('../../includes/pagination-limit.php');
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -75,12 +82,12 @@ include('../../includes/pagination-limit.php');
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-2">
                                                 <input type="text" name="account" value="<?= isset($_GET['account']) == true ? $_GET['account'] : '' ?>" class="form-control" placeholder="Search patient">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="type" class="form-select">
                                                 <option value="">Select Transaction Type</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -200,13 +207,13 @@ include('../../includes/pagination-limit.php');
                                                         </td>
 
                                                     </tr>
-                                            <?php   
+                                            <?php
                                                     /*if ($data['transaction'] == 'Vitals') {
                                                         include('modals/view_trans_vitals_modal.php');
                                                     } elseif ($data['transaction'] == 'Medical History') {
                                                         include('modals/view_trans_medhist_modal.php');
                                                     } else {*/
-                                                        include('modals/view_trans_modal.php');
+                                                    include('modals/view_trans_modal.php');
                                                     /*}*/
                                                 }
                                             } ?>

@@ -6,8 +6,11 @@ include('../../connection.php');
 include('../../includes/nurse-auth.php');
 
 $module = 'sup_stocks_batch';
+$userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
+
 $ldate = date("Y-m-t");
-$userid=$_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND campus = '$campus' ORDER BY batchid, stockid");
@@ -21,7 +24,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Inventory</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -43,9 +46,9 @@ include('../../includes/pagination-limit.php');
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            <?= $row ?>
-                        </span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $row ?>
+                            </span>
                         <?php
                         }
                         ?>
@@ -57,10 +60,14 @@ include('../../includes/pagination-limit.php');
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -72,7 +79,7 @@ include('../../includes/pagination-limit.php');
             <div class="overview-boxes">
                 <div class="schedule-button">
                     <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addsupstocks">Add Entry</button>
-                    <?php include('modals/nurseaddsupstocks_total_modal.php');?>
+                    <?php include('modals/nurseaddsupstocks_total_modal.php'); ?>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -120,15 +127,16 @@ include('../../includes/pagination-limit.php');
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT batchid FROM inventory WHERE stock_type = 'supply' AND campus = '$campus' ORDER BY batchid ASC";
-                                                if($result = mysqli_query($conn, $sql))
-                                                {   while($row = mysqli_fetch_array($result) )
-                                                    {   $batch = $row["batchid"];?>
-                                                <option value="<?php echo $row["batchid"];?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["batchid"] ? 'selected' : '') : '' ?>"><?php echo $row["batchid"];?></option><?php }}?>
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) {
+                                                        $batch = $row["batchid"]; ?>
+                                                        <option value="<?php echo $row["batchid"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["batchid"] ? 'selected' : '') : '' ?>"><?php echo $row["batchid"]; ?></option><?php }
+                                                                                                                                                                                                                            } ?>
                                             </select>
                                         </div>
                                         <div class="col mb-2">
-                                        <button type="submit" class="btn btn-primary">Filter</button>
-                                    </div>
+                                            <button type="submit" class="btn btn-primary">Filter</button>
+                                        </div>
                                 </form>
                             </div>
                         </div>
@@ -140,8 +148,7 @@ include('../../includes/pagination-limit.php');
                                     $count = 1;
                                     $sql = "SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND CONCAT(s.supply, ' ', s.volume, s.unit_measure) LIKE '%$supply%' AND campus = '$campus' ORDER BY batchid, stockid LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
-                                }
-                                elseif (isset($_GET['batch']) && $_GET['batch'] != '') {
+                                } elseif (isset($_GET['batch']) && $_GET['batch'] != '') {
                                     $batch = $_GET['batch'];
                                     $count = 1;
                                     $sql = "SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND batchid='$batch' AND campus = '$campus' ORDER BY batchid, stockid LIMIT $start, $rows_per_page";
@@ -166,42 +173,40 @@ include('../../includes/pagination-limit.php');
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <?php
-                                                while($data = mysqli_fetch_array($result)){
-                                                    ?>
+                                                <?php
+                                                while ($data = mysqli_fetch_array($result)) {
+                                                ?>
                                                     <tr>
                                                         <?php
                                                         $amount = $data['qty'] * $data['unit_cost'];
-                                                        if ($data['expiration'] == "0000-00-00")
-                                                        {
+                                                        if ($data['expiration'] == "0000-00-00") {
                                                             $date = "N/A";
-                                                        }
-                                                        else
-                                                        {
+                                                        } else {
                                                             $date = date("F d, Y", strtotime($data['expiration']));
-                                                        }?>
+                                                        } ?>
                                                         <td><?php echo $data['batchid'] ?></td>
                                                         <td><?php echo $data['medicine'] . " " . $data['dosage'] . $data['unit_measure'] ?></td>
-                                                        <td><?php echo $data['qty']?></td>
-                                                        <td><?php echo $data['unit_cost']?></td>
-                                                        <td><?php echo $amount;?></td>
-                                                        <td><?php echo $date;}?></td>
+                                                        <td><?php echo $data['qty'] ?></td>
+                                                        <td><?php echo $data['unit_cost'] ?></td>
+                                                        <td><?php echo $amount; ?></td>
+                                                        <td><?php echo $date;
+                                                        } ?></td>
                                                     </tr>
-                                                    <?php
-                                                    }?>
+                                                <?php
+                                            } ?>
                                             </tbody>
                                         </table>
-                                        <?php include('../../includes/pagination.php');?>
+                                        <?php include('../../includes/pagination.php'); ?>
                                     <?php
-                                    } else {
+                                } else {
                                     ?>
                                         <tr>
                                             <td colspan="7">No record Found</td>
                                         </tr>
-                                <?php
-                                    }
+                                    <?php
+                                }
                                 mysqli_close($conn);
-                                ?>
+                                    ?>
                             </div>
                         </div>
                     </div>
@@ -228,4 +233,5 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

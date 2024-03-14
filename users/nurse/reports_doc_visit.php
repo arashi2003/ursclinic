@@ -3,8 +3,12 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
+
+$module = 'report_doc_visit';
 $campus = $_SESSION['campus'];
-$userid=$_SESSION['userid'];
+$userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM schedule WHERE campus = '$campus'");
@@ -18,7 +22,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Inventory</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -40,9 +44,9 @@ include('../../includes/pagination-limit.php');
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            <?= $row ?>
-                        </span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $row ?>
+                            </span>
                         <?php
                         }
                         ?>
@@ -54,10 +58,14 @@ include('../../includes/pagination-limit.php');
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -68,7 +76,7 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_doc_visit.php');">Export to PDF</button>
+                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_doc_visit.php');">Export to PDF</button>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -76,7 +84,7 @@ include('../../includes/pagination-limit.php');
                             <div class="col-md-12">
                                 <form action="reports_filter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="reports" class="form-select">
                                                 <option value="" disabled selected>Select Report</option>
                                                 <option value="appointment">Appointment Report</option>
@@ -98,35 +106,29 @@ include('../../includes/pagination-limit.php');
                             <div class="col-md-12">
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="physician" class="form-select">
                                                 <option value="">Select Physician</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT * FROM account WHERE usertype='DOCTOR' OR usertype='DENTIST' ORDER BY firstname";
-                                                if($result = mysqli_query($conn, $sql))
-                                                {   while($row = mysqli_fetch_array($result) )
-                                                    {   
-                                                        if (count(explode(" ", $row['middlename'])) > 1)
-                                                        {
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) {
+                                                        if (count(explode(" ", $row['middlename'])) > 1) {
                                                             $middle = explode(" ", $row['middlename']);
-                                                            $letter = $middle[0][0].$middle[1][0];
+                                                            $letter = $middle[0][0] . $middle[1][0];
                                                             $middleinitial = $letter . ".";
-                                                        }
-                                                        else
-                                                        {
+                                                        } else {
                                                             $middle = $row['middlename'];
-                                                            if ($middle == "" OR $middle == " ")
-                                                            {
+                                                            if ($middle == "" or $middle == " ") {
                                                                 $middleinitial = "";
-                                                            }
-                                                            else
-                                                            {
+                                                            } else {
                                                                 $middleinitial = substr($middle, 0, 1) . ".";
-                                                            }    
+                                                            }
                                                         }
-                                                        $physician = ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " .ucwords(strtolower($row['lastname']));?>
-                                                <option value="<?php echo $row['accountid'];?> <?= isset($_GET['']) == true ? ($_GET[''] == $physician ? 'selected' : '') : '' ?>"><?php echo $physician;?></option><?php }}?>
+                                                        $physician = ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($row['lastname'])); ?>
+                                                        <option value="<?php echo $row['accountid']; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $physician ? 'selected' : '') : '' ?>"><?php echo $physician; ?></option><?php }
+                                                                                                                                                                                                                    } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2">
@@ -150,52 +152,35 @@ include('../../includes/pagination-limit.php');
                                     $physician = $_GET['physician'];
                                     $dt_from = $_GET['date_from'];
                                     $dt_to = $_GET['date_to'];
-                                    
+
                                     //date filter
-                                    if ($dt_from =="" AND $dt_to =="")
-                                    {
+                                    if ($dt_from == "" and $dt_to == "") {
                                         $date = "";
-                                    }
-                                    elseif ($dt_to == $dt_from)
-                                    {
+                                    } elseif ($dt_to == $dt_from) {
                                         $fdate = date("Y-m-d", strtotime($dt_from));
                                         $ldate = date("Y-m-t", strtotime($dt_to));
                                         $date = " AND date >= '$fdate' AND date <= '$ldate'";
-                                    }
-
-                                    elseif ($dt_to == "" AND $dt_from != "" )
-                                    {
+                                    } elseif ($dt_to == "" and $dt_from != "") {
                                         $fdate = date("Y-m-d", strtotime($dt_from));
                                         $date = " AND date >= '$fdate'";
-                                    }
-                                    elseif ($dt_to == "" AND $dt_from != "" )
-                                    {
+                                    } elseif ($dt_to == "" and $dt_from != "") {
                                         $fdate = date("Y-m-d", strtotime($dt_from));
                                         $date = " AND date >= '$fdate'";
-                                    }
-                                    elseif ($dt_from == "" AND $dt_to != "" )
-                                    {
+                                    } elseif ($dt_from == "" and $dt_to != "") {
                                         $d = date("Y-m-t", strtotime($dt_to));
                                         $date = " AND date <= '$d'";
-                                    }
-                                    elseif ($dt_from != "" AND $dt_to != "" AND $dt_from != $dt_to)
-                                    {
+                                    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
                                         $fdate = date("Y-m-d", strtotime($dt_from));
                                         $ldate = date("Y-m-t", strtotime($dt_to));
                                         $date = " AND date >= '$fdate' AND date <= '$ldate'";
                                     }
 
                                     //physician filter
-                                    if ($physician =="")
-                                    {
+                                    if ($physician == "") {
                                         $doc = "";
-                                    }
-                                    elseif ($physician !="" AND $date== "")
-                                    {
+                                    } elseif ($physician != "" and $date == "") {
                                         $doc = " AND physician = '$physician'";
-                                    }
-                                    elseif ($date!= "" AND $physician != "")
-                                    {
+                                    } elseif ($date != "" and $physician != "") {
                                         $doc = " AND physician = '$physician'";
                                     }
 
@@ -211,7 +196,7 @@ include('../../includes/pagination-limit.php');
                                     if (mysqli_num_rows($result) > 0) {
                                 ?>
                                         <table>
-                                            <thead> 
+                                            <thead>
                                                 <tr>
                                                     <th>Physician</th>
                                                     <th>Date</th>
@@ -221,47 +206,43 @@ include('../../includes/pagination-limit.php');
                                             <tbody>
 
                                                 <?php
-                                                foreach($result as $data){
-                                                    if (count(explode(" ", $data['middlename'])) > 1)
-                                                        {
-                                                            $middle = explode(" ", $data['middlename']);
-                                                            $letter = $middle[0][0].$middle[1][0];
-                                                            $middleinitial = $letter . ".";
+                                                foreach ($result as $data) {
+                                                    if (count(explode(" ", $data['middlename'])) > 1) {
+                                                        $middle = explode(" ", $data['middlename']);
+                                                        $letter = $middle[0][0] . $middle[1][0];
+                                                        $middleinitial = $letter . ".";
+                                                    } else {
+                                                        $middle = $data['middlename'];
+                                                        if ($middle == "" or $middle == " ") {
+                                                            $middleinitial = "";
+                                                        } else {
+                                                            $middleinitial = substr($middle, 0, 1) . ".";
                                                         }
-                                                        else
-                                                        {
-                                                            $middle = $data['middlename'];
-                                                            if ($middle == "" OR $middle == " ")
-                                                            {
-                                                                $middleinitial = "";
-                                                            }
-                                                            else
-                                                            {
-                                                                $middleinitial = substr($middle, 0, 1) . ".";
-                                                            }    
-                                                        }
+                                                    }
 
-                                                        $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " .ucwords(strtolower($data['lastname']));
-                                                        ?>
+                                                    $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
+                                                ?>
                                                     <tr>
                                                         <td><?php echo $fullname; ?></td>
                                                         <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
-                                                        <td><?php echo date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to']))?></td>
-                                                        <td><?php echo $data['maxp'];}}?></td>
-                                                    </tr> 
+                                                        <td><?php echo date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to'])) ?></td>
+                                                        <td><?php echo $data['maxp'];
+                                                        }
+                                                    } ?></td>
+                                                    </tr>
                                             </tbody>
                                         </table>
-                                        <?php include('../../includes/pagination.php');?>
+                                        <?php include('../../includes/pagination.php'); ?>
                                     <?php
-                                    }else {
+                                } else {
                                     ?>
                                         <tr>
                                             <td colspan="7">No record Found</td>
                                         </tr>
-                                <?php
-                                    }
+                                    <?php
+                                }
                                 mysqli_close($conn);
-                                ?>
+                                    ?>
                             </div>
                         </div>
                     </div>
@@ -288,4 +269,5 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

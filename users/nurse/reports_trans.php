@@ -3,18 +3,19 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
-$module = 'reports_transaction'; 
-$campus = $_SESSION['campus'];
-$now = date("Y-m-t");
-$userid=$_SESSION['userid'];
 
-if (!isset($_SESSION['username'])) {
-    header('location:../../index');
-}
+$module = 'reports_transaction';
+$campus = $_SESSION['campus'];
+$userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
+
+$now = date("Y-m-t");
 
 // get the total nr of rows.
 $records = $conn->query(
-"SELECT * FROM transaction_history WHERE campus = '$campus'");
+    "SELECT * FROM transaction_history WHERE campus = '$campus'"
+);
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php');
@@ -25,7 +26,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Reports</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?= $id ?>">
@@ -34,7 +35,9 @@ include('../../includes/pagination-limit.php');
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard"><H1>TRANSACTION REPORT</H1></span>
+                <span class="dashboard">
+                    <H1>TRANSACTION REPORT</H1>
+                </span>
             </div>
             <div class="right-nav">
                 <div class="notification-button">
@@ -47,9 +50,9 @@ include('../../includes/pagination-limit.php');
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            <?= $row ?>
-                        </span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $row ?>
+                            </span>
                         <?php
                         }
                         ?>
@@ -61,10 +64,14 @@ include('../../includes/pagination-limit.php');
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -75,7 +82,7 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_trans.php');">Export to PDF</button>
+                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_trans.php');">Export to PDF</button>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -83,7 +90,7 @@ include('../../includes/pagination-limit.php');
                             <div class="col-md-12">
                                 <form action="reports_filter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="reports" class="form-select">
                                                 <option value="" disabled>Select Report</option>
                                                 <option value="appointment">Appointment Report</option>
@@ -96,13 +103,13 @@ include('../../includes/pagination-limit.php');
                                                 <option value="tecalimain">Tools and Equipment Calibration and Maintenance Report</option>
                                             </select>
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">View</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-md-12 mb-3">
+                            <div class="col-md-12 mb-2">
                                 <form action="" method="GET">
                                     <div class="row">
                                         <div class="col-md-2">
@@ -128,61 +135,40 @@ include('../../includes/pagination-limit.php');
                                     $count = 1;
 
                                     //campus filter
-                                    if ($campus == "")
-                                    {
+                                    if ($campus == "") {
                                         $ca = "";
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         $ca = " WHERE t.campus = '$campus'";
                                     }
 
                                     //date filter
-                                    if ($dt_from =="" AND $dt_to =="")
-                                    {
+                                    if ($dt_from == "" and $dt_to == "") {
                                         $date = "";
-                                    }
-                                    elseif ($ca == "" AND $dt_to == $dt_from)
-                                    {
+                                    } elseif ($ca == "" and $dt_to == $dt_from) {
                                         $fdate = date("Y-m-d", strtotime($dt_from));
                                         $ldate = date("Y-m-d", strtotime($dt_to));
                                         $date = " WHERE date >= '$fdate' AND date <= '$ldate'";
-                                    }
-                                    elseif ($ca != "" AND $dt_to == $dt_from)
-                                    {
+                                    } elseif ($ca != "" and $dt_to == $dt_from) {
                                         $fdate = date("Y-m-d", strtotime($dt_from));
                                         $ldate = date("Y-m-d", strtotime($dt_to));
                                         $date = " AND date >= '$fdate' AND date <= '$ldate'";
-                                    }
-
-                                    elseif ($ca == "" AND $dt_to == "" AND $dt_from != "" )
-                                    {
+                                    } elseif ($ca == "" and $dt_to == "" and $dt_from != "") {
                                         $fdate = date("Y-m-d", strtotime($dt_from));
                                         $date = " AND date >= '$fdate'";
-                                    }
-                                    elseif ($ca != "" AND $dt_to == "" AND $dt_from != "" )
-                                    {
+                                    } elseif ($ca != "" and $dt_to == "" and $dt_from != "") {
                                         $fdate = date("Y-m-d", strtotime($dt_from));
                                         $date = " AND date >= '$fdate'";
-                                    }
-                                    elseif ($ca == "" AND $dt_from == "" AND $dt_to != "" )
-                                    {
+                                    } elseif ($ca == "" and $dt_from == "" and $dt_to != "") {
                                         $d = date("Y-m-d", strtotime($dt_to));
                                         $date = " WHERE date <= '$d'";
-                                    }
-                                    elseif ($ca != "" AND $dt_from == "" AND $dt_to != "" )
-                                    {
+                                    } elseif ($ca != "" and $dt_from == "" and $dt_to != "") {
                                         $d = date("Y-m-d", strtotime($dt_to));
                                         $date = " AND date <= '$d'";
-                                    }
-                                    elseif ($ca == "" AND $dt_from != "" AND $dt_to != "" AND $dt_from != $dt_to)
-                                    {
+                                    } elseif ($ca == "" and $dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
                                         $fdate = date("Y-m-d", strtotime($dt_from));
                                         $ldate = date("Y-m-d", strtotime($dt_to));
                                         $date = " WHERE date >= '$fdate' AND date <= '$ldate'";
-                                    }
-                                    elseif ($ca != "" AND $dt_from != "" AND $dt_to != "" AND $dt_from != $dt_to)
-                                    {
+                                    } elseif ($ca != "" and $dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
                                         $fdate = date("Y-m-d", strtotime($dt_from));
                                         $ldate = date("Y-m-d", strtotime($dt_to));
                                         $date = " AND date >= '$fdate' AND date <= '$ldate'";
@@ -220,52 +206,48 @@ include('../../includes/pagination-limit.php');
                                 if ($result) {
                                     if (mysqli_num_rows($result) > 0) {
                                 ?>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Patient</th>
-                                            <th>Physician/Nurse On Duty</th>
-                                            <th>Transaction</th>
-                                            <th>Date and Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                            foreach($result as $row) {
-                                                if (count(explode(" ", $row['middlename'])) > 1)
-                                                {
-                                                    $middle = explode(" ", $row['middlename']);
-                                                    $letter = $middle[0][0].$middle[1][0];
-                                                    $middleinitial = $letter . ".";
-                                                }
-                                                else
-                                                {
-                                                    $middle = $row['middlename'];
-                                                    if ($middle == "" OR $middle == " ")
-                                                    {
-                                                        $middleinitial = "";
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Patient</th>
+                                                    <th>Physician/Nurse On Duty</th>
+                                                    <th>Transaction</th>
+                                                    <th>Date and Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                foreach ($result as $row) {
+                                                    if (count(explode(" ", $row['middlename'])) > 1) {
+                                                        $middle = explode(" ", $row['middlename']);
+                                                        $letter = $middle[0][0] . $middle[1][0];
+                                                        $middleinitial = $letter . ".";
+                                                    } else {
+                                                        $middle = $row['middlename'];
+                                                        if ($middle == "" or $middle == " ") {
+                                                            $middleinitial = "";
+                                                        } else {
+                                                            $middleinitial = substr($middle, 0, 1) . ".";
+                                                        }
                                                     }
-                                                    else
-                                                    {
-                                                        $middleinitial = substr($middle, 0, 1) . ".";
-                                                    }    
-                                                }
-                                            ?>
-                                            <tr>
-                                                <td><?= $row['id'] ?></td>
-                                                <td><?= ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " .ucwords(strtolower($row['lastname']))?></td>
-                                                <td><?= $row['pod_nod'] ?></td>
-                                                <td><?= $row['type'] . " - " . $row['transaction'] ?></td>
-                                                <td><?= date("M d, Y", strtotime($row['datetime'])) . " " . date("g:i A", strtotime( $row['datetime'])) ?></td>
-                                            </tr>  
+                                                ?>
+                                                    <tr>
+                                                        <td><?= $row['id'] ?></td>
+                                                        <td><?= ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($row['lastname'])) ?></td>
+                                                        <td><?= $row['pod_nod'] ?></td>
+                                                        <td><?= $row['type'] . " - " . $row['transaction'] ?></td>
+                                                        <td><?= date("M d, Y", strtotime($row['datetime'])) . " " . date("g:i A", strtotime($row['datetime'])) ?></td>
+                                                    </tr>
                                         <?php
-                                        }}}
+                                                }
+                                            }
+                                        }
                                         mysqli_close($conn);
                                         ?>
-                                    </tbody>
-                                </table>
-                                <?php include('../../includes/pagination.php') ?>
+                                            </tbody>
+                                        </table>
+                                        <?php include('../../includes/pagination.php') ?>
                             </div>
                         </div>
                     </div>
@@ -291,4 +273,5 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

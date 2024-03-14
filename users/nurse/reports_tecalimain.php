@@ -3,15 +3,15 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
-$module = 'reports_tecalimain'; 
+
+$module = 'reports_tecalimain';
 $campus = $_SESSION['campus'];
+$userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
+
 $dt1 = date("Y-m-d");
 $dt2 = date("Y-m-t");
-$userid=$_SESSION['userid'];
-
-if (!isset($_SESSION['username'])) {
-    header('location:../../index');
-}
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM te_calimain WHERE campus = '$campus' ORDER BY tools_equip, date_from ");
@@ -25,7 +25,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Reports</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -34,7 +34,9 @@ include('../../includes/pagination-limit.php');
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard"><H2>TOOLS AND EQUIPMENT CALIBRATION AND MAINTENANCE REPORT</H2></span>
+                <span class="dashboard">
+                    <H2>TOOLS AND EQUIPMENT CALIBRATION AND MAINTENANCE REPORT</H2>
+                </span>
             </div>
             <div class="right-nav">
                 <div class="notification-button">
@@ -47,9 +49,9 @@ include('../../includes/pagination-limit.php');
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            <?= $row ?>
-                        </span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $row ?>
+                            </span>
                         <?php
                         }
                         ?>
@@ -61,10 +63,14 @@ include('../../includes/pagination-limit.php');
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -75,7 +81,7 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_teCaliMain.php');">Export to PDF</button>
+                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_teCaliMain.php');">Export to PDF</button>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -83,7 +89,7 @@ include('../../includes/pagination-limit.php');
                             <div class="col-md-12">
                                 <form action="reports_filter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="reports" class="form-select">
                                                 <option value="" disabled>Select Report</option>
                                                 <option value="appointment">Appointment Report</option>
@@ -96,13 +102,13 @@ include('../../includes/pagination-limit.php');
                                                 <option value="tecalimain" selected>Tools and Equipment Calibration and Maintenance Report</option>
                                             </select>
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">View</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div class="col">
+                            <div class="col-md-12 mb-2">
                                 <form action="" method="GET">
                                     <div class="row">
                                         <div class="col-md-2">
@@ -116,7 +122,6 @@ include('../../includes/pagination-limit.php');
                                 </form>
                             </div>
                         </div>
-                        <p>
                         <div class="col-sm-12">
                             <div class="table-responsive">
                                 <?php
@@ -135,32 +140,34 @@ include('../../includes/pagination-limit.php');
                                 if ($result) {
                                     if (mysqli_num_rows($result) > 0) {
                                 ?>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Tool/Equipment</th>
-                                            <th>Date From</th>
-                                            <th>Date To</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Tool/Equipment</th>
+                                                    <th>Date From</th>
+                                                    <th>Date To</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                foreach ($result as $row) {
+                                                ?>
+                                                    <tr>
+                                                        <td><?php echo $row['tools_equip'] . $row['unit_measure'] ?></td>
+                                                        <td><?php echo date("F d, Y", strtotime($row['date_from'])) ?></td>
+                                                        <td><?php echo date("F d, Y", strtotime($row['date_to'])) ?></td>
+                                                        <td><?php echo $row['te_status'] ?></td>
+                                                    </tr>
                                         <?php
-                                            foreach($result as $row) {
-                                            ?>
-                                            <tr>
-                                                <td><?php echo $row['tools_equip'] . $row['unit_measure']?></td>
-                                                <td><?php echo date("F d, Y", strtotime($row['date_from'])) ?></td>
-                                                <td><?php echo date("F d, Y", strtotime($row['date_to'])) ?></td>
-                                                <td><?php echo $row['te_status'] ?></td>
-                                            </tr>  
-                                        <?php
-                                        }}}
+                                                }
+                                            }
+                                        }
                                         mysqli_close($conn);
                                         ?>
-                                    </tbody>
-                                </table>
-                                <?php include('../../includes/pagination.php') ?>
+                                            </tbody>
+                                        </table>
+                                        <?php include('../../includes/pagination.php') ?>
                             </div>
                         </div>
                     </div>
@@ -186,4 +193,5 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

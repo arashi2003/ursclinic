@@ -3,9 +3,13 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
+
 $module = 'transaction_add';
 $campus = $_SESSION['campus'];
-$userid=$_SESSION['userid'];
+$userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
+
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +17,7 @@ $userid=$_SESSION['userid'];
 
 <head>
     <title>Transaction</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -35,9 +39,9 @@ $userid=$_SESSION['userid'];
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            <?= $row ?>
-                        </span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $row ?>
+                            </span>
                         <?php
                         }
                         ?>
@@ -49,10 +53,14 @@ $userid=$_SESSION['userid'];
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -73,143 +81,143 @@ $userid=$_SESSION['userid'];
                 </div>
                 <div class="content">
                     <form method="POST" action="add/transaction.php" id="form">
-                    <h3><b>Patient</b></h3>
-                    <div class="row">
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Patient ID:</span>
-                                <input type="text" class="form-control" name="patientid" id="patientid">
+                        <h3><b>Patient</b></h3>
+                        <div class="row">
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">Patient ID:</span>
+                                    <input type="text" class="form-control" name="patientid" id="patientid">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">First Name:</span>
-                                <input type="text" maxlength="45" class="form-control" name="firstname" id="firstname" required>
+                        <div class="row">
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">First Name:</span>
+                                    <input type="text" maxlength="45" class="form-control" name="firstname" id="firstname" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">Middle Name:</span>
+                                    <input type="text" maxlength="45" class="form-control" name="middlename" id="middlename">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">Last Name:</span>
+                                    <input type="text" maxlength="45" class="form-control" name="lastname" id="lastname" required>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Middle Name:</span>
-                                <input type="text" maxlength="45" class="form-control" name="middlename" id="middlename">
+                        <div class="row">
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">Designation:</span>
+                                    <select class="form-control" aria-label=".form-select-md example" name="designation" id="designation" required>
+                                        <option value="" disabled selected></option>
+                                        <?php
+                                        include('connection.php');
+                                        $sql = "SELECT * FROM designation ORDER BY designation";
+                                        $result = mysqli_query($conn, $sql);
+                                        while ($row = mysqli_fetch_array($result)) { ?>
+                                            <option value="<?= $row['designation']; ?>"><?= $row['designation']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">Age:</span>
+                                    <input type="text" maxlength="3" class="form-control" name="age" id="age" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">Sex:</span>
+                                    <select class="form-control" aria-label=".form-select-md example" name="sex" id="sex" required>
+                                        <option value="" disabled selected></option>
+                                        <option value="MALE">MALE</option>
+                                        <option value="FEMALE">FEMALE</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Last Name:</span>
-                                <input type="text" maxlength="45" class="form-control" name="lastname" id="lastname" required>
+                        <div class="row">
+                            <!-- responsive-->
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
+                                    <select class="form-control" aria-label=".form-select-md example" name="department" id="department" required>
+                                        <option value="" disabled selected></option>
+                                        <?php
+                                        include('connection.php');
+                                        $sql = "SELECT * FROM department ORDER BY department";
+                                        $result = mysqli_query($conn, $sql);
+                                        while ($row = mysqli_fetch_array($result)) { ?>
+                                            <option value="<?= $row['department']; ?>"><?= $row['department']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
+                                    <select class="form-control" aria-label=".form-select-md example" name="college" id="college">
+                                        <option value="" disabled selected></option>
+                                        <?php
+                                        include('connection.php');
+                                        $sql = "SELECT * FROM college ORDER BY college";
+                                        $result = mysqli_query($conn, $sql);
+                                        while ($row = mysqli_fetch_array($result)) { ?>
+                                            <option value="<?= $row['college']; ?>"><?= $row['college']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">Program:</span>
+                                    <select class="form-control" aria-label=".form-select-md example" name="program" id="program">
+                                        <option value="" disabled selected></option>
+                                        <?php
+                                        include('connection.php');
+                                        $sql = "SELECT * FROM program ORDER BY program";
+                                        $result = mysqli_query($conn, $sql);
+                                        while ($row = mysqli_fetch_array($result)) { ?>
+                                            <option value="<?= $row['abbrev']; ?>"><?= $row['program']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">Year Level:</span>
+                                    <select class="form-control" aria-label=".form-select-md example" name="yearlevel" id="yearlevel">
+                                        <option value="" disabled selected></option>
+                                        <?php
+                                        include('connection.php');
+                                        $sql = "SELECT * FROM yearlevel ORDER BY yearlevel";
+                                        $result = mysqli_query($conn, $sql);
+                                        while ($row = mysqli_fetch_array($result)) { ?>
+                                            <option value="<?= $row['yearlevel']; ?>"><?= $row['yearlevel']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">Section:</span>
+                                    <input type="text" class="form-control" name="section" id="section">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">Block:</span>
+                                    <input type="text" class="form-control" name="block" id="block">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Designation:</span>
-                                <select class="form-control" aria-label=".form-select-md example" name="designation" id="designation" required>
-                                    <option value="" disabled selected></option>
-                                    <?php
-                                    include('connection.php');
-                                    $sql = "SELECT * FROM designation ORDER BY designation";
-                                    $result = mysqli_query($conn, $sql);
-                                    while ($row = mysqli_fetch_array($result)) {?>
-                                        <option value="<?= $row['designation']; ?>"><?= $row['designation']; ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Age:</span>
-                                <input type="text" maxlength="3" class="form-control" name="age" id="age" required>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Sex:</span>
-                                <select class="form-control" aria-label=".form-select-md example" name="sex" id="sex" required>
-                                    <option value="" disabled selected></option>
-                                    <option value="MALE">MALE</option>
-                                    <option value="FEMALE">FEMALE</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <!-- responsive-->
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
-                                <select class="form-control" aria-label=".form-select-md example" name="department" id="department" required>
-                                    <option value="" disabled selected></option>
-                                    <?php
-                                    include('connection.php');
-                                    $sql = "SELECT * FROM department ORDER BY department";
-                                    $result = mysqli_query($conn, $sql);
-                                    while ($row = mysqli_fetch_array($result)) {?>
-                                        <option value="<?= $row['department']; ?>"><?= $row['department']; ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
-                                <select class="form-control" aria-label=".form-select-md example" name="college" id="college">
-                                    <option value="" disabled selected></option>
-                                    <?php
-                                    include('connection.php');
-                                    $sql = "SELECT * FROM college ORDER BY college";
-                                    $result = mysqli_query($conn, $sql);
-                                    while ($row = mysqli_fetch_array($result)) {?>
-                                        <option value="<?= $row['college']; ?>"><?= $row['college']; ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Program:</span>
-                                <select class="form-control" aria-label=".form-select-md example" name="program" id="program">
-                                    <option value="" disabled selected></option>
-                                    <?php
-                                    include('connection.php');
-                                    $sql = "SELECT * FROM program ORDER BY program";
-                                    $result = mysqli_query($conn, $sql);
-                                    while ($row = mysqli_fetch_array($result)) {?>
-                                        <option value="<?= $row['abbrev']; ?>"><?= $row['program']; ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Year Level:</span>
-                                <select class="form-control" aria-label=".form-select-md example" name="yearlevel" id="yearlevel">
-                                    <option value="" disabled selected></option>
-                                    <?php
-                                    include('connection.php');
-                                    $sql = "SELECT * FROM yearlevel ORDER BY yearlevel";
-                                    $result = mysqli_query($conn, $sql);
-                                    while ($row = mysqli_fetch_array($result)) {?>
-                                        <option value="<?= $row['yearlevel']; ?>"><?= $row['yearlevel']; ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Section:</span>
-                                <input type="text" class="form-control" name="section" id="section" >
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Block:</span>
-                                <input type="text" class="form-control" name="block" id="block" >
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="content">
@@ -217,14 +225,14 @@ $userid=$_SESSION['userid'];
                         <div class="col-md-4 mb-2">
                             <div class="input-group input-group-md mb-2">
                                 <span class="input-group-text" id="inputGroup-sizing-md">Transaction:</span>
-                                <input type="text"  class="form-control"  name="transaction" value="Walk-In" hidden>
+                                <input type="text" class="form-control" name="transaction" value="Walk-In" hidden>
                                 <select class="form-control" aria-label=".form-select-md example" name="service" id="service">
                                     <option value="" disabled selected></option>
                                     <?php
                                     include('connection.php');
                                     $sql = "SELECT DISTINCT service FROM transaction WHERE transaction_type = 'Walk-In' ORDER BY service";
                                     $result = mysqli_query($conn, $sql);
-                                    while ($row = mysqli_fetch_array($result)) {?>
+                                    while ($row = mysqli_fetch_array($result)) { ?>
                                         <option value="<?= $row['service']; ?>"><?= $row['service']; ?></option>
                                     <?php } ?>
                                 </select>
@@ -240,14 +248,14 @@ $userid=$_SESSION['userid'];
                             include('connection.php');
                             $sql = "SELECT * FROM chief_complaint ORDER BY chief_complaint";
                             $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_array($result)) {?>
+                            while ($row = mysqli_fetch_array($result)) { ?>
                                 <option value="<?= $row['chief_complaint']; ?>"><?= $row['chief_complaint']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Others:</span>
-                        <input type="text" class="form-control" name="chief_complaint_others" id="chief_complaint_others" >
+                        <input type="text" class="form-control" name="chief_complaint_others" id="chief_complaint_others">
                     </div>
                     <!-- responsive pag others pinili lalabas additional na textbox-->
                     <div class="input-group input-group-md mb-2">
@@ -258,18 +266,18 @@ $userid=$_SESSION['userid'];
                             include('connection.php');
                             $sql = "SELECT * FROM findiag ORDER BY findiag";
                             $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_array($result)) {?>
+                            while ($row = mysqli_fetch_array($result)) { ?>
                                 <option value="<?= $row['findiag']; ?>"><?= $row['findiag']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Others:</span>
-                        <input type="text" class="form-control" name="findiag_others" id="findiag_others" >
+                        <input type="text" class="form-control" name="findiag_others" id="findiag_others">
                     </div>
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Remarks:</span>
-                        <input type="text" class="form-control" name="remarks" id="remarks" >
+                        <input type="text" class="form-control" name="remarks" id="remarks">
                     </div>
                     <div class="row duplicate_med">
                         <div class="col-md-9 mb-2">
@@ -323,7 +331,7 @@ $userid=$_SESSION['userid'];
                     </div>
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Referral:</span>
-                        <input type="text" class="form-control" name="referral" id="referral" >
+                        <input type="text" class="form-control" name="referral" id="referral">
                     </div>
 
                     <!-- responsive pag others pinili lalabas additional na textbox-->
@@ -335,16 +343,16 @@ $userid=$_SESSION['userid'];
                             include('connection.php');
                             $sql = "SELECT * FROM med_case ORDER BY type, medcase";
                             $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_array($result)) {?>
-                                <option value="<?= $row['id']; ?>"><?= "(" . ucfirst(strtolower( $row['type'])) . ") " . $row['medcase']; ?></option>
+                            while ($row = mysqli_fetch_array($result)) { ?>
+                                <option value="<?= $row['id']; ?>"><?= "(" . ucfirst(strtolower($row['type'])) . ") " . $row['medcase']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Others:</span>
-                        <input type="text" class="form-control" name="medcase_others" id="medcase_others" >
+                        <input type="text" class="form-control" name="medcase_others" id="medcase_others">
                     </div>
-                    
+
                     <div class="modal-footer">
                         <input type="text" class="form-control" name="type" value="Walk-In" id="type" hidden>
                         <input type="text" class="form-control" name="transaction" value="Walk-In" id="transaction" hidden>
@@ -352,7 +360,7 @@ $userid=$_SESSION['userid'];
                         <input type="text" class="form-control" name="medicine[]" value="" id="medicine[]" hidden>
                         <input type="text" class="form-control" name="quantity_sup[]" value="" id="quantity_sup[]" hidden>
                         <input type="text" class="form-control" name="quantity_med[]" value="" id="quantity_med[]" hidden>
-                        <input type="submit" class="btn btn-primary" value="Add Record"></input> 
+                        <input type="submit" class="btn btn-primary" value="Add Record"></input>
                         &ThickSpace;
                         <input type="reset" class="btn btn-danger" value="Cancel"></input>
                     </div>
@@ -470,4 +478,5 @@ $userid=$_SESSION['userid'];
         });
     });
 </script>
+
 </html>

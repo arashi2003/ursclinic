@@ -4,13 +4,13 @@
     switch($filter)
     {
         case "expiration":
-            header('Location: med_stocks.php');
+            header('Location: med_stocks');
             break;
         case "batch":
-            header('Location: med_stocks_batch.php');
+            header('Location: med_stocks_batch');
             break;
         default:
-            header('Location: med_stocks_total.php');
+            header('Location: med_stocks_total');
             break;
     }
 ?>

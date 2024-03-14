@@ -286,9 +286,18 @@ nav .sidebar-button i {
   border: 2px solid #efeef1;
   border-radius: 50px;
   height: 50px;
-  min-width: 200px;
   padding: 0 15px 0 2px;
   margin-left: 10px;
+}
+.home-section .profile-details .dropdown li.usertype {
+  text-transform: capitalize;
+  text-align: center;
+  color: rgb(94, 94, 94);
+}
+
+.home-section .profile-details .dropdown li {
+  text-transform: capitalize;
+  text-align: center;
 }
 
 .home-section nav .profile {

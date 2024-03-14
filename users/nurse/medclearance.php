@@ -3,8 +3,12 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
+
 $module = 'medclearance';
-$userid=$_SESSION['userid'];
+$userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
+
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +16,7 @@ $userid=$_SESSION['userid'];
 
 <head>
     <title>Medical Clearance</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -34,9 +38,9 @@ $userid=$_SESSION['userid'];
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            <?= $row ?>
-                        </span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $row ?>
+                            </span>
                         <?php
                         }
                         ?>
@@ -48,10 +52,14 @@ $userid=$_SESSION['userid'];
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -97,7 +105,7 @@ $userid=$_SESSION['userid'];
                                     $result = mysqli_query($conn, $sql);
                                     while ($row = mysqli_fetch_array($result)) {
                                     ?>
-                                        <option value="<?= $row['department']; ?>"><?= $row['department']?></option>
+                                        <option value="<?= $row['department']; ?>"><?= $row['department'] ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -111,7 +119,7 @@ $userid=$_SESSION['userid'];
                                     $result = mysqli_query($conn, $sql);
                                     while ($row = mysqli_fetch_array($result)) {
                                     ?>
-                                        <option value="<?= $row['college']; ?>"><?= $row['college']?></option>
+                                        <option value="<?= $row['college']; ?>"><?= $row['college'] ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -125,7 +133,7 @@ $userid=$_SESSION['userid'];
                                     $result = mysqli_query($conn, $sql);
                                     while ($row = mysqli_fetch_array($result)) {
                                     ?>
-                                        <option value="<?= $row['abbrev']; ?>"><?= $row['abbrev']?></option>
+                                        <option value="<?= $row['abbrev']; ?>"><?= $row['abbrev'] ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -139,16 +147,16 @@ $userid=$_SESSION['userid'];
                                 <span class="input-group-text" id="inputGroup-sizing-md">Section:</span>
                                 <input type="text" class="form-control" name="section">
                             </div>
-                            
+
 
                             <div class="modal-footer">
                                 <input type="submit" class="btn btn-primary" value="View"></input>
                             </div>
                         </form>
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
 
         </div>
     </section>
@@ -170,4 +178,5 @@ $userid=$_SESSION['userid'];
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

@@ -4,16 +4,16 @@
     switch($inv)
     {
         case "medadmin":
-            header('Location: medadmin_set.php');
+            header('Location: medadmin_set');
             break;
         case "dform":
             header('Location: dform_set.php');
             break;
         case "um":
-            header('Location: umeasure_set.php');
+            header('Location: umeasure_set');
             break;
         default:
-            header('Location: inv.php');
+            header('Location: inv');
             break;
     }
 ?>
