@@ -9,8 +9,8 @@
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="adminid" class="form-label">Account ID:</label>
-                        <input type="text" name="adminid" value="<?php echo $data['adminid']?>" hidden>
-                        <input type="text" class="form-control" name="adminid" id="adminid" value="<?php echo $data['adminid']?>" readonly disabled>
+                        <input type="text" name="id" value="<?php echo $data['id']?>" hidden>
+                        <input type="text" class="form-control" name="adminid" id="adminid" value="<?php echo $data['adminid']?>">
                     </div>
                     <div class="mb-2">
                         <label for="campus" class="form-label">Campus:</label>
@@ -50,21 +50,25 @@
                         </div>
                         <div class="col mb-2">
                             <label for="title" class="form-label">Position:</label>
-                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="title" id="title" required>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="position" id="position" required>
                                 <option value="" disabled selected>-Select Position-</option>
                                 <?php
-                                include('connection.php');
-                                $sql = "SELECT DISTINCT title FROM organization ORDER BY title";
-                                $result = mysqli_query($conn, $sql);
-                                while ($row = mysqli_fetch_array($result)) {
-                                    if ($data['title'] == $row['title'])
+                                    if ($data['title'] == "Head, Health Services Unit")
                                     {
                                 ?>
-                                    <option value="<?= $row['title']; ?>" selected><?= $row['title']; ?></option>
-                                <?php } else
+                                    <option value="Head, Health Services Unit" selected>Head, Health Services Unit</option>
+                                    <option value="Campus Nurse">Campus Nurse</option>
+                                    <option value="Campus Director">Campus Director</option>
+                                <?php } elseif ($data['title'] == "Campus Nurse")
                                 {?>
-                                    <option value="<?= $row['title']; ?>"><?= $row['title']; ?></option>
-                                <?php }} ?>
+                                    <option value="Head, Health Services Unit">Head, Health Services Unit</option>
+                                    <option value="Campus Nurse" selected>Campus Nurse</option>
+                                    <option value="Campus Director">Campus Director</option>
+                                <?php } else {?>
+                                    <option value="Head, Health Services Unit">Head, Health Services Unit</option>
+                                    <option value="Campus Nurse">Campus Nurse</option>
+                                    <option value="Campus Director" selected>Campus Director</option>
+                                <?php }?>
                             </select>
                         </div>
                     </div>

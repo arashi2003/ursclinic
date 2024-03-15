@@ -81,7 +81,7 @@ include('../../includes/pagination-limit.php');
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md">
                                 <form action="app_filter.php" method="POST">
                                     <div class="row">
                                         <div class="col-md-2 mb-2">
@@ -128,7 +128,13 @@ include('../../includes/pagination-limit.php');
                                             <thead>
                                                 <tr>
                                                     <th>ID</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
                                                     <th>Appointment Type</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -138,7 +144,13 @@ include('../../includes/pagination-limit.php');
                                                 foreach ($result as $data) { ?>
                                                     <tr>
                                                         <td><?php echo $type = $data['id']; ?></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
                                                         <td><?php echo $data['type']; ?></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateapptype_set<?php echo $data['id']; ?>">Update</button>
                                                             <?php

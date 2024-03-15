@@ -184,7 +184,7 @@ include('../../includes/pagination-limit.php');
                                                             $date = date("F d, Y", strtotime($data['expiration']));
                                                         } ?>
                                                         <td><?php echo $data['batchid'] ?></td>
-                                                        <td><?php echo $data['medicine'] . " " . $data['dosage'] . $data['unit_measure'] ?></td>
+                                                        <td><?php echo $data['supply'] . " " . $data['volume'] . $data['unit_measure'] ?></td>
                                                         <td><?php echo $data['qty']?></td>
                                                         <td><?php echo $data['unit_cost']?></td>
                                                         <td><?php echo $amount;}?></td>

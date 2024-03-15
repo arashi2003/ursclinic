@@ -1,7 +1,7 @@
 <?php
     session_start();
     include('../../add/connection.php');
-    $accountid = $_POST['accountid'];
+    $accountid = $_POST['userid'];
     $cupassword = $_POST['cupassword'];
     $password = $_POST['npassword'];
     $copassword = $_POST['copassword'];

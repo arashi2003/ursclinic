@@ -130,6 +130,9 @@ include('../../includes/pagination-limit.php');
                                                     <th>ID</th>
                                                     <th>Appointment Type</th>
                                                     <th>Appointment Purpose</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
                                                     <th>Action</th>
                                             </thead>
                                             <tbody>
@@ -140,6 +143,9 @@ include('../../includes/pagination-limit.php');
                                                         <td><?php echo $purpose = $data['id'] ?></td>
                                                         <td><?php echo $data['type']; ?></td>
                                                         <td><?php echo $data['purpose']; ?></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateapppurpose_set<?php echo $data['id']; ?>">Update</button>
                                                             <?php

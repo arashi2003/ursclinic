@@ -7,7 +7,7 @@ $fullname = strtoupper($_SESSION['name']);
 $au_status = "unread";
 
 if ($_POST['patientid'] != "" || $_POST['patientid'] != " ") {
-    $activity = 'added a transaction record for ' . $_POST['type'] . " to " . $_POST['patientid'];
+    $activity = 'added a transaction record for ' . $_POST['type'] . " of " . $_POST['patientid'];
 } else {
     $activity = 'added a transaction record for ' . $_POST['type'];
 }

@@ -6,6 +6,7 @@
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = $_SESSION['name'];
+    $au_status = "unread";
     $activity = "added supply ID " . $_POST['supply'] . " inventory stocks";
     $batchid = "B" . date("Ymd");
     $medid = $_POST['supply'];
@@ -18,7 +19,6 @@
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $activity = "added supply id " . $medid . " stocks in medical supply inventory";
-    $au_status = "unread";
  
     //supply
     $query = mysqli_query($conn, "SELECT * FROM supply WHERE supid = '$medid'");
@@ -39,7 +39,7 @@
         $resultCheck = mysqli_num_rows($result);
         if($resultCheck > 0)
         {
-            $query = "SELECT * FROM inv_total WHERE stockid = '$medid' AND type = 'medicine' AND campus='$au_campus'";
+            $query = "SELECT * FROM inv_total WHERE stockid = '$medid' AND type = 'supply' AND campus='$au_campus' LIMIT 1";
             $result=mysqli_query($conn, $query);
             foreach($result as $data)
             {
@@ -113,6 +113,7 @@
                                 $iamt = $data['iqty'] * $aobuc;
                                 $iqty = $data['iqty'];
                             }
+
                             $ucost = ($data['eamt'] + ($qty * $cost));
                             $aeamt = number_format($ucost, 2, ".");
                         }

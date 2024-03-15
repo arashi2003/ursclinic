@@ -16,6 +16,7 @@
     $section = $_POST['section'];
     $email = $_POST['email'];
     $contactno = $_POST['contactno'];
+    $address=$_POST['address'];
     $emcon_name = $_POST['emcon_name'];
     $emcon_number = $_POST['emcon_number'];
 
@@ -30,7 +31,7 @@
     $resultCheck = mysqli_num_rows($result);
     if($resultCheck > 0)
     {
-        $sql= "INSERT INTO patient_info SET patientid = '$accountid', designation = '$designation', age = '$age', sex = '$sex', birthday = '$birthday', department = '$department', campus = '$au_campus', college = '$college', program = '$program', yearlevel = '$yearlevel', section = '$section', email = '$email', contactno = '$contactno', emcon_name = '$emcon_name', emcon_number = '$emcon_number', datetime_updated = now(), datetime_created = now()";
+        $sql= "INSERT INTO patient_info SET patientid = '$accountid', designation = '$designation', age = '$age', sex = '$sex', birthday = '$birthday', department = '$department', campus = '$au_campus', college = '$college', program = '$program', yearlevel = '$yearlevel', section = '$section', email = '$email', contactno = '$contactno', address='$address', emcon_name = '$emcon_name', emcon_number = '$emcon_number', datetime_updated = now(), datetime_created = now()";
         if (mysqli_query($conn, $sql))
             {
                 $sql= "INSERT INTO patient_image (patient_id, image,created_at) VALUES ('$accountid', 'noptofile.png', now())";

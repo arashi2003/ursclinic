@@ -4,7 +4,7 @@
     $user = $_SESSION['userid'];
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
-    $activity = "added a transaction record for " . $_POST['patientid'];
+    $activity = "added a transaction record for vitals of " . $_POST['patientid'];
     $au_status = "unread";
     
     //patient info

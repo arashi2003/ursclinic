@@ -131,6 +131,7 @@ include('../../includes/pagination-limit.php');
                                                     <th>ID</th>
                                                     <th>Chief Complaint</th>
                                                     <th>Action</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
 

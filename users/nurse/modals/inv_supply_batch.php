@@ -39,7 +39,7 @@
         $resultCheck = mysqli_num_rows($result);
         if($resultCheck > 0)
         {
-            $query = "SELECT * FROM inv_total WHERE stockid = '$medid' AND type = 'medicine' AND campus='$au_campus'";
+            $query = "SELECT * FROM inv_total WHERE stockid = '$medid' AND type = 'supply' AND campus='$au_campus' LIMIT 1";
             $result=mysqli_query($conn, $query);
             foreach($result as $data)
             {
@@ -54,6 +54,7 @@
                 $query1 = "INSERT INTO inventory (campus, stock_type, batchid, stockid, closed, opened, qty, unit_cost, expiration, date, time)VALUES ('$campus', 'supply', '$batchid', '$medid', '$c', '$o', '$qty', '$cost', '$exp', now(), now())";
                 if(mysqli_query($conn, $query1))
                 {
+                    //session accountid of nurse
                     $accountid = $_SESSION['userid'];
                     $medid = $_POST['supply'];
                     $qty = $_POST['opened'] + $_POST['close'];
@@ -336,6 +337,7 @@
                 $query1 = "INSERT INTO inventory (campus, stock_type, batchid, stockid, closed, opened, qty, unit_cost, expiration, date, time)VALUES ('$campus', 'supply', '$batchid', '$medid', '$c', '$o', '$qty', '$cost', '$exp', now(), now())";
                 if(mysqli_query($conn, $query1))
                 {
+                    //session accountid of nurse
                     $accountid = $_SESSION['userid'];
                     $medid = $_POST['supply'];
                     $qty = $_POST['opened'] + $_POST['close'];

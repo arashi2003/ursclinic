@@ -335,6 +335,10 @@
                         <input type="text" maxlength="13" class="form-control" name="contactno" id="contactno" value="<?php echo $data['contactno']?>" required>
                     </div>
                     <div class="mb-2">
+                        <label for="email" class="form-label">Home Address:</label>
+                        <input type="text" class="form-control" name="address" id="address" value="<?php echo $data['address']?>" required>
+                    </div>
+                    <div class="mb-2">
                         <label for="emcon_name" class="form-label">Emergency Contact Name:</label>
                         <input type="text" class="form-control" name="emcon_name" id="emcon_name" value="<?php echo $data['emcon_name']?>" required>
                     </div>

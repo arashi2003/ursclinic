@@ -33,6 +33,7 @@
     $query0 = "UPDATE inventory_supply SET closed = '$c', open = '$o', qty = '$qty' WHERE campus = '$campus' AND supid = '$medid' AND expiration > '$today' AND closed != 0 AND open != 0 AND qty != 0 LIMIT 1";
     if(mysqli_query($conn, $query0))
     {
+        
         // update inventory total
         $query = "UPDATE inv_total SET open='$o', closed='$c', qty='$qty' WHERE stockid='$medid'";
         if(mysqli_query($conn, $query))
@@ -42,9 +43,8 @@
             if(mysqli_query($conn, $query1))
             {
                 $accountid = $_SESSION['userid'];
-                $medid = $_POST['supply'];
+                $medid = $_POST['supid'];
                 $qty = $_POST['opened'] + $_POST['close'];
-                $cost = $_POST['unit_cost'];
                 
                 //supply
                 $query = mysqli_query($conn, "SELECT * FROM supply WHERE supid = '$medid'");
@@ -56,7 +56,7 @@
                 $campus = $_SESSION['campus'];
                 // last day of this month
                 $enddate = date("Y-m-t");
-                $medid = $_POST['supply'];
+                $medid = $_POST['supid'];
 
                 $query0 = "SELECT * FROM report_medsupinv WHERE medid = '$medid' AND type = 'supply' AND date = '$enddate'";    
                 $result = mysqli_query($conn, $query0);
@@ -118,7 +118,7 @@
 
                     }
 
-                    $medid = $_POST['supply'];
+                    $medid = $_POST['supid'];
                     $enddate = date("Y-m-t");
 
                     $query = "UPDATE report_medsupinv SET rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'supply' AND campus = '$campus'";

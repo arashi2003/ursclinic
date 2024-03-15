@@ -1,12 +1,22 @@
 <?php
     session_start();
     include('../../add/connection.php');
-    $id = $_POST['adminid'];
-    $campus = strtoupper($_POST['campus']);
+    $id = $_POST['id'];
     $firstname = strtoupper($_POST['firstname']);
+    $middle = $_POST['middlename'];
     $lastname = strtoupper($_POST['lastname']);
     $extension = $_POST['extension'];
-    $title = $_POST['title'];
+    $adminid = $_POST['adminid'];
+    $title = $_POST['position'];
+
+    if($_POST['campus'] == "ALL")
+    {
+        $campus = "UNIVERSITY";
+    }
+    else
+    {
+        $campus = $_POST['campus'];
+    }
 
     $user = $_SESSION['userid'];
     $au_campus = $_SESSION['campus'];
@@ -14,24 +24,6 @@
     $activity = "updated an organization entry";
     $au_status = "unread";
 
-    if($_POST['middlename'] == "")
-    {
-        $middle = NULL;
-    }
-    else
-    {
-        $middle = $_POST['middlename'];
-    }
-
-    if($_POST['accountid'] == "")
-    {
-        $adminid = NULL;
-    }
-    else
-    {
-        $adminid = $_POST['accountid'];
-    }
-    
 
     $sql = "UPDATE organization SET campus='$campus', adminid='$adminid', firstname='$firstname', middlename='$middle', lastname='$lastname', extension='$extension', title= '$title' WHERE id = '$id'";
     if($result = mysqli_query($conn, $sql))

@@ -1,11 +1,19 @@
 <?php
     session_start();
     include('../../add/connection.php');
-    $campus = strtoupper($_POST['campus']);
     $firstname = strtoupper($_POST['firstname']);
     $lastname = strtoupper($_POST['lastname']);
     $extension = $_POST['extension'];
-    $title = $_POST['title'];
+    $title = $_POST['position'];
+
+    if($_POST['campus'] == "ALL")
+    {
+        $campus = "UNIVERSITY";
+    }
+    else
+    {
+        $campus = $_POST['campus'];
+    }
 
     $user = $_SESSION['userid'];
     $au_campus = $_SESSION['campus'];
@@ -13,23 +21,8 @@
     $activity = "added an entry to organization";
     $au_status = "unread";
 
-    if($_POST['middlename'] == "")
-    {
-        $middle = NULL;
-    }
-    else
-    {
-        $middle = $_POST['middlename'];
-    }
-
-    if($_POST['accountid'] == "")
-    {
-        $adminid = NULL;
-    }
-    else
-    {
-        $adminid = $_POST['accountid'];
-    }
+    $middle = $_POST['middlename'];
+    $adminid = $_POST['accountid'];
     
 
     $sql = "SELECT * FROM organization WHERE title = '$title' AND campus = '$campus'";

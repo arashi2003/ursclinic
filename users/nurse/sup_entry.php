@@ -128,7 +128,19 @@ include('../../includes/pagination-limit.php');
                                             <thead>
                                                 <tr>
                                                     <th>Medical Supply ID</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
                                                     <th>Supply</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
                                                     <th>Action</th>
                                             </thead>
                                             <tbody>
@@ -143,7 +155,19 @@ include('../../includes/pagination-limit.php');
                                                                 $volume = $data['volume'];
                                                             }
                                                             ?></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
                                                         <td><?php echo $data['supply'] . " " . $volume . $data['unit_measure']; ?></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatesup<?php echo $data['supid']; ?>">Update</button>
                                                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removesup<?php echo $data['supid']; ?>">Remove</button>

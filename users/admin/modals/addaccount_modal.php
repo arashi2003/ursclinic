@@ -5,7 +5,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Add Account</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../admin/account_users.php'"></button>
             </div>
-            <form method="POST" action="../add/account_add.php" id="form">
+            <form method="POST" action="../admin/add/account_add.php" id="form">
                 <div class="modal-body">
                     <div class="input-group input-group-md">
                         <input class="form-control" type="file" name="acccsv" accept=".jpg, .jpeg, .png, .csv">

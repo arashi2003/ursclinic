@@ -129,6 +129,9 @@ include('../../includes/pagination-limit.php');
                                                 <tr>
                                                     <th>Tools/Equipment ID</th>
                                                     <th>Tools and Equipment</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
                                                     <th>Action</th>
                                             </thead>
                                             <tbody>
@@ -138,6 +141,9 @@ include('../../includes/pagination-limit.php');
                                                     <tr>
                                                         <td><?php echo $data['teid']; ?></td>
                                                         <td><?php echo $data['tools_equip'] . $data['unit_measure']; ?></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatete<?php echo $data['teid']; ?>">Update</button>
                                                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removete<?php echo $data['teid']; ?>">Remove</button>

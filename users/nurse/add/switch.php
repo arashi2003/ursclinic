@@ -4087,13 +4087,25 @@
 
 
 
+
+
+
+
+
+
+
+    
+
+
+
+
     
 
 
 
 
     // update inventory_total -- status muna
-
+{
     
     $qty_m = $_POST['quantity_med'];
     $medicine = $_POST['medicine'];
@@ -20523,55 +20535,6 @@
             // modal message box saying "Transaction was recorded."
         }
     }
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
+}
                 
 ?>
