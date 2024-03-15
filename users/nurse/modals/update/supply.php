@@ -7,14 +7,12 @@
     $campus = $_SESSION['campus'];
     $fullname = $_SESSION['name'];
     $au_status = "unread";
-    $activity = "added supply ID " . $_POST['supply'] . " inventory stocks";
+    $activity = "added supply ID " . $_POST['supid'] . " inventory stocks";
     $batchid = "B" . date("Ymd");
-    $medid = $_POST['supply'];
+    $medid = $_POST['supid'];
     $qty = $_POST['opened'] + $_POST['close'];
     $o = $_POST['opened'];
     $c = $_POST['close'];
-    $cost = $_POST['unit_cost'];
-    $exp = $_POST['expiration'];
 
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
@@ -40,7 +38,7 @@
         if(mysqli_query($conn, $query))
         {
             //update inventory by batch
-            $query1 = "UPDATE inventory SET opened='$o', closed='$c', qty='$qty' WHERE campus = '$campus' AND stockid = '$medid' AND expiration > '$today' AND closed != 0 AND open != 0 AND qty != 0 LIMIT 1";
+            $query1 = "UPDATE inventory SET opened='$o', closed='$c', qty='$qty' WHERE campus = '$campus' AND stockid = '$medid' AND expiration > '$today' AND closed != 0 AND opened != 0 AND qty != 0 LIMIT 1";
             if(mysqli_query($conn, $query1))
             {
                 $accountid = $_SESSION['userid'];
@@ -69,52 +67,61 @@
                     {
                         // kunin values from row
                         $qty = $_POST['opened'] + $_POST['close'];
-                        $aobqty = $data['bqty'];
-                        $aorqty = $data['rqty'];
-                        $aotqty = $data['tqty'];
-                        $aieqty = $data['eqty'];
                         $aieamt = $data['eamt'];
-                        
-                        $arqty = $aorqty + $qty;
-                        $tqty = $aotqty + $qty;
-                        $eqty = $qty + $aieqty;
+                        $cost = $data['buc'];
 
-                        if ($data['bqty'] == 0 )
+                        if ($data['buc'] == 0 )
                         {
                             $aobuc = 0;
                             $abuc = number_format($aobuc, 2, ".");
                         }
                         else
                         {
-                            $aobuc = ($data['eamt'] + ($qty * $cost)) / $eqty;
+                            $aobuc = $data['eamt'] / $data['eqty'];
                             $abuc = number_format($aobuc, 2, ".");
                         }
 
-                        if($data['iqty'] == 0)
+                        if($qty < $data['rqty'])
                         {
-                            $iamt = 0;
-                            $iqty = 0;
+                            $iqty = $data['rqty'] - $qty;
+                            $iamt = $iqty * $aobuc;
+                            
+                            $arqty = $data['rqty'];
+                            $tqty = $data['tqty'];
+                            $eqty = $data['eqty'] - $qty;
+                            $aeamt = $data['eamt'] - $iamt;
+                        }
+                        elseif ($qty > $data['rqty'])
+                        {
+                            $iqty = $data['iqty'];
+                            $iamt = $data['iamt'];
+
+                            $arqty = $data['rqty'] + ($qty - $data['rqty']);
+                            $tqty = $data['tqty'] + $qty;
+
+                            $aieqty = $data['eqty'];
+                            
+                            $eqty = $qty + $aieqty;
+                            $ucost = $eqty * $aobuc;
+                            $aeamt = number_format($ucost, 2, ".");
                         }
                         else
                         {
-                            $iamt = $data['iqty'] * $aobuc;
+                            $iamt = $data['iamt'];
                             $iqty = $data['iqty'];
+
+                            $arqty = $data['rqty'];
+                            $tqty = $data['tqty'];
+                            $eqty = $data['eqty'] - $qty;
+                            $aeamt = $data['eamt'] - $iamt;
                         }
 
-                        $ucost = ($data['eamt'] + ($qty * $cost));
-                        $aeamt = number_format($ucost, 2, ".");
                     }
 
                     $medid = $_POST['supply'];
                     $enddate = date("Y-m-t");
-                    //supply
-                    $query = mysqli_query($conn, "SELECT * FROM supply WHERE supid = '$medid'");
-                    while($data=mysqli_fetch_array($query))
-                    {
-                        $supply = $data['supply'] . " " . $data['volume'] . $data['unit_measure'];
-                    }
 
-                    $query = "UPDATE report_medsupinv SET buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'supply' AND campus = '$campus'";
+                    $query = "UPDATE report_medsupinv SET rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'supply' AND campus = '$campus'";
                     if(mysqli_query($conn, $query))
                     {
                         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";

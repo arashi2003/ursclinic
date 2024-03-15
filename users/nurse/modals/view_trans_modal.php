@@ -36,7 +36,7 @@
                         <input type="text" class="form-control" name="referral" value="<?php echo $data['referral']?>" id="referral" disabled>
                     </div>
                     <div class="mb-2">
-                        <label for="medsup" class="form-label">Medicine/Medical Supplies:</label> 
+                        <label for="medsup" class="form-label">Issued Medicine/Medical Supplies:</label> 
                         <input type="text" class="form-control" aria-multiline="true" name="medsup" value="<?php echo $data['medsup']?>" id="medsup" disabled>
                     </div>
                     <div class="mb-2">

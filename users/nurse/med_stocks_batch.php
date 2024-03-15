@@ -163,7 +163,6 @@ include('../../includes/pagination-limit.php');
                                                     <th>Qty.</th>
                                                     <th>Unit Cost</th>
                                                     <th>Total Amt.</th>
-                                                    <th>Expiration.</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -185,8 +184,7 @@ include('../../includes/pagination-limit.php');
                                                         <td><?php echo $data['medicine'] . " " . $data['dosage'] . $data['unit_measure'] ?></td>
                                                         <td><?php echo $data['qty']?></td>
                                                         <td><?php echo $data['unit_cost']?></td>
-                                                        <td><?php echo $amount;?></td>
-                                                        <td><?php echo $date;}?></td>
+                                                        <td><?php echo $amount;}?></td>
                                                     </tr>
                                                     <?php
                                                     }?>

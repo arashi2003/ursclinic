@@ -156,7 +156,7 @@ $userid=$_SESSION['userid'];
                             <div class="input-group input-group-md mb-2">
                                 <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
                                 <select class="form-control" aria-label=".form-select-md example" name="college" id="college">
-                                    <option value="" disabled selected></option>
+                                    <option value="" selected></option>
                                     <?php
                                     include('connection.php');
                                     $sql = "SELECT * FROM college ORDER BY college";
@@ -171,7 +171,7 @@ $userid=$_SESSION['userid'];
                             <div class="input-group input-group-md mb-2">
                                 <span class="input-group-text" id="inputGroup-sizing-md">Program:</span>
                                 <select class="form-control" aria-label=".form-select-md example" name="program" id="program">
-                                    <option value="" disabled selected></option>
+                                    <option value="" selected></option>
                                     <?php
                                     include('connection.php');
                                     $sql = "SELECT * FROM program ORDER BY program";
@@ -186,7 +186,7 @@ $userid=$_SESSION['userid'];
                             <div class="input-group input-group-md mb-2">
                                 <span class="input-group-text" id="inputGroup-sizing-md">Year Level:</span>
                                 <select class="form-control" aria-label=".form-select-md example" name="yearlevel" id="yearlevel">
-                                    <option value="" disabled selected></option>
+                                    <option value="" selected></option>
                                     <?php
                                     include('connection.php');
                                     $sql = "SELECT * FROM yearlevel ORDER BY yearlevel";
@@ -278,7 +278,7 @@ $userid=$_SESSION['userid'];
                                 <select class="form-select" aria-label=".form-select-md example" name="medicine[]" id="medicine">
                                     <option value="" selected></option>
                                     <?php
-                                    $sql = "SELECT * FROM inv_total WHERE type = 'medicine' AND qty >= 0 AND campus='$campus'";
+                                    $sql = "SELECT * FROM inv_total WHERE type = 'medicine' AND qty >= 0 AND campus='$campus' ORDER BY stock_name";
                                     $result = mysqli_query($conn, $sql);
                                     while ($row = mysqli_fetch_array($result)) {
                                     ?>
@@ -303,7 +303,7 @@ $userid=$_SESSION['userid'];
                                 <select class="form-select" aria-label=".form-select-md example" name="supply[]" id="supply">
                                     <option value="" selected></option>
                                     <?php
-                                    $sql = "SELECT * FROM inv_total WHERE type = 'supply' AND qty >= 0 AND campus='$campus'";
+                                    $sql = "SELECT * FROM inv_total WHERE type = 'supply' AND qty >= 0 AND campus='$campus' ORDER BY stock_name";
                                     $result = mysqli_query($conn, $sql);
                                     while ($row = mysqli_fetch_array($result)) {
                                     ?>
@@ -348,10 +348,6 @@ $userid=$_SESSION['userid'];
                     <div class="modal-footer">
                         <input type="text" class="form-control" name="type" value="Walk-In" id="type" hidden>
                         <input type="text" class="form-control" name="transaction" value="Walk-In" id="transaction" hidden>
-                        <input type="text" class="form-control" name="supply[]" value="" id="supply[]" hidden>
-                        <input type="text" class="form-control" name="medicine[]" value="" id="medicine[]" hidden>
-                        <input type="text" class="form-control" name="quantity_sup[]" value="" id="quantity_sup[]" hidden>
-                        <input type="text" class="form-control" name="quantity_med[]" value="" id="quantity_med[]" hidden>
                         <input type="submit" class="btn btn-primary" value="Add Record"></input> 
                         &ThickSpace;
                         <input type="reset" class="btn btn-danger" value="Cancel"></input>
@@ -379,95 +375,33 @@ $userid=$_SESSION['userid'];
         sidebar.classList.toggle("close");
     });
 </script>
+
 <script>
     function duplicate_med() {
         var row = $('.duplicate_med').first().clone();
         row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_med(this)');
         $('.duplicate_med').last().after(row);
+        // Increment the index for each duplicated input
+        row.find('input[type="number"]').val(''); // Clear the value of the new input
+        row.find('select[name="medicine[]"]').val(''); // Clear the value of the new select
     }
 
     function remove_med(btn) {
         $(btn).closest('.duplicate_med').remove();
     }
-
-    $('select[name="request"]').change(function() {
-        $('.duplicate:not(:first)').remove();
-    });
-
-    $(document).ready(function() {
-        $('#add-request').submit(function(e) {
-            e.preventDefault();
-            $('#addbtn').val('Requesting...');
-            $.ajax({
-                url: 'action-add-request.php',
-                method: 'POST',
-                data: $(this).serialize(),
-                success: function(response) {
-                    window.location.href = "request";
-                }
-            });
-        });
-    });
 </script>
 <script>
     function duplicate_sup() {
         var row = $('.duplicate_sup').first().clone();
         row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_sup(this)');
         $('.duplicate_sup').last().after(row);
+        // Increment the index for each duplicated input
+        row.find('input[type="number"]').val(''); // Clear the value of the new input
+        row.find('select[name="supply[]"]').val(''); // Clear the value of the new select
     }
 
     function remove_sup(btn) {
         $(btn).closest('.duplicate_sup').remove();
     }
-
-    $('select[name="request"]').change(function() {
-        $('.duplicate:not(:first)').remove();
-    });
-
-    $(document).ready(function() {
-        $('#add-request').submit(function(e) {
-            e.preventDefault();
-            $('#addbtn').val('Requesting...');
-            $.ajax({
-                url: 'action-add-request.php',
-                method: 'POST',
-                data: $(this).serialize(),
-                success: function(response) {
-                    window.location.href = "request";
-                }
-            });
-        });
-    });
-</script>
-
-<script>
-    function duplicate() {
-        var row = $('.duplicate').first().clone();
-        row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove(this)');
-        $('.duplicate').last().after(row);
-    }
-
-    function remove(btn) {
-        $(btn).closest('.duplicate').remove();
-    }
-
-    $('select[name="request"]').change(function() {
-        $('.duplicate:not(:first)').remove();
-    });
-
-    $(document).ready(function() {
-        $('#add-request').submit(function(e) {
-            e.preventDefault();
-            $('#addbtn').val('Requesting...');
-            $.ajax({
-                url: 'action-add-request.php',
-                method: 'POST',
-                data: $(this).serialize(),
-                success: function(response) {
-                    window.location.href = "request";
-                }
-            });
-        });
-    });
 </script>
 </html>

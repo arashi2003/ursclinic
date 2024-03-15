@@ -1,383 +1,322 @@
 <?php
-    session_start();
-    include('../../../connection.php');
-    $user = $_SESSION['userid'];
-    $campus = $_SESSION['campus'];
-    $fullname = strtoupper($_SESSION['name']);
-    $au_status = "unread";
-    if($_POST['patientid'] != "" || $_POST['patientid'] != " ")
-    {
-        $activity = 'added a transaction record for ' . $_POST['type'] . " to " . $_POST['patientid'];
+session_start();
+include('../../../connection.php');
+$user = $_SESSION['userid'];
+$campus = $_SESSION['campus'];
+$fullname = strtoupper($_SESSION['name']);
+$au_status = "unread";
+
+if ($_POST['patientid'] != "" || $_POST['patientid'] != " ") {
+    $activity = 'added a transaction record for ' . $_POST['type'] . " to " . $_POST['patientid'];
+} else {
+    $activity = 'added a transaction record for ' . $_POST['type'];
+}
+
+// Patient info
+$patientid = $_POST['patientid'];
+$firstname = strtoupper($_POST['firstname']);
+$middlename = strtoupper($_POST['middlename']);
+$lastname = strtoupper($_POST['lastname']);
+$designation = strtoupper($_POST['designation']);
+$age = $_POST['age'];
+$sex = strtoupper($_POST['sex']);
+$department = $_POST['department'];
+$college = $_POST['college'];
+$program = $_POST['program'];
+$yearlevel = $_POST['yearlevel'];
+$section = $_POST['section'];
+$block = strtoupper($_POST['block']);
+
+// Logbook info
+$type = $_POST['type'];
+$transaction = $_POST['transaction'];
+$purpose = $_POST['service'];
+$chief_complaint = $_POST['chief_complaint'] . " " . $_POST['chief_complaint_others'];
+$findiag = $_POST['findiag'] . " " . $_POST['findiag_others'];
+$remarks = $_POST['remarks'];
+$referral = $_POST['referral'];
+$medcaseid = $_POST['medcase'];
+$medcase_others = $_POST['medcase_others'];
+$pod_nod = $fullname;
+
+$datenow = date("Y-m-d");
+$enddate = date("Y-m-t");
+
+// Get medcase as text
+$sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
+$result = mysqli_query($conn, $sql);
+while ($data = mysqli_fetch_array($result)) {
+    if ($data['medcase'] != 'Others:') {
+        $medcase_type = $data['type'];
+        $medcase = $data['medcase'];
+    } else {
+        $medcase_type = "others";
+        $medcase = $medcase_others;
     }
-    else
-    {
-        $activity = 'added a transaction record for ' . $_POST['type'];
-    }
+}
 
-    //patient info
-    $patientid = $_POST['patientid'];
-    $firstname = strtoupper($_POST['firstname']);
-    $middlename = strtoupper($_POST['middlename']);
-    $lastname = strtoupper($_POST['lastname']);
-    $designation = strtoupper($_POST['designation']);
-    $age = $_POST['age'];
-    $sex = strtoupper($_POST['sex']);
-    $department = $_POST['department'];
-    $college = $_POST['college'];
-    $program = $_POST['program'];
-    $yearlevel = $_POST['yearlevel'];
-    $section = $_POST['section'];
-    $block = strtoupper($_POST['block']);
+echo implode($_POST['medicine']) . " " . implode($_POST['quantity_med']) . "<br>";
 
-    //logbook info
-    $type = $_POST['type'];
-    $transaction = $_POST['transaction'];
-    $purpose = $_POST['service'];
-    $chief_complaint = $_POST['chief_complaint'] . " " . $_POST['chief_complaint_others'];
-    $findiag = $_POST['findiag'] . " " . $_POST['findiag_others'];
-    $remarks = $_POST['remarks'];
-    $referral = $_POST['referral'];
-    $medcaseid = $_POST['medcase'];
-    $medcase_others = $_POST['medcase_others'];
-    $pod_nod = $fullname;
+echo implode($_POST['supply']) . " " . implode($_POST['quantity_sup']) . "<br>";
 
-    //kunin medcase as text
-    $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
-    $result = mysqli_query($conn, $sql);
-    while($data=mysqli_fetch_array($result))
-    {
-        if($data['medcase'] != 'Others:')
-        {
-            $medcase_type = $data['type'];
-            $medcase = $data['medcase'];
+// Handling for issued medicine
+if (!empty($_POST['medicine'])) {
+    $issued_medicine = [];
+    foreach ($_POST['medicine'] as $key => $medicine) {
+        $med = ''; // Initialize medicine string
+        // Retrieve medicine details from the database
+        $query0 = "SELECT state, medicine, dosage, unit_measure FROM medicine WHERE medid = '$medicine'";
+        $result = mysqli_query($conn, $query0);
+        while ($data = mysqli_fetch_assoc($result)) {
+            $med = $data['medicine'] . " " . $data['dosage'] . " " . $data['unit_measure'];
         }
-        else
-        {
-            $medcase_type ="others";
-            $medcase = $medcase_others;
+        // Combine medicine and quantity into a string and add to the issued_medicine array
+        $issued_medicine[] = $_POST['quantity_med'][$key] . " " . $med;
+    }
+    // Combine issued medicine statements into a single statement
+    $issued_medicine_statement = implode(", ", $issued_medicine);
+} else {
+    $issued_medicine_statement = ""; // Initialize as empty if no medicine is issued
+}
+
+// Handling for issued supply
+if (!empty($_POST['supply'])) {
+    $issued_supply = [];
+    foreach ($_POST['supply'] as $key => $supply) {
+        $sup = ''; // Initialize supply string
+        // Retrieve supply details from the database
+        $query0 = "SELECT state, supply, volume, unit_measure FROM supply WHERE supid = '$supply'";
+        $result = mysqli_query($conn, $query0);
+        while ($data = mysqli_fetch_assoc($result)) {
+            $sup = $data['supply'] . " " . $data['volume'] . " " . $data['unit_measure'];
         }
+        // Combine supply and quantity into a string and add to the issued_supply array
+        $issued_supply[] = $_POST['quantity_sup'][$key] . " " . $sup;
     }
-   
-    $issued = "";
-    //$qty_m = $_POST['quantity_med'];
-    //$medicine = $_POST['medicine'];
+    // Combine issued supply statements into a single statement
+    $issued_supply_statement = implode(", ", $issued_supply);
+} else {
+    $issued_supply_statement = ""; // Initialize as empty if no supply is issued
+}
 
-    if(isset($_POST['medicine']))
-    {
-        //$med_array = $_POST['medicine'];
+// Combine issued medicine and supply statements into a single statement
+$medsup = rtrim($issued_medicine_statement . ", " . $issued_supply_statement, ", ");
+echo $medsup . "<br>";
 
-        //for($a = 0; $a < count($med_array); $a++)
-        //{
-            //$qty_m = implode($_POST['quantity_med']);
-            //$medicine = implode($_POST['medicine']);
+// Insert transaction history
+$query = "INSERT INTO transaction_history (patient, firstname, middlename, lastname, designation, age, sex, department, college, program, yearlevel, section, block, type, transaction, purpose, chief_complaint, findiag, remarks, referral, medsup, pod_nod, medcase, medcase_others, campus, datetime) 
+    VALUES ('$patientid', '$firstname', '$middlename', '$lastname', '$designation', '$age', '$sex', '$department', 
+    '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction', '$purpose', 
+    '$chief_complaint', '$findiag', '$remarks', '$referral', '$medsup', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";
+$result = mysqli_query($conn, $query);
 
+// Update inventory for each medicine
+if (isset($_POST['medicine'])) {
+    $medicines = $_POST['medicine'];
+    $quantities = $_POST['quantity_med'];
+    foreach ($medicines as $key => $medicine) {
+        // Update inventory_medicine
+        $query0 = "UPDATE inventory_medicine SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE campus='$campus' AND medid='$medicine' AND date='$enddate' AND expiration > '$datenow' AND qty > 0";
+        mysqli_query($conn, $query0);
+        // Update inv_total
+        $query1 = "UPDATE inv_total SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE stockid='$medicine' AND type = 'medicine' AND campus='$campus'";
+        mysqli_query($conn, $query1);
+        // Update inventory
+        $query2 = "UPDATE inventory SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE campus='$campus' AND stock_type='medicine' AND stockid='$medicine' AND qty != 0 AND expiration > '$datenow' ORDER BY date LIMIT 1";
+        mysqli_query($conn, $query2);
+        // Update report_medsupinv
+        $query3 = "SELECT * FROM report_medsupinv WHERE medid = '$medicine' AND type = 'medicine' AND date = '$enddate' AND campus = '$campus' AND eqty > 0";
+        $result = mysqli_query($conn, $query3);
+        while ($data = mysqli_fetch_assoc($result)) {
+            // Update report_medsupinv
+            $qty = $quantities[$key];
+            $aotqty = $data['tqty'];
+            $aieqty = $data['eqty'];
+            $aiiamt = $data['iamt'];
+            $aiiqty = $data['iqty'];
+            $aieamt = $data['eamt']; //buc
+            $cost = $data['eamt'] / $data['eqty'];
 
-            $query0 = "SELECT state FROM medicine WHERE medid = '$medicine'";
-            $result = mysqli_query($conn, $query0);
-            while ($data = mysqli_fetch_assoc($result)) 
-            {
-                $mstat = $data['state'];
+            $tqty = $aotqty - $qty;
+            $eqty = $data['eqty'] - $qty;
+
+            if ($data['tqty'] == 0) {
+                $aobuc = 0;
+                $abuc = number_format($aobuc, 2, ".");
+            } else {
+                $aobuc = ($data['eamt'] - ($qty * $cost)) / $eqty;
+                $abuc = number_format($aobuc, 2, ".");
             }
-            if ($mstat == 'per piece') 
-            {
-                $sql = "SELECT * FROM medicine WHERE medid='$medicine'";
-                $result = mysqli_query($conn, $sql);
-                while($data=mysqli_fetch_array($result))
-                {
-                    $med = $data['medicine'].  $data['dosage'] .  $data['unit_measure']; 
-                    $issued = $qty_m . " " . $med;
-                }
-
-                //kunin medcase as text
-                $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
-                $result = mysqli_query($conn, $sql);
-                while($data=mysqli_fetch_array($result))
-                {
-                    if($data['medcase'] != 'Others:')
-                    {
-                        $medcase_type = $data['type'];
-                        $medcase = $data['medcase'];
-                    }
-                    else
-                    {
-                        $medcase_type ="others";
-                        $medcase = $medcase_others;
-                    }
-                }
-
-                $query = "INSERT INTO transaction_history (patient, firstname, middlename, lastname, designation, age, sex, department, college, program, yearlevel, section, block, type, transaction,	purpose, chief_complaint, findiag, remarks, referral, medsup, pod_nod, medcase, medcase_others, campus, datetime) 
-                VALUES ('$patientid', '$firstname', '$middlename', '$lastname', '$designation', '$age', '$sex', '$department', 
-                '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction',	'$purpose', 
-                '$chief_complaint', '$findiag', '$remarks', '$referral', '$issued', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";    
-                $result = mysqli_query($conn, $query);
-                if($result)
-                {
-                    $datenow = date("Y-m-d");
-                    $enddate = date("Y-m-t");
-                    $sql = "SELECT * FROM medicine WHERE medid='$medicine'";
-                    $result = mysqli_query($conn, $sql);
-                    while($data=mysqli_fetch_array($result))
-                    {
-                        $med = $data['medicine'].  $data['dosage'] .  $data['unit_measure']; 
-                        $issued = $qty_m . " " . $med;
-                    }
-                    // Update inventory_medicine
-                    $query0 = "UPDATE inventory_medicine SET closed = closed - '$qty_m', qty = qty - '$qty_m' WHERE campus='$campus' AND medid='$medicine' AND date='$enddate' AND expiration > '$datenow' AND qty > 0";
-                    mysqli_query($conn, $query0);
-            
-                    // Update inv_total
-                    $query1 = "UPDATE inv_total SET closed = closed - '$qty_m', qty = qty - '$qty_m' WHERE stockid='$medicine' AND type = 'medicine' AND campus='$campus'";
-                    mysqli_query($conn, $query1);
-            
-                    // Update inventory
-                    $query2 = "UPDATE inventory SET closed = closed - '$qty_m', qty = qty - '$qty_m' WHERE campus='$campus' AND stock_type='medicine' AND stockid='$medicine' AND qty != 0 AND expiration > '$datenow' ORDER BY date LIMIT 1";
-                    mysqli_query($conn, $query2);
-            
-                    // Update report_medsupinv
-                    $query3 = "SELECT * FROM report_medsupinv WHERE medid = '$medicine' AND type = 'medicine' AND date = '$enddate' AND campus = '$campus AND eqty > 0'";
-                    $result = mysqli_query($conn, $query3);
-                    while ($data = mysqli_fetch_assoc($result)) 
-                    {
-                        $qty = $qty_m;
-                        $aotqty = $data['tqty'];
-                        $aieqty = $data['eqty'];
-                        $aiiamt = $data['iamt'];
-                        $aiiqty = $data['iqty'];
-                        $aieamt = $data['eamt']; //buc
-                        $cost = $data['eamt'] / $data['eqty'];
-            
-                        $tqty = $aotqty - $qty;
-                        $eqty = $data['eqty']; - $qty;
-            
-                        if ($data['tqty'] == 0) {
-                            $aobuc = 0;
-                            $abuc = number_format($aobuc, 2, ".");
-                        } else {
-                            $aobuc = ($data['eamt'] - ($qty * $cost)) / $eqty;
-                            $abuc = number_format($aobuc, 2, ".");
-                        }
-                        $aeamt = $eqty * $aobuc;
-                        if ($data['iqty'] == 0) {
-                            $iamt =  $qty * $aobuc;
-                            $iqty =  $qty;
-                        } else {
-                            $iqty = $data['iqty'] + $qty;
-                            $iamt = $iqty * ($aeamt/$eqty);
-                        }$query4 = "UPDATE report_medsupinv SET iqty = '$iqty', iamt = '$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medicine' AND date = '$enddate' AND type = 'medicine' AND campus = '$campus'";
-                    mysqli_query($conn, $query4);
-                    }
-                    
-                }
+            $aeamt = $eqty * $aobuc;
+            if ($data['iqty'] == 0) {
+                $iamt =  $qty * $aobuc;
+                $iqty =  $qty;
+            } else {
+                $iqty = $data['iqty'] + $qty;
+                $iamt = $iqty * ($aeamt/$eqty);
             }
-        //}
-    }
-    elseif(isset($_POST['supply']))
-    {
-        for($a = 0; $b < count($sup_array); $b++)
-        {
-            $qty_s = implode($_POST['quantity_sup']);
-            $supply = implode($_POST['supply']);
+            $query4 = "UPDATE report_medsupinv SET iqty = '$iqty', iamt = '$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medicine' AND date = '$enddate' AND type = 'medicine' AND campus = '$campus'";
+            mysqli_query($conn, $query4);
+        }
         
-            $query0 = "SELECT state FROM medicine WHERE medid = '$supply'";
-            $result = mysqli_query($conn, $query0);
-            $mstat = '';
-            while ($data = mysqli_fetch_assoc($result)) 
-            {
-                $mstat = $data['state'];
-            }
-            if ($mstat != 'open-close') 
-            {
-                $datenow = date("Y-m-d");
-                $enddate = date("Y-m-t");
-                $sql = "SELECT * FROM supply WHERE supid='$supply'";
-                $result = mysqli_query($conn, $sql);
-                while($data=mysqli_fetch_array($result))
-                {
-                    $sup = $data['supply']. " " . $data['volume'] .  $data['unit_measure']; 
-                    $issued = $qty_s . " " . $sup;
-                }
+            // Update inventory_medicine
+            echo  rtrim($medicine . ", " . $quantities[$key], ", ") . "inventory_medicine <br>";
+            // Update inv_total
+            echo  rtrim($medicine . ", " . $quantities[$key], ", ") . "inv_total <br>";
+            // Update inventory
+            echo  rtrim($medicine . ", " . $quantities[$key], ", ") . "inventory <br>";
+            // Update report_medsupinv
+        echo  rtrim($medicine . ", " . $quantities[$key], ", ") . "reports <p>";
+    }
+}
 
-                //kunin medcase as text
-                $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
-                $result = mysqli_query($conn, $sql);
-                while($data=mysqli_fetch_array($result))
-                {
-                    if($data['medcase'] != 'Others:')
-                    {
-                        $medcase_type = $data['type'];
-                        $medcase = $data['medcase'];
-                    }
-                    else
-                    {
-                        $medcase_type ="others";
-                        $medcase = $medcase_others;
-                    }
-                }
+// Update inventory for each supply
+if (isset($_POST['supply'])) {
+    $supplies = $_POST['supply'];
+    $quantities_sup = $_POST['quantity_sup'];
+    foreach ($supplies as $key => $supply) {
+        // Update inventory_supply
+        $query0 = "UPDATE inventory_supply SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE campus='$campus' AND supid='$supply' AND date='$enddate' AND expiration > '$datenow' AND qty > 0";
+        mysqli_query($conn, $query0);
+        // Update inv_total
+        $query1 = "UPDATE inv_total SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE stockid='$supply' AND type = 'supply' AND campus='$campus'";
+        mysqli_query($conn, $query1);
+        // Update inventory
+        $query2 = "UPDATE inventory SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE campus='$campus' AND stock_type='supply' AND stockid='$supply' AND qty != 0 AND expiration > '$datenow' ORDER BY date LIMIT 1";
+        mysqli_query($conn, $query2);
+        // Update report_medsupinv
+        $query3 = "SELECT * FROM report_medsupinv WHERE medid = '$supply' AND type = 'supply' AND date = '$enddate' AND campus = '$campus' AND eqty > 0";
+        $result = mysqli_query($conn, $query3);
+        while ($data = mysqli_fetch_assoc($result)) {
+            // Update report_medsupinv
+            $qty = $quantities_sup[$key];
+            $aotqty = $data['tqty'];
+            $aieqty = $data['eqty'];
+            $aiiamt = $data['iamt'];
+            $aiiqty = $data['iqty'];
+            $aieamt = $data['eamt']; //buc
+            $cost = $data['eamt'] / $data['eqty'];
 
-                $query = "INSERT INTO transaction_history (patient, firstname, middlename, lastname, designation, age, sex, department, college, program, yearlevel, section, block, type, transaction,	purpose, chief_complaint, findiag, remarks, referral, medsup, pod_nod, medcase, medcase_others, campus, datetime) 
-                VALUES ('$patientid', '$firstname', '$middlename', '$lastname', '$designation', '$age', '$sex', '$department', 
-                '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction',	'$purpose', 
-                '$chief_complaint', '$findiag', '$remarks', '$referral', '$issued', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";    
-                $result = mysqli_query($conn, $query);
-                if($result)
-                {
-                    // Update inventory_supply
-                    $query0 = "UPDATE inventory_supply SET closed = closed - '$qty_s', qty = qty - '$qty_s' WHERE campus='$campus' AND supid='$supply' AND date='$enddate' AND expiration > '$datenow' AND qty > 0";
-                    mysqli_query($conn, $query0);
-            
-                    // Update inv_total
-                    $query1 = "UPDATE inv_total SET closed = closed - '$qty_s', qty = qty - '$qty_s' WHERE stockid='$supply' AND type = 'supply' AND campus='$campus'";
-                    mysqli_query($conn, $query1);
-            
-                    // Update inventory
-                    $query2 = "UPDATE inventory SET closed = closed - '$qty_s', qty = qty - '$qty_s' WHERE campus='$campus' AND stock_type='supply' AND stockid='$supply' AND qty != 0 AND expiration > '$datenow' ORDER BY date LIMIT 1";
-                    mysqli_query($conn, $query2);
-            
-                    // Update report_medsupinv
-                    $query3 = "SELECT * FROM report_medsupinv WHERE medid = '$supply' AND type = 'supply' AND date = '$enddate' AND campus = '$campus' AND eqty <0";
-                    $result = mysqli_query($conn, $query3);
-                    while ($data = mysqli_fetch_assoc($result)) 
-                    {
-                        $qty = $qty_s;
-                        $aotqty = $data['tqty'];
-                        $aieqty = $data['eqty'];
-                        $aiiamt = $data['iamt'];
-                        $aiiqty = $data['iqty'];
-                        $aieamt = $data['eamt']; //buc
-                        $cost = $data['eamt'] / $data['eqty'];
-            
-                        $tqty = $aotqty - $qty;
-                        $eqty = $data['eqty']; - $qty;
-            
-                        if ($data['tqty'] == 0) {
-                            $aobuc = 0;
-                            $abuc = number_format($aobuc, 2, ".");
-                        } else {
-                            $aobuc = ($data['eamt'] - ($qty * $cost)) / $eqty;
-                            $abuc = number_format($aobuc, 2, ".");
-                        }
-                        $aeamt = $eqty * $aobuc;
-                        if ($data['iqty'] == 0) {
-                            $iamt =  $qty * $aobuc;
-                            $iqty =  $qty;
-                        } else {
-                            $iqty = $data['iqty'] + $qty;
-                            $iamt = $iqty * ($aeamt/$eqty);
-                        }
-                    $query4 = "UPDATE report_medsupinv SET iqty = '$iqty', iamt = '$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$supply' AND date = '$enddate' AND type = 'supply' AND campus = '$campus'";
-                    mysqli_query($conn, $query4);
-                    }
-                }
+            $tqty = $aotqty - $qty;
+            $eqty = $data['eqty'] - $qty;
+
+            if ($data['tqty'] == 0) {
+                $aobuc = 0;
+                $abuc = number_format($aobuc, 2, ".");
+            } else {
+                $aobuc = ($data['eamt'] - ($qty * $cost)) / $eqty;
+                $abuc = number_format($aobuc, 2, ".");
             }
+            $aeamt = $eqty * $aobuc;
+            if ($data['iqty'] == 0) {
+                $iamt =  $qty * $aobuc;
+                $iqty =  $qty;
+            } else {
+                $iqty = $data['iqty'] + $qty;
+                $iamt = $iqty * ($aeamt/$eqty);
+            }
+            $query4 = "UPDATE report_medsupinv SET iqty = '$iqty', iamt = '$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$supply' AND date = '$enddate' AND type = 'supply' AND campus = '$campus'";
+            mysqli_query($conn, $query4);
         }
+// Update inventory_supply
+echo  rtrim($supply . ", " . $quantities_sup[$key], ", ") . " inventory_supply <br>";
+// Update inv_total
+echo  rtrim($supply . ", " . $quantities_sup[$key], ", ") . " inv_total <br>";
+// Update inventory
+echo  rtrim($supply . ", " . $quantities_sup[$key], ", ") . " inventory <br>";
+// Update report_medsupinv
+echo  rtrim($supply . ", " . $quantities_sup[$key], ", ") . " reports <br>";
     }
+}
 
-    // medcase report
-    $enddate = date("Y-m-t");
-    $designation = strtoupper($_POST['designation']);
-    $sex = strtoupper($_POST['sex']);
+// Update medcase report
+$sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+$result = mysqli_query($conn, $sql);
+while ($data = mysqli_fetch_array($result)) {
+    // Update counts based on designation and sex
+    switch (true) {
+        case ($designation == "STUDENT" && $sex == "MALE"):
+            $sm = $data['sm'] + 1;
+            $sf = $data['sf'];
+            $st = $data['st'] + 1;
+            $pm = $data['pm'];
+            $pf = $data['pf'];
+            $pt = $data['pt'];
+            $gm = $data['gm'] + 1;
+            $gf = $data['gf'];
+            $gt = $data['gt'] + 1;
+            break;
+        case ($designation == "STUDENT" && $sex == "FEMALE"):
+            $sm = $data['sm'];
+            $sf = $data['sf'] + 1;
+            $st = $data['st'] + 1;
+            $pm = $data['pm'];
+            $pf = $data['pf'];
+            $pt = $data['pt'];
+            $gm = $data['gm'];
+            $gf = $data['gf'] + 1;
+            $gt = $data['gt'] + 1;
+            break;
+        case ($designation != "STUDENT" && $sex == "MALE"):
+            $sm = $data['sm'];
+            $sf = $data['sf'];
+            $st = $data['st'];
+            $pm = $data['pm'] + 1;
+            $pf = $data['pf'];
+            $pt = $data['pt'] + 1;
+            $gm = $data['gm'] + 1;
+            $gf = $data['gf'];
+            $gt = $data['gt'] + 1;
+            break;
+        case ($designation != "STUDENT" && $sex == "FEMALE"):
+            $sm = $data['sm'];
+            $sf = $data['sf'];
+            $st = $data['st'];
+            $pm = $data['pm'];
+            $pf = $data['pf'] + 1;
+            $pt = $data['pt'] + 1;
+            $gm = $data['gm'];
+            $gf = $data['gf'] + 1;
+            $gt = $data['gt'] + 1;
+            break;
+        default:
+            $sm = $data['sm'];
+            $sf = $data['sf'];
+            $st = $data['st'];
+            $pm = $data['pm'];
+            $pf = $data['pf'];
+            $pt = $data['pt'];
+            $gm = $data['gm'];
+            $gf = $data['gf'];
+            $gt = $data['gt'];
+            break;
+    }
+    // Update report
+    $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+    mysqli_query($conn, $sql);
+}
 
-    $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
-    $result = mysqli_query($conn, $sql);
-    foreach($result as $data)
-    {
-        // check san sya i-add na column sa database
-        switch(true)
-        {
-            case ($designation == "STUDENT" AND $sex == "MALE"):
-            {
-                $sm = $data['sm'] + 1;
-                $sf = $data['sf'];
-                $st = $data['st'] + 1;
-                $pm = $data['pm'];
-                $pf = $data['pf'];
-                $pt = $data['pt'];
-                $gm = $data['gm'] + 1;
-                $gf = $data['gf'];
-                $gt = $data['gt'] + 1;
-                break;
-            }
-            case ($designation == "STUDENT" AND $sex == "FEMALE"):
-            {
-                $sm = $data['sm'];
-                $sf = $data['sf'] + 1;
-                $st = $data['st'] + 1;
-                $pm = $data['pm'];
-                $pf = $data['pf'];
-                $pt = $data['pt'];
-                $gm = $data['gm'];
-                $gf = $data['gf'] + 1;
-                $gt = $data['gt'] + 1;
-                break;
-            }
-            case ($designation != "STUDENT" AND $sex == "MALE"):
-            {
-                $sm = $data['sm'];
-                $sf = $data['sf'];
-                $st = $data['st'];
-                $pm = $data['pm'] + 1;
-                $pf = $data['pf'];
-                $pt = $data['pt'] + 1;
-                $gm = $data['gm'] + 1;
-                $gf = $data['gf'];
-                $gt = $data['gt'] + 1;
-                break;
-            }
-            case ($designation != "STUDENT" AND $sex == "FEMALE"):
-            {
-                $sm = $data['sm'];
-                $sf = $data['sf'];
-                $st = $data['st'];
-                $pm = $data['pm'];
-                $pf = $data['pf'] + 1;
-                $pt = $data['pt'] + 1;
-                $gm = $data['gm'];
-                $gf = $data['gf'] + 1;
-                $gt = $data['gt'] + 1;
-                break;
-            }
-            default:
-            {
-                $sm = $data['sm'];
-                $sf = $data['sf'];
-                $st = $data['st'];
-                $pm = $data['pm'];
-                $pf = $data['pf'];
-                $pt = $data['pt'];
-                $gm = $data['gm'];
-                $gf = $data['gf'];
-                $gt = $data['gt'];
-                break;
-            }
-        }
-        $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
-        $result = mysqli_query($conn, $sql);
-    }
-    
-    
-    //audit trail 
-    $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
-    if($result = mysqli_query($conn, $sql))
-    {
-        ?>
-        <script>
-            setTimeout(function() {
-                window.location = " ../transaction_add.php";
-            });
-        </script>
-        <?php
-        // modal message box saying "Transaction was recorded."
-    }
-    else
-    {
-        ?>
-        <script>
-            setTimeout(function() {
-                window.location = " ../transaction_add.php";
-            });
-        </script>
-        <?php
-        // modal message box saying "Transaction was recorded."
-    }
+// Audit trail 
+$sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
+if ($result = mysqli_query($conn, $sql)) {
+?>
+    <script>
+        setTimeout(function() {
+            window.location = "../transaction_add.php";
+        });
+    </script>
+<?php
+    // modal message box saying "Transaction was recorded."
+} else {
+?>
+    <script>
+        setTimeout(function() {
+            window.location = "../transaction_add.php";
+        });
+    </script>
+<?php
+    // modal message box saying "Transaction was recorded."
+}
 
 mysqli_close($conn);
+?>

@@ -39,7 +39,7 @@
         $resultCheck = mysqli_num_rows($result);
         if($resultCheck > 0)
         {
-            $query = "SELECT * FROM inv_total WHERE stockid = '$medid' AND type = 'medicine' AND campus='$au_campus'";
+            $query = "SELECT * FROM inv_total WHERE stockid = '$medid' AND type = 'supply' AND campus='$au_campus' LIMIT 1";
             $result=mysqli_query($conn, $query);
             foreach($result as $data)
             {
