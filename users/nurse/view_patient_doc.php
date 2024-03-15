@@ -7,6 +7,9 @@ include('../../includes/nurse-auth.php');
 $module = 'medical';
 $patientid = $_REQUEST['patientid'];
 $userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
+
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM patient_info WHERE patientid='$patientid'");
 $nr_of_rows = $records->num_rows;
@@ -55,10 +58,14 @@ include('../../includes/pagination-limit.php')
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -103,154 +110,156 @@ include('../../includes/pagination-limit.php')
                         $emcon_name = $data['emcon_name'];
                         $emcon_number = $data['emcon_number'];
                     ?>
-                        <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert.php?patientid=<?php echo $patientid ?>');" target="_blank">Export Medical Certificate</button>
-                        <?php
-                        if (strtoupper($designation) != 'STUDENT') { ?>
-                            <button type="button" class="btn btn-primary" hidden>Export Clearance Slip</button>
-                        <?php } else { ?>
-                            &ThickSpace; <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#medclear<?php echo $patientid; ?>">Export Clearance Slip</button>
-                        <?php include('modals/medclear_modal.php');
-                        } ?>
+                        <div class="col mb-3">
+                            <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert.php?patientid=<?php echo $patientid ?>');" target="_blank">Export Medical Certificate</button>
+                            <?php
+                            if (strtoupper($designation) != 'STUDENT') { ?>
+                                <button type="button" class="btn btn-primary" hidden>Export Clearance Slip</button>
+                            <?php } else { ?>
+                                &ThickSpace; <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#medclear<?php echo $patientid; ?>">Export Clearance Slip</button>
+                            <?php include('modals/medclear_modal.php');
+                            } ?>
+                        </div>
+
+
+                        <div class="accordion" id="accordionPanelsStayOpenExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                        <h5>Personal Information</h5>
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="input-group input-group-md mb-2">
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">Patient ID:</span>
+                                                    <input type="text" class="form-control" name="patientname" value="<?php echo $patientid ?>" readonly disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group input-group-md mb-2">
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">Patient Name:</span>
+                                                    <input type="text" class="form-control" name="patientname" value="<?php echo $fullname ?>" readonly disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group input-group-md mb-2">
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">Designation:</span>
+                                                    <input type="text" class="form-control" name="designation" value="<?php echo $designation ?>" readonly disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group input-group-md mb-2">
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">Age:</span>
+                                                    <input type="text" class="form-control" name="age" value="<?php echo $age ?>" readonly disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group input-group-md mb-2">
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">Sex:</span>
+                                                    <input type="text" class="form-control" name="sex" value="<?php echo $sex ?>" readonly disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group input-group-md mb-2">
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">Birthday:</span>
+                                                    <input type="text" class="form-control" name="birthday" value="<?php echo date("F d, Y", strtotime($birthday)) ?>" readonly disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                        <h5>Academic Information</h5>
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="input-group input-group-md mb-2">
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
+                                                    <input type="text" class="form-control" name="department" value="<?php echo $department ?>" readonly disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group input-group-md mb-2">
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
+                                                    <input type="text" class="form-control" name="college" value="<?php echo $college ?>" readonly disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group input-group-md mb-2">
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">Program, Year and Section:</span>
+                                                    <input type="text" class="form-control" name="pys" value="<?php echo $pys ?>" readonly disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                        <h5>Contact Information</h5>
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="input-group input-group-md mb-2">
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">Email Address:</span>
+                                                    <input type="text" class="form-control" name="email" value="<?php echo $email ?>" readonly disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group input-group-md mb-2">
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">Contact Number:</span>
+                                                    <input type="text" class="form-control" name="contactno" value="<?php echo $contactno ?>" readonly disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                        <h5>Emergency Information</h5>
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="input-group input-group-md mb-2">
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">Name:</span>
+                                                    <input type="text" class="form-control" name="emcon_name" value="<?php echo $emcon_name ?>" readonly disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group input-group-md mb-2">
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">Contact Number:</span>
+                                                    <input type="text" class="form-control" name="emcon_number" value="<?php echo $emcon_number ?>" readonly disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
-                <p>
-                <div class="accordion" id="accordionPanelsStayOpenExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                <h5>Personal Information</h5>
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-                            <div class="accordion-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">Patient ID:</span>
-                                            <input type="text" class="form-control" name="patientname" value="<?php echo $patientid ?>" readonly disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">Patient Name:</span>
-                                            <input type="text" class="form-control" name="patientname" value="<?php echo $fullname ?>" readonly disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">Designation:</span>
-                                            <input type="text" class="form-control" name="designation" value="<?php echo $designation ?>" readonly disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">Age:</span>
-                                            <input type="text" class="form-control" name="age" value="<?php echo $age ?>" readonly disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">Sex:</span>
-                                            <input type="text" class="form-control" name="sex" value="<?php echo $sex ?>" readonly disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">Birthday:</span>
-                                            <input type="text" class="form-control" name="birthday" value="<?php echo date("F d, Y", strtotime($birthday)) ?>" readonly disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                <h5>Academic Information</h5>
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-                            <div class="accordion-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
-                                            <input type="text" class="form-control" name="department" value="<?php echo $department ?>" readonly disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
-                                            <input type="text" class="form-control" name="college" value="<?php echo $college ?>" readonly disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">Program, Year and Section:</span>
-                                            <input type="text" class="form-control" name="pys" value="<?php echo $pys ?>" readonly disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                <h5>Contact Information</h5>
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
-                            <div class="accordion-body">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">Email Address:</span>
-                                            <input type="text" class="form-control" name="email" value="<?php echo $email ?>" readonly disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">Contact Number:</span>
-                                            <input type="text" class="form-control" name="contactno" value="<?php echo $contactno ?>" readonly disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                <h5>Emergency Information</h5>
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
-                            <div class="accordion-body">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">Name:</span>
-                                            <input type="text" class="form-control" name="emcon_name" value="<?php echo $emcon_name ?>" readonly disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">Contact Number:</span>
-                                            <input type="text" class="form-control" name="emcon_number" value="<?php echo $emcon_number ?>" readonly disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <?php } ?>
+                <?php
+                include('medical-doc.php');
+                ?>
             </div>
-            <?php
-            include('medical-doc.php');
-            ?>
-        </div>
         </div>
     </section>
 

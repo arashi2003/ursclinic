@@ -3,9 +3,13 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
+
 $module = 'patient_add';
 $campus = $_SESSION['campus'];
 $userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
+
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM patient_info WHERE campus='$campus'");
@@ -55,10 +59,14 @@ include('../../includes/pagination-limit.php')
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -75,12 +83,12 @@ include('../../includes/pagination-limit.php')
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-2">
                                                 <input type="text" name="patient" value="<?= isset($_GET['patient']) == true ? $_GET['patient'] : '' ?>" class="form-control" placeholder="Search patient">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="designation" class="form-select">
                                                 <option value="">Select Designation</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -92,7 +100,7 @@ include('../../includes/pagination-limit.php')
                                                                                                                                                                                                                                                                 } ?>
                                             </select>
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                             <a href="patients" class="btn btn-danger">Reset</a>
                                         </div>
@@ -160,7 +168,7 @@ include('../../includes/pagination-limit.php')
                                                         <td><?php echo $data['college']; ?></td>
                                                         <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname'])); ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'view_patient.php?patientid=<?php echo $data['patientid'] ?>'">View</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'view_patient?patientid=<?php echo $data['patientid'] ?>'">View</button>
                                                             <?php $count++; ?>
                                                         </td>
 

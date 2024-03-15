@@ -3,10 +3,12 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
+
 $module = 'profile';
 $userid = $_SESSION['userid'];
 $usertype = $_SESSION['usertype'];
 $name = $_SESSION['username'];
+
 ?>
 
 <!DOCTYPE html>
@@ -36,9 +38,9 @@ $name = $_SESSION['username'];
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            <?= $row ?>
-                        </span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $row ?>
+                            </span>
                         <?php
                         }
                         ?>
@@ -50,10 +52,14 @@ $name = $_SESSION['username'];
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -91,7 +97,7 @@ $name = $_SESSION['username'];
                     </div>
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Full name:</span>
-                        <input type="text" class="form-control" name="patientname" value="<?php echo ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " .ucwords(strtolower($row['lastname'])) ?>" readonly disabled>
+                        <input type="text" class="form-control" name="patientname" value="<?php echo ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($row['lastname'])) ?>" readonly disabled>
                     </div>
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Designation:</span>
@@ -132,4 +138,5 @@ $name = $_SESSION['username'];
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

@@ -7,10 +7,8 @@ include('../../includes/nurse-auth.php');
 $module = 'reports';
 $userid = $_SESSION['userid'];
 $campus = $_SESSION['campus'];
-
-if (!isset($_SESSION['username'])) {
-    header('location:../../index');
-}
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
 
 ?>
 
@@ -55,10 +53,14 @@ if (!isset($_SESSION['username'])) {
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -68,9 +70,6 @@ if (!isset($_SESSION['username'])) {
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" disabled>Export to PDF</button>
-                </div>
                 <div class="content">
                     <form action="reports_filter.php" method="POST">
                         <div class="row">

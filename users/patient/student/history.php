@@ -23,7 +23,7 @@ include('../../../includes/pagination-limit.php');
 
 <head>
     <title>History</title>
-    <?php include('../../../includes/header.php')?>
+    <?php include('../../../includes/header.php') ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -36,7 +36,7 @@ include('../../../includes/pagination-limit.php');
             </div>
             <div class="right-nav">
                 <div class="notification-button">
-                    <button type="button" class="btn btn-sm position-relative"  onclick="window.location.href = 'notification'">
+                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
                         <i class='bx bx-bell'></i>
                         <?php
                         $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus 
@@ -75,12 +75,16 @@ include('../../../includes/pagination-limit.php');
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $usertype . ' ' . $name ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
-                            <li><a class="dropdown-item" href="../../../logout">Logout</a></li>
+                            <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>

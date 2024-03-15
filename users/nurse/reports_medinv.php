@@ -3,14 +3,14 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
+
 $module = 'reports_medinv';
 $campus = $_SESSION['campus'];
-$now = date("Y-m-t");
-$userid=$_SESSION['userid'];
+$userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
 
-if (!isset($_SESSION['username'])) {
-    header('location:../../index');
-}
+$now = date("Y-m-t");
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM report_medsupinv WHERE type='medicine' AND campus = '$campus' AND date='$now'  ORDER BY medicine ");
@@ -24,7 +24,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Reports</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -46,9 +46,9 @@ include('../../includes/pagination-limit.php');
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            <?= $row ?>
-                        </span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $row ?>
+                            </span>
                         <?php
                         }
                         ?>
@@ -60,10 +60,14 @@ include('../../includes/pagination-limit.php');
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -74,7 +78,7 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_medinv.php');">Export to PDF</button>
+                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medinv.php');">Export to PDF</button>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -82,7 +86,7 @@ include('../../includes/pagination-limit.php');
                             <div class="col-md-12">
                                 <form action="reports_filter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="reports" class="form-select">
                                                 <option value="" disabled>Select Report</option>
                                                 <option value="appointment">Appointment Report</option>
@@ -95,13 +99,13 @@ include('../../includes/pagination-limit.php');
                                                 <option value="tecalimain">Tools and Equipment Calibration and Maintenance Report</option>
                                             </select>
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">View</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div class="col">
+                            <div class="col-md-12 mb-2">
                                 <form action="" method="GET">
                                     <div class="row">
                                         <div class="col-md-2">
@@ -115,7 +119,6 @@ include('../../includes/pagination-limit.php');
                                 </form>
                             </div>
                         </div>
-                        <p>
                         <div class="col-sm-12">
                             <div class="table-responsive">
                                 <?php
@@ -134,50 +137,47 @@ include('../../includes/pagination-limit.php');
                                 if ($result) {
                                     if (mysqli_num_rows($result) > 0) {
                                 ?>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Medicine</th>
-                                            <th>Unit Cost</th>
-                                            <th>Beginning Qty.</th>
-                                            <th>Received Qty.</th>
-                                            <th>Issued Qty.</th>
-                                            <th>Ending Qty.</th>
-                                            <th>Ending Amt.</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Medicine</th>
+                                                    <th>Unit Cost</th>
+                                                    <th>Beginning Qty.</th>
+                                                    <th>Received Qty.</th>
+                                                    <th>Issued Qty.</th>
+                                                    <th>Ending Qty.</th>
+                                                    <th>Ending Amt.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                foreach ($result as $row) {
+                                                    if ($row['buc'] = 0) {
+                                                        $buc = $row['eamt'] / $row['eqty'];
+                                                    } elseif ($row['eamt'] != 0) {
+                                                        $buc = $row['eamt'] / $row['eqty'];
+                                                    } elseif ($row['buc'] != 0) {
+                                                        $buc = $row['buc'];
+                                                    }
+                                                ?>
+                                                    <tr>
+                                                        <td><?php echo $row['medicine'] ?></td>
+                                                        <td><?php echo number_format($buc, 2, '.') ?></td>
+                                                        <td><?php echo $row['bqty'] ?></td>
+                                                        <td><?php echo $row['rqty'] ?></td>
+                                                        <td><?php echo $row['iqty'] ?></td>
+                                                        <td><?php echo $row['eqty'] ?></td>
+                                                        <td><?php echo number_format($row['eamt'], 2, '.') ?></td>
+                                                    </tr>
                                         <?php
-                                            foreach($result as $row) {
-                                                if($row['buc'] = 0)
-                                                {
-                                                    $buc = $row['eamt']/$row['eqty'];
                                                 }
-                                                elseif($row['eamt'] != 0)
-                                                {
-                                                    $buc = $row['eamt']/$row['eqty'];
-                                                }
-                                                elseif($row['buc'] != 0)
-                                                {
-                                                    $buc = $row['buc'];
-                                                }
-                                            ?>
-                                            <tr>
-                                                <td><?php echo $row['medicine'] ?></td>
-                                                <td><?php echo number_format($buc, 2, '.') ?></td>
-                                                <td><?php echo $row['bqty'] ?></td>
-                                                <td><?php echo $row['rqty'] ?></td>
-                                                <td><?php echo $row['iqty'] ?></td>
-                                                <td><?php echo $row['eqty'] ?></td>
-                                                <td><?php echo number_format($row['eamt'], 2, '.') ?></td>
-                                            </tr>  
-                                        <?php
-                                        }}}
+                                            }
+                                        }
                                         mysqli_close($conn);
                                         ?>
-                                    </tbody>
-                                </table>
-                                <?php include('../../includes/pagination.php') ?>
+                                            </tbody>
+                                        </table>
+                                        <?php include('../../includes/pagination.php') ?>
                             </div>
                         </div>
                     </div>
@@ -203,4 +203,5 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

@@ -3,9 +3,12 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
-$module='doc_visit';
+
+$module = 'doc_visit';
 $campus = $_SESSION['campus'];
-$userid=$_SESSION['userid'];
+$userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM schedule");
@@ -19,7 +22,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Doctor's Visit</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -41,9 +44,9 @@ include('../../includes/pagination-limit.php');
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            <?= $row ?>
-                        </span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $row ?>
+                            </span>
                         <?php
                         }
                         ?>
@@ -55,10 +58,14 @@ include('../../includes/pagination-limit.php');
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -73,12 +80,12 @@ include('../../includes/pagination-limit.php');
                         <div class="col-sm-12">
                             <div class="table-responsive">
                                 <?php
-                                    $count = 1;
-                                    $date = date("Y-m-d");
-                                    $sql = "SELECT s.id, s.date, s.time_from, s.time_to, s.physician, s.campus, a.firstname, a.middlename, a.lastname FROM schedule s INNER JOIN account a on a.accountid=s.physician WHERE s.campus = '$campus' AND date >= '$date' ORDER BY date, time_from LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
+                                $count = 1;
+                                $date = date("Y-m-d");
+                                $sql = "SELECT s.id, s.date, s.time_from, s.time_to, s.physician, s.campus, a.firstname, a.middlename, a.lastname FROM schedule s INNER JOIN account a on a.accountid=s.physician WHERE s.campus = '$campus' AND date >= '$date' ORDER BY date, time_from LIMIT $start, $rows_per_page";
+                                $result = mysqli_query($conn, $sql);
                                 if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {?>
+                                    if (mysqli_num_rows($result) > 0) { ?>
                                         <table>
                                             <thead>
                                                 <tr>
@@ -90,52 +97,47 @@ include('../../includes/pagination-limit.php');
                                             <tbody>
 
                                                 <?php
-                                                while($data = mysqli_fetch_array($result)){
-                                                    if (count(explode(" ", $data['middlename'])) > 1)
-                                                    {
+                                                while ($data = mysqli_fetch_array($result)) {
+                                                    if (count(explode(" ", $data['middlename'])) > 1) {
                                                         $middle = explode(" ", $data['middlename']);
-                                                        $letter = $middle[0][0].$middle[1][0];
+                                                        $letter = $middle[0][0] . $middle[1][0];
                                                         $middleinitial = $letter . ".";
-                                                    }
-                                                    else
-                                                    {
+                                                    } else {
                                                         $middle = $data['middlename'];
-                                                        if ($middle == "" OR $middle == " ")
-                                                        {
+                                                        if ($middle == "" or $middle == " ") {
                                                             $middleinitial = "";
-                                                        }
-                                                        else
-                                                        {
+                                                        } else {
                                                             $middleinitial = substr($middle, 0, 1) . ".";
-                                                        }    
+                                                        }
                                                     }
-                                                    ?>
+                                                ?>
                                                     <tr>
                                                         <td><?php $id = $count;
                                                             $date = date("F d, Y", strtotime($data['date']));
                                                             $time = date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to']));
-                                                            $physician = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " .ucwords(strtolower($data['lastname']));
+                                                            $physician = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
                                                             echo $id; ?></td>
                                                         <td><?php echo $date ?></td>
                                                         <td><?php echo $time ?></td>
                                                         <td><?php echo $physician;
-                                                        $count++; }?></td>
+                                                            $count++;
+                                                        } ?></td>
                                                     </tr>
-                                                    <?php
-                                                    }?>
+                                                <?php
+                                            } ?>
                                             </tbody>
                                         </table>
                                         <?php include('../../includes/pagination.php'); ?>
                                     <?php
-                                    } else {
+                                } else {
                                     ?>
                                         <tr>
                                             <td colspan="7">No record Found</td>
                                         </tr>
-                                <?php
-                                    }
+                                    <?php
+                                }
                                 mysqli_close($conn);
-                                ?>
+                                    ?>
                             </div>
                         </div>
                     </div>
@@ -162,4 +164,5 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

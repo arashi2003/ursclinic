@@ -2,7 +2,7 @@
 // update_status.php
 
 // Assuming you have established a database connection earlier
-
+session_start();
 include('../../connection.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["id"])) {

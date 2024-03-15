@@ -7,6 +7,8 @@ include('../../includes/nurse-auth.php');
 $module = 'dashboard';
 $userid = $_SESSION['userid'];
 $campus = $_SESSION['campus'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
 
 // get the total nr of rows.
 $lastdt = date("Y-m-t");
@@ -61,10 +63,14 @@ include('../../includes/pagination-limit.php');
             <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <span class="admin_name">
                 <?php
-                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                echo $name ?>
               </span>
             </a>
             <ul class="dropdown-menu">
+              <li class="usertype"><?= $usertype ?></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
               <li><a class="dropdown-item" href="profile">Profile</a></li>
               <li><a class="dropdown-item" href="../../logout">Logout</a></li>
             </ul>
@@ -172,16 +178,15 @@ include('../../includes/pagination-limit.php');
                           <td><?php echo $data['type']; ?></td>
 
                           <?php
-                          if($data['type'] == 'supply')
-                          {
+                          if ($data['type'] == 'supply') {
                           ?>
                             <td><a class="stock_name" href="sup_stocks_total.php?supply=<?php echo urlencode(substr($data['stock_name'], 0, 10)); ?>"><span><?php echo $data['stock_name']; ?></span></a> &ThickSpace; <i class='bx bx-error error'></i></td>
-                          
+
                           <?php
-                          } else{
+                          } else {
                           ?>
                             <td><a class="stock_name" href="med_stocks_total.php?medicine=<?php echo urlencode(substr($data['stock_name'], 0, 10)); ?>"><span><?php echo $data['stock_name']; ?></span></a> &ThickSpace; <i class='bx bx-error error'></i></td>
-                          <?php }?>
+                          <?php } ?>
                           <td><?php echo $data['qty']; ?></td>
                           </tr>
                         <?php

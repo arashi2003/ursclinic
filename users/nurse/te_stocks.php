@@ -3,9 +3,12 @@
 session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
-$campus = $_SESSION['campus'];
+
 $module = 'te_stocks';
-$userid=$_SESSION['userid'];
+$userid = $_SESSION['userid'];
+$campus = $_SESSION['campus'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM inventory_te WHERE campus='$campus'");
@@ -19,7 +22,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Inventory</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -41,9 +44,9 @@ include('../../includes/pagination-limit.php');
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            <?= $row ?>
-                        </span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $row ?>
+                            </span>
                         <?php
                         }
                         ?>
@@ -55,10 +58,14 @@ include('../../includes/pagination-limit.php');
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -69,8 +76,8 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addtestocks">Add Entry</button>
-                    <?php include('modals/nurseaddtestocksmodal.php');?>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addtestocks">Add Entry</button>
+                    <?php include('modals/nurseaddtestocksmodal.php'); ?>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -104,11 +111,12 @@ include('../../includes/pagination-limit.php');
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT * FROM te_status ORDER BY te_status";
-                                                if($result = mysqli_query($conn, $sql))
-                                                {   while($row = mysqli_fetch_array($result) )
-                                                    {   $te_status = $row["te_status"];
-                                                        $id = $row["id"];?>
-                                                <option value="<?php echo $id;?> <?= isset($_GET['']) == true ? ($_GET[''] == $te_status ? 'selected' : '') : '' ?>"><?php echo $te_status;?></option><?php }}?>
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) {
+                                                        $te_status = $row["te_status"];
+                                                        $id = $row["id"]; ?>
+                                                        <option value="<?php echo $id; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $te_status ? 'selected' : '') : '' ?>"><?php echo $te_status; ?></option><?php }
+                                                                                                                                                                                                        } ?>
                                             </select>
                                         </div>
                                         <div class="col mb-2">
@@ -140,48 +148,50 @@ include('../../includes/pagination-limit.php');
                                 if ($result) {
                                     if (mysqli_num_rows($result) > 0) {
                                 ?>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Tools and Equipment</th>
-                                                <th>Unit Cost</th>
-                                                <th>Total Amt.</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            foreach ($result as $data) {
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Tools and Equipment</th>
+                                                    <th>Unit Cost</th>
+                                                    <th>Total Amt.</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                foreach ($result as $data) {
                                                 ?>
                                                     <tr>
-                                                        <td><?php  
+                                                        <td><?php
                                                             $amount = $data['qty'] * $data['unit_cost'];
-                                                            echo $data['id']; ?></td> 
+                                                            echo $data['id']; ?></td>
                                                         <td><?php echo $data['tools_equip'] . $data['unit_measure'] ?></td>
-                                                        <td><?php echo number_format($data['unit_cost'], '2', '.')?></td>
+                                                        <td><?php echo number_format($data['unit_cost'], '2', '.') ?></td>
                                                         <td><?php echo number_format($amount, '2', '.') ?></td>
-                                                        <td><?php echo $data['te_status'];?></td>
+                                                        <td><?php echo $data['te_status']; ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#calimain<?php echo $data['teid']?>">Maintenance/Calibration</button>
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#calimain<?php echo $data['teid'] ?>">Maintenance/Calibration</button>
                                                         </td>
                                                     </tr>
-                                                <?php 
-                                                include('modals/calimain_modal.php');}}
-                                                ?>
-                                        </tbody>
-                                    </table>
-                                    <?php include('../../includes/pagination.php');?>
+                                            <?php
+                                                    include('modals/calimain_modal.php');
+                                                }
+                                            }
+                                            ?>
+                                            </tbody>
+                                        </table>
+                                        <?php include('../../includes/pagination.php'); ?>
                                     <?php
-                                    } else {
+                                } else {
                                     ?>
                                         <tr>
                                             <td colspan="7">No record Found</td>
                                         </tr>
-                                <?php
-                                    }
+                                    <?php
+                                }
                                 mysqli_close($conn);
-                                ?>
+                                    ?>
                             </div>
                         </div>
                     </div>
@@ -208,4 +218,5 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

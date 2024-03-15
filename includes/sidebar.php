@@ -53,7 +53,7 @@
                 <ul class="sub-menu">
                     <li><a class="link_name" href="#">Transaction</a></li>
                     <li>
-                        <a class="<?php if ($module == 'transaction_add') {
+                        <a class="<?php if ($module == 'transaction_add') { 
                                         echo 'active';
                                     } ?>" href="transaction_add">Add Transaction</a>
                     </li>
@@ -98,7 +98,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'reports') {
+            <li class="<?php if ($module == 'reports' or $module == 'reports_appointment' or $module == 'report_doc_visit' or $module == 'reports_transaction' or $module == 'reports_medcase' or $module == 'reports_medinv' or $module == 'reports_supinv' or $module == 'reports_teinv' or $module == 'reports_tecalimain') {
                             echo 'active';
                         } ?>">
                 <a href="reports.php">
@@ -109,7 +109,7 @@
                     <li><a class="link_name" href="#">Reports</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'app' or $module == 'medrec' or $module == 'inv') {
+            <li class="<?php if ($module == 'app' or $module == 'apptype_set' or $module == 'apppurpose_set' or $module == 'appcc_set' or $module == 'medrec' or $module == 'chiefcomplaint' or $module == 'findings' or $module == 'medcase' or $module == 'designation' or $module == 'inv' or $module == 'medadmin_set' or $module == 'dform_set' or $module == 'umeasure_set') {
                             echo 'active showMenu';
                         } ?>">
                 <div class="icon-link">
@@ -121,17 +121,17 @@
                 </div>
                 <ul class="sub-menu">
                     <li>
-                        <a class="<?php if ($module == 'app') {
+                        <a class="<?php if ($module == 'app' or $module == 'apptype_set' or $module == 'apppurpose_set' or $module == 'appcc_set') {
                                         echo 'active';
                                     } ?>" href="app">Appointment</a>
                     </li>
                     <li>
-                        <a class="<?php if ($module == 'medrec') {
+                        <a class="<?php if ($module == 'medrec' or $module == 'chiefcomplaint' or $module == 'findings' or $module == 'medcase' or $module == 'designation') {
                                         echo 'active';
                                     } ?>" href="medrec">Medical Record</a>
                     </li>
                     <li>
-                        <a class="<?php if ($module == 'inv') {
+                        <a class="<?php if ($module == 'inv' or $module == 'medadmin_set' or $module == 'dform_set' or $module == 'umeasure_set') {
                                         echo 'active';
                                     } ?>" href="inv">Inventory</a>
                     </li>

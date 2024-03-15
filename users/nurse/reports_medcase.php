@@ -6,11 +6,9 @@ include('../../includes/nurse-auth.php');
 
 $module = 'reports_medcase';
 $campus = $_SESSION['campus'];
-$userid=$_SESSION['userid'];
-
-if (!isset($_SESSION['username'])) {
-    header('location:../../index');
-}
+$userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
 
 // Check if the month filter is set
 if (isset($_GET['month']) && !empty($_GET['month'])) {
@@ -112,9 +110,9 @@ if ($pages > 4) {
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            <?= $row ?>
-                        </span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $row ?>
+                            </span>
                         <?php
                         }
                         ?>
@@ -140,7 +138,7 @@ if ($pages > 4) {
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_medcase.php');">Export to PDF</button>
+                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcase.php');">Export to PDF</button>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -148,7 +146,7 @@ if ($pages > 4) {
                             <div class="col-md-12">
                                 <form action="reports_filter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="reports" class="form-select">
                                                 <option value="" disabled>Select Report</option>
                                                 <option value="appointment">Appointment Report</option>
@@ -161,13 +159,13 @@ if ($pages > 4) {
                                                 <option value="tecalimain">Tools and Equipment Calibration and Maintenance Report</option>
                                             </select>
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">View</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-md-12 mb-3">
+                            <div class="col-md-12 mb-2">
                                 <form action="" method="GET">
                                     <div class="row">
                                         <div class="col-md-2">
@@ -237,7 +235,7 @@ if ($pages > 4) {
                                         </table>
                             </div>
                             <ul class="pagination justify-content-end">
-                                <?php 
+                                <?php
                                 if (mysqli_num_rows($result) > 0) : ?>
                                     <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
                                         <a class="page-link" href="?<?= isset($_GET['month']) ? 'month=' . $_GET['month'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
