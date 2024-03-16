@@ -115,12 +115,6 @@
         });
     });
 
-    $('#addappointment').on('hidden.bs.modal', function() {
-        $(this).find('form').trigger('reset');
-        $("#purpose").html('<option value="" disable selected>-Select Purpose-</option>');
-        $("#chiefcomplaint").html('<option value="" disable selected>-Select Chief Complaint-</option>');
-    })
-
     function enableOther(answer) {
         console.log(answer.value);
         {

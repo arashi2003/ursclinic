@@ -73,11 +73,3 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $('#addmedentry').on('hidden.bs.modal', function() {
-        $(this).find('form').trigger('reset');
-        $("#medadmin").html('<option value="" disable selected>-Select Medicine Administration-</option>');
-        $("#dform").html('<option value="" disable selected>-Select Dosage Form-</option>');
-        $("#unit_measure").html('<option value="" disable selected>-Select Unit Measure-</option>');
-    });
-</script>
