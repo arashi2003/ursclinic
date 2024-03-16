@@ -1,11 +1,12 @@
 <?php
 session_start();
-$date = date("Y-m-d");
 include('../../connection.php');
 include('../../includes/doctor-auth.php');
 $campus = $_SESSION['campus'];
 $name = $_SESSION['name'];
+$userid = $_SESSION['accountid'];
 $module = 'dashboard';
+$date = date("Y-m-d");
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * from appointment");
@@ -88,16 +89,16 @@ include('../../includes/pagination-limit.php');
               <div class="box-topic">Doctor's Visit</div>
               <div class="number">
                 <?php
-                  $date = date("Y-m-d");
-                  $query = "SELECT date, campus FROM schedule WHERE date >= '$date' AND campus = '$campus'";
+                  $query = "SELECT * FROM schedule WHERE date >= '$date' AND physician='$userid'";
                   $result = mysqli_query($conn, $query);
                   if (mysqli_num_rows($result) > 0)
                   {
                     while($data=mysqli_fetch_array($result))
                     {
                       $sched = $data['date'];
+                      $cam = $data['campus'];
                     }
-                    echo date("M. d, Y", strtotime($sched)) . "<br><h4>" . $data['campus'] . "</h4>";
+                    echo date("M. d, Y", strtotime($sched)) . "<p><h4>" . $cam . "</h4>";
                   }
                   else
                   {

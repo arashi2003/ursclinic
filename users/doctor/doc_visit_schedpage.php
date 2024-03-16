@@ -66,6 +66,7 @@ include('../../includes/pagination-limit.php');
                                     <thead>
                                         <tr>
                                             <th>No.</th>
+                                            <th>Campus</th>
                                             <th>Date</th>
                                             <th>Time</th>
                                             <th>Max. No. of Patients</th>
@@ -80,7 +81,7 @@ include('../../includes/pagination-limit.php');
                                     if ($result) {
                                         if (mysqli_num_rows($result) > 0) 
                                         {
-                                            foreach($result as $dat){
+                                            foreach($result as $data){
                                                 if (count(explode(" ", $data['middlename'])) > 1)
                                                 {
                                                     $middle = explode(" ", $data['middlename']);
@@ -106,12 +107,12 @@ include('../../includes/pagination-limit.php');
                                                         $time = date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to']));
                                                         $physician = $data['firstname'] . " " . $middleinitial . " " . $data['lastname'];
                                                         echo $id; ?></td>
+                                                    <td><?php echo $data['campus'] ?></td>
                                                     <td><?php echo $date ?></td>
                                                     <td><?php echo $time ?></td>
-                                                    <td><?php echo $physician ?></td>
                                                     <td><?php echo $data['maxp']?></td>
                                                     <td>
-                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelsched<?php echo $data['id']; ?>">Remove</button>
+                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelsched<?php echo $data['id']; ?>">Cancel</button>
                                                     </td>
                                                     <?php $count++; ?></td>
                                                 </tr>
