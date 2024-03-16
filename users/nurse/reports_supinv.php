@@ -152,7 +152,7 @@ include('../../includes/pagination-limit.php');
                                             <tbody>
                                                 <?php
                                                 foreach ($result as $row) {
-                                                    if ($row['buc'] = 0) {
+                                                    if ($row['buc'] == "0") {
                                                         $buc = $row['eamt'] / $row['eqty'];
                                                     } elseif ($row['eamt'] != 0) {
                                                         $buc = $row['eamt'] / $row['eqty'];
