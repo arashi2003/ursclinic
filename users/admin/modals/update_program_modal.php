@@ -28,8 +28,8 @@
                     </div>
                     <div class="mb-2">
                         <label for="college" class="form-label">College:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="college" id="college" required>
-                            <option value="" disabled selected>-Select College-</option>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="college" id="college">
+                            <option value="" selected>-Select College-</option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM college ORDER BY college";

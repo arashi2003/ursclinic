@@ -158,7 +158,7 @@ include('../../includes/pagination-limit.php')
                                                     <tr>
                                                         <td><?php echo $data['department'];?></td>
                                                         <td><?php echo $data['college'];?></td>
-                                                        <td><?php echo $data['abbrev']; ?></td>
+                                                        <td><?php echo $data['program']; ?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateprogram<?php echo $data['id']; ?>">Update</button>
                                                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeprogram<?php echo $data['id']; ?>">Remove</button>
