@@ -41,7 +41,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="dosage" class="form-label">Dosage:</label>
-                        <input type="number" class="form-control" name="dosage" id="dosage">
+                        <input type="number" class="form-control" name="dosage" id="dosage" step=".01">
                     </div>
                     <div class="mb-2">
                         <label for="um" class="form-label">Unit Measure:</label>

@@ -4,6 +4,7 @@
     $program = strtoupper($_POST['program']);
     $department = strtoupper($_POST['department']);
     $college = strtoupper($_POST['college']);
+    $abbrev = strtoupper($_POST['abbrev']);
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
@@ -25,7 +26,7 @@
     }
     else
     {
-        $sql = "INSERT INTO program (department, college, program) VALUES ('$department', '$college', '$program')";
+        $sql = "INSERT INTO program (department, college, program, abbrev) VALUES ('$department', '$college', '$program', '$abbrev')";
         if($result = mysqli_query($conn, $sql))
         {
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
