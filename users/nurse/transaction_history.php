@@ -75,6 +75,10 @@ include('../../includes/pagination-limit.php');
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
+                <div class="schedule-button">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addtransaction">Add Entry</button>
+                    <?php include('modals/transaction_modal.php'); ?>
+                </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
@@ -208,13 +212,7 @@ include('../../includes/pagination-limit.php');
 
                                                     </tr>
                                             <?php
-                                                    /*if ($data['transaction'] == 'Vitals') {
-                                                        include('modals/view_trans_vitals_modal.php');
-                                                    } elseif ($data['transaction'] == 'Medical History') {
-                                                        include('modals/view_trans_medhist_modal.php');
-                                                    } else {*/
-                                                    include('modals/view_trans_modal.php');
-                                                    /*}*/
+                                                include('modals/view_trans_modal.php');
                                                 }
                                             } ?>
                                             </tbody>

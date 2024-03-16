@@ -65,7 +65,7 @@
                     <div class="mb-2">
                         <label for="department" class="form-label">Department:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="department" required>
-                            <option value="" disabled selected>-Select Department-</option>
+                            <option value="" selected>-Select Department-</option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM department ORDER BY department";
@@ -83,8 +83,8 @@
                     </div>
                     <div class="mb-2">
                         <label for="college" class="form-label">College:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="college" id="college" required>
-                            <option value="" disabled selected>-Select College-</option>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="college" id="college">
+                            <option value="" selected>-Select College-</option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM college ORDER BY college";
@@ -107,7 +107,7 @@
                     <div class="mb-2">
                         <label for="program" class="form-label">Program:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="program" id="program" disabled>
-                            <option value="" disabled selected></option>
+                            <option value="" selected></option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM program ORDER BY program";
@@ -126,7 +126,7 @@
                     <div class="col mb-2">
                         <label for="yearlevel" class="form-label">Year Level:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="yearlevel" id="yearlevel" disabled>
-                            <option value="" disabled selected></option>
+                            <option value="" selected></option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM yearlevel ORDER BY yearlevel";

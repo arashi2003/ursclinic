@@ -59,7 +59,7 @@
             $enddate = date("Y-m-t");
              
 
-            $query0 = "SELECT * FROM report_teinv  WHERE teid = '$teid' AND date = '$enddate'";    
+            $query0 = "SELECT * FROM report_teinv  WHERE teid = '$teid' AND date = '$enddate' AND campus = '$campus'";    
             $result = mysqli_query($conn, $query0);
             $resultCheck = mysqli_num_rows($result);
             // if may existing entry ung te sa reports

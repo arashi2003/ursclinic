@@ -23,7 +23,7 @@
                 </div>
                 <div class="modal-footer">
                     <!-- Modal muna to confirm add stocks -->
-                    <input type="submit" class="btn btn-primary" value="Add Stocks"></input>
+                    <input type="submit" class="btn btn-primary" value="Update"></input>
                 </div>
             </form>
         </div>

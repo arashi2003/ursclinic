@@ -195,7 +195,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../transaction_vitals.php";
+                            window.location = "../transaction_history.php";
                         });
                     </script>
                     <?php
@@ -206,7 +206,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../transaction_vitals.php";
+                            window.location = "../transaction_history.php";
                         });
                     </script>
                     <?php
@@ -218,7 +218,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../transaction_vitals.php";
+                        window.location = "../transaction_history.php";
                     });
                 </script>
                 <?php
@@ -329,7 +329,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../transaction_vitals.php";
+                            window.location = "../transaction_history.php";
                         });
                     </script>
                     <?php
@@ -340,7 +340,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../transaction_vitals.php";
+                            window.location = "../transaction_history.php";
                         });
                     </script>
                     <?php
@@ -352,7 +352,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../transaction_vitals.php";
+                        window.location = "../transaction_history.php";
                     });
                 </script>
                 <?php
@@ -366,7 +366,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../transaction_vitals.php";
+        window.location = "../transaction_history.php";
     });
 </script>
 <?php

@@ -208,7 +208,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../transaction_medhist.php";
+                            window.location = "../transaction_history.php";
                         });
                     </script>
                     <?php
@@ -219,7 +219,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../transaction_medhist.php";
+                            window.location = "../transaction_history.php";
                         });
                     </script>
                     <?php
@@ -231,7 +231,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../transaction_medhist.php";
+                        window.location = "../transaction_history.php";
                     });
                 </script>
                 <?php
@@ -342,7 +342,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../transaction_medhist.php";
+                            window.location = "../transaction_history.php";
                         });
                     </script>
                     <?php
@@ -353,7 +353,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../transaction_medhist.php";
+                            window.location = "../transaction_history.php";
                         });
                     </script>
                     <?php
@@ -365,7 +365,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../transaction_medhist.php";
+                        window.location = "../transaction_history.php";
                     });
                 </script>
                 <?php
@@ -379,7 +379,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../transaction_medhist.php";
+        window.location = "../transaction_history.php";
     });
 </script>
 <?php

@@ -78,19 +78,32 @@
                     
                     if($resultCheck > 0) // if may existing entry ung supply sa reports
                     {   
-                        while(($data=mysqli_fetch_array($result)))
+                        $campus = $_SESSION['campus'];
+                        $medid = $_POST['supply'];
+                        
+                        $o = $_POST['opened'];
+                        $c = $_POST['close'];
+                        $cost = $_POST['unit_cost'];
+                        $exp = $_POST['expiration'];
+                        $enddate = date("Y-m-t");
+                        
+                        $query0 = "SELECT * FROM report_medsupinv WHERE medid = '$medid' AND type = 'supply' AND date = '$enddate'";    
+                        $result = mysqli_query($conn, $query0);
+                        // kunin values from row
+                        foreach($result as $data)
                         {
-                            // kunin values from row
                             $qty = $_POST['opened'] + $_POST['close'];
                             $aobqty = $data['bqty'];
                             $aorqty = $data['rqty'];
                             $aotqty = $data['tqty'];
                             $aieqty = $data['eqty'];
                             $aieamt = $data['eamt'];
+                            $aiiqty = $data['iqty'];
+                            $aiiamt = $data['iamt'];
                             
                             $arqty = $aorqty + $qty;
                             $tqty = $aotqty + $qty;
-                            $eqty = $qty + $aieqty;
+                            $eqty = $qty + $data['eqty'];
 
                             if ($data['bqty'] == 0 )
                             {
@@ -102,7 +115,7 @@
                                 $aobuc = ($data['eamt'] + ($qty * $cost)) / $eqty;
                                 $abuc = number_format($aobuc, 2, ".");
                             }
-
+                            
                             if($data['iqty'] == 0)
                             {
                                 $iamt = 0;
@@ -113,9 +126,14 @@
                                 $iamt = $data['iqty'] * $aobuc;
                                 $iqty = $data['iqty'];
                             }
+                        }
 
-                            $ucost = ($data['eamt'] + ($qty * $cost));
-                            $aeamt = number_format($ucost, 2, ".");
+                        $query1 = "SELECT unit_cost FROM inv_total WHERE stockid = '$medid' AND type = 'supply'";    
+                        $result = mysqli_query($conn, $query1);
+                        // kunin values from row
+                        foreach($result as $data)
+                        {
+                            $aeamt = $data['unit_cost'] * $eqty;
                         }
 
                         $medid = $_POST['supply'];
@@ -127,7 +145,8 @@
                             $supply = $data['supply'] . " " . $data['volume'] . $data['unit_measure'];
                         }
 
-                        $query = "UPDATE report_medsupinv SET buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'supply' AND campus = '$campus'";
+                        $query = "UPDATE report_medsupinv SET buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', 
+                        iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'supply' AND campus = '$campus'";
                         if(mysqli_query($conn, $query))
                         {
                             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
@@ -172,7 +191,7 @@
                         $lastdate = date("Y-m-t", strtotime("- 1 month"));
                         $medid = $_POST['supply'];
 
-                        $query = "SELECT * FROM report_medsupinv WHERE medid = '$medid' AND type = 'supply' AND date = '$lastdate' AND eqty != 0 AND admin = 0";    
+                        $query = "SELECT * FROM report_medsupinv WHERE medid = '$medid' AND type = 'supply' AND date = '$lastdate' AND eqty != 0 AND admin = 0 AND campus = '$campus'";    
                         $result = mysqli_query($conn, $query);
                         $resultCheck = mysqli_num_rows($result);
                         

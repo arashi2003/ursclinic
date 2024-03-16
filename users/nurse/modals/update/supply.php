@@ -2,7 +2,6 @@
     session_start();
     include('../connection.php');
     
-    $accountid = $_SESSION['userid'];
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = $_SESSION['name'];
@@ -42,7 +41,6 @@
             $query1 = "UPDATE inventory SET opened='$o', closed='$c', qty='$qty' WHERE campus = '$campus' AND stockid = '$medid' AND expiration > '$today' AND closed != 0 AND opened != 0 AND qty != 0 LIMIT 1";
             if(mysqli_query($conn, $query1))
             {
-                $accountid = $_SESSION['userid'];
                 $medid = $_POST['supid'];
                 $qty = $_POST['opened'] + $_POST['close'];
                 
@@ -58,7 +56,7 @@
                 $enddate = date("Y-m-t");
                 $medid = $_POST['supid'];
 
-                $query0 = "SELECT * FROM report_medsupinv WHERE medid = '$medid' AND type = 'supply' AND date = '$enddate'";    
+                $query0 = "SELECT * FROM report_medsupinv WHERE medid = '$medid' AND type = 'supply' AND date = '$enddate' AND campus = '$campus'";    
                 $result = mysqli_query($conn, $query0);
                 $resultCheck = mysqli_num_rows($result);
                 if($resultCheck > 0) // if may existing entry ung supply sa reports

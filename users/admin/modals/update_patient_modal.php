@@ -246,8 +246,8 @@
                     <!-- RESPONSIVE ROR ROR-->
                     <div class="mb-2">
                         <label for="department" class="form-label">Department:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="department" required>
-                            <option value="" disabled selected>-Select Department-</option>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="department">
+                            <option value="" selected>-Select Department-</option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM department ORDER BY department";
@@ -265,8 +265,8 @@
                     </div>
                     <div class="mb-2">
                         <label for="college" class="form-label">College:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="college" id="college" required>
-                            <option value="" disabled selected>-Select College-</option>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="college" id="college">
+                            <option value="" selected>-Select College-</option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM college ORDER BY college";
@@ -284,8 +284,8 @@
                     </div>
                     <div class="mb-2">
                         <label for="program" class="form-label">Program:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="program" id="program" required>
-                            <option value="" disabled selected>-Select Program-</option>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="program" id="program">
+                            <option value="" selected>-Select Program-</option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM program ORDER BY program";
@@ -303,8 +303,8 @@
                     </div>
                     <div class="mb-2">
                         <label for="yearlevel" class="form-label">Year Level:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="yearlevel" id="yearlevel" required>
-                            <option value="" disabled selected>-Select Year Level-</option>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="yearlevel" id="yearlevel">
+                            <option value="" selected>-Select Year Level-</option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM yearlevel ORDER BY yearlevel";
@@ -322,7 +322,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="section" class="form-label">Section:</label>
-                        <input type="text" class="form-control" name="section" id="section" value="<?php echo $data['section']?>" required>
+                        <input type="text" class="form-control" name="section" id="section" value="<?php echo $data['section']?>">
                     </div>
                     <?php }?>
 

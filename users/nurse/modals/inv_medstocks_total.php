@@ -64,7 +64,7 @@
                 {
                     // last day of this month
                     $enddate = date("Y-m-t");
-                    $query0 = "SELECT * FROM report_medsupinv WHERE medid = '$adminid' AND type = 'med_admin' AND date = '$enddate'";    
+                    $query0 = "SELECT * FROM report_medsupinv WHERE medid = '$adminid' AND type = 'med_admin' AND date = '$enddate' AND campus = '$campus'";    
                     $result = mysqli_query($conn, $query0);
                     $resultCheck = mysqli_num_rows($result);
                     // if may existing entry ung medicine administration sa reports
@@ -100,7 +100,7 @@
                         // last day of this month
                         $enddate = date("Y-m-t");
 
-                        $query0 = "SELECT * FROM report_medsupinv WHERE medid = '$medid' AND type = 'medicine' AND date = '$enddate'";    
+                        $query0 = "SELECT * FROM report_medsupinv WHERE medid = '$medid' AND type = 'medicine' AND date = '$enddate' AND campus = '$campus'";    
                         $result = mysqli_query($conn, $query0);
                         $resultCheck = mysqli_num_rows($result);
                         if($resultCheck > 0) // if may existing entry ung medicine sa reports
@@ -116,7 +116,7 @@
                             $exp = $_POST['expiration'];
                             $enddate = date("Y-m-t");
                             
-                            $query0 = "SELECT * FROM report_medsupinv WHERE medid = '$medid' AND type = 'medicine' AND date = '$enddate'";    
+                            $query0 = "SELECT * FROM report_medsupinv WHERE medid = '$medid' AND type = 'medicine' AND date = '$enddate' AND campus = '$campus'";    
                             $result = mysqli_query($conn, $query0);
                             // kunin values from row
                             foreach($result as $data)
@@ -127,8 +127,6 @@
                                 $aotqty = $data['tqty'];
                                 $aieqty = $data['eqty'];
                                 $aieamt = $data['eamt'];
-                                $aiiqty = $data['iqty'];
-                                $aiiamt = $data['iamt'];
                                 
                                 $arqty = $aorqty + $qty;
                                 $tqty = $aotqty + $qty;
@@ -144,7 +142,7 @@
                                     $aobuc = ($data['eamt'] + ($qty * $cost)) / $eqty;
                                     $abuc = number_format($aobuc, 2, ".");
                                 }
-                                
+
                                 if($data['iqty'] == 0)
                                 {
                                     $iamt = 0;
@@ -160,7 +158,7 @@
                                 $aieamt = $ucost * $eqty;
                                 $aeamt = number_format($aieamt, 2, ".");
                                 
-                                $query = "UPDATE report_medsupinv SET buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine' AND campus = '$campus'";
+                                $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine' AND campus = '$campus'";
                                 if(mysqli_query($conn, $query))
                                 {
                                     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
@@ -377,6 +375,7 @@
                             }
                         }
                     }
+                    
                     else // if wala pang existing entry ung medicine administration sa reports
                     {
                         $accountid = $_SESSION['userid'];
@@ -488,7 +487,7 @@
                                 $exp = $_POST['expiration'];
                                 $enddate = date("Y-m-t");
 
-                                $query = "UPDATE report_medsupinv SET buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine' AND campus = '$campus'";
+                                $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine'";
                                 if(mysqli_query($conn, $query))
                                 {
                                     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
@@ -836,7 +835,7 @@
                                 $aieamt = $ucost * $eqty;
                                 $aeamt = number_format($aieamt, 2, ".");
                                 
-                                $query = "UPDATE report_medsupinv SET buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine' AND campus = '$campus'";
+                                $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine'";
                                 if(mysqli_query($conn, $query))
                                 {
                                     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
@@ -1165,7 +1164,7 @@
                                 $exp = $_POST['expiration'];
                                 $enddate = date("Y-m-t");
 
-                                $query = "UPDATE report_medsupinv SET buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine' AND campus = '$campus'";
+                                $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine'";
                                 if(mysqli_query($conn, $query))
                                 {
                                     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";

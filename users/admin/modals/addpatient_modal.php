@@ -64,8 +64,8 @@
                         <!-- RESPONSIVE ROR ROR-->
                         <div class="col mb-2">
                             <label for="department" class="form-label">Department:</label>
-                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="department" required>
-                                <option value="" disabled selected>-Select Department-</option>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="department">
+                                <option value="" selected>-Select Department-</option>
                                 <?php
                                 include('connection.php');
                                 $sql = "SELECT * FROM department ORDER BY department";
