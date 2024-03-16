@@ -153,19 +153,19 @@ if (isset($_POST['medicine'])) {
                 $iqty =  $qty;
             } else {
                 $iqty = $data['iqty'] + $qty;
-                $iamt = $iqty * ($aeamt/$eqty);
+                $iamt = $iqty * ($aeamt / $eqty);
             }
             $query4 = "UPDATE report_medsupinv SET iqty = '$iqty', iamt = '$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medicine' AND date = '$enddate' AND type = 'medicine' AND campus = '$campus'";
             mysqli_query($conn, $query4);
         }
-        
-            // Update inventory_medicine
-            echo  rtrim($medicine . ", " . $quantities[$key], ", ") . "inventory_medicine <br>";
-            // Update inv_total
-            echo  rtrim($medicine . ", " . $quantities[$key], ", ") . "inv_total <br>";
-            // Update inventory
-            echo  rtrim($medicine . ", " . $quantities[$key], ", ") . "inventory <br>";
-            // Update report_medsupinv
+
+        // Update inventory_medicine
+        echo  rtrim($medicine . ", " . $quantities[$key], ", ") . "inventory_medicine <br>";
+        // Update inv_total
+        echo  rtrim($medicine . ", " . $quantities[$key], ", ") . "inv_total <br>";
+        // Update inventory
+        echo  rtrim($medicine . ", " . $quantities[$key], ", ") . "inventory <br>";
+        // Update report_medsupinv
         echo  rtrim($medicine . ", " . $quantities[$key], ", ") . "reports <p>";
     }
 }
@@ -213,19 +213,19 @@ if (isset($_POST['supply'])) {
                 $iqty =  $qty;
             } else {
                 $iqty = $data['iqty'] + $qty;
-                $iamt = $iqty * ($aeamt/$eqty);
+                $iamt = $iqty * ($aeamt / $eqty);
             }
             $query4 = "UPDATE report_medsupinv SET iqty = '$iqty', iamt = '$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$supply' AND date = '$enddate' AND type = 'supply' AND campus = '$campus'";
             mysqli_query($conn, $query4);
         }
-// Update inventory_supply
-echo  rtrim($supply . ", " . $quantities_sup[$key], ", ") . " inventory_supply <br>";
-// Update inv_total
-echo  rtrim($supply . ", " . $quantities_sup[$key], ", ") . " inv_total <br>";
-// Update inventory
-echo  rtrim($supply . ", " . $quantities_sup[$key], ", ") . " inventory <br>";
-// Update report_medsupinv
-echo  rtrim($supply . ", " . $quantities_sup[$key], ", ") . " reports <br>";
+        // Update inventory_supply
+        echo  rtrim($supply . ", " . $quantities_sup[$key], ", ") . " inventory_supply <br>";
+        // Update inv_total
+        echo  rtrim($supply . ", " . $quantities_sup[$key], ", ") . " inv_total <br>";
+        // Update inventory
+        echo  rtrim($supply . ", " . $quantities_sup[$key], ", ") . " inventory <br>";
+        // Update report_medsupinv
+        echo  rtrim($supply . ", " . $quantities_sup[$key], ", ") . " reports <br>";
     }
 }
 

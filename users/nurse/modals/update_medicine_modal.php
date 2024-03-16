@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Medicine Details</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../med_entry.php'"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../nurse/med_entry.php'"></button>
             </div>
             <form method="POST" action="modals/update/update_medicine.php" id="form">
                 <div class="modal-body">
@@ -47,7 +47,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="medicine" class="form-label">Medicine:</label>
-                        <input type="text" name="id" value="<?php echo $data['medid']?>" hidden>
+                        <input type="text" name="medid" value="<?php echo $data['medid']?>" hidden>
                         <input type="text" class="form-control" name="medicine" id="medicine" value="<?php echo $data['medicine']?>">
                     </div>
                     <div class="mb-2">

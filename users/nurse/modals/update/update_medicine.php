@@ -13,7 +13,7 @@
     $unit = $_POST['unit_measure'];
     $id=$_POST['medid'];
 
-    $query = "UPDATE medicine SET med_admin='$madmin', medicine='$medicine', dosage='$dose', dosage_form='$dform', state='$state', unit_measure='$unit', datetime=now() WHERE medid='$medid'";
+    $query = "UPDATE medicine SET med_admin='$madmin', medicine='$medicine', dosage='$dose', dosage_form='$dform', state='$state', unit_measure='$unit', datetime=now() WHERE medid='$id'";
     if($result = mysqli_query($conn, $query))
     {
         $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'updated a medicine entry', '$au_status', now())";

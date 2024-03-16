@@ -9,10 +9,10 @@ $userid = $_SESSION['userid'];
 $campus = $_SESSION['campus'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
+$lastdt = date("Y-m-t");
 
 // get the total nr of rows.
-$lastdt = date("Y-m-t");
-$records = $conn->query("SELECT * FROM report_medsupinv WHERE eqty <= 10 AND type != 'med_admin' AND date = '$lastdt' ORDER BY type, eqty");
+$records = $conn->query("SELECT * FROM inv_total WHERE qty <= 10 ORDER BY type, qty");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php');
@@ -181,7 +181,6 @@ include('../../includes/pagination-limit.php');
                           if ($data['type'] == 'supply') {
                           ?>
                             <td><a class="stock_name" href="sup_stocks_total.php?supply=<?php echo urlencode(substr($data['stock_name'], 0, 10)); ?>"><span><?php echo $data['stock_name']; ?></span></a> &ThickSpace; <i class='bx bx-error error'></i></td>
-
                           <?php
                           } else {
                           ?>
