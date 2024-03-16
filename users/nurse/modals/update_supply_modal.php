@@ -14,7 +14,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="volume" class="form-label">Volume:</label>
-                        <input type="number" class="form-control" name="volume" value="<?php echo $data['volume']?>" id="dosage">
+                        <input type="number" class="form-control" name="volume" value="<?php echo $data['volume']?>" id="volume" step=".01">
                     </div>
                     <div class="mb-2">
                         <label for="um" class="form-label">Unit Measure:</label>
