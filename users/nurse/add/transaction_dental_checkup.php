@@ -237,6 +237,11 @@
                     // $no
                     switch(true)
                     {
+                        case($data['year_1'] != "" OR $data['year_1'] != NULL):
+                            {
+                                $no=2;
+                                break;
+                            }
                         case($data['year_2'] != "" OR $data['year_2'] != NULL):
                         {
                             $no=2;
@@ -259,7 +264,6 @@
                         }
                         default:
                         {
-                            $no=1;
                             break;
                         }
                     }

@@ -300,7 +300,7 @@ include('../../includes/pagination-limit.php');
                                                 <?php
                                                 if($data['purpose'] == 'Dental Checkup')
                                                 {?>
-                                                    <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'reports/reports_dentalform.php?id=<?= $id ?>'">Expand</button>
+                                                    <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'reports/reports_dentalform.php?id=<?= $id?>'">Expand</button>
                                                 <?php }
                                                 else{?>
                                                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
