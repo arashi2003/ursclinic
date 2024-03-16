@@ -33,35 +33,22 @@
                             echo 'active';
                         } ?>">
                 <a href="patients">
-                    <i class='bx bx-file'></i>
+                    <i class='bx bx-id-card'></i>
                     <span class="link_name">Patient Information</span>
                 </a>
                 <ul class="sub-menu blank">
                     <li><a class="link_name" href="#">Patient Information</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'transaction_add' or $module == 'transaction_history') {
-                            echo 'active showMenu';
+            <li class="<?php if ($module == 'transaction_history') {
+                            echo 'active';
                         } ?>">
-                <div class="icon-link">
-                    <a href="#">
-                        <i class='bx bx-collection'></i>
-                        <span class="link_name">Transaction</span>
-                    </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
-                </div>
-                <ul class="sub-menu">
+                <a href="transaction_history">
+                    <i class='bx bx-collection'></i>
+                    <span class="link_name">Transaction</span>
+                </a>
+                <ul class="sub-menu blank">
                     <li><a class="link_name" href="#">Transaction</a></li>
-                    <li>
-                        <a class="<?php if ($module == 'transaction_add') { 
-                                        echo 'active';
-                                    } ?>" href="transaction_add">Add Transaction</a>
-                    </li>
-                    <li>
-                        <a class="<?php if ($module == 'transaction_history') {
-                                        echo 'active';
-                                    } ?>" href="transaction_history">Transaction History</a>
-                    </li>
                 </ul>
             </li>
             <li class="<?php if ($module == 'medical') {
