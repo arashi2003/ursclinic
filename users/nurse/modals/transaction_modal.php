@@ -197,7 +197,7 @@
                                     <label for="" class="form-label">Quantity:</label>
                                         <div class="row">
                                             <div class="col">
-                                                <input type="number" class="form-control" name="quantity_med[]">
+                                                <input type="number" min="0" class="form-control" name="quantity_med[]">
                                             </div>
                                             <div class="col">
                                                 <button type="button" class="btn btn-primary" onclick="duplicate_med()">+</button>
@@ -223,7 +223,7 @@
                                     <label for="" class="form-label">Quantity:</label>
                                     <div class="row">
                                         <div class="col">
-                                            <input type="number" class="form-control" name="quantity_sup[]">
+                                            <input type="number" min="0" class="form-control" name="quantity_sup[]">
                                         </div>
                                         <div class="col">
                                             <button type="button" class="btn btn-primary" onclick="duplicate_sup()">+</button>
@@ -264,7 +264,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-2">
                                     <label for="" class="form-label">Height (cm):</label>
-                                    <input type="number" maxlength="7" class="form-control" name="height" id="height" required>
+                                    <input type="number" min="0" maxlength="7" class="form-control" name="height" id="height" required>
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label for="" class="form-label">Weight:</label>
@@ -278,7 +278,7 @@
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label for="" class="form-label">Pulse Rate:</label>
-                                    <input type="number" maxlength="3" class="form-control" name="pr" id="pr" required>
+                                    <input type="number" min="0" maxlength="3" class="form-control" name="pr" id="pr" required>
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label for="" class="form-label">Temperature:</label>
@@ -429,7 +429,7 @@
                             </div>
                             <div class="col-md-4 mb-2">
                                 <label for="" class="form-label">Pulse Rate:</label>
-                                <input type="number" maxlength="3" class="form-control" name="pr" id="pr" required>
+                                <input type="number" min="0" maxlength="3" class="form-control" name="pr" id="pr" required>
                             </div>
                             <div class="col-md-4 mb-2">
                                 <label for="" class="form-label">Temperature:</label>
@@ -439,7 +439,7 @@
                         <div class="row">
                             <div class="col-md-4 mb-2">
                                 <label for="" class="form-label">Respiratory Rate:</label>
-                                <input type="number" maxlength="3" class="form-control" name="respiratory" id="respiratory" required>
+                                <input type="number" min="0" maxlength="3" class="form-control" name="respiratory" id="respiratory" required>
                             </div>
                             <div class="col-md-4 mb-2">
                                 <label for="" class="form-label">Oxygen Saturation:</label>
