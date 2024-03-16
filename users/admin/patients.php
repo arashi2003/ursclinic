@@ -5,7 +5,7 @@ include('../../connection.php');
 include('../../includes/admin-auth.php');
 $module = 'patient_add';
 $campus = $_SESSION['campus'];
-$userid=$_SESSION['userid'];
+$userid = $_SESSION['userid'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM patient_info WHERE campus='$campus'");
@@ -19,7 +19,7 @@ include('../../includes/pagination-limit.php')
 
 <head>
     <title>Patient Information</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -50,9 +50,18 @@ include('../../includes/pagination-limit.php')
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
+                <?php
+                include('../../includes/alert.php');
+                ?>
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addpatient">Add Patient</button>
-                    <?php include('modals/addpatient_modal.php');?>
+                    <form action="modals/import_patient.php" method="POST" enctype="multipart/form-data">
+                        <div class="input-group">
+                            <input type="file" class="form-control" name="import_file" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" onchange="enableButton()">
+                            <button class="btn btn-primary" type="submit" name="save_excel_data" id="uploadButton" disabled>Upload</button>
+                        </div>
+                    </form>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addpatient">Add Patient</button>
+                    <?php include('modals/addpatient_modal.php'); ?>
                     &ThickSpace;
                 </div>
                 <div class="content">
@@ -73,10 +82,10 @@ include('../../includes/pagination-limit.php')
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT designation FROM patient_info ORDER BY designation";
-                                                if($result = mysqli_query($conn, $sql))
-                                                {   while($row = mysqli_fetch_array($result) )
-                                                    {?>
-                                                <option value="<?php echo $row["designation"];?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["designation"] ? 'selected' : '') : '' ?>"><?php echo $row["designation"];?></option><?php }}?>
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) { ?>
+                                                        <option value="<?php echo $row["designation"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["designation"] ? 'selected' : '') : '' ?>"><?php echo $row["designation"]; ?></option><?php }
+                                                                                                                                                                                                                                        } ?>
                                             </select>
                                         </div>
                                         <div class="col mb-2">
@@ -100,8 +109,7 @@ include('../../includes/pagination-limit.php')
                                     $count = 1;
                                     $sql = "SELECT p.patientid, p.designation, p.address, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid  WHERE ac.campus = '$campus' AND designation = '$designation' ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
-                                }
-                                else {
+                                } else {
                                     $count = 1;
                                     $sql = "SELECT p.patientid, p.designation, p.address, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE ac.campus = '$campus' ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
@@ -122,61 +130,53 @@ include('../../includes/pagination-limit.php')
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                foreach($result as $data){
-                                                    if (count(explode(" ", $data['middlename'])) > 1)
-                                                    {
+                                                foreach ($result as $data) {
+                                                    if (count(explode(" ", $data['middlename'])) > 1) {
                                                         $middle = explode(" ", $data['middlename']);
-                                                        $letter = $middle[0][0].$middle[1][0];
+                                                        $letter = $middle[0][0] . $middle[1][0];
                                                         $middleinitial = $letter . ".";
-                                                    }
-                                                    else
-                                                    {
+                                                    } else {
                                                         $middle = $data['middlename'];
-                                                        if ($middle == "" OR $middle == " ")
-                                                        {
+                                                        if ($middle == "" or $middle == " ") {
                                                             $middleinitial = "";
-                                                        }
-                                                        else
-                                                        {
+                                                        } else {
                                                             $middleinitial = substr($middle, 0, 1) . ".";
-                                                        }    
+                                                        }
                                                     }
-                                                    if($data['department'] == NULL)
-                                                    {
+                                                    if ($data['department'] == NULL) {
                                                         $dep = "N/A";
-                                                    }
-                                                    else
-                                                    {
+                                                    } else {
                                                         $dep = $data['department'];
                                                     }
-                                                    ?>
+                                                ?>
                                                     <tr>
-                                                        <td><?php echo $patientid = $data['patientid'];?></td>
-                                                        <td><?php echo $data['designation'];?></td>
-                                                        <td><?php echo $dep;?></td>
-                                                        <td><?php echo $data['college'];?></td>
+                                                        <td><?php echo $patientid = $data['patientid']; ?></td>
+                                                        <td><?php echo $data['designation']; ?></td>
+                                                        <td><?php echo $dep; ?></td>
+                                                        <td><?php echo $data['college']; ?></td>
                                                         <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname'])); ?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatepatient<?php echo $data['patientid']; ?>">Expand</button>
-                                                        <?php $count++; ?>
+                                                            <?php $count++; ?>
                                                         </td>
                                                     </tr>
-                                                    <?php
+                                            <?php
                                                     include('modals/update_patient_modal.php');
-                                                    }}?>
+                                                }
+                                            } ?>
                                             </tbody>
                                         </table>
-                                        <?php include('../../includes/pagination.php')?>
+                                        <?php include('../../includes/pagination.php') ?>
                                     <?php
-                                    } else {
+                                } else {
                                     ?>
                                         <tr>
                                             <td colspan="7">No record Found</td>
                                         </tr>
-                                <?php
-                                    }
+                                    <?php
+                                }
                                 mysqli_close($conn);
-                                ?>
+                                    ?>
                             </div>
                         </div>
                     </div>
@@ -203,4 +203,5 @@ include('../../includes/pagination-limit.php')
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>
