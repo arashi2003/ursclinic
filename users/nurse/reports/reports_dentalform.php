@@ -40,7 +40,7 @@
             $activity = "saved a pdf for dental form";
             // code for revision number  
             include('connection.php');        
-            $query = mysqli_query($conn, "SELECT * FROM audit_t']rail WHERE user = '$user' AND activity = '$activity'");
+            $query = mysqli_query($conn, "SELECT * FROM audit_trail WHERE user = '$user' AND activity = '$activity'");
             $count = 0;
             while($data=mysqli_fetch_array($query))
             {
@@ -72,9 +72,9 @@
     $pdf->SetAutoPageBreak(true, 15);
     $pdf->SetFont('Arial', '', 8);
 
-    $patientid = $_REQUEST['patientid'];
+    $patientid = $_REQUEST['id'];
    
-    $sql = "SELECT * FROM dental_record_1 INNER JOIN dental_record_2 WHERE patientid='$patientid' LIMIT 1";
+    $sql = "SELECT * FROM dental_record_1 INNER JOIN dental_record_2 WHERE dental_record_1.patientid='$patientid' AND dental_record_2.patientid='$patientid' LIMIT 1";
     $result = mysqli_query($conn, $sql);
     while($data=mysqli_fetch_array($result))
     {
