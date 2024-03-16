@@ -80,6 +80,9 @@ include('../../includes/pagination-limit.php');
     </nav>
     <div class="home-content">
       <div class="overview-boxes">
+        <?php
+        include('../../includes/alert.php')
+        ?>
         <button type=button class="box" style="border: none;" onclick="window.location.href = 'appointment?tab=approved'">
           <a href="appointment?tab=approved" style="color:black; text-decoration: none;">
             <div class="right-side">
