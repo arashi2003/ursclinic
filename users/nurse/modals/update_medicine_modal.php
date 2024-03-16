@@ -47,7 +47,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="medicine" class="form-label">Medicine:</label>
-                        <input type="text" name="id" value="<?php echo $data['medid']?>" hidden>
+                        <input type="text" name="medid" value="<?php echo $data['medid']?>" hidden>
                         <input type="text" class="form-control" name="medicine" id="medicine" value="<?php echo $data['medicine']?>">
                     </div>
                     <div class="mb-2">
