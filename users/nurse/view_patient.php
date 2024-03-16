@@ -256,74 +256,36 @@ include('../../includes/pagination-limit.php');
                     <?php } ?>
                 </div>
             </div>
-        </div>
-        <div class="home-content">
-            <div class="table-responsive">
-                <?php 
-                    $sql = "SELECT * FROM transaction_history WHERE transaction LIKE '%Medical History%' AND transaction LIKE '%Vitals%' AND purpose LIKE '%Medical History%' AND purpose LIKE '%Vitals%' AND patient='$patientid' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
-                    $result = mysqli_query($conn, $sql); 
-                    if ($result) {
-                        if ($row = mysqli_num_rows($result) > 0) {
-                    ?>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Type of Transaction</th>
-                                        <th>Service</th>
-                                        <th>Date and Time</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    <?php
-                                    foreach ($result as $data) {
-                                        if (count(explode(" ", $data['middlename'])) > 1) {
-                                            $middle = explode(" ", $data['middlename']);
-                                            $letter = $middle[0][0] . $middle[1][0];
-                                            $middleinitial = $letter . ".";
-                                        } else {
-                                            $middle = $data['middlename'];
-                                            if ($middle == "" or $middle == " ") {
-                                                $middleinitial = "";
-                                            } else {
-                                                $middleinitial = substr($middle, 0, 1) . ".";
-                                            }
-                                        }
-                                        $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
-                                    ?>
+            <div class="overview-boxes">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
                                         <tr>
-                                            <td><?= $data['transaction'] ?></td>
-                                            <td><?= $data['purpose'] ?></td>
-                                            <td><?= date("M. d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'])) ?></td>
+                                            <th>Type of Transaction</th>
+                                            <th>Service</th>
+                                            <th>Date and Time</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>1</td>
+                                            <td>1</td>
                                             <td>
-                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
+                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#">Expand</button>
                                             </td>
 
                                         </tr>
-                                <?php
-                                    if($data['purpose'] == 'Vitals')
-                                    {
-                                        include('modals/view_vitals_modal.php');
-                                    }
-                                    else
-                                    {
-                                        include('modals/view_vitals_modal.php');
-                                    }}
-                                ?>
-                                </tbody>
-                            </table>
-                            <?php include('../../includes/pagination.php'); ?>
-                        <?php
-                    }} else {
-                        ?>
-                            <tr>
-                                <td colspan="7">No record Found</td>
-                            </tr>
-                        <?php
-                    }
-                    mysqli_close($conn);
-                ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
