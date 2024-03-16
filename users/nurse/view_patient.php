@@ -74,7 +74,7 @@ include('../../includes/pagination-limit.php')
             </div>
         </nav>
         <div class="home-content">
-            <div class="overview-boxes">
+            <div class="profile">
                 <div class="profile-pic box">
                     <?php
                     $image = "SELECT * FROM patient_image WHERE patient_id = '$patientid'";
@@ -85,7 +85,7 @@ include('../../includes/pagination-limit.php')
                         <img src="../../images/<?php echo $row['image']; ?>" id="image">
                     </div>
                 </div>
-                <div class="content">
+                <div class="profile-info box">
                     <?php
                     $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE patientid='$patientid'";
                     $result = mysqli_query($conn, $sql);

@@ -78,7 +78,7 @@ $campus = $_SESSION['campus'];
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
-                            <li><a class="dropdown-item" href="../../logout">Logout</a></li>
+                            <li><a class="dropdown-item" href="../../../logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>
