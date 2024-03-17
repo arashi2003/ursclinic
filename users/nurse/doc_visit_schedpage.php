@@ -9,9 +9,10 @@ $campus = $_SESSION['campus'];
 $userid = $_SESSION['userid'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
+$date=date("Y-m-d");
 
 // get the total nr of rows.
-$records = $conn->query("SELECT * FROM schedule");
+$records = $conn->query("SELECT s.id, s.date, s.time_from, s.time_to, s.physician, s.campus, a.firstname, a.middlename, a.lastname FROM schedule s INNER JOIN account a on a.accountid=s.physician WHERE s.campus = '$campus' AND date >= '$date' ORDER BY date, time_from");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php');
@@ -79,13 +80,6 @@ include('../../includes/pagination-limit.php');
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                $count = 1;
-                                $date = date("Y-m-d");
-                                $sql = "SELECT s.id, s.date, s.time_from, s.time_to, s.physician, s.campus, a.firstname, a.middlename, a.lastname FROM schedule s INNER JOIN account a on a.accountid=s.physician WHERE s.campus = '$campus' AND date >= '$date' ORDER BY date, time_from LIMIT $start, $rows_per_page";
-                                $result = mysqli_query($conn, $sql);
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) { ?>
                                         <table>
                                             <thead>
                                                 <tr>
@@ -93,51 +87,65 @@ include('../../includes/pagination-limit.php');
                                                     <th>Date</th>
                                                     <th>Time</th>
                                                     <th>Physician</th>
+                                                    <th>Max. No. of Patients</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
-
-                                                <?php
-                                                while ($data = mysqli_fetch_array($result)) {
-                                                    if (count(explode(" ", $data['middlename'])) > 1) {
-                                                        $middle = explode(" ", $data['middlename']);
-                                                        $letter = $middle[0][0] . $middle[1][0];
-                                                        $middleinitial = $letter . ".";
-                                                    } else {
-                                                        $middle = $data['middlename'];
-                                                        if ($middle == "" or $middle == " ") {
-                                                            $middleinitial = "";
+                                            <?php
+                                            $count = 1;
+                                            $date = date("Y-m-d");
+                                            $sql = "SELECT s.id, s.maxp, s.date, s.time_from, s.time_to, s.physician, s.campus, a.firstname, a.middlename, a.lastname FROM schedule s INNER JOIN account a on a.accountid=s.physician WHERE s.campus = '$campus' AND date >= '$date' ORDER BY date, time_from LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                            if ($result) {
+                                                if (mysqli_num_rows($result) > 0) { 
+                                                    while ($data = mysqli_fetch_array($result)) {
+                                                        if (count(explode(" ", $data['middlename'])) > 1) {
+                                                            $middle = explode(" ", $data['middlename']);
+                                                            $letter = $middle[0][0] . $middle[1][0];
+                                                            $middleinitial = $letter . ".";
                                                         } else {
-                                                            $middleinitial = substr($middle, 0, 1) . ".";
+                                                            $middle = $data['middlename'];
+                                                            if ($middle == "" or $middle == " ") {
+                                                                $middleinitial = "";
+                                                            } else {
+                                                                $middleinitial = substr($middle, 0, 1) . ".";
+                                                            }
                                                         }
-                                                    }
+                                                    ?>
+                                                        <tr>
+                                                            <td><?php $id = $count;
+                                                                $date = date("F d, Y", strtotime($data['date']));
+                                                                $time = date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to']));
+                                                                $physician = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
+                                                                echo $id; ?></td>
+                                                            <td><?php echo $date ?></td>
+                                                            <td><?php echo $time ?></td>
+                                                            <td><?php echo $physician ?></td>
+                                                            <td><?php echo $data['maxp'];
+                                                                $count++;
+                                                            } ?></td>
+                                                        </tr>
+                                                    <?php
                                                 ?>
+                                                    </tbody>
+                                                </table>
+                                                <?php include('../../includes/pagination.php'); }
+                                                else
+                                                {?>
                                                     <tr>
-                                                        <td><?php $id = $count;
-                                                            $date = date("F d, Y", strtotime($data['date']));
-                                                            $time = date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to']));
-                                                            $physician = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
-                                                            echo $id; ?></td>
-                                                        <td><?php echo $date ?></td>
-                                                        <td><?php echo $time ?></td>
-                                                        <td><?php echo $physician;
-                                                            $count++;
-                                                        } ?></td>
+                                                        <td colspan="7">No record Found</td>
                                                     </tr>
                                                 <?php
-                                            } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php'); ?>
-                                    <?php
-                                } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                    ?>
+                                                }
+                                                } else {
+                                                ?>
+                                                    <tr>
+                                                        <td colspan="7">No record Found</td>
+                                                    </tr>
+                                                <?php
+                                        }
+                                        mysqli_close($conn);
+                                            ?>
                             </div>
                         </div>
                     </div>

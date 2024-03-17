@@ -4,7 +4,7 @@ include('../../connection.php');
 include('../../includes/doctor-auth.php');
 $campus = $_SESSION['campus'];
 $name = $_SESSION['name'];
-$userid = $_SESSION['accountid'];
+$userid = $_SESSION['userid'];
 $module = 'dashboard';
 $date = date("Y-m-d");
 
@@ -83,31 +83,31 @@ include('../../includes/pagination-limit.php');
             </div>
           </a>
         </button>
-        <button type=button class="box" style="border: none;">
-          <a href="doc_visit_schedpage.php" style="color:black; text-decoration: none;">
+        <button type=button class="box" style="border: none;" onclick="window.location.href = 'doc_visit_schedpage'">
             <div class="right-side">
               <div class="box-topic">Doctor's Visit</div>
-              <div class="number">
+              <div class="text">
                 <?php
-                  $query = "SELECT * FROM schedule WHERE date >= '$date' AND physician='$userid'";
-                  $result = mysqli_query($conn, $query);
-                  if (mysqli_num_rows($result) > 0)
-                  {
-                    while($data=mysqli_fetch_array($result))
-                    {
+                $date = date("Y-m-d");
+                $query = "SELECT date, campus FROM schedule WHERE date >= '$date' AND physician='$userid'";
+                $result = mysqli_query($conn, $query);
+                if (mysqli_num_rows($result) > 0) {
+                  while ($data = mysqli_fetch_array($result)) {
+                    $date = date("Y-m-d");
+                    if ($data['date'] == $date) {
+                      $sched = "TODAY";
+                    } else {
                       $sched = $data['date'];
                       $cam = $data['campus'];
                     }
-                    echo date("M. d, Y", strtotime($sched)) . "<p><h4>" . $cam . "</h4>";
                   }
-                  else
-                  {
-                    echo "N/A";
-                  }
+                  echo "<b><h2>" . date("M. d, Y", strtotime($sched)) . "</h2><h4>" . $cam . "</h4></b>";
+                } else {
+                  echo "N/A";
+                }
                 ?>
               </div>
             </div>
-          </a>
         </button>
         <div class="content">
           <h3>Approved Appointments</h3>

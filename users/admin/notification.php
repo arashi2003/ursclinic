@@ -2,24 +2,14 @@
 
 session_start();
 include('../../connection.php');
-include('../../includes/nurse-auth.php');
+include('../../includes/doctor-auth.php');
 
 $userid = $_SESSION['userid'];
 $usertype = $_SESSION['usertype'];
 $name = $_SESSION['username'];
 
 // get the total nr of rows.
-$records = $conn->query("SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
-                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user 
-                        INNER JOIN patient_image i ON i.patient_id=au.user 
-                        WHERE 
-                        (au.activity LIKE '%added a walk-in schedule%' OR 
-                        au.activity LIKE '%cancelled a walk-in schedule%' OR 
-                        au.activity LIKE 'sent a request for%' OR 
-                        au.activity LIKE 'cancelled a request for%' OR 
-                        au.activity LIKE 'uploaded medical document%' OR 
-                        au.activity LIKE '%already expired') 
-                        AND au.status='unread' AND au.user != '$userid'");
+$records = $conn->query("SELECT * FROM audit_trail WHERE activity LIKE '%Approved%'");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php');
@@ -30,7 +20,7 @@ include('../../includes/pagination-limit.php');
 <html lang="en" dir="ltr">
 
 <head>
-    <title>Notifications</title>
+    <title>Appointment</title>
     <?php include('../../includes/header.php') ?>
     <link rel="stylesheet" href="../../css/bootstrap-datepicker3.min.css" />
 </head>
@@ -41,7 +31,7 @@ include('../../includes/pagination-limit.php');
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">NOTIFICATIONS</span>
+                <span class="dashboard">APPOINTMENT</span>
             </div>
             <div class="right-nav">
                 <div class="notification-button">
@@ -107,10 +97,9 @@ include('../../includes/pagination-limit.php');
                             <main>
                                 <?php
 
-                                $query = $conn->prepare("SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
-                                FROM audit_trail au 
-                                INNER JOIN account ac ON ac.accountid = au.user 
-                                INNER JOIN patient_image i ON i.patient_id = au.user 
+                                $query = mysqli_query($conn, "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
+                                FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user 
+                                INNER JOIN patient_image i ON i.patient_id=au.user 
                                 WHERE 
                                 (au.activity LIKE '%added a walk-in schedule%' OR 
                                 au.activity LIKE '%cancelled a walk-in schedule%' OR 
@@ -118,48 +107,46 @@ include('../../includes/pagination-limit.php');
                                 au.activity LIKE 'cancelled a request for%' OR 
                                 au.activity LIKE 'uploaded medical document%' OR 
                                 au.activity LIKE '%already expired') 
-                                AND au.status='unread' AND au.user != ? ORDER BY au.datetime DESC");
-                                $query->bind_param('s', $userid);
-                                $query->execute();
-                                $result = $query->get_result();
-                                if ($result->num_rows > 0) {
-                                    while ($data = $result->fetch_assoc()) {
-                                        if (count(explode(" ", $data['middlename'])) > 1) {
-                                            $middle = explode(" ", $data['middlename']);
-                                            $letter = $middle[0][0] . $middle[1][0];
-                                            $middleinitial = $letter . ".";
-                                        } else {
-                                            $middle = $data['middlename'];
-                                            if ($middle == "" or $middle == " ") {
-                                                $middleinitial = "";
+                                AND au.status='unread' AND au.user != '$userid' ORDER BY au.datetime DESC");
+                                if ($query) {
+                                    if (mysqli_num_rows($query) > 0) {
+                                        foreach ($query as $data) {
+                                            if (count(explode(" ", $data['middlename'])) > 1) {
+                                                $middle = explode(" ", $data['middlename']);
+                                                $letter = $middle[0][0] . $middle[1][0];
+                                                $middleinitial = $letter . ".";
                                             } else {
-                                                $middleinitial = substr($middle, 0, 1) . ".";
+                                                $middle = $data['middlename'];
+                                                if ($middle == "" or $middle == " ") {
+                                                    $middleinitial = "";
+                                                } else {
+                                                    $middleinitial = substr($middle, 0, 1) . ".";
+                                                }
                                             }
-                                        }
 
-                                        if ($data['datetime'] < date("Y-m-d")) {
-                                            $dt = date("F d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime']));
-                                        } else {
-                                            $dt = date("g:i A", strtotime($data['datetime']));
-                                        }
+                                            if ($data['datetime'] < date("Y-m-d")) {
+                                                $dt = date("F d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime']));
+                                            } else {
+                                                $dt = date("g:i A", strtotime($data['datetime']));
+                                            }
 
-                                        $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
+                                            $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
 
                                 ?>
-                                        <div class="notif_card <?= $data['status'] ?>">
-                                            <img src="../../images/<?php echo $data['image']; ?>" alt="avatar" />
-                                            <div class="description" data-id="<?php echo $data['id']; ?>">
-                                                <p class="user_activity">
-                                                    <strong><?= $fullname ?></strong> <?= $data['activity'] ?>
-                                                </p>
-                                                <p class="time"><?= $dt ?></p>
+                                            <div class="notif_card <?= $data['status'] ?>">
+                                                <img src="../../images/<?php echo $data['image']; ?>" alt="avatar" />
+                                                <div class="description" data-id="<?php echo $data['id']; ?>">
+                                                    <p class="user_activity">
+                                                        <strong><?= $fullname ?></strong> <?= $data['activity'] ?>
+                                                    </p>
+                                                    <p class="time"><?= $dt ?></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <hr>
+                                            <hr>
                                 <?php
+                                        }
                                     }
                                 }
-
                                 ?>
                             </main>
                         </div>

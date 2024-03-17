@@ -4,7 +4,7 @@ session_start();
 $campus = $_SESSION['campus'];
 include('../../connection.php');
 include('../../includes/doctor-auth.php');
-$userid=$_SESSION['accountid'];
+$userid=$_SESSION['userid'];
 $today=date('Y-m-d');
 
 // get the total nr of rows.

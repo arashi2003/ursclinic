@@ -267,7 +267,7 @@ if ($approved_pages > 4) {
                                                                 }
                                                                 $physician = strtoupper($row['firstname'] . " " . $middleinitial . " " . $row['lastname']); ?>
                                                                 <option value="<?php echo $physician; ?>" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == $physician ? 'selected' : '') : '' ?>><?php echo $physician; ?></option><?php }
-                                                                                                                                                                                                                                            } ?>
+                                                        } ?>
                                                     </select>
                                                 </div>
                                                 <div class="col mb-2">

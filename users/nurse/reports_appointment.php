@@ -127,7 +127,7 @@ include('../../includes/pagination-limit.php');
                                                 if ($result = mysqli_query($conn, $sql)) {
                                                     while ($row = mysqli_fetch_array($result)) {  ?>
                                                         <option value="<?php echo $row['status']; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row['status'] ? 'selected' : '') : '' ?>"><?php echo strtoupper($row['status']); ?></option><?php }
-                                                                                                                                                                                                                                        } ?>
+                                                } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2">

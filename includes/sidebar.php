@@ -29,7 +29,7 @@
                     <li><a class="link_name" href="#">Appointment</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'patient_add' or $module == 'view_patient') {
+            <li class="<?php if ($module == 'patients' or $module == 'view_patient') {
                             echo 'active';
                         } ?>">
                 <a href="patients">
@@ -409,15 +409,15 @@
                     <li><a class="link_name" href="#">Appointment</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'patientinfo') {
+            <li class="<?php if ($module == 'patients' or $module == 'view_patient') {
                             echo 'active';
                         } ?>">
-                <a href="patientinfo">
-                    <i class='bx bx-file'></i>
+                <a href="patients">
+                    <i class='bx bx-id-card'></i>
                     <span class="link_name">Patient Information</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="patientinfo">Patient Information</a></li>
+                    <li><a class="link_name" href="#">Patient Information</a></li>
                 </ul>
             </li>
             <li>
