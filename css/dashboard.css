@@ -289,6 +289,7 @@ nav .sidebar-button i {
   padding: 0 15px 0 2px;
   margin-left: 10px;
 }
+
 .home-section .profile-details .dropdown li.usertype {
   text-transform: capitalize;
   text-align: center;
@@ -556,6 +557,13 @@ th {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 10px;
+}
+
+.home-content table input {
+  text-align: center;
+}
+.home-content table select {
+  text-align: center;
 }
 
 th {

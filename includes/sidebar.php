@@ -29,7 +29,7 @@
                     <li><a class="link_name" href="#">Appointment</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'patients' or $module == 'view_patient') {
+            <li class="<?php if ($module == 'patient_add' or $module == 'view_patient') {
                             echo 'active';
                         } ?>">
                 <a href="patients">

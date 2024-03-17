@@ -23,13 +23,14 @@ if ($result) {
                             <table class="table-bordered">
                                 <thead>
                                     <tr>
-                                        <th></th>   
+                                        <th></th>
                                         <th>Medical Documents</th>
-                                        <th>Status</th>
                                         <th>Date & Time Submitted</th>
                                         <th>Last Updated</th>
+                                        <th>Status</th>
                                         <th>Remarks</th>
                                         <th>Action</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     <?php
@@ -45,16 +46,27 @@ if ($result) {
                                                         <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#viewdocument<?php echo $data['id'] ?>"><i class='bx bx-show'></i></button>
                                                     </td>
                                                     <td><?php echo $data['doc_desc'] ?></td>
-                                                    <td><?php echo $data['status'] ?> </td>
                                                     <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
                                                     <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
-                                                    <td><?php echo $data['remarks'] ?></td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>">update</button>
+                                                        <select class="form-select status-field" aria-label="Default select example" name="status" disabled>
+                                                            <option value="Approved" <?php echo ($data['status'] == 'Approved') ? "selected" : ""; ?>>Approved</option>
+                                                            <option value="Disapproved" <?php echo ($data['status'] == 'Disapproved') ? "selected" : ""; ?>>Disapproved</option>
+                                                            <option value="Pending" <?php echo ($data['status'] == 'Pending') ? "selected" : ""; ?>>Pending</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden" class="doc-id" value="<?php echo $data['id'] ?>">
+                                                        <input type="text" class="form-control remarks-field" name="remarks" value="<?php echo $data['remarks'] ?>" disabled>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary btn-sm update-btn">Update</button>
+                                                        <button type="button" class="btn btn-success btn-sm save-btn" style="display: none;">Save</button>
+                                                        <button type="button" class="btn btn-danger btn-sm cancel-btn" style="display: none;">Cancel</button>
                                                     </td>
                                                 </tr>
                                             <?php
-                                            include('modals/view-document-modal.php');
+                                                include('modals/view-document-modal.php');
                                             }
                                         } else {
                                             ?>
@@ -91,9 +103,9 @@ if ($result) {
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
-                                        <th>Status</th>
                                         <th>Date & Time Submitted</th>
                                         <th>Last Updated</th>
+                                        <th>Status</th>
                                         <th>Remarks</th>
                                         <th>Action</th>
                                 </thead>
@@ -111,16 +123,24 @@ if ($result) {
                                                         <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#viewdocument<?php echo $data['id'] ?>"><i class='bx bx-show'></i></button>
                                                     </td>
                                                     <td><?php echo $data['doc_desc'] ?></td>
-                                                    <td><?php echo $data['status'] ?> </td>
                                                     <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
                                                     <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
-                                                    <td><?php echo $data['remarks'] ?></td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>" disabled>Update</button>
+                                                        <select class="form-select status-field" aria-label="Default select example" name="status" disabled>
+                                                            <option value="Approved" <?php echo ($data['status'] == 'Approved') ? "selected" : ""; ?>>Approved</option>
+                                                            <option value="Disapproved" <?php echo ($data['status'] == 'Disapproved') ? "selected" : ""; ?>>Disapproved</option>
+                                                            <option value="Pending" <?php echo ($data['status'] == 'Pending') ? "selected" : ""; ?>>Pending</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control remarks-field" name="remarks" value="<?php echo $data['remarks'] ?>" disabled>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary btn-sm update-btn" disabled>Update</button>
                                                     </td>
                                                 </tr>
                                             <?php
-                                            include('modals/view-document-modal.php');
+                                                include('modals/view-document-modal.php');
                                             }
                                         } else {
                                             ?>
@@ -155,9 +175,9 @@ if ($result) {
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
-                                        <th>Status</th>
                                         <th>Date & Time Submitted</th>
                                         <th>Last Updated</th>
+                                        <th>Status</th>
                                         <th>Remarks</th>
                                         <th>Action</th>
                                 </thead>
@@ -175,16 +195,27 @@ if ($result) {
                                                         <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#viewdocument<?php echo $data['id'] ?>"><i class='bx bx-show'></i></button>
                                                     </td>
                                                     <td><?php echo $data['doc_desc'] ?></td>
-                                                    <td><?php echo $data['status'] ?> </td>
                                                     <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
                                                     <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
-                                                    <td><?php echo $data['remarks'] ?></td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>">Update</button>
+                                                        <select class="form-select status-field" aria-label="Default select example" name="status" disabled>
+                                                            <option value="Approved" <?php echo ($data['status'] == 'Approved') ? "selected" : ""; ?>>Approved</option>
+                                                            <option value="Disapproved" <?php echo ($data['status'] == 'Disapproved') ? "selected" : ""; ?>>Disapproved</option>
+                                                            <option value="Pending" <?php echo ($data['status'] == 'Pending') ? "selected" : ""; ?>>Pending</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden" class="doc-id" value="<?php echo $data['id'] ?>">
+                                                        <input type="text" class="form-control remarks-field" name="remarks" value="<?php echo $data['remarks'] ?>" disabled>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary btn-sm update-btn">Update</button>
+                                                        <button type="button" class="btn btn-success btn-sm save-btn" style="display: none;">Save</button>
+                                                        <button type="button" class="btn btn-danger btn-sm cancel-btn" style="display: none;">Cancel</button>
                                                     </td>
                                                 </tr>
                                             <?php
-                                            include('modals/view-document-modal.php');
+                                                include('modals/view-document-modal.php');
                                             }
                                         } else {
                                             ?>
@@ -222,9 +253,9 @@ if ($result) {
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
-                                        <th>Status</th>
                                         <th>Date & Time Submitted</th>
                                         <th>Last Updated</th>
+                                        <th>Status</th>
                                         <th>Remarks</th>
                                         <th>Action</th>
                                 </thead>
@@ -242,16 +273,24 @@ if ($result) {
                                                         <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#viewdocument<?php echo $data['id'] ?>"><i class='bx bx-show'></i></button>
                                                     </td>
                                                     <td><?php echo $data['doc_desc'] ?></td>
-                                                    <td><?php echo $data['status'] ?> </td>
                                                     <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
                                                     <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
-                                                    <td><?php echo $data['remarks'] ?></td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>" disabled>Update</button>
+                                                        <select class="form-select status-field" aria-label="Default select example" name="status" disabled>
+                                                            <option value="Approved" <?php echo ($data['status'] == 'Approved') ? "selected" : ""; ?>>Approved</option>
+                                                            <option value="Disapproved" <?php echo ($data['status'] == 'Disapproved') ? "selected" : ""; ?>>Disapproved</option>
+                                                            <option value="Pending" <?php echo ($data['status'] == 'Pending') ? "selected" : ""; ?>>Pending</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control remarks-field" name="remarks" value="<?php echo $data['remarks'] ?>" disabled>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary btn-sm update-btn" disabled>Update</button>
                                                     </td>
                                                 </tr>
                                             <?php
-                                            include('modals/view-document-modal.php');
+                                                include('modals/view-document-modal.php');
                                             }
                                         } else {
                                             ?>
@@ -286,9 +325,9 @@ if ($result) {
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
-                                        <th>Status</th>
                                         <th>Date & Time Submitted</th>
                                         <th>Last Updated</th>
+                                        <th>Status</th>
                                         <th>Remarks</th>
                                         <th>Action</th>
                                 </thead>
@@ -306,16 +345,27 @@ if ($result) {
                                                         <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#viewdocument<?php echo $data['id'] ?>"><i class='bx bx-show'></i></button>
                                                     </td>
                                                     <td><?php echo $data['doc_desc'] ?></td>
-                                                    <td><?php echo $data['status'] ?> </td>
                                                     <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
                                                     <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
-                                                    <td><?php echo $data['remarks'] ?></td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>">Update</button>
+                                                        <select class="form-select status-field" aria-label="Default select example" name="status" disabled>
+                                                            <option value="Approved" <?php echo ($data['status'] == 'Approved') ? "selected" : ""; ?>>Approved</option>
+                                                            <option value="Disapproved" <?php echo ($data['status'] == 'Disapproved') ? "selected" : ""; ?>>Disapproved</option>
+                                                            <option value="Pending" <?php echo ($data['status'] == 'Pending') ? "selected" : ""; ?>>Pending</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden" class="doc-id" value="<?php echo $data['id'] ?>">
+                                                        <input type="text" class="form-control remarks-field" name="remarks" value="<?php echo $data['remarks'] ?>" disabled>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary btn-sm update-btn">Update</button>
+                                                        <button type="button" class="btn btn-success btn-sm save-btn" style="display: none;">Save</button>
+                                                        <button type="button" class="btn btn-danger btn-sm cancel-btn" style="display: none;">Cancel</button>
                                                     </td>
                                                 </tr>
                                             <?php
-                                            include('modals/view-document-modal.php');
+                                                include('modals/view-document-modal.php');
                                             }
                                         } else {
                                             ?>
@@ -350,9 +400,9 @@ if ($result) {
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
-                                        <th>Status</th>
                                         <th>Date & Time Submitted</th>
                                         <th>Last Updated</th>
+                                        <th>Status</th>
                                         <th>Remarks</th>
                                         <th>Action</th>
                                 </thead>
@@ -370,16 +420,27 @@ if ($result) {
                                                         <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#viewdocument<?php echo $data['id'] ?>"><i class='bx bx-show'></i></button>
                                                     </td>
                                                     <td><?php echo $data['doc_desc'] ?></td>
-                                                    <td><?php echo $data['status'] ?> </td>
                                                     <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
                                                     <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
-                                                    <td><?php echo $data['remarks'] ?></td>
                                                     <td>
-                                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>">Update</button>
+                                                        <select class="form-select status-field" aria-label="Default select example" name="status" disabled>
+                                                            <option value="Approved" <?php echo ($data['status'] == 'Approved') ? "selected" : ""; ?>>Approved</option>
+                                                            <option value="Disapproved" <?php echo ($data['status'] == 'Disapproved') ? "selected" : ""; ?>>Disapproved</option>
+                                                            <option value="Pending" <?php echo ($data['status'] == 'Pending') ? "selected" : ""; ?>>Pending</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden" class="doc-id" value="<?php echo $data['id'] ?>">
+                                                        <input type="text" class="form-control remarks-field" name="remarks" value="<?php echo $data['remarks'] ?>" disabled>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary btn-sm update-btn">Update</button>
+                                                        <button type="button" class="btn btn-success btn-sm save-btn" style="display: none;">Save</button>
+                                                        <button type="button" class="btn btn-danger btn-sm cancel-btn" style="display: none;">Cancel</button>
                                                     </td>
                                                 </tr>
                                             <?php
-                                            include('modals/view-document-modal.php');
+                                                include('modals/view-document-modal.php');
                                             }
                                         } else {
                                             ?>
@@ -416,9 +477,9 @@ if ($result) {
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
-                                        <th>Status</th>
                                         <th>Date & Time Submitted</th>
                                         <th>Last Updated</th>
+                                        <th>Status</th>
                                         <th>Remarks</th>
                                         <th>Action</th>
                                 </thead>
@@ -441,3 +502,62 @@ if ($result) {
 }
 
 ?>
+
+<script>
+    $(document).ready(function() {
+        $('.update-btn').click(function() {
+            var $row = $(this).closest('tr');
+            var id = $row.find('.doc-id').val();
+            console.log("ID:", id);
+
+            $row.find('.remarks-field').prop('disabled', false);
+            $row.find('.status-field').prop('disabled', false);
+            $row.find('.update-btn').hide();
+            $row.find('.save-btn').show();
+            $row.find('.cancel-btn').show();
+        });
+
+        $('.save-btn').click(function() {
+            var $row = $(this).closest('tr');
+            var remarks = $row.find('.remarks-field').val();
+            var status = $row.find('.status-field').val();
+            var id = $row.find('.doc-id').val(); // Get the ID again
+
+            $.ajax({
+                url: 'update-remarks.php',
+                type: 'POST',
+                data: {
+                    remarks: remarks,
+                    status: status, // Include status in the data
+                    id: id
+                },
+                success: function(response) {
+                    // Handle success, e.g., show a message
+                    alert('Remarks and Status updated successfully!');
+                    // You might want to refresh the table or update only the specific row if needed
+                },
+                error: function(xhr, status, error) {
+                    // Handle error
+                    console.error(xhr.responseText);
+                }
+            });
+
+            $row.find('.remarks-field').prop('disabled', true);
+            $row.find('.status-field').prop('disabled', true);
+            $row.find('.update-btn').show();
+            $row.find('.save-btn').hide();
+            $row.find('.cancel-btn').hide();
+            location.reload();
+        });
+
+        $('.cancel-btn').click(function() {
+            var $row = $(this).closest('tr');
+            $row.find('.remarks-field').prop('disabled', true);
+            $row.find('.status-field').prop('disabled', true);
+            $row.find('.update-btn').show();
+            $row.find('.save-btn').hide();
+            $row.find('.cancel-btn').hide();
+            location.reload();
+        });
+    });
+</script>

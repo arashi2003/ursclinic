@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Request Appointment</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href='appointment'"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload();"></button>
             </div>
             <form method="POST" action="modals/add-appointment.php">
                 <div class="modal-body">
@@ -191,6 +191,9 @@
                 document.getElementById('timeDiv').classList.remove('hidden');
                 document.getElementById('purposeDiv').classList.remove('hidden');
                 document.getElementById('ccDiv').classList.remove('hidden');
+                document.getElementById('medDupDiv').classList.add('hidden');
+                document.getElementById('supDupDiv').classList.add('hidden');
+                document.getElementById('quantityDiv').classList.add('hidden');
                 document.getElementById('physicianDiv').classList.remove('hidden');
                 document.getElementById('others').classList.add('hidden');
             } else if (answer.value == 4) {
@@ -218,6 +221,9 @@
                 document.getElementById('timeDiv').classList.remove('hidden');
                 document.getElementById('purposeDiv').classList.remove('hidden');
                 document.getElementById('ccDiv').classList.add('hidden');
+                document.getElementById('medDupDiv').classList.add('hidden');
+                document.getElementById('supDupDiv').classList.add('hidden');
+                document.getElementById('quantityDiv').classList.add('hidden');
                 document.getElementById('physicianDiv').classList.add('hidden');
                 document.getElementById('others').classList.add('hidden');
             }
