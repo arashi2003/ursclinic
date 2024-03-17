@@ -11,7 +11,7 @@ $name = $_SESSION['username'];
 $campus = $_SESSION['campus'];
 
 // get the total nr of rows.
-$records = $conn->query("select * from appointment WHERE status='Pending'");
+$records = $conn->query("SELECT * FROM transaction_history WHERE patient='$userid'");
 $nr_of_rows = $records->num_rows;
 
 include('../../../includes/pagination-limit.php');
@@ -22,8 +22,8 @@ include('../../../includes/pagination-limit.php');
 <html lang="en" dir="ltr">
 
 <head>
-    <title>History</title>
-    <?php include('../../../includes/header.php') ?>
+    <title>Transaction</title>
+    <?php include('../../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -54,7 +54,7 @@ include('../../../includes/pagination-limit.php');
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notifes">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                 <?= $row ?>
                             </span>
                         <?php
@@ -63,14 +63,7 @@ include('../../../includes/pagination-limit.php');
                     </button>
                 </div>
                 <div class="profile-details">
-                    <?php
-                    $image = "SELECT * FROM patient_image WHERE patient_id = '$userid'";
-                    $result = mysqli_query($conn, $image);
-                    $row = mysqli_fetch_assoc($result);
-                    ?>
-                    <div class="profile">
-                        <img src="../../../images/<?php echo $row['image']; ?>">
-                    </div>
+                    <i class='bx bx-user-circle'></i>
                     <div class="dropdown">
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
@@ -93,26 +86,31 @@ include('../../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="content">
-                    <h3>History Appointments</h3>
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-2 mb-3">
-                                            <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
-                                        </div>
-                                        <div class="col-md-2 mb-3">
-                                            <select name="physician" class="form-select">
-                                                <option value="">Select Physician</option>
-                                                <option value="NONE" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
-                                                <option value="GODWIN A. OLIVAS" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == 'GODWIN A. OLIVAS' ? 'selected' : '') : '' ?>>GODWIN A. OLIVAS</option>
-                                                <option value="EDNA C. MAYCACAYAN" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == 'EDNA C. MAYCACAYAN' ? 'selected' : '') : '' ?>>EDNA C. MAYCACAYAN</option>
+                                        <div class="col-md-2 mb-2">
+                                            <select name="type" class="form-select">
+                                                <option value="">Select Transaction Type</option>
+                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                <?php
+                                                $sql = "SELECT DISTINCT type FROM transaction_history WHERE campus='$campus' ORDER BY type";
+                                                $result = mysqli_query($conn, $sql);
+                                                foreach ($result as $row) {   ?>
+                                                    <option value="<?php echo $row['type']; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row['type'] ? 'selected' : '') : '' ?>"><?php echo $row['type'] ?></option><?php } ?>
                                             </select>
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col-md-2">
+                                            <input type="date" name="date_from" class="form-control">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="date" name="date_to" class="form-control">
+                                        </div>
+                                        <div class="col-md-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
-                                            <a href="history" class="btn btn-danger">Reset</a>
+                                            <a href="transaction_history" class="btn btn-danger">Reset</a>
                                         </div>
                                     </div>
                                 </form>
@@ -120,82 +118,113 @@ include('../../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Type of Transaction</th>
+                                            <th>Service</th>
+                                            <th>Physician/Nurse on Duty</th>
+                                            <th>Date and Time</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                 <?php
-                                if (isset($_GET['date']) && $_GET['date'] != '') {
-                                    $date = $_GET['date'];
-                                    $count = 1;
-                                    $sql = "SELECT a.id, a.patient, a.date, a.time_from, a.time_to, a.physician, a.type, a.purpose, a.chiefcomplaint, a.others, a.status, t.type, p.purpose
-                                    FROM appointment a 
-                                    INNER JOIN appointment_type t on t.id=a.type 
-                                    INNER JOIN appointment_purpose p on p.id=a.purpose
-                                    WHERE a.date='$date' AND a.patient='$userid' AND a.status IN ('COMPLETED', 'DISAPPROVED')
-                                    ORDER BY a.date, a.time_from, a.time_to LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } elseif (isset($_GET['physician']) && $_GET['physician'] != '') {
-                                    $physician = $_GET['physician'];
-                                    $count = 1;
-                                    $sql = "SELECT a.id, a.patient, a.date, a.time_from, a.time_to, a.physician, a.type, a.purpose, a.chiefcomplaint, a.others, a.status, t.type, p.purpose
-                                    FROM appointment a 
-                                    INNER JOIN appointment_type t on t.id=a.type 
-                                    INNER JOIN appointment_purpose p on p.id=a.purpose
-                                    WHERE a.physician='$physician' AND a.patient='$userid' AND a.status IN ('COMPLETED', 'DISAPPROVED')
-                                    ORDER BY a.date, a.time_from, a.time_to LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT * FROM med_history WHERE userid='$userid' LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Appointment No.</th>
-                                                    <th>Date</th>
-                                                    <th>Time from</th>
-                                                    <th>Time to</th>
-                                                    <th>Physician</th>
-                                                    <th>Action</th>
-                                            </thead>
-                                            <tbody>
-                                                <?php
+                                    if (isset($_GET['type']) && $_GET['type'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
+                                        $type = $_GET['type'];
+                                        $dt_from = $_GET['date_from'];
+                                        $dt_to = $_GET['date_to'];
+                                        $count = 1;
+
+                                        //date filter
+                                        if ($dt_from == "" and $dt_to == "") {
+                                            $date = "";
+                                        } elseif ($dt_to == $dt_from) {
+                                            $fdate = date("Y-m-d", strtotime($dt_from));
+                                            $ldate = date("Y-m-d", strtotime($dt_to));
+                                            $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+                                        } elseif ($dt_to == "" and $dt_from != "") {
+                                            $fdate = date("Y-m-d", strtotime($dt_from));
+                                            $date = " AND datetime >= '$fdate'";
+                                        } elseif ($dt_to == "" and $dt_from != "") {
+                                            $fdate = date("Y-m-d", strtotime($dt_from));
+                                            $date = " AND datetime >= '$fdate'";
+                                        } elseif ($dt_from == "" and $dt_to != "") {
+                                            $d = date("Y-m-d", strtotime($dt_to));
+                                            $date = " AND datetime <= '$d'";
+                                        } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                            $fdate = date("Y-m-d", strtotime($dt_from));
+                                            $ldate = date("Y-m-d", strtotime($dt_to));
+                                            $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+                                        }
+
+                                        //type filter
+                                        if ($type == "") {
+                                            $tp = "";
+                                        } elseif ($type != "" and $date == "") {
+                                            $tp = " AND type = '$type'";
+                                        } elseif ($date != "" and $type != "") {
+                                            $tp = " AND type = '$type'";
+                                        }
+
+                                        $sql = "SELECT * FROM transaction_history WHERE campus='$campus' $date $tp AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' AND patient='$userid' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                        $result = mysqli_query($conn, $sql);
+                                    } else {
+                                        $count = 1;
+                                        $sql = "SELECT * FROM transaction_history WHERE campus='$campus' AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' AND patient='$userid' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                        $result = mysqli_query($conn, $sql);
+                                    }
+                                    if ($result) {
+                                        if ($row = mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $data) {
+                                                    if (count(explode(" ", $data['middlename'])) > 1) {
+                                                        $middle = explode(" ", $data['middlename']);
+                                                        $letter = $middle[0][0] . $middle[1][0];
+                                                        $middleinitial = $letter . ".";
+                                                    } else {
+                                                        $middle = $data['middlename'];
+                                                        if ($middle == "" or $middle == " ") {
+                                                            $middleinitial = "";
+                                                        } else {
+                                                            $middleinitial = substr($middle, 0, 1) . ".";
+                                                        }
+                                                    }
+                                                    $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
                                                 ?>
                                                     <tr>
-                                                        <?php $data['id']; ?>
-                                                        <td><?php $id = $count;
-                                                            echo $id; ?></td>
-                                                        <td><?php echo $data['date'] ?></td>
-                                                        <td><?php echo date("h:i a", strtotime($data['time_from'])) ?></td>
-                                                        <td><?php echo date("h:i a", strtotime($data['time_to'])) ?></td>
-                                                        <td><?php echo $data['pod_nod'];
-                                                            $count++; ?></td>
+                                                        <td><?= $data['id'] ?></td>
+                                                        <td><?= $data['transaction'] ?></td>
+                                                        <td><?= $data['purpose'] ?></td>
+                                                        <td><?= $data['pod_nod'] ?></td>
+                                                        <td><?= date("M. d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'])) ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewrecord<?php echo $data['id'] ?>">Expand</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
                                                         </td>
+
                                                     </tr>
-                                                <?php
-                                                    include('modals/view-record-modal.php');
+                                            <?php
+                                                    include('modals/view_trans_modal.php');
                                                 }
-                                                ?>
+                                             ?>
                                             </tbody>
                                         </table>
-                                        <?php include('../../../includes/pagination.php') ?>
+                                        <?php include('../../../includes/pagination.php'); }
+                                        else{?>
+                                            <tr>
+                                                <td colspan="7">No record Found</td>
+                                            </tr>
+                                        <?php }?>
                                     <?php
-                                    } else {
+                                } else {
                                     ?>
                                         <tr>
-                                            <td colspan="7">
-                                                <h3>No record Found</h3>
-                                            </td>
+                                            <td colspan="7">No record Found</td>
                                         </tr>
-                                <?php
-                                    }
+                                    <?php
                                 }
                                 mysqli_close($conn);
-                                ?>
+                                    ?>
                             </div>
                         </div>
                     </div>

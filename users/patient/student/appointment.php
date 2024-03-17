@@ -108,10 +108,10 @@ include('../../../includes/pagination-limit.php');
                             <div class="col-md-12">
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
                                         </div>
-                                        <div class="col-md-2 mb-3">
+                                        <div class="col-md-2 mb-2">
                                             <select name="physician" class="form-select">
                                                 <option value="">Select Physician</option>
                                                 <option value="NONE" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -119,7 +119,7 @@ include('../../../includes/pagination-limit.php');
                                                 <option value="EDNA C. MAYCACAYAN" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == 'EDNA C. MAYCACAYAN' ? 'selected' : '') : '' ?>>EDNA C. MAYCACAYAN</option>
                                             </select>
                                         </div>
-                                        <div class="col mb-3">
+                                        <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                             <a href="appointment" class="btn btn-danger">Reset</a>
                                         </div>
@@ -129,35 +129,35 @@ include('../../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['date']) && $_GET['date'] != '') {
-                                    $date = $_GET['date'];
-                                    $count = 1;
-                                    $sql = "SELECT * FROM appointment WHERE date='$date' AND patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } elseif (isset($_GET['physician']) && $_GET['physician'] != '') {
-                                    $physician = $_GET['physician'];
-                                    $count = 1;
-                                    $sql = "SELECT * FROM appointment WHERE physician='$physician' AND patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT * FROM appointment WHERE patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Appointment No.</th>
-                                                    <th>Date</th>
-                                                    <th>Time from</th>
-                                                    <th>Time to</th>
-                                                    <th>Physician</th>
-                                                    <th>Status</th>
-                                            </thead>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Appointment No.</th>
+                                            <th>Date</th>
+                                            <th>Time from</th>
+                                            <th>Time to</th>
+                                            <th>Physician</th>
+                                            <th>Status</th>
+                                    </thead>
+                                    <?php
+                                    if (isset($_GET['date']) && $_GET['date'] != '') {
+                                        $date = $_GET['date'];
+                                        $count = 1;
+                                        $sql = "SELECT * FROM appointment WHERE date='$date' AND patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
+                                        $result = mysqli_query($conn, $sql);
+                                    } elseif (isset($_GET['physician']) && $_GET['physician'] != '') {
+                                        $physician = $_GET['physician'];
+                                        $count = 1;
+                                        $sql = "SELECT * FROM appointment WHERE physician='$physician' AND patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
+                                        $result = mysqli_query($conn, $sql);
+                                    } else {
+                                        $count = 1;
+                                        $sql = "SELECT * FROM appointment WHERE patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
+                                        $result = mysqli_query($conn, $sql);
+                                    }
+                                    if ($result) {
+                                        if (mysqli_num_rows($result) > 0) {
+                                    ?>
                                             <tbody>
 
                                                 <?php
@@ -184,21 +184,21 @@ include('../../../includes/pagination-limit.php');
                                                 }
                                                 ?>
                                             </tbody>
-                                        </table>
-                                        <?php include('../../../includes/pagination.php') ?>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">
-                                                <h3>No record Found</h3>
-                                            </td>
-                                        </tr>
-                                <?php
+                                </table>
+                            <?php
+                                            include('../../../includes/pagination.php');
+                                        } else {
+                            ?>
+                                <tr>
+                                    <td colspan="6">
+                                        <h4>No record Found</h4>
+                                    </td>
+                                </tr>
+                        <?php
+                                        }
                                     }
-                                }
-                                mysqli_close($conn);
-                                ?>
+                                    mysqli_close($conn);
+                        ?>
                             </div>
                         </div>
                     </div>

@@ -170,24 +170,15 @@
                     <li><a class="link_name" href="medical">Medical Document</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'request' or $module == 'history') {
-                            echo 'active showMenu';
+            <li class="<?php if ($module == 'history') {
+                            echo 'active';
                         } ?>">
-                <div class="icon-link">
-                    <a href="#">
-                        <i class='bx bx-collection'></i>
-                        <span class="link_name">Transaction</span>
-                    </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
-                </div>
-                <ul class="sub-menu">
-                    <li><a class="link_name" href="#">Transaction</a></li>
-                    <li><a class="<?php if ($module == 'request') {
-                                        echo 'active';
-                                    } ?>" href="request">Request</a></li>
-                    <li><a class="<?php if ($module == 'history') {
-                                        echo 'active';
-                                    } ?>" href="history">History</a></li>
+                <a href="history">
+                    <i class='bx bx-collection'></i>
+                    <span class="link_name">Transaction</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="history">Transaction</a></li>
                 </ul>
             </li>
         </ul>

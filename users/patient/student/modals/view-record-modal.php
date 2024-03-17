@@ -10,7 +10,7 @@
                     <div class="mb-2">
                         <input type="hidden" name="patientid" value="<?php echo $data['id'] ?>" />
                         <label for="date" class="col-form-label">Date:</label>
-                        <input type="text" class="form-control" name="date" value="<?php echo $data['date'] ?>" readonly>
+                        <input type="text" class="form-control" name="date" value="<?php echo $data['datetime'] ?>" readonly>
                     </div>
                     <div class="mb-2">
                         <label for="timefrom" class="col-form-label">Time from:</label>

@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Request Appointment</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href='appointment'"></button>
             </div>
             <form method="POST" action="modals/add-appointment.php">
                 <div class="modal-body">
@@ -14,7 +14,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="appointment" class="col-form-label">Type of Appointment:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="appointment" id="appointment" required>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="appointment" id="appointment" onchange="enableAppointment(this)" required>
                             <option value="" disabled selected>-Select Appointment-</option>
                             <?php
                             include('connection.php');
@@ -26,13 +26,21 @@
                             <?php } ?>
                         </select>
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-2 hidden" id="dateDiv">
+                        <label for="date" class="col-form-label">Date Pickup:</label>
+                        <input type="text" class="form-control" name="date" id="showDate" placeholder="mm/dd/yyyy" required>
+                    </div>
+                    <div class="mb-2 hidden" id="timeDiv">
+                        <label for="time" class="col-form-label">Time Pickup:</label>
+                        <input type="time" class="form-control" name="time" required>
+                    </div>
+                    <div class="mb-2 hidden" id="purposeDiv">
                         <label for="purposes" class="col-form-label">Purpose:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose" required>
                             <option value="" disabled selected>-Select Purpose-</option>
                         </select>
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-2 hidden" id="ccDiv">
                         <label for="chiefcomplaint" class="col-form-label">Chief Complaint:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="chiefcomplaint" id="chiefcomplaint" onchange="enableOther(this)" required>
                             <option value="" disabled selected>-Select Chief Complaint-</option>
@@ -42,31 +50,49 @@
                         <label for="other" class="col-form-label">Others:</label>
                         <input type="text" class="form-control" name="others">
                     </div>
-                    <div class="mb-2">
+                    <div class="row duplicate">
+                        <div class="col-md hidden" id="medDupDiv">
+                            <label for="medicine" class="col-form-label">Medicine:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="medicine[]" id="medicine">
+                                <option value="" disabled selected>-Select Medicine-</option>
+                                <?php
+                                $sql = "SELECT * FROM inventory_medicine im INNER JOIN medicine m ON m.medid=im.medid ";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value="<?= $row['medid']; ?>"><?= $row['medicine'] . ' ' . $row['unit_cost']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md hidden" id="supDupDiv">
+                            <label for="medical" class="col-form-label">Medical Supply:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="medical[]" id="medical">
+                                <option value="" disabled selected>-Select Medical Supply-</option>
+                                <?php
+                                $sql = "SELECT * FROM inventory_supply i INNER JOIN supply s ON s.supid=i.supid ";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value="<?= $row['supid']; ?>"><?= $row['supply']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md-4 hidden" id="quantityDiv">
+                            <label for="quantity" class="col-form-label">Quantity:</label>
+                            <div class="row">
+                                <div class="col-sm-7 mb-2">
+                                    <input type="number" class="form-control" name="quantity[]" required>
+                                </div>
+                                <div class="col-sm mb-2">
+                                    <button type="button" class="btn btn-primary" onclick="duplicate()">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2 hidden" id="physicianDiv">
                         <label for="physician" class="col-form-label">Physician:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="physician" id="physician" required>
                             <option value="" disabled selected>-Select Physician-</option>
-                            <?php
-                            include('connection.php');
-                            $sql = "SELECT * FROM account WHERE usertype = 'DOCTOR' OR usertype = 'DENTIST' ORDER BY firstname";
-                            $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_array($result)) {
-                                if (count(explode(" ", $row['middlename'])) > 1) {
-                                    $middle = explode(" ", $row['middlename']);
-                                    $letter = $middle[0][0] . $middle[1][0];
-                                    $middleinitial = $letter . ".";
-                                } else {
-                                    $middle = $row['middlename'];
-                                    if ($middle == "" or $middle == " ") {
-                                        $middleinitial = "";
-                                    } else {
-                                        $middleinitial = substr($middle, 0, 1) . ".";
-                                    }
-                                }
-                                $fullname = $row['firstname'] . " " . strtoupper($middleinitial) . " ". $row['lastname']; ?>"><?= $row['type'];
-                            ?>
-                                <option value="<?php echo $fullname; ?>"><?php echo $fullname; ?></option>
-                            <?php } ?>
                         </select>
                     </div>
                 </div>
@@ -82,11 +108,13 @@
         $("#appointment").change(function() {
             var appointment_id = $(this).val();
             if (appointment_id == '') {
-                $("#purpose").html('<option value="" disable selected>-Select Purpose-</option>');
-                $("#chiefcomplaint").html('<option value="" disable selected>-Select Chief Complaint-</option>');
+                $("#purpose").html('<option value="" disabled selected>-Select Purpose-</option>');
+                $("#chiefcomplaint").html('<option value="" disabled selected>-Select Chief Complaint-</option>');
+                $("#physician").html('<option value="" disabled selected>-Select Physician-</option>');
             } else {
-                $("#purpose").html('<option value="" disable selected>-Select Purpose-</option>');
-                $("#chiefcomplaint").html('<option value="" disable selected>-Select Chief Complaint-</option>');
+                $("#purpose").html('<option value="" disabled selected>-Select Purpose-</option>');
+                $("#chiefcomplaint").html('<option value="" disabled selected>-Select Chief Complaint-</option>');
+                $("#physician").html('<option value="" disabled selected>-Select Physician-</option>');
                 $.ajax({
                     url: "action.php",
                     method: "POST",
@@ -113,6 +141,20 @@
                 }
             });
         });
+        $("#purpose").change(function() {
+            var purpose_id = $(this).val();
+            $.ajax({
+                url: "action.php",
+                method: "POST",
+                data: {
+                    pid: purpose_id,
+                    type: 'physician'
+                },
+                success: function(data) {
+                    $("#physician").html(data);
+                }
+            });
+        });
     });
 
     function enableOther(answer) {
@@ -125,4 +167,76 @@
             }
         }
     };
+
+    $(document).ready(function() {
+        $('#showDate').datepicker({
+            dateFormat: "yy-mm-dd",
+            minDate: 0, // Disable past dates
+            //altFormat: "yyyy-mm-dd",
+            //format: "MM d, yyyy",
+            beforeShowDay: function(date) {
+                var day = date.getDay();
+                return [(day != 0)]; // Disable Sundays
+            }
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    function enableAppointment(answer) {
+        console.log(answer.value);
+        {
+            if (answer.value == 1 || answer.value == 2 || answer.value == 3) {
+                document.getElementById('dateDiv').classList.remove('hidden');
+                document.getElementById('timeDiv').classList.remove('hidden');
+                document.getElementById('purposeDiv').classList.remove('hidden');
+                document.getElementById('ccDiv').classList.remove('hidden');
+                document.getElementById('physicianDiv').classList.remove('hidden');
+                document.getElementById('others').classList.add('hidden');
+            } else if (answer.value == 4) {
+                document.getElementById('dateDiv').classList.add('hidden');
+                document.getElementById('timeDiv').classList.add('hidden');
+                document.getElementById('purposeDiv').classList.remove('hidden');
+                document.getElementById('ccDiv').classList.remove('hidden');
+                document.getElementById('supDupDiv').classList.add('hidden');
+                document.getElementById('medDupDiv').classList.remove('hidden');
+                document.getElementById('quantityDiv').classList.remove('hidden');
+                document.getElementById('physicianDiv').classList.add('hidden');
+                document.getElementById('others').classList.add('hidden');
+            } else if (answer.value == 5) {
+                document.getElementById('dateDiv').classList.add('hidden');
+                document.getElementById('timeDiv').classList.add('hidden');
+                document.getElementById('purposeDiv').classList.remove('hidden');
+                document.getElementById('ccDiv').classList.remove('hidden');
+                document.getElementById('medDupDiv').classList.add('hidden');
+                document.getElementById('supDupDiv').classList.remove('hidden');
+                document.getElementById('quantityDiv').classList.remove('hidden');
+                document.getElementById('physicianDiv').classList.add('hidden');
+                document.getElementById('others').classList.add('hidden');
+            } else if (answer.value == 6 || answer.value == 7) {
+                document.getElementById('dateDiv').classList.remove('hidden');
+                document.getElementById('timeDiv').classList.remove('hidden');
+                document.getElementById('purposeDiv').classList.remove('hidden');
+                document.getElementById('ccDiv').classList.add('hidden');
+                document.getElementById('physicianDiv').classList.add('hidden');
+                document.getElementById('others').classList.add('hidden');
+            }
+        }
+    };
+</script>
+
+<script>
+    function duplicate() {
+        var row = $('.duplicate').first().clone();
+        row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove(this)');
+        $('.duplicate').last().after(row);
+    }
+
+    function remove(btn) {
+        $(btn).closest('.duplicate').remove();
+    }
+
+    $('select[name="request"]').change(function() {
+        $('.duplicate:not(:first)').remove();
+    });
 </script>
