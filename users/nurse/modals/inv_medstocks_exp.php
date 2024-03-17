@@ -16,7 +16,7 @@
     $o = $_POST['opened'];
     $c = $_POST['close'];
     $cost = $_POST['unit_cost'];
-    $exp = $_POST['expiration'];
+    $exp = date("Y-m-t", strtotime($_POST['expiration']));
     
     //medicine
     $query = mysqli_query($conn, "SELECT * FROM medicine WHERE medid = '$medid'");
@@ -154,9 +154,13 @@
                                     $iqty = $data['iqty'];
                                 }
 
-                                $ucost = ($data['eamt'] + ($qty * $cost)) / $eqty;
-                                $aieamt = $ucost * $eqty;
-                                $aeamt = number_format($aieamt, 2, ".");
+                                $query1 = "SELECT unit_cost FROM inv_total WHERE stockid = '$medid' AND type = 'medicine'";    
+                                $result = mysqli_query($conn, $query1);
+                                // kunin values from row
+                                foreach($result as $data)
+                                {
+                                    $aeamt = $data['unit_cost'] * $eqty;
+                                }
                                 
                                 $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine' AND campus = '$campus'";
                                 if(mysqli_query($conn, $query))
@@ -167,7 +171,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -178,7 +182,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -190,7 +194,7 @@
                                     ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -265,7 +269,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -276,7 +280,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -288,7 +292,7 @@
                                     ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -343,7 +347,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -354,7 +358,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -366,7 +370,7 @@
                                     ?>
                                     <script>
                                         setTimeout(function() {
-                                            window.location = "../med_stocks_exp.php";
+                                            window.location = "../med_stocks";
                                         });
                                     </script>
                                     <?php
@@ -471,9 +475,14 @@
                                     }
 
                                     $abuc = number_format($aobuc, 2, ".");
-                                    $ucost = ($data['eamt'] + ($qty * $cost)) / $eqty;
-                                    $aieamt = $ucost * $eqty;
-                                    $aeamt = number_format($aieamt, 2, ".");
+
+                                    $query1 = "SELECT unit_cost FROM inv_total WHERE stockid = '$medid' AND type = 'medicine'";    
+                                    $result = mysqli_query($conn, $query1);
+                                    // kunin values from row
+                                    foreach($result as $data)
+                                    {
+                                        $aeamt = $data['unit_cost'] * $eqty;
+                                    }
                                 }
                                 $accountid = $_SESSION['userid'];
                                 $campus = $_SESSION['campus'];
@@ -496,7 +505,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -507,7 +516,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -519,7 +528,7 @@
                                     ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -583,7 +592,7 @@
                                             ?>
                                             <script>
                                                 setTimeout(function() {
-                                                    window.location = "../med_stocks_exp.php";
+                                                    window.location = "../med_stocks";
                                                 });
                                             </script>
                                             <?php
@@ -594,7 +603,7 @@
                                             ?>
                                             <script>
                                                 setTimeout(function() {
-                                                    window.location = "../med_stocks_exp.php";
+                                                    window.location = "../med_stocks";
                                                 });
                                             </script>
                                             <?php
@@ -606,7 +615,7 @@
                                         ?>
                                             <script>
                                                 setTimeout(function() {
-                                                    window.location = "../med_stocks_exp.php";
+                                                    window.location = "../med_stocks";
                                                 });
                                             </script>
                                             <?php
@@ -660,7 +669,7 @@
                                             ?>
                                             <script>
                                                 setTimeout(function() {
-                                                    window.location = "../med_stocks_exp.php";
+                                                    window.location = "../med_stocks";
                                                 });
                                             </script>
                                             <?php
@@ -671,7 +680,7 @@
                                             ?>
                                             <script>
                                                 setTimeout(function() {
-                                                    window.location = "../med_stocks_exp.php";
+                                                    window.location = "../med_stocks";
                                                 });
                                             </script>
                                             <?php
@@ -683,7 +692,7 @@
                                         ?>
                                             <script>
                                                 setTimeout(function() {
-                                                    window.location = "../med_stocks_exp.php";
+                                                    window.location = "../med_stocks";
                                                 });
                                             </script>
                                             <?php
@@ -697,7 +706,7 @@
                             ?>
                             <script>
                                 setTimeout(function() {
-                                    window.location = "../med_stocks_exp.php";
+                                    window.location = "../med_stocks";
                                 });
                             </script>
                             <?php
@@ -710,7 +719,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../med_stocks_exp.php";
+                            window.location = "../med_stocks";
                         });
                     </script>
                     <?php
@@ -722,7 +731,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../med_stocks_exp.php";
+                        window.location = "../med_stocks";
                     });
                 </script>
                 <?php
@@ -831,9 +840,13 @@
                                     $iqty = $data['iqty'];
                                 }
 
-                                $ucost = ($data['eamt'] + ($qty * $cost)) / $eqty;
-                                $aieamt = $ucost * $eqty;
-                                $aeamt = number_format($aieamt, 2, ".");
+                                $query1 = "SELECT unit_cost FROM inv_total WHERE stockid = '$medid' AND type = 'medicine'";    
+                                $result = mysqli_query($conn, $query1);
+                                // kunin values from row
+                                foreach($result as $data)
+                                {
+                                    $aeamt = $data['unit_cost'] * $eqty;
+                                }
                                 
                                 $query = "UPDATE report_medsupinv SET campus = '$campus', buc = '$abuc', rqty = '$arqty', tqty = '$tqty', iqty='$iqty', iamt='$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medid' AND date = '$enddate' AND type = 'medicine'";
                                 if(mysqli_query($conn, $query))
@@ -844,7 +857,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -855,7 +868,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -867,7 +880,7 @@
                                     ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -942,7 +955,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -953,7 +966,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -965,7 +978,7 @@
                                     ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -1020,7 +1033,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -1031,7 +1044,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -1043,7 +1056,7 @@
                                     ?>
                                     <script>
                                         setTimeout(function() {
-                                            window.location = "../med_stocks_exp.php";
+                                            window.location = "../med_stocks";
                                         });
                                     </script>
                                     <?php
@@ -1148,9 +1161,14 @@
                                     }
 
                                     $abuc = number_format($aobuc, 2, ".");
-                                    $ucost = ($data['eamt'] + ($qty * $cost)) / $eqty;
-                                    $aieamt = $ucost * $eqty;
-                                    $aeamt = number_format($aieamt, 2, ".");
+
+                                    $query1 = "SELECT unit_cost FROM inv_total WHERE stockid = '$medid' AND type = 'medicine'";    
+                                    $result = mysqli_query($conn, $query1);
+                                    // kunin values from row
+                                    foreach($result as $data)
+                                    {
+                                        $aeamt = $data['unit_cost'] * $eqty;
+                                    }
                                 }
                                 $accountid = $_SESSION['userid'];
                                 $campus = $_SESSION['campus'];
@@ -1173,7 +1191,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -1184,7 +1202,7 @@
                                         ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -1196,7 +1214,7 @@
                                     ?>
                                         <script>
                                             setTimeout(function() {
-                                                window.location = "../med_stocks_exp.php";
+                                                window.location = "../med_stocks";
                                             });
                                         </script>
                                         <?php
@@ -1260,7 +1278,7 @@
                                             ?>
                                             <script>
                                                 setTimeout(function() {
-                                                    window.location = "../med_stocks_exp.php";
+                                                    window.location = "../med_stocks";
                                                 });
                                             </script>
                                             <?php
@@ -1271,7 +1289,7 @@
                                             ?>
                                             <script>
                                                 setTimeout(function() {
-                                                    window.location = "../med_stocks_exp.php";
+                                                    window.location = "../med_stocks";
                                                 });
                                             </script>
                                             <?php
@@ -1283,7 +1301,7 @@
                                         ?>
                                             <script>
                                                 setTimeout(function() {
-                                                    window.location = "../med_stocks_exp.php";
+                                                    window.location = "../med_stocks";
                                                 });
                                             </script>
                                             <?php
@@ -1337,7 +1355,7 @@
                                             ?>
                                             <script>
                                                 setTimeout(function() {
-                                                    window.location = "../med_stocks_exp.php";
+                                                    window.location = "../med_stocks";
                                                 });
                                             </script>
                                             <?php
@@ -1348,7 +1366,7 @@
                                             ?>
                                             <script>
                                                 setTimeout(function() {
-                                                    window.location = "../med_stocks_exp.php";
+                                                    window.location = "../med_stocks";
                                                 });
                                             </script>
                                             <?php
@@ -1360,7 +1378,7 @@
                                         ?>
                                             <script>
                                                 setTimeout(function() {
-                                                    window.location = "../med_stocks_exp.php";
+                                                    window.location = "../med_stocks";
                                                 });
                                             </script>
                                             <?php
@@ -1374,7 +1392,7 @@
                             ?>
                             <script>
                                 setTimeout(function() {
-                                    window.location = "../med_stocks_exp.php";
+                                    window.location = "../med_stocks";
                                 });
                             </script>
                             <?php
@@ -1387,7 +1405,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../med_stocks_exp.php";
+                            window.location = "../med_stocks";
                         });
                     </script>
                     <?php
@@ -1399,7 +1417,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../med_stocks_exp.php";
+                        window.location = "../med_stocks";
                     });
                 </script>
                 <?php
@@ -1413,7 +1431,7 @@
 ?>
 <script>
     setTimeout(function() {
-        window.location = "../med_stocks_exp.php";
+        window.location = "../med_stocks";
     });
     </script>
 <?php

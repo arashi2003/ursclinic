@@ -323,15 +323,6 @@
                         }
                         default:
                         {
-                            $sm = $data['sm'];
-                            $sf = $data['sf'];
-                            $st = $data['st'];
-                            $pm = $data['pm'];
-                            $pf = $data['pf'];
-                            $pt = $data['pt'];
-                            $gm = $data['gm'];
-                            $gf = $data['gf'];
-                            $gt = $data['gt'];
                             break;
                         }
                     }
@@ -346,7 +337,7 @@
                         ?>
                         <script>
                             setTimeout(function() {
-                                window.location = "../transaction_dental_consultation.php";
+                                window.location = "../transaction_dental_consultation";
                             });
                         </script>
                         <?php
@@ -357,7 +348,7 @@
                         ?>
                         <script>
                             setTimeout(function() {
-                                window.location = "../transaction_dental_consultation.php";
+                                window.location = "../transaction_dental_consultation";
                             });
                         </script>
                         <?php
@@ -369,7 +360,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../transaction_dental_consultation.php";
+                            window.location = "../transaction_dental_consultation";
                         });
                     </script>
                     <?php
@@ -447,15 +438,6 @@
                     }
                     default:
                     {
-                        $sm = 0;
-                        $sf = 0;
-                        $st = 0;
-                        $pm = 0;
-                        $pf = 0;
-                        $pt = 0;
-                        $gm = 0;
-                        $gf = 0;
-                        $gt = 0;
                         break;
                     }
                 }
@@ -485,7 +467,7 @@
                         ?>
                         <script>
                             setTimeout(function() {
-                                window.location = "../transaction_dental_consultation.php";
+                                window.location = "../transaction_dental_consultation";
                             });
                         </script>
                         <?php
@@ -496,7 +478,7 @@
                         ?>
                         <script>
                             setTimeout(function() {
-                                window.location = "../transaction_dental_consultation.php";
+                                window.location = "../transaction_dental_consultation";
                             });
                         </script>
                         <?php
@@ -508,7 +490,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../transaction_dental_consultation.php";
+                            window.location = "../transaction_dental_consultation";
                         });
                     </script>
                     <?php
@@ -522,7 +504,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../transaction_dental_consultation.php";
+                    window.location = "../transaction_dental_consultation";
                 });
             </script>
             <?php
@@ -535,7 +517,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../transaction_dental_consultation.php";
+        window.location = "../transaction_dental_consultation";
     });
 </script>
 <?php

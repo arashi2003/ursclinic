@@ -13,7 +13,7 @@ $usertype = $_SESSION['usertype'];
 $ldate = date("Y-m-t");
 
 // get the total nr of rows.
-$records = $conn->query("SELECT * FROM report_medsupinv WHERE campus = '$campus' AND type = 'supply' AND date = '$ldate' ORDER BY medicine");
+$records = $conn->query("SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid WHERE campus = '$campus' AND type = 'supply' AND qty > 0  ORDER BY stock_name");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php');
@@ -131,11 +131,11 @@ include('../../includes/pagination-limit.php');
                                 if (isset($_GET['supply']) && $_GET['supply'] != '') {
                                     $supply = $_GET['supply'];
                                     $count = 1;
-                                    $sql = "SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid WHERE campus = '$campus' AND type = 'supply' AND stock_name LIKE '%$supply%' ORDER BY stock_name LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid WHERE campus = '$campus' AND type = 'supply' AND stock_name LIKE '%$supply%' AND qty > 0  ORDER BY stock_name LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 } else {
                                     $count = 1;
-                                    $sql = "SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid WHERE campus = '$campus' AND type = 'supply' ORDER BY stock_name LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid WHERE campus = '$campus' AND type = 'supply' AND qty > 0  ORDER BY stock_name LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 }
                                 if ($result) {

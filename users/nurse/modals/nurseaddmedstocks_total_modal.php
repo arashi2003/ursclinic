@@ -17,7 +17,7 @@
                             $result = mysqli_query($conn, $sql);
                             while ($row = mysqli_fetch_array($result)) {
                             ?>
-                                <option value="<?= $row['med_admin']; ?>"><?= $row['med_admin']; ?></option>
+                                <option value="<?= $row['id']; ?>"><?= $row['med_admin']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -28,20 +28,23 @@
                         </select>
                     </div>
 
-                    <div class="mb-2">
-                        <label for="opened" class="form-label">Quantity of Opened Stocks:</label>
-                        <input type="number" min="0" class="form-control" name="opened" id="opened" required>
-                    </div>
-                    <div class="mb-2">
-                        <label for="close" class="form-label">Quantity of Unopened Stocks:</label>
-                        <input type="number" min="0" class="form-control" name="close" id="close" required>
+                    <div class="open-close">
+                        <div class="mb-2">
+                            <label for="opened" class="form-label">Quantity of Opened Stocks:</label>
+                            <input type="number" min="0" class="form-control" name="opened" id="opened" required>
+                        </div>
+                        <div class="mb-2">
+                            <label for="close" class="form-label">Quantity of Unopened Stocks:</label>
+                            <input type="number" min="0" class="form-control" name="close" id="close" required>
+                        </div>
                     </div>
 
-
-                    <div class="mb-2">
-                        <label for="close" class="form-label">Quantity:</label>
-                        <input type="text" class="form-control" name="opened" id="opened" value="0" hidden>
-                        <input type="number" min="0" class="form-control" name="close" id="close" required>
+                    <div class="per-piece">  
+                        <div class="mb-2">
+                            <label for="close" class="form-label">Quantity:</label>
+                            <input type="text" class="form-control" name="opened" id="opened" value="0" hidden>
+                            <input type="number" min="0" class="form-control" name="close" id="close" required>
+                        </div>
                     </div>
 
                     <div class="mb-2">

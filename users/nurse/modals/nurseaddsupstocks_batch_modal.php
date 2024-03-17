@@ -22,20 +22,23 @@
                         </select>
                     </div>
                     
-                    <div class="mb-2">
-                        <label for="opened" class="form-label">Quantity of Opened Stocks:</label>
-                        <input type="number" min="0" class="form-control" name="opened" id="opened" required>
-                    </div>
-                    <div class="mb-2">
-                        <label for="close" class="form-label">Quantity of Unopened Stocks:</label>
-                        <input type="number" min="0" class="form-control" name="close" id="close" required>
+                    <div class="open-close hidden">
+                        <div class="mb-2">
+                            <label for="opened" class="form-label">Quantity of Opened Stocks:</label>
+                            <input type="number" min="0" class="form-control" name="opened" id="opened" required>
+                        </div>
+                        <div class="mb-2">
+                            <label for="close" class="form-label">Quantity of Unopened Stocks:</label>
+                            <input type="number" min="0" class="form-control" name="close" id="close" required>
+                        </div>
                     </div>
 
-                    
-                    <div class="mb-2">
-                        <label for="close" class="form-label">Quantity:</label>
-                        <input type="text" class="form-control" name="opened" id="opened" value="0" hidden>
-                        <input type="number" min="0" class="form-control" name="close" id="close" required>
+                    <div class="per-piece hidden">  
+                        <div class="mb-2">
+                            <label for="close" class="form-label">Quantity:</label>
+                            <input type="text" class="form-control" name="opened" id="opened" value="0" hidden>
+                            <input type="number" min="0" class="form-control" name="close" id="close" required>
+                        </div>
                     </div>
 
                     <div class="mb-2">

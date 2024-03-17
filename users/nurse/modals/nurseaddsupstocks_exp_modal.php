@@ -5,7 +5,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Add Medical Supply Stocks</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../nurse/sup_stocks_exp'"></button>
             </div>
-            <form method="POST" action="modals/inv_supply_exp.php" id="form">
+            <form method="POST" action="modals/inv_supstocks" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="supply" class="form-label">Medical Supply:</label>
@@ -22,20 +22,23 @@
                         </select>
                     </div>
                     
-                    <div class="mb-2">
-                        <label for="opened" class="form-label">Quantity of Opened Stocks:</label>
-                        <input type="number" min="0" class="form-control" name="opened" id="opened" required>
-                    </div>
-                    <div class="mb-2">
-                        <label for="close" class="form-label">Quantity of Unopened Stocks:</label>
-                        <input type="number" min="0" class="form-control" name="close" id="close" required>
+                    <div class="open-close hidden">
+                        <div class="mb-2">
+                            <label for="opened" class="form-label">Quantity of Opened Stocks:</label>
+                            <input type="number" min="0" class="form-control" name="opened" id="opened" required>
+                        </div>
+                        <div class="mb-2">
+                            <label for="close" class="form-label">Quantity of Unopened Stocks:</label>
+                            <input type="number" min="0" class="form-control" name="close" id="close" required>
+                        </div>
                     </div>
 
-                    
-                    <div class="mb-2">
-                        <label for="close" class="form-label">Quantity:</label>
-                        <input type="text" class="form-control" name="opened" id="opened" value="0" hidden>
-                        <input type="number" min="0" class="form-control" name="close" id="close" required>
+                    <div class="per-piece hidden">  
+                        <div class="mb-2">
+                            <label for="close" class="form-label">Quantity:</label>
+                            <input type="text" class="form-control" name="opened" id="opened" value="0" hidden>
+                            <input type="number" min="0" class="form-control" name="close" id="close" required>
+                        </div>
                     </div>
 
                     <div class="mb-2">

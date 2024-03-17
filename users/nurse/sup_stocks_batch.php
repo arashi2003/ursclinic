@@ -13,7 +13,7 @@ $usertype = $_SESSION['usertype'];
 $ldate = date("Y-m-t");
 
 // get the total nr of rows.
-$records = $conn->query("SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND campus = '$campus' ORDER BY batchid, stockid");
+$records = $conn->query("SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND campus = '$campus' AND qty > 0  ORDER BY batchid, stockid");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php');
@@ -146,16 +146,16 @@ include('../../includes/pagination-limit.php');
                                 if (isset($_GET['supply']) && $_GET['supply'] != '') {
                                     $supply = $_GET['supply'];
                                     $count = 1;
-                                    $sql = "SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND CONCAT(s.supply, ' ', s.volume, s.unit_measure) LIKE '%$supply%' AND campus = '$campus' ORDER BY batchid, stockid LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND CONCAT(s.supply, ' ', s.volume, s.unit_measure) LIKE '%$supply%' AND campus = '$campus' AND qty > 0  ORDER BY batchid, stockid LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 } elseif (isset($_GET['batch']) && $_GET['batch'] != '') {
                                     $batch = $_GET['batch'];
                                     $count = 1;
-                                    $sql = "SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND batchid='$batch' AND campus = '$campus' ORDER BY batchid, stockid LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND batchid='$batch' AND campus = '$campus' AND qty > 0  ORDER BY batchid, stockid LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 } else {
                                     $count = 1;
-                                    $sql = "SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND campus = '$campus' ORDER BY batchid, stockid LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND campus = '$campus' AND qty > 0  ORDER BY batchid, stockid LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 }
                                 if ($result) {

@@ -119,7 +119,7 @@ if (isset($_POST['medicine'])) {
         if($mstate == 'per piece')
         {
             // Update inventory_medicine
-            $query0 = "UPDATE inventory_medicine SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE campus='$campus' AND medid='$medicine' AND date='$enddate' AND expiration > '$datenow' AND qty > 0";
+            $query0 = "UPDATE inventory_medicine SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE campus='$campus' AND medid='$medicine' AND expiration > '$datenow' AND qty > 0";
             mysqli_query($conn, $query0);
             // Update inv_total
             $query1 = "UPDATE inv_total SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE stockid='$medicine' AND type = 'medicine' AND campus='$campus'";
@@ -179,7 +179,7 @@ if (isset($_POST['supply'])) {
         if($sstate == 'per piece')
         {
             // Update inventory_supply
-            $query0 = "UPDATE inventory_supply SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE campus='$campus' AND supid='$supply' AND date='$enddate' AND expiration > '$datenow' AND qty > 0";
+            $query0 = "UPDATE inventory_supply SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE campus='$campus' AND supid='$supply' AND expiration > '$datenow' AND qty > 0";
             mysqli_query($conn, $query0);
             // Update inv_total
             $query1 = "UPDATE inv_total SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE stockid='$supply' AND type = 'supply' AND campus='$campus'";
@@ -298,7 +298,7 @@ if ($result = mysqli_query($conn, $sql)) {
 ?>
     <script>
         setTimeout(function() {
-            window.location = "../transaction_history.php";
+            window.location = "../transaction_history";
         });
     </script>
 <?php
@@ -307,7 +307,7 @@ if ($result = mysqli_query($conn, $sql)) {
 ?>
     <script>
         setTimeout(function() {
-            window.location = "../transaction_history.php";
+            window.location = "../transaction_history";
         });
     </script>
 <?php

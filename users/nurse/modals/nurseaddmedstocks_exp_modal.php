@@ -25,31 +25,26 @@
                         <label for="medicine" class="form-label">Medicine:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="medicine" id="medicine" required>
                             <option value="" disabled selected>-Select Medicine-</option>
-                            <?php
-                            include('connection.php');
-                            $sql = "SELECT * FROM medicine ORDER BY medicine";
-                            $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_array($result)) {
-                            ?>
-                                <option value="<?= $row['medid']; ?>"><?= $row['medicine'] . " ". $row['dosage'] . $row['unit_measure'];?></option>
-                            <?php } ?>
                         </select>
                     </div>
 
-                    <div class="mb-2">
-                        <label for="opened" class="form-label">Quantity of Opened Stocks:</label>
-                        <input type="number" min="0" class="form-control" name="opened" id="opened" required>
-                    </div>
-                    <div class="mb-2">
-                        <label for="close" class="form-label">Quantity of Unopened Stocks:</label>
-                        <input type="number" min="0" class="form-control" name="close" id="close" required>
+                    <div class="open-close">
+                        <div class="mb-2">
+                            <label for="opened" class="form-label">Quantity of Opened Stocks:</label>
+                            <input type="number" min="0" class="form-control" name="opened" id="opened" required>
+                        </div>
+                        <div class="mb-2">
+                            <label for="close" class="form-label">Quantity of Unopened Stocks:</label>
+                            <input type="number" min="0" class="form-control" name="close" id="close" required>
+                        </div>
                     </div>
 
-                    
-                    <div class="mb-2">
-                        <label for="close" class="form-label">Quantity:</label>
-                        <input type="text" class="form-control" name="opened" id="opened" value="0" hidden>
-                        <input type="number" min="0" class="form-control" name="close" id="close" required>
+                    <div class="per-piece">  
+                        <div class="mb-2">
+                            <label for="close" class="form-label">Quantity:</label>
+                            <input type="text" class="form-control" name="opened" id="opened" value="0" hidden>
+                            <input type="number" min="0" class="form-control" name="close" id="close" required>
+                        </div>
                     </div>
 
                     <div class="mb-2">
@@ -69,3 +64,26 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#admin").change(function() {   
+            var medadmin_id = $(this).val();
+            if (medadmin_id == '') {
+                $("#medicine").html('<option value="" disable selected>-Select Medicine-</option>');
+            } else {
+                $("#medicine").html('<option value="" disable selected>-Select Medicine-</option>');
+                $.ajax({
+                    url: "action_medicine.php",
+                    method: "POST",
+                    data: {
+                        medadmin: medadmin_id
+                    },
+                    success: function(data) {
+                        $("#medicine").html(data);
+                    }
+                });
+            }
+        });
+    });
+</script>

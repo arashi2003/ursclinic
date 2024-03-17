@@ -11,7 +11,7 @@ $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 
 // get the total nr of rows.
-$records = $conn->query("SELECT i.id, i.open, i.closed, i.campus, i.supid, i.qty, i.unit_cost, i.expiration, m.supply, m.volume, m.unit_measure, m.supid FROM inventory_supply i INNER JOIN supply m on m.supid=i.supid WHERE campus = '$campus' ORDER BY expiration ");
+$records = $conn->query("SELECT i.id, i.open, i.closed, i.campus, i.supid, i.qty, i.unit_cost, i.expiration, m.supply, m.volume, m.unit_measure, m.supid FROM inventory_supply i INNER JOIN supply m on m.supid=i.supid WHERE campus = '$campus' AND qty > 0  ORDER BY expiration ");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php');
@@ -125,35 +125,31 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['supply']) && $_GET['supply'] != '') {
-                                    $supply = $_GET['supply'];
-                                    $count = 1;
-                                    $sql = "SELECT i.id, i.open, i.closed, i.campus, i.supid, i.qty, i.unit_cost, i.expiration, m.supply, m.volume, m.unit_measure, m.supid FROM inventory_supply i INNER JOIN supply m on m.supid=i.supid WHERE m.supply LIKE '%$supply%' AND campus = '$campus' ORDER BY expiration LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT i.id, i.open, i.closed, i.campus, i.supid, i.qty, i.unit_cost, i.expiration, m.supply, m.volume, m.unit_measure, m.supid FROM inventory_supply i INNER JOIN supply m on m.supid=i.supid WHERE campus = '$campus' ORDER BY expiration LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Supply</th>
-                                                    <th>Opened</th>
-                                                    <th>Unopened</th>
-                                                    <th>Total Qty.</th>
-                                                    <th>Unit Cost</th>
-                                                    <th>Total Amt.</th>
-                                                    <th>Expiration</th>
-                                            </thead>
-                                            <tbody>
-
-                                                <?php
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Supply</th>
+                                            <th>Qty.</th>
+                                            <th>Unit Cost</th>
+                                            <th>Total Amt.</th>
+                                            <th>Expiration</th>
+                                            <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['supply']) && $_GET['supply'] != '') {
+                                            $supply = $_GET['supply'];
+                                            $count = 1;
+                                            $sql = "SELECT i.id, i.open, i.closed, i.campus, i.supid, i.qty, i.unit_cost, i.expiration, m.supply, m.volume, m.unit_measure, m.supid FROM inventory_supply i INNER JOIN supply m on m.supid=i.supid WHERE m.supply LIKE '%$supply%' AND campus = '$campus' AND qty > 0  ORDER BY expiration DESC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT i.id, i.open, i.closed, i.campus, i.supid, i.qty, i.unit_cost, i.expiration, m.supply, m.volume, m.unit_measure, m.supid FROM inventory_supply i INNER JOIN supply m on m.supid=i.supid WHERE campus = '$campus' AND qty > 0  ORDER BY expiration DESC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $data) {
                                                     $today = date("Y-m-d");
 
@@ -165,58 +161,60 @@ include('../../includes/pagination-limit.php');
                                                         $date = date("F d, Y", strtotime($data['expiration']));
                                                     }
 
-                                                    if ($date = "N/A") {
-                                                ?>
+                                                    if ($date == "N/A") {
+                                        ?>
                                                         <tr>
                                                             <td><?php echo $data['id']; ?></td>
                                                             <td><?php echo $data['supply'] . " " . $data['volume'] . $data['unit_measure'] ?></td>
-                                                            <td><?php echo $data['open'] ?></td>
-                                                            <td><?php echo $data['closed'] ?></td>
                                                             <td><?php echo $data['qty'] ?></td>
                                                             <td><?php echo $data['unit_cost'] ?></td>
                                                             <td><?php echo $amount ?></td>
                                                             <td><?php echo $date; ?></td>
+                                                            <td><button type="button" class="btn btn-danger btn-sm" disabled>Remove</button></td>
                                                         </tr>
                                                     <?php
                                                     } elseif ($data['expiration'] <= $today) { ?>
                                                         <tr style="color: red;">
                                                             <td><?php echo $data['id']; ?></td>
                                                             <td><?php echo $data['supply'] . " " . $data['volume'] . $data['unit_measure'] ?></td>
-                                                            <td><?php echo $data['open'] ?></td>
-                                                            <td><?php echo $data['closed'] ?></td>
                                                             <td><?php echo $data['qty'] ?></td>
                                                             <td><?php echo $data['unit_cost'] ?></td>
                                                             <td><?php echo $amount ?></td>
                                                             <td><?php echo $date; ?></td>
+                                                            <td><button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rem_exp<?php echo $data['id']; ?>">Remove</button></td>
                                                         </tr>
                                                     <?php
+                                                        include('modals/rem_exp_medstocks_modal.php');
                                                     } else { ?>
                                                         <tr>
                                                             <td><?php echo $data['id']; ?></td>
                                                             <td><?php echo $data['supply'] . " " . $data['volume'] . $data['unit_measure'] ?></td>
-                                                            <td><?php echo $data['open'] ?></td>
-                                                            <td><?php echo $data['closed'] ?></td>
                                                             <td><?php echo $data['qty'] ?></td>
                                                             <td><?php echo $data['unit_cost'] ?></td>
                                                             <td><?php echo $amount ?></td>
                                                             <td><?php echo $date; ?></td>
+                                                            <td><button type="button" class="btn btn-danger btn-sm" disabled>Remove</button></td>
                                                         </tr>
                                                 <?php }
                                                 } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php'); ?>
-                                    <?php
-                                    }
-                                } else {
-                                    ?>
-                                    <tr>
-                                        <td colspan="7">No record Found</td>
-                                    </tr>
-                                <?php
-                                }
-                                mysqli_close($conn);
-                                ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php'); ?>
+                            <?php
+                                            } else { ?>
+                                <tr>
+                                    <td colspan="7">No record Found</td>
+                                </tr>
+                            <?php }
+                                        } else {
+                            ?>
+                            <tr>
+                                <td colspan="7">No record Found</td>
+                            </tr>
+                        <?php
+                                        }
+                                        mysqli_close($conn);
+                        ?>
                             </div>
                         </div>
                     </div>

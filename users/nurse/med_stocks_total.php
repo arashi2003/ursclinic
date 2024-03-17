@@ -13,7 +13,7 @@ $usertype = $_SESSION['usertype'];
 $lastd = date("Y-m-t");
 
 // get the total nr of rows.
-$records = $conn->query("SELECT * from report_medsupinv WHERE campus = '$campus' AND type = 'medicine' AND date = '$lastd' ORDER BY medicine");
+$records = $conn->query("SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN medicine m ON m.medid=i.stockid WHERE campus = '$campus' AND type = 'medicine' AND qty > 0  ORDER BY stock_name ");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php');
@@ -133,11 +133,11 @@ include('../../includes/pagination-limit.php');
                                 if (isset($_GET['medicine']) && $_GET['medicine'] != '') {
                                     $medicine = $_GET['medicine'];
                                     $count = 1;
-                                    $sql = "SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN medicine m ON m.medid=i.stockid WHERE campus = '$campus' AND type = 'medicine' AND stock_name LIKE '%$medicine%' ORDER BY stock_name LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN medicine m ON m.medid=i.stockid WHERE campus = '$campus' AND type = 'medicine' AND stock_name LIKE '%$medicine%' AND qty > 0  ORDER BY stock_name LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 } else {
                                     $count = 1;
-                                    $sql = "SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN medicine m ON m.medid=i.stockid WHERE campus = '$campus' AND type = 'medicine' ORDER BY stock_name LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN medicine m ON m.medid=i.stockid WHERE campus = '$campus' AND type = 'medicine' AND qty > 0  ORDER BY stock_name LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 }
                                 if ($result) {

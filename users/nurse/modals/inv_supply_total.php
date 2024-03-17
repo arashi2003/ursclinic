@@ -14,7 +14,7 @@
     $o = $_POST['opened'];
     $c = $_POST['close'];
     $cost = $_POST['unit_cost'];
-    $exp = $_POST['expiration'];
+    $exp = date("Y-m-t", strtotime($_POST['expiration']));
 
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);

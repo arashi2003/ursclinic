@@ -12,7 +12,7 @@ $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 
 // get the total nr of rows.
-$records = $conn->query("SELECT i.id, i.campus, i.medid, i.qty, i.unit_cost, i.expiration, m.medicine, m.dosage, m.unit_measure, m.medid FROM inventory_medicine i INNER JOIN medicine m on m.medid=i.medid WHERE campus = '$campus' ORDER BY expiration ");
+$records = $conn->query("SELECT i.id, i.campus, i.medid, i.qty, i.unit_cost, i.expiration, m.medicine, m.dosage, m.unit_measure, m.medid FROM inventory_medicine i INNER JOIN medicine m on m.medid=i.medid WHERE campus = '$campus' AND i.qty > 0  ORDER BY expiration ");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php');
@@ -77,7 +77,7 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addmedstocks">Add Entry</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmedstocks">Add Entry</button>
                     <?php include('modals/nurseaddmedstocks_exp_modal.php'); ?>
                 </div>
                 <div class="content">
@@ -126,20 +126,6 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['medicine']) && $_GET['medicine'] != '') {
-                                    $medicine = $_GET['medicine'];
-                                    $count = 1;
-                                    $sql = "SELECT i.id, i.campus, i.medid, i.qty, i.unit_cost, i.expiration, m.medicine, m.dosage, m.unit_measure, m.medid FROM inventory_medicine i INNER JOIN medicine m on m.medid=i.medid WHERE CONCAT(m.medicine, ' ', m.dosage, m.unit_measure) LIKE '%$medicine%' AND campus = '$campus' LIKE '%$medicine%' ORDER BY expiration LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT i.id, i.campus, i.medid, i.qty, i.unit_cost, i.expiration, m.medicine, m.dosage, m.unit_measure, m.medid FROM inventory_medicine i INNER JOIN medicine m on m.medid=i.medid WHERE campus = '$campus' ORDER BY expiration LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
                                         <table>
                                             <thead>
                                                 <tr>
@@ -149,9 +135,22 @@ include('../../includes/pagination-limit.php');
                                                     <th>Unit Cost</th>
                                                     <th>Total Amt.</th>
                                                     <th>Expiration</th>
+                                                    <th>Action</th>
                                             </thead>
                                             <tbody>
                                                 <?php
+                                                if (isset($_GET['medicine']) && $_GET['medicine'] != '') {
+                                                    $medicine = $_GET['medicine'];
+                                                    $count = 1;
+                                                    $sql = "SELECT i.id, i.campus, i.medid, i.qty, i.unit_cost, i.expiration, m.medicine, m.dosage, m.unit_measure, m.medid FROM inventory_medicine i INNER JOIN medicine m on m.medid=i.medid WHERE CONCAT(m.medicine, ' ', m.dosage, m.unit_measure) LIKE '%$medicine%' AND campus = '$campus' LIKE '%$medicine%' AND i.qty > 0  ORDER BY expiration LIMIT $start, $rows_per_page";
+                                                    $result = mysqli_query($conn, $sql);
+                                                } else {
+                                                    $count = 1;
+                                                    $sql = "SELECT i.id, i.campus, i.medid, i.qty, i.unit_cost, i.expiration, m.medicine, m.dosage, m.unit_measure, m.medid FROM inventory_medicine i INNER JOIN medicine m on m.medid=i.medid WHERE campus = '$campus' AND i.qty > 0  ORDER BY expiration LIMIT $start, $rows_per_page";
+                                                    $result = mysqli_query($conn, $sql);
+                                                }
+                                                if ($result) {
+                                                    if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $data) {
                                                     $today = date("Y-m-d");
                                                     if ($data['expiration'] <= $today) {
@@ -170,8 +169,10 @@ include('../../includes/pagination-limit.php');
                                                             <td><?php echo $data['unit_cost'] ?></td>
                                                             <td><?php echo $amount ?></td>
                                                             <td><?php echo $date; ?></td>
+                                                            <td><button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rem_exp<?php echo $data['id']; ?>">Remove</button></td>
                                                         </tr>
                                                     <?php
+                                                        include('modals/rem_exp_medstocks_modal.php');
                                                     } else { ?>
                                                         <tr>
                                                             <td><?php echo $data['id'];
@@ -187,15 +188,16 @@ include('../../includes/pagination-limit.php');
                                                             <td><?php echo $data['unit_cost'] ?></td>
                                                             <td><?php echo $amount ?></td>
                                                             <td><?php echo $date; ?></td>
+                                                            <td><button type="button" class="btn btn-danger btn-sm" disabled>Remove</button></td>
                                                         </tr>
-                                            <?php }
-                                                }
-                                            } ?>
+                                                <?php
+                                                    }
+                                                } ?>
                                             </tbody>
                                         </table>
                                         <?php include('../../includes/pagination.php'); ?>
                                     <?php
-                                } else {
+                                }} else {
                                     ?>
                                         <tr>
                                             <td colspan="7">No record Found</td>
