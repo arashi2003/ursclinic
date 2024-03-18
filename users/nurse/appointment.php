@@ -74,7 +74,7 @@ if ($pending_count_result && $approved_count_result) {
 }
 
 // Setting the number of rows to display in a page.
-$rows_per_page = 1;
+$rows_per_page = 12;
 
 // Determine the page
 $page = isset($_GET['page']) ? $_GET['page'] : 1;

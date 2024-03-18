@@ -63,7 +63,7 @@
     $status = ""; //$_POST['status'];
     $usertype = "";//$_POST['usertype'];
 
-    $query = mysqli_query($conn, "SELECT * FROM account WHERE usertype like '%$usertype%' AND campus like '%$campus%' AND status like '%$status%'");
+    $query = mysqli_query($conn, "SELECT * FROM account WHERE usertype like '%$usertype%' AND status like '%$status%'");
     $count = 1;
     while($data=mysqli_fetch_array($query))
     {
@@ -114,7 +114,7 @@
     {
         while($data=mysqli_fetch_array($query))
         {
-            if (count(explode(" ", $data['middlename'])) > 1)
+            /*if (count(explode(" ", $data['middlename'])) > 1)
             {
                 $middle = explode(" ", $data['middlename']);
                 $letter = $middle[0][0].$middle[1][0];
@@ -131,9 +131,9 @@
                 {
                     $middleinitial = substr($middle, 0, 1) . ".";
                 }    
-            }
+            }*/
             $camAbbrev = substr($data['campus'], 0, 1);
-            $name1 = $data['firstname'] . " " . $middleinitial . " " . $data['lastname'];
+            $name1 = $data['firstname'] . " " . $data['middlename'] . " " . $data['lastname'];
             $title1 = "URS" . $camAbbrev . ", " . "Admin";
         }
     }

@@ -26,7 +26,7 @@ $usertype = $_SESSION['usertype'];
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">Inventory Stocks</span>
+                <span class="dashboard">INVENTORY STOCKS</span>
             </div>
             <div class="right-nav">
                 <div class="notification-button">
