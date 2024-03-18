@@ -18,7 +18,7 @@
         ?>
         <script>
             setTimeout(function() {
-                window.location = "../../program.php";
+                window.location = "../../program";
             });
         </script>
         <?php
@@ -35,7 +35,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../../program.php";
+                        window.location = "../../program";
                     });
                 </script>
                 <?php
@@ -46,7 +46,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../../program.php";
+                        window.location = "../../program";
                     });
                 </script>
                 <?php
@@ -59,7 +59,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../../program.php";
+        window.location = "../../program";
     });
 </script>
 <?php

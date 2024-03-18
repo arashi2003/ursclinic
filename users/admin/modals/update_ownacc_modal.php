@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Account Details</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../admin/profile.php'"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
             </div>
             <form method="POST" action="modals/update/update_ownaccount.php" id="form">
                 <div class="modal-body">
@@ -67,9 +67,6 @@
                         <label for="contactno" class="form-label">Contact Number:</label>
                         <input type="text" maxlength="13" class="form-control" name="contactno" id="contactno" value="<?php echo $row['contactno']?>" required>
                     </div>
-
-                    <!-- responsive na magiging required fields ung mga password related textbox-->
-
                     <div class="mb-2">
                         <label for="cupassword" class="form-label">Current Password:</label>
                         <input type="password" class="form-control" name="cupassword" id="cupassword">
@@ -82,8 +79,6 @@
                         <label for="copassword" class="form-label">Confirm Password:</label>
                         <input type="password" maxlength="13" class="form-control" name="copassword" id="copassword">
                     </div>
-
-
                     <div class="mb-2">
                         <label for="status" class="form-label">Status:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="status" id="status" required>

@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include('../../add/connection.php');
+    include('../../add/connection');
     $accountid = $_POST['patientid'];
     $designation = $_POST['designation'];
     $age  = $_POST['age'];
@@ -32,7 +32,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../../patients.php";
+                        window.location = "../../patients";
                     });
                 </script>
                 <?php
@@ -50,7 +50,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../../patients.php";
+        window.location = "../../patients";
     });
 </script>
 <?php 

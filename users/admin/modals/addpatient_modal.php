@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Add Patient Information</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../admin/patients'"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
             </div>
             <form method="POST" action="modals/update/update_patient.php" id="form">
                 <div class="modal-body">
@@ -114,7 +114,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="email" class="form-label">Home Address:</label>
-                        <input type="text" class="form-control" name="address" id="address">
+                        <textarea class="form-control" name="address" id="address" style="resize: none;"></textarea>
                     </div>
                     <div class="mb-2">
                         <label for="emcon_name" class="form-label">Emergency Contact Name:</label>

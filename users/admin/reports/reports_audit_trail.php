@@ -6,6 +6,7 @@
     {
         function Header()
         {
+            //filter campus
             $campus = $_SESSION['campus'];
             $this->Image('../../../images/urs.png', 55, 12, 12);
             $this->Image('../../../images/medlogo.png', 140, 12, 22);
@@ -35,8 +36,8 @@
             $this->SetFont('Arial','',10);
             $this->Cell(8, 8, '', 1, 0, 'C');
             //$this->Cell(30, 8, 'Campus', 1, 0, 'C');
-            $this->Cell(102, 8, 'Activity', 1, 0, 'C');
-            $this->Cell(80, 8, 'Date and Time', 1, 0, 'C');
+            $this->Cell(132, 8, 'Activity', 1, 0, 'C');
+            $this->Cell(50, 8, 'Date and Time', 1, 0, 'C');
             $this->Cell(0, 8, '', 0, 1);
         }
         
@@ -58,7 +59,7 @@
     
     $dt_from = "";//$_POST['date_from'];
     $dt_to = ""; //$_POST['date_to'];
-    $campus = $_SESSION['campus'];
+    $campus = "";//$_SESSION['campus'];
 
 
     //campus filter
@@ -120,8 +121,7 @@
         $date = " AND datetime >= '$dt_from' AND datetime <= '$d'";
     }
 
-    $query = mysqli_query($conn, 
-    "SELECT audit_trail.activity, audit_trail.datetime, account.campus, account.firstname, account.middlename, account.lastname FROM audit_trail INNER JOIN account ON account.accountid=audit_trail.user $ca $date ORDER BY datetime DESC");
+    $query = mysqli_query($conn, "SELECT audit_trail.activity, audit_trail.datetime, account.campus, account.firstname, account.middlename, account.lastname FROM audit_trail INNER JOIN account ON account.accountid=audit_trail.user $ca $date ORDER BY datetime DESC");
     $count = 1;
     while($data=mysqli_fetch_array($query))
     {
@@ -150,9 +150,9 @@
         $pdf->Cell(8, 6, $id, 1, 0, 'C');
         //$pdf->Cell(30, 6, $data['campus'], 1, 0, 'C');
         $pdf->SetFont('Arial', '', 8);
-        $pdf->Cell(102, 6, $fullname . " ".  $data['activity'], 1, 0);
-        $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(80, 6, $dt, 1, 0, 'C');
+        $pdf->Cell(132, 6, $fullname . " ".  $data['activity'], 1, 0);
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(50, 6, $dt, 1, 0, 'C');
         $pdf->Cell(0, 6, '', 0, 1);
         $count++;
     }
@@ -166,7 +166,7 @@
 
     $line = "_____________________________";
 
-    $user = "URS-000";
+    $user = $_SESSION['userid'];
 
     $query = mysqli_query($conn, "SELECT * FROM account WHERE accountid ='$user'");
     if(mysqli_num_rows($query) > 0)

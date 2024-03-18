@@ -19,7 +19,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../department.php";
+                    window.location = "../../department";
                 });
             </script>
             <?php
@@ -30,7 +30,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../department.php";
+                    window.location = "../../department";
                 });
             </script>
             <?php
@@ -42,7 +42,7 @@
         ?>
         <script>
             setTimeout(function() {
-                window.location = "../../department.php";
+                window.location = "../../department";
             });
         </script>
         <?php
@@ -50,7 +50,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../../department.php";
+        window.location = "../../department";
     });
 </script>
 <?php

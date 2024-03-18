@@ -4,14 +4,16 @@ session_start();
 include('../../connection.php');
 include('../../includes/admin-auth.php');
 $module = 'account_users';
-$campus = $_SESSION['campus'];
+//$campus = $_SESSION['campus'];
 $user = $_SESSION['userid'];
 
+
+
 // get the total nr of rows.
-$records = $conn->query("SELECT * FROM account WHERE campus = '$campus' AND accountid !='$user' ORDER BY accountid");
+$records = $conn->query("SELECT * FROM account WHERE ORDER BY accountid");
 $nr_of_rows = $records->num_rows;
 
-include('../../includes/pagination-limit.php') 
+include('../../includes/pagination-limit.php')
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +21,7 @@ include('../../includes/pagination-limit.php')
 
 <head>
     <title>User Accounts</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -50,12 +52,12 @@ include('../../includes/pagination-limit.php')
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                    <div class="schedule-button">
-                        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addaccount">Add Account</button>
-                        <?php include('modals/addaccount_modal.php');?>
-                        &ThickSpace;
-                        <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_accounts.php');">Export to PDF</button>
-                    </div>
+                <div class="schedule-button">
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addaccount">Add Account</button>
+                    <?php include('modals/addaccount_modal.php'); ?>
+                    &ThickSpace;
+                    <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_accounts.php');">Export to PDF</button>
+                </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
@@ -74,10 +76,12 @@ include('../../includes/pagination-limit.php')
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT * FROM user_status ORDER BY status";
-                                                if($result = mysqli_query($conn, $sql))
-                                                {   while($row = mysqli_fetch_array($result) )
-                                                    {   $admin = $row["status"];?>
-                                                <option value="<?php echo $row["status"];?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["status"] ? 'selected' : '') : '' ?>"><?php echo $row["status"];?></option><?php }}?>
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) {
+                                                        $admin = $row["status"]; ?>
+                                                        <option value="<?php echo $row["status"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["status"] ? 'selected' : '') : '' ?>"><?php echo $row["status"]; ?></option>
+                                                        <?php }
+                                                                                                                                                                                                                            } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2 mb-2">
@@ -86,10 +90,12 @@ include('../../includes/pagination-limit.php')
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT usertype FROM account ORDER BY usertype";
-                                                if($result = mysqli_query($conn, $sql))
-                                                {   while($row = mysqli_fetch_array($result) )
-                                                    {   $admin = $row["usertype"];?>
-                                                <option value="<?php echo $row["usertype"];?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["usertype"] ? 'selected' : '') : '' ?>"><?php echo $row["usertype"];?></option><?php }}?>
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) {
+                                                        $admin = $row["usertype"]; ?>
+                                                        <option value="<?php echo $row["usertype"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["usertype"] ? 'selected' : '') : '' ?>"><?php echo $row["usertype"]; ?></option>
+                                                        <?php }
+                                                                                                                                                                                                                                    } ?>
                                             </select>
                                         </div>
                                         <div class="col mb-2">
@@ -102,106 +108,97 @@ include('../../includes/pagination-limit.php')
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['account']) && $_GET['account'] != '') {
-                                    $account = strtoupper($_GET['account']);
-                                    $count = 1;
-                                    $sql = "SELECT * FROM account WHERE (CONCAT(firstname, ' ', middlename, ' ' , lastname) LIKE '%$account%' OR CONCAT(firstname, ' ' , lastname) LIKE '%$account%' OR accountid LIKE '%$account%') AND campus = '$campus' AND accountid !='$user' ORDER BY accountid LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } elseif (isset($_GET['status']) && $_GET['status'] != '' || isset($_GET['usertype']) && $_GET['usertype'] != '' ) {
-                                    //$campus = $_GET['campus'];
-                                    $status = $_GET['status'];
-                                    $usertype = $_GET['usertype'];
-                                    
-                                    if($status == "")
-                                    {
-                                        $stat = "";
-                                    }
-                                    elseif ($status != "" AND $usertype == "")
-                                    {
-                                        $stat = " AND status = '$status'";
-                                    }
-                                    elseif ($status != "" AND $usertype != "")
-                                    {
-                                        $stat = " AND status = '$status'";
-                                    }
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Account ID</th>
+                                            <th>Full Name</th>
+                                            <th>Usertype</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                    </thead>
+                                    <tbody><?php
+                                            if (isset($_GET['account']) && $_GET['account'] != '') {
+                                                $account = strtoupper($_GET['account']);
+                                                $count = 1;
+                                                $sql = "SELECT * FROM account WHERE (CONCAT(firstname, ' ', middlename, ' ' , lastname) LIKE '%$account%' OR CONCAT(firstname, ' ' , lastname) LIKE '%$account%' OR accountid LIKE '%$account%') ORDER BY accountid LIMIT $start, $rows_per_page";
+                                                $result = mysqli_query($conn, $sql);
+                                            } elseif (isset($_GET['status']) && $_GET['status'] != '' || isset($_GET['usertype']) && $_GET['usertype'] != '') {
+                                                //$campus = $_GET['campus'];
+                                                $status = $_GET['status'];
+                                                $usertype = $_GET['usertype'];
 
-                                    if ($usertype == "")
-                                    {
-                                        $utype = "";
-                                    }
-                                    elseif ($stat != "" AND $usertype != "")
-                                    {
-                                        $utype = " AND usertype = '$usertype'";
-                                    }
-                                    elseif ($stat == "" AND $usertype != "")
-                                    {
-                                        $utype = " AND usertype = '$usertype'";
-                                    }
-                                    
+                                                if ($status == "") {
+                                                    $stat = "";
+                                                } elseif ($status != "" and $usertype == "") {
+                                                    $stat = " status = '$status'";
+                                                } elseif ($status != "" and $usertype != "") {
+                                                    $stat = " status = '$status'";
+                                                }
 
-                                    $count = 1;
-                                    $sql = "SELECT * FROM account WHERE campus = '$campus' $stat $utype AND accountid !='$user' ORDER BY accountid LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT * FROM account WHERE campus = '$campus' AND accountid !='$user' ORDER BY accountid LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Account ID</th>
-                                                    <th>Full Name</th>
-                                                    <th>Usertype</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                            </thead>
-                                            <tbody>
+                                                if ($usertype == "") {
+                                                    $utype = "";
+                                                } elseif ($stat != "" and $usertype != "") {
+                                                    $utype = " AND usertype = '$usertype'";
+                                                } elseif ($stat == "" and $usertype != "") {
+                                                    $utype = " AND usertype = '$usertype'";
+                                                }
 
-                                                <?php
-                                                foreach($result as $data){
-                                                    if (count(explode(" ", $data['middlename'])) > 1) {
-                                                    $middle = explode(" ", $data['middlename']);
-                                                    $letter = $middle[0][0] . $middle[1][0];
-                                                    $middleinitial = $letter . ".";
-                                                    } else {
-                                                    $middle = $data['middlename'];
-                                                    if ($middle == "" or $middle == " ") {
-                                                        $middleinitial = "";
-                                                    } else {
-                                                        $middleinitial = substr($middle, 0, 1) . ".";
-                                                    }
-                                                    }?>
+
+                                                $count = 1;
+                                                $sql = "SELECT * FROM account WHERE $stat $utype AND accountid !='$user' ORDER BY accountid LIMIT $start, $rows_per_page";
+                                                $result = mysqli_query($conn, $sql);
+                                            } else {
+                                                $count = 1;
+                                                $sql = "SELECT * FROM account WHERE accountid !='$user' ORDER BY accountid LIMIT $start, $rows_per_page";
+                                                $result = mysqli_query($conn, $sql);
+                                            }
+                                            if ($result) {
+                                                if (mysqli_num_rows($result) > 0) {
+                                                    foreach ($result as $data) {
+                                                        if (count(explode(" ", $data['middlename'])) > 1) {
+                                                            $middle = explode(" ", $data['middlename']);
+                                                            $letter = $middle[0][0] . $middle[1][0];
+                                                            $middleinitial = $letter . ".";
+                                                        } else {
+                                                            $middle = $data['middlename'];
+                                                            if ($middle == "" or $middle == " ") {
+                                                                $middleinitial = "";
+                                                            } else {
+                                                                $middleinitial = substr($middle, 0, 1) . ".";
+                                                            }
+                                                        } ?>
                                                     <tr>
                                                         <td><?php echo $data['accountid'] ?></td>
-                                                        <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " .ucwords(strtolower($data['lastname']));?></td>
+                                                        <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])); ?></td>
                                                         <td><?php echo $data['usertype'] ?></td>
                                                         <td><?php echo $data['status'] ?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateacc<?php echo $data['accountid']; ?>">Expand</button>
-                                                        <?php $count++; ?>
+                                                            <?php $count++; ?>
                                                         </td>
                                                     </tr>
-                                                    <?php
-                                                    include('modals/update_account_modal.php');
-                                                    }}?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php') ?>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                <?php
-                                    }
-                                mysqli_close($conn);
-                                ?>
+                                                <?php
+                                                        include('modals/update_account_modal.php');
+                                                    }
+                                                } else { ?>
+                                                <tr>
+                                                    <td colspan="5">No record Found</td>
+                                                </tr>
+                                            <?php } ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php') ?>
+                            <?php
+                                            } else {
+                            ?>
+                                <tr>
+                                    <td colspan="5">No record Found</td>
+                                </tr>
+                            <?php
+                                            }
+                                            mysqli_close($conn);
+                            ?>
                             </div>
                         </div>
                     </div>
@@ -228,4 +225,5 @@ include('../../includes/pagination-limit.php')
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

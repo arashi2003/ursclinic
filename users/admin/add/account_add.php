@@ -36,7 +36,7 @@
         ?>
         <script>
             setTimeout(function() {
-                window.location = "../account_users.php";
+                window.location = "../account_users";
             });
         </script>
         <?php
@@ -48,7 +48,7 @@
         ?>
         <script>
             setTimeout(function() {
-                window.location = "../account_users.php";
+                window.location = "../account_users";
             });
         </script>
         <?php
@@ -61,8 +61,7 @@
         {
             if($_POST['usertype'] == 'NURSE')
             {
-                $sql = "INSERT INTO organization (campus, adminid, firstname, middlename, lastname, title, extension) 
-                VALUES ('$campus', '$accountid', '$firstname', '$middle', '$lastname', 'Campus Nurse', 'RN')";
+                $sql = "INSERT INTO organization (campus, adminid, firstname, middlename, lastname, title, extension) VALUES ('$campus', '$accountid', '$firstname', '$middle', '$lastname', 'Campus Nurse', 'RN')";
                 if($result = mysqli_query($conn, $sql))
                 {
                     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', 'added an entry to the organization', '$au_status', now())";
@@ -76,7 +75,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../account_users.php";
+                        window.location = "../account_users";
                     });
                 </script>
                 <?php
@@ -87,7 +86,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../account_users.php";
+                        window.location = "../account_users";
                     });
                 </script>
                 <?php
@@ -100,7 +99,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../account_users.php";
+        window.location = "../account_users";
     });
 </script>
 <?php

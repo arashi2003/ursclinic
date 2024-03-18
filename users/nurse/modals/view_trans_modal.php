@@ -37,7 +37,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="medsup" class="form-label">Issued Medicine/Medical Supplies:</label> 
-                        <input type="text" class="form-control" aria-multiline="true" name="medsup" value="<?php echo $data['medsup']?>" id="medsup" disabled>
+                        <input type="text" class="form-control" name="medsup" value="<?php echo $data['medsup']?>" id="medsup" disabled>
                     </div>
                     <div class="mb-2">
                         <label for="pod_nod" class="form-label">Physician/Nurse on Duty:</label>

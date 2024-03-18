@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Patient Information</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../admin/patients.php'"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
             </div>
             <form method="POST" action="modals/update/update_patient.php" id="form">
                 <div class="modal-body">
@@ -18,7 +18,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="designation" class="form-label">Designation:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="designation" id="designation" required>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="designation" id="designation">
                             <option value="" disabled selected>-Select Designation-</option>
                             <?php
                             include('connection.php');
@@ -37,11 +37,11 @@
                     </div>
                     <div class="mb-2">
                         <label for="email" class="form-label">Age:</label>
-                        <input type="number" maxlength="3" class="form-control" name="age" id="age" value="<?php echo $data['age']?>" required>
+                        <input type="number" maxlength="3" class="form-control" name="age" id="age" value="<?php echo $data['age']?>">
                     </div>
                     <div class="mb-2">
                         <label for="sex" class="form-label">Sex:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sex" id="sex" required>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sex" id="sex">
                             <option value="" disabled selected>-Select Sex-</option>
                             <?php
                                 if ($data['sex'] == "MALE")
@@ -58,7 +58,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="birthday" class="form-label">Birthday:</label>
-                        <input type="date" class="form-control" name="birthday" id="birthday" value="<?php echo $data['birthday']?>" required>
+                        <input type="date" class="form-control" name="birthday" id="birthday" value="<?php echo $data['birthday']?>">
                     </div>
 
 
@@ -68,7 +68,7 @@
                     <!-- RESPONSIVE ROR ROR-->
                     <div class="mb-2">
                         <label for="department" class="form-label">Department:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="department" required>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="department">
                             <option value="" disabled selected>-Select Department-</option>
                             <?php
                             include('connection.php');
@@ -87,7 +87,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="college" class="form-label">College:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="college" id="college" required>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="college" id="college">
                             <option value="" disabled selected>-Select College-</option>
                             <?php
                             include('connection.php');
@@ -328,23 +328,22 @@
 
                     <div class="mb-2">
                         <label for="email" class="form-label">Email Address:</label>
-                        <input type="text" class="form-control" name="email" id="email" value="<?php echo $data['email']?>" required>
+                        <input type="text" class="form-control" name="email" id="email" value="<?php echo $data['email']?>">
                     </div>
                     <div class="mb-2">
                         <label for="contactno" class="form-label">Contact Number:</label>
-                        <input type="text" maxlength="13" class="form-control" name="contactno" id="contactno" value="<?php echo $data['contactno']?>" required>
+                        <input type="text" maxlength="13" class="form-control" name="contactno" id="contactno" value="<?php echo $data['contactno']?>">
                     </div>
                     <div class="mb-2">
                         <label for="email" class="form-label">Home Address:</label>
-                        <input type="text" class="form-control" name="address" id="address" value="<?php echo $data['address']?>" required>
-                    </div>
+                        <textarea class="form-control" name="address" id="address" style="resize: none;" disabled><?php echo $data['address'] ?></textarea>                    </div>
                     <div class="mb-2">
                         <label for="emcon_name" class="form-label">Emergency Contact Name:</label>
-                        <input type="text" class="form-control" name="emcon_name" id="emcon_name" value="<?php echo $data['emcon_name']?>" required>
+                        <input type="text" class="form-control" name="emcon_name" id="emcon_name" value="<?php echo $data['emcon_name']?>">
                     </div>
                     <div class="mb-2">
                         <label for="emcon_number" class="form-label">Emergency Contact Number:</label>
-                        <input type="text" maxlength="13" class="form-control" name="emcon_number" id="emcon_number" value="<?php echo $data['emcon_number']?>" required>
+                        <input type="text" maxlength="13" class="form-control" name="emcon_number" id="emcon_number" value="<?php echo $data['emcon_number']?>">
                     </div>
                 </div>
 

@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include('../add/connection.php');
+    include('../add/connection');
     $id = $_GET['no'];
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
@@ -17,7 +17,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../department.php";
+                    window.location = "../department";
                 });
             </script>
             <?php
@@ -28,7 +28,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../department.php";
+                    window.location = "../department";
                 });
             </script>
             <?php

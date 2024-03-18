@@ -51,7 +51,7 @@
                         ?>
                         <script>
                             setTimeout(function() {
-                                window.location = "../../profile.php";
+                                window.location = "../../profile";
                             });
                         </script>
                         <?php
@@ -62,7 +62,7 @@
                         ?>
                         <script>
                             setTimeout(function() {
-                                window.location = "../../profile.php";
+                                window.location = "../../profile";
                             });
                         </script>
                         <?php
@@ -74,7 +74,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../../profile.php";
+                            window.location = "../../profile";
                         });
                     </script>
                     <?php
@@ -86,7 +86,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../../profile.php";
+                        window.location = "../../profile";
                     });
                 </script>
                 <?php
@@ -98,7 +98,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../profile.php";
+                    window.location = "../../profile";
                 });
             </script>
             <?php
@@ -116,7 +116,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../../profile.php";
+                        window.location = "../../profile";
                     });
                 </script>
                 <?php
@@ -127,7 +127,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../../profile.php";
+                        window.location = "../../profile";
                     });
                 </script>
                 <?php
@@ -140,7 +140,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../../profile.php";
+        window.location = "../../profile";
     });
 </script>
 <?php

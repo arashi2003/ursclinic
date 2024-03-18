@@ -19,7 +19,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../yearlevel.php";
+                    window.location = "../../yearlevel";
                 });
             </script>
             <?php
@@ -30,7 +30,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../yearlevel.php";
+                    window.location = "../../yearlevel";
                 });
             </script>
             <?php
@@ -42,7 +42,7 @@
         ?>
         <script>
             setTimeout(function() {
-                window.location = "../../yearlevel.php";
+                window.location = "../../yearlevel";
             });
         </script>
         <?php
@@ -50,7 +50,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../../yearlevel.php";
+        window.location = "../../yearlevel";
     });
 </script>
 <?php

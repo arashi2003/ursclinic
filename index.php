@@ -324,7 +324,6 @@ if ($_SESSION['timer_start'] > 0) {
     </form>
   </div>
 
-  <!-- Add your JavaScript links here -->
   <script>
     // JavaScript code for countdown timer
     <?php if ($_SESSION['timer_start'] > 0) : ?>

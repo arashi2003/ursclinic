@@ -43,7 +43,7 @@
                         ?>
                         <script>
                             setTimeout(function() {
-                                window.location = "../patients.php";
+                                window.location = "../patients";
                             });
                         </script>
                         <?php
@@ -54,7 +54,7 @@
                         ?>
                         <script>
                             setTimeout(function() {
-                                window.location = "../patients.php";
+                                window.location = "../patients";
                             });
                         </script>
                         <?php
@@ -69,7 +69,7 @@
                         ?>
                         <script>
                             setTimeout(function() {
-                                window.location = "../patients.php";
+                                window.location = "../patients";
                             });
                         </script>
                         <?php
@@ -80,7 +80,7 @@
                         ?>
                         <script>
                             setTimeout(function() {
-                                window.location = "../patients.php";
+                                window.location = "../patients";
                             });
                         </script>
                         <?php
@@ -94,7 +94,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../patients.php";
+                        window.location = "../patients";
                     });
                 </script>
                 <?php 
@@ -106,7 +106,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../patients.php";
+        window.location = "../patients";
     });
 </script>
 <?php 

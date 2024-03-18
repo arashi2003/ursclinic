@@ -183,27 +183,25 @@ if ($pages > 4) {
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <?php
-                                    if (isset($_GET['patient']) && $_GET['patient'] != '') {
-                                        $patient = $_GET['patient'];
-                                        $count = 1;
-                                        $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE (CONCAT(ac.firstname,' ', ac.lastname) LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.middlename,' ', ac.lastname) LIKE '%$patient%' OR patientid LIKE '%$patient%') AND ac.campus = '$campus' ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
-                                        $result = mysqli_query($conn, $sql);
-                                    } elseif (isset($_GET['designation']) && $_GET['designation'] != '') {
-                                        $designation = $_GET['designation'];
-                                        $count = 1;
-                                        $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid  WHERE ac.campus = '$campus' AND designation = '$designation' ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
-                                        $result = mysqli_query($conn, $sql);
-                                    } else {
-                                        $count = 1;
-                                        $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE ac.campus = '$campus' ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
-                                        $result = mysqli_query($conn, $sql);
-                                    }
-                                    if ($result) {
-                                        if (mysqli_num_rows($result) > 0) {
-                                    ?>
-                                            <tbody>
-                                                <?php
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['patient']) && $_GET['patient'] != '') {
+                                            $patient = $_GET['patient'];
+                                            $count = 1;
+                                            $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE (CONCAT(ac.firstname,' ', ac.lastname) LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.middlename,' ', ac.lastname) LIKE '%$patient%' OR patientid LIKE '%$patient%') AND ac.campus = '$campus' ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['designation']) && $_GET['designation'] != '') {
+                                            $designation = $_GET['designation'];
+                                            $count = 1;
+                                            $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid  WHERE ac.campus = '$campus' AND designation = '$designation' ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE ac.campus = '$campus' ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $data) {
                                                     if (count(explode(" ", $data['middlename'])) > 1) {
                                                         $middle = explode(" ", $data['middlename']);
@@ -227,7 +225,7 @@ if ($pages > 4) {
                                                     } else {
                                                         $college = $data['college'];
                                                     }
-                                                ?>
+                                        ?>
                                                     <tr>
                                                         <td><?php echo $data['patientid']; ?></td>
                                                         <td><?php echo $data['designation']; ?></td>
@@ -238,22 +236,21 @@ if ($pages > 4) {
                                                             <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'view_patient?patientid=<?php echo $data['patientid'] ?>'">View</button>
                                                             <?php $count++; ?>
                                                         </td>
-
                                                     </tr>
                                                 <?php
                                                 }
                                             } else {
                                                 ?>
                                                 <tr>
-                                                    <td colspan="7">No record Found</td>
+                                                    <td colspan="6">No record Found</td>
                                                 </tr>
                                             <?php
                                             } ?>
-                                            </tbody>
+                                    </tbody>
                                 </table>
                                 <ul class="pagination justify-content-end">
                                     <?php
-                                    if (mysqli_num_rows($result) > 0) : ?>
+                                            if (mysqli_num_rows($result) > 0) : ?>
                                         <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
                                             <a class="page-link" href="?<?= isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
                                         </li>
@@ -274,8 +271,12 @@ if ($pages > 4) {
                                     <?php endif; ?>
                                 </ul>
                             <?php
-                                    }
-                                    mysqli_close($conn);
+                                        } else { ?>
+                                <tr>
+                                    <td colspan="6">No record Found</td>
+                                </tr>
+                            <?php }
+                                        mysqli_close($conn);
                             ?>
                             </div>
                         </div>
