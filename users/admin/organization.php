@@ -4,7 +4,9 @@ session_start();
 include('../../connection.php');
 include('../../includes/admin-auth.php');
 $module = 'organization';
-$userid=$_SESSION['userid'];
+$userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM organization");
@@ -18,7 +20,7 @@ include('../../includes/pagination-limit.php')
 
 <head>
     <title>Settings</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -36,10 +38,14 @@ include('../../includes/pagination-limit.php')
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -51,7 +57,7 @@ include('../../includes/pagination-limit.php')
             <div class="overview-boxes">
                 <div class="schedule-button">
                     <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addorganization">Add Entry</button>
-                    <?php include('modals/addorganization_modal.php');?>
+                    <?php include('modals/addorganization_modal.php'); ?>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -71,19 +77,16 @@ include('../../includes/pagination-limit.php')
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT * FROM campus ORDER BY campus";
-                                                if($result = mysqli_query($conn, $sql))
-                                                {   while($row = mysqli_fetch_array($result) )
-                                                    { 
-                                                        if($row["campus"] == "ALL")
-                                                        {
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) {
+                                                        if ($row["campus"] == "ALL") {
                                                             $campus = "UNIVERSITY";
-                                                        }
-                                                        else
-                                                        {
+                                                        } else {
                                                             $campus = $row["campus"];
                                                         }
-                                                        ?>
-                                                <option value="<?php echo $campus;?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["campus"] ? 'selected' : '') : '' ?>"><?php echo $campus;?></option><?php }}?>
+                                                ?>
+                                                        <option value="<?php echo $campus; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["campus"] ? 'selected' : '') : '' ?>"><?php echo $campus; ?></option><?php }
+                                                                                                                                                                                                            } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2 mb-2">
@@ -93,7 +96,7 @@ include('../../includes/pagination-limit.php')
                                                 <option value="Head, Health Services Unit" <?= isset($_GET['']) == true ? ($_GET[''] == 'Head, Health Services unit' ? 'selected' : '') : '' ?>>Head, Health Services Unit</option>
                                                 <option value="Campus Director" <?= isset($_GET['']) == true ? ($_GET[''] == 'Campus Director' ? 'selected' : '') : '' ?>>Campus Director</option>
                                                 <option value="Campus Nurse" <?= isset($_GET['']) == true ? ($_GET[''] == 'Campus Nurse' ? 'selected' : '') : '' ?>>Campus Nurse</option>
-                                                </select>
+                                            </select>
                                         </div>
                                         <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
@@ -105,100 +108,100 @@ include('../../includes/pagination-limit.php')
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['organization']) && $_GET['organization'] != '') {
-                                    $organization = $_GET['organization'];
-                                    $count = 1;
-                                    $sql = "SELECT * FROM organization WHERE CONCAT(firstname, ' ' , middlename, ' ', lastname) LIKE '%$organization%' OR CONCAT(firstname, ' ', lastname) LIKE '%$organization%' ORDER BY campus, title LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } elseif (isset($_GET['campus']) && $_GET['campus'] != '' || isset($_GET['title']) && $_GET['title'] != '') {
-                                    $campus = $_GET['campus'];
-                                    $title = $_GET['title'];
-                                    $count = 1;
-                                    if ($campus == "")
-                                    {
-                                        $dep = "";
-                                    }
-                                    else
-                                    {
-                                        $dep = " WHERE campus = '$campus'";
-                                    }
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Campus</th>
+                                            <th>Position</th>
+                                            <th>Full Name</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['organization']) && $_GET['organization'] != '') {
+                                            $organization = $_GET['organization'];
+                                            $count = 1;
+                                            $sql = "SELECT * FROM organization WHERE CONCAT(firstname, ' ' , middlename, ' ', lastname) LIKE '%$organization%' OR CONCAT(firstname, ' ', lastname) LIKE '%$organization%' ORDER BY campus, title LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['campus']) && $_GET['campus'] != '' || isset($_GET['title']) && $_GET['title'] != '') {
+                                            $campus = $_GET['campus'];
+                                            $title = $_GET['title'];
+                                            $count = 1;
+                                            if ($campus == "") {
+                                                $dep = "";
+                                            } else {
+                                                $dep = " WHERE campus = '$campus'";
+                                            }
 
-                                    if ($title =="")
-                                    {
-                                        $col = "";
-                                    }
-                                    elseif ($dep == "" AND $title != "")
-                                    {
-                                        $col = " WHERE title = '$title'";
-                                    }
-                                    elseif ($dep != "" AND $title != "")
-                                    {
-                                        $col = " AND title = '$title'";
-                                    }
-                                    $sql = "SELECT * FROM organization $dep $col ORDER BY campus, title LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                else {
-                                    $count = 1;
-                                    $sql = "SELECT * FROM organization ORDER BY campus, title LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Campus</th>
-                                                    <th>Position</th>
-                                                    <th>Full Name</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                foreach($result as $data){
+                                            if ($title == "") {
+                                                $col = "";
+                                            } elseif ($dep == "" and $title != "") {
+                                                $col = " WHERE title = '$title'";
+                                            } elseif ($dep != "" and $title != "") {
+                                                $col = " AND title = '$title'";
+                                            }
+                                            $sql = "SELECT * FROM organization $dep $col ORDER BY campus, title LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT * FROM organization ORDER BY campus, title LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
+                                                foreach ($result as $data) {
                                                     if (count(explode(" ", $data['middlename'])) > 1) {
-                                                    $middle = explode(" ", $data['middlename']);
-                                                    $letter = $middle[0][0] . $middle[1][0];
-                                                    $middleinitial = $letter . ".";
+                                                        $middle = explode(" ", $data['middlename']);
+                                                        $letter = $middle[0][0] . $middle[1][0];
+                                                        $middleinitial = $letter . ".";
                                                     } else {
-                                                    $middle = $data['middlename'];
-                                                    if ($middle == "" or $middle == " ") {
-                                                        $middleinitial = "";
-                                                    } else {
-                                                        $middleinitial = substr($middle, 0, 1) . ".";
+                                                        $middle = $data['middlename'];
+                                                        if ($middle == "" or $middle == " ") {
+                                                            $middleinitial = "";
+                                                        } else {
+                                                            $middleinitial = substr($middle, 0, 1) . ".";
+                                                        }
                                                     }
-                                                    }
-                                                    ?>
+                                        ?>
                                                     <tr>
-                                                        <td><?php echo $data['campus'];?></td>
-                                                        <td><?php echo $data['title'];?></td>
-                                                        <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " .ucwords(strtolower($data['lastname'])) . ", " .  $data['extension'];?></td>
+                                                        <td><?php echo $data['campus']; ?></td>
+                                                        <td><?php echo $data['title']; ?></td>
+                                                        <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])) . ", " .  $data['extension']; ?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateorganization<?php echo $data['id']; ?>">Update</button>
                                                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeorganization<?php echo $data['id']; ?>">Remove</button>
-                                                        <?php $count++; ?></td>
-                                                        
+                                                            <?php $count++; ?>
+                                                        </td>
+
                                                     </tr>
-                                                    <?php
+                                            <?php
                                                     include('modals/update_organization_modal.php');
                                                     include('modals/rem_organization_modal.php');
-                                                    }}?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php') ?>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                <?php
-                                    }
-                                mysqli_close($conn);
-                                ?>
+                                                }?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php') ?>
+                            <?php
+                                            } else {
+                            ?>
+                                <tr>
+                                    <td colspan="4">
+                                        <h4>No record Found</h4>
+                                    </td>
+                                </tr>
+                            <?php
+                                            }
+                                        } else {
+                            ?>
+                            <tr>
+                                <td colspan="4">
+                                    <h4>No record Found</h4>
+                                </td>
+                            </tr>
+                        <?php }
+                                        mysqli_close($conn);
+                        ?>
                             </div>
                         </div>
                     </div>
@@ -225,4 +228,5 @@ include('../../includes/pagination-limit.php')
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

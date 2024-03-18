@@ -4,7 +4,9 @@ session_start();
 include('../../connection.php');
 include('../../includes/admin-auth.php');
 $module = 'buar';
-$userid=$_SESSION['userid'];
+$userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM audit_trail WHERE activity LIKE '%backed up the database%' OR activity LIKE '%restored the database%'");
@@ -17,7 +19,7 @@ include('../../includes/pagination-limit.php') ?>
 
 <head>
     <title>Backup and Restore</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -30,24 +32,29 @@ include('../../includes/pagination-limit.php') ?>
             </div>
             <div class="right-nav">
                 <div class="profile-details">
-                <i class='bx bx-user-circle'></i>
-                <div class="dropdown">
-                    <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="admin_name">
-                            <?php
-                            echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="profile">Profile</a></li>
-                        <li><a class="dropdown-item" href="../../logout">Logout</a></li>
-                    </ul>
+                    <i class='bx bx-user-circle'></i>
+                    <div class="dropdown">
+                        <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="admin_name">
+                                <?php
+                                echo $name ?>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="profile">Profile</a></li>
+                            <li><a class="dropdown-item" href="../../logout">Logout</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                <div class="content">  
+                <div class="content">
                     <div class="col-sm-12">
                         <div class="table-responsive">
                             <table>
@@ -65,16 +72,16 @@ include('../../includes/pagination-limit.php') ?>
                                     if ($result) {
                                         if (mysqli_num_rows($result) > 0) {
                                     ?>
-                                        <?php
-                                        foreach ($result as $data) {
-                                        ?>
-                                            <tr>
-                                                <td><?php echo date("F d, Y | g:i A", strtotime($data['datetime'])) ?></td>
-                                                <td><?php echo $data['request_type'] ?></td>
-                                            </tr>
-                                        <?php
-                                        }
-                                        ?>
+                                            <?php
+                                            foreach ($result as $data) {
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo date("F d, Y | g:i A", strtotime($data['datetime'])) ?></td>
+                                                    <td><?php echo $data['request_type'] ?></td>
+                                                </tr>
+                                            <?php
+                                            }
+                                            ?>
                                 </tbody>
                             </table>
                             <?php include('../../../includes/pagination.php') ?>
@@ -82,13 +89,20 @@ include('../../includes/pagination-limit.php') ?>
                                         } else {
                         ?>
                             <tr>
-                                <td colspan="7">
+                                <td colspan="2">
                                     <h4>No record Found</h4>
                                 </td>
                             </tr>
-                    <?php
+                        <?php
                                         }
-                                    }
+                                    } else {
+                        ?>
+                        <tr>
+                            <td colspan="2">
+                                <h4>No record Found</h4>
+                            </td>
+                        </tr>
+                    <?php }
                                     mysqli_close($conn);
                     ?>
                         </div>
@@ -115,4 +129,5 @@ include('../../includes/pagination-limit.php') ?>
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

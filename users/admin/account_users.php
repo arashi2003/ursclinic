@@ -6,11 +6,11 @@ include('../../includes/admin-auth.php');
 $module = 'account_users';
 //$campus = $_SESSION['campus'];
 $user = $_SESSION['userid'];
-
-
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
 
 // get the total nr of rows.
-$records = $conn->query("SELECT * FROM account WHERE ORDER BY accountid");
+$records = $conn->query("SELECT * FROM account ORDER BY accountid");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php')
@@ -39,10 +39,14 @@ include('../../includes/pagination-limit.php')
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -56,7 +60,7 @@ include('../../includes/pagination-limit.php')
                     <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addaccount">Add Account</button>
                     <?php include('modals/addaccount_modal.php'); ?>
                     &ThickSpace;
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_accounts.php');">Export to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_accounts');" target="_blank">Export to PDF</button>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -65,7 +69,7 @@ include('../../includes/pagination-limit.php')
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4 mb-2">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-2">
                                                 <input type="text" name="account" value="<?= isset($_GET['account']) == true ? $_GET['account'] : '' ?>" class="form-control" placeholder="Search user account">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
@@ -80,8 +84,8 @@ include('../../includes/pagination-limit.php')
                                                     while ($row = mysqli_fetch_array($result)) {
                                                         $admin = $row["status"]; ?>
                                                         <option value="<?php echo $row["status"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["status"] ? 'selected' : '') : '' ?>"><?php echo $row["status"]; ?></option>
-                                                        <?php }
-                                                                                                                                                                                                                            } ?>
+                                                <?php }
+                                                } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2 mb-2">
@@ -94,8 +98,8 @@ include('../../includes/pagination-limit.php')
                                                     while ($row = mysqli_fetch_array($result)) {
                                                         $admin = $row["usertype"]; ?>
                                                         <option value="<?php echo $row["usertype"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["usertype"] ? 'selected' : '') : '' ?>"><?php echo $row["usertype"]; ?></option>
-                                                        <?php }
-                                                                                                                                                                                                                                    } ?>
+                                                <?php }
+                                                } ?>
                                             </select>
                                         </div>
                                         <div class="col mb-2">
@@ -111,11 +115,13 @@ include('../../includes/pagination-limit.php')
                                 <table>
                                     <thead>
                                         <tr>
+                                            <th>Campus</th>
                                             <th>Account ID</th>
                                             <th>Full Name</th>
                                             <th>Usertype</th>
                                             <th>Status</th>
                                             <th>Action</th>
+                                        </tr>
                                     </thead>
                                     <tbody><?php
                                             if (isset($_GET['account']) && $_GET['account'] != '') {
@@ -158,7 +164,7 @@ include('../../includes/pagination-limit.php')
                                                     foreach ($result as $data) {
                                                         if (count(explode(" ", $data['middlename'])) > 1) {
                                                             $middle = explode(" ", $data['middlename']);
-                                                            $letter = $middle[0][0] . $middle[1][0];
+                                                            $letter = !empty($middle[0][0]) . !empty($middle[1][0]);
                                                             $middleinitial = $letter . ".";
                                                         } else {
                                                             $middle = $data['middlename'];
@@ -169,6 +175,7 @@ include('../../includes/pagination-limit.php')
                                                             }
                                                         } ?>
                                                     <tr>
+                                                        <td><?php echo $data['campus'] ?></td>
                                                         <td><?php echo $data['accountid'] ?></td>
                                                         <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])); ?></td>
                                                         <td><?php echo $data['usertype'] ?></td>
@@ -183,7 +190,7 @@ include('../../includes/pagination-limit.php')
                                                     }
                                                 } else { ?>
                                                 <tr>
-                                                    <td colspan="5">No record Found</td>
+                                                    <td colspan="6">No record Found</td>
                                                 </tr>
                                             <?php } ?>
                                     </tbody>
@@ -193,7 +200,7 @@ include('../../includes/pagination-limit.php')
                                             } else {
                             ?>
                                 <tr>
-                                    <td colspan="5">No record Found</td>
+                                    <td colspan="6">No record Found</td>
                                 </tr>
                             <?php
                                             }

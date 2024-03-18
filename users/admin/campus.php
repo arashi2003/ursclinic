@@ -4,13 +4,15 @@ session_start();
 include('../../connection.php');
 include('../../includes/admin-auth.php');
 $module = 'campus';
-$userid=$_SESSION['userid'];
+$userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM campus ORDER BY campus");
 $nr_of_rows = $records->num_rows;
 
-include('../../includes/pagination-limit.php') 
+include('../../includes/pagination-limit.php')
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +20,7 @@ include('../../includes/pagination-limit.php')
 
 <head>
     <title>Settings</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -36,10 +38,14 @@ include('../../includes/pagination-limit.php')
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -51,7 +57,7 @@ include('../../includes/pagination-limit.php')
             <div class="overview-boxes">
                 <div class="schedule-button">
                     <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addcampus">Add Entry</button>
-                    <?php include('modals/addcampus_modal.php');?>
+                    <?php include('modals/addcampus_modal.php'); ?>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -71,57 +77,65 @@ include('../../includes/pagination-limit.php')
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['campus']) && $_GET['campus'] != '') {
-                                    $campus = $_GET['campus'];
-                                    $count = 1;
-                                    $sql = "SELECT * FROM campus WHERE campus LIKE '%$campus%' ORDER BY campus LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT * FROM campus ORDER BY campus LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Campus</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                                <?php
-                                                foreach($result as $data){?>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Campus</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['campus']) && $_GET['campus'] != '') {
+                                            $campus = $_GET['campus'];
+                                            $count = 1;
+                                            $sql = "SELECT * FROM campus WHERE campus LIKE '%$campus%' ORDER BY campus LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT * FROM campus ORDER BY campus LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
+                                                foreach ($result as $data) { ?>
                                                     <tr>
-                                                        <td><?php echo $data['campus'];?></td>
-                                                        <td hidden><?php echo $data['id'];?></td>
+                                                        <td><?php echo $data['campus']; ?></td>
+                                                        <td hidden><?php echo $data['id']; ?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatecampus<?php echo $data['id']; ?>">Update</button>
                                                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removecampus<?php echo $data['id']; ?>">Remove</button>
-                                                        <?php $count++; ?></td>
-                                                        
+                                                            <?php $count++; ?>
+                                                        </td>
+
                                                     </tr>
-                                                    <?php
+                                                <?php
                                                     include('modals/update_campus_modal.php');
                                                     include('modals/rem_campus_modal.php');
-                                                    }}?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php')?>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                <?php
-                                    }
-                                mysqli_close($conn);
-                                ?>
+                                                } ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php') ?>
+                            <?php
+                                            } else {
+                            ?>
+                                <tr>
+                                    <td colspan="2">
+                                        <h4>No record Found</h4>
+                                    </td>
+                                </tr>
+                            <?php
+                                            }
+                                        } else {
+                            ?>
+                            <tr>
+                                <td colspan="2">
+                                    <h4>No record Found</h4>
+                                </td>
+                            </tr>
+                        <?php }
+                                        mysqli_close($conn);
+                        ?>
                             </div>
                         </div>
                     </div>
@@ -148,4 +162,5 @@ include('../../includes/pagination-limit.php')
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

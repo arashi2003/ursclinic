@@ -36,11 +36,12 @@
 
             $this->SetFont('Arial', 'B', 9);
             $this->Cell(8, 8, '', 1, 0, 'C');
+            $this->Cell(25, 8, 'Campus', 1, 0, 'C');
             $this->Cell(25, 8, 'Account ID', 1, 0, 'C');
-            $this->Cell(90, 8, 'Full Name', 1, 0, 'C');
+            $this->Cell(75, 8, 'Full Name', 1, 0, 'C');
             $this->Cell(25, 8, 'User Type', 1, 0, 'C');
             $this->Cell(30, 8, 'Contact Number', 1, 0, 'C');
-            $this->Cell(72, 8, 'Email', 1, 0, 'C');
+            $this->Cell(62, 8, 'Email', 1, 0, 'C');
             $this->Cell(25, 8, 'Status', 1, 0, 'C');
             $this->Cell(0, 8, '', 0, 1);
         }
@@ -81,11 +82,12 @@
         }
         $id = $count;
         $pdf->Cell(8, 6, $id, 1, 0, 'C');
+        $pdf->Cell(25, 6, strtoupper($data['campus']), 1, 0, 'C');
         $pdf->Cell(25, 6, strtoupper($data['accountid']), 1, 0, 'C');
-        $pdf->Cell(90, 6, strtoupper($data['firstname'] . " " . $middleinitial . " " . $data['lastname']), 1, 0);
+        $pdf->Cell(75, 6, strtoupper($data['firstname'] . " " . $middleinitial . " " . $data['lastname']), 1, 0);
         $pdf->Cell(25, 6, strtoupper($data['usertype']), 1, 0, 'C');
         $pdf->Cell(30, 6, $data['contactno'], 1, 0, 'C');
-        $pdf->Cell(72, 6, $data['email'], 1, 0);
+        $pdf->Cell(62, 6, $data['email'], 1, 0);
         $pdf->Cell(25, 6, strtoupper($data['status']), 1, 0, 'C');
         $pdf->Cell(0, 6, '', 0, 1);
         $count++;
