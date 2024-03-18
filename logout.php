@@ -3,6 +3,7 @@ session_start();
 include('connection.php');
 
 //select data from usertb for audit trail
+
 $username = $_SESSION['username'];
 $sql = "SELECT * FROM account WHERE lastname='$username'";
 $result = mysqli_query($conn, $sql);
