@@ -109,11 +109,13 @@ include('../../includes/pagination-limit.php');
                                                         <td><?php echo $time ?></td>
                                                         <td><?php echo $data['maxp'] ?></td>
                                                         <td>
+                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatesched<?php echo $data['id']; ?>">Update</button>
                                                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelsched<?php echo $data['id']; ?>">Cancel</button>
                                                         </td>
                                                         <?php $count++; ?></td>
                                                     </tr>
                                                 <?php include('modals/cancel_sched_modal.php');
+                                                    include('modals/update_sched_modal.php');
                                                 }
                                                 ?>
                                     </tbody>

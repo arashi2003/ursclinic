@@ -63,7 +63,7 @@ if (isset($_POST['submit'])) {
       exit(0);
     }
 
-    $sql = "select * from account where BINARY accountid = '$username' and BINARY password = '$password'";
+    $sql = "SELECT * FROM account WHERE BINARY accountid = '$username' AND BINARY password = '$password'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
     $count = mysqli_num_rows($result);
@@ -74,8 +74,19 @@ if (isset($_POST['submit'])) {
       $sql = "SELECT * FROM account WHERE accountid='$username'";
       $result = mysqli_query($conn, $sql);
       $row = mysqli_fetch_array($result);
-
-      $fullname = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      if (count(explode(" ", $row['middlename'])) > 1) {
+        $middle = explode(" ", $row['middlename']);
+        $letter = $middle[0][0] . $middle[1][0];
+        $middleinitial = $letter . ".";
+      } else {
+        $middle = $row['middlename'];
+        if ($middle == "" or $middle == " ") {
+          $middleinitial = "";
+        } else {
+          $middleinitial = substr($middle, 0, 1) . ".";
+        }
+      }
+      $fullname = strtoupper($row['firstname'] . " " . $middleinitial . " " . $row['lastname']);
       $campus = $row['campus'];
 
       //audit trail
@@ -87,7 +98,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['campus'] = $row['campus'];
       $_SESSION['userid'] = $row['accountid'];
       $_SESSION['usertype'] = $row['usertype'];
-      $_SESSION['name'] = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      $_SESSION['name'] = $fullname;
       $_SESSION['alert'] = 'You have successfully logged in!';
 ?>
       <script>
@@ -104,7 +115,19 @@ if (isset($_POST['submit'])) {
       $result = mysqli_query($conn, $sql);
       $row = mysqli_fetch_array($result);
 
-      $fullname = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      if (count(explode(" ", $row['middlename'])) > 1) {
+        $middle = explode(" ", $row['middlename']);
+        $letter = $middle[0][0] . $middle[1][0];
+        $middleinitial = $letter . ".";
+      } else {
+        $middle = $row['middlename'];
+        if ($middle == "" or $middle == " ") {
+          $middleinitial = "";
+        } else {
+          $middleinitial = substr($middle, 0, 1) . ".";
+        }
+      }
+      $fullname = strtoupper($row['firstname'] . " " . $middleinitial . " " . $row['lastname']);
       $campus = $row['campus'];
 
       //audit trail
@@ -116,7 +139,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['usertype'] = $row['usertype'];
       $_SESSION['campus'] = $row['campus'];
       $_SESSION['userid'] = $row['accountid'];
-      $_SESSION['name'] = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      $_SESSION['name'] = $fullname;
       $_SESSION['alert'] = 'You have successfully logged in!';
     ?>
       <script>
@@ -134,7 +157,19 @@ if (isset($_POST['submit'])) {
       $result = mysqli_query($conn, $sql);
       $row = mysqli_fetch_array($result);
 
-      $fullname = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      if (count(explode(" ", $row['middlename'])) > 1) {
+        $middle = explode(" ", $row['middlename']);
+        $letter = $middle[0][0] . $middle[1][0];
+        $middleinitial = $letter . ".";
+      } else {
+        $middle = $row['middlename'];
+        if ($middle == "" or $middle == " ") {
+          $middleinitial = "";
+        } else {
+          $middleinitial = substr($middle, 0, 1) . ".";
+        }
+      }
+      $fullname = strtoupper($row['firstname'] . " " . $middleinitial . " " . $row['lastname']);
       $campus = $row['campus'];
 
       //audit trail
@@ -146,7 +181,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['usertype'] = $row['usertype'];
       $_SESSION['campus'] = $row['campus'];
       $_SESSION['userid'] = $row['accountid'];
-      $_SESSION['name'] = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      $_SESSION['name'] = $fullname;
       $_SESSION['alert'] = 'You have successfully logged in!';
     ?>
       <script>
@@ -164,7 +199,19 @@ if (isset($_POST['submit'])) {
       $result = mysqli_query($conn, $sql);
       $row = mysqli_fetch_array($result);
 
-      $fullname = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      if (count(explode(" ", $row['middlename'])) > 1) {
+        $middle = explode(" ", $row['middlename']);
+        $letter = $middle[0][0] . $middle[1][0];
+        $middleinitial = $letter . ".";
+      } else {
+        $middle = $row['middlename'];
+        if ($middle == "" or $middle == " ") {
+          $middleinitial = "";
+        } else {
+          $middleinitial = substr($middle, 0, 1) . ".";
+        }
+      }
+      $fullname = strtoupper($row['firstname'] . " " . $middleinitial . " " . $row['lastname']);
       $campus = $row['campus'];
 
       //audit trail
@@ -176,7 +223,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['username'] = $row['lastname'];
       $_SESSION['usertype'] = $row['usertype'];
       $_SESSION['campus'] = $row['campus'];
-      $_SESSION['name'] = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      $_SESSION['name'] = $fullname;
       $_SESSION['alert'] = 'You have successfully logged in!';
     ?>
       <script>
@@ -193,7 +240,19 @@ if (isset($_POST['submit'])) {
       $result = mysqli_query($conn, $sql);
       $row = mysqli_fetch_array($result);
 
-      $fullname = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      if (count(explode(" ", $row['middlename'])) > 1) {
+        $middle = explode(" ", $row['middlename']);
+        $letter = $middle[0][0] . $middle[1][0];
+        $middleinitial = $letter . ".";
+      } else {
+        $middle = $row['middlename'];
+        if ($middle == "" or $middle == " ") {
+          $middleinitial = "";
+        } else {
+          $middleinitial = substr($middle, 0, 1) . ".";
+        }
+      }
+      $fullname = strtoupper($row['firstname'] . " " . $middleinitial . " " . $row['lastname']);
       $campus = $row['campus'];
 
       //audit trail
@@ -205,7 +264,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['username'] = $row['lastname'];
       $_SESSION['usertype'] = $row['usertype'];
       $_SESSION['campus'] = $row['campus'];
-      $_SESSION['name'] = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      $_SESSION['name'] = $fullname;
       $_SESSION['alert'] = 'You have successfully logged in!';
     ?>
       <script>
@@ -222,7 +281,19 @@ if (isset($_POST['submit'])) {
       $result = mysqli_query($conn, $sql);
       $row = mysqli_fetch_array($result);
 
-      $fullname = $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'];
+      if (count(explode(" ", $row['middlename'])) > 1) {
+        $middle = explode(" ", $row['middlename']);
+        $letter = $middle[0][0] . $middle[1][0];
+        $middleinitial = $letter . ".";
+      } else {
+        $middle = $row['middlename'];
+        if ($middle == "" or $middle == " ") {
+          $middleinitial = "";
+        } else {
+          $middleinitial = substr($middle, 0, 1) . ".";
+        }
+      }
+      $fullname = strtoupper($row['firstname'] . " " . $middleinitial . " " . $row['lastname']);
       $campus = $row['campus'];
 
       //audit trail
@@ -259,7 +330,7 @@ if (isset($_POST['submit'])) {
 <?php
 
     } else {
-      $error = "Incorrect username or password.";
+      $error = "Incorrect User ID or Password.";
 
       // Check if login attempts exceed 3, if yes, start timer
       if ($_SESSION['login_attempts'] >= 3 && $_SESSION['timer_start'] == 0) {
@@ -319,12 +390,12 @@ if ($_SESSION['timer_start'] > 0) {
       <?php endif; ?>
 
       <div class="input-box">
-        <input type="text" id="username" placeholder="Enter your username" name="username" autocomplete="off" <?php if ($_SESSION['timer_start'] > 0) echo 'disabled'; ?>>
+        <input type="text" id="username" placeholder="Enter your User ID" name="username" autocomplete="off" <?php if ($_SESSION['timer_start'] > 0) echo 'disabled'; ?>>
         <i class='bx bxs-user'></i>
       </div>
 
       <div class="input-box">
-        <input type="password" id="password" placeholder="Enter your password" name="password" autocomplete="off" <?php if ($_SESSION['timer_start'] > 0) echo 'disabled'; ?>>
+        <input type="password" id="password" placeholder="Enter your Password" name="password" autocomplete="off" <?php if ($_SESSION['timer_start'] > 0) echo 'disabled'; ?>>
         <i class='bx bxs-lock-alt'></i>
       </div>
 

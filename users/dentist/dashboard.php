@@ -66,7 +66,6 @@ include('../../includes/pagination-limit.php');
 
               $query = "SELECT * from account WHERE accountid = '$userid'";
               $result = mysqli_query($conn, $query);
-              //$res = mysqli_fetch_array($result);
               while ($data = mysqli_fetch_array($result)) {
                 if (count(explode(" ", $data['middlename'])) > 1) {
                   $middle = explode(" ", $data['middlename']);

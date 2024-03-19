@@ -3,14 +3,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Cancellation of Walk-In Schedule</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  onclick="location.reload()"></button>
             </div>
-            <form method="POST" action="cancel/sched.php" id="form">
+            <form method="POST" action="modals/cancel/sched.php" id="form">
                 <div class="modal-body">
                     <input type="hidden" name="id" value="<?php echo $data['id'] ?>">
+                    <input type="hidden" name="campus" value="<?php echo $data['campus'] ?>">
                     <div class="mb-2">
-                        <label for="cancelling" class="form-label">Reason for cancellation:</label>
-                        <input type="text" class="form-control" name="cancelling" id="cancelling" required>
+                        <label for="cancelreasonling" class="form-label">Reason for cancellation:</label>
+                        <textarea class="form-control" name="reason" id="reason" style="resize: none;" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
