@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2024 at 05:12 PM
+-- Generation Time: Mar 19, 2024 at 05:16 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -2824,32 +2824,33 @@ CREATE TABLE `meddoc` (
   `status` varchar(45) NOT NULL,
   `remarks` text DEFAULT NULL,
   `dt_remarks` datetime DEFAULT NULL,
-  `datetime` datetime NOT NULL
+  `dt_uploaded` datetime NOT NULL DEFAULT current_timestamp(),
+  `dt_updated` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `meddoc`
 --
 
-INSERT INTO `meddoc` (`id`, `type`, `applicant`, `doc_desc`, `document`, `status`, `remarks`, `dt_remarks`, `datetime`) VALUES
-(1, 'FRESHMEN', 'B2021-0542', 'X-Ray', 'FRESHMEN-B2021-0542-113925X-Ray.jpeg', 'Pending', '', '0000-00-00 00:00:00', '2024-02-04 09:12:33'),
-(2, 'FRESHMEN', 'B2021-0542', 'CBC', 'B2021-0542-021152CBC.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-04 09:53:06'),
-(3, 'FRESHMEN', 'B2021-0542', 'DRUG TEST', 'B2021-0542-021218DRUG TEST.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-04 09:53:06'),
-(4, 'ATHLETE', 'B2021-0542', 'CBC', 'ATHLETE-B2021-0542-120011CBC.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18'),
-(5, 'ATHLETE', 'B2021-0542', 'Urinalysis', 'ATHLETE-B2021-0542-120125Urinalysis.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18'),
-(6, 'ATHLETE', 'B2021-0542', 'Pregnancy Test', 'ATHLETE-B2021-0542-120232Pregnancy Test.jpg', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18'),
-(7, 'ATHLETE', 'B2021-0542', 'X-Ray', 'ATHLETE-B2021-0542-113907X-Ray.jpeg', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18'),
-(11, 'ATHLETE', 'B2021-0550', 'X-Ray', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18'),
-(12, 'ATHLETE', 'B2021-0550', 'Pregnancy Test', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18'),
-(13, 'ATHLETE', 'B2021-0550', 'Urinalysis', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18'),
-(14, 'ATHLETE', 'B2021-0550', 'CBC', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18'),
-(15, 'FRESHMEN', 'B2021-0550', 'X-Ray', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-04 09:12:33'),
-(16, 'FRESHMEN', 'B2021-0550', 'CBC', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-04 09:53:06'),
-(17, 'FRESHMEN', 'B2021-0550', 'DRUG TEST', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-04 09:53:06'),
-(18, 'OJT', 'B2021-0542', 'CBC', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18'),
-(19, 'OJT', 'B2021-0542', 'Urinalysis', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18'),
-(20, 'OJT', 'B2021-0542', 'Pregnancy Test', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18'),
-(21, 'OJT', 'B2021-0542', 'X-Ray', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18');
+INSERT INTO `meddoc` (`id`, `type`, `applicant`, `doc_desc`, `document`, `status`, `remarks`, `dt_remarks`, `dt_uploaded`, `dt_updated`) VALUES
+(1, 'FRESHMEN', 'B2021-0542', 'X-Ray', 'FRESHMEN-B2021-0542-113925X-Ray.jpeg', 'Approved', 'nice', '0000-00-00 00:00:00', '2024-02-04 09:12:33', NULL),
+(2, 'FRESHMEN', 'B2021-0542', 'CBC', 'B2021-0542-021152CBC.png', 'Approved', 'nice', '0000-00-00 00:00:00', '2024-02-04 09:53:06', NULL),
+(3, 'FRESHMEN', 'B2021-0542', 'DRUG TEST', 'B2021-0542-021218DRUG TEST.png', 'Approved', 'adik pero nice', '0000-00-00 00:00:00', '2024-02-04 09:53:06', NULL),
+(4, 'ATHLETE', 'B2021-0542', 'CBC', 'ATHLETE-B2021-0542-031924-035105CBC.jpg', 'Disapproved', 'gago ka genshin yan e', '2024-03-19 03:51:31', '2024-02-12 11:18:18', '2024-03-19 03:51:05'),
+(5, 'ATHLETE', 'B2021-0542', 'Urinalysis', 'ATHLETE-B2021-0542-031924-042613Urinalysis.jp', 'Pending', 'Uploaded a document', '0000-00-00 00:00:00', '2024-03-19 04:26:13', NULL),
+(6, 'ATHLETE', 'B2021-0542', 'Pregnancy Test', 'ATHLETE-B2021-0542-120232Pregnancy Test.jpg', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18', NULL),
+(7, 'ATHLETE', 'B2021-0542', 'X-Ray', 'ATHLETE-B2021-0542-113907X-Ray.jpeg', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18', NULL),
+(11, 'ATHLETE', 'B2021-0550', 'X-Ray', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18', NULL),
+(12, 'ATHLETE', 'B2021-0550', 'Pregnancy Test', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18', NULL),
+(13, 'ATHLETE', 'B2021-0550', 'Urinalysis', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18', NULL),
+(14, 'ATHLETE', 'B2021-0550', 'CBC', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-12 11:18:18', NULL),
+(15, 'FRESHMEN', 'B2021-0550', 'X-Ray', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-04 09:12:33', NULL),
+(16, 'FRESHMEN', 'B2021-0550', 'CBC', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-04 09:53:06', NULL),
+(17, 'FRESHMEN', 'B2021-0550', 'DRUG TEST', 'nofile.png', 'Pending', '', '0000-00-00 00:00:00', '2024-02-04 09:53:06', NULL),
+(18, 'OJT', 'B2021-0542', 'CBC', 'OJT-B2021-0542-031924-042550CBC.jpg', 'Pending', 'Uploaded a document', '2024-03-19 04:10:31', '2024-03-19 04:25:50', NULL),
+(19, 'OJT', 'B2021-0542', 'Urinalysis', 'nofile.png', 'Pending', '', '2024-03-19 04:10:34', '2024-02-12 11:18:18', NULL),
+(20, 'OJT', 'B2021-0542', 'Pregnancy Test', 'nofile.png', 'Pending', '', '2024-03-19 04:10:40', '2024-02-12 11:18:18', NULL),
+(21, 'OJT', 'B2021-0542', 'X-Ray', 'nofile.png', 'Pending', '', '2024-03-19 04:10:43', '2024-02-12 11:18:18', NULL);
 
 -- --------------------------------------------------------
 
@@ -4644,47 +4645,48 @@ INSERT INTO `te_status` (`id`, `te_status`) VALUES
 
 CREATE TABLE `time_pickup` (
   `id` int(11) NOT NULL,
-  `time` time NOT NULL
+  `time` time NOT NULL,
+  `isSelected` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `time_pickup`
 --
 
-INSERT INTO `time_pickup` (`id`, `time`) VALUES
-(1, '09:00:00'),
-(2, '09:15:00'),
-(3, '09:30:00'),
-(4, '09:45:00'),
-(5, '10:00:00'),
-(6, '10:15:00'),
-(7, '10:30:00'),
-(8, '10:45:00'),
-(9, '11:00:00'),
-(10, '11:15:00'),
-(11, '11:30:00'),
-(12, '11:45:00'),
-(13, '12:00:00'),
-(14, '12:15:00'),
-(15, '12:30:00'),
-(16, '12:45:00'),
-(17, '13:00:00'),
-(18, '13:15:00'),
-(19, '13:30:00'),
-(20, '13:45:00'),
-(21, '14:00:00'),
-(22, '14:15:00'),
-(23, '14:30:00'),
-(24, '14:45:00'),
-(25, '15:00:00'),
-(26, '15:15:00'),
-(27, '15:30:00'),
-(28, '15:45:00'),
-(29, '16:00:00'),
-(30, '16:15:00'),
-(31, '16:30:00'),
-(32, '16:45:00'),
-(33, '17:00:00');
+INSERT INTO `time_pickup` (`id`, `time`, `isSelected`) VALUES
+(1, '09:00:00', 'No'),
+(2, '09:15:00', 'No'),
+(3, '09:30:00', 'No'),
+(4, '09:45:00', 'No'),
+(5, '10:00:00', 'No'),
+(6, '10:15:00', 'No'),
+(7, '10:30:00', 'No'),
+(8, '10:45:00', 'No'),
+(9, '11:00:00', 'No'),
+(10, '11:15:00', 'No'),
+(11, '11:30:00', 'No'),
+(12, '11:45:00', 'No'),
+(13, '12:00:00', 'No'),
+(14, '12:15:00', 'No'),
+(15, '12:30:00', 'No'),
+(16, '12:45:00', 'No'),
+(17, '13:00:00', 'No'),
+(18, '13:15:00', 'No'),
+(19, '13:30:00', 'No'),
+(20, '13:45:00', 'No'),
+(21, '14:00:00', 'No'),
+(22, '14:15:00', 'No'),
+(23, '14:30:00', 'No'),
+(24, '14:45:00', 'No'),
+(25, '15:00:00', 'No'),
+(26, '15:15:00', 'No'),
+(27, '15:30:00', 'No'),
+(28, '15:45:00', 'No'),
+(29, '16:00:00', 'No'),
+(30, '16:15:00', 'No'),
+(31, '16:30:00', 'No'),
+(32, '16:45:00', 'No'),
+(33, '17:00:00', 'No');
 
 -- --------------------------------------------------------
 
