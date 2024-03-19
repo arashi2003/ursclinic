@@ -36,6 +36,7 @@ $error = '';
 
 //form validation
 if (isset($_POST['submit'])) {
+
   function validate($data)
   {
     $data = trim($data);
@@ -270,10 +271,11 @@ if (isset($_POST['submit'])) {
 
 // Check if timer is active
 if ($_SESSION['timer_start'] > 0) {
-  $timer_duration = 10; // 10 seconds
-  $remaining_time = $timer_duration - (time() - $_SESSION['timer_start']);
-
-  if ($remaining_time <= 0) {
+  $timer_duration_seconds = 300; // 300 seconds = 5 minutes
+  $remaining_time_minutes = ceil(($timer_duration_seconds - (time() - $_SESSION['timer_start'])) / 60); // Convert remaining time to minutes and round up
+  $remaining_time_seconds = ($timer_duration_seconds - (time() - $_SESSION['timer_start'])) % 60; // Remaining seconds
+  $remaining_time = sprintf("%02d:%02d", $remaining_time_minutes, $remaining_time_seconds); // Format as MM:SS
+  if ($remaining_time_minutes <= 0 && $remaining_time_seconds <= 0) {
     // Reset timer and login attempts counter
     $_SESSION['timer_start'] = 0;
     $_SESSION['login_attempts'] = 0;
@@ -313,7 +315,7 @@ if ($_SESSION['timer_start'] > 0) {
       <?php endif; ?>
 
       <?php if ($_SESSION['timer_start'] > 0) : ?>
-        <p id="countdown" class="error">Please wait for <?php echo $remaining_time; ?> seconds</p>
+        <p id="countdown" class="error">Please wait for <?php echo $remaining_time; ?> minutes</p>
       <?php endif; ?>
 
       <div class="input-box">
@@ -333,12 +335,17 @@ if ($_SESSION['timer_start'] > 0) {
   <script>
     // JavaScript code for countdown timer
     <?php if ($_SESSION['timer_start'] > 0) : ?>
-      var timer = <?php echo $remaining_time; ?>;
+      var timer = <?php echo $remaining_time_minutes; ?>;
+      var seconds = <?php echo $remaining_time_seconds; ?>;
       var countdownElement = document.getElementById('countdown');
       var interval = setInterval(function() {
-        timer--;
-        countdownElement.innerText = 'Please wait for ' + timer + ' seconds';
-        if (timer <= 0) {
+        seconds--;
+        if (seconds < 0) {
+          timer--;
+          seconds = 59;
+        }
+        countdownElement.innerText = 'Please wait for ' + timer + ':' + (seconds < 10 ? '0' + seconds : seconds) + ' minutes';
+        if (timer <= 0 && seconds <= 0) {
           clearInterval(interval);
           window.location = 'index';
         }
