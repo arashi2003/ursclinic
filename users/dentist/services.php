@@ -2,14 +2,13 @@
 
 session_start();
 include('../../connection.php');
-include('../../includes/nurse-auth.php');
+include('../../includes/doctor-auth.php');
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM transaction");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php');
-
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +42,7 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addtransaction_set">Add Entry</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addtransaction_set">Add Entry</button>
                     <?php include('modals/addtransaction_set_modal.php');?>
                 </div>
                 <div class="content">
