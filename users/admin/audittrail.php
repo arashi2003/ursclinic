@@ -61,7 +61,7 @@ include('../../includes/pagination-limit.php')
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_audit_trail');" target="_blank">Export to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_audit_trail?date_from=<?=!empty($_GET['date_from'])?>&date_to=<?=!empty($_GET['date_to'])?>');" target="_blank">Export to PDF</button>
                 </div>
                 <div class="content">
                     <div class="row">

@@ -3,8 +3,9 @@ session_start();
 include('../../connection.php');
 include('../../includes/doctor-auth.php');
 $campus = $_SESSION['campus'];
-$name = $_SESSION['name'];
+$name = $_SESSION['username'];
 $userid = $_SESSION['userid'];
+$usertype = $_SESSION['usertype'];
 $module = 'dashboard';
 $date = date("Y-m-d");
 
@@ -20,7 +21,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
   <title>Doctor Dashboard</title>
-  <?php include('../../includes/header.php');?>
+  <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -34,23 +35,25 @@ include('../../includes/pagination-limit.php');
         <span class="dashboard">DASHBOARD</span>
       </div>
       <div class="right-nav">
-        <div class="notification-button">
-          <i class='bx bx-bell'></i>
-        </div>
         <div class="profile-details">
           <i class='bx bx-user-circle'></i>
           <div class="dropdown">
-              <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <span class="admin_name">
-                      <?php
-                      echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
-                  </span>
-              </a>
-              <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="profile">Profile</a></li>
-                  <li><a class="dropdown-item" href="../../logout">Logout</a></li>
-              </ul>
+            <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="admin_name">
+                <?php
+                echo $name ?>
+              </span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="usertype"><?= $usertype ?></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="profile">Profile</a></li>
+              <li><a class="dropdown-item" href="../../logout">Logout</a></li>
+            </ul>
           </div>
+        </div>
       </div>
     </nav>
     <div class="home-content">
@@ -60,7 +63,26 @@ include('../../includes/pagination-limit.php');
             <div class="box-topic">Patients for Today</div>
             <div class="number">
               <?php
-              $query = "SELECT * from appointment";
+              $query = "SELECT * from account WHERE accountid = '$userid'";
+              $result = mysqli_query($conn, $query);
+              //$res = mysqli_fetch_array($result);
+              while ($data = mysqli_fetch_array($result)) {
+                if (count(explode(" ", $data['middlename'])) > 1) {
+                  $middle = explode(" ", $data['middlename']);
+                  $letter = $middle[0][0] . $middle[1][0];
+                  $middleinitial = $letter . ".";
+                } else {
+                  $middle = $data['middlename'];
+                  if ($middle == "" or $middle == " ") {
+                    $middleinitial = "";
+                  } else {
+                    $middleinitial = substr($middle, 0, 1) . ".";
+                  }
+                }
+                $fullname = strtoupper($data['firstname'] . " " . $middleinitial . " " . $data['lastname']);
+              }
+
+              $query = "SELECT * from appointment WHERE date = '$date' AND physician = '$fullname'";
               $result = mysqli_query($conn, $query);
               $totalCount = mysqli_num_rows($result);
               echo $totalCount;
@@ -74,40 +96,40 @@ include('../../includes/pagination-limit.php');
               <div class="box-topic">Available Services</div>
               <div class="number">
                 <?php
-                  $query = "SELECT * from transaction";
-                  $result = mysqli_query($conn, $query);
-                  $totalCount = mysqli_num_rows($result);
-                  echo $totalCount;
+                $query = "SELECT * from transaction";
+                $result = mysqli_query($conn, $query);
+                $totalCount = mysqli_num_rows($result);
+                echo $totalCount;
                 ?>
               </div>
             </div>
           </a>
         </button>
         <button type=button class="box" style="border: none;" onclick="window.location.href = 'doc_visit_schedpage'">
-            <div class="right-side">
-              <div class="box-topic">Doctor's Visit</div>
-              <div class="text">
-                <?php
-                $date = date("Y-m-d");
-                $query = "SELECT date, campus FROM schedule WHERE date >= '$date' AND physician='$userid'";
-                $result = mysqli_query($conn, $query);
-                if (mysqli_num_rows($result) > 0) {
-                  while ($data = mysqli_fetch_array($result)) {
-                    $date = date("Y-m-d");
-                    if ($data['date'] == $date) {
-                      $sched = "TODAY";
-                    } else {
-                      $sched = $data['date'];
-                      $cam = $data['campus'];
-                    }
+          <div class="right-side">
+            <div class="box-topic">Doctor's Visit</div>
+            <div class="text">
+              <?php
+              $date = date("Y-m-d");
+              $query = "SELECT date, campus FROM schedule WHERE date >= '$date' AND physician='$userid'";
+              $result = mysqli_query($conn, $query);
+              if (mysqli_num_rows($result) > 0) {
+                while ($data = mysqli_fetch_array($result)) {
+                  $date = date("Y-m-d");
+                  if ($data['date'] == $date) {
+                    $sched = "TODAY";
+                  } else {
+                    $sched = $data['date'];
+                    $cam = $data['campus'];
                   }
-                  echo "<b><h2>" . date("M. d, Y", strtotime($sched)) . "</h2><h4>" . $cam . "</h4></b>";
-                } else {
-                  echo "N/A";
                 }
-                ?>
-              </div>
+                echo "<b><h2>" . date("M. d, Y", strtotime($sched)) . "</h2><h5>" . $cam . "</h5></b>";
+              } else {
+                echo "<b><h1>N/A</h1></b>";
+              }
+              ?>
             </div>
+          </div>
         </button>
         <div class="content">
           <h3>Approved Appointments</h3>
@@ -143,41 +165,80 @@ include('../../includes/pagination-limit.php');
             </div>
             <div class="col-sm-12">
               <div class="table-responsive">
-                <?php
-                if (isset($_GET['patient']) && $_GET['patient'] != '') {
-                  $patient = $_GET['patient'];
-                  $count = 1;
-                  $sql = "SELECT ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE  CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
-                  $result = mysqli_query($conn, $sql);
-                }
-                elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
-                  $date = $_GET['date'];
-                  $physician = $_GET['physician'];
-                  $count = 1;
-                  $sql = "SELECT ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' or ap.physician = '$physician' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
-                  $result = mysqli_query($conn, $sql);
-                } else {
-                  $count = 1;
-                  $sql = "SELECT ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.status='APPROVED' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
-                  $result = mysqli_query($conn, $sql);
-                }
-                if ($result) {
-                  if (mysqli_num_rows($result) > 0) {
-                ?>
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Appointment No.</th>
-                          <th>Date</th>
-                          <th>Time from</th>
-                          <th>Time to</th>
-                          <th>Patient name</th>
-                          <th>Physician</th>
-                          <th>Status</th>
-                      </thead>
-                      <tbody>
-
-                        <?php
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Appointment No.</th>
+                      <th>Date</th>
+                      <th>Time from</th>
+                      <th>Time to</th>
+                      <th>Patient</th>
+                      <th>Action</th>
+                  </thead>
+                  <tbody>
+                    <?php
+                    if (isset($_GET['patient']) && $_GET['patient'] != '') {
+                      $patient = $_GET['patient'];
+                      while ($data = mysqli_fetch_array($result)) {
+                        if (count(explode(" ", $data['middlename'])) > 1) {
+                          $middle = explode(" ", $data['middlename']);
+                          $letter = $middle[0][0] . $middle[1][0];
+                          $middleinitial = $letter . ".";
+                        } else {
+                          $middle = $data['middlename'];
+                          if ($middle == "" or $middle == " ") {
+                            $middleinitial = "";
+                          } else {
+                            $middleinitial = substr($middle, 0, 1) . ".";
+                          }
+                        }
+                        $fullname = strtoupper($data['firstname'] . " " . $middleinitial . " " . $data['lastname']);
+                      }
+                      $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE  CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                      $result = mysqli_query($conn, $sql);
+                    } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
+                      $date = $_GET['date'];
+                      $physician = $_GET['physician'];
+                      while ($data = mysqli_fetch_array($result)) {
+                        if (count(explode(" ", $data['middlename'])) > 1) {
+                          $middle = explode(" ", $data['middlename']);
+                          $letter = $middle[0][0] . $middle[1][0];
+                          $middleinitial = $letter . ".";
+                        } else {
+                          $middle = $data['middlename'];
+                          if ($middle == "" or $middle == " ") {
+                            $middleinitial = "";
+                          } else {
+                            $middleinitial = substr($middle, 0, 1) . ".";
+                          }
+                        }
+                        $fullname = strtoupper($data['firstname'] . " " . $middleinitial . " " . $data['lastname']);
+                      }
+                      $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' or ap.physician = '$physician' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                      $result = mysqli_query($conn, $sql);
+                    } else {
+                      $query = "SELECT * from account WHERE accountid = '$userid'";
+                      $result = mysqli_query($conn, $query);
+                      while ($data = mysqli_fetch_array($result)) {
+                        if (count(explode(" ", $data['middlename'])) > 1) {
+                          $middle = explode(" ", $data['middlename']);
+                          $letter = $middle[0][0] . $middle[1][0];
+                          $middleinitial = $letter . ".";
+                        } else {
+                          $middle = $data['middlename'];
+                          if ($middle == "" or $middle == " ") {
+                            $middleinitial = "";
+                          } else {
+                            $middleinitial = substr($middle, 0, 1) . ".";
+                          }
+                        }
+                        $fullname = strtoupper($data['firstname'] . " " . $middleinitial . " " . $data['lastname']);
+                      }
+                      $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.status='APPROVED' AND date = '$date' AND physician = '$fullname' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                      $result = mysqli_query($conn, $sql);
+                    }
+                    if ($result) {
+                      if (mysqli_num_rows($result) > 0) {
                         foreach ($result as $data) {
 
                           if (count(explode(" ", $data['middlename'])) > 1) {
@@ -198,35 +259,37 @@ include('../../includes/pagination-limit.php');
                             $physician = $data['physician'];
                           }
 
-                        ?>
+                    ?>
                           <tr>
-                            <td><?php $id = $count;
-                                echo $id; ?></td>
+                            <td><?php echo $data['id']; ?></td>
                             <td><?php echo $data['date'] ?></td>
-                            <td><?php echo date("h:i a", strtotime($data['time_from'])) ?></td>
-                            <td><?php echo date("h:i a", strtotime($data['time_to'])) ?></td>
+                            <td><?php echo date("g:i a", strtotime($data['time_from'])) ?></td>
+                            <td><?php echo date("g:i a", strtotime($data['time_to'])) ?></td>
                             <td><?php echo $data['firstname'] . " " . $middleinitial . " " . $data['lastname'] ?></td>
-                            <td><?php echo $physician; ?></td>
-                            <td><?php echo $data['status'];
-                                $count++; ?></td>
+                            <td><?php //cancel button; 
+                                ?></td>
                           </tr>
                         <?php
+                          include('modals/update_account_modal.php');
                         }
-                        ?>
-                      </tbody>
-                    </table>
-                    <?php include('../../includes/pagination.php');?>
-                  <?php
-                  } else {
-                  ?>
-                    <tr>
-                      <td colspan="7"><h3>No record Found</h3></td>
-                    </tr>
-                <?php
-                  }
-                }
-                mysqli_close($conn);
-                ?>
+                      } else { ?>
+                        <tr>
+                          <td colspan="6">No record Found</td>
+                        </tr>
+                      <?php } ?>
+                  </tbody>
+                </table>
+                <?php include('../../includes/pagination.php') ?>
+              <?php
+                    } else {
+              ?>
+                <tr>
+                  <td colspan="6">No record Found</td>
+                </tr>
+              <?php
+                    }
+                    mysqli_close($conn);
+              ?>
               </div>
             </div>
           </div>
@@ -252,4 +315,5 @@ include('../../includes/pagination-limit.php');
     sidebar.classList.toggle("close");
   });
 </script>
+
 </html>

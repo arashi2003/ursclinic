@@ -7,8 +7,9 @@
     {
         function Header()
         {
-            // from filter
-            $campus = $_SESSION['campus'];
+            
+            $campus = $_SESSION['campus']  . ' CAMPUS';
+            
             $this->Image('../../../images/urs.png', 100, 12, 12);
             $this->Image('../../../images/medlogo.png', 183, 12, 22);
             $this->Cell(0, 4, '', 0, 1);
@@ -24,7 +25,7 @@
             $this->Cell(0, 0, 'HEALTH SERVICES UNIT', 0, 1, 'C');
             $this->Cell(0, 4, '', 0, 1);
             $this->SetFont('Arial', 'B', 8);
-            $this->Cell(0, 0, $campus . ' CAMPUS', 0, 1, 'C');
+            $this->Cell(0, 0, $campus, 0, 1, 'C');
             $this->SetFont('Arial', '', 10);
             $this->Cell(0, 4, '', 0, 1);
             $this->Cell(0, .1, '', 1, 0);
@@ -62,10 +63,36 @@
     $pdf->SetAutoPageBreak(true, 15);
     $pdf->SetFont('Arial', '', 9);
 
-    $status = ""; //$_POST['status'];
-    $usertype = ""; //$_POST['usertype'];
+    $campus = isset($_REQUEST['campus']) ? $_REQUEST['campus'] : '';
+    $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
+    $usertype = isset($_REQUEST['usertype']) ? $_REQUEST['usertype'] : '';
 
-    $query = mysqli_query($conn, "SELECT * FROM account WHERE usertype LIKE '%$usertype%' AND status LIKE '%$status%'");
+    //campus filter
+    if ($campus == "") {
+        $ca = "";
+    } else {
+        $ca = " WHERE campus = '$campus'";
+    }
+
+    //status filter
+    if ($status == "") {
+        $stat = "";
+    } elseif ($ca == "" and $status != "") {
+        $stat = " WHERE status = '$status'";
+    } elseif ($ca != "" and $status != "") {
+        $stat = " AND status = '$status'";
+    }
+
+    //status filter
+    if ($usertype == "") {
+        $utype = "";
+    } elseif ($ca == "" and $stat == "" and $usertype != "") {
+        $utype = " WHERE usertype = '$usertype'";
+    } elseif ($ca != "" or $stat != "" and $statususertype != "") {
+        $utype = " AND usertype = '$usertype'";
+    }
+
+    $query = mysqli_query($conn, "SELECT * FROM account $ca $stat $utype");
     $count = 1;
     while ($data = mysqli_fetch_array($query)) {
         if (count(explode(" ", $data['middlename'])) > 1) {
@@ -102,7 +129,7 @@
 
     $line = "_____________________________";
 
-    $user = "URS-000";
+    $user = $_SESSION['userid'];
 
     $query = mysqli_query($conn, "SELECT * FROM account WHERE accountid ='$user'");
     if (mysqli_num_rows($query) > 0) {
