@@ -14,7 +14,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="appointment" class="col-form-label">Type of Appointment:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="appointment" id="appointment" onchange="enableAppointment(this)" required>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="appointment" id="appointment" onchange="enableAppointment(this)">
                             <option value="" disabled selected>-Select Appointment-</option>
                             <?php
                             include('connection.php');
@@ -26,23 +26,36 @@
                             <?php } ?>
                         </select>
                     </div>
-                    <div class="mb-2 hidden" id="dateDiv">
-                        <label for="date" class="col-form-label">Date Pickup:</label>
-                        <input type="text" class="form-control" name="date" id="showDate" placeholder="mm/dd/yyyy" required>
-                    </div>
-                    <div class="mb-2 hidden" id="timeDiv">
-                        <label for="time" class="col-form-label">Time Pickup:</label>
-                        <input type="time" class="form-control" name="time" required>
+                    <div class="row">
+                        <div class="col hidden" id="dateDiv">
+                            <label for="date" class="col-form-label">Date Pickup:</label>
+                            <input type="text" class="form-control" name="date" id="showDate" placeholder="mm/dd/yyyy">
+                        </div>
+                        <div class="col hidden" id="timeDiv">
+                            <label for="time" class="col-form-label">Time Pickup:</label>
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time" id="time">
+                                <option value="" disabled selected>-:-- --</option>
+                                <?php
+                                include('connection.php');
+                                $sql = "SELECT * FROM time_pickup WHERE isSelected = 'No'";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                    $time = date('h:i A', strtotime($row['time'])); // Format time as '12:00 PM'
+                                ?>
+                                    <option value="<?= $time; ?>"><?= $time; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
                     </div>
                     <div class="mb-2 hidden" id="purposeDiv">
                         <label for="purposes" class="col-form-label">Purpose:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose" required>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose">
                             <option value="" disabled selected>-Select Purpose-</option>
                         </select>
                     </div>
                     <div class="mb-2 hidden" id="ccDiv">
                         <label for="chiefcomplaint" class="col-form-label">Chief Complaint:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="chiefcomplaint" id="chiefcomplaint" onchange="enableOther(this)" required>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="chiefcomplaint" id="chiefcomplaint" onchange="enableOther(this)">
                             <option value="" disabled selected>-Select Chief Complaint-</option>
                         </select>
                     </div>
@@ -81,7 +94,7 @@
                             <label for="quantity" class="col-form-label">Quantity:</label>
                             <div class="row">
                                 <div class="col-sm-7 mb-2">
-                                    <input type="number" class="form-control" name="quantity[]" required>
+                                    <input type="number" class="form-control" name="quantity[]">
                                 </div>
                                 <div class="col-sm mb-2">
                                     <button type="button" class="btn btn-primary" onclick="duplicate()">+</button>
@@ -91,7 +104,7 @@
                     </div>
                     <div class="mb-2 hidden" id="physicianDiv">
                         <label for="physician" class="col-form-label">Physician:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="physician" id="physician" required>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="physician" id="physician">
                             <option value="" disabled selected>-Select Physician-</option>
                         </select>
                     </div>
