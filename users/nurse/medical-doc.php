@@ -46,8 +46,8 @@ if ($result) {
                                                         <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#viewdocument<?php echo $data['id'] ?>"><i class='bx bx-show'></i></button>
                                                     </td>
                                                     <td><?php echo $data['doc_desc'] ?></td>
-                                                    <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
-                                                    <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
+                                                    <td><?php echo date("F d, Y", strtotime($data['dt_uploaded'])) ?></td>
+                                                    <td><?php echo date("F d, Y", strtotime($data['dt_updated'])) ?></td>
                                                     <td>
                                                         <select class="form-select status-field" aria-label="Default select example" name="status" disabled>
                                                             <option value="Approved" <?php echo ($data['status'] == 'Approved') ? "selected" : ""; ?>>Approved</option>
@@ -123,8 +123,8 @@ if ($result) {
                                                         <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#viewdocument<?php echo $data['id'] ?>"><i class='bx bx-show'></i></button>
                                                     </td>
                                                     <td><?php echo $data['doc_desc'] ?></td>
-                                                    <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
-                                                    <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
+                                                    <td><?php echo date("F d, Y", strtotime($data['dt_uploaded'])) ?></td>
+                                                    <td><?php echo date("F d, Y", strtotime($data['dt_updated'])) ?></td>
                                                     <td>
                                                         <select class="form-select status-field" aria-label="Default select example" name="status" disabled>
                                                             <option value="Approved" <?php echo ($data['status'] == 'Approved') ? "selected" : ""; ?>>Approved</option>
@@ -195,8 +195,8 @@ if ($result) {
                                                         <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#viewdocument<?php echo $data['id'] ?>"><i class='bx bx-show'></i></button>
                                                     </td>
                                                     <td><?php echo $data['doc_desc'] ?></td>
-                                                    <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
-                                                    <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
+                                                    <td><?php echo date("F d, Y", strtotime($data['dt_uploaded'])) ?></td>
+                                                    <td><?php echo date("F d, Y", strtotime($data['dt_updated'])) ?></td>
                                                     <td>
                                                         <select class="form-select status-field" aria-label="Default select example" name="status" disabled>
                                                             <option value="Approved" <?php echo ($data['status'] == 'Approved') ? "selected" : ""; ?>>Approved</option>
@@ -273,8 +273,8 @@ if ($result) {
                                                         <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#viewdocument<?php echo $data['id'] ?>"><i class='bx bx-show'></i></button>
                                                     </td>
                                                     <td><?php echo $data['doc_desc'] ?></td>
-                                                    <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
-                                                    <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
+                                                    <td><?php echo date("F d, Y", strtotime($data['dt_uploaded'])) ?></td>
+                                                    <td><?php echo date("F d, Y", strtotime($data['dt_updated'])) ?></td>
                                                     <td>
                                                         <select class="form-select status-field" aria-label="Default select example" name="status" disabled>
                                                             <option value="Approved" <?php echo ($data['status'] == 'Approved') ? "selected" : ""; ?>>Approved</option>
@@ -345,8 +345,8 @@ if ($result) {
                                                         <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#viewdocument<?php echo $data['id'] ?>"><i class='bx bx-show'></i></button>
                                                     </td>
                                                     <td><?php echo $data['doc_desc'] ?></td>
-                                                    <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
-                                                    <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
+                                                    <td><?php echo date("F d, Y", strtotime($data['dt_uploaded'])) ?></td>
+                                                    <td><?php echo date("F d, Y", strtotime($data['dt_updated'])) ?></td>
                                                     <td>
                                                         <select class="form-select status-field" aria-label="Default select example" name="status" disabled>
                                                             <option value="Approved" <?php echo ($data['status'] == 'Approved') ? "selected" : ""; ?>>Approved</option>
@@ -420,8 +420,8 @@ if ($result) {
                                                         <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#viewdocument<?php echo $data['id'] ?>"><i class='bx bx-show'></i></button>
                                                     </td>
                                                     <td><?php echo $data['doc_desc'] ?></td>
-                                                    <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
-                                                    <td><?php echo date("F d, Y", strtotime($data['datetime'])) ?></td>
+                                                    <td><?php echo date("F d, Y", strtotime($data['dt_uploaded'])) ?></td>
+                                                    <td><?php echo date("F d, Y", strtotime($data['dt_updated'])) ?></td>
                                                     <td>
                                                         <select class="form-select status-field" aria-label="Default select example" name="status" disabled>
                                                             <option value="Approved" <?php echo ($data['status'] == 'Approved') ? "selected" : ""; ?>>Approved</option>

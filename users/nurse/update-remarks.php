@@ -10,8 +10,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $status = mysqli_real_escape_string($conn, $_POST["status"]);
         $id = $_POST["id"];
 
+        $today = date('Y-m-d h:i:s');
         // Update remarks and status in the database
-        $sql = "UPDATE meddoc SET remarks='$remarks', status='$status' WHERE id='$id'";
+        $sql = "UPDATE meddoc SET remarks='$remarks', dt_remarks='$today', status='$status' WHERE id='$id'";
 
         if (mysqli_query($conn, $sql)) {
             // If update successful, send success response
