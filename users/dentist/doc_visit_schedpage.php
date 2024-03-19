@@ -80,7 +80,7 @@ include('../../includes/pagination-limit.php');
                                         <?php
                                         $count = 1;
                                         $date = date("Y-m-d");
-                                        $sql = "SELECT s.id, s.date, s.time_from, s.time_to, s.physician, s.maxp, s.campus, a.firstname, a.middlename, a.lastname FROM schedule s INNER JOIN account a on a.accountid=s.physician WHERE date >= '$today' AND physician = '$userid' ORDER BY date, time_from LIMIT $start, $rows_per_page";
+                                        $sql = "SELECT s.id, s.status, s.reason, s.date, s.time_from, s.time_to, s.physician, s.maxp, s.campus, a.firstname, a.middlename, a.lastname FROM schedule s INNER JOIN account a on a.accountid=s.physician WHERE date >= '$today' AND physician = '$userid' ORDER BY date, time_from LIMIT $start, $rows_per_page";
                                         $result = mysqli_query($conn, $sql);
                                         if ($result) {
                                             if (mysqli_num_rows($result) > 0) {
@@ -109,14 +109,24 @@ include('../../includes/pagination-limit.php');
                                                         <td><?php echo $time ?></td>
                                                         <td><?php echo $data['maxp'] ?></td>
                                                         <td>
+                                                            <?php
+                                                            if($data['status'] == 'CANCELLED')
+                                                            {?>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#reason<?php echo $data['id']; ?>">Cancelled</button>
+                                                            <?php }
+                                                            else
+                                                            {?>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatesched<?php echo $data['id']; ?>">Update</button>
                                                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelsched<?php echo $data['id']; ?>">Cancel</button>
-                                                        </td>
+                                                            <?php }
+                                                            ?></td>
                                                         <?php $count++; ?></td>
                                                     </tr>
                                                 <?php include('modals/cancel_sched_modal.php');
                                                     include('modals/update_sched_modal.php');
+                                                    include('modals/reason_sched_modal.php');
                                                 }
+                                                
                                                 ?>
                                     </tbody>
                                 </table>

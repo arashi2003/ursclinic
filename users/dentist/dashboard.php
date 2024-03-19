@@ -91,7 +91,7 @@ include('../../includes/pagination-limit.php');
           </div>
         </div>
         <button type=button class="box" style="border: none;">
-          <a href="services_doctor.php" style="color:black; text-decoration: none;">
+          <a href="services" style="color:black; text-decoration: none;">
             <div class="right-side">
               <div class="box-topic">Available Services</div>
               <div class="number">

@@ -26,19 +26,20 @@ $name = $_SESSION['username'];
                 <span class="dashboard">PROFILE</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <i class='bx bx-bell'></i>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
                     <div class="dropdown">
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $usertype . ' ' . $name ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -49,55 +50,55 @@ $name = $_SESSION['username'];
         <div class="home-content">
             <div class="profile">
                 <div class="profile-info box">
-                        <?php
-                        $sql = "SELECT * FROM account WHERE accountid='$userid'";
-                        $result = mysqli_query($conn, $sql);
-                        $row = mysqli_fetch_assoc($result);
-                        if (count(explode(" ", $row['middlename'])) > 1) {
-                            $middle = explode(" ", $row['middlename']);
-                            $letter = $middle[0][0] . $middle[1][0];
-                            $middleinitial = $letter . ".";
+                    <?php
+                    $sql = "SELECT * FROM account WHERE accountid='$userid'";
+                    $result = mysqli_query($conn, $sql);
+                    $row = mysqli_fetch_assoc($result);
+                    if (count(explode(" ", $row['middlename'])) > 1) {
+                        $middle = explode(" ", $row['middlename']);
+                        $letter = $middle[0][0] . $middle[1][0];
+                        $middleinitial = $letter . ".";
+                    } else {
+                        $middle = $row['middlename'];
+                        if ($middle == "" or $middle == " ") {
+                            $middleinitial = "";
                         } else {
-                            $middle = $row['middlename'];
-                            if ($middle == "" or $middle == " ") {
-                                $middleinitial = "";
-                            } else {
-                                $middleinitial = substr($middle, 0, 1) . ".";
-                            }
+                            $middleinitial = substr($middle, 0, 1) . ".";
                         }
-                        ?>
-                        <div class="input-group input-group-md mb-2">
-                            <span class="input-group-text" id="inputGroup-sizing-md">Campus:</span>
-                            <input type="text" class="form-control" name="campus" value="<?php echo $row['campus'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
-                            <span class="input-group-text" id="inputGroup-sizing-md">Employee No.:</span>
-                            <input type="text" class="form-control" name="patientid" value="<?php echo $row['accountid'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
-                            <span class="input-group-text" id="inputGroup-sizing-md">Full name:</span>
-                            <input type="text" class="form-control" name="patientname" value="<?php echo $row['firstname'] . ' ' . $middleinitial . ' ' . $row['lastname'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
-                            <span class="input-group-text" id="inputGroup-sizing-md">Designation:</span>
-                            <input type="text" class="form-control" name="designation" value="<?php echo $row['usertype'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
-                            <span class="input-group-text" id="inputGroup-sizing-md">Email:</span>
-                            <input type="text" class="form-control" name="email" value="<?php echo $row['email'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
-                            <span class="input-group-text" id="inputGroup-sizing-md">Contact No.:</span>
-                            <input type="text" class="form-control" name="contactno" value="<?php echo $row['contactno'] ?>" readonly disabled>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateaccount<?php echo $userid; ?>">Update</button>
-                            <?php
-                            include('modals/update_account_modal.php');?>
-                        </div>
+                    }
+                    ?>
+                    <div class="input-group input-group-md mb-2">
+                        <span class="input-group-text" id="inputGroup-sizing-md">Campus:</span>
+                        <input type="text" class="form-control" name="campus" value="<?php echo $row['campus'] ?>" readonly disabled>
+                    </div>
+                    <div class="input-group input-group-md mb-2">
+                        <span class="input-group-text" id="inputGroup-sizing-md">Employee No.:</span>
+                        <input type="text" class="form-control" name="patientid" value="<?php echo $row['accountid'] ?>" readonly disabled>
+                    </div>
+                    <div class="input-group input-group-md mb-2">
+                        <span class="input-group-text" id="inputGroup-sizing-md">Full name:</span>
+                        <input type="text" class="form-control" name="patientname" value="<?php echo $row['firstname'] . ' ' . $middleinitial . ' ' . $row['lastname'] ?>" readonly disabled>
+                    </div>
+                    <div class="input-group input-group-md mb-2">
+                        <span class="input-group-text" id="inputGroup-sizing-md">Designation:</span>
+                        <input type="text" class="form-control" name="designation" value="<?php echo $row['usertype'] ?>" readonly disabled>
+                    </div>
+                    <div class="input-group input-group-md mb-2">
+                        <span class="input-group-text" id="inputGroup-sizing-md">Email:</span>
+                        <input type="text" class="form-control" name="email" value="<?php echo $row['email'] ?>" readonly disabled>
+                    </div>
+                    <div class="input-group input-group-md mb-2">
+                        <span class="input-group-text" id="inputGroup-sizing-md">Contact No.:</span>
+                        <input type="text" class="form-control" name="contactno" value="<?php echo $row['contactno'] ?>" readonly disabled>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateaccount<?php echo $userid; ?>">Update</button>
+                        <?php
+                        include('modals/update_account_modal.php'); ?>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 
@@ -139,4 +140,5 @@ $name = $_SESSION['username'];
         document.getElementById("upload").style.display = "block";
     }
 </script>
+
 </html>

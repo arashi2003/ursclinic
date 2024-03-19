@@ -2,8 +2,7 @@
 
 session_start();
 include('../../connection.php');
-include('../../includes/doctor-auth.php');
-
+include('../../includes/dentist-auth.php');
 $module = 'patients';
 $campus = $_SESSION['campus'];
 $userid = $_SESSION['userid'];
@@ -35,24 +34,6 @@ include('../../includes/pagination-limit.php')
                 <span class="dashboard">PATIENTS</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
-                        <i class='bx bx-bell'></i>
-                        <?php
-                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
-                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
-                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
-                        $result = mysqli_query($conn, $sql);
-                        if ($row = mysqli_num_rows($result)) {
-                        ?>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                <?= $row ?>
-                            </span>
-                        <?php
-                        }
-                        ?>
-                    </button>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
                     <div class="dropdown">
@@ -97,7 +78,7 @@ include('../../includes/pagination-limit.php')
                                                 if ($result = mysqli_query($conn, $sql)) {
                                                     while ($row = mysqli_fetch_array($result)) { ?>
                                                         <option value="<?php echo $row["designation"]; ?>" <?= isset($_GET['designation']) == true ? ($_GET['designation'] == $row["designation"] ? 'selected' : '') : '' ?>><?php echo $row["designation"]; ?></option><?php }
-                                                } ?>
+                                                                                                                                                                                                                                                                } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2 mb-2">
@@ -109,7 +90,7 @@ include('../../includes/pagination-limit.php')
                                                 if ($result = mysqli_query($conn, $sql)) {
                                                     while ($row = mysqli_fetch_array($result)) { ?>
                                                         <option value="<?php echo $row["campus"]; ?>" <?= isset($_GET['campus']) == true ? ($_GET['campus'] == $row["campus"] ? 'selected' : '') : '' ?>><?php echo $row["campus"]; ?></option><?php }
-                                                } ?>
+                                                                                                                                                                                                                                        } ?>
                                             </select>
                                         </div>
                                         <div class="col mb-2">
@@ -133,27 +114,25 @@ include('../../includes/pagination-limit.php')
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <?php
-                                    if (isset($_GET['patient']) && $_GET['patient'] != '') {
-                                        $patient = $_GET['patient'];
-                                        $count = 1;
-                                        $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE (CONCAT(ac.firstname,' ', ac.lastname) LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.middlename,' ', ac.lastname) LIKE '%$patient%' OR patientid LIKE '%$patient%')ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
-                                        $result = mysqli_query($conn, $sql);
-                                    } elseif (isset($_GET['designation']) && $_GET['designation'] != '' || isset($_GET['campus']) && $_GET['campus'] != '') {
-                                        $designation = $_GET['designation'];
-                                        $count = 1;
-                                        $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE designation = '$designation' ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
-                                        $result = mysqli_query($conn, $sql);
-                                    } else {
-                                        $count = 1;
-                                        $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
-                                        $result = mysqli_query($conn, $sql);
-                                    }
-                                    if ($result) {
-                                        if (mysqli_num_rows($result) > 0) {
-                                    ?>
-                                            <tbody>
-                                                <?php
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['patient']) && $_GET['patient'] != '') {
+                                            $patient = $_GET['patient'];
+                                            $count = 1;
+                                            $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE (CONCAT(ac.firstname,' ', ac.lastname) LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.middlename,' ', ac.lastname) LIKE '%$patient%' OR patientid LIKE '%$patient%')ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['designation']) && $_GET['designation'] != '' || isset($_GET['campus']) && $_GET['campus'] != '') {
+                                            $designation = $_GET['designation'];
+                                            $count = 1;
+                                            $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE designation = '$designation' ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $data) {
                                                     if (count(explode(" ", $data['middlename'])) > 1) {
                                                         $middle = explode(" ", $data['middlename']);
@@ -177,7 +156,7 @@ include('../../includes/pagination-limit.php')
                                                     } else {
                                                         $college = $data['college'];
                                                     }
-                                                ?>
+                                        ?>
                                                     <tr>
                                                         <td><?php echo $data['patientid']; ?></td>
                                                         <td><?php echo $data['designation']; ?></td>
@@ -188,7 +167,6 @@ include('../../includes/pagination-limit.php')
                                                             <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'view_patient?patientid=<?php echo $data['patientid'] ?>'">View</button>
                                                             <?php $count++; ?>
                                                         </td>
-
                                                     </tr>
                                                 <?php
                                                 }
@@ -199,12 +177,12 @@ include('../../includes/pagination-limit.php')
                                                 </tr>
                                             <?php
                                             } ?>
-                                            </tbody>
+                                    </tbody>
                                 </table>
                             <?php
-                                        include('../../includes/pagination.php');
-                                    }
-                                    mysqli_close($conn);
+                                            include('../../includes/pagination.php');
+                                        }
+                                        mysqli_close($conn);
                             ?>
                             </div>
                         </div>
