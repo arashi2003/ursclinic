@@ -37,7 +37,7 @@
             $department = $data['department'];
             $college = $data['college'];
             $campus = $data['campus'];
-            $age = $data['age'];
+            $age = floor((time() - strtotime($data['birthday'])) / 31556926); 
             $program = $data['program'];
             $yearlevel = $data['yearlevel'];
             $section = $data['section'];
@@ -56,7 +56,7 @@
         $department = $_POST['department'];
         $college = $_POST['college'];
         $campus = $_POST['campus'];
-        $age = $_POST['age'];
+        $age = floor((time() - strtotime($_POST['birthday'])) / 31556926); 
         $program = $_POST['program'];
         $yearlevel = $_POST['yearlevel'];
         $section = $_POST['section'];

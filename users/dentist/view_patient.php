@@ -34,24 +34,6 @@ include('../../includes/pagination-limit.php');
                 <span class="dashboard">PATIENT INFORMATION</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
-                        <i class='bx bx-bell'></i>
-                        <?php
-                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
-                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
-                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
-                        $result = mysqli_query($conn, $sql);
-                        if ($row = mysqli_num_rows($result)) {
-                        ?>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                <?= $row ?>
-                            </span>
-                        <?php
-                        }
-                        ?>
-                    </button>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
                     <div class="dropdown">
@@ -87,7 +69,7 @@ include('../../includes/pagination-limit.php');
                 </div>
                 <div class="profile-info box">
                     <?php
-                    $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE patientid='$patientid'";
+                    $sql = "SELECT p.patientid, p.address, p.designation, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE patientid='$patientid'";
                     $result = mysqli_query($conn, $sql);
                     while ($data = mysqli_fetch_array($result)) {
                         if (count(explode(" ", $data['middlename'])) > 1) {
@@ -109,7 +91,7 @@ include('../../includes/pagination-limit.php');
                         }
                         $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname']));
                         $designation = $data['designation'];
-                        $age = $data['age'];
+                        $age = floor((time() - strtotime($data['birthday'])) / 31556926); 
                         $sex = $data['sex'];
                         $birthday = $data['birthday'];
                         $department = $data['department'];
@@ -119,6 +101,7 @@ include('../../includes/pagination-limit.php');
                         $contactno = $data['contactno'];
                         $emcon_name = $data['emcon_name'];
                         $emcon_number = $data['emcon_number'];
+                        $address = $data['address'];
                     ?>
 
                         <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -131,77 +114,86 @@ include('../../includes/pagination-limit.php');
                                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                                     <div class="accordion-body">
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 mb-2">
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Patient ID:</span>
                                                     <input type="text" class="form-control" name="patientname" value="<?php echo $patientid ?>" readonly disabled>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-8 mb-2">
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Patient Name:</span>
                                                     <input type="text" class="form-control" name="patientname" value="<?php echo $fullname ?>" readonly disabled>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 mb-2">
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Designation:</span>
                                                     <input type="text" class="form-control" name="designation" value="<?php echo $designation ?>" readonly disabled>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 mb-2">
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Age:</span>
                                                     <input type="text" class="form-control" name="age" value="<?php echo $age ?>" readonly disabled>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 mb-2">
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Sex:</span>
                                                     <input type="text" class="form-control" name="sex" value="<?php echo $sex ?>" readonly disabled>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 mb-2">
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Birthday:</span>
                                                     <input type="text" class="form-control" name="birthday" value="<?php echo date("F d, Y", strtotime($birthday)) ?>" readonly disabled>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                        <h5>Academic Information</h5>
-                                    </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-                                    <div class="accordion-body">
-                                        <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-8 mb-2">
                                                 <div class="input-group input-group-md mb-2">
-                                                    <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
-                                                    <input type="text" class="form-control" name="department" value="<?php echo $department ?>" readonly disabled>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="input-group input-group-md mb-2">
-                                                    <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
-                                                    <input type="text" class="form-control" name="college" value="<?php echo $college ?>" readonly disabled>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="input-group input-group-md mb-2">
-                                                    <span class="input-group-text" id="inputGroup-sizing-md">Program, Year and Section:</span>
-                                                    <input type="text" class="form-control" name="pys" value="<?php echo $pys ?>" readonly disabled>
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">Address:</span>
+                                                    <input type="text" class="form-control" name="birthday" value="<?php echo $address ?>" readonly disabled>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <?php
+                            if ($designation != "STAFF") { ?>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                            <h5>Academic Information</h5>
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="row">
+                                                <div class="col-md-4 mb-2">
+                                                    <div class="input-group input-group-md mb-2">
+                                                        <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
+                                                        <input type="text" class="form-control" name="department" value="<?php echo $department ?>" readonly disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <div class="input-group input-group-md mb-2">
+                                                        <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
+                                                        <input type="text" class="form-control" name="college" value="<?php echo $college ?>" readonly disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <div class="input-group input-group-md mb-2">
+                                                        <span class="input-group-text" id="inputGroup-sizing-md">Program, Year and Section:</span>
+                                                        <input type="text" class="form-control" name="pys" value="<?php echo $pys ?>" readonly disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
@@ -217,7 +209,7 @@ include('../../includes/pagination-limit.php');
                                                     <input type="text" class="form-control" name="email" value="<?php echo $email ?>" readonly disabled>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 mb-2">
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Contact Number:</span>
                                                     <input type="text" class="form-control" name="contactno" value="<?php echo $contactno ?>" readonly disabled>
@@ -242,7 +234,7 @@ include('../../includes/pagination-limit.php');
                                                     <input type="text" class="form-control" name="emcon_name" value="<?php echo $emcon_name ?>" readonly disabled>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 mb-2">
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Contact Number:</span>
                                                     <input type="text" class="form-control" name="emcon_number" value="<?php echo $emcon_number ?>" readonly disabled>
@@ -271,72 +263,66 @@ include('../../includes/pagination-limit.php');
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <?php
-                                    $sql = "SELECT * FROM transaction_history WHERE (transaction LIKE '%Dental Checkup%' OR transaction LIKE '%Dental Checkup%' OR purpose LIKE '%Dental Checkup%' OR purpose LIKE '%Dental Checkup%') AND patient='$patientid' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql); 
-                                    if ($result) {
-                                        if ($row = mysqli_num_rows($result) > 0) {
-                                            foreach ($result as $data) {
-                                                $id = $data['patient'];
-                                            if (count(explode(" ", $data['middlename'])) > 1) {
-                                                $middle = explode(" ", $data['middlename']);
-                                                $letter = $middle[0][0] . $middle[1][0];
-                                                $middleinitial = $letter . ".";
-                                            } else {
-                                                $middle = $data['middlename'];
-                                                if ($middle == "" or $middle == " ") {
-                                                    $middleinitial = "";
-                                                } else {
-                                                    $middleinitial = substr($middle, 0, 1) . ".";
-                                                }
-                                            }
-                                            $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
-                                    ?>
-                                        <tr>
-                                            <td><?= $data['transaction'] ?></td>
-                                            <td><?= $data['purpose'] ?></td>
-                                            <td><?= date("M. d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'])) ?></td>
-                                            <td>
+                                        <?php
+                                        $sql = "SELECT * FROM transaction_history WHERE (transaction LIKE '%Dental Checkup%' OR transaction LIKE '%Dental Checkup%' OR purpose LIKE '%Dental Checkup%' OR purpose LIKE '%Dental Checkup%') AND patient='$patientid' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                        $result = mysqli_query($conn, $sql);
+                                        if ($result) {
+                                            if ($row = mysqli_num_rows($result) > 0) {
+                                                foreach ($result as $data) {
+                                                    $id = $data['patient'];
+                                                    if (count(explode(" ", $data['middlename'])) > 1) {
+                                                        $middle = explode(" ", $data['middlename']);
+                                                        $letter = $middle[0][0] . $middle[1][0];
+                                                        $middleinitial = $letter . ".";
+                                                    } else {
+                                                        $middle = $data['middlename'];
+                                                        if ($middle == "" or $middle == " ") {
+                                                            $middleinitial = "";
+                                                        } else {
+                                                            $middleinitial = substr($middle, 0, 1) . ".";
+                                                        }
+                                                    }
+                                                    $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
+                                        ?>
+                                                    <tr>
+                                                        <td><?= $data['transaction'] ?></td>
+                                                        <td><?= $data['purpose'] ?></td>
+                                                        <td><?= date("M. d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'])) ?></td>
+                                                        <td>
+                                                            <?php
+                                                            if ($data['purpose'] == 'Dental Checkup') { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'reports/reports_dentalform.php?id=<?= $id ?>'">Expand</button>
+                                                            <?php } else { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
+                                                            <?php } ?>
+                                                        </td>
+                                                    </tr>
                                                 <?php
-                                                if($data['purpose'] == 'Dental Checkup')
-                                                {?>
-                                                    <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'reports/reports_dentalform.php?id=<?= $id?>'">Expand</button>
-                                                <?php }
-                                                else{?>
-                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
-                                                <?php }?>
-                                            </td>
-                                        </tr>
-                                    <?php
-                                        if($data['purpose'] == 'Vitals')
-                                        {
-                                            include('modals/view_trans_vitals_modal.php');
-                                        }
-                                        elseif($data['purpose'] == 'Medical History')
-                                        {
-                                            include('modals/view_trans_medhist_modal.php');
-                                        }}
-                                    ?>
+                                                    if ($data['purpose'] == 'Vitals') {
+                                                        include('modals/view_trans_vitals_modal.php');
+                                                    } elseif ($data['purpose'] == 'Medical History') {
+                                                        include('modals/view_trans_medhist_modal.php');
+                                                    }
+                                                }
+                                                ?>
                                     </tbody>
                                 </table>
-                                    <?php
-                                    include('../../includes/pagination.php');
-                                }
-                                else
-                                {?>
-                                    <tr>
-                                        <td colspan="7">No record Found</td>
-                                    </tr>
-                                <?php }
-                                } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                ?>
+                            <?php
+                                                include('../../includes/pagination.php');
+                                            } else { ?>
+                                <tr>
+                                    <td colspan="7">No record Found</td>
+                                </tr>
+                            <?php }
+                                        } else {
+                            ?>
+                            <tr>
+                                <td colspan="7">No record Found</td>
+                            </tr>
+                        <?php
+                                        }
+                                        mysqli_close($conn);
+                        ?>
                             </div>
                         </div>
                     </div>

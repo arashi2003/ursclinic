@@ -65,7 +65,7 @@
     $sex = ucfirst(strtolower($_POST['sex']));
     $bp = $_POST['bp'];
     $pr = $_POST['pr'];
-    $age = $_POST['age'];
+    $age = floor((time() - strtotime($_POST['birthday'])) / 31556926); 
     $pys = $_POST['pys'];
     $oxygen = $_POST['oxygen'];
     $respiratory = $_POST['respiratory'];

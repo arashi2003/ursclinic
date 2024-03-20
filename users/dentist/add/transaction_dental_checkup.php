@@ -35,7 +35,7 @@
         $department = $data['department'];
         $college = $data['college'];
         $campus = $data['campus'];
-        $age = $data['age'];
+        $age = floor((time() - strtotime($data['birthday'])) / 31556926); 
         $program = $data['program'];
         $yearlevel = $data['yearlevel'];
         $section = $data['section'];
@@ -74,7 +74,7 @@
     $alb = floor((time() - strtotime($birthday)) / 31556926); // ung number is total seconds in a year
 
     // add record to transaction_history
-    $sql = "INSERT transaction_history (patient, firstname, middlename, lastname, designation, age, sex, birthday, department, college, program, yearlevel, section, block, type, transaction, purpose, pod_nod, medcase, medcase_others, campus, datetime) VALUES ('$patientid', '$firstname', '$middlename', '$lastname',' $designation', '$age', '$sex', '$birthday', '$department', '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction', '$purpose', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";
+    $sql = "INSERT transaction_history (patient, firstname, middlename, lastname, designation, sex, birthday, department, college, program, yearlevel, section, block, type, transaction, purpose, pod_nod, medcase, medcase_others, campus, datetime) VALUES ('$patientid', '$firstname', '$middlename', '$lastname',' $designation', '$age', '$sex', '$birthday', '$department', '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction', '$purpose', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";
     if($result = mysqli_query($conn, $sql))
     {
         // check if may existing record na sa dental record

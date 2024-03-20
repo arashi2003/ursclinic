@@ -62,9 +62,7 @@
     $rem_den = $_POST['rem_den'];
     $rem_med = $_POST['rem_med'];
 
-    $query = mysqli_query($conn, "SELECT 
-    firstname, middlename, lastname, account.campus, age, 
-    designation, sex, birthday, department, college, program, yearlevel, section FROM account INNER JOIN patient_info pi ON pi.patientid=account.accountid WHERE accountid = '$account_no'");
+    $query = mysqli_query($conn, "SELECT firstname, middlename, lastname, account.campus, designation, sex, birthday, department, college, program, yearlevel, section FROM account INNER JOIN patient_info pi ON pi.patientid=account.accountid WHERE accountid = '$account_no'");
     if($data=mysqli_fetch_array($query))
     {
         if (count(explode(" ", $data['middlename'])) > 1)
@@ -88,7 +86,7 @@
 
         $fullname = strtoupper($data['firstname'] . " ". $middleinitial . " " . $data['lastname']);
         $sex = strtoupper($data['sex']);
-        $age = $data['age'];
+        $age = floor((time() - strtotime($data['birthday'])) / 31556926); 
         $college = $data['department'] . " " . $data['college'];
         $course = $data['program'];
         $year = $data['yearlevel'];

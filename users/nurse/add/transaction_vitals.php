@@ -14,7 +14,7 @@
     $lastname = strtoupper($_POST['lastname']);
     //$birthday = date("Y-m-d", strtotime($_POST['birthday']));
     $designation = strtoupper($_POST['designation']);
-    $age = $_POST['age'];
+    $age = floor((time() - strtotime($_POST['birthday'])) / 31556926); 
     $sex = strtoupper($_POST['sex']);
     $department = $_POST['department'];
     $college = $_POST['college'];

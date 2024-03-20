@@ -61,7 +61,7 @@
     
     $fullname = strtoupper($_POST['firstname'] . " ". $_POST['middlename'] . " " . $_POST['lastname']);
     $sex = strtoupper($_POST['sex']);
-    $age = $_POST['age'];
+    $age = floor((time() - strtotime($_POST['birthday'])) / 31556926); 
     $course = $_POST['course'];
     $yearlevel = $_POST['yearlevel'];
     $section = $_POST['section'];

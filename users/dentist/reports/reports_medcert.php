@@ -86,7 +86,7 @@
 
 
     $query = mysqli_query($conn, 
-    "SELECT firstname,  middlename, lastname, a.campus, age, sex, birthday, department, designation, college, program, yearlevel, section FROM account a INNER JOIN patient_info pi ON pi.patientid=a.accountid WHERE accountid='$account_no'");
+    "SELECT firstname,  middlename, lastname, a.campus, sex, birthday, department, designation, college, program, yearlevel, section FROM account a INNER JOIN patient_info pi ON pi.patientid=a.accountid WHERE accountid='$account_no'");
 
     if($data=mysqli_fetch_array($query))
     {
@@ -111,7 +111,7 @@
 
         $fullname = strtoupper($data['firstname'] . " ". $middleinitial . " " . $data['lastname']);
         $sex = strtoupper($data['sex']);
-        $age = $data['age'];
+        $age = floor((time() - strtotime($data['birthday'])) / 31556926); 
         $course = $data['program'];
         $yearlevel = $data['yearlevel'];
         $section = $data['section'];

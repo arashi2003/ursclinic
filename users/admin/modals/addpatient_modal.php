@@ -29,10 +29,6 @@
                             <input type="date" class="form-control" name="birthday" id="birthday">
                         </div>
                         <div class="col mb-2">
-                            <label for="age" class="form-label">Age:</label>
-                            <input type="number" maxlength="3" class="form-control" name="age" id="age">
-                        </div>
-                        <div class="col mb-2">
                             <label for="sex" class="form-label">Sex:</label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sex" id="sex">
                                 <option value="" disabled selected>-Select Sex-</option>

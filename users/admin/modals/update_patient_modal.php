@@ -36,10 +36,6 @@
                         </select>
                     </div>
                     <div class="mb-2">
-                        <label for="email" class="form-label">Age:</label>
-                        <input type="number" maxlength="3" class="form-control" name="age" id="age" value="<?php echo $data['age']?>">
-                    </div>
-                    <div class="mb-2">
                         <label for="sex" class="form-label">Sex:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sex" id="sex">
                             <option value="" disabled selected>-Select Sex-</option>

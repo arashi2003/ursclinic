@@ -114,7 +114,7 @@
     $epilepsy = $_POST['epilepsy'];
     $referral = $_POST['referral'];
     $remarks = $_POST['remarks'];
-    $age = $_POST['age'];
+    $age = floor((time() - strtotime($_POST['birthday'])) / 31556926); 
     $sex = ucfirst(strtolower($_POST['sex']));
     $pys = $_POST['pys'];
     // code for course, year, section

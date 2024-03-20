@@ -23,24 +23,23 @@ if (isset($_POST['save_excel_data'])) {
             if ($count > 0) {
                 $patientid = $row['0'];
                 $designation = $row['1'];
-                $age = $row['2'];
-                $sex = $row['3'];
-                $birthday = $row['4'];
-                $department = $row['5'];
-                $campus = $row['6'];
-                $college = $row['7'];
-                $program = $row['8'];
-                $yearlevel = $row['9'];
-                $section = $row['10'];
-                $block = $row['11'];
-                $address = $row['12'];
-                $email = $row['13'];
-                $contactno = $row['14'];
-                $emcon_name = $row['15'];
-                $emcon_number = $row['16'];
+                $sex = $row['2'];
+                $birthday = $row['3'];
+                $department = $row['4'];
+                $campus = $row['5'];
+                $college = $row['6'];
+                $program = $row['7'];
+                $yearlevel = $row['8'];
+                $section = $row['9'];
+                $block = $row['10'];
+                $address = $row['11'];
+                $email = $row['12'];
+                $contactno = $row['13'];
+                $emcon_name = $row['14'];
+                $emcon_number = $row['15'];
 
                 $studentQuery = "INSERT INTO patient_info (patientid,designation,age,sex,birthday,department,campus,college,program,yearlevel,section,block,address,email,contactno,emcon_name,emcon_number, datetime_created, datetime_updated) 
-                VALUES ('$patientid','$designation','$age','$sex','$birthday','$department','$campus','$college','$program','$yearlevel','$section','$block','$address','$email','$contactno','$emcon_name','$emcon_number', now(), now())";
+                VALUES ('$patientid','$designation','$sex','$birthday','$department','$campus','$college','$program','$yearlevel','$section','$block','$address','$email','$contactno','$emcon_name','$emcon_number', now(), now())";
                 $result = mysqli_query($conn, $studentQuery);
                 $msg = true;
             } else {

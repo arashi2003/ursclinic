@@ -109,7 +109,7 @@ include('../../includes/pagination-limit.php');
                         }
                         $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname']));
                         $designation = $data['designation'];
-                        $age = $data['age'];
+                        $age = floor((time() - strtotime($data['birthday'])) / 31556926); 
                         $sex = $data['sex'];
                         $birthday = $data['birthday'];
                         $department = $data['department'];
@@ -119,6 +119,7 @@ include('../../includes/pagination-limit.php');
                         $contactno = $data['contactno'];
                         $emcon_name = $data['emcon_name'];
                         $emcon_number = $data['emcon_number'];
+                        $address = $data['address'];
                     ?>
 
                         <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -131,77 +132,86 @@ include('../../includes/pagination-limit.php');
                                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                                     <div class="accordion-body">
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 mb-2">
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Patient ID:</span>
                                                     <input type="text" class="form-control" name="patientname" value="<?php echo $patientid ?>" readonly disabled>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-8 mb-2">
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Patient Name:</span>
                                                     <input type="text" class="form-control" name="patientname" value="<?php echo $fullname ?>" readonly disabled>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 mb-2">
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Designation:</span>
                                                     <input type="text" class="form-control" name="designation" value="<?php echo $designation ?>" readonly disabled>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 mb-2">
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Age:</span>
                                                     <input type="text" class="form-control" name="age" value="<?php echo $age ?>" readonly disabled>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 mb-2">
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Sex:</span>
                                                     <input type="text" class="form-control" name="sex" value="<?php echo $sex ?>" readonly disabled>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 mb-2">
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Birthday:</span>
                                                     <input type="text" class="form-control" name="birthday" value="<?php echo date("F d, Y", strtotime($birthday)) ?>" readonly disabled>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                        <h5>Academic Information</h5>
-                                    </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-                                    <div class="accordion-body">
-                                        <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-8 mb-2">
                                                 <div class="input-group input-group-md mb-2">
-                                                    <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
-                                                    <input type="text" class="form-control" name="department" value="<?php echo $department ?>" readonly disabled>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="input-group input-group-md mb-2">
-                                                    <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
-                                                    <input type="text" class="form-control" name="college" value="<?php echo $college ?>" readonly disabled>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="input-group input-group-md mb-2">
-                                                    <span class="input-group-text" id="inputGroup-sizing-md">Program, Year and Section:</span>
-                                                    <input type="text" class="form-control" name="pys" value="<?php echo $pys ?>" readonly disabled>
+                                                    <span class="input-group-text" id="inputGroup-sizing-md">Address:</span>
+                                                    <input type="text" class="form-control" name="birthday" value="<?php echo $address ?>" readonly disabled>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <?php
+                            if ($designation != "STAFF") { ?>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                            <h5>Academic Information</h5>
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="row">
+                                                <div class="col-md-4 mb-2">
+                                                    <div class="input-group input-group-md mb-2">
+                                                        <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
+                                                        <input type="text" class="form-control" name="department" value="<?php echo $department ?>" readonly disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <div class="input-group input-group-md mb-2">
+                                                        <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
+                                                        <input type="text" class="form-control" name="college" value="<?php echo $college ?>" readonly disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <div class="input-group input-group-md mb-2">
+                                                        <span class="input-group-text" id="inputGroup-sizing-md">Program, Year and Section:</span>
+                                                        <input type="text" class="form-control" name="pys" value="<?php echo $pys ?>" readonly disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">

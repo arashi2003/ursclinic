@@ -62,7 +62,7 @@
     $account_no = $_POST['patientid'];
     $fullname = $_POST['patient'];
     $sex = ucfirst(strtolower($_POST['sex']));
-    $age = $_POST['age'];
+    $age = floor((time() - strtotime($_POST['birthday'])) / 31556926); 
     $medsup = $_POST['medsup'];
     $pys = $_POST['pys'];
     $cc = $_POST['cc'];

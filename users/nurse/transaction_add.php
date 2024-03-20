@@ -120,12 +120,6 @@ $userid = $_SESSION['userid'];
                             </div>
                             <div class="col-md-4 mb-2">
                                 <div class="input-group input-group-md mb-2">
-                                    <span class="input-group-text" id="inputGroup-sizing-md">Age:</span>
-                                    <input type="text" maxlength="3" class="form-control" name="age" id="age" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <div class="input-group input-group-md mb-2">
                                     <span class="input-group-text" id="inputGroup-sizing-md">Sex:</span>
                                     <select class="form-control" aria-label=".form-select-md example" name="sex" id="sex" required>
                                         <option value="" disabled selected></option>

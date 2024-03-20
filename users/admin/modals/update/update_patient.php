@@ -3,7 +3,7 @@
     include('../../add/connection');
     $accountid = $_POST['patientid'];
     $designation = $_POST['designation'];
-    $age  = $_POST['age'];
+    $age = floor((time() - strtotime($_POST['birthday'])) / 31556926); 
     $sex = $_POST['sex'];
     $birthday = date("Y-m-d", strtotime($_POST['birthday']));
     $department = $_POST['department'];

@@ -358,7 +358,6 @@ $usertype = $_SESSION['usertype'];
                             document.getElementById('middlename').value = response.middlename;
                             document.getElementById('lastname').value = response.lastname;
                             document.getElementById('designation').value = response.designation;
-                            document.getElementById('age').value = response.age;
                             document.getElementById('sex').value = response.sex;
                             document.getElementById('department').value = response.department;
                             document.getElementById('college').value = response.college;

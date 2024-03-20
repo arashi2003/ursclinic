@@ -35,19 +35,12 @@
         $department = $data['department'];
         $college = $data['college'];
         $campus = $data['campus'];
-        $age = $data['age'];
+        $age = floor((time() - strtotime($data['birthday'])) / 31556926); 
         $program = $data['program'];
         $yearlevel = $data['yearlevel'];
         $section = $data['section'];
         $block = $data['block'];
         $address = $data['address'];
-        $birthday = $data['birthday']; 
-    }
-
-    $sql = "SELECT * FROM patient_info WHERE patientid='$patientid'";
-    $result = mysqli_query($conn, $sql);
-    while($data=mysqli_fetch_array($result))
-    {
         $birthday = $data['birthday']; 
     }
 
