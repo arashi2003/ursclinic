@@ -20,8 +20,8 @@ if ($result) {
                     </div>
                     <div class="row">
                         <div class="table-responsive">
-                            <table class="table-bordered">
-                                <thead>
+                            <table class="table table-bordered">
+                                <thead class="head">
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
@@ -71,8 +71,10 @@ if ($result) {
                                         } else {
                                             ?>
                                             <tr>
-                                                <td colspan="7">
-                                                    <h4>No Record Found</h4>
+                                                <td colspan="12">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
                                                 </td>
                                             </tr>
                                     <?php
@@ -98,8 +100,8 @@ if ($result) {
                     </div>
                     <div class="row">
                         <div class="table-responsive">
-                            <table class="table-bordered">
-                                <thead>
+                            <table class="table table-bordered">
+                                <thead class="head">
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
@@ -145,8 +147,10 @@ if ($result) {
                                         } else {
                                             ?>
                                             <tr>
-                                                <td colspan="7">
-                                                    <h4>No Record Found</h4>
+                                                <td colspan="12">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
                                                 </td>
                                             </tr>
                                     <?php
@@ -170,8 +174,8 @@ if ($result) {
                     </div>
                     <div class="row">
                         <div class="table-responsive">
-                            <table class="table-bordered">
-                                <thead>
+                            <table class="table table-bordered">
+                                <thead class="head">
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
@@ -220,8 +224,10 @@ if ($result) {
                                         } else {
                                             ?>
                                             <tr>
-                                                <td colspan="7">
-                                                    <h4>No Record Found</h4>
+                                                <td colspan="12">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
                                                 </td>
                                             </tr>
                                     <?php
@@ -248,8 +254,8 @@ if ($result) {
                     </div>
                     <div class="row">
                         <div class="table-responsive">
-                            <table class="table-bordered">
-                                <thead>
+                            <table class="table table-bordered">
+                                <thead class="head">
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
@@ -295,8 +301,10 @@ if ($result) {
                                         } else {
                                             ?>
                                             <tr>
-                                                <td colspan="7">
-                                                    <h4>No Record Found</h4>
+                                                <td colspan="12">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
                                                 </td>
                                             </tr>
                                     <?php
@@ -320,8 +328,8 @@ if ($result) {
                     </div>
                     <div class="row">
                         <div class="table-responsive">
-                            <table class="table-bordered">
-                                <thead>
+                            <table class="table table-bordered">
+                                <thead class="head">
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
@@ -370,8 +378,10 @@ if ($result) {
                                         } else {
                                             ?>
                                             <tr>
-                                                <td colspan="7">
-                                                    <h4>No Record Found</h4>
+                                                <td colspan="12">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
                                                 </td>
                                             </tr>
                                     <?php
@@ -395,8 +405,8 @@ if ($result) {
                     </div>
                     <div class="row">
                         <div class="table-responsive">
-                            <table class="table-bordered">
-                                <thead>
+                            <table class="table table-bordered">
+                                <thead class="head">
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
@@ -445,8 +455,10 @@ if ($result) {
                                         } else {
                                             ?>
                                             <tr>
-                                                <td colspan="7">
-                                                    <h4>No Record Found</h4>
+                                                <td colspan="12">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
                                                 </td>
                                             </tr>
                                     <?php
@@ -472,8 +484,8 @@ if ($result) {
                     </div>
                     <div class="row">
                         <div class="table-responsive">
-                            <table class="table-bordered">
-                                <thead>
+                            <table class="table table-bordered">
+                                <thead class="head">
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
@@ -485,8 +497,10 @@ if ($result) {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td colspan="7">
-                                            <h4>No Record Found</h4>
+                                        <td colspan="12">
+                                            <?php
+                                            include('../../includes/no-data.php');
+                                            ?>
                                         </td>
                                     </tr>
                                 </tbody>

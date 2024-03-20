@@ -110,42 +110,39 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['supply']) && $_GET['supply'] != '') {
-                                    $supply = $_GET['supply'];
-                                    $count = 1;
-                                    $sql = "SELECT * FROM supply WHERE supply LIKE '%$supply%' LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT * FROM supply ORDER BY supply LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Medical Supply ID</th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th>Supply</th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th>Action</th>
-                                            </thead>
-                                            <tbody>
-
-                                                <?php
+                                <table class="table">
+                                    <thead class="head">
+                                        <tr>
+                                            <th>Medical Supply ID</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Supply</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['supply']) && $_GET['supply'] != '') {
+                                            $supply = $_GET['supply'];
+                                            $count = 1;
+                                            $sql = "SELECT * FROM supply WHERE supply LIKE '%$supply%' LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT * FROM supply ORDER BY supply LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $data) { ?>
                                                     <tr>
                                                         <td><?php echo $data['supid'];
@@ -179,19 +176,24 @@ include('../../includes/pagination-limit.php');
                                                     include('modals/rem_supply_modal.php');
                                                 }
                                             } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php'); ?>
-                                    <?php
-                                } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                    ?>
+
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php'); ?>
                             </div>
                         </div>
                     </div>

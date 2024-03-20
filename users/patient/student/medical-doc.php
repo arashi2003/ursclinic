@@ -34,8 +34,8 @@ $rowCounter = 0;
         </div>
         <div class="row">
             <div class="table-responsive">
-                <table class="table-bordered">
-                    <thead>
+                <table class="table table-bordered">
+                    <thead class="head">
                         <tr>
                             <th></th>
                             <th>Medical Documents</th>
@@ -129,8 +129,8 @@ $rowCounter = 0;
         </div>
         <div class="row">
             <div class="table-responsive">
-                <table class="table-bordered">
-                    <thead>
+                <table class="table table-bordered">
+                    <thead class="head">
                         <tr>
                             <th></th>
                             <th>Medical Documents</th>
@@ -220,8 +220,8 @@ $rowCounter = 0;
         </div>
         <div class="row">
             <div class="table-responsive">
-                <table class="table-bordered">
-                    <thead>
+                <table class="table table-bordered">
+                    <thead class="head">
                         <tr>
                             <th></th>
                             <th>Medical Documents</th>
@@ -316,8 +316,8 @@ $rowCounter = 0;
         </div>
         <div class="row">
             <div class="table-responsive">
-                <table class="table-bordered">
-                    <thead>
+                <table class="table table-bordered">
+                    <thead class="head">
                         <tr>
                             <th></th>
                             <th>Medical Documents</th>
@@ -407,8 +407,8 @@ $rowCounter = 0;
         </div>
         <div class="row">
             <div class="table-responsive">
-                <table class="table-bordered">
-                    <thead>
+                <table class="table table-bordered">
+                    <thead class="head">
                         <tr>
                             <th></th>
                             <th>Medical Documents</th>
@@ -498,8 +498,8 @@ $rowCounter = 0;
         </div>
         <div class="row">
             <div class="table-responsive">
-                <table class="table-bordered">
-                    <thead>
+                <table class="table table-bordered">
+                    <thead class="head">
                         <tr>
                             <th></th>
                             <th>Medical Documents</th>
@@ -575,8 +575,8 @@ $rowCounter = 0;
         </div>
         <div class="row">
             <div class="table-responsive">
-                <table class="table-bordered">
-                    <thead>
+                <table class="table table-bordered">
+                    <thead class="head">
                         <tr>
                             <th></th>
                             <th>Medical Documents</th>
@@ -590,7 +590,10 @@ $rowCounter = 0;
                     <tbody>
                         <tr>
                             <td colspan="7">
-                                <h4>No Record Found</h4>
+                                <?php
+                                include('../../../includes/no-data.php');
+                                ?>
+                                <p style="margin-top: -40px"><strong>No Medical Found</strong></p>
                             </td>
                         </tr>
                     </tbody>

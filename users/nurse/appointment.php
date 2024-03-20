@@ -281,8 +281,8 @@ if ($approved_pages > 4) {
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="table-responsive">
-                                        <table>
-                                            <thead>
+                                        <table class="table">
+                                            <thead class="head">
                                                 <tr>
                                                     <th>Appointment ID</th>
                                                     <th>Date</th>
@@ -346,20 +346,28 @@ if ($approved_pages > 4) {
                                                                     <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelappointment<?php echo $data['id'] ?>">Cancel</button>
                                                                 </td>
                                                             </tr>
-                                                    <?php
+                                                        <?php
                                                             include('modals/approve-appointment-modal.php');
                                                             include('modals/cancel-appointment-modal.php');
                                                         }
                                                     } else {
-                                                        echo "<tr><td colspan='8'>No record Found</td></tr>";
+                                                        ?>
+                                                        <tr>
+                                                            <td colspan="12">
+                                                                <?php
+                                                                include('../../includes/no-data.php');
+                                                                ?>
+                                                            </td>
+                                                        </tr>
+                                                    <?php
                                                     }
                                                     ?>
+
+                                                <?php
+                                                }
+                                                ?>
                                             </tbody>
                                         </table>
-                                    <?php
-                                                }
-
-                                    ?>
                                     </div>
                                     <?php
                                     if (mysqli_num_rows($result) > 0) {
@@ -444,8 +452,8 @@ if ($approved_pages > 4) {
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="table-responsive">
-                                        <table>
-                                            <thead>
+                                        <table class="table">
+                                            <thead class="head">
                                                 <tr>
                                                     <th>Appointment ID</th>
                                                     <th>Date</th>
@@ -507,19 +515,28 @@ if ($approved_pages > 4) {
                                                                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#completeappointment">Complete</button>
                                                                 </td>
                                                             </tr>
-                                                    <?php
+                                                        <?php
                                                             include('modals/complete-appointment-modal.php');
                                                         }
                                                     } else {
-                                                        echo "<tr><td colspan='8'>No record Found</td></tr>";
+                                                        ?>
+                                                        <tr>
+                                                            <td colspan="12">
+                                                                <?php
+                                                                include('../../includes/no-data.php');
+                                                                ?>
+                                                            </td>
+                                                        </tr>
+                                                    <?php
                                                     }
                                                     ?>
-                                            </tbody>
-                                        </table>
-                                    <?php
+
+                                                <?php
                                                 }
                                                 mysqli_close($conn);
-                                    ?>
+                                                ?>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <?php
                                     if (mysqli_num_rows($result) > 0) {

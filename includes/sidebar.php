@@ -75,13 +75,13 @@
                     <li>
                         <a class="<?php if ($module == 'entry' or $module == 'med_entry' or  $module == 'sup_entry' or $module == 'te_entry') {
                                         echo 'active showMenu';
-                                    } ?>" href="entry">Entry</a>
+                                    } ?>" href="med_entry">Entry</a>
                     </li>
 
                     <li>
                         <a class="<?php if ($module == 'stocks' or $module == 'med_stocks_total' or $module == 'med_stocks_batch' or $module == 'med_stocks' or $module == 'sup_stocks_total' or $module == 'sup_stocks_exp' or $module == 'sup_stocks_batch' or $module == 'te_stocks') {
                                         echo 'active showMenu';
-                                    } ?>" href="stocks">Stocks</a>
+                                    } ?>" href="med_stocks_total">Stocks</a>
                     </li>
                 </ul>
             </li>

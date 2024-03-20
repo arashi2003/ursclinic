@@ -140,51 +140,48 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['medicine']) && $_GET['medicine'] != '') {
-                                    $medicine = $_GET['medicine'];
-                                    $count = 1;
-                                    $sql = "SELECT * FROM medicine WHERE CONCAT(medicine, ' ', dosage, unit_measure) LIKE '%$medicine%' ORDER BY med_admin, medicine LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } elseif (isset($_GET['med_admin']) && $_GET['med_admin'] != '' || isset($_GET['dform']) && $_GET['dform'] != '') {
-                                    $med_admin = $_GET['med_admin'];
-                                    $dform = $_GET['dform'];
-                                    if ($med_admin == "") {
-                                        $medadmin = "";
-                                    } else {
-                                        $medadmin = "WHERE med_admin = '$med_admin'";
-                                    }
-                                    if ($dform != "" and $med_admin != "") {
-                                        $dosage = " AND dosage_form = '$dform'";
-                                    } elseif ($dform != "" and $med_admin == "") {
-                                        $dosage = "WHERE dosage_form = '$dform'";
-                                    } else {
-                                        $dosage = "";
-                                    }
+                                <table class="table">
+                                    <thead class="head">
+                                        <tr>
+                                            <th>Medicine ID</th>
+                                            <th>Administration</th>
+                                            <th>Dosage Form</th>
+                                            <th>Medicine</th>
+                                            <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['medicine']) && $_GET['medicine'] != '') {
+                                            $medicine = $_GET['medicine'];
+                                            $count = 1;
+                                            $sql = "SELECT * FROM medicine WHERE CONCAT(medicine, ' ', dosage, unit_measure) LIKE '%$medicine%' ORDER BY med_admin, medicine LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['med_admin']) && $_GET['med_admin'] != '' || isset($_GET['dform']) && $_GET['dform'] != '') {
+                                            $med_admin = $_GET['med_admin'];
+                                            $dform = $_GET['dform'];
+                                            if ($med_admin == "") {
+                                                $medadmin = "";
+                                            } else {
+                                                $medadmin = "WHERE med_admin = '$med_admin'";
+                                            }
+                                            if ($dform != "" and $med_admin != "") {
+                                                $dosage = " AND dosage_form = '$dform'";
+                                            } elseif ($dform != "" and $med_admin == "") {
+                                                $dosage = "WHERE dosage_form = '$dform'";
+                                            } else {
+                                                $dosage = "";
+                                            }
 
-                                    $count = 1;
-                                    $sql = "SELECT * FROM medicine $medadmin $dosage ORDER BY med_admin, medicine LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT * FROM medicine ORDER BY med_admin, medicine LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Medicine ID</th>
-                                                    <th>Administration</th>
-                                                    <th>Dosage Form</th>
-                                                    <th>Medicine</th>
-                                                    <th>Action</th>
-                                            </thead>
-                                            <tbody>
-
-                                                <?php
+                                            $count = 1;
+                                            $sql = "SELECT * FROM medicine $medadmin $dosage ORDER BY med_admin, medicine LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT * FROM medicine ORDER BY med_admin, medicine LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $data) { ?>
                                                     <tr>
                                                         <td><?php echo $data['medid']; ?></td>
@@ -201,19 +198,23 @@ include('../../includes/pagination-limit.php');
                                                     include('modals/update_medicine_modal.php');
                                                 }
                                             } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php'); ?>
-                                    <?php
-                                } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                    ?>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php'); ?>
                             </div>
                         </div>
                     </div>

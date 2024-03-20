@@ -625,7 +625,6 @@ th {
 .home-content table {
   border-collapse: collapse;
   width: 100%;
-  margin-bottom: 10px;
 }
 
 .home-content table input {
@@ -636,7 +635,7 @@ th {
   text-align: center;
 }
 
-th {
+.head {
   background-color: #081d45;
   color: white;
 }
