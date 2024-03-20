@@ -271,8 +271,8 @@ include('../../includes/pagination-limit.php');
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <table>
-                                    <thead>
+                                <table class="table">
+                                    <thead class="head">
                                         <tr>
                                             <th>Type of Transaction</th>
                                             <th>Service</th>
@@ -323,10 +323,34 @@ include('../../includes/pagination-limit.php');
                                                     }
                                                 }
                                                 ?>
+                                            <?php
+                                            } else { ?>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <?php
+                                                        include('../../includes/no-data.php');
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                            <?php
+                                            }
+                                        } else {
+                                            ?>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
                                     </tbody>
                                 </table>
                                 <?php
-                                                if (mysqli_num_rows($result) > 0) {
+                                if (mysqli_num_rows($result) > 0) {
                                 ?>
                                     <ul class="pagination justify-content-end">
                                         <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
@@ -348,23 +372,8 @@ include('../../includes/pagination-limit.php');
                                         </li>
                                     </ul>
                                 <?php
-                                                }
+                                }
                                 ?>
-                            <?php
-                                            } else { ?>
-                                <tr>
-                                    <td colspan="7">No record Found</td>
-                                </tr>
-                            <?php }
-                                        } else {
-                            ?>
-                            <tr>
-                                <td colspan="7">No record Found</td>
-                            </tr>
-                        <?php
-                                        }
-                                        mysqli_close($conn);
-                        ?>
                             </div>
                         </div>
                     </div>

@@ -76,7 +76,7 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addmedstocks">Add Entry</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmedstocks">Add Entry</button>
                     <?php include('modals/nurseaddmedstocks_batch_modal.php'); ?>
                 </div>
                 <div class="content">

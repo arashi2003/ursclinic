@@ -173,8 +173,8 @@ if ($pages > 4) {
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <table>
-                                    <thead>
+                                <table class="table">
+                                    <thead class="head">
                                         <tr>
                                             <th>Patient ID</th>
                                             <th>Designation</th>
@@ -243,15 +243,23 @@ if ($pages > 4) {
                                             } else {
                                                 ?>
                                                 <tr>
-                                                    <td colspan="6">No record Found</td>
+                                                    <td colspan="12">
+                                                        <?php
+                                                        include('../../includes/no-data.php');
+                                                        ?>
+                                                    </td>
                                                 </tr>
                                             <?php
-                                            } ?>
+                                            }
+                                            ?>
+                                        <?php }
+                                        mysqli_close($conn);
+                                        ?>
                                     </tbody>
                                 </table>
                                 <ul class="pagination justify-content-end">
                                     <?php
-                                            if (mysqli_num_rows($result) > 0) : ?>
+                                    if (mysqli_num_rows($result) > 0) : ?>
                                         <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
                                             <a class="page-link" href="?<?= isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
                                         </li>
@@ -271,14 +279,6 @@ if ($pages > 4) {
                                         </li>
                                     <?php endif; ?>
                                 </ul>
-                            <?php
-                                        } else { ?>
-                                <tr>
-                                    <td colspan="6">No record Found</td>
-                                </tr>
-                            <?php }
-                                        mysqli_close($conn);
-                            ?>
                             </div>
                         </div>
                     </div>

@@ -94,7 +94,7 @@ include('../../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addappointment">Request Appointment</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addappointment">Request Appointment</button>
                     <?php include('modals/add-appointment-modal.php');
                     ?>
                 </div>
@@ -129,37 +129,37 @@ include('../../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <table>
-                                    <thead>
+                                <table class="table">
+                                    <thead class="head">
                                         <tr>
-                                            <th>Appointment No.</th>
+                                            <th>No.</th>
                                             <th>Date</th>
                                             <th>Time from</th>
                                             <th>Time to</th>
                                             <th>Physician</th>
                                             <th>Status</th>
+                                        </tr>
                                     </thead>
-                                    <?php
-                                    if (isset($_GET['date']) && $_GET['date'] != '') {
-                                        $date = $_GET['date'];
-                                        $count = 1;
-                                        $sql = "SELECT * FROM appointment WHERE date='$date' AND patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
-                                        $result = mysqli_query($conn, $sql);
-                                    } elseif (isset($_GET['physician']) && $_GET['physician'] != '') {
-                                        $physician = $_GET['physician'];
-                                        $count = 1;
-                                        $sql = "SELECT * FROM appointment WHERE physician='$physician' AND patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
-                                        $result = mysqli_query($conn, $sql);
-                                    } else {
-                                        $count = 1;
-                                        $sql = "SELECT * FROM appointment WHERE patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
-                                        $result = mysqli_query($conn, $sql);
-                                    }
-                                    if ($result) {
-                                        if (mysqli_num_rows($result) > 0) {
-                                    ?>
-                                            <tbody>
-
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['date']) && $_GET['date'] != '') {
+                                            $date = $_GET['date'];
+                                            $count = 1;
+                                            $sql = "SELECT * FROM appointment WHERE date='$date' AND patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['physician']) && $_GET['physician'] != '') {
+                                            $physician = $_GET['physician'];
+                                            $count = 1;
+                                            $sql = "SELECT * FROM appointment WHERE physician='$physician' AND patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT * FROM appointment WHERE patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
+                                        ?>
                                                 <?php
                                                 foreach ($result as $data) {
 
@@ -183,28 +183,30 @@ include('../../../includes/pagination-limit.php');
                                                 <?php
                                                 }
                                                 ?>
-                                            </tbody>
-                                </table>
-                            <?php
-                                            include('../../../includes/pagination.php');
-                                        } else {
-                            ?>
-                                <tr>
-                                    <td colspan="6">
-                                        <h4>No record Found</h4>
-                                    </td>
-                                </tr>
-                        <?php
+
+                                            <?php
+                                                include('../../../includes/pagination.php');
+                                            } else {
+                                            ?>
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <?php
+                                                        include('../../../includes/no-data.php');
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                        <?php
+                                            }
                                         }
-                                    }
-                                    mysqli_close($conn);
-                        ?>
+                                        mysqli_close($conn);
+                                        ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 

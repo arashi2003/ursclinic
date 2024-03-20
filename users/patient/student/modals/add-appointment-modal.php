@@ -31,7 +31,7 @@
                             <label for="date" class="col-form-label">Date:</label>
                             <input type="text" class="form-control" name="date" id="showDate" placeholder="mm/dd/yyyy">
                         </div>
-                        <div class="col hidden" id="timeDiv">
+                        <div class="col hidden" id="timeFromDiv">
                             <label for="time_from" class="col-form-label">Time From:</label>
                             <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_from" id="time_from">
                                 <option value="" disabled selected>-:-- --</option>
@@ -46,7 +46,7 @@
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col hidden" id="timeDiv">
+                        <div class="col hidden" id="timeToDiv">
                             <label for="time_to" class="col-form-label">Time To:</label>
                             <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_to" id="time_to">
                                 <option value="" disabled selected>-:-- --</option>
@@ -214,7 +214,8 @@
         {
             if (answer.value == 1 || answer.value == 2 || answer.value == 3) {
                 document.getElementById('dateDiv').classList.remove('hidden');
-                document.getElementById('timeDiv').classList.remove('hidden');
+                document.getElementById('timeFromDiv').classList.remove('hidden');
+                document.getElementById('timeToDiv').classList.remove('hidden');
                 document.getElementById('purposeDiv').classList.remove('hidden');
                 document.getElementById('ccDiv').classList.remove('hidden');
                 document.getElementById('medDupDiv').classList.add('hidden');
@@ -224,7 +225,8 @@
                 document.getElementById('others').classList.add('hidden');
             } else if (answer.value == 4) {
                 document.getElementById('dateDiv').classList.add('hidden');
-                document.getElementById('timeDiv').classList.add('hidden');
+                document.getElementById('timeFromDiv').classList.add('hidden');
+                document.getElementById('timeToDiv').classList.add('hidden');
                 document.getElementById('purposeDiv').classList.remove('hidden');
                 document.getElementById('ccDiv').classList.remove('hidden');
                 document.getElementById('supDupDiv').classList.add('hidden');
@@ -234,7 +236,8 @@
                 document.getElementById('others').classList.add('hidden');
             } else if (answer.value == 5) {
                 document.getElementById('dateDiv').classList.add('hidden');
-                document.getElementById('timeDiv').classList.add('hidden');
+                document.getElementById('timeFromDiv').classList.add('hidden');
+                document.getElementById('timeToDiv').classList.add('hidden');
                 document.getElementById('purposeDiv').classList.remove('hidden');
                 document.getElementById('ccDiv').classList.remove('hidden');
                 document.getElementById('medDupDiv').classList.add('hidden');
@@ -244,7 +247,8 @@
                 document.getElementById('others').classList.add('hidden');
             } else if (answer.value == 6 || answer.value == 7) {
                 document.getElementById('dateDiv').classList.remove('hidden');
-                document.getElementById('timeDiv').classList.remove('hidden');
+                document.getElementById('timeFromDiv').classList.remove('hidden');
+                document.getElementById('timeToDiv').classList.remove('hidden');
                 document.getElementById('purposeDiv').classList.remove('hidden');
                 document.getElementById('ccDiv').classList.add('hidden');
                 document.getElementById('medDupDiv').classList.add('hidden');

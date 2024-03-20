@@ -111,30 +111,30 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['addcc']) && $_GET['addcc'] != '') {
-                                    $addcc = $_GET['addcc'];
-                                    $count = 1;
-                                    $sql = "SELECT c.id, c.chief_complaint, t.type, p.purpose FROM appointment_cc c INNER JOIN appointment_purpose p ON p.id=c.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE chief_complaint LIKE '%$addcc%' ORDER BY t.type LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT c.id, c.chief_complaint, t.type, p.purpose FROM appointment_cc c INNER JOIN appointment_purpose p ON p.id=c.purpose INNER JOIN appointment_type t ON t.id=p.type ORDER BY t.type LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>No.</th>
-                                                    <th>Appointment Type</th>
-                                                    <th>Appointment Purpose</th>
-                                                    <th>Appointment Chief Complaint</th>
-                                                    <th>Action</th>
-                                            </thead>
-                                            <tbody>
+                                <table class="table">
+                                    <thead class="head">
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Appointment Type</th>
+                                            <th>Appointment Purpose</th>
+                                            <th>Appointment Chief Complaint</th>
+                                            <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['addcc']) && $_GET['addcc'] != '') {
+                                            $addcc = $_GET['addcc'];
+                                            $count = 1;
+                                            $sql = "SELECT c.id, c.chief_complaint, t.type, p.purpose FROM appointment_cc c INNER JOIN appointment_purpose p ON p.id=c.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE chief_complaint LIKE '%$addcc%' ORDER BY t.type LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT c.id, c.chief_complaint, t.type, p.purpose FROM appointment_cc c INNER JOIN appointment_purpose p ON p.id=c.purpose INNER JOIN appointment_type t ON t.id=p.type ORDER BY t.type LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
+                                        ?>
                                                 <?php
                                                 foreach ($result as $data) { ?>
                                                     <tr>
@@ -153,19 +153,24 @@ include('../../includes/pagination-limit.php');
                                                     include('modals/rem_appcc_set_modal.php');
                                                 }
                                             } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php') ?>
-                                    <?php
-                                } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                    ?>
+
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php') ?>
                             </div>
                         </div>
                     </div>

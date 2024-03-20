@@ -110,33 +110,30 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['te']) && $_GET['te'] != '') {
-                                    $te = $_GET['te'];
-                                    $count = 1;
-                                    $sql = "SELECT * FROM tools_equip WHERE tools_equip LIKE '%$te%' ORDER BY tools_equip LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT * FROM tools_equip ORDER BY tools_equip LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Tools/Equipment ID</th>
-                                                    <th>Tools and Equipment</th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th>Action</th>
-                                            </thead>
-                                            <tbody>
-
-                                                <?php
+                                <table class="table">
+                                    <thead class="head">
+                                        <tr>
+                                            <th>Tools/Equipment ID</th>
+                                            <th>Tools and Equipment</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['te']) && $_GET['te'] != '') {
+                                            $te = $_GET['te'];
+                                            $count = 1;
+                                            $sql = "SELECT * FROM tools_equip WHERE tools_equip LIKE '%$te%' ORDER BY tools_equip LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT * FROM tools_equip ORDER BY tools_equip LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $data) { ?>
                                                     <tr>
                                                         <td><?php echo $data['teid']; ?></td>
@@ -155,19 +152,24 @@ include('../../includes/pagination-limit.php');
                                                     include('modals/update_te_modal.php');
                                                 }
                                             } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php'); ?>
-                                    <?php
-                                } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                    ?>
+
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php'); ?>
                             </div>
                         </div>
                     </div>

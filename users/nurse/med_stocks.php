@@ -115,7 +115,7 @@ include('../../includes/pagination-limit.php');
                                     </form>
                                     <form action="" method="get">
                                         <div class="col-md-4 mb-2">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group">
                                                 <input type="text" name="medicine" value="<?= isset($_GET['medicine']) == true ? $_GET['medicine'] : '' ?>" class="form-control" placeholder="Search medicine">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>

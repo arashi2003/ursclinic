@@ -99,14 +99,14 @@ include('../../includes/pagination-limit.php');
                                                 $sql = "SELECT DISTINCT type FROM transaction_history WHERE campus='$campus' ORDER BY type";
                                                 $result = mysqli_query($conn, $sql);
                                                 foreach ($result as $row) {   ?>
-                                                    <option value="<?php echo $row['type']; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row['type'] ? 'selected' : '') : '' ?>"><?php echo $row['type'] ?></option><?php } ?>
+                                                    <option value="<?php echo $row['type']; ?>" <?= isset($_GET['type']) == true ? ($_GET['type'] == $row['type'] ? 'selected' : '') : '' ?>><?php echo $row['type'] ?></option><?php } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="date" name="date_from" class="form-control">
+                                            <input type="date" name="date_from" class="form-control" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>">
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="date" name="date_to" class="form-control">
+                                            <input type="date" name="date_to" class="form-control" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>">
                                         </div>
                                         <div class="col-md-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
@@ -118,72 +118,71 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['account']) && $_GET['account'] != '') {
-                                    $account = $_GET['account'];
-                                    $count = 1;
-                                    $sql = "SELECT * WHERE campus='$campus' AND (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%') AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } elseif (isset($_GET['type']) && $_GET['type'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
-                                    $type = $_GET['type'];
-                                    $dt_from = $_GET['date_from'];
-                                    $dt_to = $_GET['date_to'];
-                                    $count = 1;
+                                <table class="table">
+                                    <thead class="head">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Patient</th>
+                                            <th>Type of Transaction</th>
+                                            <th>Service</th>
+                                            <th>Date and Time</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['account']) && $_GET['account'] != '') {
+                                            $account = $_GET['account'];
+                                            $count = 1;
+                                            $sql = "SELECT * WHERE campus='$campus' AND (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%') AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['type']) && $_GET['type'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
+                                            $type = $_GET['type'];
+                                            $dt_from = $_GET['date_from'];
+                                            $dt_to = $_GET['date_to'];
+                                            $count = 1;
 
-                                    //date filter
-                                    if ($dt_from == "" and $dt_to == "") {
-                                        $date = "";
-                                    } elseif ($dt_to == $dt_from) {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $ldate = date("Y-m-d", strtotime($dt_to));
-                                        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
-                                    } elseif ($dt_to == "" and $dt_from != "") {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $date = " AND datetime >= '$fdate'";
-                                    } elseif ($dt_to == "" and $dt_from != "") {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $date = " AND datetime >= '$fdate'";
-                                    } elseif ($dt_from == "" and $dt_to != "") {
-                                        $d = date("Y-m-d", strtotime($dt_to));
-                                        $date = " AND datetime <= '$d'";
-                                    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $ldate = date("Y-m-d", strtotime($dt_to));
-                                        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
-                                    }
+                                            //date filter
+                                            if ($dt_from == "" and $dt_to == "") {
+                                                $date = "";
+                                            } elseif ($dt_to == $dt_from) {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+                                            } elseif ($dt_to == "" and $dt_from != "") {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime >= '$fdate'";
+                                            } elseif ($dt_to == "" and $dt_from != "") {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime >= '$fdate'";
+                                            } elseif ($dt_from == "" and $dt_to != "") {
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+                                            }
 
-                                    //type filter
-                                    if ($type == "") {
-                                        $tp = "";
-                                    } elseif ($type != "" and $date == "") {
-                                        $tp = " AND type = '$type'";
-                                    } elseif ($date != "" and $type != "") {
-                                        $tp = " AND type = '$type'";
-                                    }
+                                            //type filter
+                                            if ($type == "") {
+                                                $tp = "";
+                                            } elseif ($type != "" and $date == "") {
+                                                $tp = " AND type = '$type'";
+                                            } elseif ($date != "" and $type != "") {
+                                                $tp = " AND type = '$type'";
+                                            }
 
-                                    $sql = "SELECT * FROM transaction_history WHERE campus='$campus' $date $tp AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT * FROM transaction_history WHERE campus='$campus' AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if ($row = mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Patient</th>
-                                                    <th>Type of Transaction</th>
-                                                    <th>Service</th>
-                                                    <th>Date and Time</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
+                                            $sql = "SELECT * FROM transaction_history WHERE campus='$campus' $date $tp AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT * FROM transaction_history WHERE campus='$campus' AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if ($row = mysqli_num_rows($result) > 0) {
+                                        ?>
                                                 <?php
                                                 foreach ($result as $data) {
                                                     if (count(explode(" ", $data['middlename'])) > 1) {
@@ -220,20 +219,23 @@ include('../../includes/pagination-limit.php');
                                             <?php
                                                     include('modals/view_trans_modal.php');
                                                 }
-                                            } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php'); ?>
-                                    <?php
-                                } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                    ?>
+                                            } else {
+                                                ?>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <?php
+                                                        include('../../includes/no-data.php');
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                        <?php
+                                            }
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php'); ?>
                             </div>
                         </div>
                     </div>

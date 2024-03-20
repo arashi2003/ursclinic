@@ -111,38 +111,36 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['apptype']) && $_GET['apptype'] != '') {
-                                    $apptype = $_GET['apptype'];
-                                    $count = 1;
-                                    $sql = "SELECT * FROM appointment_type WHERE type LIKE '%$apptype%' ORDER BY type LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT * FROM appointment_type ORDER BY type LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th>Appointment Type</th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                                <?php
-                                                foreach ($result as $data) { ?>
+                                <table class="table">
+                                    <thead class="head">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Appointment Type</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['apptype']) && $_GET['apptype'] != '') {
+                                            $apptype = $_GET['apptype'];
+                                            $count = 1;
+                                            $sql = "SELECT * FROM appointment_type WHERE type LIKE '%$apptype%' ORDER BY type LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT * FROM appointment_type ORDER BY type LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
+                                                foreach ($result as $data) {
+                                        ?>
                                                     <tr>
                                                         <td><?php echo $type = $data['id']; ?></td>
                                                         <td></td>
@@ -168,20 +166,25 @@ include('../../includes/pagination-limit.php');
                                                     include('modals/update_apptype_set_modal.php');
                                                     include('modals/rem_apptype_set_modal.php');
                                                 }
-                                            } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php'); ?>
-                                    <?php
-                                } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                    ?>
+                                            }
+                                            ?>
+                                            <?php include('../../includes/pagination.php'); ?>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
