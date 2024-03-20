@@ -3,18 +3,29 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Update Transaction and Service</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../services.php'"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
             </div>
             <form method="POST" action="modals/update/update_transaction.php" id="form">
                 <div class="modal-body">
+                <?php $trans = $data['transaction_type']?>
                     <div class="mb-2">
                         <label for="transaction" class="form-label">Transaction:</label>
                         <input type="text" name="id" value="<?php echo $data['id']?>" hidden>
-                        <input type="text" class="form-control" name="transaction" id="transaction" value="<?php echo $data['transaction_type']?>" required>
+                        <select name="transaction" class="form-control" id="transaction" required>
+                            <?php
+                            if ($trans == 'Appointment') { ?>
+                                <option value="Appointment" selected>Appointment</option>
+                                <option value="Walk-In">Walk-In</option>
+                            <?php } elseif($trans == 'Walk-In') { ?>
+                                <option value="Appointment">Appointment</option>
+                                <option value="Walk-In" selected>Walk-In</option>
+                            <?php }
+                            ?>
+                        </select>
                     </div>
                     <div class="mb-2">
                         <label for="service" class="form-label">Service:</label>
-                        <input type="text" class="form-control" name="service" value="<?php echo $data['service']?>" id="service">
+                        <input type="text" class="form-control" name="service" value="<?php echo $data['service'] ?>" id="service">
                     </div>
                 </div>
                 <div class="modal-footer">

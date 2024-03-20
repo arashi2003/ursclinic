@@ -89,6 +89,7 @@ include('../../includes/pagination-limit.php');
                                                 <option value="type" selected>Type</option>
                                                 <option value="purpose">Purpose</option>
                                                 <option value="cc">Chief Complaint</option>
+                                                <option value="physician">Physician</option>
                                             </select>
                                         </div>
                                         <div class="col mb-2">
@@ -154,7 +155,7 @@ include('../../includes/pagination-limit.php');
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateapptype_set<?php echo $data['id']; ?>">Update</button>
                                                             <?php
-                                                            $sql = "SELECT type FROM appointment WHERE type LIKE '%$type%'";
+                                                            $sql = "SELECT type FROM appointment_purpose WHERE type LIKE '%$type%'";
                                                             $result = mysqli_query($conn, $sql);
                                                             if (mysqli_num_rows($result) > 0) { ?>
                                                                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeapptype_set<?php echo $data['id']; ?>" disabled>Remove</button>

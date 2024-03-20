@@ -89,6 +89,7 @@ include('../../includes/pagination-limit.php');
                                                 <option value="type">Type</option>
                                                 <option value="purpose" selected>Purpose</option>
                                                 <option value="cc">Chief Complaint</option>
+                                                <option value="physician">Physician</option>
                                             </select>
                                         </div>
                                         <div class="col mb-2">

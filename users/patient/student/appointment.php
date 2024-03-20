@@ -47,7 +47,7 @@ include('../../../includes/pagination-limit.php');
                         OR (au.activity LIKE 'cancelled a request for%' AND au.activity LIKE '%$userid') 
                         OR (au.activity LIKE 'approved a request for%' AND au.activity LIKE '%$userid') 
                         OR (au.activity LIKE 'completed a request for%' AND au.activity LIKE '%$userid') 
-                        OR (au.activity LIKE 'dismissed a request for%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'system dismissed a request for%' AND au.activity LIKE '%$userid') 
                         OR (au.activity LIKE 'added%' AND au.activity LIKE '%$userid') 
                         OR (au.activity LIKE 'added a walk-in schedule%' AND au.activity LIKE '%$campus') 
                         OR (au.activity LIKE 'cancelled a walk-in schedule%' AND au.activity LIKE '%$campus')) 
@@ -94,7 +94,7 @@ include('../../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addappointment">Request Appointment</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addappointment">Request Appointment</button>
                     <?php include('modals/add-appointment-modal.php');
                     ?>
                 </div>

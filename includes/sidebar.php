@@ -108,7 +108,7 @@
                 </div>
                 <ul class="sub-menu">
                     <li>
-                        <a class="<?php if ($module == 'app' or $module == 'apptype_set' or $module == 'apppurpose_set' or $module == 'appcc_set') {
+                        <a class="<?php if ($module == 'app' or $module == 'apptype_set' or $module == 'apppurpose_set' or $module == 'appcc_set' or $module == 'appphysician_set') {
                                         echo 'active showMenu';
                                     } ?>" href="app">Appointment</a>
                     </li>
@@ -338,7 +338,7 @@
                     <li><a class="link_name" href="patients">Patient Information</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'transaction_history' || $module = 'transaction_dental_consultation') {
+            <li class="<?php if ($module == 'transaction_history' || $module == 'transaction_dental_consultation') {
                             echo 'active showMenu';
                         } ?>">
                 <div class="icon-link">

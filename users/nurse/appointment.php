@@ -180,7 +180,8 @@ if ($approved_pages > 4) {
                         <?php
                         $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
                         FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
-                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
+                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired'
+                        OR au.activity LIKE 'cancelled a request%' OR au.activity LIKE 'cancelled a walk-in%') AND au.status='unread' AND au.user != '$userid'";
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
@@ -267,7 +268,7 @@ if ($approved_pages > 4) {
                                                                 }
                                                                 $physician = strtoupper($row['firstname'] . " " . $middleinitial . " " . $row['lastname']); ?>
                                                                 <option value="<?php echo $physician; ?>" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == $physician ? 'selected' : '') : '' ?>><?php echo $physician; ?></option><?php }
-                                                        } ?>
+                                                                                                                                                                                                                                            } ?>
                                                     </select>
                                                 </div>
                                                 <div class="col mb-2">
@@ -280,24 +281,6 @@ if ($approved_pages > 4) {
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="table-responsive">
-                                        <?php
-                                        if (isset($_GET['patient']) && $_GET['patient'] != '') {
-                                            $patient = $_GET['patient'];
-                                            $count = 1;
-                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE  CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='PENDING' AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
-                                            $result = mysqli_query($conn, $sql);
-                                        } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
-                                            $date = $_GET['date'];
-                                            $physician = $_GET['physician'];
-                                            $count = 1;
-                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' or ap.physician = '$physician' AND ac.campus='$campus' AND ap.status='PENDING' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
-                                            $result = mysqli_query($conn, $sql);
-                                        } else {
-                                            $count = 1;
-                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.status='PENDING' AND ac.campus='$campus' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
-                                            $result = mysqli_query($conn, $sql);
-                                        }
-                                        ?>
                                         <table>
                                             <thead>
                                                 <tr>
@@ -313,6 +296,22 @@ if ($approved_pages > 4) {
                                             </thead>
                                             <tbody>
                                                 <?php
+                                                if (isset($_GET['patient']) && $_GET['patient'] != '') {
+                                                    $patient = $_GET['patient'];
+                                                    $count = 1;
+                                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE  CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='PENDING' AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $result = mysqli_query($conn, $sql);
+                                                } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
+                                                    $date = $_GET['date'];
+                                                    $physician = $_GET['physician'];
+                                                    $count = 1;
+                                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' or ap.physician = '$physician' AND ac.campus='$campus' AND ap.status='PENDING' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $result = mysqli_query($conn, $sql);
+                                                } else {
+                                                    $count = 1;
+                                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.status='PENDING' AND ac.campus='$campus' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $result = mysqli_query($conn, $sql);
+                                                }
                                                 if ($result) {
                                                     if (mysqli_num_rows($result) > 0) {
                                                         foreach ($result as $data) {
@@ -445,25 +444,6 @@ if ($approved_pages > 4) {
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="table-responsive">
-                                        <?php
-                                        if (isset($_GET['patient']) && $_GET['patient'] != '') {
-                                            $patient = $_GET['patient'];
-                                            $count = 1;
-                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE  CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='APPROVED' AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
-                                            $result = mysqli_query($conn, $sql);
-                                        } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
-                                            $date = $_GET['date'];
-                                            $physician = $_GET['physician'];
-                                            $count = 1;
-                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' or ap.physician = '$physician' AND ac.campus='$campus' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
-                                            $result = mysqli_query($conn, $sql);
-                                        } else {
-                                            $count = 1;
-                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.status='APPROVED' AND ac.campus='$campus' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
-                                            $result = mysqli_query($conn, $sql);
-                                        }
-
-                                        ?>
                                         <table>
                                             <thead>
                                                 <tr>
@@ -477,8 +457,23 @@ if ($approved_pages > 4) {
                                                     <th>Action</th>
                                             </thead>
                                             <tbody>
-
                                                 <?php
+                                                if (isset($_GET['patient']) && $_GET['patient'] != '') {
+                                                    $patient = $_GET['patient'];
+                                                    $count = 1;
+                                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE  CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='APPROVED' AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $result = mysqli_query($conn, $sql);
+                                                } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
+                                                    $date = $_GET['date'];
+                                                    $physician = $_GET['physician'];
+                                                    $count = 1;
+                                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' or ap.physician = '$physician' AND ac.campus='$campus' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $result = mysqli_query($conn, $sql);
+                                                } else {
+                                                    $count = 1;
+                                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.status='APPROVED' AND ac.campus='$campus' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $result = mysqli_query($conn, $sql);
+                                                }
                                                 if ($result) {
                                                     if (mysqli_num_rows($result) > 0) {
                                                         foreach ($result as $data) {

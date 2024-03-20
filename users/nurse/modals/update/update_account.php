@@ -1,18 +1,15 @@
 <?php
     session_start();
     include('../connection.php');
-    $accountid = $_POST['accountid'];
+    $userid = $_SESSION['userid'];
     $cupassword = $_POST['cupassword'];
     $password = $_POST['npassword'];
     $copassword = $_POST['copassword'];
-    $usertype = $_POST['usertype'];
     $firstname = strtoupper($_POST['firstname']);
     $middlename = strtoupper($_POST['middlename']);
     $lastname = strtoupper($_POST['lastname']);
     $email = $_POST['email'];
     $contactno = $_POST['contactno'];
-    $campus = $_POST['campus'];
-    $status = $_POST['status'];
 
     $user = $_SESSION['userid'];
     $au_campus = $_SESSION['campus'];
@@ -29,20 +26,20 @@
         $middle = $middlename;
     }
     
-    $sql[0] = "SELECT * FROM account WHERE accountid = '$accountid'";
+    $sql[0] = "SELECT * FROM account WHERE accountid = '$userid'";
     $result = mysqli_query($conn, $sql[0]);
     $resultCheck = mysqli_num_rows($result);
     if ($password != "")
     {
         //check current pass na in-enter is same sa db
-        $sql = "SELECT password from account WHERE accountid = '$accountid' AND password = '$cupassword'";
+        $sql = "SELECT password from account WHERE accountid = '$userid' AND password = '$cupassword'";
         $result = mysqli_query($conn, $sql);
         $resultCheck = mysqli_num_rows($result);
         if($resultCheck > 0)
         {
             if($password == $copassword)
             {
-                $sql= "UPDATE account SET password='$password', usertype='$usertype', firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', campus='$campus', status='$status', datetime_updated=now() WHERE accountid='$accountid'";
+                $sql= "UPDATE account SET password='$password', firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', datetime_updated=now() WHERE accountid='$userid'";
                 if (mysqli_query($conn, $sql))
                 {
                     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
@@ -51,7 +48,7 @@
                         ?>
                         <script>
                             setTimeout(function() {
-                                window.location = "../../profile.php";
+                                window.location = "../../profile";
                             });
                         </script>
                         <?php
@@ -62,7 +59,7 @@
                         ?>
                         <script>
                             setTimeout(function() {
-                                window.location = "../../profile.php";
+                                window.location = "../../profile";
                             });
                         </script>
                         <?php
@@ -74,7 +71,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../../profile.php";
+                            window.location = "../../profile";
                         });
                     </script>
                     <?php
@@ -86,7 +83,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../../profile.php";
+                        window.location = "../../profile";
                     });
                 </script>
                 <?php
@@ -98,7 +95,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../profile.php";
+                    window.location = "../../profile";
                 });
             </script>
             <?php
@@ -107,7 +104,7 @@
     } 
     else
     {
-        $sql= "UPDATE account SET usertype='$usertype', firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', campus='$campus', status='$status', datetime_updated=now() WHERE accountid='$accountid'";
+        $sql= "UPDATE account SET firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', datetime_updated=now() WHERE accountid='$userid'";
         if (mysqli_query($conn, $sql))
         {
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
@@ -116,7 +113,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../../profile.php";
+                        window.location = "../../profile";
                     });
                 </script>
                 <?php
@@ -127,7 +124,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../../profile.php";
+                        window.location = "../../profile";
                     });
                 </script>
                 <?php
@@ -140,7 +137,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../../profile.php";
+        window.location = "../../profile";
     });
 </script>
 <?php

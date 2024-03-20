@@ -10,6 +10,7 @@ $campus = $_SESSION['campus'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 $lastdt = date("Y-m-t");
+$today = date("Y-m-d");
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM inv_total WHERE qty <= 10 ORDER BY type, qty");
@@ -89,7 +90,7 @@ include('../../includes/pagination-limit.php');
               <div class="box-topic">Total Approved Appointment</div>
               <div class="number">
                 <?php
-                $query = "SELECT * from appointment WHERE status='APPROVED'";
+                $query = "SELECT * from appointment WHERE status='APPROVED' AND date = '$today' AND status != 'COMPLETED'";
                 $result = mysqli_query($conn, $query);
                 $totalCount = mysqli_num_rows($result);
                 echo $totalCount;

@@ -8,14 +8,14 @@
             <form method="POST" action="modals/add-appointment.php">
                 <div class="modal-body">
                     <div class="mb-2">
-                        <input type="hidden" name="patient" value="<?php echo $_SESSION['userid'] ?>" readonly>
+                        <input type="text" name="patient" value="<?php echo $_SESSION['userid'] ?>" hidden>
                         <label for="patientname" class="col-form-label">Patient Name:</label>
                         <input type="text" class="form-control" name="patientname" value="<?php echo $_SESSION['name'] ?>" readonly disabled>
                     </div>
                     <div class="mb-2">
                         <label for="appointment" class="col-form-label">Type of Appointment:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="appointment" id="appointment" onchange="enableAppointment(this)">
-                            <option value="" disabled selected>-Select Appointment-</option>
+                            <option value="" disabled selected></option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM appointment_type";
@@ -28,35 +28,50 @@
                     </div>
                     <div class="row">
                         <div class="col hidden" id="dateDiv">
-                            <label for="date" class="col-form-label">Date Pickup:</label>
+                            <label for="date" class="col-form-label">Date:</label>
                             <input type="text" class="form-control" name="date" id="showDate" placeholder="mm/dd/yyyy">
                         </div>
                         <div class="col hidden" id="timeDiv">
-                            <label for="time" class="col-form-label">Time Pickup:</label>
-                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time" id="time">
+                            <label for="time_from" class="col-form-label">Time From:</label>
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_from" id="time_from">
                                 <option value="" disabled selected>-:-- --</option>
                                 <?php
                                 include('connection.php');
                                 $sql = "SELECT * FROM time_pickup WHERE isSelected = 'No'";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_array($result)) {
-                                    $time = date('h:i A', strtotime($row['time'])); // Format time as '12:00 PM'
+                                    $time = date('g:i A', strtotime($row['time'])); // Format time as '12:00 PM'
                                 ?>
-                                    <option value="<?= $time; ?>"><?= $time; ?></option>
+                                    <option value="<?= $row['time']; ?>"><?= $time; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col hidden" id="timeDiv">
+                            <label for="time_to" class="col-form-label">Time To:</label>
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_to" id="time_to">
+                                <option value="" disabled selected>-:-- --</option>
+                                <?php
+                                include('connection.php');
+                                $sql = "SELECT * FROM time_pickup WHERE isSelected = 'No'";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                    $time = date('g:i A', strtotime($row['time'])); // Format time as '12:00 PM'
+                                ?>
+                                    <option value="<?= $row['time']; ?>"><?= $time; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
                     </div>
                     <div class="mb-2 hidden" id="purposeDiv">
-                        <label for="purposes" class="col-form-label">Purpose:</label>
+                        <label for="purposes" class="col-form-label">Request:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose">
-                            <option value="" disabled selected>-Select Purpose-</option>
+                            <option value="" disabled selected></option>
                         </select>
                     </div>
                     <div class="mb-2 hidden" id="ccDiv">
                         <label for="chiefcomplaint" class="col-form-label">Chief Complaint:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="chiefcomplaint" id="chiefcomplaint" onchange="enableOther(this)">
-                            <option value="" disabled selected>-Select Chief Complaint-</option>
+                            <option value="" disabled selected></option>
                         </select>
                     </div>
                     <div class="mb-2 hidden" id="others">
@@ -67,7 +82,7 @@
                         <div class="col-md hidden" id="medDupDiv">
                             <label for="medicine" class="col-form-label">Medicine:</label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="medicine[]" id="medicine">
-                                <option value="" disabled selected>-Select Medicine-</option>
+                                <option value="" disabled selected></option>
                                 <?php
                                 $sql = "SELECT * FROM inventory_medicine im INNER JOIN medicine m ON m.medid=im.medid ";
                                 $result = mysqli_query($conn, $sql);
@@ -80,7 +95,7 @@
                         <div class="col-md hidden" id="supDupDiv">
                             <label for="medical" class="col-form-label">Medical Supply:</label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="medical[]" id="medical">
-                                <option value="" disabled selected>-Select Medical Supply-</option>
+                                <option value="" disabled selected></option>
                                 <?php
                                 $sql = "SELECT * FROM inventory_supply i INNER JOIN supply s ON s.supid=i.supid ";
                                 $result = mysqli_query($conn, $sql);
@@ -105,7 +120,7 @@
                     <div class="mb-2 hidden" id="physicianDiv">
                         <label for="physician" class="col-form-label">Physician:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="physician" id="physician">
-                            <option value="" disabled selected>-Select Physician-</option>
+                            <option value="" disabled selected></option>
                         </select>
                     </div>
                 </div>
@@ -121,13 +136,13 @@
         $("#appointment").change(function() {
             var appointment_id = $(this).val();
             if (appointment_id == '') {
-                $("#purpose").html('<option value="" disabled selected>-Select Purpose-</option>');
-                $("#chiefcomplaint").html('<option value="" disabled selected>-Select Chief Complaint-</option>');
-                $("#physician").html('<option value="" disabled selected>-Select Physician-</option>');
+                $("#purpose").html('<option value="" disabled selected></option>');
+                $("#chiefcomplaint").html('<option value="" disabled selected></option>');
+                $("#physician").html('<option value="" disabled selected></option>');
             } else {
-                $("#purpose").html('<option value="" disabled selected>-Select Purpose-</option>');
-                $("#chiefcomplaint").html('<option value="" disabled selected>-Select Chief Complaint-</option>');
-                $("#physician").html('<option value="" disabled selected>-Select Physician-</option>');
+                $("#purpose").html('<option value="" disabled selected></option>');
+                $("#chiefcomplaint").html('<option value="" disabled selected></option>');
+                $("#physician").html('<option value="" disabled selected></option>');
                 $.ajax({
                     url: "action.php",
                     method: "POST",
@@ -185,8 +200,6 @@
         $('#showDate').datepicker({
             dateFormat: "yy-mm-dd",
             minDate: 0, // Disable past dates
-            //altFormat: "yyyy-mm-dd",
-            //format: "MM d, yyyy",
             beforeShowDay: function(date) {
                 var day = date.getDay();
                 return [(day != 0)]; // Disable Sundays

@@ -2,7 +2,7 @@
 
 session_start();
 include('../../connection.php');
-include('../../includes/doctor-auth.php');
+include('../../includes/dentist-auth.php');
 
 $module = 'view_patient';
 $patientid = $_REQUEST['patientid'];

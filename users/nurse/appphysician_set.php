@@ -4,13 +4,13 @@ session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
 
-$module = 'appcc_set';
+$module = 'appphysician_set';
 $userid = $_SESSION['userid'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 
 // get the total nr of rows.
-$records = $conn->query("SELECT c.id, c.chief_complaint, t.type, p.purpose FROM appointment_cc c INNER JOIN appointment_purpose p ON p.id=c.purpose INNER JOIN appointment_type t ON t.id=p.type");
+$records = $conn->query("SELECT * FROM appointment_physician");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php');
@@ -30,7 +30,7 @@ include('../../includes/pagination-limit.php');
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">APPOINTMENT CHIEF COMPLAINT</span>
+                <span class="dashboard">APPOINTMENT PHYSICIAN</span>
             </div>
             <div class="right-nav">
                 <div class="notification-button">
@@ -75,21 +75,21 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appcc_set">Add Entry</button>
-                    <?php include('modals/appcc_set_modal.php'); ?>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#apptype_set">Add Entry</button>
+                    <?php include('modals/apptype_set_modal.php'); ?>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md">
                                 <form action="app_filter.php" method="POST">
                                     <div class="row">
                                         <div class="col-md-2 mb-2">
                                             <select name="app" class="form-select">
                                                 <option value="type">Type</option>
                                                 <option value="purpose">Purpose</option>
-                                                <option value="cc" selected>Chief Complaint</option>
-                                                <option value="physician">Physician</option>
+                                                <option value="cc">Chief Complaint</option>
+                                                <option value="physician" selected>Physician</option>
                                             </select>
                                         </div>
                                         <div class="col mb-2">
@@ -99,9 +99,9 @@ include('../../includes/pagination-limit.php');
                                 </form>
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-4 mb-2">
-                                            <div class="input-group">
-                                                <input type="text" name="addcc" value="<?= isset($_GET['addcc']) == true ? $_GET['addcc'] : '' ?>" class="form-control" placeholder="Search appointment chief complaint">
+                                        <div class="col-md-4">
+                                            <div class="input-group mb-2">
+                                                <input type="text" name="apptype" value="<?= isset($_GET['apptype']) == true ? $_GET['apptype'] : '' ?>" class="form-control" placeholder="Search appointment type">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
                                         </div>
@@ -112,14 +112,14 @@ include('../../includes/pagination-limit.php');
                         <div class="col-sm-12">
                             <div class="table-responsive">
                                 <?php
-                                if (isset($_GET['addcc']) && $_GET['addcc'] != '') {
-                                    $addcc = $_GET['addcc'];
+                                if (isset($_GET['apptype']) && $_GET['apptype'] != '') {
+                                    $apptype = $_GET['apptype'];
                                     $count = 1;
-                                    $sql = "SELECT c.id, c.chief_complaint, t.type, p.purpose FROM appointment_cc c INNER JOIN appointment_purpose p ON p.id=c.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE chief_complaint LIKE '%$addcc%' ORDER BY t.type LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT * FROM appointment_type WHERE type LIKE '%$apptype%' ORDER BY type LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 } else {
                                     $count = 1;
-                                    $sql = "SELECT c.id, c.chief_complaint, t.type, p.purpose FROM appointment_cc c INNER JOIN appointment_purpose p ON p.id=c.purpose INNER JOIN appointment_type t ON t.id=p.type ORDER BY t.type LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT * FROM appointment_type ORDER BY type LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                 }
                                 if ($result) {
@@ -128,34 +128,50 @@ include('../../includes/pagination-limit.php');
                                         <table>
                                             <thead>
                                                 <tr>
-                                                    <th>No.</th>
+                                                    <th>ID</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
                                                     <th>Appointment Type</th>
-                                                    <th>Appointment Purpose</th>
-                                                    <th>Appointment Chief Complaint</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
                                                     <th>Action</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
+
                                                 <?php
                                                 foreach ($result as $data) { ?>
                                                     <tr>
-                                                        <td><?php echo $data['id']; ?></td>
+                                                        <td><?php echo $type = $data['id']; ?></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
                                                         <td><?php echo $data['type']; ?></td>
-                                                        <td><?php echo $data['purpose']; ?></td>
-                                                        <td><?php echo  $chief = $data['chief_complaint']; ?></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateappcc_set<?php echo $data['id']; ?>">Update</button>
-                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeappcc_set<?php echo $data['id']; ?>">Remove</button>
-                                                            <?php $count++; ?>
+                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateapptype_set<?php echo $data['id']; ?>">Update</button>
+                                                            <?php
+                                                            $sql = "SELECT type FROM appointment_purpose WHERE type LIKE '%$type%'";
+                                                            $result = mysqli_query($conn, $sql);
+                                                            if (mysqli_num_rows($result) > 0) { ?>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeapptype_set<?php echo $data['id']; ?>" disabled>Remove</button>
+                                                            <?php } else { ?>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removeapptype_set<?php echo $data['id'] ?>">Remove</button>
+                                                            <?php } ?>
                                                         </td>
                                                     </tr>
                                             <?php
-                                                    include('modals/update_appcc_set_modal.php');
-                                                    include('modals/rem_appcc_set_modal.php');
+                                                    include('modals/update_apptype_set_modal.php');
+                                                    include('modals/rem_apptype_set_modal.php');
                                                 }
                                             } ?>
                                             </tbody>
                                         </table>
-                                        <?php include('../../includes/pagination.php') ?>
+                                        <?php include('../../includes/pagination.php'); ?>
                                     <?php
                                 } else {
                                     ?>

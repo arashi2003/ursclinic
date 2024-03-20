@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2024 at 05:16 PM
+-- Generation Time: Mar 20, 2024 at 10:51 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -577,7 +577,7 @@ INSERT INTO `account` (`accountid`, `password`, `usertype`, `firstname`, `middle
 ('URS-998', 'admin', 'ADMIN', 'JOCELYN', '', 'FLORES', 'email@gmail.com', '09123456789', 'RODRIGUEZ', 'LOCKED', '2023-12-08 03:12:34', '2023-12-08 03:12:34'),
 ('URS-999', 'admin', 'ADMIN', 'ALLEN', 'JANE', 'CALEJO', 'email@gmail.com', '09123456789', 'BINANGONAN', 'ACTIVE', '2023-12-08 02:46:01', '2024-02-28 11:45:36'),
 ('URSD-001', 'maycacayan', 'DOCTOR', 'EDNA', 'C', 'MAYCACAYAN', 'email@gmail.com', '09123456789', 'ALL', 'ACTIVE', '2023-12-08 02:39:55', '2023-12-08 02:46:01'),
-('URSD-002', 'admin', 'DENTIST', 'GODWIN', 'A', 'OLIVAS', 'email@gmail.com', '09123456789', 'ALL', 'ACTIVE', '2023-12-13 14:26:35', '2023-12-13 14:26:35'),
+('URSD-002', 'admin', 'DENTIST', 'GODWIN', 'A', 'OLIVAS', 'email@gmail.com', '09123456789', 'ALL', 'ACTIVE', '2023-12-13 14:26:35', '2024-03-20 14:57:56'),
 ('URSF-000', 'admin', 'FACULTY', 'EDEN', 'C', 'SANTOS', 'email@gmail.com', '09123456789', 'BINANGONAN', 'ACTIVE', '2024-03-15 23:30:12', '2024-03-15 23:30:12'),
 ('URSN-000', 'admin', 'NURSE', 'SHEILA', 'C', 'OLIVAS', 'email@gmail.com', '09123456789', 'ALL', 'ACTIVE', '2024-03-15 18:23:05', '2024-03-15 18:52:00'),
 ('URSN-001', 'admin', 'NURSE', 'DIOSA', 'A', 'SALVADOR', 'email@gmail.com', '09123456789', 'BINANGONAN', 'ACTIVE', '2023-12-08 02:39:55', '2024-02-28 12:02:13'),
@@ -613,6 +613,26 @@ CREATE TABLE `appointment` (
   `purpose` int(11) NOT NULL,
   `chiefcomplaint` text DEFAULT NULL,
   `others` varchar(50) DEFAULT NULL,
+  `med_1` int(11) DEFAULT NULL,
+  `mqty_1` int(11) DEFAULT NULL,
+  `med_2` int(11) DEFAULT NULL,
+  `mqty_2` int(11) DEFAULT NULL,
+  `med_3` int(11) DEFAULT NULL,
+  `mqty_3` int(11) DEFAULT NULL,
+  `med_4` int(11) DEFAULT NULL,
+  `mqty_4` int(11) DEFAULT NULL,
+  `med_5` int(11) DEFAULT NULL,
+  `mqty_5` int(11) DEFAULT NULL,
+  `sup_1` int(11) DEFAULT NULL,
+  `sqty_1` int(11) DEFAULT NULL,
+  `sup_2` int(11) DEFAULT NULL,
+  `sqty_2` int(11) DEFAULT NULL,
+  `sup_3` int(11) DEFAULT NULL,
+  `sqty_3` int(11) DEFAULT NULL,
+  `sup_4` int(11) DEFAULT NULL,
+  `sqty_4` int(11) DEFAULT NULL,
+  `sup_5` int(11) DEFAULT NULL,
+  `sqty_5` int(11) DEFAULT NULL,
   `status` varchar(45) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -621,29 +641,31 @@ CREATE TABLE `appointment` (
 -- Dumping data for table `appointment`
 --
 
-INSERT INTO `appointment` (`id`, `date`, `time_from`, `time_to`, `physician`, `patient`, `type`, `purpose`, `chiefcomplaint`, `others`, `status`, `created_at`) VALUES
-(2, '2023-12-11', '08:00:00', '08:15:00', 'NONE', 'B2021-0576', 0, 0, '', '', 'PENDING', '2023-12-10 00:00:00'),
-(3, '2023-12-11', '08:45:00', '09:00:00', 'NONE', 'B2021-0588', 0, 0, '', '', 'PENDING', '2023-12-10 00:00:00'),
-(4, '2023-12-11', '09:20:00', '09:40:00', 'NONE', 'B2021-0550', 3, 7, '', '', 'COMPLETED', '2023-12-10 00:00:00'),
-(7, '2023-12-11', '14:30:00', '15:00:00', 'EDNA C. MAYCACAYAN', 'URS-993', 0, 0, '', '', 'DISAPPROVED', '2023-12-10 00:00:00'),
-(9, '2023-12-12', '16:00:00', '16:10:00', 'NONE', 'URS-992', 0, 0, 'Headache', '', 'Approved', '2023-12-10 00:00:00'),
-(10, '2023-01-08', '09:00:00', '09:45:00', 'GODWIN A. OLIVAS', 'B2021-0569', 0, 0, 'Headache, Toothache', '', 'APPROVED', '2023-12-13 00:00:00'),
-(11, '2023-01-04', '08:00:00', '08:05:00', 'NONE', 'B2021-0576', 0, 0, '', '', 'APPROVED', '2023-12-13 00:00:00'),
-(12, '2023-01-04', '08:05:00', '08:10:00', 'NONE', 'B2021-0588', 0, 0, '', '', 'APPROVED', '2023-12-13 00:00:00'),
-(13, '2023-01-08', '14:30:00', '15:00:00', 'GODWIN A. OLIVAS', 'B2021-0550', 0, 0, 'Others: Wisdom Tooth Extraction', '', 'APPROVED', '2023-12-13 00:00:00'),
-(14, '2023-01-04', '08:15:00', '08:20:00', 'NONE', 'B2021-0542', 1, 3, '', '', 'APPROVED', '2023-12-13 00:00:00'),
-(17, '2023-01-08', '08:35:00', '08:40:00', 'NONE', 'URSF-000', 0, 0, '', '', 'CANCELLED', '2023-12-13 00:00:00'),
-(18, '2023-01-09', '08:40:00', '08:45:00', 'EDNA C. MAYCACAYAN', 'URS-992', 0, 0, '', '', 'APPROVED', '2023-12-13 00:00:00'),
-(19, '2023-01-10', '15:00:00', '15:15:00', 'NONE', 'B2021-0569', 0, 0, 'Others: For Student-Athlete Requirement', '', 'CANCELLED', '2023-12-13 00:00:00'),
-(20, '2024-01-30', '10:30:00', '11:00:00', 'GODWIN A. OLIVAS', 'B2021-0542', 2, 3, 'Toothache', '', 'COMPLETED', '2024-01-30 22:57:16'),
-(21, '2024-01-30', '10:30:00', '11:00:00', 'GODWIN A. OLIVAS', 'B2021-0542', 2, 3, 'Toothache', '', 'COMPLETED', '2024-01-30 22:59:16'),
-(22, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0542', 2, 7, 'Others', 'butt hurt', 'PENDING', '2024-01-30 22:59:51'),
-(23, '2023-12-11', '14:00:00', '14:30:00', 'EDNA C. MAYCACAYAN', 'B2021-0542', 1, 3, '', '', 'DISAPPROVED', '2023-12-10 00:00:00'),
-(25, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0542', 1, 2, 'Abdominal pain', '', 'PENDING', '2024-02-07 20:10:49'),
-(26, '2024-01-30', '10:30:00', '11:00:00', 'GODWIN A. OLIVAS', 'B2021-0542', 1, 1, 'Sprain', '', 'PENDING', '2024-02-14 22:53:11'),
-(27, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0542', 1, 1, 'Flu', '', 'PENDING', '2024-02-15 01:39:57'),
-(28, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0569', 1, 1, 'Allergy', '', 'PENDING', '2024-03-17 12:58:22'),
-(29, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0569', 1, 1, 'Diarrhea', '', 'PENDING', '2024-03-17 13:01:46');
+INSERT INTO `appointment` (`id`, `date`, `time_from`, `time_to`, `physician`, `patient`, `type`, `purpose`, `chiefcomplaint`, `others`, `med_1`, `mqty_1`, `med_2`, `mqty_2`, `med_3`, `mqty_3`, `med_4`, `mqty_4`, `med_5`, `mqty_5`, `sup_1`, `sqty_1`, `sup_2`, `sqty_2`, `sup_3`, `sqty_3`, `sup_4`, `sqty_4`, `sup_5`, `sqty_5`, `status`, `created_at`) VALUES
+(2, '2023-12-11', '08:00:00', '08:15:00', 'NONE', 'B2021-0576', 0, 0, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PENDING', '2023-12-10 00:00:00'),
+(3, '2023-12-11', '08:45:00', '09:00:00', 'NONE', 'B2021-0588', 0, 0, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PENDING', '2023-12-10 00:00:00'),
+(4, '2023-12-11', '09:20:00', '09:40:00', 'NONE', 'B2021-0550', 3, 7, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'COMPLETED', '2023-12-10 00:00:00'),
+(7, '2023-12-11', '14:30:00', '15:00:00', 'EDNA C. MAYCACAYAN', 'URS-993', 0, 0, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DISAPPROVED', '2023-12-10 00:00:00'),
+(9, '2023-12-12', '16:00:00', '16:10:00', 'NONE', 'URS-992', 0, 0, 'Headache', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Approved', '2023-12-10 00:00:00'),
+(10, '2023-01-08', '09:00:00', '09:45:00', 'GODWIN A. OLIVAS', 'B2021-0569', 0, 0, 'Headache, Toothache', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'APPROVED', '2023-12-13 00:00:00'),
+(11, '2023-01-04', '08:00:00', '08:05:00', 'NONE', 'B2021-0576', 0, 0, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'APPROVED', '2023-12-13 00:00:00'),
+(12, '2023-01-04', '08:05:00', '08:10:00', 'NONE', 'B2021-0588', 0, 0, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'APPROVED', '2023-12-13 00:00:00'),
+(13, '2023-01-08', '14:30:00', '15:00:00', 'GODWIN A. OLIVAS', 'B2021-0550', 0, 0, 'Others: Wisdom Tooth Extraction', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'APPROVED', '2023-12-13 00:00:00'),
+(14, '2023-01-04', '08:15:00', '08:20:00', 'NONE', 'B2021-0542', 1, 3, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'APPROVED', '2023-12-13 00:00:00'),
+(17, '2023-01-08', '08:35:00', '08:40:00', 'NONE', 'URSF-000', 0, 0, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CANCELLED', '2023-12-13 00:00:00'),
+(18, '2023-01-09', '08:40:00', '08:45:00', 'EDNA C. MAYCACAYAN', 'URS-992', 0, 0, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'APPROVED', '2023-12-13 00:00:00'),
+(19, '2023-01-10', '15:00:00', '15:15:00', 'NONE', 'B2021-0569', 0, 0, 'Others: For Student-Athlete Requirement', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CANCELLED', '2023-12-13 00:00:00'),
+(20, '2024-01-30', '10:30:00', '11:00:00', 'GODWIN A. OLIVAS', 'B2021-0542', 2, 3, 'Toothache', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'COMPLETED', '2024-01-30 22:57:16'),
+(21, '2024-01-30', '10:30:00', '11:00:00', 'GODWIN A. OLIVAS', 'B2021-0542', 2, 3, 'Toothache', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'COMPLETED', '2024-01-30 22:59:16'),
+(22, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0542', 2, 7, 'Others', 'butt hurt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PENDING', '2024-01-30 22:59:51'),
+(23, '2023-12-11', '14:00:00', '14:30:00', 'EDNA C. MAYCACAYAN', 'B2021-0542', 1, 3, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DISAPPROVED', '2023-12-10 00:00:00'),
+(25, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0542', 1, 2, 'Abdominal pain', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PENDING', '2024-02-07 20:10:49'),
+(26, '2024-01-30', '10:30:00', '11:00:00', 'GODWIN A. OLIVAS', 'B2021-0542', 1, 1, 'Sprain', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PENDING', '2024-02-14 22:53:11'),
+(27, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0542', 1, 1, 'Flu', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PENDING', '2024-02-15 01:39:57'),
+(28, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0569', 1, 1, 'Allergy', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PENDING', '2024-03-17 12:58:22'),
+(29, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0569', 1, 1, 'Diarrhea', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'APPROVED', '2024-03-17 13:01:46'),
+(30, '2024-03-30', '01:00:00', '01:00:00', 'NONE', 'B2021-0569', 1, 5, 'Others', 'Ouchie', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'APPROVED', '2024-03-20 17:28:05'),
+(31, '2024-03-27', '01:00:00', '01:00:00', 'GODWIN A. OLIVAS', 'B2021-0569', 2, 6, 'Toothache', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'PENDING', '2024-03-20 17:40:37');
 
 -- --------------------------------------------------------
 
@@ -845,8 +867,6 @@ INSERT INTO `appointment_purpose` (`id`, `type`, `purpose`) VALUES
 (9, 3, 'Periodontal Treatment'),
 (10, 3, 'Oral Prophylaxis'),
 (11, 3, 'Tooth Extraction'),
-(13, 6, 'Request for Medical Certificate'),
-(14, 7, 'Request for Medical Clearance'),
 (15, 5, 'Request for Medical Supply'),
 (16, 4, 'Request for Medicine');
 
@@ -870,9 +890,7 @@ INSERT INTO `appointment_type` (`id`, `type`) VALUES
 (2, 'Consultation'),
 (3, 'Dental'),
 (4, 'Request for Medicine'),
-(5, 'Request for Medical Supply'),
-(6, 'Request for Medical Certificate'),
-(7, 'Request for Medical Clearance');
+(5, 'Request for Medical Supply');
 
 -- --------------------------------------------------------
 
@@ -2169,7 +2187,28 @@ INSERT INTO `audit_trail` (`id`, `user`, `fullname`, `campus`, `activity`, `stat
 (1321, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'added a walk-in schedule for BINANGONAN', 'unread', '2024-03-19 23:53:30'),
 (1322, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'cancelled a walk-in schedule for ALL', 'unread', '2024-03-19 23:53:48'),
 (1323, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'cancelled a walk-in schedule for ALL', 'unread', '2024-03-19 23:54:42'),
-(1324, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'added a walk-in schedule for BINANGONAN', 'unread', '2024-03-19 23:55:26');
+(1324, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'added a walk-in schedule for BINANGONAN', 'unread', '2024-03-19 23:55:26'),
+(1325, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'updated their account details', 'unread', '2024-03-20 14:49:01'),
+(1326, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'updated their account details', 'unread', '2024-03-20 14:50:12'),
+(1327, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'updated their account details', 'unread', '2024-03-20 14:52:23'),
+(1328, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'updated their account details', 'unread', '2024-03-20 14:52:45'),
+(1329, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'updated their account details', 'unread', '2024-03-20 14:54:06'),
+(1330, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'updated their account details', 'unread', '2024-03-20 14:54:13'),
+(1331, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'updated their account details', 'unread', '2024-03-20 14:57:50'),
+(1332, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'updated their account details', 'unread', '2024-03-20 14:57:56'),
+(1333, 'URSD-002', 'GODWIN A OLIVAS', '', 'added a transaction and service', 'unread', '2024-03-20 14:58:20'),
+(1334, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'Logged In', 'unread', '2024-03-20 15:09:51'),
+(1335, 'URSD-002', 'GODWIN A OLIVAS', '', 'updated a transaction and service entry', 'unread', '2024-03-20 15:24:42'),
+(1336, 'URSD-002', 'GODWIN A OLIVAS', '', 'updated a transaction and service entry', 'unread', '2024-03-20 15:24:53'),
+(1337, 'URSD-002', 'GODWIN A OLIVAS', '', 'updated a transaction and service entry', 'unread', '2024-03-20 15:33:23'),
+(1338, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'removed a transation type and service', 'unread', '2024-03-20 15:33:27'),
+(1340, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'Logged In', 'unread', '2024-03-20 16:17:35'),
+(1341, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'removed a type for appointment', 'unread', '2024-03-20 16:27:16'),
+(1342, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'removed a type for appointment', 'unread', '2024-03-20 16:27:25'),
+(1343, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-20 17:28:06'),
+(1344, 'URSN-001', 'DIOSA A SALVADOR', 'BINANGONAN', '', '', '2024-03-20 17:35:06'),
+(1345, 'URSN-001', 'DIOSA A SALVADOR', 'BINANGONAN', '', '', '2024-03-20 17:35:36'),
+(1346, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-20 17:40:37');
 
 -- --------------------------------------------------------
 
@@ -5555,7 +5594,7 @@ ALTER TABLE `yearlevel`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `appointment_cc`
@@ -5585,7 +5624,7 @@ ALTER TABLE `appointment_type`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1325;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1347;
 
 --
 -- AUTO_INCREMENT for table `campus`
@@ -5801,7 +5840,7 @@ ALTER TABLE `tools_equip`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `transaction_history`

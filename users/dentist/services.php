@@ -138,19 +138,20 @@ include('../../includes/pagination-limit.php');
                                                         <td>
                                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatetransaction_set<?php echo $data['id']; ?>">Update</button>
                                                             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removetransaction_set<?php echo $data['id']; ?>">Remove</button>
-                                                        <?php $count++;
-                                                    } ?>
+                                                            <?php $count++;
+                                                            ?>
                                                         </td>
 
                                                     </tr>
                                                 <?php
-                                                include('modals/update_transaction_set_modal.php');
-                                                include('modals/rem_transaction_set_modal.php');
+                                                    include('modals/update_transaction_set_modal.php');
+                                                    include('modals/rem_transaction_set_modal.php');
+                                                }
                                             } else { ?>
-                                                    <tr>
-                                                        <td colspan="6">No record Found</td>
-                                                    </tr>
-                                                <?php } ?>
+                                                <tr>
+                                                    <td colspan="6">No record Found</td>
+                                                </tr>
+                                            <?php } ?>
                                     </tbody>
                                 </table>
                                 <?php include('../../includes/pagination.php') ?>

@@ -16,7 +16,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Available Services</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -43,7 +43,7 @@ include('../../includes/pagination-limit.php');
             <div class="overview-boxes">
                 <div class="schedule-button">
                     <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addtransaction_set">Add Entry</button>
-                    <?php include('modals/addtransaction_set_modal.php');?>
+                    <?php include('modals/addtransaction_set_modal.php'); ?>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -63,10 +63,11 @@ include('../../includes/pagination-limit.php');
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT transaction_type FROM transaction ORDER BY transaction_type";
-                                                if($result = mysqli_query($conn, $sql))
-                                                {   while($row = mysqli_fetch_array($result) )
-                                                    {   $ttype = $row["transaction_type"];?>
-                                                <option value="<?php echo $ttype;?> <?= isset($_GET['']) == true ? ($_GET[''] == $ttype ? 'selected' : '') : '' ?>"><?php echo $ttype;?></option><?php }}?>
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) {
+                                                        $ttype = $row["transaction_type"]; ?>
+                                                        <option value="<?php echo $ttype; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $ttype ? 'selected' : '') : '' ?>"><?php echo $ttype; ?></option><?php }
+                                                                                                                                                                                                    } ?>
                                             </select>
                                         </div>
                                         <div class="col mb-3">
@@ -79,74 +80,71 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['transaction']) && $_GET['transaction'] != '') {
-                                    $transaction = $_GET['transaction'];
-                                    $count = 1;
-                                    $sql = "SELECT * FROM transaction WHERE CONCAT(transaction_type, ' - ', service) LIKE '%$transaction%' ORDER BY transaction_type, service LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } elseif (isset($_GET['ttype']) && $_GET['ttype'] != '') {
-                                    $ttype = $_GET['ttype'];
-                                    $count = 1;
-                                    $sql = "SELECT * FROM transaction WHERE transaction_type = '$ttype' ORDER BY transaction_type, service LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT * FROM transaction ORDER BY transaction_type, service LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>No.</th>
-                                                    <th>Transaction</th>
-                                                    <th>Service</th>
-                                                    <th>Action</th>
-                                            </thead>
-                                            <tbody>
-
-                                                <?php
-                                                while($data = mysqli_fetch_array($result)){
-                                                    if($data['service'] == NULL)
-                                                    {
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Transaction</th>
+                                            <th>Service</th>
+                                            <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['transaction']) && $_GET['transaction'] != '') {
+                                            $transaction = $_GET['transaction'];
+                                            $count = 1;
+                                            $sql = "SELECT * FROM transaction WHERE CONCAT(transaction_type, ' - ', service) LIKE '%$transaction%' ORDER BY transaction_type, service LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['ttype']) && $_GET['ttype'] != '') {
+                                            $ttype = $_GET['ttype'];
+                                            $count = 1;
+                                            $sql = "SELECT * FROM transaction WHERE transaction_type = '$ttype' ORDER BY transaction_type, service LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT * FROM transaction ORDER BY transaction_type, service LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
+                                                while ($data = mysqli_fetch_array($result)) {
+                                                    if ($data['service'] == NULL) {
                                                         $service = $data['transaction_type'];
-                                                    }
-                                                    else
-                                                    {
+                                                    } else {
                                                         $service =  $data['service'];
                                                     }
-                                                    ?>
+                                        ?>
                                                     <tr>
                                                         <td><?php $id = $count;
                                                             echo $id; ?></td>
-                                                        <td><?php echo $data['transaction_type'];?></td>
-                                                        <td><?php echo $service;?></td>
+                                                        <td><?php echo $data['transaction_type']; ?></td>
+                                                        <td><?php echo $service; ?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatetransaction_set<?php echo $data['id']; ?>">Update</button>
                                                             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removetransaction_set<?php echo $data['id']; ?>">Remove</button>
-                                                        <?php $count++; }?></td>
-                                                        
+                                                            <?php $count++;
+                                                            ?>
+                                                        </td>
+
                                                     </tr>
-                                                    <?php
+                                            <?php
                                                     include('modals/update_transaction_set_modal.php');
                                                     include('modals/rem_transaction_set_modal.php');
-                                                    }?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php');?>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                <?php
-                                    }
-                                mysqli_close($conn);
-                                ?>
+                                                }
+                                            } ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php'); ?>
+                            <?php
+                                        } else {
+                            ?>
+                                <tr>
+                                    <td colspan="4">No record Found</td>
+                                </tr>
+                            <?php
+                                        }
+                                        mysqli_close($conn);
+                            ?>
                             </div>
                         </div>
                     </div>
@@ -173,4 +171,5 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

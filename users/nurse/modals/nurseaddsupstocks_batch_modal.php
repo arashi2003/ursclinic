@@ -58,3 +58,14 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#showDate').datepicker({
+            dateFormat: "yy-mm-dd",
+            minDate: 0, // Disable past dates
+            beforeShowDay: function(date) {
+                var day = date.getDay();
+            }
+        });
+    });
+</script>

@@ -3,13 +3,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Add Transaction and Service</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../nurse/services.php'"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  onclick="location.reload()"></button>
             </div>
             <form method="POST" action="modals/setnurse_transaction.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="transaction" class="form-label">Transaction:</label>
-                        <input type="text" class="form-control" name="transaction" id="transaction" required>
+                        <select name="transaction" class="form-control" id="transaction" required>
+                            <option value="" disabled selected></option>
+                            <option value="Appointment">Appointment</option>
+                            <option value="Walk-In">Walk-In</option>
+                        </select>
                     </div>
                     <div class="mb-2">
                         <label for="service" class="form-label">Service:</label>
