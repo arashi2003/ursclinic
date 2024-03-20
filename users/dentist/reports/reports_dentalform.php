@@ -1,7 +1,7 @@
 <?php
     session_start();
     require('../../../fpdf/fpdf.php');
-    include('connection.php');
+    include('../connection.php');
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     
@@ -39,7 +39,7 @@
             $user = $_SESSION['userid'];
             $activity = "saved a pdf for dental form";
             // code for revision number  
-            include('connection.php');        
+            include('../connection.php');        
             $query = mysqli_query($conn, "SELECT * FROM audit_trail WHERE user = '$user' AND activity = '$activity'");
             $count = 0;
             while($data=mysqli_fetch_array($query))
@@ -56,7 +56,7 @@
             }
             $rev = $count;
 
-            // $data['datetime and page
+            // $data datetime and page
             $date = date('F d, Y');
             $this->Cell(0, 5, '', 0, 1);
             $this->Cell(50, 0, 'URS-AF-GE-MED-F-2017-10', 0, 1, 'L');            
@@ -75,7 +75,7 @@
     $patientid = $_REQUEST['id'];
     
    
-    $sql = "SELECT dental_record_1.patientid, dental_record_2.patientid, year_1, year_2, year_3, year_4, year_5, doe_1, doe_2, doe_3, doe_4, doe_5, alb_1, alb_2, alb_3, alb_4, alb_5, posc_1, posc_2, posc_3, posc_4, posc_5, pgp_1, pgp_2, pgp_3, pgp_4, pgp_5, ppp_1, ppp_2, ppp_3, ppp_4, ppp_5, pdfa_1, pdfa_2, pdfa_3, pdfa_4, pdfa_5, toothbrush_1, toothbrush_2, toothbrush_3, toothbrush_4, toothbrush_5, ciff_t_1, ciff_p_1, ciff_t_2, ciff_p_2, ciff_t_3, ciff_p_3, ciff_t_4, ciff_p_4, ciff_t_5, ciff_p_5, cife_t_1, cife_p_1, cife_t_2, cife_p_2, cife_t_3, cife_p_3, cife_t_4, cife_p_4, cife_t_5, cife_p_5, rf_t_1, rf_p_1, rf_t_2, rf_p_2, rf_t_3, rf_p_3, rf_t_4, rf_p_4, rf_t_5, rf_p_5, mdtc_p_1, mdtc_p_2, mdtc_p_3, mdtc_p_4, mdtc_p_5, for_t_1, for_p_1, for_t_2, for_p_2, for_t_3, for_p_3, for_t_4, for_p_4, for_t_5, for_p_5, tdmfdf_t_1, tdmfdf_p_1, tdmfdf_t_2, tdmfdf_p_2, tdmfdf_t_3, tdmfdf_p_3, tdmfdf_t_4, tdmfdf_p_4, tdmfdf_t_5, tdmfdf_p_5, fa_1, fa_2, fa_3, fa_4, fa_5, dentist, firstname, middlename, lastname, designation, department, college, program, yearlevel, section, block, birthday, civil_status, sex, address, t_55, t_54, t_53, t_52, t_51, t_61, t_62, t_63, t_64, t_65, t_18, t_17, t_16, t_15, t_14, t_13, t_12, t_11, t_21, t_22, t_23, t_24, t_25, t_26, t_27, t_28, t_48, t_47, t_46, t_45, t_44, t_43, t_42, t_41, t_31, t_32, t_33, t_34, t_35, t_36, t_37, t_38, t_85, t_84, t_83, t_82, t_81, t_71, t_72, t_73, t_74, t_75, b_55, b_54, b_53, b_52, b_51, b_61, b_62, b_63, b_64, b_65, b_18, b_17, b_16, b_15, b_14, b_13, b_12, b_11, b_21, b_22, b_23, b_24, b_25, b_26, b_27, b_28, b_48, b_47, b_46, b_45, b_44, b_43, b_42, b_41, b_31, b_32, b_33, b_34, b_35, b_36, b_37, b_38, b_85, b_84, b_83, b_82, b_81, b_71, b_72, b_73, b_74, b_75 FROM dental_record_1 INNER JOIN dental_record_2 WHERE dental_record_1.patientid='$patientid' AND dental_record_2.patientid='B2021-0542' LIMIT 1";
+    $sql = "SELECT * FROM dental_record_1 INNER JOIN dental_record_2 ON dental_record_2.patientid=dental_record_1.patientid WHERE dental_record_1.patientid='$patientid' AND dental_record_2.patientid='$patientid' LIMIT 1";
     $result = mysqli_query($conn, $sql);
     while($data=mysqli_fetch_array($result))
     {
@@ -419,6 +419,7 @@
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->Cell(17.8, 5, '', 0);
         $pdf->Cell(77.2, 5, 'Year', 1, 0);
+        $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(15.7, 5, $data['year_1'] , 1, 0, 'C');// 
         $pdf->Cell(15.5, 5, $data['year_2'] , 1, 0, 'C');// 
         $pdf->Cell(15.7, 5, $data['year_3'] , 1, 0, 'C');// 
@@ -428,6 +429,7 @@
         $pdf->Cell(0, 5, '', 0, 1);
         $pdf->Cell(17.8, 5, '', 0);
         $pdf->Cell(77.2, 5, 'DATE of EXAMINATION', 1, 0);
+        $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(15.7, 5, $data['doe_1'] , 1, 0, 'C');// 
         $pdf->Cell(15.5, 5, $data['doe_2'] , 1, 0, 'C');// 
         $pdf->Cell(15.7, 5, $data['doe_3'] , 1, 0, 'C');// 
@@ -437,6 +439,7 @@
         $pdf->Cell(0, 5, '', 0, 1);
         $pdf->Cell(17.8, 5, '', 0);
         $pdf->Cell(77.2, 5, 'AGE LAST BIRTHDAY', 1, 0);
+        $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(15.7, 5, $data['alb_1'] , 1, 0, 'C');// 
         $pdf->Cell(15.5, 5, $data['alb_2'] , 1, 0, 'C');// 
         $pdf->Cell(15.7, 5, $data['alb_3'] , 1, 0, 'C');// 
@@ -446,6 +449,7 @@
         $pdf->Cell(0, 5, '', 0, 1);
         $pdf->Cell(17.8, 5, '', 0);
         $pdf->Cell(77.2, 5, 'PRESENCE OF ORAL DEBRIS / STAINS / CALCULUS', 1, 0);
+        $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(15.7, 5, $data['posc_1'] , 1, 0, 'C');// 
         $pdf->Cell(15.5, 5, $data['posc_2'] , 1, 0, 'C');// 
         $pdf->Cell(15.7, 5, $data['posc_3'] , 1, 0, 'C');// 
@@ -455,6 +459,7 @@
         $pdf->Cell(0, 5, '', 0, 1);
         $pdf->Cell(17.8, 5, '', 0);
         $pdf->Cell(77.2, 5, 'PRESENCE OF GINGIVITIS and/or PERIODONTITIS', 1, 0);
+        $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(15.7, 5, $data['pgp_1'] , 1, 0, 'C');// 
         $pdf->Cell(15.5, 5, $data['pgp_2'] , 1, 0, 'C');// 
         $pdf->Cell(15.7, 5, $data['pgp_3'] , 1, 0, 'C');// 
@@ -464,6 +469,7 @@
         $pdf->Cell(0, 5, '', 0, 1);
         $pdf->Cell(17.8, 5, '', 0);
         $pdf->Cell(77.2, 5, 'PRESENCE OF PERIODONTAL POCKETS', 1, 0);
+        $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(15.7, 5, $data['ppp_1'] , 1, 0, 'C');// 
         $pdf->Cell(15.5, 5, $data['ppp_2'] , 1, 0, 'C');// 
         $pdf->Cell(15.7, 5, $data['ppp_3'] , 1, 0, 'C');// 
@@ -473,6 +479,7 @@
         $pdf->Cell(0, 5, '', 0, 1);
         $pdf->Cell(17.8, 5, '', 0);
         $pdf->Cell(77.2, 5, 'PRESENCE OF DENTO-FACIAL ANOMALY', 1, 0);
+        $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(15.7, 5, $data['pdfa_1'] , 1, 0, 'C');// 
         $pdf->Cell(15.5, 5, $data['pdfa_2'] , 1, 0, 'C');// 
         $pdf->Cell(15.7, 5, $data['pdfa_3'] , 1, 0, 'C');// 
@@ -482,6 +489,7 @@
         $pdf->Cell(0, 5, '', 0, 1);
         $pdf->Cell(17.8, 5, '', 0);
         $pdf->Cell(77.2, 5, 'USE TOOTHBRUSH', 1, 0);
+        $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(15.7, 5, $data['toothbrush_1'] , 1, 0, 'C');// 
         $pdf->Cell(15.5, 5, $data['toothbrush_2'] , 1, 0, 'C');// 
         $pdf->Cell(15.7, 5,  $data['toothbrush_3'] , 1, 0, 'C');//

@@ -207,12 +207,18 @@ include('../../includes/pagination-limit.php');
                                                         <td><?= $data['purpose'] ?></td>
                                                         <td><?= date("M. d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'])) ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
+                                                            <?php
+                                                            if ($data['purpose'] == 'Dental' && $data['transaction'] == 'Consultation') { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" onclick="window.open('reports/reports_treatment_record.php?patientid=<?= $data['patient'] ?>')" target="_blank">Expand</button>
+                                                            <?php } else { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
+                                                            <?php }
+                                                            ?>
                                                         </td>
 
                                                     </tr>
                                             <?php
-                                                include('modals/view_trans_modal.php');
+                                                    include('modals/view_trans_modal.php');
                                                 }
                                             } ?>
                                             </tbody>

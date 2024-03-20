@@ -468,7 +468,4 @@ $userid = $_SESSION['userid'];
         }
     }
 </script>
-
-
-
 </html>

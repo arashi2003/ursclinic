@@ -2,7 +2,7 @@
 
 session_start();
 include('../../connection.php');
-include('../../includes/nurse-auth.php');
+include('../../includes/dentist-auth.php');
 
 $module = 'dental_consultation';
 $campus = $_SESSION['campus'];
@@ -79,14 +79,14 @@ $usertype = $_SESSION['usertype'];
                     &ThickSpace;
                     <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href = 'transaction_vitals.php'">Vitals</button>
                 </div>
-                <div class="content">
-                    <form method="POST" action="add/transaction_dental_consultation.php" id="form">
+                <form method="POST" action="add/transaction_dental_consultation.php" id="form">
+                    <div class="content">
                         <h3><b>Patient</b></h3>
                         <div class="row">
                             <div class="col-md-4 mb-2">
                                 <div class="input-group input-group-md mb-2">
                                     <span class="input-group-text" id="inputGroup-sizing-md">Patient ID:</span>
-                                    <input type="text" class="form-control" name="patientid" id="patientid">
+                                    <input type="text" class="form-control" name="patientid" id="patientid" onchange="fetchPatientData()">
                                 </div>
                             </div>
                         </div>
@@ -238,518 +238,62 @@ $usertype = $_SESSION['usertype'];
                                 </div>
                             </div>
                         </div>
-                </div>
-
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_1" id="toothno_1">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_1" id="diagnosis_1">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_1" id="treatment_1">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_2" id="toothno_2">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_2" id="diagnosis_2">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_2" id="treatment_2">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_3" id="toothno_3">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_3" id="diagnosis_3">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_3" id="treatment_3">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_4" id="toothno_4">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_4" id="diagnosis_4">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_4" id="treatment_4">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_5" id="toothno_5">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_5" id="diagnosis_5">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_5" id="treatment_5">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_6" id="toothno_6">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_6" id="diagnosis_6">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_6" id="treatment_6">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_7" id="toothno_7">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_7" id="diagnosis_7">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_7" id="treatment_7">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_8" id="toothno_8">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_8" id="diagnosis_8">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_8" id="treatment_8">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_9" id="toothno_9">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_9" id="diagnosis_9">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_9" id="treatment_9">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_10" id="toothno_10">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_10" id="diagnosis_10">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_10" id="treatment_10">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_11" id="toothno_11">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_11" id="diagnosis_11">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_11" id="treatment_11">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_12" id="toothno_12">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_12" id="diagnosis_12">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_12" id="treatment_12">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_13" id="toothno_13">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_13" id="diagnosis_13">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_13" id="treatment_13">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_14" id="toothno_14">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_14" id="diagnosis_14">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_14" id="treatment_14">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_15" id="toothno_15">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_15" id="diagnosis_15">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_15" id="treatment_15">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_16" id="toothno_16">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_16" id="diagnosis_16">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_16" id="treatment_16">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_17" id="toothno_17">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_17" id="diagnosis_17">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_17" id="treatment_17">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_18" id="toothno_18">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_18" id="diagnosis_18">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_18" id="treatment_18">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_19" id="toothno_19">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_19" id="diagnosis_19">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_19" id="treatment_19">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
-                                <input type="number" maxlength="2" class="form-control" name="toothno_20" id="toothno_20">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
-                                <input type="text" maxlength="20" class="form-control" name="diagnosis_20" id="diagnosis_20">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <div class="input-group input-group-md mb-2">
-                                <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
-                                <input type="text" maxlength="20" class="form-control" name="treatment_20" id="treatment_20">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="content">
-                    <!-- responsive pag others pinili lalabas additional na textbox-->
-                    <div class="input-group input-group-md mb-2">
-                        <span class="input-group-text" id="inputGroup-sizing-md">Medical Case:</span>
-                        <select class="form-control" aria-label=".form-select-md example" name="medcase" id="medcase" required>
-                            <option value="" disabled selected></option>
-                            <?php
-                            include('connection.php');
-                            $sql = "SELECT * FROM med_case ORDER BY type, medcase";
-                            $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_array($result)) { ?>
-                                <option value="<?= $row['id']; ?>"><?= "(" . ucfirst(strtolower($row['type'])) . ") " . $row['medcase']; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="input-group input-group-md mb-2">
-                        <span class="input-group-text" id="inputGroup-sizing-md">Others:</span>
-                        <input type="text" class="form-control" name="medcase_others" id="medcase_others">
                     </div>
 
-                    <div class="modal-footer">
-                        <input type="text" class="form-control" name="type" value="Walk-In" id="type" hidden>
-                        <input type="text" class="form-control" name="transaction" value="Walk-In" hidden>
-                        <input type="text" class="form-control" name="service" value="Dental Consultation" hidden>
-                        <input type="submit" class="btn btn-primary" value="Add Record"></input>
-                        &ThickSpace;
-                        <input type="reset" class="btn btn-danger" value="Cancel"></input>
+                    <div class="content">
+                        <div class="row duplicate_treat">
+                            <div class="col-md-3 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">Tooth Number:</span>
+                                    <input type="number" min="0" maxlength="2" class="form-control" name="toothno[]" id="toothno">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">Diagnosis:</span>
+                                    <input type="text" maxlength="20" class="form-control" name="diagnosis[]" id="diagnosis">
+                                </div>
+                            </div>
+                            <div class="col-md-5 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                                    <span class="input-group-text" id="inputGroup-sizing-md">Treatment Done:</span>
+                                    <input type="text" maxlength="20" class="form-control" name="treatment[]" id="treatment">
+                                    &ThickSpace;
+                                    <button type="button" class="btn btn-primary" onclick="duplicate_treat()">+</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="content">
+                        <!-- responsive pag others pinili lalabas additional na textbox-->
+                        <div class="input-group input-group-md mb-2">
+                            <span class="input-group-text" id="inputGroup-sizing-md">Medical Case:</span>
+                            <select class="form-control" aria-label=".form-select-md example" name="medcase" id="medcase" required>
+                                <option value="" disabled selected></option>
+                                <?php
+                                include('connection.php');
+                                $sql = "SELECT * FROM med_case ORDER BY type, medcase";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) { ?>
+                                    <option value="<?= $row['id']; ?>"><?= "(" . ucfirst(strtolower($row['type'])) . ") " . $row['medcase']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="input-group input-group-md mb-2">
+                            <span class="input-group-text" id="inputGroup-sizing-md">Others:</span>
+                            <input type="text" class="form-control" name="medcase_others" id="medcase_others">
+                        </div>
+
+                        <div class="modal-footer">
+                            <input type="text" class="form-control" name="type" value="Walk-In" id="type" hidden>
+                            <input type="text" class="form-control" name="transaction" value="Walk-In" hidden>
+                            <input type="text" class="form-control" name="service" value="Dental Consultation" hidden>
+                            <input type="submit" class="btn btn-primary" value="Add Record"></input>
+                            &ThickSpace;
+                            <input type="reset" class="btn btn-danger" value="Cancel"></input>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -772,60 +316,87 @@ $usertype = $_SESSION['usertype'];
         sidebar.classList.toggle("close");
     });
 </script>
+<script>
+    function duplicate_treat() {
+        var row = $('.duplicate_treat').first().clone();
+        row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_treat(this)');
+        $('.duplicate_treat').last().after(row);
+        // Increment the index for each duplicated input
+        row.find('input[type="number"]').val(''); // Clear the value of the new input
+        row.find('input[type="text"]').val(''); // Clear the value of the new input
+        row.find('input[name="toothno[]"]').attr('name', 'toothno[]');
+        row.find('input[name="diagnosis[]"]').attr('name', 'diagnosis[]');
+        row.find('input[name="treatment[]"]').attr('name', 'treatment[]');
+    }
 
-<script type="text/javascript">
-    function enableOther(answer) {
-        console.log(answer.value);
-        {
-            if (answer.value == 1) {
-                document.getElementById('medical').classList.add('hidden');
-                document.getElementById('medicine').classList.remove('hidden');
-                document.getElementById('quantity').classList.remove('hidden');
-                document.getElementById('purpose').classList.remove('hidden');
-            } else if (answer.value == 2) {
-                document.getElementById('medicine').classList.add('hidden');
-                document.getElementById('medical').classList.remove('hidden');
-                document.getElementById('quantity').classList.remove('hidden');
-                document.getElementById('purpose').classList.remove('hidden');
-            } else {
-                document.getElementById('medical').classList.add('hidden');
-                document.getElementById('medicine').classList.add('hidden');
-                document.getElementById('quantity').classList.add('hidden');
-                document.getElementById('purpose').classList.add('hidden');
-            }
-        }
-    };
+    function remove_treat(btn) {
+        $(btn).closest('.duplicate_treat').remove();
+    }
 </script>
 
 <script>
-    function duplicate() {
-        var row = $('.duplicate').first().clone();
-        row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove(this)');
-        $('.duplicate').last().after(row);
-    }
+    function fetchPatientData() {
+        var patientId = document.getElementById('patientid').value;
+        if (patientId.trim() !== '') {
+            // Perform AJAX request to fetch patient data
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'add/get_patientid.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Process the response
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.error) {
+                            // Display Bootstrap form validation error message
+                            document.getElementById('patientid').classList.add('is-invalid');
+                            document.getElementById('patientid').setCustomValidity(response.error);
+                            document.getElementById('patientid').reportValidity();
+                        } else {
+                            // Update form fields with fetched patient data
+                            document.getElementById('firstname').value = response.firstname;
+                            document.getElementById('middlename').value = response.middlename;
+                            document.getElementById('lastname').value = response.lastname;
+                            document.getElementById('designation').value = response.designation;
+                            document.getElementById('age').value = response.age;
+                            document.getElementById('sex').value = response.sex;
+                            document.getElementById('department').value = response.department;
+                            document.getElementById('college').value = response.college;
+                            document.getElementById('program').value = response.program;
+                            document.getElementById('yearlevel').value = response.yearlevel;
+                            document.getElementById('section').value = response.section;
+                            document.getElementById('block').value = response.block;
 
-    function remove(btn) {
-        $(btn).closest('.duplicate').remove();
-    }
-
-    $('select[name="request"]').change(function() {
-        $('.duplicate:not(:first)').remove();
-    });
-
-    $(document).ready(function() {
-        $('#add-request').submit(function(e) {
-            e.preventDefault();
-            $('#addbtn').val('Requesting...');
-            $.ajax({
-                url: 'action-add-request.php',
-                method: 'POST',
-                data: $(this).serialize(),
-                success: function(response) {
-                    window.location.href = "request";
+                            // Reset form validation state
+                            document.getElementById('patientid').classList.remove('is-invalid');
+                            document.getElementById('patientid').setCustomValidity('');
+                        }
+                    } else {
+                        // Handle error if AJAX request fails
+                        console.error('Error: Unable to fetch patient data');
+                    }
                 }
-            });
-        });
-    });
+            };
+            xhr.send('action=fetch_patient_data&patientid=' + encodeURIComponent(patientId));
+        } else {
+            // Clear form fields if patient ID is empty
+            // Also reset form validation state
+            document.getElementById('firstname').value = '';
+            document.getElementById('middlename').value = '';
+            document.getElementById('lastname').value = '';
+            document.getElementById('designation').value = '';
+            document.getElementById('age').value = '';
+            document.getElementById('sex').value = '';
+            document.getElementById('department').value = '';
+            document.getElementById('college').value = '';
+            document.getElementById('program').value = '';
+            document.getElementById('yearlevel').value = '';
+            document.getElementById('section').value = '';
+            document.getElementById('block').value = '';
+            document.getElementById('patientid').classList.remove('is-invalid');
+            document.getElementById('patientid').setCustomValidity('');
+        }
+    }
 </script>
 
 </html>
