@@ -88,18 +88,20 @@ include('../../includes/pagination-limit.php') ?>
                         <?php
                                         } else {
                         ?>
-                            <tr>
-                                <td colspan="2">
-                                    <h4>No record Found</h4>
-                                </td>
-                            </tr>
+                            <td colspan="2">
+                                <?php
+                                            include('../../includes/no-data.php');
+                                ?>
+                            </td>
                         <?php
                                         }
                                     } else {
                         ?>
                         <tr>
                             <td colspan="2">
-                                <h4>No record Found</h4>
+                                <?php
+                                        include('../../includes/no-data.php');
+                                ?>
                             </td>
                         </tr>
                     <?php }

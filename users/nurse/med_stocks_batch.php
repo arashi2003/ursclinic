@@ -130,7 +130,7 @@ include('../../includes/pagination-limit.php');
                                                         while ($row = mysqli_fetch_array($result)) {
                                                             $batch = $row["batchid"]; ?>
                                                             <option value="<?php echo $row["batchid"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["batchid"] ? 'selected' : '') : '' ?>"><?php echo $row["batchid"]; ?></option><?php }
-                                                                                                                                                                                                                                } ?>
+                                                                                                                                                                                                                                    } ?>
                                                 </select>
                                             </div>
                                             <div class="col mb-2">
@@ -186,9 +186,10 @@ include('../../includes/pagination-limit.php');
                                                         } ?>
                                                         <td><?php echo $data['batchid'] ?></td>
                                                         <td><?php echo $data['medicine'] . " " . $data['dosage'] . $data['unit_measure'] ?></td>
-                                                        <td><?php echo $data['qty']?></td>
-                                                        <td><?php echo $data['unit_cost']?></td>
-                                                        <td><?php echo $amount;}?></td>
+                                                        <td><?php echo $data['qty'] ?></td>
+                                                        <td><?php echo $data['unit_cost'] ?></td>
+                                                        <td><?php echo $amount;
+                                                        } ?></td>
                                                     </tr>
                                                 <?php
                                             } ?>
@@ -197,10 +198,11 @@ include('../../includes/pagination-limit.php');
                                         <?php include('../../includes/pagination.php'); ?>
                                     <?php
                                 } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
+                                    ?><td colspan="7">
+                                            <?php
+                                            include('../../includes/no-data.php');
+                                            ?>
+                                        </td>
                                     <?php
                                 }
                                 mysqli_close($conn);

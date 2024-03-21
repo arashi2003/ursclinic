@@ -127,7 +127,7 @@ include('../../includes/pagination-limit.php');
                                                 if ($result = mysqli_query($conn, $sql)) {
                                                     while ($row = mysqli_fetch_array($result)) {  ?>
                                                         <option value="<?php echo $row['status']; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row['status'] ? 'selected' : '') : '' ?>"><?php echo strtoupper($row['status']); ?></option><?php }
-                                                } ?>
+                                                                                                                                                                                                                                        } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2">
@@ -146,96 +146,94 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '' || isset($_GET['physician']) && $_GET['physician'] != '' || isset($_GET['status']) && $_GET['status'] != '') {
-                                    $dt_from = $_GET['date_from'];
-                                    $dt_to = $_GET['date_to'];
-                                    $pod =  $_GET['physician'];
-                                    $status = $_GET['status'];
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Physician</th>
+                                            <th>Patient</th>
+                                            <th>Type and Purpose</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '' || isset($_GET['physician']) && $_GET['physician'] != '' || isset($_GET['status']) && $_GET['status'] != '') {
+                                            $dt_from = $_GET['date_from'];
+                                            $dt_to = $_GET['date_to'];
+                                            $pod =  $_GET['physician'];
+                                            $status = $_GET['status'];
 
 
-                                    //campus filter
-                                    if ($campus == "") {
-                                        $ca = "";
-                                    } else {
-                                        $ca = " WHERE ac.campus = '$campus'";
-                                    }
+                                            //campus filter
+                                            if ($campus == "") {
+                                                $ca = "";
+                                            } else {
+                                                $ca = " WHERE ac.campus = '$campus'";
+                                            }
 
-                                    //date filter
-                                    if ($dt_from == "" and $dt_to == "") {
-                                        $date = "";
-                                    } elseif ($ca == "" and $dt_to == $dt_from) {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $ldate = date("Y-m-d", strtotime($dt_to));
-                                        $date = " WHERE date >= '$fdate' AND date <= '$ldate'";
-                                    } elseif ($ca != "" and $dt_to == $dt_from) {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $ldate = date("Y-m-d", strtotime($dt_to));
-                                        $date = " AND date >= '$fdate' AND date <= '$ldate'";
-                                    } elseif ($ca == "" and $dt_to == "" and $dt_from != "") {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $date = " AND date >= '$fdate'";
-                                    } elseif ($ca != "" and $dt_to == "" and $dt_from != "") {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $date = " AND date >= '$fdate'";
-                                    } elseif ($ca == "" and $dt_from == "" and $dt_to != "") {
-                                        $d = date("Y-m-d", strtotime($dt_to));
-                                        $date = " WHERE date <= '$d'";
-                                    } elseif ($ca != "" and $dt_from == "" and $dt_to != "") {
-                                        $d = date("Y-m-d", strtotime($dt_to));
-                                        $date = " AND date <= '$d'";
-                                    } elseif ($ca == "" and $dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $ldate = date("Y-m-d", strtotime($dt_to));
-                                        $date = " WHERE date >= '$fdate' AND date <= '$ldate'";
-                                    } elseif ($ca != "" and $dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $ldate = date("Y-m-d", strtotime($dt_to));
-                                        $date = " AND date >= '$fdate' AND date <= '$ldate'";
-                                    }
+                                            //date filter
+                                            if ($dt_from == "" and $dt_to == "") {
+                                                $date = "";
+                                            } elseif ($ca == "" and $dt_to == $dt_from) {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " WHERE date >= '$fdate' AND date <= '$ldate'";
+                                            } elseif ($ca != "" and $dt_to == $dt_from) {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND date >= '$fdate' AND date <= '$ldate'";
+                                            } elseif ($ca == "" and $dt_to == "" and $dt_from != "") {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND date >= '$fdate'";
+                                            } elseif ($ca != "" and $dt_to == "" and $dt_from != "") {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND date >= '$fdate'";
+                                            } elseif ($ca == "" and $dt_from == "" and $dt_to != "") {
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " WHERE date <= '$d'";
+                                            } elseif ($ca != "" and $dt_from == "" and $dt_to != "") {
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND date <= '$d'";
+                                            } elseif ($ca == "" and $dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " WHERE date >= '$fdate' AND date <= '$ldate'";
+                                            } elseif ($ca != "" and $dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND date >= '$fdate' AND date <= '$ldate'";
+                                            }
 
-                                    //physician filter
-                                    if ($pod == "") {
-                                        $doc = "";
-                                    } elseif ($ca == "" and $date == "" and $pod != "") {
-                                        $doc = " WHERE ap.physician = '$pod'";
-                                    } elseif ($ca != "" or $date != "" and $pod != "") {
-                                        $doc = " AND ap.physician = '$pod'";
-                                    }
+                                            //physician filter
+                                            if ($pod == "") {
+                                                $doc = "";
+                                            } elseif ($ca == "" and $date == "" and $pod != "") {
+                                                $doc = " WHERE ap.physician = '$pod'";
+                                            } elseif ($ca != "" or $date != "" and $pod != "") {
+                                                $doc = " AND ap.physician = '$pod'";
+                                            }
 
-                                    //status filter
-                                    if ($status == "") {
-                                        $st = "";
-                                    } elseif ($ca == "" and $date == "" and $doc == "" and $status != "") {
-                                        $st = " WHERE ap.status = '$status'";
-                                    } elseif ($ca != "" or $date != "" or $doc != "" and $status != "") {
-                                        $st = " AND ap.status = '$status'";
-                                    }
+                                            //status filter
+                                            if ($status == "") {
+                                                $st = "";
+                                            } elseif ($ca == "" and $date == "" and $doc == "" and $status != "") {
+                                                $st = " WHERE ap.status = '$status'";
+                                            } elseif ($ca != "" or $date != "" or $doc != "" and $status != "") {
+                                                $st = " AND ap.status = '$status'";
+                                            }
 
-                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.patient, ap.type, ap.status, ap.purpose, ac.campus, ac.firstname, ac.middlename, ac.lastname, t.type, p.purpose FROM appointment ap INNER JOIN account ac ON ac.accountid=ap.patient INNER JOIN appointment_type t ON t.id=ap.type INNER JOIN appointment_purpose p ON p.id=ap.purpose $ca $date $doc $st ORDER BY ap.date, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.patient, ap.type, ap.status, ap.purpose, ac.campus, ac.firstname, ac.middlename, ac.lastname, t.type, p.purpose FROM appointment ap INNER JOIN account ac ON ac.accountid=ap.patient INNER JOIN appointment_type t ON t.id=ap.type INNER JOIN appointment_purpose p ON p.id=ap.purpose WHERE campus = '$campus' ORDER BY ap.date, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Date</th>
-                                                    <th>Time</th>
-                                                    <th>Physician</th>
-                                                    <th>Patient</th>
-                                                    <th>Type and Purpose</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
+                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.patient, ap.type, ap.status, ap.purpose, ac.campus, ac.firstname, ac.middlename, ac.lastname, t.type, p.purpose FROM appointment ap INNER JOIN account ac ON ac.accountid=ap.patient INNER JOIN appointment_type t ON t.id=ap.type INNER JOIN appointment_purpose p ON p.id=ap.purpose $ca $date $doc $st ORDER BY ap.date, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.patient, ap.type, ap.status, ap.purpose, ac.campus, ac.firstname, ac.middlename, ac.lastname, t.type, p.purpose FROM appointment ap INNER JOIN account ac ON ac.accountid=ap.patient INNER JOIN appointment_type t ON t.id=ap.type INNER JOIN appointment_purpose p ON p.id=ap.purpose WHERE campus = '$campus' ORDER BY ap.date, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $row) {
                                                     if (count(explode(" ", $row['middlename'])) > 1) {
                                                         $middle = explode(" ", $row['middlename']);
@@ -254,7 +252,7 @@ include('../../includes/pagination-limit.php');
                                                     } else {
                                                         $physician = $row['physician'];
                                                     }
-                                                ?>
+                                        ?>
                                                     <tr>
                                                         <td><?php echo $row['id'] ?></td>
                                                         <td><?php echo date("F d, Y", strtotime($row['date'])) ?></td>
@@ -264,15 +262,21 @@ include('../../includes/pagination-limit.php');
                                                         <td><?php echo $row['type'] . " - " . $row['purpose'] ?></td>
                                                         <td><?php echo strtoupper($row['status']) ?></td>
                                                     </tr>
-                                        <?php
+                                                <?php
                                                 }
-                                            }
+                                            } else { ?>
+                                                <td colspan="7">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
+                                        <?php }
                                         }
                                         mysqli_close($conn);
                                         ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php') ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php') ?>
                             </div>
                         </div>
                     </div>

@@ -22,24 +22,24 @@ include('../../includes/pagination-limit.php')
 <head>
     <title>User Accounts</title>
     <?php include('../../includes/header.php'); ?>
-    
+
     <script>
         function exportToPDF() {
             let url = 'reports/reports_accounts';
 
             // Construct URL parameters using PHP
-            <?php 
+            <?php
             $parameters = array();
-            if(isset($_GET['campus']) && $_GET['campus'] !== '') {
+            if (isset($_GET['campus']) && $_GET['campus'] !== '') {
                 $parameters[] = 'campus=' . urlencode($_GET['campus']);
             }
-            if(isset($_GET['status']) && $_GET['status'] !== '') {
+            if (isset($_GET['status']) && $_GET['status'] !== '') {
                 $parameters[] = 'status=' . urlencode($_GET['status']);
             }
-            if(isset($_GET['usertype']) && $_GET['usertype'] !== '') {
+            if (isset($_GET['usertype']) && $_GET['usertype'] !== '') {
                 $parameters[] = 'usertype=' . urlencode($_GET['usertype']);
             }
-            if(!empty($parameters)) {
+            if (!empty($parameters)) {
                 $url .= '?' . implode('&', $parameters);
             }
 
@@ -239,9 +239,11 @@ include('../../includes/pagination-limit.php')
                                                         include('modals/update_account_modal.php');
                                                     }
                                                 } else { ?>
-                                                <tr>
-                                                    <td colspan="6">No record Found</td>
-                                                </tr>
+                                                <td colspan="6">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
                                             <?php } ?>
                                     </tbody>
                                 </table>
@@ -249,9 +251,11 @@ include('../../includes/pagination-limit.php')
                             <?php
                                             } else {
                             ?>
-                                <tr>
-                                    <td colspan="6">No record Found</td>
-                                </tr>
+                                <td colspan="6">
+                                    <?php
+                                                include('../../includes/no-data.php');
+                                    ?>
+                                </td>
                             <?php
                                             }
                                             mysqli_close($conn);
@@ -282,4 +286,5 @@ include('../../includes/pagination-limit.php')
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

@@ -121,36 +121,34 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['month']) && $_GET['month'] != '') {
-                                    $month = date("Y-m-t", strtotime($_GET['month']));
-                                    $count = 1;
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Medicine</th>
+                                            <th>Unit Cost</th>
+                                            <th>Beginning Qty.</th>
+                                            <th>Received Qty.</th>
+                                            <th>Issued Qty.</th>
+                                            <th>Ending Qty.</th>
+                                            <th>Ending Amt.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['month']) && $_GET['month'] != '') {
+                                            $month = date("Y-m-t", strtotime($_GET['month']));
+                                            $count = 1;
 
-                                    $sql = "SELECT * FROM report_medsupinv WHERE type='medicine' AND campus = '$campus' AND date='$month'  ORDER BY medicine LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $now = date("Y-m-t");
-                                    $sql = "SELECT * FROM report_medsupinv WHERE type='medicine' AND campus = '$campus' AND date='$now' ORDER BY medicine LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Medicine</th>
-                                                    <th>Unit Cost</th>
-                                                    <th>Beginning Qty.</th>
-                                                    <th>Received Qty.</th>
-                                                    <th>Issued Qty.</th>
-                                                    <th>Ending Qty.</th>
-                                                    <th>Ending Amt.</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
+                                            $sql = "SELECT * FROM report_medsupinv WHERE type='medicine' AND campus = '$campus' AND date='$month'  ORDER BY medicine LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $now = date("Y-m-t");
+                                            $sql = "SELECT * FROM report_medsupinv WHERE type='medicine' AND campus = '$campus' AND date='$now' ORDER BY medicine LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $row) {
                                                     if ($row['buc'] = 0) {
                                                         $buc = $row['eamt'] / $row['eqty'];
@@ -159,7 +157,7 @@ include('../../includes/pagination-limit.php');
                                                     } elseif ($row['buc'] != 0) {
                                                         $buc = $row['buc'];
                                                     }
-                                                ?>
+                                        ?>
                                                     <tr>
                                                         <td><?php echo $row['medicine'] ?></td>
                                                         <td><?php echo number_format($buc, 2, '.') ?></td>
@@ -169,15 +167,21 @@ include('../../includes/pagination-limit.php');
                                                         <td><?php echo $row['eqty'] ?></td>
                                                         <td><?php echo number_format($row['eamt'], 2, '.') ?></td>
                                                     </tr>
-                                        <?php
+                                                <?php
                                                 }
-                                            }
+                                            } else { ?>
+                                                <td colspan="7">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
+                                        <?php  }
                                         }
                                         mysqli_close($conn);
                                         ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php') ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php') ?>
                             </div>
                         </div>
                     </div>

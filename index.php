@@ -63,12 +63,17 @@ if (isset($_POST['submit'])) {
       exit(0);
     }
 
+
     $sql = "SELECT * FROM account WHERE BINARY accountid = '$username' AND BINARY password = '$password'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
     $count = mysqli_num_rows($result);
 
-    if ($count == 1 && $row['usertype'] == "NURSE") {
+    $query = "SELECT department FROM patient_info WHERE BINARY patientid = '$username'";
+    $res = mysqli_query($conn, $query);
+    $dep = mysqli_fetch_array($res);
+
+    if ($count == 1 && $row['usertype'] == "NURSE" && $row['status'] != 'INACTIVE') {
 
       //select data from usertb for audit trail
       $sql = "SELECT * FROM account WHERE accountid='$username'";
@@ -98,6 +103,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['campus'] = $row['campus'];
       $_SESSION['userid'] = $row['accountid'];
       $_SESSION['usertype'] = $row['usertype'];
+      $_SESSION['status'] = $row['status'];
       $_SESSION['name'] = $fullname;
       $_SESSION['alert'] = 'You have successfully logged in!';
 ?>
@@ -108,7 +114,7 @@ if (isset($_POST['submit'])) {
       </script>
     <?php
 
-    } elseif ($count == 1 && $row['usertype'] == "DOCTOR") {
+    } elseif ($count == 1 && $row['usertype'] == "DOCTOR" && $row['status'] != 'INACTIVE') {
 
       //select data from usertb for audit trail
       $sql = "SELECT * FROM account WHERE accountid='$username'";
@@ -139,6 +145,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['usertype'] = $row['usertype'];
       $_SESSION['campus'] = $row['campus'];
       $_SESSION['userid'] = $row['accountid'];
+      $_SESSION['status'] = $row['status'];
       $_SESSION['name'] = $fullname;
       $_SESSION['alert'] = 'You have successfully logged in!';
     ?>
@@ -150,7 +157,7 @@ if (isset($_POST['submit'])) {
     <?php
 
 
-    } elseif ($count == 1 && $row['usertype'] == "DENTIST") {
+    } elseif ($count == 1 && $row['usertype'] == "DENTIST" && $row['status'] != 'INACTIVE') {
 
       //select data from usertb for audit trail
       $sql = "SELECT * FROM account WHERE accountid='$username'";
@@ -181,6 +188,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['usertype'] = $row['usertype'];
       $_SESSION['campus'] = $row['campus'];
       $_SESSION['userid'] = $row['accountid'];
+      $_SESSION['status'] = $row['status'];
       $_SESSION['name'] = $fullname;
       $_SESSION['alert'] = 'You have successfully logged in!';
     ?>
@@ -192,7 +200,7 @@ if (isset($_POST['submit'])) {
     <?php
 
 
-    } elseif ($count == 1 && $row['usertype'] == "STUDENT") {
+    } elseif ($count == 1 && $row['usertype'] == "STUDENT" && $row['status'] != 'INACTIVE') {
 
       //select data from usertb for audit trail
       $sql = "SELECT * FROM account WHERE accountid='$username'";
@@ -223,6 +231,8 @@ if (isset($_POST['submit'])) {
       $_SESSION['username'] = $row['lastname'];
       $_SESSION['usertype'] = $row['usertype'];
       $_SESSION['campus'] = $row['campus'];
+      $_SESSION['department'] = $dep['department'];
+      $_SESSION['status'] = $row['status'];
       $_SESSION['name'] = $fullname;
       $_SESSION['alert'] = 'You have successfully logged in!';
     ?>
@@ -233,7 +243,7 @@ if (isset($_POST['submit'])) {
       </script>
     <?php
 
-    } elseif ($count == 1 && $row['usertype'] == "FACULTY") {
+    } elseif ($count == 1 && $row['usertype'] == "FACULTY" && $row['status'] != 'INACTIVE') {
 
       //select data from usertb for audit trail
       $sql = "SELECT * FROM account WHERE accountid='$username'";
@@ -264,6 +274,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['username'] = $row['lastname'];
       $_SESSION['usertype'] = $row['usertype'];
       $_SESSION['campus'] = $row['campus'];
+      $_SESSION['status'] = $row['status'];
       $_SESSION['name'] = $fullname;
       $_SESSION['alert'] = 'You have successfully logged in!';
     ?>
@@ -274,7 +285,7 @@ if (isset($_POST['submit'])) {
       </script>
     <?php
 
-    } elseif ($count == 1 && $row['usertype'] == "ADMIN") {
+    } elseif ($count == 1 && $row['usertype'] == "ADMIN" && $row['status'] != 'INACTIVE') {
 
       //select data from usertb for audit trail
       $sql = "SELECT * FROM account WHERE accountid='$username'";
@@ -319,6 +330,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['username'] = $row['lastname'];
       $_SESSION['usertype'] = $row['usertype'];
       $_SESSION['campus'] = $row['campus'];
+      $_SESSION['status'] = $row['status'];
       $_SESSION['name'] = $row['firstname'] . ' ' . $middleinitial . ' ' . $row['lastname'];
       $_SESSION['alert'] = 'You have successfully logged in!';
     ?>
@@ -328,6 +340,9 @@ if (isset($_POST['submit'])) {
         });
       </script>
 <?php
+
+    } elseif ($row['status'] == 'INACTIVE') {
+      $error = "Account is Inactive";
 
     } else {
       $error = "Incorrect User ID or Password.";

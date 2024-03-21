@@ -87,7 +87,7 @@ include('../../includes/pagination-limit.php');
                 </div>
                 <div class="profile-info box">
                     <?php
-                    $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE patientid='$patientid'";
+                    $sql = "SELECT p.patientid, p.designation, p.address, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE patientid='$patientid'";
                     $result = mysqli_query($conn, $sql);
                     while ($data = mysqli_fetch_array($result)) {
                         if (count(explode(" ", $data['middlename'])) > 1) {
@@ -189,19 +189,19 @@ include('../../includes/pagination-limit.php');
                                     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
                                         <div class="accordion-body">
                                             <div class="row">
-                                                <div class="col-md-4 mb-2">
+                                                <div class="col-md-12 mb-2">
                                                     <div class="input-group input-group-md mb-2">
                                                         <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
                                                         <input type="text" class="form-control" name="department" value="<?php echo $department ?>" readonly disabled>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 mb-2">
+                                                <div class="col-md-12 mb-2">
                                                     <div class="input-group input-group-md mb-2">
                                                         <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
                                                         <input type="text" class="form-control" name="college" value="<?php echo $college ?>" readonly disabled>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 mb-2">
+                                                <div class="col-md-12 mb-2">
                                                     <div class="input-group input-group-md mb-2">
                                                         <span class="input-group-text" id="inputGroup-sizing-md">Program, Year and Section:</span>
                                                         <input type="text" class="form-control" name="pys" value="<?php echo $pys ?>" readonly disabled>

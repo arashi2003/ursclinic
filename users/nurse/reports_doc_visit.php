@@ -128,7 +128,7 @@ include('../../includes/pagination-limit.php');
                                                         }
                                                         $physician = ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($row['lastname'])); ?>
                                                         <option value="<?php echo $row['accountid']; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $physician ? 'selected' : '') : '' ?>"><?php echo $physician; ?></option><?php }
-                                                                                                                                                                                                                    } ?>
+                                                                                                                                                                                                                        } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2">
@@ -147,65 +147,62 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['physician']) && $_GET['physician'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
-                                    $physician = $_GET['physician'];
-                                    $dt_from = $_GET['date_from'];
-                                    $dt_to = $_GET['date_to'];
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Physician</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Max. No. of Patients</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['physician']) && $_GET['physician'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
+                                            $physician = $_GET['physician'];
+                                            $dt_from = $_GET['date_from'];
+                                            $dt_to = $_GET['date_to'];
 
-                                    //date filter
-                                    if ($dt_from == "" and $dt_to == "") {
-                                        $date = "";
-                                    } elseif ($dt_to == $dt_from) {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $ldate = date("Y-m-t", strtotime($dt_to));
-                                        $date = " AND date >= '$fdate' AND date <= '$ldate'";
-                                    } elseif ($dt_to == "" and $dt_from != "") {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $date = " AND date >= '$fdate'";
-                                    } elseif ($dt_to == "" and $dt_from != "") {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $date = " AND date >= '$fdate'";
-                                    } elseif ($dt_from == "" and $dt_to != "") {
-                                        $d = date("Y-m-t", strtotime($dt_to));
-                                        $date = " AND date <= '$d'";
-                                    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $ldate = date("Y-m-t", strtotime($dt_to));
-                                        $date = " AND date >= '$fdate' AND date <= '$ldate'";
-                                    }
+                                            //date filter
+                                            if ($dt_from == "" and $dt_to == "") {
+                                                $date = "";
+                                            } elseif ($dt_to == $dt_from) {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-t", strtotime($dt_to));
+                                                $date = " AND date >= '$fdate' AND date <= '$ldate'";
+                                            } elseif ($dt_to == "" and $dt_from != "") {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND date >= '$fdate'";
+                                            } elseif ($dt_to == "" and $dt_from != "") {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND date >= '$fdate'";
+                                            } elseif ($dt_from == "" and $dt_to != "") {
+                                                $d = date("Y-m-t", strtotime($dt_to));
+                                                $date = " AND date <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-t", strtotime($dt_to));
+                                                $date = " AND date >= '$fdate' AND date <= '$ldate'";
+                                            }
 
-                                    //physician filter
-                                    if ($physician == "") {
-                                        $doc = "";
-                                    } elseif ($physician != "" and $date == "") {
-                                        $doc = " AND physician = '$physician'";
-                                    } elseif ($date != "" and $physician != "") {
-                                        $doc = " AND physician = '$physician'";
-                                    }
+                                            //physician filter
+                                            if ($physician == "") {
+                                                $doc = "";
+                                            } elseif ($physician != "" and $date == "") {
+                                                $doc = " AND physician = '$physician'";
+                                            } elseif ($date != "" and $physician != "") {
+                                                $doc = " AND physician = '$physician'";
+                                            }
 
-                                    $count = 1;
-                                    $sql = "SELECT physician, date, time_from, time_to, s.campus, maxp, firstname, middlename, lastname FROM schedule s INNER JOIN account a ON a.accountid=s.physician WHERE s.campus = '$campus' $date $doc ORDER BY date DESC, time_from ASC LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT physician, date, time_from, time_to, s.campus, maxp, firstname, middlename, lastname FROM schedule s INNER JOIN account a ON a.accountid=s.physician WHERE s.campus = '$campus' ORDER BY date DESC, time_from ASC LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Physician</th>
-                                                    <th>Date</th>
-                                                    <th>Time</th>
-                                                    <th>Max. No. of Patients</th>
-                                            </thead>
-                                            <tbody>
-
-                                                <?php
+                                            $count = 1;
+                                            $sql = "SELECT physician, date, time_from, time_to, s.campus, maxp, firstname, middlename, lastname FROM schedule s INNER JOIN account a ON a.accountid=s.physician WHERE s.campus = '$campus' $date $doc ORDER BY date DESC, time_from ASC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT physician, date, time_from, time_to, s.campus, maxp, firstname, middlename, lastname FROM schedule s INNER JOIN account a ON a.accountid=s.physician WHERE s.campus = '$campus' ORDER BY date DESC, time_from ASC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $data) {
                                                     if (count(explode(" ", $data['middlename'])) > 1) {
                                                         $middle = explode(" ", $data['middlename']);
@@ -221,7 +218,7 @@ include('../../includes/pagination-limit.php');
                                                     }
 
                                                     $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
-                                                ?>
+                                        ?>
                                                     <tr>
                                                         <td><?php echo $fullname; ?></td>
                                                         <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
@@ -230,19 +227,20 @@ include('../../includes/pagination-limit.php');
                                                         }
                                                     } ?></td>
                                                     </tr>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php'); ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php'); ?>
+                            <?php
+                                        } else {
+                            ?><td colspan="7">
                                     <?php
-                                } else {
+                                            include('../../includes/no-data.php');
                                     ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                    ?>
+                                </td>
+                            <?php
+                                        }
+                                        mysqli_close($conn);
+                            ?>
                             </div>
                         </div>
                     </div>

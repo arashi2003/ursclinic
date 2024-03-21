@@ -124,50 +124,54 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['month']) && $_GET['month'] != '') {
-                                    $month1 = date("Y-m-t", strtotime($_GET['month']));
-                                    $month2 = date("Y-m-t", strtotime($_GET['month']));
-                                    $count = 1;
-                                    $sql = "SELECT c.campus, c.tools_equip, c.date_from, c.date_to, c.status, s.te_status, t.tools_equip, t.unit_measure FROM te_calimain c INNER JOIN te_status s on s.id=c.status INNER JOIN tools_equip t on t.teid=c.tools_equip WHERE campus = '$campus' AND date_from >= '$month1' AND date_to <= '$month2' ORDER BY date_from DESC LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $now = date("Y-m-t");
-                                    $sql = "SELECT c.campus, c.tools_equip, c.date_from, c.date_to, c.status, s.te_status, t.tools_equip, t.unit_measure FROM te_calimain c INNER JOIN te_status s on s.id=c.status INNER JOIN tools_equip t on t.teid=c.tools_equip WHERE campus = '$campus' ORDER BY date_from DESC LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Tool/Equipment</th>
-                                                    <th>Date From</th>
-                                                    <th>Date To</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Tool/Equipment</th>
+                                            <th>Date From</th>
+                                            <th>Date To</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['month']) && $_GET['month'] != '') {
+                                            $month1 = date("Y-m-t", strtotime($_GET['month']));
+                                            $month2 = date("Y-m-t", strtotime($_GET['month']));
+                                            $count = 1;
+                                            $sql = "SELECT c.campus, c.tools_equip, c.date_from, c.date_to, c.status, s.te_status, t.tools_equip, t.unit_measure FROM te_calimain c INNER JOIN te_status s on s.id=c.status INNER JOIN tools_equip t on t.teid=c.tools_equip WHERE campus = '$campus' AND date_from >= '$month1' AND date_to <= '$month2' ORDER BY date_from DESC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $now = date("Y-m-t");
+                                            $sql = "SELECT c.campus, c.tools_equip, c.date_from, c.date_to, c.status, s.te_status, t.tools_equip, t.unit_measure FROM te_calimain c INNER JOIN te_status s on s.id=c.status INNER JOIN tools_equip t on t.teid=c.tools_equip WHERE campus = '$campus' ORDER BY date_from DESC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $row) {
-                                                ?>
+                                        ?>
                                                     <tr>
                                                         <td><?php echo $row['tools_equip'] . $row['unit_measure'] ?></td>
                                                         <td><?php echo date("F d, Y", strtotime($row['date_from'])) ?></td>
                                                         <td><?php echo date("F d, Y", strtotime($row['date_to'])) ?></td>
                                                         <td><?php echo $row['te_status'] ?></td>
                                                     </tr>
-                                        <?php
+                                                <?php
                                                 }
-                                            }
+                                            } else { ?>
+                                                <td colspan="4">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
+                                        <?php }
                                         }
                                         mysqli_close($conn);
                                         ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php') ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php') ?>
                             </div>
                         </div>
                     </div>

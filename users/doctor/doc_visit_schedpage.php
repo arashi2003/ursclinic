@@ -4,8 +4,8 @@ session_start();
 $campus = $_SESSION['campus'];
 include('../../connection.php');
 include('../../includes/doctor-auth.php');
-$userid=$_SESSION['userid'];
-$today=date('Y-m-d');
+$userid = $_SESSION['userid'];
+$today = date('Y-m-d');
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM schedule WHERE physician = '$userid' AND date >= '$today'");
@@ -20,7 +20,7 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Doctor's Visit</title>
-    <?php include('../../includes/header.php');?>
+    <?php include('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -73,72 +73,68 @@ include('../../includes/pagination-limit.php');
                                             <th>Action</th>
                                     </thead>
                                     <tbody>
-                                    <?php
-                                    $count = 1;
-                                    $date = date("Y-m-d");
-                                    $sql = "SELECT s.id, s.date, s.time_from, s.time_to, s.physician, s.maxp, s.campus, a.firstname, a.middlename, a.lastname FROM schedule s INNER JOIN account a on a.accountid=s.physician WHERE date >= '$today' AND physician = '$userid' ORDER BY date, time_from LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                    if ($result) {
-                                        if (mysqli_num_rows($result) > 0) 
-                                        {
-                                            foreach($result as $data){
-                                                if (count(explode(" ", $data['middlename'])) > 1)
-                                                {
-                                                    $middle = explode(" ", $data['middlename']);
-                                                    $letter = $middle[0][0].$middle[1][0];
-                                                    $middleinitial = $letter . ".";
-                                                }
-                                                else
-                                                {
-                                                    $middle = $data['middlename'];
-                                                    if ($middle == "" OR $middle == " ")
-                                                    {
-                                                        $middleinitial = "";
-                                                    }
-                                                    else
-                                                    {
-                                                        $middleinitial = substr($middle, 0, 1) . ".";
-                                                    }    
-                                                }
-                                                ?>
-                                                <tr>
-                                                    <td><?php $id = $count;
-                                                        $date = date("F d, Y", strtotime($data['date']));
-                                                        $time = date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to']));
-                                                        $physician = $data['firstname'] . " " . $middleinitial . " " . $data['lastname'];
-                                                        echo $id; ?></td>
-                                                    <td><?php echo $data['campus'] ?></td>
-                                                    <td><?php echo $date ?></td>
-                                                    <td><?php echo $time ?></td>
-                                                    <td><?php echo $data['maxp']?></td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelsched<?php echo $data['id']; ?>">Cancel</button>
-                                                    </td>
-                                                    <?php $count++; ?></td>
-                                                </tr>
-                                                <?php  include('modals/cancel_sched_modal.php');}
-                                                ?>
-                                        </tbody>
-                                    </table>
-                                            <?php include('../../includes/pagination.php');?>
                                         <?php
-                                        }
-                                        else
-                                        {?>
-                                            <tr>
-                                                <td colspan="7">No record Found</td>
-                                            </tr>
-                                        <?php 
-                                        }
-                                    } else {
+                                        $count = 1;
+                                        $date = date("Y-m-d");
+                                        $sql = "SELECT s.id, s.date, s.time_from, s.time_to, s.physician, s.maxp, s.campus, a.firstname, a.middlename, a.lastname FROM schedule s INNER JOIN account a on a.accountid=s.physician WHERE date >= '$today' AND physician = '$userid' ORDER BY date, time_from LIMIT $start, $rows_per_page";
+                                        $result = mysqli_query($conn, $sql);
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
+                                                foreach ($result as $data) {
+                                                    if (count(explode(" ", $data['middlename'])) > 1) {
+                                                        $middle = explode(" ", $data['middlename']);
+                                                        $letter = $middle[0][0] . $middle[1][0];
+                                                        $middleinitial = $letter . ".";
+                                                    } else {
+                                                        $middle = $data['middlename'];
+                                                        if ($middle == "" or $middle == " ") {
+                                                            $middleinitial = "";
+                                                        } else {
+                                                            $middleinitial = substr($middle, 0, 1) . ".";
+                                                        }
+                                                    }
+                                        ?>
+                                                    <tr>
+                                                        <td><?php $id = $count;
+                                                            $date = date("F d, Y", strtotime($data['date']));
+                                                            $time = date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to']));
+                                                            $physician = $data['firstname'] . " " . $middleinitial . " " . $data['lastname'];
+                                                            echo $id; ?></td>
+                                                        <td><?php echo $data['campus'] ?></td>
+                                                        <td><?php echo $date ?></td>
+                                                        <td><?php echo $time ?></td>
+                                                        <td><?php echo $data['maxp'] ?></td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelsched<?php echo $data['id']; ?>">Cancel</button>
+                                                        </td>
+                                                        <?php $count++; ?></td>
+                                                    </tr>
+                                                <?php include('modals/cancel_sched_modal.php');
+                                                }
+                                                ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php'); ?>
+                            <?php
+                                            } else { ?>
+                                <td colspan="7">
+                                    <?php
+                                                include('../../includes/no-data.php');
                                     ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
+                                </td>
+                            <?php
+                                            }
+                                        } else {
+                            ?>
+                            <td colspan="7">
                                 <?php
-                                    }
-                                mysqli_close($conn);
+                                            include('../../includes/no-data.php');
                                 ?>
+                            </td>
+                        <?php
+                                        }
+                                        mysqli_close($conn);
+                        ?>
                             </div>
                         </div>
                     </div>
@@ -165,4 +161,5 @@ include('../../includes/pagination-limit.php');
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

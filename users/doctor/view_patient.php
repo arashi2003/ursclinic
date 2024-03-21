@@ -91,7 +91,7 @@ include('../../includes/pagination-limit.php');
                         }
                         $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname']));
                         $designation = $data['designation'];
-                        $age = floor((time() - strtotime($data['birthday'])) / 31556926); 
+                        $age = floor((time() - strtotime($data['birthday'])) / 31556926);
                         $sex = $data['sex'];
                         $birthday = $data['birthday'];
                         $department = $data['department'];
@@ -171,19 +171,19 @@ include('../../includes/pagination-limit.php');
                                     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
                                         <div class="accordion-body">
                                             <div class="row">
-                                                <div class="col-md-4 mb-2">
+                                                <div class="col-md-12 mb-2">
                                                     <div class="input-group input-group-md mb-2">
                                                         <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
                                                         <input type="text" class="form-control" name="department" value="<?php echo $department ?>" readonly disabled>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 mb-2">
+                                                <div class="col-md-12 mb-2">
                                                     <div class="input-group input-group-md mb-2">
                                                         <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
                                                         <input type="text" class="form-control" name="college" value="<?php echo $college ?>" readonly disabled>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 mb-2">
+                                                <div class="col-md-12 mb-2">
                                                     <div class="input-group input-group-md mb-2">
                                                         <span class="input-group-text" id="inputGroup-sizing-md">Program, Year and Section:</span>
                                                         <input type="text" class="form-control" name="pys" value="<?php echo $pys ?>" readonly disabled>
@@ -263,72 +263,70 @@ include('../../includes/pagination-limit.php');
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <?php
-                                    $sql = "SELECT * FROM transaction_history WHERE (transaction LIKE '%Medical History%' OR transaction LIKE '%Vitals%' OR purpose LIKE '%Medical History%' OR purpose LIKE '%Vitals%') AND patient='$patientid' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql); 
-                                    if ($result) {
-                                        if ($row = mysqli_num_rows($result) > 0) {
-                                            foreach ($result as $data) {
-                                                $id = $data['patient'];
-                                            if (count(explode(" ", $data['middlename'])) > 1) {
-                                                $middle = explode(" ", $data['middlename']);
-                                                $letter = $middle[0][0] . $middle[1][0];
-                                                $middleinitial = $letter . ".";
-                                            } else {
-                                                $middle = $data['middlename'];
-                                                if ($middle == "" or $middle == " ") {
-                                                    $middleinitial = "";
-                                                } else {
-                                                    $middleinitial = substr($middle, 0, 1) . ".";
-                                                }
-                                            }
-                                            $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
-                                    ?>
-                                        <tr>
-                                            <td><?= $data['transaction'] ?></td>
-                                            <td><?= $data['purpose'] ?></td>
-                                            <td><?= date("M. d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'])) ?></td>
-                                            <td>
+                                        <?php
+                                        $sql = "SELECT * FROM transaction_history WHERE (transaction LIKE '%Medical History%' OR transaction LIKE '%Vitals%' OR purpose LIKE '%Medical History%' OR purpose LIKE '%Vitals%') AND patient='$patientid' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                        $result = mysqli_query($conn, $sql);
+                                        if ($result) {
+                                            if ($row = mysqli_num_rows($result) > 0) {
+                                                foreach ($result as $data) {
+                                                    $id = $data['patient'];
+                                                    if (count(explode(" ", $data['middlename'])) > 1) {
+                                                        $middle = explode(" ", $data['middlename']);
+                                                        $letter = $middle[0][0] . $middle[1][0];
+                                                        $middleinitial = $letter . ".";
+                                                    } else {
+                                                        $middle = $data['middlename'];
+                                                        if ($middle == "" or $middle == " ") {
+                                                            $middleinitial = "";
+                                                        } else {
+                                                            $middleinitial = substr($middle, 0, 1) . ".";
+                                                        }
+                                                    }
+                                                    $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
+                                        ?>
+                                                    <tr>
+                                                        <td><?= $data['transaction'] ?></td>
+                                                        <td><?= $data['purpose'] ?></td>
+                                                        <td><?= date("M. d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'])) ?></td>
+                                                        <td>
+                                                            <?php
+                                                            if ($data['purpose'] == 'Dental Checkup') { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'reports/reports_dentalform.php?id=<?= $id ?>'">Expand</button>
+                                                            <?php } else { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
+                                                            <?php } ?>
+                                                        </td>
+                                                    </tr>
                                                 <?php
-                                                if($data['purpose'] == 'Dental Checkup')
-                                                {?>
-                                                    <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'reports/reports_dentalform.php?id=<?= $id?>'">Expand</button>
-                                                <?php }
-                                                else{?>
-                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
-                                                <?php }?>
-                                            </td>
-                                        </tr>
-                                    <?php
-                                        if($data['purpose'] == 'Vitals')
-                                        {
-                                            include('modals/view_trans_vitals_modal.php');
-                                        }
-                                        elseif($data['purpose'] == 'Medical History')
-                                        {
-                                            include('modals/view_trans_medhist_modal.php');
-                                        }}
-                                    ?>
+                                                    if ($data['purpose'] == 'Vitals') {
+                                                        include('modals/view_trans_vitals_modal.php');
+                                                    } elseif ($data['purpose'] == 'Medical History') {
+                                                        include('modals/view_trans_medhist_modal.php');
+                                                    }
+                                                }
+                                                ?>
                                     </tbody>
                                 </table>
+                            <?php
+                                                include('../../includes/pagination.php');
+                                            } else { ?>
+                                <td colspan="7">
                                     <?php
-                                    include('../../includes/pagination.php');
-                                }
-                                else
-                                {?>
-                                    <tr>
-                                        <td colspan="7">No record Found</td>
-                                    </tr>
-                                <?php }
-                                } else {
+                                                include('../../includes/no-data.php');
                                     ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
+                                </td>
+                            <?php }
+                                        } else {
+                            ?>
+                            <td colspan="7">
+                                <?php
+                                            include('../../includes/no-data.php');
                                 ?>
+                            </td>
+                        <?php
+                                        }
+                                        mysqli_close($conn);
+                        ?>
                             </div>
                         </div>
                     </div>

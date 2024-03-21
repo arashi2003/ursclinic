@@ -117,9 +117,10 @@ $campus = $_SESSION['campus'];
                 <div class="profile-info box">
                     <div class="row">
                         <?php
-                        $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.campus, p.college, p.program, p.yearlevel, p.section, p.block, p.email, p.contactno, a.firstname, a.middlename, a.lastname from patient_info p INNER JOIN account a on a.accountid='$userid'";
+                        $sql = "SELECT p.patientid, p.address, p.designation, p.sex, p.birthday, p.department, p.campus, p.college, p.program, p.yearlevel, p.section, p.block, p.email, p.contactno, a.firstname, a.middlename, a.lastname from patient_info p INNER JOIN account a on a.accountid='$userid' WHERE patientid='$userid'";
                         $result = mysqli_query($conn, $sql);
                         $row = mysqli_fetch_assoc($result);
+                        
                         if (count(explode(" ", $row['middlename'])) > 1) {
                             $middle = explode(" ", $row['middlename']);
                             $letter = $middle[0][0] . $middle[1][0];
@@ -132,66 +133,102 @@ $campus = $_SESSION['campus'];
                                 $middleinitial = substr($middle, 0, 1) . ".";
                             }
                         }
+                        $age = floor((time() - strtotime($row['birthday'])) / 31556926); 
+                        $fullname = ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($row['lastname']));
                         ?>
-                        <div class="input-group input-group-md mb-2">
+                        <div class="row">
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
                             <span class="input-group-text" id="inputGroup-sizing-md">Student No.:</span>
                             <input type="text" class="form-control" name="patientid" value="<?php echo $row['patientid'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
+                                </div>
+                            </div>
+                            <div class="col-md-8 mb-2">
+                                <div class="input-group input-group-md mb-2">
                             <span class="input-group-text" id="inputGroup-sizing-md">Full name:</span>
-                            <input type="text" class="form-control" name="patientname" value="<?php echo $row['firstname'] . ' ' . $middleinitial . ' ' . $row['lastname'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
+                            <input type="text" class="form-control" name="patientname" value="<?php echo $fullname ?>" readonly disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
                             <span class="input-group-text" id="inputGroup-sizing-md">Designation:</span>
                             <input type="text" class="form-control" name="designation" value="<?php echo $row['designation'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
                             <span class="input-group-text" id="inputGroup-sizing-md">Age:</span>
-                            <input type="text" class="form-control" name="age" value="<?php echo $row['age'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
+                            <input type="text" class="form-control" name="age" value="<?php echo $age ?>" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
                             <span class="input-group-text" id="inputGroup-sizing-md">Sex:</span>
                             <input type="text" class="form-control" name="sex" value="<?php echo $row['sex'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
                             <span class="input-group-text" id="inputGroup-sizing-md">Birthday:</span>
-                            <input type="text" class="form-control" name="birthday" value="<?php echo $row['birthday'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
-                            <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
-                            <input type="text" class="form-control" name="department" value="<?php echo $row['department'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
+                            <input type="text" class="form-control" name="birthday" value="<?php echo date("F d, Y", strtotime($row['birthday'])) ?>" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
                             <span class="input-group-text" id="inputGroup-sizing-md">Campus:</span>
                             <input type="text" class="form-control" name="campus" value="<?php echo $row['campus'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                            <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
+                            <input type="text" class="form-control" name="department" value="<?php echo $row['department'] ?>" readonly disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
                             <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
                             <input type="text" class="form-control" name="college" value="<?php echo $row['college'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
                             <span class="input-group-text" id="inputGroup-sizing-md">Program:</span>
                             <input type="text" class="form-control" name="program" value="<?php echo $row['program'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
-                            <span class="input-group-text" id="inputGroup-sizing-md">Year Level:</span>
-                            <input type="text" class="form-control" name="yearlevel" value="<?php echo $row['yearlevel'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
-                            <span class="input-group-text" id="inputGroup-sizing-md">Section:</span>
-                            <input type="text" class="form-control" name="section" value="<?php echo $row['section'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
-                            <span class="input-group-text" id="inputGroup-sizing-md">Block:</span>
-                            <input type="text" class="form-control" name="block" value="<?php echo $row['block'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
-                            <span class="input-group-text" id="inputGroup-sizing-md">Email:</span>
-                            <input type="text" class="form-control" name="email" value="<?php echo $row['email'] ?>" readonly disabled>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                            <span class="input-group-text" id="inputGroup-sizing-md">Year, Block, Section:</span>
+                            <input type="text" class="form-control" name="yearlevel" value="<?php echo $row['yearlevel'] . " " . $row['section'] . "-" . $row['block'] ?>" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="input-group input-group-md mb-2">
                             <span class="input-group-text" id="inputGroup-sizing-md">Contact No.:</span>
                             <input type="text" class="form-control" name="contactno" value="<?php echo $row['contactno'] ?>" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-8 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                            <span class="input-group-text" id="inputGroup-sizing-md">Email:</span>
+                            <input type="text" class="form-control" name="email" value="<?php echo $row['email'] ?>" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <div class="input-group input-group-md mb-2">
+                            <span class="input-group-text" id="inputGroup-sizing-md">Address:</span>
+                            <input type="text" class="form-control" name="contactno" value="<?php echo $row['address'] ?>" readonly disabled>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        </div>
+                        <div class="input-group input-group-md mb-2">
                         </div>
                     </div>
                 </div>

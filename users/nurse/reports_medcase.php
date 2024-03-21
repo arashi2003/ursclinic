@@ -182,32 +182,30 @@ if ($pages > 4) {
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['month']) && $_GET['month'] != '') {
-                                    $month = date("Y-m-t", strtotime($_GET['month']));
-                                    $sql = "SELECT * FROM reports_medcase WHERE campus = '$campus' AND date='$month' LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $now = date("Y-m-t");
-                                    $sql = "SELECT * FROM reports_medcase WHERE campus = '$campus' AND date='$now' LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Medical Case</th>
-                                                    <th>Students</th>
-                                                    <th>Personnel</th>
-                                                    <th>Grand Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Medical Case</th>
+                                            <th>Students</th>
+                                            <th>Personnel</th>
+                                            <th>Grand Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['month']) && $_GET['month'] != '') {
+                                            $month = date("Y-m-t", strtotime($_GET['month']));
+                                            $sql = "SELECT * FROM reports_medcase WHERE campus = '$campus' AND date='$month' LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $now = date("Y-m-t");
+                                            $sql = "SELECT * FROM reports_medcase WHERE campus = '$campus' AND date='$now' LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $row) {
-                                                ?>
+                                        ?>
                                                     <tr>
                                                         <td><?php echo $row['medcase'] ?></td>
                                                         <td><?php echo $row['st'] ?></td>
@@ -220,7 +218,9 @@ if ($pages > 4) {
                                                 ?>
                                                 <tr>
                                                     <td colspan="4">
-                                                        <h3>No records found for the selected date.</h3>
+                                                        <?php
+                                                        include('../../includes/no-data.php');
+                                                        ?>
                                                     </td>
                                                 </tr>
                                         <?php
@@ -231,8 +231,8 @@ if ($pages > 4) {
                                         }
                                         mysqli_close($conn);
                                         ?>
-                                            </tbody>
-                                        </table>
+                                    </tbody>
+                                </table>
                             </div>
                             <ul class="pagination justify-content-end">
                                 <?php

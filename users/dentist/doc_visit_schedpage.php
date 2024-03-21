@@ -110,39 +110,41 @@ include('../../includes/pagination-limit.php');
                                                         <td><?php echo $data['maxp'] ?></td>
                                                         <td>
                                                             <?php
-                                                            if($data['status'] == 'CANCELLED')
-                                                            {?>
+                                                            if ($data['status'] == 'CANCELLED') { ?>
                                                                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#reason<?php echo $data['id']; ?>">Cancelled</button>
+                                                            <?php } else { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatesched<?php echo $data['id']; ?>">Update</button>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelsched<?php echo $data['id']; ?>">Cancel</button>
                                                             <?php }
-                                                            else
-                                                            {?>
-                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatesched<?php echo $data['id']; ?>">Update</button>
-                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelsched<?php echo $data['id']; ?>">Cancel</button>
-                                                            <?php }
-                                                            ?></td>
+                                                            ?>
+                                                        </td>
                                                         <?php $count++; ?></td>
                                                     </tr>
                                                 <?php include('modals/cancel_sched_modal.php');
                                                     include('modals/update_sched_modal.php');
                                                     include('modals/reason_sched_modal.php');
                                                 }
-                                                
+
                                                 ?>
                                     </tbody>
                                 </table>
                                 <?php include('../../includes/pagination.php'); ?>
                             <?php
                                             } else { ?>
-                                <tr>
-                                    <td colspan="7">No record Found</td>
-                                </tr>
+                                <td colspan="7">
+                                    <?php
+                                                include('../../includes/no-data.php');
+                                    ?>
+                                </td>
                             <?php
                                             }
                                         } else {
                             ?>
-                            <tr>
-                                <td colspan="7">No record Found</td>
-                            </tr>
+                            <td colspan="7">
+                                <?php
+                                            include('../../includes/no-data.php');
+                                ?>
+                            </td>
                         <?php
                                         }
                                         mysqli_close($conn);

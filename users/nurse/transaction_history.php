@@ -216,7 +216,7 @@ include('../../includes/pagination-limit.php');
                                                         </td>
 
                                                     </tr>
-                                            <?php
+                                                <?php
                                                     include('modals/view_trans_modal.php');
                                                 }
                                             } else {

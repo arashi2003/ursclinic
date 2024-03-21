@@ -36,10 +36,6 @@
                             </select>
                         </div>
                         <div class="col mb-2">
-                            <label for="email" class="form-label">Age:</label>
-                            <input type="number" maxlength="3" class="form-control" name="age" id="age" value="<?php echo $data['age']?>" required>
-                        </div>
-                        <div class="col mb-2">
                             <label for="sex" class="form-label">Sex:</label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sex" id="sex" required>
                                 <option value="" disabled selected>-Select Sex-</option>
@@ -59,12 +55,51 @@
                         <label for="birthday" class="form-label">Birthday:</label>
                         <input type="date" class="form-control" name="birthday" id="birthday" value="<?php echo $data['birthday']?>" required>
                     </div>
-
-
+                    <?php 
+                    if($data['designation'] != 'STUDENT' AND $data['designation'] != 'STAFF')
+                    {?>
                     <!-- RESPONSIVE ROR ROR-->
                     <div class="mb-2">
                         <label for="department" class="form-label">Department:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="department" required>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="department">
+                            <option value="" disabled selected>-Select Department-</option>
+                            <?php
+                            include('connection.php');
+                            $sql = "SELECT * FROM department ORDER BY department";
+                            $result = mysqli_query($conn, $sql);
+                            while ($row = mysqli_fetch_array($result)) {
+                                if ($data['department'] == $row['department'])
+                                {
+                            ?>
+                                <option value="<?= $row['department']; ?>" selected><?= $row['department']; ?></option>
+                            <?php } else
+                            {?>
+                                <option value="<?= $row['department']; ?>"><?= $row['department']; ?></option>
+                            <?php }} ?>
+                        </select>
+                    </div>
+                    <input type="text" class="form-control" name="college" id="college" value="" hidden>
+                    <input type="text" class="form-control" name="program" id="program" value="" hidden>
+                    <input type="text" class="form-control" name="yearlevel" id="yearlevel" value="" hidden>
+                    <input type="text" class="form-control" name="section" id="section" value="" hidden>
+                    <input type="text" class="form-control" name="block" id="block" value="" hidden>
+
+                    <?php }
+                    elseif($data['designation'] == 'STAFF')
+                    {?>
+                        <input type="text" class="form-control" name="department" id="department" value="" hidden>
+                        <input type="text" class="form-control" name="college" id="college" value="" hidden>
+                        <input type="text" class="form-control" name="program" id="program" value="" hidden>
+                        <input type="text" class="form-control" name="yearlevel" id="yearlevel" value="" hidden>
+                        <input type="text" class="form-control" name="section" id="section" value="" hidden>
+                        <input type="text" class="form-control" name="block" id="block" value="" hidden>
+                    <?php }
+                    else
+                    {?>
+                    <!-- RESPONSIVE ROR ROR-->
+                    <div class="mb-2">
+                        <label for="department" class="form-label">Department:</label>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="department">
                             <option value="" selected>-Select Department-</option>
                             <?php
                             include('connection.php');
@@ -100,79 +135,29 @@
                             <?php }} ?>
                         </select>
                     </div>
-
-                    <?php 
-                    if($data['designation'] != 'STUDENT')
-                    {?>
                     <div class="mb-2">
                         <label for="program" class="form-label">Program:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="program" id="program" disabled>
-                            <option value="" selected></option>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="program" id="program">
+                            <option value="" selected>-Select Program-</option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM program ORDER BY program";
                             $result = mysqli_query($conn, $sql);
                             while ($row = mysqli_fetch_array($result)) {
-                                if ($data['program'] == $row['program'])
+                                if ($data['program'] == $row['abbrev'])
                                 {
                             ?>
-                                <option value="<?= $row['program']; ?>" selected><?= $row['program']; ?></option>
+                                <option value="<?= $row['abbrev']; ?>" selected><?= $row['program']; ?></option>
                             <?php } else
                             {?>
-                                <option value="<?= $row['program']; ?>"><?= $row['program']; ?></option>
-                            <?php }} ?>
-                        </select>
-                    </div>
-                    <div class="col mb-2">
-                        <label for="yearlevel" class="form-label">Year Level:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="yearlevel" id="yearlevel" disabled>
-                            <option value="" selected></option>
-                            <?php
-                            include('connection.php');
-                            $sql = "SELECT * FROM yearlevel ORDER BY yearlevel";
-                            $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_array($result)) {
-                                if ($data['yearlevel'] == $row['yearlevel'])
-                                {
-                            ?>
-                                <option value="<?= $row['yearlevel']; ?>" selected><?= $row['yearlevel']; ?></option>
-                            <?php } else
-                            {?>
-                                <option value="<?= $row['yearlevel']; ?>"><?= $row['yearlevel']; ?></option>
-                            <?php }} ?>
-                        </select>
-                    </div>
-                    <div class="col mb-2">
-                        <label for="section" class="form-label">Section:</label>
-                        <input type="text" class="form-control" name="section" id="section" value="<?php echo $data['section']?>" disabled>
-                    </div>
-                    
-                    <?php }
-                    else
-                    {?>
-                    <div class="mb-2">
-                        <label for="program" class="form-label">Program:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="program" id="program" required>
-                            <option value="" disabled selected>-Select Program-</option>
-                            <?php
-                            include('connection.php');
-                            $sql = "SELECT * FROM program ORDER BY program";
-                            $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_array($result)) {
-                                if ($data['program'] == $row['program'])
-                                {
-                            ?>
-                                <option value="<?= $row['program']; ?>" selected><?= $row['program']; ?></option>
-                            <?php } else
-                            {?>
-                                <option value="<?= $row['program']; ?>"><?= $row['program']; ?></option>
+                                <option value="<?= $row['abbrev']; ?>"><?= $row['program']; ?></option>
                             <?php }} ?>
                         </select>
                     </div>
                     <div class="mb-2">
                         <label for="yearlevel" class="form-label">Year Level:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="yearlevel" id="yearlevel" required>
-                            <option value="" disabled selected>-Select Year Level-</option>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="yearlevel" id="yearlevel">
+                            <option value="" selected>-Select Year Level-</option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM yearlevel ORDER BY yearlevel";
@@ -190,17 +175,21 @@
                     </div>
                     <div class="mb-2">
                         <label for="section" class="form-label">Section:</label>
-                        <input type="text" class="form-control" name="section" id="section" value="<?php echo $data['section']?>" required>
+                        <input type="text" class="form-control" name="section" id="section" value="<?php echo $data['section']?>">
                     </div>
                     <?php }?>
 
                     <div class="mb-2">
                         <label for="email" class="form-label">Email Address:</label>
-                        <input type="text" class="form-control" name="email" id="email" value="<?php echo $data['email']?>" required>
+                        <input type="text" class="form-control" name="email" id="email" value="<?php echo $data['email']?>">
                     </div>
                     <div class="mb-2">
                         <label for="contactno" class="form-label">Contact Number:</label>
-                        <input type="text" maxlength="13" class="form-control" name="contactno" id="contactno" value="<?php echo $data['contactno']?>" required>
+                        <input type="text" maxlength="13" class="form-control" name="contactno" id="contactno" value="<?php echo $data['contactno']?>">
+                    </div>
+                    <div class="mb-2">
+                        <label for="email" class="form-label">Home Address:</label>
+                        <textarea class="form-control" name="address" id="address" style="resize: none;"><?php echo $data['address'] ?></textarea>                    
                     </div>
                     <div class="mb-2">
                         <label for="emcon_name" class="form-label">Emergency Contact Name:</label>

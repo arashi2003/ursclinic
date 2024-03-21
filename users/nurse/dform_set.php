@@ -152,10 +152,11 @@ include('../../includes/pagination-limit.php');
                                         <?php include('../../includes/pagination.php'); ?>
                                     <?php
                                 } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
+                                    ?><td colspan="7">
+                                            <?php
+                                            include('../../includes/no-data.php');
+                                            ?>
+                                        </td>
                                     <?php
                                 }
                                 mysqli_close($conn);

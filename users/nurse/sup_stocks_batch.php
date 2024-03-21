@@ -131,7 +131,7 @@ include('../../includes/pagination-limit.php');
                                                     while ($row = mysqli_fetch_array($result)) {
                                                         $batch = $row["batchid"]; ?>
                                                         <option value="<?php echo $row["batchid"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["batchid"] ? 'selected' : '') : '' ?>"><?php echo $row["batchid"]; ?></option><?php }
-                                                                                                                                                                                                                            } ?>
+                                                                                                                                                                                                                                } ?>
                                             </select>
                                         </div>
                                         <div class="col mb-2">
@@ -142,39 +142,37 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['supply']) && $_GET['supply'] != '') {
-                                    $supply = $_GET['supply'];
-                                    $count = 1;
-                                    $sql = "SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND CONCAT(s.supply, ' ', s.volume, s.unit_measure) LIKE '%$supply%' AND campus = '$campus' AND qty > 0  ORDER BY batchid, stockid LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } elseif (isset($_GET['batch']) && $_GET['batch'] != '') {
-                                    $batch = $_GET['batch'];
-                                    $count = 1;
-                                    $sql = "SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND batchid='$batch' AND campus = '$campus' AND qty > 0  ORDER BY batchid, stockid LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND campus = '$campus' AND qty > 0  ORDER BY batchid, stockid LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Batch ID</th>
-                                                    <th>Supply</th>
-                                                    <th>Qty.</th>
-                                                    <th>Unit Cost</th>
-                                                    <th>Total Amt.</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Batch ID</th>
+                                            <th>Supply</th>
+                                            <th>Qty.</th>
+                                            <th>Unit Cost</th>
+                                            <th>Total Amt.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['supply']) && $_GET['supply'] != '') {
+                                            $supply = $_GET['supply'];
+                                            $count = 1;
+                                            $sql = "SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND CONCAT(s.supply, ' ', s.volume, s.unit_measure) LIKE '%$supply%' AND campus = '$campus' AND qty > 0  ORDER BY batchid, stockid LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['batch']) && $_GET['batch'] != '') {
+                                            $batch = $_GET['batch'];
+                                            $count = 1;
+                                            $sql = "SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND batchid='$batch' AND campus = '$campus' AND qty > 0  ORDER BY batchid, stockid LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND campus = '$campus' AND qty > 0  ORDER BY batchid, stockid LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 while ($data = mysqli_fetch_array($result)) {
-                                                ?>
+                                        ?>
                                                     <tr>
                                                         <?php
                                                         $amount = $data['qty'] * $data['unit_cost'];
@@ -185,25 +183,28 @@ include('../../includes/pagination-limit.php');
                                                         } ?>
                                                         <td><?php echo $data['batchid'] ?></td>
                                                         <td><?php echo $data['supply'] . " " . $data['volume'] . $data['unit_measure'] ?></td>
-                                                        <td><?php echo $data['qty']?></td>
-                                                        <td><?php echo $data['unit_cost']?></td>
-                                                        <td><?php echo $amount;}?></td>
+                                                        <td><?php echo $data['qty'] ?></td>
+                                                        <td><?php echo $data['unit_cost'] ?></td>
+                                                        <td><?php echo $amount;
+                                                        } ?></td>
                                                     </tr>
                                                 <?php
                                             } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php'); ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php'); ?>
+                            <?php
+                                        } else {
+                            ?>
+                                <td colspan="7">
                                     <?php
-                                } else {
+                                            include('../../includes/no-data.php');
                                     ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                    ?>
+                                </td>
+                            <?php
+                                        }
+                                        mysqli_close($conn);
+                            ?>
                             </div>
                         </div>
                     </div>

@@ -113,43 +113,40 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['transaction']) && $_GET['transaction'] != '') {
-                                    $transaction = $_GET['transaction'];
-                                    $count = 1;
-                                    $sql = "SELECT * FROM transaction WHERE CONCAT(transaction_type, ' - ', service) LIKE '%$transaction%' ORDER BY transaction_type, service LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } elseif (isset($_GET['ttype']) && $_GET['ttype'] != '') {
-                                    $ttype = $_GET['ttype'];
-                                    $count = 1;
-                                    $sql = "SELECT * FROM transaction WHERE transaction_type = '$ttype' ORDER BY transaction_type, service LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT * FROM transaction ORDER BY transaction_type, service LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Transaction</th>
-                                                    <th>Service</th>
-                                                    <th>Action</th>
-                                            </thead>
-                                            <tbody>
-
-                                                <?php
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Transaction</th>
+                                            <th>Service</th>
+                                            <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['transaction']) && $_GET['transaction'] != '') {
+                                            $transaction = $_GET['transaction'];
+                                            $count = 1;
+                                            $sql = "SELECT * FROM transaction WHERE CONCAT(transaction_type, ' - ', service) LIKE '%$transaction%' ORDER BY transaction_type, service LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['ttype']) && $_GET['ttype'] != '') {
+                                            $ttype = $_GET['ttype'];
+                                            $count = 1;
+                                            $sql = "SELECT * FROM transaction WHERE transaction_type = '$ttype' ORDER BY transaction_type, service LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT * FROM transaction ORDER BY transaction_type, service LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $data) {
                                                     if ($data['service'] == NULL) {
                                                         $service = $data['transaction_type'];
                                                     } else {
                                                         $service =  $data['service'];
                                                     }
-                                                ?>
+                                        ?>
                                                     <tr>
                                                         <td><?php echo $data['id']; ?></td>
                                                         <td><?php echo $data['transaction_type']; ?></td>
@@ -164,19 +161,21 @@ include('../../includes/pagination-limit.php');
                                                     include('modals/rem_transaction_set_modal.php');
                                                 }
                                             } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php'); ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php'); ?>
+                            <?php
+                                        } else {
+                            ?>
+                                <td colspan="7">
                                     <?php
-                                } else {
+                                            include('../../includes/no-data.php');
                                     ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                    ?>
+                                </td>
+                            <?php
+                                        }
+                                        mysqli_close($conn);
+                            ?>
                             </div>
                         </div>
                     </div>

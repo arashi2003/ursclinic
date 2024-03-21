@@ -127,35 +127,33 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['supply']) && $_GET['supply'] != '') {
-                                    $supply = $_GET['supply'];
-                                    $count = 1;
-                                    $sql = "SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid WHERE campus = '$campus' AND type = 'supply' AND stock_name LIKE '%$supply%' AND qty > 0  ORDER BY stock_name LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid WHERE campus = '$campus' AND type = 'supply' AND qty > 0  ORDER BY stock_name LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Supply</th>
-                                                    <th>Qty.</th>
-                                                    <th>Unit Cost</th>
-                                                    <th>Total Amt.</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Supply</th>
+                                            <th>Qty.</th>
+                                            <th>Unit Cost</th>
+                                            <th>Total Amt.</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['supply']) && $_GET['supply'] != '') {
+                                            $supply = $_GET['supply'];
+                                            $count = 1;
+                                            $sql = "SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid WHERE campus = '$campus' AND type = 'supply' AND stock_name LIKE '%$supply%' AND qty > 0  ORDER BY stock_name LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT id, campus, type, stockid, stock_name, open, closed, qty, unit_cost, state FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid WHERE campus = '$campus' AND type = 'supply' AND qty > 0  ORDER BY stock_name LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 while ($data = mysqli_fetch_array($result)) {
-                                                ?>
+                                        ?>
                                                     <tr>
                                                         <td><?php echo $data['id']; ?></td>
                                                         <td><?php echo $data['stock_name'] ?></td>
@@ -174,19 +172,21 @@ include('../../includes/pagination-limit.php');
                                                     include('modals/update_supstocks_modal.php');
                                                 }
                                             } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php'); ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php'); ?>
+                            <?php
+                                        } else {
+                            ?>
+                                <td colspan="7">
                                     <?php
-                                } else {
+                                            include('../../includes/no-data.php');
                                     ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                    ?>
+                                </td>
+                            <?php
+                                        }
+                                        mysqli_close($conn);
+                            ?>
                             </div>
                         </div>
                     </div>

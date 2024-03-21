@@ -45,10 +45,10 @@
                         } ?>">
                 <a href="transaction_history">
                     <i class='bx bx-collection'></i>
-                    <span class="link_name">Transaction</span>
+                    <span class="link_name">Medical Records</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Transaction</a></li>
+                    <li><a class="link_name" href="#">Medical Records</a></li>
                 </ul>
             </li>
             <li class="<?php if ($module == 'medical') {
@@ -115,7 +115,7 @@
                     <li>
                         <a class="<?php if ($module == 'medrec' or $module == 'chiefcomplaint' or $module == 'findings' or $module == 'medcase' or $module == 'designation') {
                                         echo 'active showMenu';
-                                    } ?>" href="medrec">Medical Record</a>
+                                    } ?>" href="medrec">Medical Records</a>
                     </li>
                     <li>
                         <a class="<?php if ($module == 'inv' or $module == 'medadmin_set' or $module == 'dform_set' or $module == 'umeasure_set') {
@@ -128,8 +128,8 @@
     </div>
 
 
-    <!-- STUDENT SIDEBAR -->
-<?php elseif ($_SESSION['usertype'] == "STUDENT") : ?>
+    <!-- STUDENT SIDEBAR: COLLEGE -->
+<?php elseif ($_SESSION['usertype'] == "STUDENT" && $_SESSION['department'] == 'COLLEGE') : ?>
 
     <div class="sidebar">
         <div class="logo-details">
@@ -148,17 +148,6 @@
                     <li><a class="link_name" href="appointment">Appointment</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'profile') {
-                            echo 'active showMenu';
-                        } ?>">
-                <a href="profile">
-                    <i class='bx bx-file'></i>
-                    <span class="link_name">Profile Information</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="profile">Profile Information</a></li>
-                </ul>
-            </li>
             <li class="<?php if ($module == 'medical') {
                             echo 'active showMenu';
                         } ?>">
@@ -175,14 +164,82 @@
                         } ?>">
                 <a href="history">
                     <i class='bx bx-collection'></i>
-                    <span class="link_name">Transaction</span>
+                    <span class="link_name">Medical Records</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="history">Transaction</a></li>
+                    <li><a class="link_name" href="history">Medical Records</a></li>
                 </ul>
             </li>
         </ul>
     </div>
+
+        <!-- STUDENT SIDEBAR: JHS, ELEM, SHS -->
+<?php elseif ($_SESSION['usertype'] == "STUDENT" && $_SESSION['department'] != 'COLLEGE') : ?>
+
+<div class="sidebar">
+    <div class="logo-details">
+        <i class='bx bx-clinic'></i>
+        <span class="logo_name"><strong>URS</strong> Health Service</span>
+    </div>
+    <ul class="nav-links">
+        <li class="<?php if ($module == 'appointment') {
+                        echo 'active showMenu';
+                    } ?>">
+            <a href="appointment">
+                <i class='bx bx-calendar'></i>
+                <span class="link_name">Appointment</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="appointment">Appointment</a></li>
+            </ul>
+        </li>
+        <li class="<?php if ($module == 'history') {
+                        echo 'active showMenu';
+                    } ?>">
+            <a href="history">
+                <i class='bx bx-collection'></i>
+                <span class="link_name">Medical Records</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="history">Medical Records</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+        <!-- STUDENT SIDEBAR: ALUMNUS -->
+        <?php elseif ($_SESSION['usertype'] == "STUDENT" && $_SESSION['status'] == 'ALUMNUS') : ?>
+
+<div class="sidebar">
+    <div class="logo-details">
+        <i class='bx bx-clinic'></i>
+        <span class="logo_name"><strong>URS</strong> Health Service</span>
+    </div>
+    <ul class="nav-links">
+        <li class="<?php if ($module == 'appointment') {
+                        echo 'active showMenu';
+                    } ?>">
+            <a href="appointment">
+                <i class='bx bx-calendar'></i>
+                <span class="link_name">Appointment</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="appointment">Appointment</a></li>
+            </ul>
+        </li>
+        <li class="<?php if ($module == 'history') {
+                        echo 'active showMenu';
+                    } ?>">
+            <a href="history">
+                <i class='bx bx-collection'></i>
+                <span class="link_name">Medical Records</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="history">Medical Records</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
 
     <!-- FACULTY SIDEBAR -->
 <?php elseif ($_SESSION['usertype'] == "FACULTY") : ?>
@@ -204,17 +261,6 @@
                     <li><a class="link_name" href="appointment">Appointment</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'profile') {
-                            echo 'active showMenu';
-                        } ?>">
-                <a href="profile">
-                    <i class='bx bx-file'></i>
-                    <span class="link_name">Profile Information</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="profile">Profile Information</a></li>
-                </ul>
-            </li>
             <li class="<?php if ($module == 'transaction') {
                             echo 'active showMenu';
                         } ?>">
@@ -233,6 +279,46 @@
             </li>
         </ul>
     </div>
+
+
+    <!-- STAFF SIDEBAR -->
+<?php elseif ($_SESSION['usertype'] == "STAFF") : ?>
+
+<div class="sidebar">
+    <div class="logo-details">
+        <i class='bx bx-clinic'></i>
+        <span class="logo_name"><strong>URS</strong> Health Service</span>
+    </div>
+    <ul class="nav-links">
+        <li class="<?php if ($module == 'appointment') {
+                        echo 'active showMenu';
+                    } ?>">
+            <a href="appointment">
+                <i class='bx bx-calendar'></i>
+                <span class="link_name">Appointment</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="appointment">Appointment</a></li>
+            </ul>
+        </li>
+        <li class="<?php if ($module == 'transaction') {
+                        echo 'active showMenu';
+                    } ?>">
+            <div class="icon-link">
+                <a href="#">
+                    <i class='bx bx-collection'></i>
+                    <span class="link_name">Medical Records</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name" href="#">Medical Records</a></li>
+                <li><a href="request">Request</a></li>
+                <li><a href="history">History</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
 
     <!-- ADMIN SIDEBAR -->
 <?php elseif ($_SESSION['usertype'] == "ADMIN") : ?>
@@ -344,17 +430,17 @@
                 <div class="icon-link">
                     <a href="#">
                         <i class='bx bx-collection'></i>
-                        <span class="link_name">Dental Record</span>
+                        <span class="link_name">Dental Records</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="#">Dental Record</a></li>
+                    <li><a class="link_name" href="#">Dental Records</a></li>
 
                     <li>
                         <a class="<?php if ($module == 'transaction_dental_consultation') {
                                         echo 'active showMenu';
-                                    } ?>" href="transaction_dental_consultation">Record</a>
+                                    } ?>" href="transaction_dental_consultation">Records</a>
                     </li>
 
                     <li>
@@ -423,21 +509,21 @@
                 <div class="icon-link">
                     <a href="#">
                         <i class='bx bx-collection'></i>
-                        <span class="link_name">Transaction</span>
+                        <span class="link_name">Medical Records</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="#">Transaction</a></li>
+                    <li><a class="link_name" href="#">Medical Records</a></li>
                     <li <?php if ($module == 'transaction_add') {
                             echo 'active showMenu';
                         } ?>>
-                        <a href="transaction_add">Add Transaction</a>
+                        <a href="transaction_add">Add</a>
                     </li>
                     <li <?php if ($module == 'transaction_history') {
                             echo 'active showMenu';
                         } ?>>
-                        <a href="transaction_history">Transaction History</a>
+                        <a href="transaction_history">History</a>
                     </li>
                 </ul>
             </li>

@@ -61,7 +61,7 @@ include('../../includes/pagination-limit.php')
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_audit_trail?date_from=<?=!empty($_GET['date_from'])?>&date_to=<?=!empty($_GET['date_to'])?>');" target="_blank">Export to PDF</button>
+                    <button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_audit_trail?date_from=<?= !empty($_GET['date_from']) ?>&date_to=<?= !empty($_GET['date_to']) ?>');" target="_blank">Export to PDF</button>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -97,51 +97,51 @@ include('../../includes/pagination-limit.php')
                                     </thead>
                                     <tbody>
                                         <?php
-                                            if (isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
-                                                $dt_from = $_GET['date_from'];
-                                                $dt_to = $_GET['date_to'];
-                                                $count = 1;
+                                        if (isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
+                                            $dt_from = $_GET['date_from'];
+                                            $dt_to = $_GET['date_to'];
+                                            $count = 1;
 
-                                                if ($dt_from == "" and $dt_to == "") {
-                                                    $date = "";
-                                                } elseif ($dt_to == $dt_from) {
-                                                    $d2 = date("Y-m-d", strtotime("$dt_to + 1 day"));
-                                                    $date = " AND datetime >= '$dt_from' AND datetime <= '$d2'";
-                                                } elseif ($dt_to == "" and $dt_from != "") {
-                                                    $d1 = date("Y-m-d", strtotime("$dt_from"));
-                                                    $d2 = date("Y-m-d", strtotime("+ 1 day"));
-                                                    $date = " AND datetime >= '$d1' AND datetime <= '$d2'";
-                                                } elseif ($dt_from == "" and $dt_to != "") {
-                                                    $d = date("Y-m-d", strtotime("$dt_to + 1 day"));
-                                                    $date = " AND datetime <= '$d'";
-                                                } elseif ($dt_from != "" and $dt_to != "") {
-                                                    $d = date($dt_to, strtotime("+ 1 day"));
-                                                    $date = " AND datetime >= '$dt_from' AND datetime <= '$d'";
-                                                }
-
-                                                $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, ac.firstname, ac.middlename, ac.lastname, ac.usertype FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user WHERE au.campus = '$campus' $date ORDER BY id DESC LIMIT $start, $rows_per_page";
-                                                $result = mysqli_query($conn, $sql);
-                                            } else {
-                                                $count = 1;
-                                                $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, ac.firstname, ac.middlename, ac.lastname, ac.usertype FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user WHERE au.campus = '$campus' ORDER BY id DESC LIMIT $start, $rows_per_page";
-                                                $result = mysqli_query($conn, $sql);
+                                            if ($dt_from == "" and $dt_to == "") {
+                                                $date = "";
+                                            } elseif ($dt_to == $dt_from) {
+                                                $d2 = date("Y-m-d", strtotime("$dt_to + 1 day"));
+                                                $date = " AND datetime >= '$dt_from' AND datetime <= '$d2'";
+                                            } elseif ($dt_to == "" and $dt_from != "") {
+                                                $d1 = date("Y-m-d", strtotime("$dt_from"));
+                                                $d2 = date("Y-m-d", strtotime("+ 1 day"));
+                                                $date = " AND datetime >= '$d1' AND datetime <= '$d2'";
+                                            } elseif ($dt_from == "" and $dt_to != "") {
+                                                $d = date("Y-m-d", strtotime("$dt_to + 1 day"));
+                                                $date = " AND datetime <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "") {
+                                                $d = date($dt_to, strtotime("+ 1 day"));
+                                                $date = " AND datetime >= '$dt_from' AND datetime <= '$d'";
                                             }
-                                            if ($result) {
-                                                if (mysqli_num_rows($result) > 0) {
-                                                    foreach ($result as $row) {
-                                                        if (count(explode(" ", $row['middlename'])) > 1) {
-                                                            $middle = explode(" ", $row['middlename']);
-                                                            $letter = $middle[0][0] . $middle[1][0];
-                                                            $middleinitial = $letter . ".";
+
+                                            $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, ac.firstname, ac.middlename, ac.lastname, ac.usertype FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user WHERE au.campus = '$campus' $date ORDER BY id DESC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, ac.firstname, ac.middlename, ac.lastname, ac.usertype FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user WHERE au.campus = '$campus' ORDER BY id DESC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
+                                                foreach ($result as $row) {
+                                                    if (count(explode(" ", $row['middlename'])) > 1) {
+                                                        $middle = explode(" ", $row['middlename']);
+                                                        $letter = $middle[0][0] . $middle[1][0];
+                                                        $middleinitial = $letter . ".";
+                                                    } else {
+                                                        $middle = $row['middlename'];
+                                                        if ($middle == "" or $middle == " ") {
+                                                            $middleinitial = "";
                                                         } else {
-                                                            $middle = $row['middlename'];
-                                                            if ($middle == "" or $middle == " ") {
-                                                                $middleinitial = "";
-                                                            } else {
-                                                                $middleinitial = substr($middle, 0, 1) . ".";
-                                                            }
+                                                            $middleinitial = substr($middle, 0, 1) . ".";
                                                         }
-                                            ?>
+                                                    }
+                                        ?>
                                                     <tr>
                                                         <td><?php echo $row['id'] ?></td>
                                                         <td><?php echo $row['usertype'] ?></td>
@@ -150,24 +150,28 @@ include('../../includes/pagination-limit.php')
                                                         <td><?php echo date("g:i A", strtotime($row['datetime'])) ?></td>
                                                     </tr>
                                                 <?php
-                                                    }
-                                                } else { ?>
-                                                <tr>
-                                                    <td colspan="5">No record Found</td>
-                                                </tr>
-                                            <?php }?>
+                                                }
+                                            } else { ?>
+                                                <td colspan="5">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
+                                            <?php } ?>
                                     </tbody>
                                 </table>
                                 <?php include('../../includes/pagination.php') ?>
                             <?php
-                                            } else {
+                                        } else {
                             ?>
-                                <tr>
-                                    <td colspan="6">No record Found</td>
-                                </tr>
+                                <td colspan="5">
+                                    <?php
+                                            include('../../includes/no-data.php');
+                                    ?>
+                                </td>
                             <?php
-                                            }
-                                            mysqli_close($conn);
+                                        }
+                                        mysqli_close($conn);
                             ?>
                             </div>
                         </div>

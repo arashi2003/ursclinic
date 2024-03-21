@@ -129,39 +129,37 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['te']) && $_GET['te'] != '') {
-                                    $te = $_GET['te'];
-                                    $count = 1;
-                                    $sql = "SELECT i.id, i.campus, i.teid, i.qty, i.unit_cost, i.status, i.date, i.time, t.tools_equip, t.unit_measure, t.teid, s.te_status FROM inventory_te i INNER JOIN tools_equip t on t.teid=i.teid INNER JOIN te_status s on s.id=i.status WHERE t.tools_equip LIKE '%$te%' AND campus = '$campus' ORDER BY t.tools_equip LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } elseif (isset($_GET['te_status']) && $_GET['te_status'] != '') {
-                                    $te_status = $_GET['te_status'];
-                                    $count = 1;
-                                    $sql = "SELECT i.id, i.campus, i.teid, i.qty, i.unit_cost, i.status, i.date, i.time, t.tools_equip, t.unit_measure, t.teid, s.te_status FROM inventory_te i INNER JOIN tools_equip t on t.teid=i.teid INNER JOIN te_status s on s.id=i.status WHERE status = '$te_status' AND campus = '$campus' ORDER BY t.tools_equip LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT i.id, i.campus, i.teid, i.qty, i.unit_cost, i.status, i.date, i.time, t.tools_equip, t.unit_measure, t.teid, s.te_status FROM inventory_te i INNER JOIN tools_equip t on t.teid=i.teid INNER JOIN te_status s on s.id=i.status WHERE campus = '$campus' ORDER BY t.tools_equip LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Tools and Equipment</th>
-                                                    <th>Unit Cost</th>
-                                                    <th>Total Amt.</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                            </thead>
-                                            <tbody>
-                                                <?php
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Tools and Equipment</th>
+                                            <th>Unit Cost</th>
+                                            <th>Total Amt.</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['te']) && $_GET['te'] != '') {
+                                            $te = $_GET['te'];
+                                            $count = 1;
+                                            $sql = "SELECT i.id, i.campus, i.teid, i.qty, i.unit_cost, i.status, i.date, i.time, t.tools_equip, t.unit_measure, t.teid, s.te_status FROM inventory_te i INNER JOIN tools_equip t on t.teid=i.teid INNER JOIN te_status s on s.id=i.status WHERE t.tools_equip LIKE '%$te%' AND campus = '$campus' ORDER BY t.tools_equip LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['te_status']) && $_GET['te_status'] != '') {
+                                            $te_status = $_GET['te_status'];
+                                            $count = 1;
+                                            $sql = "SELECT i.id, i.campus, i.teid, i.qty, i.unit_cost, i.status, i.date, i.time, t.tools_equip, t.unit_measure, t.teid, s.te_status FROM inventory_te i INNER JOIN tools_equip t on t.teid=i.teid INNER JOIN te_status s on s.id=i.status WHERE status = '$te_status' AND campus = '$campus' ORDER BY t.tools_equip LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT i.id, i.campus, i.teid, i.qty, i.unit_cost, i.status, i.date, i.time, t.tools_equip, t.unit_measure, t.teid, s.te_status FROM inventory_te i INNER JOIN tools_equip t on t.teid=i.teid INNER JOIN te_status s on s.id=i.status WHERE campus = '$campus' ORDER BY t.tools_equip LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $data) {
-                                                ?>
+                                        ?>
                                                     <tr>
                                                         <td><?php
                                                             $amount = $data['qty'] * $data['unit_cost'];
@@ -179,19 +177,21 @@ include('../../includes/pagination-limit.php');
                                                 }
                                             }
                                             ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php'); ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php'); ?>
+                            <?php
+                                        } else {
+                            ?>
+                                <td colspan="7">
                                     <?php
-                                } else {
+                                            include('../../includes/no-data.php');
                                     ?>
-                                        <tr>
-                                            <td colspan="7">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                    ?>
+                                </td>
+                            <?php
+                                        }
+                                        mysqli_close($conn);
+                            ?>
                             </div>
                         </div>
                     </div>

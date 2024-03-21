@@ -86,7 +86,7 @@ include('../../includes/pagination-limit.php')
                                                         }
                                                 ?>
                                                         <option value="<?php echo $campus; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["campus"] ? 'selected' : '') : '' ?>"><?php echo $campus; ?></option><?php }
-                                                                                                                                                                                                            } ?>
+                                                                                                                                                                                                                } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2 mb-2">
@@ -175,30 +175,30 @@ include('../../includes/pagination-limit.php')
                                                         </td>
 
                                                     </tr>
-                                            <?php
+                                                <?php
                                                     include('modals/update_organization_modal.php');
                                                     include('modals/rem_organization_modal.php');
-                                                }?>
+                                                } ?>
                                     </tbody>
                                 </table>
                                 <?php include('../../includes/pagination.php') ?>
                             <?php
                                             } else {
                             ?>
-                                <tr>
-                                    <td colspan="4">
-                                        <h4>No record Found</h4>
-                                    </td>
-                                </tr>
+                                <td colspan="4">
+                                    <?php
+                                                include('../../includes/no-data.php');
+                                    ?>
+                                </td>
                             <?php
                                             }
                                         } else {
                             ?>
-                            <tr>
-                                <td colspan="4">
-                                    <h4>No record Found</h4>
-                                </td>
-                            </tr>
+                            <td colspan="4">
+                                <?php
+                                            include('../../includes/no-data.php');
+                                ?>
+                            </td>
                         <?php }
                                         mysqli_close($conn);
                         ?>

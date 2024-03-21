@@ -11,7 +11,7 @@ $usertype = $_SESSION['usertype'];
 
 
 // get the total nr of rows.
-$records = $conn->query("SELECT * FROM patient_info");
+$records = $conn->query("SELECT * FROM patient_info WHERE campus = '$campus'");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php')
@@ -119,16 +119,16 @@ include('../../includes/pagination-limit.php')
                                         if (isset($_GET['patient']) && $_GET['patient'] != '') {
                                             $patient = $_GET['patient'];
                                             $count = 1;
-                                            $sql = "SELECT p.patientid, p.designation, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE (CONCAT(ac.firstname,' ', ac.lastname) LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.middlename,' ', ac.lastname) LIKE '%$patient%' OR patientid LIKE '%$patient%')ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT p.patientid, p.address, p.designation, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE (CONCAT(ac.firstname,' ', ac.lastname) LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.middlename,' ', ac.lastname) LIKE '%$patient%' OR patientid LIKE '%$patient%')ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['designation']) && $_GET['designation'] != '' || isset($_GET['campus']) && $_GET['campus'] != '') {
                                             $designation = $_GET['designation'];
                                             $count = 1;
-                                            $sql = "SELECT p.patientid, p.designation, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE designation = '$designation' ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT p.patientid, p.address, p.designation, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE designation = '$designation' ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT p.patientid, p.designation, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT p.patientid, p.address, p.designation, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -172,9 +172,11 @@ include('../../includes/pagination-limit.php')
                                                 }
                                             } else {
                                                 ?>
-                                                <tr>
-                                                    <td colspan="7">No record Found</td>
-                                                </tr>
+                                                <td colspan="7">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
                                             <?php
                                             } ?>
                                     </tbody>

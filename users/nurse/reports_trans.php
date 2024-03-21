@@ -128,53 +128,64 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
-                                    $dt_from = $_GET['date_from'];
-                                    $dt_to = $_GET['date_to'];
-                                    $count = 1;
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Patient</th>
+                                            <th>Physician/Nurse On Duty</th>
+                                            <th>Transaction</th>
+                                            <th>Date and Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
+                                            $dt_from = $_GET['date_from'];
+                                            $dt_to = $_GET['date_to'];
+                                            $count = 1;
 
-                                    //campus filter
-                                    if ($campus == "") {
-                                        $ca = "";
-                                    } else {
-                                        $ca = " WHERE t.campus = '$campus'";
-                                    }
+                                            //campus filter
+                                            if ($campus == "") {
+                                                $ca = "";
+                                            } else {
+                                                $ca = " WHERE t.campus = '$campus'";
+                                            }
 
-                                    //date filter
-                                    if ($dt_from == "" and $dt_to == "") {
-                                        $date = "";
-                                    } elseif ($ca == "" and $dt_to == $dt_from) {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $ldate = date("Y-m-d", strtotime($dt_to));
-                                        $date = " WHERE date >= '$fdate' AND date <= '$ldate'";
-                                    } elseif ($ca != "" and $dt_to == $dt_from) {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $ldate = date("Y-m-d", strtotime($dt_to));
-                                        $date = " AND date >= '$fdate' AND date <= '$ldate'";
-                                    } elseif ($ca == "" and $dt_to == "" and $dt_from != "") {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $date = " AND date >= '$fdate'";
-                                    } elseif ($ca != "" and $dt_to == "" and $dt_from != "") {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $date = " AND date >= '$fdate'";
-                                    } elseif ($ca == "" and $dt_from == "" and $dt_to != "") {
-                                        $d = date("Y-m-d", strtotime($dt_to));
-                                        $date = " WHERE date <= '$d'";
-                                    } elseif ($ca != "" and $dt_from == "" and $dt_to != "") {
-                                        $d = date("Y-m-d", strtotime($dt_to));
-                                        $date = " AND date <= '$d'";
-                                    } elseif ($ca == "" and $dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $ldate = date("Y-m-d", strtotime($dt_to));
-                                        $date = " WHERE date >= '$fdate' AND date <= '$ldate'";
-                                    } elseif ($ca != "" and $dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $ldate = date("Y-m-d", strtotime($dt_to));
-                                        $date = " AND date >= '$fdate' AND date <= '$ldate'";
-                                    }
+                                            //date filter
+                                            if ($dt_from == "" and $dt_to == "") {
+                                                $date = "";
+                                            } elseif ($ca == "" and $dt_to == $dt_from) {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " WHERE date >= '$fdate' AND date <= '$ldate'";
+                                            } elseif ($ca != "" and $dt_to == $dt_from) {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND date >= '$fdate' AND date <= '$ldate'";
+                                            } elseif ($ca == "" and $dt_to == "" and $dt_from != "") {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND date >= '$fdate'";
+                                            } elseif ($ca != "" and $dt_to == "" and $dt_from != "") {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND date >= '$fdate'";
+                                            } elseif ($ca == "" and $dt_from == "" and $dt_to != "") {
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " WHERE date <= '$d'";
+                                            } elseif ($ca != "" and $dt_from == "" and $dt_to != "") {
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND date <= '$d'";
+                                            } elseif ($ca == "" and $dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " WHERE date >= '$fdate' AND date <= '$ldate'";
+                                            } elseif ($ca != "" and $dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND date >= '$fdate' AND date <= '$ldate'";
+                                            }
 
-                                    $sql = "SELECT id, patient, firstname, middlename, lastname, designation, age, sex, department, college, program, 
+                                            $sql = "SELECT id, patient, firstname, middlename, lastname, designation, age, sex, department, college, program, 
                                     birthday, yearlevel, section,
                                     type, transaction, purpose, height,
                                     weight, bp, pr, temp, heent, chest_lungs,
@@ -185,11 +196,11 @@ include('../../includes/pagination-limit.php');
                                     datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial
                                     FROM transaction_history 
                                     WHERE $ca $date ORDER BY datetime DESC LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $now = date("Y-m-t");
-                                    $sql = "SELECT id, patient, firstname, middlename, lastname, 
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $now = date("Y-m-t");
+                                            $sql = "SELECT id, patient, firstname, middlename, lastname, 
                                     designation, age, sex, department, college, program, 
                                     birthday, yearlevel, section,
                                     type, transaction, purpose, height,
@@ -201,23 +212,10 @@ include('../../includes/pagination-limit.php');
                                     datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial
                                     FROM transaction_history 
                                     WHERE campus = '$campus' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Patient</th>
-                                                    <th>Physician/Nurse On Duty</th>
-                                                    <th>Transaction</th>
-                                                    <th>Date and Time</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $row) {
                                                     if (count(explode(" ", $row['middlename'])) > 1) {
                                                         $middle = explode(" ", $row['middlename']);
@@ -231,7 +229,7 @@ include('../../includes/pagination-limit.php');
                                                             $middleinitial = substr($middle, 0, 1) . ".";
                                                         }
                                                     }
-                                                ?>
+                                        ?>
                                                     <tr>
                                                         <td><?= $row['id'] ?></td>
                                                         <td><?= ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($row['lastname'])) ?></td>
@@ -239,15 +237,21 @@ include('../../includes/pagination-limit.php');
                                                         <td><?= $row['type'] . " - " . $row['transaction'] ?></td>
                                                         <td><?= date("M d, Y", strtotime($row['datetime'])) . " " . date("g:i A", strtotime($row['datetime'])) ?></td>
                                                     </tr>
-                                        <?php
+                                                <?php
                                                 }
-                                            }
+                                            } else { ?>
+                                                <td colspan="5">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
+                                        <?php }
                                         }
                                         mysqli_close($conn);
                                         ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php') ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php') ?>
                             </div>
                         </div>
                     </div>

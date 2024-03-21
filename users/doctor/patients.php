@@ -97,7 +97,7 @@ include('../../includes/pagination-limit.php')
                                                 if ($result = mysqli_query($conn, $sql)) {
                                                     while ($row = mysqli_fetch_array($result)) { ?>
                                                         <option value="<?php echo $row["designation"]; ?>" <?= isset($_GET['designation']) == true ? ($_GET['designation'] == $row["designation"] ? 'selected' : '') : '' ?>><?php echo $row["designation"]; ?></option><?php }
-                                                } ?>
+                                                                                                                                                                                                                                                                } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2 mb-2">
@@ -109,7 +109,7 @@ include('../../includes/pagination-limit.php')
                                                 if ($result = mysqli_query($conn, $sql)) {
                                                     while ($row = mysqli_fetch_array($result)) { ?>
                                                         <option value="<?php echo $row["campus"]; ?>" <?= isset($_GET['campus']) == true ? ($_GET['campus'] == $row["campus"] ? 'selected' : '') : '' ?>><?php echo $row["campus"]; ?></option><?php }
-                                                } ?>
+                                                                                                                                                                                                                                        } ?>
                                             </select>
                                         </div>
                                         <div class="col mb-2">
@@ -194,9 +194,11 @@ include('../../includes/pagination-limit.php')
                                                 }
                                             } else {
                                                 ?>
-                                                <tr>
-                                                    <td colspan="7">No record Found</td>
-                                                </tr>
+                                                <td colspan="7">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
                                             <?php
                                             } ?>
                                             </tbody>

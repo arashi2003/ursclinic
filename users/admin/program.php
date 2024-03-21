@@ -92,7 +92,7 @@ include('../../includes/pagination-limit.php')
                                                 if ($result = mysqli_query($conn, $sql)) {
                                                     while ($row = mysqli_fetch_array($result)) { ?>
                                                         <option value="<?php echo $row["college"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["college"] ? 'selected' : '') : '' ?>"><?php echo $row["college"]; ?></option><?php }
-                                                                                                                                                                                                                            } ?>
+                                                                                                                                                                                                                                } ?>
                                             </select>
                                         </div>
                                         <div class="col mb-2">
@@ -171,20 +171,20 @@ include('../../includes/pagination-limit.php')
                             <?php
                                             } else {
                             ?>
-                                <tr>
-                                    <td colspan="4">
-                                        <h4>No record Found</h4>
-                                    </td>
-                                </tr>
+                                <td colspan="4">
+                                    <?php
+                                                include('../../includes/no-data.php');
+                                    ?>
+                                </td>
                             <?php
                                             }
                                         } else {
                             ?>
-                            <tr>
-                                <td colspan="4">
-                                    <h4>No record Found</h4>
-                                </td>
-                            </tr>
+                            <td colspan="4">
+                                <?php
+                                            include('../../includes/no-data.php');
+                                ?>
+                            </td>
                         <?php }
                                         mysqli_close($conn);
                         ?>

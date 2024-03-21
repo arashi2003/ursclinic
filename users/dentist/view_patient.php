@@ -91,7 +91,7 @@ include('../../includes/pagination-limit.php');
                         }
                         $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname']));
                         $designation = $data['designation'];
-                        $age = floor((time() - strtotime($data['birthday'])) / 31556926); 
+                        $age = floor((time() - strtotime($data['birthday'])) / 31556926);
                         $sex = $data['sex'];
                         $birthday = $data['birthday'];
                         $department = $data['department'];
@@ -171,19 +171,19 @@ include('../../includes/pagination-limit.php');
                                     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
                                         <div class="accordion-body">
                                             <div class="row">
-                                                <div class="col-md-4 mb-2">
+                                                <div class="col-md-12 mb-2">
                                                     <div class="input-group input-group-md mb-2">
                                                         <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
                                                         <input type="text" class="form-control" name="department" value="<?php echo $department ?>" readonly disabled>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 mb-2">
+                                                <div class="col-md-12 mb-2">
                                                     <div class="input-group input-group-md mb-2">
                                                         <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
                                                         <input type="text" class="form-control" name="college" value="<?php echo $college ?>" readonly disabled>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 mb-2">
+                                                <div class="col-md-12 mb-2">
                                                     <div class="input-group input-group-md mb-2">
                                                         <span class="input-group-text" id="inputGroup-sizing-md">Program, Year and Section:</span>
                                                         <input type="text" class="form-control" name="pys" value="<?php echo $pys ?>" readonly disabled>
@@ -310,15 +310,19 @@ include('../../includes/pagination-limit.php');
                             <?php
                                                 include('../../includes/pagination.php');
                                             } else { ?>
-                                <tr>
-                                    <td colspan="7">No record Found</td>
-                                </tr>
+                                <td colspan="7">
+                                    <?php
+                                                include('../../includes/no-data.php');
+                                    ?>
+                                </td>
                             <?php }
                                         } else {
                             ?>
-                            <tr>
-                                <td colspan="7">No record Found</td>
-                            </tr>
+                            <td colspan="7">
+                                <?php
+                                            include('../../includes/no-data.php');
+                                ?>
+                            </td>
                         <?php
                                         }
                                         mysqli_close($conn);

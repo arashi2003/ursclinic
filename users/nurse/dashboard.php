@@ -172,7 +172,7 @@ include('../../includes/pagination-limit.php');
                   </thead>
                   <tbody>
                     <?php
-                    $sql = "SELECT * FROM inv_total WHERE qty <= 10 ORDER BY type, qty LIMIT $start, $rows_per_page";
+                    $sql = "SELECT * FROM inv_total WHERE qty <= 10 AND campus='$campus' ORDER BY type, qty LIMIT $start, $rows_per_page";
                     $result = mysqli_query($conn, $sql);
                     if ($result) {
                       if (mysqli_num_rows($result) > 0) {
@@ -203,7 +203,9 @@ include('../../includes/pagination-limit.php');
               ?>
                 <tr>
                   <td colspan="7">
-                    <h4>No Record Found</h4>
+                    <?php
+                        include('../../includes/no-data.php');
+                    ?>
                   </td>
                 </tr>
             <?php
