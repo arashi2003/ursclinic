@@ -450,17 +450,6 @@
                     </li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'patientinfo') {
-                            echo 'active showMenu';
-                        } ?>">
-                <a href="patientinfo">
-                    <i class='bx bx-file'></i>
-                    <span class="link_name">Patient Information</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="patientinfo">Patient Information</a></li>
-                </ul>
-            </li>
         </ul>
     </div>
 
@@ -505,26 +494,15 @@
                     <li><a class="link_name" href="#">Patient Information</a></li>
                 </ul>
             </li>
-            <li>
-                <div class="icon-link">
-                    <a href="#">
-                        <i class='bx bx-collection'></i>
-                        <span class="link_name">Medical Records</span>
-                    </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
-                </div>
-                <ul class="sub-menu">
+            <li class="<?php if ($module == 'transaction_history') {
+                            echo 'active showMenu';
+                        } ?>">
+                <a href="transaction_history">
+                    <i class='bx bx-collection'></i>
+                    <span class="link_name">Medical Records</span>
+                </a>
+                <ul class="sub-menu blank">
                     <li><a class="link_name" href="#">Medical Records</a></li>
-                    <li <?php if ($module == 'transaction_add') {
-                            echo 'active showMenu';
-                        } ?>>
-                        <a href="transaction_add">Add</a>
-                    </li>
-                    <li <?php if ($module == 'transaction_history') {
-                            echo 'active showMenu';
-                        } ?>>
-                        <a href="transaction_history">History</a>
-                    </li>
                 </ul>
             </li>
         </ul>

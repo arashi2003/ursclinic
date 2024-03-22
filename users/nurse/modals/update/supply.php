@@ -9,7 +9,7 @@
     $activity = "added supply ID " . $_POST['supid'] . " inventory stocks";
     $batchid = "B" . date("Ymd");
     $medid = $_POST['supid'];
-    $qty = $_POST['opened'] + $_POST['close'];
+    $qty = $_POST['quantity'];
     $o = $_POST['opened'];
     $c = $_POST['close'];
 

@@ -10,9 +10,9 @@
     $activity = "added supply ID " . $_POST['supply'] . " inventory stocks";
     $batchid = "B" . date("Ymd");
     $medid = $_POST['supply'];
-    $qty = $_POST['opened'] + $_POST['close'];
-    $o = $_POST['opened'];
-    $c = $_POST['close'];
+    $o = implode($_POST['opened']);
+    $c = implode($_POST['close']);
+    $qty = $o + $c;
     $cost = $_POST['unit_cost'];
     $exp = date("Y-m-t", strtotime($_POST['expiration']));
 
@@ -57,7 +57,9 @@
                     //session accountid of nurse
                     $accountid = $_SESSION['userid'];
                     $medid = $_POST['supply'];
-                    $qty = $_POST['opened'] + $_POST['close'];
+                    $o = implode($_POST['opened']);
+                    $c = implode($_POST['close']);
+                    $qty = $o + $c;
                     $cost = $_POST['unit_cost'];
                     
                     //supply
@@ -81,8 +83,8 @@
                         $campus = $_SESSION['campus'];
                         $medid = $_POST['supply'];
                         
-                        $o = $_POST['opened'];
-                        $c = $_POST['close'];
+                        $o = implode($_POST['opened']);
+                        $c = implode($_POST['close']);
                         $cost = $_POST['unit_cost'];
                         $exp = $_POST['expiration'];
                         $enddate = date("Y-m-t");
@@ -92,7 +94,9 @@
                         // kunin values from row
                         foreach($result as $data)
                         {
-                            $qty = $_POST['opened'] + $_POST['close'];
+                            $o = implode($_POST['opened']);
+                            $c = implode($_POST['close']);
+                            $qty = $o + $c;
                             $aobqty = $data['bqty'];
                             $aorqty = $data['rqty'];
                             $aotqty = $data['tqty'];
@@ -200,7 +204,9 @@
                             // kunin values from row
                             while($data=mysqli_fetch_array($result))
                             {
-                                $qty = $_POST['opened'] + $_POST['close'];
+                                $o = implode($_POST['opened']);
+                                $c = implode($_POST['close']);
+                                $qty = $o + $c;
                                 $cost = $_POST['unit_cost'];
                                 $obqty = $data['eqty'];
                                 $nobuc = $data['eamt'];
@@ -262,7 +268,9 @@
                         {
                             $date = date("Y-m-t");
                             $medid = $_POST['supply'];
-                            $qty = $_POST['opened'] + $_POST['close'];
+                            $o = implode($_POST['opened']);
+                            $c = implode($_POST['close']);
+                            $qty = $o + $c;
                             $cost = $_POST['unit_cost'];
                             
                             $bqty = 0;
@@ -359,7 +367,9 @@
                     //session accountid of nurse
                     $accountid = $_SESSION['userid'];
                     $medid = $_POST['supply'];
-                    $qty = $_POST['opened'] + $_POST['close'];
+                    $o = implode($_POST['opened']);
+                    $c = implode($_POST['close']);
+                    $qty = $o + $c;
                     $cost = $_POST['unit_cost'];
                     
                     //supply
@@ -383,7 +393,9 @@
                         while(($data=mysqli_fetch_array($result)))
                         {
                             // kunin values from row
-                            $qty = $_POST['opened'] + $_POST['close'];
+                            $o = implode($_POST['opened']);
+                            $c = implode($_POST['close']);
+                            $qty = $o + $c;
                             $aobqty = $data['bqty'];
                             $aorqty = $data['rqty'];
                             $aotqty = $data['tqty'];
@@ -483,7 +495,9 @@
                             // kunin values from row
                             while($data=mysqli_fetch_array($result))
                             {
-                                $qty = $_POST['opened'] + $_POST['close'];
+                                $o = implode($_POST['opened']);
+                                $c = implode($_POST['close']);
+                                $qty = $o + $c;
                                 $cost = $_POST['unit_cost'];
                                 $obqty = $data['eqty'];
                                 $nobuc = $data['eamt'];
@@ -545,7 +559,9 @@
                         {
                             $date = date("Y-m-t");
                             $medid = $_POST['supply'];
-                            $qty = $_POST['opened'] + $_POST['close'];
+                            $o = implode($_POST['opened']);
+                            $c = implode($_POST['close']);
+                            $qty = $o + $c;
                             $cost = $_POST['unit_cost'];
                             
                             $bqty = 0;

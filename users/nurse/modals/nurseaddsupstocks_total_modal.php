@@ -5,7 +5,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Add Medical Supply Stocks</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../nurse/sup_stocks_total'"></button>
             </div>
-            <form method="POST" action="modals/inv_supply_total.php" id="form">
+            <form method="GET" action="modals/inv_supply_total.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="supply" class="form-label">Medical Supply:</label>
@@ -16,34 +16,40 @@
                             $sql = "SELECT * FROM supply ORDER BY supply";
                             $result = mysqli_query($conn, $sql);
                             while ($row = mysqli_fetch_array($result)) {
+                                if($row['volume'] != "0" || $row['volume'] != ""){
+                                    $supply = $row['supply'] . " " . $row['volume'] . $row['unit_measure'];
+                                }
+                                elseif($row['volume'] == "0" || $row['volume'] == ""){
+                                    $supply = $row['supply'] . " " . $row['unit_measure'];
+                                }
                             ?>
-                                <option value="<?= $row['supid']; ?>"><?= $row['supply'] . " ". $row['volume'] . $row['unit_measure'];?></option>
+                                <option value="<?= $row['supid']; ?>" data-status="<?= $row['state']?>"><?= $supply; ?></option>
                             <?php } ?>
                         </select>
                     </div>
-                    
-                    <div class="open-close hidden">
+
+                    <div class="open-close hidden" id="open-closeDiv">
                         <div class="mb-2">
                             <label for="opened" class="form-label">Quantity of Opened Stocks:</label>
-                            <input type="number" min="0" class="form-control" name="opened" id="opened" required>
+                            <input type="number" min="0" class="form-control" name="opened[]" id="opened">
                         </div>
                         <div class="mb-2">
                             <label for="close" class="form-label">Quantity of Unopened Stocks:</label>
-                            <input type="number" min="0" class="form-control" name="close" id="close" required>
+                            <input type="number" min="0" class="form-control" name="close[]" id="close">
                         </div>
                     </div>
 
-                    <div class="per-piece hidden">  
+                    <div class="per-piece hidden" id="perpieceDiv">
                         <div class="mb-2">
                             <label for="close" class="form-label">Quantity:</label>
-                            <input type="text" class="form-control" name="opened" id="opened" value="0" hidden>
-                            <input type="number" min="0" class="form-control" name="close" id="close" required>
+                            <input type="number" min="0" class="form-control" name="opened[]" id="opened" hidden>
+                            <input type="number" min="0" class="form-control" name="close[]" id="close">
                         </div>
                     </div>
 
                     <div class="mb-2">
                         <label for="cost" class="form-label">Unit Cost:</label>
-                        <input type="number" step=".01" min=”0″ class="form-control" name="unit_cost" placeholder="Unit Cost" id="unit_cost" required>
+                        <input type="number" step=".01" min=”0″ class="form-control" name="unit_cost" id="unit_cost" required>
                     </div>
                     <div class="mb-2">
                         <label for="expiration" class="col-form-label">Expiration Date:</label>
@@ -58,7 +64,28 @@
         </div>
     </div>
 </div>
-<script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Handle supply selection
+        $("#supply").change(function() {
+            var selectedStatus = $(this).find('option:selected').data('status');
+            // Show or hide the quantity input fields based on supply status
+            if (selectedStatus == 'open-close') {
+                $("#open-closeDiv").removeClass('hidden');
+                $("#perpieceDiv").addClass('hidden');
+            } else if (selectedStatus == 'per piece') {
+                $("#perpieceDiv").removeClass('hidden');
+                $("#open-closeDiv").addClass('hidden');
+            } else {
+                // Hide both quantity input fields if status is neither 'open-close' nor 'per piece'
+                $("#open-closeDiv").addClass('hidden');
+                $("#perpieceDiv").addClass('hidden');
+            }
+        });
+    });
+
+
     $(document).ready(function() {
         $('#showDate').datepicker({
             dateFormat: "yy-mm-dd",

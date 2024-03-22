@@ -12,9 +12,9 @@
     $adminid = $_POST['admin'];
     $batchid = "B" . date("Ymd");
     $medid = $_POST['medicine'];
-    $qty = $_POST['opened'] + $_POST['close'];
-    $o = $_POST['opened'];
-    $c = $_POST['close'];
+    $o = implode($_POST['opened']);
+    $c = implode($_POST['close']);
+    $qty = $o + $c;
     $cost = $_POST['unit_cost'];
     $exp = date("Y-m-t", strtotime($_POST['expiration']));
     
@@ -75,13 +75,11 @@
                         $adminid = $_POST['admin'];
                         $batchid = "B" . date("Ymd");
                         $medid = $_POST['medicine'];
-                        $qty = $_POST['opened'] + $_POST['close'];
-                        $o = $_POST['opened'];
-                        $c = $_POST['close'];
+                        $o = implode($_POST['opened']);
+                        $c = implode($_POST['close']);
+                        $qty = $o + $c;
                         $cost = $_POST['unit_cost'];
                         $exp = $_POST['expiration'];
-                        $qty = $_POST['opened'] + $_POST['close'];
-                        $cost = $_POST['unit_cost'];
                         
                         //medicine
                         $query = mysqli_query($conn, "SELECT * FROM medicine WHERE medid = '$medid'");
@@ -110,8 +108,8 @@
                             $batchid = "B" . date("Ymd");
                             $medid = $_POST['medicine'];
                             
-                            $o = $_POST['opened'];
-                            $c = $_POST['close'];
+                            $o = implode($_POST['opened']);
+                            $c = implode($_POST['close']);
                             $cost = $_POST['unit_cost'];
                             $exp = $_POST['expiration'];
                             $enddate = date("Y-m-t");
@@ -121,7 +119,9 @@
                             // kunin values from row
                             foreach($result as $data)
                             {
-                                $qty = $_POST['opened'] + $_POST['close'];
+                                $o = implode($_POST['opened']);
+                                $c = implode($_POST['close']);
+                                $qty = $o + $c;
                                 $aobqty = $data['bqty'];
                                 $aorqty = $data['rqty'];
                                 $aotqty = $data['tqty'];
@@ -213,9 +213,9 @@
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
                             $medid = $_POST['medicine'];
-                            $qty = $_POST['opened'] + $_POST['close'];
-                            $o = $_POST['opened'];
-                            $c = $_POST['close'];
+                            $o = implode($_POST['opened']);
+                            $c = implode($_POST['close']);
+                            $qty = $o + $c;
                             $cost = $_POST['unit_cost'];
                             $exp = $_POST['expiration'];
 
@@ -229,9 +229,9 @@
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
                                 $medid = $_POST['medicine'];
-                                $qty = $_POST['opened'] + $_POST['close'];
-                                $o = $_POST['opened'];
-                                $c = $_POST['close'];
+                                $o = implode($_POST['opened']);
+                                $c = implode($_POST['close']);
+                                $qty = $o + $c;
                                 $cost = $_POST['unit_cost'];
                                 $exp = $_POST['expiration'];
                                 $enddate = date("Y-m-t");
@@ -307,13 +307,11 @@
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
                                 $medid = $_POST['medicine'];
-                                $qty = $_POST['opened'] + $_POST['close'];
-                                $o = $_POST['opened'];
-                                $c = $_POST['close'];
+                                $o = implode($_POST['opened']);
+                                $c = implode($_POST['close']);
+                                $qty = $o + $c;
                                 $cost = $_POST['unit_cost'];
                                 $exp = $_POST['expiration'];
-                                $qty = $_POST['opened'] + $_POST['close'];
-                                $cost = $_POST['unit_cost'];
                                 
                                 $bqty = 0;
                                 $buc = 0;
@@ -387,9 +385,9 @@
                         $adminid = $_POST['admin'];
                         $batchid = "B" . date("Ymd");
                         $medid = $_POST['medicine'];
-                        $qty = $_POST['opened'] + $_POST['close'];
-                        $o = $_POST['opened'];
-                        $c = $_POST['close'];
+                        $o = implode($_POST['opened']);
+                        $c = implode($_POST['close']);
+                        $qty = $o + $c;
                         $cost = $_POST['unit_cost'];
                         $exp = $_POST['expiration'];
                         $enddate = date("Y-m-t");
@@ -409,9 +407,9 @@
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
                             $medid = $_POST['medicine'];
-                            $qty = $_POST['opened'] + $_POST['close'];
-                            $o = $_POST['opened'];
-                            $c = $_POST['close'];
+                            $o = implode($_POST['opened']);
+                            $c = implode($_POST['close']);
+                            $qty = $o + $c;
                             $cost = $_POST['unit_cost'];
                             $exp = $_POST['expiration'];
                             
@@ -489,9 +487,9 @@
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
                                 $medid = $_POST['medicine'];
-                                $qty = $_POST['opened'] + $_POST['close'];
-                                $o = $_POST['opened'];
-                                $c = $_POST['close'];
+                                $o = implode($_POST['opened']);
+                                $c = implode($_POST['close']);
+                                $qty = $o + $c;
                                 $cost = $_POST['unit_cost'];
                                 $exp = $_POST['expiration'];
                                 $enddate = date("Y-m-t");
@@ -551,9 +549,9 @@
                                     $adminid = $_POST['admin'];
                                     $batchid = "B" . date("Ymd");
                                     $medid = $_POST['medicine'];
-                                    $qty = $_POST['opened'] + $_POST['close'];
-                                    $o = $_POST['opened'];
-                                    $c = $_POST['close'];
+                                    $o = implode($_POST['opened']);
+                                    $c = implode($_POST['close']);
+                                    $qty = $o + $c;
                                     $cost = $_POST['unit_cost'];
                                     $exp = $_POST['expiration'];
                                     
@@ -631,9 +629,9 @@
                                     $adminid = $_POST['admin'];
                                     $batchid = "B" . date("Ymd");
                                     $medid = $_POST['medicine'];
-                                    $qty = $_POST['opened'] + $_POST['close'];
-                                    $o = $_POST['opened'];
-                                    $c = $_POST['close'];
+                                    $o = implode($_POST['opened']);
+                                    $c = implode($_POST['close']);
+                                    $qty = $o + $c;
                                     $cost = $_POST['unit_cost'];
                                     $exp = $_POST['expiration'];
                                     
@@ -761,13 +759,11 @@
                         $adminid = $_POST['admin'];
                         $batchid = "B" . date("Ymd");
                         $medid = $_POST['medicine'];
-                        $qty = $_POST['opened'] + $_POST['close'];
-                        $o = $_POST['opened'];
-                        $c = $_POST['close'];
+                        $o = implode($_POST['opened']);
+                        $c = implode($_POST['close']);
+                        $qty = $o + $c;
                         $cost = $_POST['unit_cost'];
                         $exp = $_POST['expiration'];
-                        $qty = $_POST['opened'] + $_POST['close'];
-                        $cost = $_POST['unit_cost'];
                         
                         //medicine
                         $query = mysqli_query($conn, "SELECT * FROM medicine WHERE medid = '$medid'");
@@ -796,8 +792,8 @@
                             $batchid = "B" . date("Ymd");
                             $medid = $_POST['medicine'];
                             
-                            $o = $_POST['opened'];
-                            $c = $_POST['close'];
+                            $o = implode($_POST['opened']);
+                            $c = implode($_POST['close']);
                             $cost = $_POST['unit_cost'];
                             $exp = $_POST['expiration'];
                             $enddate = date("Y-m-t");
@@ -807,7 +803,9 @@
                             // kunin values from row
                             foreach($result as $data)
                             {
-                                $qty = $_POST['opened'] + $_POST['close'];
+                                $o = implode($_POST['opened']);
+                                $c = implode($_POST['close']);
+                                $qty = $o + $c;
                                 $aobqty = $data['bqty'];
                                 $aorqty = $data['rqty'];
                                 $aotqty = $data['tqty'];
@@ -899,9 +897,9 @@
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
                             $medid = $_POST['medicine'];
-                            $qty = $_POST['opened'] + $_POST['close'];
-                            $o = $_POST['opened'];
-                            $c = $_POST['close'];
+                            $o = implode($_POST['opened']);
+                            $c = implode($_POST['close']);
+                            $qty = $o + $c;
                             $cost = $_POST['unit_cost'];
                             $exp = $_POST['expiration'];
 
@@ -915,9 +913,9 @@
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
                                 $medid = $_POST['medicine'];
-                                $qty = $_POST['opened'] + $_POST['close'];
-                                $o = $_POST['opened'];
-                                $c = $_POST['close'];
+                                $o = implode($_POST['opened']);
+                                $c = implode($_POST['close']);
+                                $qty = $o + $c;
                                 $cost = $_POST['unit_cost'];
                                 $exp = $_POST['expiration'];
                                 $enddate = date("Y-m-t");
@@ -993,13 +991,11 @@
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
                                 $medid = $_POST['medicine'];
-                                $qty = $_POST['opened'] + $_POST['close'];
-                                $o = $_POST['opened'];
-                                $c = $_POST['close'];
+                                $o = implode($_POST['opened']);
+                                $c = implode($_POST['close']);
+                                $qty = $o + $c;
                                 $cost = $_POST['unit_cost'];
                                 $exp = $_POST['expiration'];
-                                $qty = $_POST['opened'] + $_POST['close'];
-                                $cost = $_POST['unit_cost'];
                                 
                                 $bqty = 0;
                                 $buc = 0;
@@ -1073,9 +1069,9 @@
                         $adminid = $_POST['admin'];
                         $batchid = "B" . date("Ymd");
                         $medid = $_POST['medicine'];
-                        $qty = $_POST['opened'] + $_POST['close'];
-                        $o = $_POST['opened'];
-                        $c = $_POST['close'];
+                        $o = implode($_POST['opened']);
+                        $c = implode($_POST['close']);
+                        $qty = $o + $c;
                         $cost = $_POST['unit_cost'];
                         $exp = $_POST['expiration'];
                         $enddate = date("Y-m-t");
@@ -1095,9 +1091,9 @@
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
                             $medid = $_POST['medicine'];
-                            $qty = $_POST['opened'] + $_POST['close'];
-                            $o = $_POST['opened'];
-                            $c = $_POST['close'];
+                            $o = implode($_POST['opened']);
+                            $c = implode($_POST['close']);
+                            $qty = $o + $c;
                             $cost = $_POST['unit_cost'];
                             $exp = $_POST['expiration'];
                             
@@ -1175,9 +1171,9 @@
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
                                 $medid = $_POST['medicine'];
-                                $qty = $_POST['opened'] + $_POST['close'];
-                                $o = $_POST['opened'];
-                                $c = $_POST['close'];
+                                $o = implode($_POST['opened']);
+                                $c = implode($_POST['close']);
+                                $qty = $o + $c;
                                 $cost = $_POST['unit_cost'];
                                 $exp = $_POST['expiration'];
                                 $enddate = date("Y-m-t");
@@ -1237,9 +1233,9 @@
                                     $adminid = $_POST['admin'];
                                     $batchid = "B" . date("Ymd");
                                     $medid = $_POST['medicine'];
-                                    $qty = $_POST['opened'] + $_POST['close'];
-                                    $o = $_POST['opened'];
-                                    $c = $_POST['close'];
+                                    $o = implode($_POST['opened']);
+                                    $c = implode($_POST['close']);
+                                    $qty = $o + $c;
                                     $cost = $_POST['unit_cost'];
                                     $exp = $_POST['expiration'];
                                     
@@ -1317,9 +1313,9 @@
                                     $adminid = $_POST['admin'];
                                     $batchid = "B" . date("Ymd");
                                     $medid = $_POST['medicine'];
-                                    $qty = $_POST['opened'] + $_POST['close'];
-                                    $o = $_POST['opened'];
-                                    $c = $_POST['close'];
+                                    $o = implode($_POST['opened']);
+                                    $c = implode($_POST['close']);
+                                    $qty = $o + $c;
                                     $cost = $_POST['unit_cost'];
                                     $exp = $_POST['expiration'];
                                     

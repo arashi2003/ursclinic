@@ -28,22 +28,22 @@
                         </select>
                     </div>
 
-                    <div class="open-close">
+                    <div class="open-close hidden" id="open-closeDiv">
                         <div class="mb-2">
                             <label for="opened" class="form-label">Quantity of Opened Stocks:</label>
-                            <input type="number" min="0" class="form-control" name="opened" id="opened" required>
+                            <input type="number" min="0" class="form-control" name="opened[]" id="opened">
                         </div>
                         <div class="mb-2">
                             <label for="close" class="form-label">Quantity of Unopened Stocks:</label>
-                            <input type="number" min="0" class="form-control" name="close" id="close" required>
+                            <input type="number" min="0" class="form-control" name="close[]" id="close">
                         </div>
                     </div>
 
-                    <div class="per-piece">  
+                    <div class="per-piece hidden" id="perpieceDiv">
                         <div class="mb-2">
                             <label for="close" class="form-label">Quantity:</label>
-                            <input type="text" class="form-control" name="opened" id="opened" value="0" hidden>
-                            <input type="number" min="0" class="form-control" name="close" id="close" required>
+                            <input type="number" min="0" class="form-control" name="opened[]" id="opened" hidden>
+                            <input type="number" min="0" class="form-control" name="close[]" id="close">
                         </div>
                     </div>
 
@@ -67,10 +67,12 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#admin").change(function() {   
+        $("#admin").change(function() {
             var medadmin_id = $(this).val();
             if (medadmin_id == '') {
                 $("#medicine").html('<option value="" disable selected>-Select Medicine-</option>');
+                $("#open-closeDiv").addClass('hidden');
+                $("#perpieceDiv").addClass('hidden');
             } else {
                 $("#medicine").html('<option value="" disable selected>-Select Medicine-</option>');
                 $.ajax({
@@ -81,13 +83,32 @@
                     },
                     success: function(data) {
                         $("#medicine").html(data);
+                        // Trigger change event to handle medicine selection
+                        $("#medicine").trigger("change");
                     }
                 });
             }
         });
+
+        // Handle medicine selection
+        $("#medicine").change(function() {
+            var selectedStatus = $(this).find('option:selected').data('status');
+            // Show or hide the quantity input fields based on medicine status
+            if (selectedStatus == 'open-close') {
+                $("#open-closeDiv").removeClass('hidden');
+                $("#perpieceDiv").addClass('hidden');
+            } else if (selectedStatus == 'per piece') {
+                $("#perpieceDiv").removeClass('hidden');
+                $("#open-closeDiv").addClass('hidden');
+            } else {
+                // Hide both quantity input fields if status is neither 'open-close' nor 'per piece'
+                $("#open-closeDiv").addClass('hidden');
+                $("#perpieceDiv").addClass('hidden');
+            }
+        });
     });
 
-    
+
     $(document).ready(function() {
         $('#showDate').datepicker({
             dateFormat: "yy-mm-dd",

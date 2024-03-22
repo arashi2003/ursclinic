@@ -41,12 +41,12 @@ include('../../../includes/pagination-limit.php');
                         <?php
                         $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus 
                         FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user WHERE 
-                        ((au.activity LIKE 'approved a request for%' AND au.activity LIKE '%$userid') 
-                        OR (au.activity LIKE 'disapproved a request for%' AND au.activity LIKE '%$userid') 
-                        OR (au.activity LIKE 'cancelled a request for%' AND au.activity LIKE '%$userid') 
-                        OR (au.activity LIKE 'approved a request for%' AND au.activity LIKE '%$userid') 
-                        OR (au.activity LIKE 'completed a request for%' AND au.activity LIKE '%$userid') 
-                        OR (au.activity LIKE 'dismissed a request for%' AND au.activity LIKE '%$userid') 
+                        ((au.activity LIKE 'approved a request%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'disapproved a request%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'cancelled a request%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'approved a request%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'completed a request%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'dismissed a request%' AND au.activity LIKE '%$userid') 
                         OR (au.activity LIKE 'added%' AND au.activity LIKE '%$userid') 
                         OR (au.activity LIKE 'added a walk-in schedule%' AND au.activity LIKE '%$campus') 
                         OR (au.activity LIKE 'cancelled a walk-in schedule%' AND au.activity LIKE '%$campus')) 
@@ -107,12 +107,12 @@ include('../../../includes/pagination-limit.php');
 
                                 $query = mysqli_query($conn, "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus 
                                 FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user WHERE 
-                                ((au.activity LIKE 'approved a request for%' AND au.activity LIKE '%$userid') 
-                                OR (au.activity LIKE 'disapproved a request for%' AND au.activity LIKE '%$userid') 
-                                OR (au.activity LIKE 'cancelled a request for%' AND au.activity LIKE '%$userid') 
-                                OR (au.activity LIKE 'approved a request for%' AND au.activity LIKE '%$userid') 
-                                OR (au.activity LIKE 'completed a request for%' AND au.activity LIKE '%$userid') 
-                                OR (au.activity LIKE 'dismissed a request for%' AND au.activity LIKE '%$userid') 
+                                ((au.activity LIKE 'approved a request%' AND au.activity LIKE '%$userid') 
+                                OR (au.activity LIKE 'disapproved a request%' AND au.activity LIKE '%$userid') 
+                                OR (au.activity LIKE 'cancelled a request%' AND au.activity LIKE '%$userid') 
+                                OR (au.activity LIKE 'approved a request%' AND au.activity LIKE '%$userid') 
+                                OR (au.activity LIKE 'completed a request%' AND au.activity LIKE '%$userid') 
+                                OR (au.activity LIKE 'dismissed a request%' AND au.activity LIKE '%$userid') 
                                 OR (au.activity LIKE 'added%' AND au.activity LIKE '%$userid') 
                                 OR (au.activity LIKE 'added a walk-in schedule%' AND au.activity LIKE '%$campus') 
                                 OR (au.activity LIKE 'cancelled a walk-in schedule%' AND au.activity LIKE '%$campus')) 
