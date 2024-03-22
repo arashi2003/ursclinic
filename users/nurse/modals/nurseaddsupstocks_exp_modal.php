@@ -65,56 +65,26 @@
     </div>
 </div>
 
-<script type="text/javascript">
+<script>
     $(document).ready(function() {
-        $("#admin").change(function() {
-            var medadmin_id = $(this).val();
-            if (medadmin_id == '') {
-                $("#medicine").html('<option value="" disable selected>-Select Medicine-</option>');
-                $("#open-closeDiv").addClass('hidden');
-                $("#perpieceDiv").addClass('hidden');
-            } else {
-                $("#medicine").html('<option value="" disable selected>-Select Medicine-</option>');
-                $.ajax({
-                    url: "action_medicine.php",
-                    method: "POST",
-                    data: {
-                        medadmin: medadmin_id
-                    },
-                    success: function(data) {
-                        $("#medicine").html(data);
-                        // Trigger change event to handle medicine selection
-                        $("#medicine").trigger("change");
-                    }
-                });
-            }
-        });
-
-        // Handle medicine selection
-        $("#medicine").change(function() {
+        // Handle supply selection
+        $("#supply").change(function() {
             var selectedStatus = $(this).find('option:selected').data('status');
-            // Show or hide the quantity input fields based on medicine status
+            // Show or hide the quantity input fields based on supply status
             if (selectedStatus == 'open-close') {
                 $("#open-closeDiv").removeClass('hidden');
                 $("#perpieceDiv").addClass('hidden');
+                $("#perpieceDiv input[name='opened[]']").prop('disabled', true);
             } else if (selectedStatus == 'per piece') {
                 $("#perpieceDiv").removeClass('hidden');
                 $("#open-closeDiv").addClass('hidden');
+                $("#open-closeDiv input[name='opened[]']").prop('disabled', true);
             } else {
                 // Hide both quantity input fields if status is neither 'open-close' nor 'per piece'
                 $("#open-closeDiv").addClass('hidden');
                 $("#perpieceDiv").addClass('hidden');
-            }
-        });
-    });
-
-
-    $(document).ready(function() {
-        $('#showDate').datepicker({
-            dateFormat: "yy-mm-dd",
-            minDate: 0, // Disable past dates
-            beforeShowDay: function(date) {
-                var day = date.getDay();
+                $("#open-closeDiv input[name='opened[]']").prop('disabled', true);
+                $("#perpieceDiv input[name='opened[]']").prop('disabled', true);
             }
         });
     });

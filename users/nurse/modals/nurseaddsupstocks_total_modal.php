@@ -5,7 +5,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Add Medical Supply Stocks</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../nurse/sup_stocks_total'"></button>
             </div>
-            <form method="GET" action="modals/inv_supply_total.php" id="form">
+            <form method="POST" action="modals/inv_supply_total.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="supply" class="form-label">Medical Supply:</label>
@@ -65,7 +65,7 @@
     </div>
 </div>
 
-<script type="text/javascript">
+<script>
     $(document).ready(function() {
         // Handle supply selection
         $("#supply").change(function() {
@@ -74,24 +74,17 @@
             if (selectedStatus == 'open-close') {
                 $("#open-closeDiv").removeClass('hidden');
                 $("#perpieceDiv").addClass('hidden');
+                $("#open-closeDiv input[name='opened[]']").prop('disabled', false);
             } else if (selectedStatus == 'per piece') {
                 $("#perpieceDiv").removeClass('hidden');
                 $("#open-closeDiv").addClass('hidden');
+                $("#open-closeDiv input[name='opened[]']").prop('disabled', true);
             } else {
                 // Hide both quantity input fields if status is neither 'open-close' nor 'per piece'
                 $("#open-closeDiv").addClass('hidden');
                 $("#perpieceDiv").addClass('hidden');
-            }
-        });
-    });
-
-
-    $(document).ready(function() {
-        $('#showDate').datepicker({
-            dateFormat: "yy-mm-dd",
-            minDate: 0, // Disable past dates
-            beforeShowDay: function(date) {
-                var day = date.getDay();
+                $("#open-closeDiv input[name='opened[]']").prop('disabled', true);
+                $("#perpieceDiv input[name='opened[]']").prop('disabled', true);
             }
         });
     });

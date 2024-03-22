@@ -35,7 +35,7 @@
                         </div>
                         <div class="mb-2">
                             <label for="close" class="form-label">Quantity of Unopened Stocks:</label>
-                            <input type="number" min="0" class="form-control" name="close[]" id="close">
+                            <input type="number" min="0" class="form-control" name="close[][]" id="close">
                         </div>
                     </div>
 
@@ -43,7 +43,7 @@
                         <div class="mb-2">
                             <label for="close" class="form-label">Quantity:</label>
                             <input type="number" min="0" class="form-control" name="opened[]" id="opened" hidden>
-                            <input type="number" min="0" class="form-control" name="close[]" id="close">
+                            <input type="number" min="0" class="form-control" name="close[][]" id="close">
                         </div>
                     </div>
 
@@ -107,7 +107,6 @@
             }
         });
     });
-
 
     $(document).ready(function() {
         $('#showDate').datepicker({

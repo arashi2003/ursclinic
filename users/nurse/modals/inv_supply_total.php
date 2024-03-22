@@ -12,7 +12,7 @@
     $medid = $_POST['supply'];
     $o = implode($_POST['opened']);
     $c = implode($_POST['close']);
-    $qty = $o + $c;
+    $qty = floatval($o) + floatval($c);
     $cost = $_POST['unit_cost'];
     $exp = date("Y-m-t", strtotime($_POST['expiration']));
 
@@ -59,7 +59,7 @@
                     $medid = $_POST['supply'];
                     $o = implode($_POST['opened']);
                     $c = implode($_POST['close']);
-                    $qty = $o + $c;
+                    $qty = floatval($o) + floatval($c);
                     $cost = $_POST['unit_cost'];
                     
                     //supply
@@ -96,7 +96,7 @@
                         {
                             $o = implode($_POST['opened']);
                             $c = implode($_POST['close']);
-                            $qty = $o + $c;
+                            $qty = floatval($o) + floatval($c);
                             $aobqty = $data['bqty'];
                             $aorqty = $data['rqty'];
                             $aotqty = $data['tqty'];
@@ -206,7 +206,7 @@
                             {
                                 $o = implode($_POST['opened']);
                                 $c = implode($_POST['close']);
-                                $qty = $o + $c;
+                                $qty = floatval($o) + floatval($c);
                                 $cost = $_POST['unit_cost'];
                                 $obqty = $data['eqty'];
                                 $nobuc = $data['eamt'];
@@ -270,7 +270,7 @@
                             $medid = $_POST['supply'];
                             $o = implode($_POST['opened']);
                             $c = implode($_POST['close']);
-                            $qty = $o + $c;
+                            $qty = floatval($o) + floatval($c);
                             $cost = $_POST['unit_cost'];
                             
                             $bqty = 0;
@@ -369,7 +369,7 @@
                     $medid = $_POST['supply'];
                     $o = implode($_POST['opened']);
                     $c = implode($_POST['close']);
-                    $qty = $o + $c;
+                    $qty = floatval($o) + floatval($c);
                     $cost = $_POST['unit_cost'];
                     
                     //supply
@@ -395,7 +395,7 @@
                             // kunin values from row
                             $o = implode($_POST['opened']);
                             $c = implode($_POST['close']);
-                            $qty = $o + $c;
+                            $qty = floatval($o) + floatval($c);
                             $aobqty = $data['bqty'];
                             $aorqty = $data['rqty'];
                             $aotqty = $data['tqty'];
@@ -497,7 +497,7 @@
                             {
                                 $o = implode($_POST['opened']);
                                 $c = implode($_POST['close']);
-                                $qty = $o + $c;
+                                $qty = floatval($o) + floatval($c);
                                 $cost = $_POST['unit_cost'];
                                 $obqty = $data['eqty'];
                                 $nobuc = $data['eamt'];
@@ -561,7 +561,7 @@
                             $medid = $_POST['supply'];
                             $o = implode($_POST['opened']);
                             $c = implode($_POST['close']);
-                            $qty = $o + $c;
+                            $qty = floatval($o) + floatval($c);
                             $cost = $_POST['unit_cost'];
                             
                             $bqty = 0;
