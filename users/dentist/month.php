@@ -1,6 +1,27 @@
 <?php
 session_start();
 include('connection.php');
+
+
+//$o = $_POST['opened'];
+//$c = $_POST['close'];
+
+
+$o = implode($_POST['opened']);
+$c = implode($_POST['close']);
+$qty = floatval($o) + floatval($c);
+$exp = $_POST['expiration'];
+echo $_POST['supply'] . " supply<p>";
+echo $o . " declare lang open<p>";
+echo $c . " declare lang close <p>";
+echo $qty . " declare lang nung qty <p>";
+echo $o + $c .  " addition<p>";
+echo $o * $c .  " multiplication<p>";
+
+
+
+
+/*
 $month = "January 2024";
 $endmonth =  date("Y-m-t", strtotime($month));
 $lastmonth = date("Y-m-t", strtotime("$endmonth - 1 month"));
@@ -101,6 +122,22 @@ if ($resultCheck > 0) {
 } else {
     echo "yow med <p>";
 }
+
+
+
+$result = mysqli_query($conn, "SELECT * FROM med_admin");
+foreach($result as $data){
+    $admin = $data['med_admin'];
+    $adminid = $data['id'];
+
+    echo $admin . "<br>";
+
+    $result = mysqli_query($conn, "SELECT * FROM report_medsupinv WHERE campus='BINANGONAN' AND date='2023-12-31' AND admin='$admin' AND type = 'medicine' ORDER BY admin");
+    foreach ($result as $data) {
+        echo $data['medicine'] . "<br>";
+    }
+}
+
 
 
 //$o = $_POST['opened'];

@@ -35,7 +35,7 @@
                         </div>
                         <div class="mb-2">
                             <label for="close" class="form-label">Quantity of Unopened Stocks:</label>
-                            <input type="number" min="0" class="form-control" name="close[][]" id="close">
+                            <input type="number" min="0" class="form-control" name="close[]" id="close">
                         </div>
                     </div>
 
@@ -43,7 +43,7 @@
                         <div class="mb-2">
                             <label for="close" class="form-label">Quantity:</label>
                             <input type="number" min="0" class="form-control" name="opened[]" id="opened" hidden>
-                            <input type="number" min="0" class="form-control" name="close[][]" id="close">
+                            <input type="number" min="0" class="form-control" name="close[]" id="close">
                         </div>
                     </div>
 
@@ -89,7 +89,9 @@
                 });
             }
         });
+    });
 
+    $(document).ready(function() {
         // Handle medicine selection
         $("#medicine").change(function() {
             var selectedStatus = $(this).find('option:selected').data('status');
@@ -97,13 +99,17 @@
             if (selectedStatus == 'open-close') {
                 $("#open-closeDiv").removeClass('hidden');
                 $("#perpieceDiv").addClass('hidden');
+                $("#open-closeDiv input[name='opened[]']").prop('disabled', false);
             } else if (selectedStatus == 'per piece') {
                 $("#perpieceDiv").removeClass('hidden');
                 $("#open-closeDiv").addClass('hidden');
+                $("#open-closeDiv input[name='opened[]']").prop('disabled', true);
             } else {
                 // Hide both quantity input fields if status is neither 'open-close' nor 'per piece'
                 $("#open-closeDiv").addClass('hidden');
                 $("#perpieceDiv").addClass('hidden');
+                $("#open-closeDiv input[name='opened[]']").prop('disabled', true);
+                $("#perpieceDiv input[name='opened[]']").prop('disabled', true);
             }
         });
     });

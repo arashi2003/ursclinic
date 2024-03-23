@@ -9,7 +9,7 @@ $today = date("Y-m-d");
 //$endmonth = date("Y-m-t");
 //$lastmonth = date("Y-m-t", strtotime("- 1 month"));
 //$month = "January 2024";
-$month = "January 2024";
+$month = "March 2024";
 $endmonth =  date("Y-m-t", strtotime($month));
 $lastmonth = date("Y-m-t", strtotime("$endmonth - 1 month"));
 
@@ -26,6 +26,7 @@ $campus = "BINANGONAN";
 
 
 //truncate muna lahat bago i-run ng official !!!!!!!!!!!
+
 
 //auto report supply in medsupinv
 $query = "SELECT * FROM report_medsupinv WHERE date = '$lastmonth' AND eqty > 0 AND type = 'supply' AND campus='$campus'";
@@ -91,19 +92,6 @@ if ($resultCheck > 0) {
                 echo $eamt = $data['eamt'];
                 $admin = $data['admin'];
 
-                $query = "SELECT * FROM report_medsupinv WHERE date = '$endmonth' AND admin LIKE '%$admin%' AND type='med_admin' AND campus='$campus'";
-                $result = mysqli_query($conn, $query);
-                $resultCheck = mysqli_num_rows($result);
-                if ($resultCheck == 0) {
-                    $sql = "INSERT INTO report_medsupinv SET campus = '$campus', type = 'med_admin', admin = '$admin', medicine = '$admin', date = '$endmonth'";
-                    //mysqli_query($conn, $sql);
-                    if (mysqli_query($conn, $sql)) {
-                        echo ", nalagyan na ng entry tong " . $admin;
-                    } else {
-                        echo ", di nalagyan na ng entry tong " . $admin;
-                    }
-                }
-
                 $sql = "INSERT INTO report_medsupinv SET campus = '$campus', type = 'medicine', admin = '$admin', medid = '$medid', medicine = '$medicine', bqty = '$bqty', buc = '$buc', eqty = '$eqty', eamt = '$eamt', date = '$endmonth'";
                 //mysqli_query($conn, $sql);
                 if (mysqli_query($conn, $sql)) {
@@ -148,13 +136,16 @@ if ($resultCheck > 0) {
                 $ed = $data['ed'];
                 $etqty = $data['etqty'];
                 $eamt = $data['eamt'];
-                $sql = "INSERT INTO report_teinv SET campus = '$campus' AND teid = '$teid', tools_equip = '$tools_equip', bnw = '$bnw', bum = '$bum', bgc = '$bgc', bd = '$bd', btqty = '$btqty', buc = '$buc', enw = '$enw', eum = '$eum', egc = '$egc', ed = '$ed', etqty = '$etqty', eamt = '$eamt', date = '$endmonth'";
-                //mysqli_query($conn, $sql);
-                if (mysqli_query($conn, $sql)) {
-                    echo ", nalagyan na ng entry ";
-                } else {
-                    echo ", di nalagyan na ng entry <p>";
-                }
+                $teid = $data['teid'];
+                $tcampus = $data['campus'];
+            }
+
+            $sql = "INSERT INTO report_teinv SET campus = '$tcampus', teid = '$teid', tools_equip = '$tools_equip', bnw = '$bnw', bum = '$bum', bgc = '$bgc', bd = '$bd', btqty = '$btqty', buc = '$buc', enw = '$enw', eum = '$eum', egc = '$egc', ed = '$ed', etqty = '$etqty', eamt = '$eamt', date = '$endmonth'";
+            //mysqli_query($conn, $sql);
+            if (mysqli_query($conn, $sql)) {
+                echo ", nalagyan na ng entry  $tcampus $teid ";
+            } else {
+                echo ", di nalagyan na ng entry <p>";
             }
         }
         echo "for this month <p>";

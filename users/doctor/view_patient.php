@@ -69,7 +69,7 @@ include('../../includes/pagination-limit.php');
                 </div>
                 <div class="profile-info box">
                     <?php
-                    $sql = "SELECT p.patientid, p.designation, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE patientid='$patientid'";
+                    $sql = "SELECT p.patientid, p.designation, p.address, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE patientid='$patientid'";
                     $result = mysqli_query($conn, $sql);
                     while ($data = mysqli_fetch_array($result)) {
                         if (count(explode(" ", $data['middlename'])) > 1) {

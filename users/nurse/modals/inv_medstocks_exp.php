@@ -14,7 +14,7 @@
     $medid = $_POST['medicine'];
     $o = implode($_POST['opened']);
     $c = implode($_POST['close']);
-    $qty = $o + $c;
+    $qty = floatval($o) + floatval($c);
     $cost = $_POST['unit_cost'];
     $exp = date("Y-m-t", strtotime($_POST['expiration']));
     
@@ -77,7 +77,7 @@
                         $medid = $_POST['medicine'];
                         $o = implode($_POST['opened']);
                         $c = implode($_POST['close']);
-                        $qty = $o + $c;
+                        $qty = floatval($o) + floatval($c);
                         $cost = $_POST['unit_cost'];
                         $exp = $_POST['expiration'];
                         
@@ -107,9 +107,9 @@
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
                             $medid = $_POST['medicine'];
-                            
                             $o = implode($_POST['opened']);
                             $c = implode($_POST['close']);
+                            $qty = floatval($o) + floatval($c);
                             $cost = $_POST['unit_cost'];
                             $exp = $_POST['expiration'];
                             $enddate = date("Y-m-t");
@@ -121,7 +121,7 @@
                             {
                                 $o = implode($_POST['opened']);
                                 $c = implode($_POST['close']);
-                                $qty = $o + $c;
+                                $qty = floatval($o) + floatval($c);
                                 $aobqty = $data['bqty'];
                                 $aorqty = $data['rqty'];
                                 $aotqty = $data['tqty'];
@@ -215,7 +215,7 @@
                             $medid = $_POST['medicine'];
                             $o = implode($_POST['opened']);
                             $c = implode($_POST['close']);
-                            $qty = $o + $c;
+                            $qty = floatval($o) + floatval($c);
                             $cost = $_POST['unit_cost'];
                             $exp = $_POST['expiration'];
 
@@ -231,7 +231,7 @@
                                 $medid = $_POST['medicine'];
                                 $o = implode($_POST['opened']);
                                 $c = implode($_POST['close']);
-                                $qty = $o + $c;
+                                $qty = floatval($o) + floatval($c);
                                 $cost = $_POST['unit_cost'];
                                 $exp = $_POST['expiration'];
                                 $enddate = date("Y-m-t");
@@ -309,7 +309,7 @@
                                 $medid = $_POST['medicine'];
                                 $o = implode($_POST['opened']);
                                 $c = implode($_POST['close']);
-                                $qty = $o + $c;
+                                $qty = floatval($o) + floatval($c);
                                 $cost = $_POST['unit_cost'];
                                 $exp = $_POST['expiration'];
                                 
@@ -387,7 +387,7 @@
                         $medid = $_POST['medicine'];
                         $o = implode($_POST['opened']);
                         $c = implode($_POST['close']);
-                        $qty = $o + $c;
+                        $qty = floatval($o) + floatval($c);
                         $cost = $_POST['unit_cost'];
                         $exp = $_POST['expiration'];
                         $enddate = date("Y-m-t");
@@ -399,9 +399,6 @@
                             $medad = $data['med_admin'];
                         }
 
-                        $query = "INSERT INTO report_medsupinv (campus, type, admin, medid, medicine, bqty, buc, rqty, tqty, iqty, iamt, eqty, eamt, date) VALUES ('$campus', 'med_admin', '$medad', '$adminid', '$medad', '', '', '', '', '', '', '', '', '$enddate')";
-                        if(mysqli_query($conn, $query))
-                        {
                             $accountid = $_SESSION['userid'];
                             $campus = $_SESSION['campus'];
                             $adminid = $_POST['admin'];
@@ -409,7 +406,7 @@
                             $medid = $_POST['medicine'];
                             $o = implode($_POST['opened']);
                             $c = implode($_POST['close']);
-                            $qty = $o + $c;
+                            $qty = floatval($o) + floatval($c);
                             $cost = $_POST['unit_cost'];
                             $exp = $_POST['expiration'];
                             
@@ -489,7 +486,7 @@
                                 $medid = $_POST['medicine'];
                                 $o = implode($_POST['opened']);
                                 $c = implode($_POST['close']);
-                                $qty = $o + $c;
+                                $qty = floatval($o) + floatval($c);
                                 $cost = $_POST['unit_cost'];
                                 $exp = $_POST['expiration'];
                                 $enddate = date("Y-m-t");
@@ -551,7 +548,7 @@
                                     $medid = $_POST['medicine'];
                                     $o = implode($_POST['opened']);
                                     $c = implode($_POST['close']);
-                                    $qty = $o + $c;
+                                    $qty = floatval($o) + floatval($c);
                                     $cost = $_POST['unit_cost'];
                                     $exp = $_POST['expiration'];
                                     
@@ -631,7 +628,7 @@
                                     $medid = $_POST['medicine'];
                                     $o = implode($_POST['opened']);
                                     $c = implode($_POST['close']);
-                                    $qty = $o + $c;
+                                    $qty = floatval($o) + floatval($c);
                                     $cost = $_POST['unit_cost'];
                                     $exp = $_POST['expiration'];
                                     
@@ -698,18 +695,7 @@
                                     }
                                 }
                             }
-                        }
-                        else
-                        {
-                            ?>
-                            <script>
-                                setTimeout(function() {
-                                    window.location = "../med_stocks";
-                                });
-                            </script>
-                            <?php
-                            // modal message box saying "Medicine stocks was added."
-                        }
+                        
                     }
                 }
                 else
@@ -761,7 +747,7 @@
                         $medid = $_POST['medicine'];
                         $o = implode($_POST['opened']);
                         $c = implode($_POST['close']);
-                        $qty = $o + $c;
+                        $qty = floatval($o) + floatval($c);
                         $cost = $_POST['unit_cost'];
                         $exp = $_POST['expiration'];
                         
@@ -805,7 +791,7 @@
                             {
                                 $o = implode($_POST['opened']);
                                 $c = implode($_POST['close']);
-                                $qty = $o + $c;
+                                $qty = floatval($o) + floatval($c);
                                 $aobqty = $data['bqty'];
                                 $aorqty = $data['rqty'];
                                 $aotqty = $data['tqty'];
@@ -899,7 +885,7 @@
                             $medid = $_POST['medicine'];
                             $o = implode($_POST['opened']);
                             $c = implode($_POST['close']);
-                            $qty = $o + $c;
+                            $qty = floatval($o) + floatval($c);
                             $cost = $_POST['unit_cost'];
                             $exp = $_POST['expiration'];
 
@@ -915,7 +901,7 @@
                                 $medid = $_POST['medicine'];
                                 $o = implode($_POST['opened']);
                                 $c = implode($_POST['close']);
-                                $qty = $o + $c;
+                                $qty = floatval($o) + floatval($c);
                                 $cost = $_POST['unit_cost'];
                                 $exp = $_POST['expiration'];
                                 $enddate = date("Y-m-t");
@@ -993,7 +979,7 @@
                                 $medid = $_POST['medicine'];
                                 $o = implode($_POST['opened']);
                                 $c = implode($_POST['close']);
-                                $qty = $o + $c;
+                                $qty = floatval($o) + floatval($c);
                                 $cost = $_POST['unit_cost'];
                                 $exp = $_POST['expiration'];
                                 
@@ -1071,7 +1057,7 @@
                         $medid = $_POST['medicine'];
                         $o = implode($_POST['opened']);
                         $c = implode($_POST['close']);
-                        $qty = $o + $c;
+                        $qty = floatval($o) + floatval($c);
                         $cost = $_POST['unit_cost'];
                         $exp = $_POST['expiration'];
                         $enddate = date("Y-m-t");
@@ -1082,10 +1068,7 @@
                         {
                             $medad = $data['med_admin'];
                         }
-
-                        $query = "INSERT INTO report_medsupinv (campus, type, admin, medid, medicine, bqty, buc, rqty, tqty, iqty, iamt, eqty, eamt, date) VALUES ('$campus', 'med_admin', '$medad', '$adminid', '$medad', '', '', '', '', '', '', '', '', '$enddate')";
-                        if(mysqli_query($conn, $query))
-                        {
+                        
                             $accountid = $_SESSION['userid'];
                             $campus = $_SESSION['campus'];
                             $adminid = $_POST['admin'];
@@ -1093,7 +1076,7 @@
                             $medid = $_POST['medicine'];
                             $o = implode($_POST['opened']);
                             $c = implode($_POST['close']);
-                            $qty = $o + $c;
+                            $qty = floatval($o) + floatval($c);
                             $cost = $_POST['unit_cost'];
                             $exp = $_POST['expiration'];
                             
@@ -1173,7 +1156,7 @@
                                 $medid = $_POST['medicine'];
                                 $o = implode($_POST['opened']);
                                 $c = implode($_POST['close']);
-                                $qty = $o + $c;
+                                $qty = floatval($o) + floatval($c);
                                 $cost = $_POST['unit_cost'];
                                 $exp = $_POST['expiration'];
                                 $enddate = date("Y-m-t");
@@ -1235,7 +1218,7 @@
                                     $medid = $_POST['medicine'];
                                     $o = implode($_POST['opened']);
                                     $c = implode($_POST['close']);
-                                    $qty = $o + $c;
+                                    $qty = floatval($o) + floatval($c);
                                     $cost = $_POST['unit_cost'];
                                     $exp = $_POST['expiration'];
                                     
@@ -1315,7 +1298,7 @@
                                     $medid = $_POST['medicine'];
                                     $o = implode($_POST['opened']);
                                     $c = implode($_POST['close']);
-                                    $qty = $o + $c;
+                                    $qty = floatval($o) + floatval($c);
                                     $cost = $_POST['unit_cost'];
                                     $exp = $_POST['expiration'];
                                     
@@ -1382,18 +1365,7 @@
                                     }
                                 }
                             }
-                        }
-                        else
-                        {
-                            ?>
-                            <script>
-                                setTimeout(function() {
-                                    window.location = "../med_stocks";
-                                });
-                            </script>
-                            <?php
-                            // modal message box saying "Medicine stocks was added."
-                        }
+                        
                     }
                 }
                 else
