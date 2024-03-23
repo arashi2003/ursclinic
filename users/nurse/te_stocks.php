@@ -229,16 +229,16 @@ if ($pages > 4) {
                                         if (isset($_GET['te']) && $_GET['te'] != '') {
                                             $te = $_GET['te'];
                                             $count = 1;
-                                            $sql = "SELECT i.id, i.campus, i.teid, i.qty, i.unit_cost, i.status, i.date, i.time, t.tools_equip, t.unit_measure, t.teid, s.te_status FROM inventory_te i INNER JOIN tools_equip t on t.teid=i.teid INNER JOIN te_status s on s.id=i.status WHERE t.tools_equip LIKE '%$te%' AND campus = '$campus' ORDER BY t.tools_equip LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT i.id, i.campus, i.teid, i.qty, i.unit_cost, i.status, i.date, i.time, t.tools_equip, t.unit_measure, t.teid FROM inventory_te i INNER JOIN tools_equip t on t.teid=i.teid WHERE t.tools_equip LIKE '%$te%' AND campus = '$campus' ORDER BY t.tools_equip LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['te_status']) && $_GET['te_status'] != '') {
                                             $te_status = $_GET['te_status'];
                                             $count = 1;
-                                            $sql = "SELECT i.id, i.campus, i.teid, i.qty, i.unit_cost, i.status, i.date, i.time, t.tools_equip, t.unit_measure, t.teid, s.te_status FROM inventory_te i INNER JOIN tools_equip t on t.teid=i.teid INNER JOIN te_status s on s.id=i.status WHERE status = '$te_status' AND campus = '$campus' ORDER BY t.tools_equip LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT i.id, i.campus, i.teid, i.qty, i.unit_cost, i.status, i.date, i.time, t.tools_equip, t.unit_measure, t.teid FROM inventory_te i INNER JOIN tools_equip t on t.teid=i.teid WHERE status = '$te_status' AND campus = '$campus' ORDER BY t.tools_equip LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT i.id, i.campus, i.teid, i.qty, i.unit_cost, i.status, i.date, i.time, t.tools_equip, t.unit_measure, t.teid, s.te_status FROM inventory_te i INNER JOIN tools_equip t on t.teid=i.teid INNER JOIN te_status s on s.id=i.status WHERE campus = '$campus' ORDER BY t.tools_equip LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT i.id, i.campus, i.teid, i.qty, i.unit_cost, i.status, i.date, i.time, t.tools_equip, t.unit_measure, t.teid FROM inventory_te i INNER JOIN tools_equip t on t.teid=i.teid WHERE campus = '$campus' ORDER BY t.tools_equip LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -252,7 +252,7 @@ if ($pages > 4) {
                                                         <td><?php echo $data['tools_equip'] . $data['unit_measure'] ?></td>
                                                         <td><?php echo number_format($data['unit_cost'], '2', '.') ?></td>
                                                         <td><?php echo number_format($amount, '2', '.') ?></td>
-                                                        <td><?php echo $data['te_status']; ?></td>
+                                                        <td><?php echo $data['status']; ?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#calimain<?php echo $data['teid'] ?>">Maintenance/Calibration</button>
                                                         </td>

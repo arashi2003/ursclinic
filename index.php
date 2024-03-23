@@ -91,7 +91,7 @@ if (isset($_POST['submit'])) {
           $middleinitial = substr($middle, 0, 1) . ".";
         }
       }
-      $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname']));
+      $fullname = ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($row['lastname']));
       $campus = $row['campus'];
 
       //audit trail
@@ -133,7 +133,7 @@ if (isset($_POST['submit'])) {
           $middleinitial = substr($middle, 0, 1) . ".";
         }
       }
-      $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname']));
+      $fullname = ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($row['lastname']));
       $campus = $row['campus'];
 
       //audit trail
@@ -176,7 +176,7 @@ if (isset($_POST['submit'])) {
           $middleinitial = substr($middle, 0, 1) . ".";
         }
       }
-      $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname']));
+      $fullname = ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($row['lastname']));
       $campus = $row['campus'];
 
       //audit trail
@@ -219,7 +219,7 @@ if (isset($_POST['submit'])) {
           $middleinitial = substr($middle, 0, 1) . ".";
         }
       }
-      $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname']));
+      $fullname = ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($row['lastname']));
       $campus = $row['campus'];
 
       //audit trail
@@ -262,7 +262,7 @@ if (isset($_POST['submit'])) {
           $middleinitial = substr($middle, 0, 1) . ".";
         }
       }
-      $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname']));
+      $fullname = ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($row['lastname']));
       $campus = $row['campus'];
 
       //audit trail
@@ -304,7 +304,7 @@ if (isset($_POST['submit'])) {
           $middleinitial = substr($middle, 0, 1) . ".";
         }
       }
-      $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname']));
+      $fullname = ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($row['lastname']));
       $campus = $row['campus'];
 
       //audit trail

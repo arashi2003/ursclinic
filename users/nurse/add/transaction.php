@@ -20,6 +20,7 @@ $lastname = strtoupper($_POST['lastname']);
 $designation = strtoupper($_POST['designation']);
 $age = floor((time() - strtotime($_POST['birthday'])) / 31556926); 
 $sex = strtoupper($_POST['sex']);
+$birthday = date("Y-m-d", strtotime($_POST['birthday']));
 $department = $_POST['department'];
 $college = $_POST['college'];
 $program = $_POST['program'];
@@ -28,32 +29,42 @@ $section = $_POST['section'];
 $block = strtoupper($_POST['block']);
 
 // Logbook info
-$type = $_POST['type'];
-$transaction = $_POST['transaction'];
-$purpose = $_POST['service'];
+$bp = $_POST['bp'];
+$pr = $_POST['pr'];
+$temp = $_POST['temp'];
+$respiratory = $_POST['respiratory'];
+$oxygen = $_POST['oxygen'];
+$type = "Walk-In";
+$transaction =  $_POST['transaction'];
+echo $purpose = $_POST['service'];
 $chief_complaint = $_POST['chief_complaint'] . " " . $_POST['chief_complaint_others'];
 $findiag = $_POST['findiag'] . " " . $_POST['findiag_others'];
 $remarks = $_POST['remarks'];
 $referral = $_POST['referral'];
-$medcaseid = $_POST['medcase'];
-$medcase_others = $_POST['medcase_others'];
+$med_case = $_POST['medcase'];
 $pod_nod = $fullname;
+
+$sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
+$result = mysqli_query($conn, $sql);
+while($data=mysqli_fetch_array($result))
+{
+    if($data['medcase'] != 'Others:')
+    { 
+        $medcase =  $_POST['medcase'];
+        $medcase_type = $data['type'];
+        $medcase_others = $_POST['medcase_others'];
+    }
+    else
+    {
+        $medcase_type ="others";
+        $medcase_others = $_POST['medcase_others'];
+        $medcase = $medcase_others;
+    }
+}
 
 $datenow = date("Y-m-d");
 $enddate = date("Y-m-t");
 
-// Get medcase as text
-$sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
-$result = mysqli_query($conn, $sql);
-while ($data = mysqli_fetch_array($result)) {
-    if ($data['medcase'] != 'Others:') {
-        $medcase_type = $data['type'];
-        $medcase = $data['medcase'];
-    } else {
-        $medcase_type = "others";
-        $medcase = $medcase_others;
-    }
-}
 
 // Handling for issued medicine
 if (!empty($_POST['medicine'])) {
@@ -99,14 +110,14 @@ if (!empty($_POST['supply'])) {
 $medsup = rtrim($issued_medicine_statement . ", " . $issued_supply_statement, ", ");
 
 // Insert transaction history
-$query = "INSERT INTO transaction_history (patient, firstname, middlename, lastname, designation, age, sex, department, college, program, yearlevel, section, block, type, transaction, purpose, chief_complaint, findiag, remarks, referral, medsup, pod_nod, medcase, medcase_others, campus, datetime) 
+$query = "INSERT INTO transaction_history (patient, firstname, middlename, lastname, designation, age, sex, department, college, program, yearlevel, section, block, type, transaction, purpose,  bp, pr, temp, respiratory, oxygen_saturation, chief_complaint, findiag, remarks, referral, medsup, pod_nod, medcase, medcase_others, campus, datetime) 
     VALUES ('$patientid', '$firstname', '$middlename', '$lastname', '$designation', '$age', '$sex', '$department', 
     '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction', '$purpose', 
-    '$chief_complaint', '$findiag', '$remarks', '$referral', '$medsup', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";
+    '$bp', '$pr', '$temp', '$respiratory', '$oxygen', '$chief_complaint', '$findiag', '$remarks', '$referral', '$medsup', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";
 $result = mysqli_query($conn, $query);
 
 // Update inventory for each medicine
-if (isset($_POST['medicine'])) {
+if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
     $medicines = $_POST['medicine'];
     $quantities = $_POST['quantity_med'];
     foreach ($medicines as $key => $medicine) {
@@ -166,7 +177,7 @@ if (isset($_POST['medicine'])) {
 }
 
 // Update inventory for each supply
-if (isset($_POST['supply'])) {
+if (!empty($_POST['supply']) && isset($_POST['supply'])) {
     $supplies = $_POST['supply'];
     $quantities_sup = $_POST['quantity_sup'];
     foreach ($supplies as $key => $supply) {
