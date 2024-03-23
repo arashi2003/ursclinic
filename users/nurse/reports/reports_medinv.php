@@ -131,8 +131,8 @@ foreach ($result as $data) {
     $pdf->Cell(85, 5, $admin . ' MEDICINE', 1, 0, 'C');
     $pdf->Cell(105, 5, '', 1, 0, 'C');
     $pdf->Cell(0, 5, '', 0, 1);
-
-    $result = mysqli_query($conn, "SELECT * FROM report_medsupinv $ca $date AND type = 'medicine' AND admin='$admin' ORDER BY admin");
+    
+    $result = mysqli_query($conn, "SELECT * FROM report_medsupinv $ca $date AND type = 'medicine' AND admin='$admin' ORDER BY admin, medicine");
     foreach ($result as $data) { {
             $pdf->SetFont('Arial', '', 7);
             $pdf->Cell(85, 5, $data['medicine'], 1, 0);

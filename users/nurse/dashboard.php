@@ -3,6 +3,7 @@ session_start();
 
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
+include('../../foreach.php');
 
 $module = 'dashboard';
 $userid = $_SESSION['userid'];

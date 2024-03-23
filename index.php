@@ -341,7 +341,7 @@ if (isset($_POST['submit'])) {
       </script>
 <?php
 
-    } elseif ($row['status'] == 'INACTIVE') {
+    } elseif ($count == 1 && $row['status'] == 'INACTIVE') {
       $error = "Account is Inactive";
 
     } else {

@@ -2,21 +2,62 @@
 session_start();
 include('connection.php');
 
+//$endmonth =  date("Y-m-t");
+$month = "April 2024";
+$endmonth =  date("Y-m-t", strtotime($month));
+$lastmonth = date("Y-m-t", strtotime("$endmonth - 1 month"));
 
-//$o = $_POST['opened'];
-//$c = $_POST['close'];
+//$campus = "ANGONO";
+//$campus = "ANTIPOLO";
+//$campus = "CAINTA";
+//$campus = "CARDONA";
+$campus = "BINANGONAN";
+//$campus = "MORONG";
+//$campus = "PILILLA";
+//$campus = "RODRIGUEZ";
+//$campus = "TANAY";
+//$campus = "TAYTAY";
 
 
-$o = implode($_POST['opened']);
+//truncate muna lahat bago i-run ng official !!!!!!!!!!!
+
+
+//auto report supply in medsupinv
+$query = "SELECT * FROM report_medsupinv WHERE date = '$lastmonth' AND eqty > 0 AND type = 'supply' AND campus='$campus'";
+$result = mysqli_query($conn, $query);
+$resultCheck = mysqli_num_rows($result);
+if ($resultCheck > 0) {
+    foreach ($result as $data) {
+       
+        echo "meron ";
+        echo $data['medicine'] . " <p>";
+    }
+} else {
+    echo "yow sup <p>";
+}
+
+
+
+
+
+/*
+
+if(!empty($_POST['opened']))
+{
+    $o = implode($_POST['opened']);
+}
+else{
+    $o = "";
+}
 $c = implode($_POST['close']);
-$qty = floatval($o) + floatval($c);
+$qty = floatval($c) + floatval($o);
 $exp = $_POST['expiration'];
 echo $_POST['supply'] . " supply<p>";
 echo $o . " declare lang open<p>";
 echo $c . " declare lang close <p>";
 echo $qty . " declare lang nung qty <p>";
-echo $o + $c .  " addition<p>";
-echo $o * $c .  " multiplication<p>";
+echo $qty .  " addition<p>";
+echo floatval($o) * floatval($c) .  " multiplication<p>";
 
 
 
@@ -36,6 +77,24 @@ $campus = "BINANGONAN";
 //$campus = "RODRIGUEZ";
 //$campus = "TANAY";
 //$campus = "TAYTAY";
+
+
+$query = "SELECT * FROM report_medsupinv WHERE date = '$endmonth' AND admin LIKE '%$admin%' AND type='med_admin' AND medicine='$admin' AND medid != 0 AND campus='$campus'";
+        $result = mysqli_query($conn, $query);
+        $resultCheck = mysqli_num_rows($result);
+        if ($resultCheck == 0) {
+            $sql = "INSERT INTO report_medsupinv SET campus = '$campus', type = 'med_admin', admin = '$admin', medicine = '$admin', date = '$endmonth'";
+            //mysqli_query($conn, $sql);
+            if (mysqli_query($conn, $sql)) {
+                echo ", nalagyan na ng entry tong " . $admin;
+            } else {
+                echo ", di nalagyan na ng entry tong " . $admin;
+            }
+        }
+
+
+
+/*
 
 //auto report med in medsupinv
 $query = "SELECT * FROM report_medsupinv WHERE date = '$lastmonth' AND eqty > 0 AND type = 'medicine' AND campus='$campus'";
@@ -122,22 +181,6 @@ if ($resultCheck > 0) {
 } else {
     echo "yow med <p>";
 }
-
-
-
-$result = mysqli_query($conn, "SELECT * FROM med_admin");
-foreach($result as $data){
-    $admin = $data['med_admin'];
-    $adminid = $data['id'];
-
-    echo $admin . "<br>";
-
-    $result = mysqli_query($conn, "SELECT * FROM report_medsupinv WHERE campus='BINANGONAN' AND date='2023-12-31' AND admin='$admin' AND type = 'medicine' ORDER BY admin");
-    foreach ($result as $data) {
-        echo $data['medicine'] . "<br>";
-    }
-}
-
 
 
 //$o = $_POST['opened'];
