@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 23, 2024 at 02:48 PM
+-- Generation Time: Mar 23, 2024 at 05:53 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -2461,7 +2461,24 @@ INSERT INTO `audit_trail` (`id`, `user`, `fullname`, `campus`, `activity`, `stat
 (1887, 'URSN-001', ' A. ', 'BINANGONAN', 'Logged In', 'unread', '2024-03-23 18:45:45'),
 (1888, 'URSN-001', ' A. ', 'BINANGONAN', 'added medicine id 1 stocks in medicine inventory', 'unread', '2024-03-23 19:09:19'),
 (1889, 'URSN-001', ' A. ', 'BINANGONAN', 'added medicine id 24 stocks in medicine inventory', 'unread', '2024-03-23 19:09:42'),
-(1892, 'URSN-001', ' A. ', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-23 19:16:03');
+(1892, 'URSN-001', ' A. ', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-23 19:16:03'),
+(1893, 'URSN-001', ' A. ', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-23 22:52:01'),
+(1894, 'URSN-001', ' A. ', 'BINANGONAN', 'added a transaction record for Walk-In of B2021-0569', 'unread', '2024-03-23 23:08:47'),
+(1895, 'URSN-001', ' A. ', 'BINANGONAN', 'added a transaction record for Walk-In of B2021-0569', 'unread', '2024-03-23 23:17:23'),
+(1896, 'URSN-001', ' A. ', 'BINANGONAN', 'added a transaction record for Walk-In of B2021-0569', 'unread', '2024-03-23 23:46:47'),
+(1897, 'URSN-001', 'DIOSA A SALVADOR', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-23 23:47:02'),
+(1898, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'Logged In', 'unread', '2024-03-23 23:47:10'),
+(1899, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-23 23:47:12'),
+(1900, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added a transaction record for Walk-In of B2021-0569', 'unread', '2024-03-23 23:49:08'),
+(1901, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added a transaction record for Walk-In of B2021-0569', 'unread', '2024-03-23 23:51:05'),
+(1902, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added a transaction record for Walk-In of B2021-0569', 'unread', '2024-03-23 23:52:51'),
+(1903, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added a transaction record for Walk-In of B2021-0569', 'unread', '2024-03-24 00:03:08'),
+(1904, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added a transaction record for medical history of B2021-0569', 'unread', '2024-03-24 00:05:49'),
+(1905, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added a transaction record for medical history of B2021-0569', 'unread', '2024-03-24 00:10:58'),
+(1906, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added a transaction record for Walk-In of B2021-0569', 'unread', '2024-03-24 00:24:45'),
+(1907, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added a transaction record for Walk-In of B2021-0569', 'unread', '2024-03-24 00:26:19'),
+(1908, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added a transaction record for Walk-In of B2021-0569', 'unread', '2024-03-24 00:27:42'),
+(1909, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'added tool/equipment ID 3 inventory stocks', 'unread', '2024-03-24 00:50:08');
 
 -- --------------------------------------------------------
 
@@ -2968,7 +2985,7 @@ INSERT INTO `inventory` (`id`, `campus`, `batchid`, `stock_type`, `stockid`, `op
 (16, 'BINANGONAN', 'B20240322', 'medicine', 38, 0, 3, 3, 135.45, '2024-03-31', NULL, '2024-03-22', '16:07:45'),
 (17, 'BINANGONAN', 'B20240322', 'medicine', 39, 0, 5, 5, 120, '2024-05-31', NULL, '2024-03-22', '16:15:19'),
 (18, 'BINANGONAN', 'B20240322', 'medicine', 1, 0, 47, 47, 2, '2026-10-31', NULL, '2024-03-22', '16:18:13'),
-(19, 'BINANGONAN', 'B20240322', 'medicine', 2, 0, 56, 56, 1.28, '2027-10-31', NULL, '2024-03-22', '16:19:18'),
+(19, 'BINANGONAN', 'B20240322', 'medicine', 2, 0, 55, 55, 1.28, '2027-10-31', NULL, '2024-03-22', '16:19:18'),
 (20, 'BINANGONAN', 'B20240322', 'medicine', 3, 0, 58, 58, 2, '2026-05-31', NULL, '2024-03-22', '16:21:04'),
 (21, 'BINANGONAN', 'B20240322', 'medicine', 4, 0, 31, 31, 4.95, '2026-02-28', NULL, '2024-03-22', '16:21:53'),
 (22, 'BINANGONAN', 'B20240322', 'medicine', 5, 0, 23, 23, 2.65, '2025-05-31', NULL, '2024-03-22', '16:24:05'),
@@ -3030,7 +3047,8 @@ INSERT INTO `inventory` (`id`, `campus`, `batchid`, `stock_type`, `stockid`, `op
 (86, 'BINANGONAN', 'B20240323', 'medicine', 44, 0, 5, 5, 655.99, '2026-09-30', NULL, '2024-03-23', '15:36:00'),
 (87, 'BINANGONAN', 'B20240323', 'medicine', 43, 0, 2, 2, 320.35, '2026-08-31', NULL, '2024-03-23', '15:36:28'),
 (88, 'BINANGONAN', 'B20240323', 'medicine', 1, 0, 2, 2, 2, '2024-02-29', NULL, '2024-03-23', '19:09:19'),
-(89, 'BINANGONAN', 'B20240323', 'medicine', 24, 0, 4, 4, 2, '2024-02-29', NULL, '2024-03-23', '19:09:42');
+(89, 'BINANGONAN', 'B20240323', 'medicine', 24, 0, 4, 4, 2, '2024-02-29', NULL, '2024-03-23', '19:09:42'),
+(90, 'BINANGONAN', 'B20240323', 'te', 3, 0, 0, 1, 300, '0000-00-00', NULL, '2024-03-24', '00:50:08');
 
 -- --------------------------------------------------------
 
@@ -3069,7 +3087,7 @@ INSERT INTO `inventory_medicine` (`id`, `campus`, `medid`, `closed`, `open`, `qt
 (16, 'BINANGONAN', 38, 3, 0, 3, 135.45, '2024-03-31', '2024-03-22', '16:07:45'),
 (17, 'BINANGONAN', 39, 5, 0, 5, 120, '2024-05-31', '2024-03-22', '16:15:19'),
 (18, 'BINANGONAN', 1, 47, 0, 47, 2, '2026-10-31', '2024-03-22', '16:18:13'),
-(19, 'BINANGONAN', 2, 56, 0, 56, 1.28, '2027-10-31', '2024-03-22', '16:19:18'),
+(19, 'BINANGONAN', 2, 55, 0, 55, 1.28, '2027-10-31', '2024-03-22', '16:19:18'),
 (20, 'BINANGONAN', 3, 58, 0, 58, 2, '2026-05-31', '2024-03-22', '16:21:04'),
 (21, 'BINANGONAN', 4, 31, 0, 31, 4.95, '2026-02-28', '2024-03-22', '16:21:53'),
 (22, 'BINANGONAN', 5, 23, 0, 23, 2.65, '2025-05-31', '2024-03-22', '16:24:05'),
@@ -3163,23 +3181,24 @@ CREATE TABLE `inventory_te` (
 --
 
 INSERT INTO `inventory_te` (`id`, `campus`, `teid`, `qty`, `unit_cost`, `status`, `date`, `time`) VALUES
-(1, 'BINANGONAN', 4, 1, 605, '1', '2024-03-22', '19:45:51'),
-(2, 'BINANGONAN', 7, 1, 90, '1', '2024-03-22', '19:49:33'),
-(3, 'BINANGONAN', 7, 1, 90, '1', '2024-03-22', '19:49:47'),
-(4, 'BINANGONAN', 7, 1, 90, '1', '2024-03-22', '19:50:02'),
-(5, 'BINANGONAN', 11, 1, 1217, '1', '2024-03-22', '19:51:04'),
-(6, 'BINANGONAN', 5, 1, 69, '1', '2024-03-22', '19:51:34'),
-(7, 'BINANGONAN', 8, 1, 278.75, '1', '2024-03-22', '19:51:58'),
-(8, 'BINANGONAN', 3, 1, 266, '1', '2024-03-22', '19:52:30'),
-(9, 'BINANGONAN', 3, 1, 250, '1', '2024-03-22', '19:52:53'),
-(10, 'BINANGONAN', 10, 1, 345, '1', '2024-03-22', '19:53:33'),
-(11, 'BINANGONAN', 1, 1, 90, '1', '2024-03-22', '19:54:04'),
-(12, 'BINANGONAN', 1, 1, 110, '1', '2024-03-22', '19:54:15'),
-(13, 'BINANGONAN', 6, 1, 988.97, '1', '2024-03-22', '19:54:46'),
-(14, 'BINANGONAN', 9, 1, 46.5, '1', '2024-03-22', '19:55:10'),
-(15, 'BINANGONAN', 2, 1, 135, '1', '2024-03-22', '19:55:44'),
-(16, 'BINANGONAN', 2, 1, 90, '1', '2024-03-22', '19:55:57'),
-(17, 'BINANGONAN', 2, 1, 110, '1', '2024-03-22', '19:56:08');
+(1, 'BINANGONAN', 4, 1, 605, 'Good Condition', '2024-03-22', '19:45:51'),
+(2, 'BINANGONAN', 7, 1, 90, 'Good Condition', '2024-03-22', '19:49:33'),
+(3, 'BINANGONAN', 7, 1, 90, 'Good Condition', '2024-03-22', '19:49:47'),
+(4, 'BINANGONAN', 7, 1, 90, 'Good Condition', '2024-03-22', '19:50:02'),
+(5, 'BINANGONAN', 11, 1, 1217, 'Good Condition', '2024-03-22', '19:51:04'),
+(6, 'BINANGONAN', 5, 1, 69, 'Good Condition', '2024-03-22', '19:51:34'),
+(7, 'BINANGONAN', 8, 1, 278.75, 'Good Condition', '2024-03-22', '19:51:58'),
+(8, 'BINANGONAN', 3, 1, 266, 'Good Condition', '2024-03-22', '19:52:30'),
+(9, 'BINANGONAN', 3, 1, 250, 'Good Condition', '2024-03-22', '19:52:53'),
+(10, 'BINANGONAN', 10, 1, 345, 'Good Condition', '2024-03-22', '19:53:33'),
+(11, 'BINANGONAN', 1, 1, 90, 'Good Condition', '2024-03-22', '19:54:04'),
+(12, 'BINANGONAN', 1, 1, 110, 'Good Condition', '2024-03-22', '19:54:15'),
+(13, 'BINANGONAN', 6, 1, 988.97, 'Good Condition', '2024-03-22', '19:54:46'),
+(14, 'BINANGONAN', 9, 1, 46.5, 'Good Condition', '2024-03-22', '19:55:10'),
+(15, 'BINANGONAN', 2, 1, 135, 'Good Condition', '2024-03-22', '19:55:44'),
+(16, 'BINANGONAN', 2, 1, 90, 'Good Condition', '2024-03-22', '19:55:57'),
+(17, 'BINANGONAN', 2, 1, 110, 'Good Condition', '2024-03-22', '19:56:08'),
+(18, 'BINANGONAN', 3, 1, 300, 'Good Condition', '2024-03-24', '00:50:08');
 
 -- --------------------------------------------------------
 
@@ -3218,7 +3237,7 @@ INSERT INTO `inv_total` (`id`, `campus`, `type`, `stockid`, `stock_name`, `open`
 (16, 'BINANGONAN', 'medicine', '38', 'OPHTHALMIC 5ml/bot', 0, 3, 3, 135.45, '2024-03-22 16:07:45'),
 (17, 'BINANGONAN', 'medicine', '39', 'OPHTHALMIC 2.5ml/bot', 0, 5, 5, 120, '2024-03-22 16:15:19'),
 (18, 'BINANGONAN', 'medicine', '1', 'Ambroxol 30mg/tab', 0, 50, 50, 52.88, '2024-03-23 19:09:19'),
-(19, 'BINANGONAN', 'medicine', '2', 'Amoxicillin 500mg/cap', 0, 56, 56, 1.28, '2024-03-22 16:19:18'),
+(19, 'BINANGONAN', 'medicine', '2', 'Amoxicillin 500mg/cap', 0, 55, 55, 1.28, '2024-03-22 16:19:18'),
 (20, 'BINANGONAN', 'medicine', '3', 'Paracetamol 500mg/caplet', 0, 58, 58, 2, '2024-03-22 16:21:04'),
 (21, 'BINANGONAN', 'medicine', '4', 'Clonidine HCL 75mcg/tab', 0, 31, 31, 4.95, '2024-03-22 16:21:53'),
 (22, 'BINANGONAN', 'medicine', '5', 'Cefalaxin 500mg/tab', 0, 23, 23, 2.65, '2024-03-22 16:24:05'),
@@ -5629,7 +5648,7 @@ INSERT INTO `report_medsupinv` (`id`, `campus`, `type`, `admin`, `medid`, `medic
 (198, 'BINANGONAN', 'medicine', 'OPHTHALMIC', '38', 'OPHTHALMIC 5ml/bot', 3, 135.45, 0, 0, 0, 0, 3, 406.35, '2024-03-31'),
 (199, 'BINANGONAN', 'medicine', 'OPHTHALMIC', '39', 'OPHTHALMIC 2.5ml/bot', 5, 120, 0, 0, 0, 0, 5, 600, '2024-03-31'),
 (200, 'BINANGONAN', 'medicine', 'ORAL', '1', 'Ambroxol 30mg/tab', 47, 2, 2, 2, 0, 0, 49, 2591.12, '2024-03-31'),
-(201, 'BINANGONAN', 'medicine', 'ORAL', '2', 'Amoxicillin 500mg/cap', 56, 1.28, 0, 0, 0, 0, 56, 71.68, '2024-03-31'),
+(201, 'BINANGONAN', 'medicine', 'ORAL', '2', 'Amoxicillin 500mg/cap', 56, 1.28, 0, 0, 1, 0, 55, 0, '2024-03-31'),
 (202, 'BINANGONAN', 'medicine', 'ORAL', '3', 'Paracetamol 500mg/caplet', 58, 2, 0, 0, 0, 0, 58, 116, '2024-03-31'),
 (203, 'BINANGONAN', 'medicine', 'ORAL', '4', 'Clonidine HCL 75mcg/tab', 31, 4.95, 0, 0, 0, 0, 31, 153.45, '2024-03-31'),
 (204, 'BINANGONAN', 'medicine', 'ORAL', '5', 'Cefalaxin 500mg/tab', 23, 2.65, 0, 0, 0, 0, 23, 60.95, '2024-03-31'),
@@ -5727,7 +5746,7 @@ INSERT INTO `report_teinv` (`id`, `campus`, `teid`, `tools_equip`, `bnw`, `bum`,
 (91, 'BINANGONAN', 11, 'Dent Air High Speed Air Turbine Hand Piece', 0, 0, 1, 0, 1, 1217, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1217, '2024-03-31'),
 (92, 'BINANGONAN', 5, 'Dental Explorer', 0, 0, 1, 0, 1, 69, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 69, '2024-03-31'),
 (93, 'BINANGONAN', 8, 'Dental Probe', 0, 0, 1, 0, 1, 278.75, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 278.75, '2024-03-31'),
-(94, 'BINANGONAN', 3, 'Digital Thermometer', 0, 0, 2, 0, 2, 258, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 516, '2024-03-31'),
+(94, 'BINANGONAN', 3, 'Digital Thermometer', 0, 0, 2, 0, 2, 258, 0, 0, 1, 0, 1, 0, 0, 3, 0, 3, 816, '2024-03-31'),
 (95, 'BINANGONAN', 10, 'Extraction Forcep', 0, 0, 1, 0, 1, 345, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 345, '2024-03-31'),
 (96, 'BINANGONAN', 1, 'Hot water bag 500ml', 0, 0, 2, 0, 2, 100, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 200, '2024-03-31'),
 (97, 'BINANGONAN', 6, 'Mouth Mirror', 0, 0, 1, 0, 1, 988.97, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 988.97, '2024-03-31'),
@@ -6223,7 +6242,19 @@ INSERT INTO `transaction_history` (`id`, `patient`, `firstname`, `middlename`, `
 (143, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:19:31'),
 (144, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:21:06'),
 (145, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:25:35'),
-(146, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:27:23');
+(146, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:27:23'),
+(147, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', 'Heart burn ', 'Headache ', '', '', '', ' A. ', '', '', 'BINANGONAN', '2024-03-23 23:08:47'),
+(148, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', 'Dizziness ', 'Headache ', '', '', '', ' A. ', 'Others:', '', 'BINANGONAN', '2024-03-23 23:17:23'),
+(149, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'Flu ', 'Headache ', '', '', '', ' A. ', '', '', 'BINANGONAN', '2024-03-23 23:46:47'),
+(150, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'Dysmenorrhea ', 'Headache ', '', '', '', 'DIOSA A. SALVADOR', '', '', 'BINANGONAN', '2024-03-23 23:49:08'),
+(151, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', '', NULL, NULL, '119/70', '18', '34.5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', ' ', ' ', '', '', '', 'DIOSA A. SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-23 23:51:05'),
+(152, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', '', NULL, NULL, '119/70', '18', '34.5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', ' ', ' ', '', '', '', 'DIOSA A. SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-23 23:52:51'),
+(153, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', '', NULL, NULL, '119/70', '18', '34.5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', ' ', ' ', '', '', '', 'DIOSA A. SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-24 00:03:08'),
+(154, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Checkup', 'Medical History', '147 cm', '55', '119/70', '18', '34.5', 'None', 'None', 'None', 'None', 'None', '', '', '2024-02-10', '', '', '', '', 'x', '', '', '', '', NULL, NULL, NULL, NULL, '', '', NULL, 'DIOSA A. SALVADOR', '', 'Checkup', 'BINANGONAN', '2024-03-24 00:05:49'),
+(155, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Checkup', 'Medical History', '147 cm', '55', '119/70', '18', '34.5', 'None', 'None', 'None', 'None', 'None', '', '', '2024-02-10', '', '', '', '', 'x', '', '', '', '', NULL, NULL, NULL, NULL, '', '', NULL, 'DIOSA A. SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-24 00:10:58'),
+(156, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'Fever ', 'Muscle Strain ', '', '', '', 'DIOSA A. SALVADOR', '', '', 'BINANGONAN', '2024-03-24 00:24:45'),
+(157, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'MALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Request for Medicine', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'Allergy ', ' ', '', '', '1 Amoxicillin 500 mg/cap', 'DIOSA A. SALVADOR', '', '', 'BINANGONAN', '2024-03-24 00:26:19'),
+(158, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Request for Medical Supply', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'Asthma ', ' ', '', '', ' ,  Pain Patch 10 s/pack', 'DIOSA A. SALVADOR', '', '', 'BINANGONAN', '2024-03-24 00:27:42');
 
 -- --------------------------------------------------------
 
@@ -6792,7 +6823,7 @@ ALTER TABLE `appointment_type`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1893;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1910;
 
 --
 -- AUTO_INCREMENT for table `campus`
@@ -6852,7 +6883,7 @@ ALTER TABLE `findiag`
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT for table `inventory_medicine`
@@ -6870,7 +6901,7 @@ ALTER TABLE `inventory_supply`
 -- AUTO_INCREMENT for table `inventory_te`
 --
 ALTER TABLE `inventory_te`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `inv_total`
@@ -6948,7 +6979,7 @@ ALTER TABLE `program`
 -- AUTO_INCREMENT for table `reports_medcase`
 --
 ALTER TABLE `reports_medcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=689;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=691;
 
 --
 -- AUTO_INCREMENT for table `report_medsupinv`
@@ -7014,7 +7045,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `transaction_history`
 --
 ALTER TABLE `transaction_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
 
 --
 -- AUTO_INCREMENT for table `transaction_request`

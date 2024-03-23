@@ -5,7 +5,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Transaction Record</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
             </div>
-            <form method="POST" action="reports/reports_vitals.php" id="form">
+            <form method="POST" action="reports/reports_vitals.php" id="form" target="_blank">
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="pr" class="form-label">Date and Time:</label>

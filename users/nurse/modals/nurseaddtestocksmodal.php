@@ -35,7 +35,7 @@
                             $result = mysqli_query($conn, $sql);
                             while ($row = mysqli_fetch_array($result)) {
                             ?>
-                                <option value="<?= $row['id']; ?>"><?= $row['te_status']?></option>
+                                <option value="<?= $row['te_status']; ?>"><?= $row['te_status']?></option>
                             <?php } ?>
                         </select>
                     </div>

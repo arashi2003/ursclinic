@@ -24,9 +24,9 @@
     $block = $_POST['block'];
 
     //logbook info
-    $type = $_POST['type'];
-    $transaction = $_POST['transaction'];
-    $purpose = $_POST['service'];
+    $type = "Walk-In";
+    $transaction = "Checkup";
+    $purpose = "Medical History";
     $bp = $_POST['bp'];
     $pr = $_POST['pr'];
     $temp = $_POST['temp'];
@@ -51,23 +51,25 @@
     $dento_facial = $_POST['dento_facial'];
     $remarks = $_POST['remarks'];
     $referral = $_POST['referral'];
-    $medcaseid = $_POST['medcase'];
-    $medcase_others = $_POST['medcase_others'];
-    $pod_nod = $fullname;
     $enddate = date("Y-m-t");
-    //kunin medcase as text
-    $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
+    $med_case = $_POST['medcase'];
+    $pod_nod = $fullname;
+    
+    $medcase = $_POST['medcase'];
+    $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
     $result = mysqli_query($conn, $sql);
     while($data=mysqli_fetch_array($result))
     {
         if($data['medcase'] != 'Others:')
-        {
+        { 
+            $medcase =  $_POST['medcase'];
             $medcase_type = $data['type'];
-            $medcase = $data['medcase'];
+            $medcase_others = $_POST['medcase_others'];
         }
         else
         {
             $medcase_type ="others";
+            $medcase_others = $_POST['medcase_others'];
             $medcase = $medcase_others;
         }
     }
@@ -77,21 +79,23 @@
     {
         // check if may existing na
         $enddate = date("Y-m-t");
-        $medcase_others = $_POST['medcase_others'];
 
         //kunin medcase as text
-        $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
+        $medcase = $_POST['medcase'];
+        $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
         $result = mysqli_query($conn, $sql);
         while($data=mysqli_fetch_array($result))
         {
             if($data['medcase'] != 'Others:')
-            {
+            { 
+                $medcase =  $_POST['medcase'];
                 $medcase_type = $data['type'];
-                $medcase = $data['medcase'];
+                $medcase_others = $_POST['medcase_others'];
             }
             else
             {
                 $medcase_type ="others";
+                $medcase_others = $_POST['medcase_others'];
                 $medcase = $medcase_others;
             }
         }
@@ -105,21 +109,23 @@
             $enddate = date("Y-m-t");
             $designation = strtoupper($_POST['designation']);
             $sex = strtoupper($_POST['sex']);
-            $medcase_others = $_POST['medcase_others'];
-    
-            //kunin medcase as text
-            $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
+
+            //kunin medcase type
+            $medcase = $_POST['medcase'];
+            $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
             $result = mysqli_query($conn, $sql);
             while($data=mysqli_fetch_array($result))
             {
                 if($data['medcase'] != 'Others:')
-                {
+                { 
+                    $medcase =  $_POST['medcase'];
                     $medcase_type = $data['type'];
-                    $medcase = $data['medcase'];
+                    $medcase_others = $_POST['medcase_others'];
                 }
                 else
                 {
                     $medcase_type ="others";
+                    $medcase_others = $_POST['medcase_others'];
                     $medcase = $medcase_others;
                 }
             }
@@ -296,21 +302,21 @@
                 }
             }
             $enddate = date("Y-m-t");
-            $medcase_others = $_POST['medcase_others'];
-
-            //kunin medcase as text
-            $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
+            $medcase = $_POST['medcase'];
+            $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
             $result = mysqli_query($conn, $sql);
             while($data=mysqli_fetch_array($result))
             {
                 if($data['medcase'] != 'Others:')
-                {
+                { 
+                    $medcase =  $_POST['medcase'];
                     $medcase_type = $data['type'];
-                    $medcase = $data['medcase'];
+                    $medcase_others = $_POST['medcase_others'];
                 }
                 else
                 {
                     $medcase_type ="others";
+                    $medcase_others = $_POST['medcase_others'];
                     $medcase = $medcase_others;
                 }
             }
