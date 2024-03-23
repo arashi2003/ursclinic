@@ -32,7 +32,7 @@ include('../../../includes/pagination-limit.php');
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">APPOINTMENT</span>
+                <span class="dashboard">NOTIFICATION</span>
             </div>
             <div class="right-nav">
                 <div class="notification-button">
