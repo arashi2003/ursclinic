@@ -6,8 +6,12 @@ include('connection.php');
 
 //$campus = $_SESSION['campus'];
 $today = date("Y-m-d");
-$endmonth = date("Y-m-t");
-$lastmonth = date("Y-m-t", strtotime("- 1 month"));
+//$endmonth = date("Y-m-t");
+//$lastmonth = date("Y-m-t", strtotime("- 1 month"));
+//$month = "January 2024";
+$month = "January 2024";
+$endmonth =  date("Y-m-t", strtotime($month));
+$lastmonth = date("Y-m-t", strtotime("$endmonth - 1 month"));
 
 //$campus = "ANGONO";
 //$campus = "ANTIPOLO";
@@ -46,24 +50,19 @@ if ($resultCheck > 0) {
                 $eamt = $data['eamt'];
                 $admin = 0;
 
-                $sql = "INSERT INTO report_medsupinv SET campus = '$campus', 
-                type = 'supply', admin = '$admin', medid = '$medid', 
-                medicine = '$medicine', 
-                bqty = '$bqty', buc = '$buc', 
-                eqty = '$eqty', 
-                eamt = '$eamt', date = '$endmonth'";
+                $sql = "INSERT INTO report_medsupinv SET campus = '$campus', type = 'supply', admin = '$admin', medid = '$medid', medicine = '$medicine', bqty = '$bqty', buc = '$buc', eqty = '$eqty', eamt = '$eamt', date = '$endmonth'";
                 //mysqli_query($conn, $sql);
                 if (mysqli_query($conn, $sql)) {
-                    echo ", nalagyan na ng entry <p>";
+                    echo ", nalagyan na ng entry ";
                 } else {
                     echo ", di nalagyan na ng entry <p>";
                 }
             }
         }
-        echo "na for this month <p>";
+        echo " for this month <p>";
     }
 } else {
-    echo "yow";
+    echo "yow sup <p>";
 }
 
 
@@ -76,51 +75,48 @@ if ($resultCheck > 0) {
     foreach ($result as $data) {
         $medid = $data['medid'];
         $medicine = $data['medicine'];
+        $admin = $data['admin'];
         echo "which is " . $medicine;
+
         $query = "SELECT * FROM report_medsupinv WHERE date = '$endmonth' AND medid = '$medid' AND type = 'medicine' AND campus='$campus'";
         $result = mysqli_query($conn, $query);
         $resultCheck = mysqli_num_rows($result);
         if ($resultCheck == 0) {
-            $query = "SELECT * FROM report_medsupinv WHERE date = '$lastmonth' AND medid = '$medid' AND type = 'medicine' AND campus='$campus'";
+            $query = "SELECT * FROM report_medsupinv WHERE date = '$lastmonth' AND medid = '$medid' AND type = 'medicine' AND eqty !=0 AND eamt !=0 AND campus='$campus'";
             $result = mysqli_query($conn, $query);
             while ($data = mysqli_fetch_array($result)) {
                 $bqty = $data['eqty'];
                 $buc = $data['eamt'] / $data['eqty'];
-                $eqty = $data['eqty'];
-                $eamt = $data['eamt'];
+                echo $eqty = $data['eqty'];
+                echo $eamt = $data['eamt'];
                 $admin = $data['admin'];
 
-                $query = "SELECT * FROM med_admin WHERE id='$admin'";
+                $query = "SELECT * FROM report_medsupinv WHERE date = '$endmonth' AND admin LIKE '%$admin%' AND type='med_admin' AND campus='$campus'";
                 $result = mysqli_query($conn, $query);
-                while ($data = mysqli_fetch_array($result)) {
-                    $medad = $data['med_admin'];
-
-                    $query = "SELECT * FROM report_medsupinv WHERE date = '$endmonth' AND admin = '$medad' AND campus='$campus'";
-                    $result = mysqli_query($conn, $query);
-                    $resultCheck = mysqli_num_rows($result);
-                    if ($resultCheck == 0) {
-                        $sql = "INSERT INTO report_medsupinv SET campus = '$campus', type = 'med_admin', admin = '$medad', medid = '$admin', medicine = '$medad', date = '$endmonth'";
+                $resultCheck = mysqli_num_rows($result);
+                if ($resultCheck == 0) {
+                    $sql = "INSERT INTO report_medsupinv SET campus = '$campus', type = 'med_admin', admin = '$admin', medicine = '$admin', date = '$endmonth'";
+                    //mysqli_query($conn, $sql);
+                    if (mysqli_query($conn, $sql)) {
+                        echo ", nalagyan na ng entry tong " . $admin;
+                    } else {
+                        echo ", di nalagyan na ng entry tong " . $admin;
                     }
                 }
 
-                $sql = "INSERT INTO report_medsupinv SET campus = '$campus', 
-                type = 'medicine', admin = '$admin', medid = '$medid', 
-                medicine = '$medicine', 
-                bqty = '$bqty', buc = '$buc', 
-                eqty = '$eqty', 
-                eamt = '$eamt', date = '$endmonth'";
+                $sql = "INSERT INTO report_medsupinv SET campus = '$campus', type = 'medicine', admin = '$admin', medid = '$medid', medicine = '$medicine', bqty = '$bqty', buc = '$buc', eqty = '$eqty', eamt = '$eamt', date = '$endmonth'";
                 //mysqli_query($conn, $sql);
                 if (mysqli_query($conn, $sql)) {
-                    echo ", nalagyan na ng entry <p>";
+                    echo ", nalagyan na ng entry ";
                 } else {
                     echo ", di nalagyan na ng entry <p>";
                 }
             }
         }
-        echo "na for this month <p>";
+        echo "for this month <p>";
     }
 } else {
-    echo "yow";
+    echo "yow med <p>";
 }
 
 //auto report teinv
@@ -154,19 +150,16 @@ if ($resultCheck > 0) {
                 $eamt = $data['eamt'];
                 $sql = "INSERT INTO report_teinv SET campus = '$campus' AND teid = '$teid', tools_equip = '$tools_equip', bnw = '$bnw', bum = '$bum', bgc = '$bgc', bd = '$bd', btqty = '$btqty', buc = '$buc', enw = '$enw', eum = '$eum', egc = '$egc', ed = '$ed', etqty = '$etqty', eamt = '$eamt', date = '$endmonth'";
                 //mysqli_query($conn, $sql);
-                if(mysqli_query($conn, $sql)){
-                    echo ", nalagyan na ng entry <p>";
-                }
-                else{
+                if (mysqli_query($conn, $sql)) {
+                    echo ", nalagyan na ng entry ";
+                } else {
                     echo ", di nalagyan na ng entry <p>";
                 }
             }
         }
-        echo "na for this month <p>";
+        echo "for this month <p>";
     }
-}
-else
-{
+} else {
     echo "yow";
 }
 

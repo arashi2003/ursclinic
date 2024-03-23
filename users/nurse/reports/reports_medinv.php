@@ -2,7 +2,7 @@
     session_start();
     require('../../../fpdf/fpdf.php');
     include('connection.php');
-    $accountid = $_SESSION['userid'];
+    $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     
     class PDF extends FPDF
@@ -111,7 +111,7 @@
     $pdf->SetAutoPageBreak(true, 15);
     $pdf->SetFont('Arial', '', 10);
     
-    $dt = date("Y-m-t");//$_POST['month'];
+    $dt = "January 2024";//$dt = date("Y-m-t");//$_POST['month'];
     $date = date("Y-m-t", strtotime($dt));
 
     //campus filter
@@ -183,7 +183,7 @@
 
     $line = "_____________________________";
 
-    $query = mysqli_query($conn, "SELECT * FROM organization WHERE campus='$campus' AND title='Campus Nurse' AND adminid ='$accountid'");
+    $query = mysqli_query($conn, "SELECT * FROM organization WHERE campus='$campus' AND title='Campus Nurse' AND adminid ='$user'");
     if(mysqli_num_rows($query) > 0)
     {
         while($data=mysqli_fetch_array($query))

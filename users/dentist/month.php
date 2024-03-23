@@ -1,8 +1,115 @@
 <?php
+session_start();
+include('connection.php');
+$month = "January 2024";
+$endmonth =  date("Y-m-t", strtotime($month));
+$lastmonth = date("Y-m-t", strtotime("$endmonth - 1 month"));
+
+//$campus = "ANGONO";
+//$campus = "ANTIPOLO";
+//$campus = "CAINTA";
+//$campus = "CARDONA";
+$campus = "BINANGONAN";
+//$campus = "MORONG";
+//$campus = "PILILLA";
+//$campus = "RODRIGUEZ";
+//$campus = "TANAY";
+//$campus = "TAYTAY";
+
+//auto report med in medsupinv
+$query = "SELECT * FROM report_medsupinv WHERE date = '$lastmonth' AND eqty > 0 AND type = 'medicine' AND campus='$campus'";
+$result = mysqli_query($conn, $query);
+$resultCheck = mysqli_num_rows($result);
+if ($resultCheck > 0) {
+    foreach ($result as $data) {
+        echo "meron ";
+        $medid = $data['medid'];
+        $admin = $data['admin'];
+        $medicine = $data['medicine'];
+
+        $query = "SELECT * FROM report_medsupinv WHERE date = '$endmonth' AND admin LIKE '%$admin%' AND type='med_admin' AND campus='$campus'";
+        $result = mysqli_query($conn, $query);
+        $resultCheck = mysqli_num_rows($result);
+        if ($resultCheck == 0) {
+            $sql = "INSERT INTO report_medsupinv SET campus = '$campus', type = 'med_admin', admin = '$admin', medicine = '$admin', date = '$endmonth'";
+            //mysqli_query($conn, $sql);
+            if (mysqli_query($conn, $sql)) {
+                echo ", nalagyan na ng entry tong " . $admin;
+            } else {
+                echo ", di nalagyan na ng entry tong " . $admin;
+            }
+        }
+    }
+} else {
+    echo "yow med <p>";
+}
+
+/*
+
+//auto report med in medsupinv
+$query = "SELECT * FROM report_medsupinv WHERE date = '$lastmonth' AND eqty > 0 AND type = 'medicine' AND campus='$campus'";
+$result = mysqli_query($conn, $query);
+$resultCheck = mysqli_num_rows($result);
+if ($resultCheck > 0) {
+    echo "meron ";
+    foreach ($result as $data) {
+        $medid = $data['medid'];
+        $medicine = $data['medicine'];
+        echo "which is " . $medicine;
+        $query = "SELECT * FROM report_medsupinv WHERE date = '$endmonth' AND medid = '$medid' AND type = 'medicine' AND campus='$campus'";
+        $result = mysqli_query($conn, $query);
+        $resultCheck = mysqli_num_rows($result);
+        if ($resultCheck == 0) {
+            $query = "SELECT * FROM report_medsupinv WHERE date = '$lastmonth' AND medid = '$medid' AND type = 'medicine' AND campus='$campus'";
+            $result = mysqli_query($conn, $query);
+            while ($data = mysqli_fetch_array($result)) {
+                $bqty = $data['eqty'];
+                $buc = $data['eamt'] / $data['eqty'];
+                $eqty = $data['eqty'];
+                $eamt = $data['eamt'];
+                $admin = $data['admin'];
+
+                $query = "SELECT * FROM med_admin WHERE id='$admin'";
+                $result = mysqli_query($conn, $query);
+                while ($data = mysqli_fetch_array($result)) {
+                    $medad = $data['med_admin'];
+
+                    $query = "SELECT * FROM report_medsupinv WHERE date = '$endmonth' AND admin = '$medad' AND campus='$campus'";
+                    $result = mysqli_query($conn, $query);
+                    $resultCheck = mysqli_num_rows($result);
+                    if ($resultCheck == 0) {
+                        $sql = "INSERT INTO report_medsupinv SET campus = '$campus', type = 'med_admin', admin = '$medad', medid = '$admin', medicine = '$medad', date = '$endmonth'";
+                    }
+                }
+
+                $sql = "INSERT INTO report_medsupinv SET campus = '$campus', 
+                type = 'medicine', admin = '$admin', medid = '$medid', 
+                medicine = '$medicine', 
+                bqty = '$bqty', buc = '$buc', 
+                eqty = '$eqty', 
+                eamt = '$eamt', date = '$endmonth'";
+                //mysqli_query($conn, $sql);
+                if (mysqli_query($conn, $sql)) {
+                    echo ", nalagyan na ng entry ";
+                } else {
+                    echo ", di nalagyan na ng entry <p>";
+                }
+            }
+        }
+        echo "for this month <p>";
+    }
+} else {
+    echo "yow med <p>";
+}
+
+
 //$o = $_POST['opened'];
 //$c = $_POST['close'];
 
-
+/*
+$endmonth =  "January 2024";
+echo $lastmonth = date("Y-m-t", strtotime("$endmonth - 1 month"));
+/*
 echo $_POST['supply'] . " supply<p>";
 $o = implode($_POST['opened']);
 $c = implode($_POST['close']);
@@ -69,4 +176,3 @@ echo $o + $c .  " addition<p>";
 echo $o * $c .  " multiplication<p>";
 
 echo $exp . "<p>";*/
-?>
