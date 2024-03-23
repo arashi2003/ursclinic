@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 23, 2024 at 08:44 AM
+-- Generation Time: Mar 23, 2024 at 02:48 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -2364,7 +2364,6 @@ INSERT INTO `audit_trail` (`id`, `user`, `fullname`, `campus`, `activity`, `stat
 (1476, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'dismissed a request of B2021-0542', 'unread', '2024-03-22 09:32:07'),
 (1477, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'dismissed a request of B2021-0542', 'unread', '2024-03-22 09:32:07'),
 (1478, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'dismissed a request of B2021-0569', 'unread', '2024-03-22 09:32:07'),
-(1792, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-22 10:04:37'),
 (1793, 'URSN-001', 'DIOSA A. SALVADOR', '', 'updated a medicine entry', 'unread', '2024-03-22 12:37:49'),
 (1794, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added medicine id 24 stocks in medicine inventory', 'unread', '2024-03-22 12:43:23'),
 (1795, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added medicine id 26 stocks in medicine inventory', 'unread', '2024-03-22 12:44:56'),
@@ -2427,9 +2426,9 @@ INSERT INTO `audit_trail` (`id`, `user`, `fullname`, `campus`, `activity`, `stat
 (1852, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added supply id 21 stocks in medical supply inventory', 'unread', '2024-03-22 19:40:06'),
 (1853, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added supply id 11 stocks in medical supply inventory', 'unread', '2024-03-22 19:41:17'),
 (1855, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added tool/equipment ID 7 inventory stocks', 'unread', '2024-03-22 19:49:33'),
-(1856, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added tool/equipment ID 7 inventory stocks', 'unread', '2024-03-22 19:49:47');
+(1856, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added tool/equipment ID 7 inventory stocks', 'unread', '2024-03-22 19:49:47'),
+(1857, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added tool/equipment ID 7 inventory stocks', 'unread', '2024-03-22 19:50:02');
 INSERT INTO `audit_trail` (`id`, `user`, `fullname`, `campus`, `activity`, `status`, `datetime`) VALUES
-(1857, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added tool/equipment ID 7 inventory stocks', 'unread', '2024-03-22 19:50:02'),
 (1858, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added tool/equipment ID 11 inventory stocks', 'unread', '2024-03-22 19:51:04'),
 (1859, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added tool/equipment ID 5 inventory stocks', 'unread', '2024-03-22 19:51:34'),
 (1860, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added tool/equipment ID 8 inventory stocks', 'unread', '2024-03-22 19:51:58'),
@@ -2452,7 +2451,17 @@ INSERT INTO `audit_trail` (`id`, `user`, `fullname`, `campus`, `activity`, `stat
 (1877, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added medicine id 14 stocks in medicine inventory', 'unread', '2024-03-23 15:07:57'),
 (1878, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added medicine id 36 stocks in medicine inventory', 'unread', '2024-03-23 15:34:32'),
 (1879, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added medicine id 44 stocks in medicine inventory', 'unread', '2024-03-23 15:36:00'),
-(1880, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added medicine id 43 stocks in medicine inventory', 'unread', '2024-03-23 15:36:28');
+(1880, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added medicine id 43 stocks in medicine inventory', 'unread', '2024-03-23 15:36:28'),
+(1881, 'URS-999', 'ALLEN J. CALEJO', 'BINANGONAN', 'Logged In', 'unread', '2024-03-23 16:48:48'),
+(1882, 'URS-999', 'ALLEN J. CALEJO', 'BINANGONAN', 'added a program', 'unread', '2024-03-23 16:50:05'),
+(1883, 'URSN-001', 'DIOSA A SALVADOR', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-23 17:56:25'),
+(1884, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'Logged In', 'unread', '2024-03-23 17:56:40'),
+(1885, 'URSN-011', ' SG. ', 'MORONG', 'Logged In', 'unread', '2024-03-23 18:25:47'),
+(1886, 'URS-0229', 'OWEN KAREENA REYES', 'ANGONO', 'Logged Out', 'unread', '2024-03-23 18:45:34'),
+(1887, 'URSN-001', ' A. ', 'BINANGONAN', 'Logged In', 'unread', '2024-03-23 18:45:45'),
+(1888, 'URSN-001', ' A. ', 'BINANGONAN', 'added medicine id 1 stocks in medicine inventory', 'unread', '2024-03-23 19:09:19'),
+(1889, 'URSN-001', ' A. ', 'BINANGONAN', 'added medicine id 24 stocks in medicine inventory', 'unread', '2024-03-23 19:09:42'),
+(1892, 'URSN-001', ' A. ', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-23 19:16:03');
 
 -- --------------------------------------------------------
 
@@ -3019,7 +3028,9 @@ INSERT INTO `inventory` (`id`, `campus`, `batchid`, `stock_type`, `stockid`, `op
 (84, 'BINANGONAN', 'B20240323', 'medicine', 14, 0, 12, 12, 2, '2025-10-31', NULL, '2024-03-23', '15:07:57'),
 (85, 'BINANGONAN', 'B20240323', 'medicine', 36, 0, 5, 5, 450, '2026-09-30', NULL, '2024-03-23', '15:34:32'),
 (86, 'BINANGONAN', 'B20240323', 'medicine', 44, 0, 5, 5, 655.99, '2026-09-30', NULL, '2024-03-23', '15:36:00'),
-(87, 'BINANGONAN', 'B20240323', 'medicine', 43, 0, 2, 2, 320.35, '2026-08-31', NULL, '2024-03-23', '15:36:28');
+(87, 'BINANGONAN', 'B20240323', 'medicine', 43, 0, 2, 2, 320.35, '2026-08-31', NULL, '2024-03-23', '15:36:28'),
+(88, 'BINANGONAN', 'B20240323', 'medicine', 1, 0, 2, 2, 2, '2024-02-29', NULL, '2024-03-23', '19:09:19'),
+(89, 'BINANGONAN', 'B20240323', 'medicine', 24, 0, 4, 4, 2, '2024-02-29', NULL, '2024-03-23', '19:09:42');
 
 -- --------------------------------------------------------
 
@@ -3083,7 +3094,9 @@ INSERT INTO `inventory_medicine` (`id`, `campus`, `medid`, `closed`, `open`, `qt
 (45, 'BINANGONAN', 14, 12, 0, 12, 2, '2025-10-31', '2024-03-23', '15:07:57'),
 (46, 'BINANGONAN', 36, 5, 0, 5, 450, '2026-09-30', '2024-03-23', '15:34:32'),
 (47, 'BINANGONAN', 44, 5, 0, 5, 655.99, '2026-09-30', '2024-03-23', '15:36:00'),
-(48, 'BINANGONAN', 43, 2, 0, 2, 320.35, '2026-08-31', '2024-03-23', '15:36:28');
+(48, 'BINANGONAN', 43, 2, 0, 2, 320.35, '2026-08-31', '2024-03-23', '15:36:28'),
+(49, 'BINANGONAN', 1, 2, 0, 2, 2, '2024-02-29', '2024-03-23', '19:09:19'),
+(50, 'BINANGONAN', 24, 4, 0, 4, 2, '2024-02-29', '2024-03-23', '19:09:41');
 
 -- --------------------------------------------------------
 
@@ -3192,7 +3205,7 @@ CREATE TABLE `inv_total` (
 --
 
 INSERT INTO `inv_total` (`id`, `campus`, `type`, `stockid`, `stock_name`, `open`, `closed`, `qty`, `unit_cost`, `datetime`) VALUES
-(1, 'BINANGONAN', 'medicine', '24', 'BUCCAL 10mg/cap', 0, 10, 10, 13.25, '2024-03-22 12:43:23'),
+(1, 'BINANGONAN', 'medicine', '24', 'BUCCAL 10mg/cap', 0, 14, 14, 10.0357, '2024-03-23 19:09:41'),
 (2, 'BINANGONAN', 'medicine', '26', 'BUCCAL 20ml', 0, 30, 30, 30.75, '2024-03-22 12:44:56'),
 (3, 'BINANGONAN', 'medicine', '27', 'BUCCAL 250mg/tab', 0, 25, 25, 31.45, '2024-03-22 12:45:30'),
 (4, 'BINANGONAN', 'medicine', '28', 'INFUSED 1L', 0, 5, 5, 750, '2024-03-22 12:48:15'),
@@ -3204,7 +3217,7 @@ INSERT INTO `inv_total` (`id`, `campus`, `type`, `stockid`, `stock_name`, `open`
 (10, 'BINANGONAN', 'medicine', '34', 'NASAL 30ml', 0, 5, 5, 30, '2024-03-22 14:39:57'),
 (16, 'BINANGONAN', 'medicine', '38', 'OPHTHALMIC 5ml/bot', 0, 3, 3, 135.45, '2024-03-22 16:07:45'),
 (17, 'BINANGONAN', 'medicine', '39', 'OPHTHALMIC 2.5ml/bot', 0, 5, 5, 120, '2024-03-22 16:15:19'),
-(18, 'BINANGONAN', 'medicine', '1', 'Ambroxol 30mg/tab', 0, 48, 48, 55, '2024-03-23 14:48:08'),
+(18, 'BINANGONAN', 'medicine', '1', 'Ambroxol 30mg/tab', 0, 50, 50, 52.88, '2024-03-23 19:09:19'),
 (19, 'BINANGONAN', 'medicine', '2', 'Amoxicillin 500mg/cap', 0, 56, 56, 1.28, '2024-03-22 16:19:18'),
 (20, 'BINANGONAN', 'medicine', '3', 'Paracetamol 500mg/caplet', 0, 58, 58, 2, '2024-03-22 16:21:04'),
 (21, 'BINANGONAN', 'medicine', '4', 'Clonidine HCL 75mcg/tab', 0, 31, 31, 4.95, '2024-03-22 16:21:53'),
@@ -3226,7 +3239,7 @@ INSERT INTO `inv_total` (`id`, `campus`, `type`, `stockid`, `stock_name`, `open`
 (44, 'BINANGONAN', 'medicine', '40', 'OTIC 2ml', 1, 2, 3, 159, '2024-03-22 18:23:18'),
 (45, 'BINANGONAN', 'medicine', '42', 'OTIC 10ml', 0, 3, 3, 235.45, '2024-03-22 18:25:16'),
 (46, 'BINANGONAN', 'medicine', '45', 'TOPICAL 50tube', 1, 3, 4, 175, '2024-03-22 18:26:20'),
-(47, 'BINANGONAN', 'supply', '1', 'Anti-Septic Plastic Strips 100strips/box', 1, 3, 4, 55, '2024-03-23 14:48:08'),
+(47, 'BINANGONAN', 'supply', '1', 'Anti-Septic Plastic Strips 100strips/box', 1, 5, 6, 52.88, '2024-03-23 19:09:19'),
 (48, 'BINANGONAN', 'supply', '8', 'BSI Medicated Spray 75ml', 1, 3, 4, 1350, '2024-03-22 19:22:06'),
 (49, 'BINANGONAN', 'supply', '37', 'Cotton Balls ', 1, 4, 5, 78.75, '2024-03-22 19:22:30'),
 (50, 'BINANGONAN', 'supply', '18', 'Disposable Towel pcs', 1, 0, 1, 270, '2024-03-22 19:23:29'),
@@ -4721,7 +4734,8 @@ INSERT INTO `program` (`id`, `department`, `college`, `abbrev`, `program`) VALUE
 (98, 'COLLEGE', 'INDUSTRIAL TECHNOLOGY', 'BTHVAC', 'BACHELOR OF TECHNOLOGY MAJOR IN HEATING, VENTILATION, AND AIR CONDITIONING'),
 (99, 'COLLEGE', 'NURSING', 'BSN+DD85:D100', 'BACHELOR OF SCIENCE IN NURSING'),
 (100, 'SENIOR HIGH SCHOOL', '', 'STEM', 'SCIENCE, TECHNOLOGY, ENGINEERING, AND MATHEMATICS'),
-(101, 'SENIOR HIGH SCHOOL', '', 'HUMSS', 'HUMANITIES AND SOCIAL SCIENCES');
+(101, 'SENIOR HIGH SCHOOL', '', 'HUMSS', 'HUMANITIES AND SOCIAL SCIENCES'),
+(102, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', 'BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY');
 
 -- --------------------------------------------------------
 
@@ -5602,7 +5616,7 @@ INSERT INTO `report_medsupinv` (`id`, `campus`, `type`, `admin`, `medid`, `medic
 (185, 'BINANGONAN', 'supply', '0', '5', 'Isophrophyl Alcohol Spray 500ml', 5, 135, 0, 0, 0, 0, 5, 675, '2024-03-31'),
 (186, 'BINANGONAN', 'supply', '0', '21', 'Latex Gloves  100pcs/box', 4, 255, 0, 0, 0, 0, 4, 1020, '2024-03-31'),
 (187, 'BINANGONAN', 'supply', '0', '11', 'Pain Patch 10s/pack', 7, 67.65, 0, 0, 0, 0, 7, 473.55, '2024-03-31'),
-(188, 'BINANGONAN', 'medicine', 'BUCCAL', '24', 'BUCCAL 10mg/cap', 10, 13.25, 0, 0, 0, 0, 10, 132.5, '2024-03-31'),
+(188, 'BINANGONAN', 'medicine', 'BUCCAL', '24', 'BUCCAL 10mg/cap', 10, 10.04, 4, 4, 0, 0, 14, 140.5, '2024-03-31'),
 (189, 'BINANGONAN', 'medicine', 'BUCCAL', '26', 'BUCCAL 20ml', 30, 30.75, 0, 0, 0, 0, 30, 922.5, '2024-03-31'),
 (190, 'BINANGONAN', 'medicine', 'BUCCAL', '27', 'BUCCAL 250mg/tab', 25, 31.45, 0, 0, 0, 0, 25, 786.25, '2024-03-31'),
 (191, 'BINANGONAN', 'medicine', 'INFUSED', '28', 'INFUSED 1L', 5, 750, 0, 0, 0, 0, 5, 3750, '2024-03-31'),
@@ -5614,7 +5628,7 @@ INSERT INTO `report_medsupinv` (`id`, `campus`, `type`, `admin`, `medid`, `medic
 (197, 'BINANGONAN', 'medicine', 'NASAL', '34', 'NASAL 30ml', 5, 30, 0, 0, 0, 0, 5, 150, '2024-03-31'),
 (198, 'BINANGONAN', 'medicine', 'OPHTHALMIC', '38', 'OPHTHALMIC 5ml/bot', 3, 135.45, 0, 0, 0, 0, 3, 406.35, '2024-03-31'),
 (199, 'BINANGONAN', 'medicine', 'OPHTHALMIC', '39', 'OPHTHALMIC 2.5ml/bot', 5, 120, 0, 0, 0, 0, 5, 600, '2024-03-31'),
-(200, 'BINANGONAN', 'medicine', 'ORAL', '1', 'Ambroxol 30mg/tab', 47, 2, 0, 0, 0, 0, 47, 94, '2024-03-31'),
+(200, 'BINANGONAN', 'medicine', 'ORAL', '1', 'Ambroxol 30mg/tab', 47, 2, 2, 2, 0, 0, 49, 2591.12, '2024-03-31'),
 (201, 'BINANGONAN', 'medicine', 'ORAL', '2', 'Amoxicillin 500mg/cap', 56, 1.28, 0, 0, 0, 0, 56, 71.68, '2024-03-31'),
 (202, 'BINANGONAN', 'medicine', 'ORAL', '3', 'Paracetamol 500mg/caplet', 58, 2, 0, 0, 0, 0, 58, 116, '2024-03-31'),
 (203, 'BINANGONAN', 'medicine', 'ORAL', '4', 'Clonidine HCL 75mcg/tab', 31, 4.95, 0, 0, 0, 0, 31, 153.45, '2024-03-31'),
@@ -6778,7 +6792,7 @@ ALTER TABLE `appointment_type`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1881;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1893;
 
 --
 -- AUTO_INCREMENT for table `campus`
@@ -6838,13 +6852,13 @@ ALTER TABLE `findiag`
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `inventory_medicine`
 --
 ALTER TABLE `inventory_medicine`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `inventory_supply`
@@ -6928,7 +6942,7 @@ ALTER TABLE `patient_info`
 -- AUTO_INCREMENT for table `program`
 --
 ALTER TABLE `program`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT for table `reports_medcase`

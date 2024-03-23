@@ -12,7 +12,13 @@
     $adminid = $_POST['admin'];
     $batchid = "B" . date("Ymd");
     $medid = $_POST['medicine'];
-    $o = implode($_POST['opened']);
+    if(!empty($_POST['opened']))
+    {
+        $o = implode($_POST['opened']);
+    }
+    else{
+        $o = "";
+    }
     $c = implode($_POST['close']);
     $qty = floatval($o) + floatval($c);
     $cost = $_POST['unit_cost'];
@@ -75,7 +81,13 @@
                         $adminid = $_POST['admin'];
                         $batchid = "B" . date("Ymd");
                         $medid = $_POST['medicine'];
-                        $o = implode($_POST['opened']);
+                        if(!empty($_POST['opened']))
+                        {
+                            $o = implode($_POST['opened']);
+                        }
+                        else{
+                            $o = "";
+                        }
                         $c = implode($_POST['close']);
                         $qty = floatval($o) + floatval($c);
                         $cost = $_POST['unit_cost'];
@@ -107,7 +119,13 @@
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
                             $medid = $_POST['medicine'];
-                            $o = implode($_POST['opened']);
+                            if(!empty($_POST['opened']))
+                            {
+                                $o = implode($_POST['opened']);
+                            }
+                            else{
+                                $o = "";
+                            }
                             $c = implode($_POST['close']);
                             $qty = floatval($o) + floatval($c);
                             $cost = $_POST['unit_cost'];
@@ -119,7 +137,13 @@
                             // kunin values from row
                             foreach($result as $data)
                             {
-                                $o = implode($_POST['opened']);
+                                if(!empty($_POST['opened']))
+                                {
+                                    $o = implode($_POST['opened']);
+                                }
+                                else{
+                                    $o = "";
+                                }
                                 $c = implode($_POST['close']);
                                 $qty = floatval($o) + floatval($c);
                                 $aobqty = $data['bqty'];
@@ -213,7 +237,13 @@
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
                             $medid = $_POST['medicine'];
-                            $o = implode($_POST['opened']);
+                            if(!empty($_POST['opened']))
+                            {
+                                $o = implode($_POST['opened']);
+                            }
+                            else{
+                                $o = "";
+                            }
                             $c = implode($_POST['close']);
                             $qty = floatval($o) + floatval($c);
                             $cost = $_POST['unit_cost'];
@@ -229,7 +259,13 @@
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
                                 $medid = $_POST['medicine'];
-                                $o = implode($_POST['opened']);
+                                if(!empty($_POST['opened']))
+                                {
+                                    $o = implode($_POST['opened']);
+                                }
+                                else{
+                                    $o = "";
+                                }
                                 $c = implode($_POST['close']);
                                 $qty = floatval($o) + floatval($c);
                                 $cost = $_POST['unit_cost'];
@@ -307,7 +343,13 @@
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
                                 $medid = $_POST['medicine'];
-                                $o = implode($_POST['opened']);
+                                if(!empty($_POST['opened']))
+                                {
+                                    $o = implode($_POST['opened']);
+                                }
+                                else{
+                                    $o = "";
+                                }
                                 $c = implode($_POST['close']);
                                 $qty = floatval($o) + floatval($c);
                                 $cost = $_POST['unit_cost'];
@@ -385,7 +427,13 @@
                         $adminid = $_POST['admin'];
                         $batchid = "B" . date("Ymd");
                         $medid = $_POST['medicine'];
-                        $o = implode($_POST['opened']);
+                        if(!empty($_POST['opened']))
+                        {
+                            $o = implode($_POST['opened']);
+                        }
+                        else{
+                            $o = "";
+                        }
                         $c = implode($_POST['close']);
                         $qty = floatval($o) + floatval($c);
                         $cost = $_POST['unit_cost'];
@@ -404,7 +452,13 @@
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
                             $medid = $_POST['medicine'];
-                            $o = implode($_POST['opened']);
+                            if(!empty($_POST['opened']))
+                            {
+                                $o = implode($_POST['opened']);
+                            }
+                            else{
+                                $o = "";
+                            }
                             $c = implode($_POST['close']);
                             $qty = floatval($o) + floatval($c);
                             $cost = $_POST['unit_cost'];
@@ -484,7 +538,13 @@
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
                                 $medid = $_POST['medicine'];
-                                $o = implode($_POST['opened']);
+                                if(!empty($_POST['opened']))
+                                {
+                                    $o = implode($_POST['opened']);
+                                }
+                                else{
+                                    $o = "";
+                                }
                                 $c = implode($_POST['close']);
                                 $qty = floatval($o) + floatval($c);
                                 $cost = $_POST['unit_cost'];
@@ -546,7 +606,13 @@
                                     $adminid = $_POST['admin'];
                                     $batchid = "B" . date("Ymd");
                                     $medid = $_POST['medicine'];
-                                    $o = implode($_POST['opened']);
+                                    if(!empty($_POST['opened']))
+                                    {
+                                        $o = implode($_POST['opened']);
+                                    }
+                                    else{
+                                        $o = "";
+                                    }
                                     $c = implode($_POST['close']);
                                     $qty = floatval($o) + floatval($c);
                                     $cost = $_POST['unit_cost'];
@@ -626,7 +692,13 @@
                                     $adminid = $_POST['admin'];
                                     $batchid = "B" . date("Ymd");
                                     $medid = $_POST['medicine'];
-                                    $o = implode($_POST['opened']);
+                                    if(!empty($_POST['opened']))
+                                    {
+                                        $o = implode($_POST['opened']);
+                                    }
+                                    else{
+                                        $o = "";
+                                    }
                                     $c = implode($_POST['close']);
                                     $qty = floatval($o) + floatval($c);
                                     $cost = $_POST['unit_cost'];
@@ -745,7 +817,13 @@
                         $adminid = $_POST['admin'];
                         $batchid = "B" . date("Ymd");
                         $medid = $_POST['medicine'];
-                        $o = implode($_POST['opened']);
+                        if(!empty($_POST['opened']))
+                        {
+                            $o = implode($_POST['opened']);
+                        }
+                        else{
+                            $o = "";
+                        }
                         $c = implode($_POST['close']);
                         $qty = floatval($o) + floatval($c);
                         $cost = $_POST['unit_cost'];
@@ -777,8 +855,13 @@
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
                             $medid = $_POST['medicine'];
-                            
-                            $o = implode($_POST['opened']);
+                            if(!empty($_POST['opened']))
+                            {
+                                $o = implode($_POST['opened']);
+                            }
+                            else{
+                                $o = "";
+                            }
                             $c = implode($_POST['close']);
                             $cost = $_POST['unit_cost'];
                             $exp = $_POST['expiration'];
@@ -789,7 +872,13 @@
                             // kunin values from row
                             foreach($result as $data)
                             {
-                                $o = implode($_POST['opened']);
+                                if(!empty($_POST['opened']))
+                                {
+                                    $o = implode($_POST['opened']);
+                                }
+                                else{
+                                    $o = "";
+                                }
                                 $c = implode($_POST['close']);
                                 $qty = floatval($o) + floatval($c);
                                 $aobqty = $data['bqty'];
@@ -883,7 +972,13 @@
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
                             $medid = $_POST['medicine'];
-                            $o = implode($_POST['opened']);
+                            if(!empty($_POST['opened']))
+                            {
+                                $o = implode($_POST['opened']);
+                            }
+                            else{
+                                $o = "";
+                            }
                             $c = implode($_POST['close']);
                             $qty = floatval($o) + floatval($c);
                             $cost = $_POST['unit_cost'];
@@ -899,7 +994,13 @@
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
                                 $medid = $_POST['medicine'];
-                                $o = implode($_POST['opened']);
+                                if(!empty($_POST['opened']))
+                                {
+                                    $o = implode($_POST['opened']);
+                                }
+                                else{
+                                    $o = "";
+                                }
                                 $c = implode($_POST['close']);
                                 $qty = floatval($o) + floatval($c);
                                 $cost = $_POST['unit_cost'];
@@ -977,7 +1078,13 @@
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
                                 $medid = $_POST['medicine'];
-                                $o = implode($_POST['opened']);
+                                if(!empty($_POST['opened']))
+                                {
+                                    $o = implode($_POST['opened']);
+                                }
+                                else{
+                                    $o = "";
+                                }
                                 $c = implode($_POST['close']);
                                 $qty = floatval($o) + floatval($c);
                                 $cost = $_POST['unit_cost'];
@@ -1055,7 +1162,13 @@
                         $adminid = $_POST['admin'];
                         $batchid = "B" . date("Ymd");
                         $medid = $_POST['medicine'];
-                        $o = implode($_POST['opened']);
+                        if(!empty($_POST['opened']))
+                        {
+                            $o = implode($_POST['opened']);
+                        }
+                        else{
+                            $o = "";
+                        }
                         $c = implode($_POST['close']);
                         $qty = floatval($o) + floatval($c);
                         $cost = $_POST['unit_cost'];
@@ -1074,7 +1187,13 @@
                             $adminid = $_POST['admin'];
                             $batchid = "B" . date("Ymd");
                             $medid = $_POST['medicine'];
-                            $o = implode($_POST['opened']);
+                            if(!empty($_POST['opened']))
+                            {
+                                $o = implode($_POST['opened']);
+                            }
+                            else{
+                                $o = "";
+                            }
                             $c = implode($_POST['close']);
                             $qty = floatval($o) + floatval($c);
                             $cost = $_POST['unit_cost'];
@@ -1154,7 +1273,13 @@
                                 $adminid = $_POST['admin'];
                                 $batchid = "B" . date("Ymd");
                                 $medid = $_POST['medicine'];
-                                $o = implode($_POST['opened']);
+                                if(!empty($_POST['opened']))
+                                {
+                                    $o = implode($_POST['opened']);
+                                }
+                                else{
+                                    $o = "";
+                                }
                                 $c = implode($_POST['close']);
                                 $qty = floatval($o) + floatval($c);
                                 $cost = $_POST['unit_cost'];
@@ -1216,7 +1341,13 @@
                                     $adminid = $_POST['admin'];
                                     $batchid = "B" . date("Ymd");
                                     $medid = $_POST['medicine'];
-                                    $o = implode($_POST['opened']);
+                                    if(!empty($_POST['opened']))
+                                    {
+                                        $o = implode($_POST['opened']);
+                                    }
+                                    else{
+                                        $o = "";
+                                    }
                                     $c = implode($_POST['close']);
                                     $qty = floatval($o) + floatval($c);
                                     $cost = $_POST['unit_cost'];
@@ -1296,7 +1427,13 @@
                                     $adminid = $_POST['admin'];
                                     $batchid = "B" . date("Ymd");
                                     $medid = $_POST['medicine'];
-                                    $o = implode($_POST['opened']);
+                                    if(!empty($_POST['opened']))
+                                    {
+                                        $o = implode($_POST['opened']);
+                                    }
+                                    else{
+                                        $o = "";
+                                    }
                                     $c = implode($_POST['close']);
                                     $qty = floatval($o) + floatval($c);
                                     $cost = $_POST['unit_cost'];
