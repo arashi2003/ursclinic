@@ -96,7 +96,7 @@
                     <li><a class="link_name" href="#">Reports</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'app' or $module == 'apptype_set' or $module == 'apppurpose_set' or $module == 'appcc_set' or $module == 'medrec' or $module == 'chiefcomplaint' or $module == 'findings' or $module == 'medcase' or $module == 'designation' or $module == 'inv' or $module == 'medadmin_set' or $module == 'dform_set' or $module == 'umeasure_set') {
+            <li class="<?php if ($module == 'app' or $module == 'apptype_set' or $module == 'apppurpose_set' or $module == 'appcc_set' or $module == 'appphysician_set' or $module == 'medrec' or $module == 'chiefcomplaint' or $module == 'findings' or $module == 'medcase' or $module == 'designation' or $module == 'inv' or $module == 'medadmin_set' or $module == 'dform_set' or $module == 'umeasure_set') {
                             echo 'active showMenu';
                         } ?>">
                 <div class="icon-link">
@@ -109,17 +109,17 @@
                 <ul class="sub-menu">
                     <li>
                         <a class="<?php if ($module == 'app' or $module == 'apptype_set' or $module == 'apppurpose_set' or $module == 'appcc_set' or $module == 'appphysician_set') {
-                                        echo 'active showMenu';
-                                    } ?>" href="app">Appointment</a>
+                                        echo 'active';
+                                    } ?>" href="apptype_set">Appointment</a>
                     </li>
                     <li>
                         <a class="<?php if ($module == 'medrec' or $module == 'chiefcomplaint' or $module == 'findings' or $module == 'medcase' or $module == 'designation') {
-                                        echo 'active showMenu';
+                                        echo 'active';
                                     } ?>" href="medrec">Medical Records</a>
                     </li>
                     <li>
                         <a class="<?php if ($module == 'inv' or $module == 'medadmin_set' or $module == 'dform_set' or $module == 'umeasure_set') {
-                                        echo 'active showMenu';
+                                        echo 'active';
                                     } ?>" href="inv">Inventory</a>
                     </li>
                 </ul>

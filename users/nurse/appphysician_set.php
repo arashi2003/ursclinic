@@ -168,7 +168,6 @@ include('../../includes/pagination-limit.php');
                                                 }
                                             }
                                             ?>
-                                            <?php include('../../includes/pagination.php'); ?>
                                         <?php
                                         } else {
                                         ?>
@@ -185,6 +184,7 @@ include('../../includes/pagination-limit.php');
                                         ?>
                                     </tbody>
                                 </table>
+                                <?php include('../../includes/pagination.php'); ?>
                             </div>
                         </div>
                     </div>

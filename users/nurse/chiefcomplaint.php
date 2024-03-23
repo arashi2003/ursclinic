@@ -111,31 +111,28 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <?php
-                                if (isset($_GET['cc']) && $_GET['cc'] != '') {
-                                    $cc = $_GET['cc'];
-                                    $count = 1;
-                                    $sql = "SELECT * FROM chief_complaint WHERE chief_complaint LIKE '%$cc%' ORDER BY chief_complaint LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT * FROM chief_complaint ORDER BY chief_complaint LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if (mysqli_num_rows($result) > 0) {
-                                ?>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Chief Complaint</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                                <?php
+                                <table class="table">
+                                    <thead class="head">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Chief Complaint</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['cc']) && $_GET['cc'] != '') {
+                                            $cc = $_GET['cc'];
+                                            $count = 1;
+                                            $sql = "SELECT * FROM chief_complaint WHERE chief_complaint LIKE '%$cc%' ORDER BY chief_complaint LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT * FROM chief_complaint ORDER BY chief_complaint LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $data) { ?>
                                                     <tr>
                                                         <td><?php echo $data['id']; ?></td>
@@ -150,21 +147,23 @@ include('../../includes/pagination-limit.php');
                                                     include('modals/rem_maincc_modal.php');
                                                 }
                                             } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php'); ?>
-                                    <?php
-                                } else {
-                                    ?>
-                                        <td colspan="7">
-                                            <?php
-                                            include('../../includes/no-data.php');
-                                            ?>
-                                        </td>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                    ?>
+
+
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <td colspan="7">
+                                                <?php
+                                                include('../../includes/no-data.php');
+                                                ?>
+                                            </td>
+                                        <?php
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <?php include('../../includes/pagination.php'); ?>
                             </div>
                         </div>
                     </div>
