@@ -140,12 +140,12 @@
                         </select>
                     </div>
                 </div>
-                <div class="default hidden" id="defaultDiv">
+                <div class="transaction hidden" id="transactDiv">
                     <div class="row">
                         <div class="mb-2">
                             <label for="" class="form-label">Transaction:</label>
                             <input type="text" class="form-control" name="transaction" value="Walk-In" hidden>
-                            <select class="form-control" aria-label=".form-select-md example" name="service" id="service">
+                            <select class="form-control" aria-label=".form-select-md example" name="service" id="service" onchange="enableService(this)">
                                 <option value="" disabled selected></option>
                                 <?php
                                 include('connection.php');
@@ -157,8 +157,10 @@
                             </select>
                         </div>
                     </div>
+                </div>
 
-                    <div class="vitals" id="vitalsDiv">
+                <div class="default hidden" id="defaultDiv">
+                    <div class="vitals hidden" id="vitalsDiv">
                         <div class="row">
                             <div class="col-md-4 mb-2">
                                 <label for="" class="form-label">Blood Pressure:</label>
@@ -186,9 +188,9 @@
                     </div>
 
                     <!-- responsive pag others pinili lalabas additional na textbox-->
-                    <div class="mb-2">
+                    <div class="mb-2 hidden" id="ccDiv">
                         <label for="" class="form-label">Chief Complaints:</label>
-                        <select class="form-control" aria-label=".form-select-md example" name="chief_complaint" id="chief_complaint">
+                        <select class="form-control" aria-label=".form-select-md example" name="chief_complaint" id="chief_complaint" onchange="enableCc(this)">
                             <option value="" disabled selected></option>
                             <?php
                             include('connection.php');
@@ -199,12 +201,12 @@
                             <?php } ?>
                         </select>
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-2 hidden" id="ccOthersDiv">
                         <label for="" class="form-label">Others:</label>
                         <input type="text" class="form-control" name="chief_complaint_others" id="chief_complaint_others">
                     </div>
                     <!-- responsive pag others pinili lalabas additional na textbox-->
-                    <div class="mb-2">
+                    <div class="mb-2 hidden" id="fdDiv">
                         <label for="" class="form-label">Findings/Diagnosis:</label>
                         <select class="form-control" aria-label=".form-select-md example" name="findiag" id="findiag">
                             <option value="" disabled selected></option>
@@ -217,86 +219,91 @@
                             <?php } ?>
                         </select>
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-2 hidden" id="fdOthersDiv">
                         <label for="" class="form-label">Others:</label>
                         <input type="text" class="form-control" name="findiag_others" id="findiag_others">
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-2 hidden" id="remarksDiv">
                         <label for="" class="form-label">Remarks:</label>
                         <input type="text" class="form-control" name="remarks" id="remarks">
                     </div>
-                    <div class="row duplicate_med">
-                        <div class="col-md-8 mb-2">
-                            <label for="" class="form-label">Medicine:</label>
-                            <select class="form-select" aria-label=".form-select-md example" name="medicine[]" id="medicine">
-                                <option value="" selected></option>
-                                <?php
-                                $sql = "SELECT * FROM inv_total WHERE type = 'medicine' AND qty >= 0 AND campus='$campus' ORDER BY stock_name";
-                                $result = mysqli_query($conn, $sql);
-                                while ($row = mysqli_fetch_array($result)) {
-                                ?>
-                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="col-md-4 mb-2">
-                            <label for="" class="form-label">Quantity:</label>
-                            <div class="row">
-                                <div class="col">
-                                    <input type="number" min="0" class="form-control" name="quantity_med[]">
-                                </div>
-                                <div class="col">
-                                    <button type="button" class="btn btn-primary" onclick="duplicate_med()">+</button>
+                    <div class="medicine hidden" id="medicineDiv">
+                        <div class="row duplicate_med">
+                            <div class="col-md-8 mb-2">
+                                <label for="" class="form-label">Medicine:</label>
+                                <select class="form-select" aria-label=".form-select-md example" name="medicine[]" id="medicine">
+                                    <option value="" selected></option>
+                                    <?php
+                                    $sql = "SELECT * FROM inv_total WHERE type = 'medicine' AND qty >= 0 AND campus='$campus' ORDER BY stock_name";
+                                    $result = mysqli_query($conn, $sql);
+                                    while ($row = mysqli_fetch_array($result)) {
+                                    ?>
+                                        <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <label for="" class="form-label">Quantity:</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="number" min="0" class="form-control" name="quantity_med[]">
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" class="btn btn-primary" onclick="duplicate_med()">+</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row duplicate_sup">
-                        <div class="col-md-8 mb-2">
-                            <label for="" class="form-label">Medical Supply:</label>
-                            <select class="form-select" aria-label=".form-select-md example" name="supply[]" id="supply">
-                                <option value="" selected></option>
-                                <?php
-                                $sql = "SELECT * FROM inv_total WHERE type = 'supply' AND qty >= 0 AND campus='$campus' ORDER BY stock_name";
-                                $result = mysqli_query($conn, $sql);
-                                while ($row = mysqli_fetch_array($result)) {
-                                ?>
-                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="col-md-4 mb-2">
-                            <label for="" class="form-label">Quantity:</label>
-                            <div class="row">
-                                <div class="col">
-                                    <input type="number" min="0" class="form-control" name="quantity_sup[]">
-                                </div>
-                                <div class="col">
-                                    <button type="button" class="btn btn-primary" onclick="duplicate_sup()">+</button>
+                    <div class="medSupply hidden" id="medSupDiv">
+                        <div class="row duplicate_sup">
+                            <div class="col-md-8 mb-2">
+                                <label for="" class="form-label">Medical Supply:</label>
+                                <select class="form-select" aria-label=".form-select-md example" name="supply[]" id="supply">
+                                    <option value="" selected></option>
+                                    <?php
+                                    $sql = "SELECT * FROM inv_total WHERE type = 'supply' AND qty >= 0 AND campus='$campus' ORDER BY stock_name";
+                                    $result = mysqli_query($conn, $sql);
+                                    while ($row = mysqli_fetch_array($result)) {
+                                    ?>
+                                        <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <label for="" class="form-label">Quantity:</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="number" min="0" class="form-control" name="quantity_sup[]">
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" class="btn btn-primary" onclick="duplicate_sup()">+</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="mb-2">
+
+                    <div class="mb-2 hidden" id="referralDiv">
                         <label for="" class="form-label">Referral:</label>
                         <input type="text" class="form-control" name="referral" id="referral">
                     </div>
 
                     <!-- responsive pag others pinili lalabas additional na textbox-->
-                    <div class="mb-2">
+                    <div class="mb-2 hidden" id="medCaseDiv">
                         <label for="" class="form-label">Medical Case:</label>
-                        <select class="form-control" aria-label=".form-select-md example" name="medcase" id="medcase" required>
+                        <select class="form-control" aria-label=".form-select-md example" name="medcase" id="medcase" onchange="enableMedCase(this)" required>
                             <option value="" disabled selected></option>
                             <?php
                             include('connection.php');
                             $sql = "SELECT * FROM med_case ORDER BY type, medcase";
                             $result = mysqli_query($conn, $sql);
                             while ($row = mysqli_fetch_array($result)) { ?>
-                                <option value="<?= $row['id']; ?>"><?= "(" . ucfirst(strtolower($row['type'])) . ") " . $row['medcase']; ?></option>
+                                <option value="<?= $row['medcase']; ?>"><?= "(" . ucfirst(strtolower($row['type'])) . ") " . $row['medcase']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-2 hidden" id="medCaseOthersDiv">
                         <label for="" class="form-label">Others:</label>
                         <input type="text" class="form-control" name="medcase_others" id="medcase_others">
                         <input type="text" class="form-control" name="type" value="Walk-In" id="type" hidden>
@@ -432,7 +439,7 @@
                             $sql = "SELECT * FROM med_case ORDER BY type, medcase";
                             $result = mysqli_query($conn, $sql);
                             while ($row = mysqli_fetch_array($result)) { ?>
-                                <option value="<?= $row['id']; ?>"><?= "(" . ucfirst(strtolower($row['type'])) . ") " . $row['medcase']; ?></option>
+                                <option value="<?= $row['medcase']; ?>"><?= "(" . ucfirst(strtolower($row['type'])) . ") " . $row['medcase']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -550,10 +557,82 @@
         {
             if (answer.value == 'Walk-In') {
                 document.getElementById('medHistoryDiv').classList.add('hidden');
-                document.getElementById('defaultDiv').classList.remove('hidden');
+                document.getElementById('transactDiv').classList.remove('hidden');
             } else if (answer.value == 'Medical History') {
+                document.getElementById('transactDiv').classList.add('hidden');
                 document.getElementById('defaultDiv').classList.add('hidden');
                 document.getElementById('medHistoryDiv').classList.remove('hidden');
+            }
+        }
+    };
+
+    function enableService(answer) {
+        console.log(answer.value);
+        {
+            if (answer.value == 'Checkup' || answer.value == 'Consultation' || answer.value == 'Emergency') {
+                document.getElementById('medHistoryDiv').classList.add('hidden');
+                document.getElementById('defaultDiv').classList.remove('hidden');
+                document.getElementById('vitalsDiv').classList.remove('hidden');
+                document.getElementById('ccDiv').classList.remove('hidden');
+                document.getElementById('ccOthersDiv').classList.remove('hidden');
+                document.getElementById('fdDiv').classList.remove('hidden');
+                document.getElementById('fdOthersDiv').classList.remove('hidden');
+                document.getElementById('remarksDiv').classList.remove('hidden');
+                document.getElementById('medicineDiv').classList.remove('hidden');
+                document.getElementById('medSupDiv').classList.remove('hidden');
+                document.getElementById('referralDiv').classList.remove('hidden');
+                document.getElementById('medCaseDiv').classList.remove('hidden');
+                document.getElementById('medCaseOthersDiv').classList.remove('hidden');
+            } else if (answer.value == 'Request for Medicine') {
+                document.getElementById('medHistoryDiv').classList.add('hidden');
+                document.getElementById('defaultDiv').classList.remove('hidden');
+                document.getElementById('vitalsDiv').classList.add('hidden');
+                document.getElementById('ccDiv').classList.remove('hidden');
+                document.getElementById('ccOthersDiv').classList.add('hidden');
+                document.getElementById('fdDiv').classList.add('hidden');
+                document.getElementById('fdOthersDiv').classList.add('hidden');
+                document.getElementById('remarksDiv').classList.remove('hidden');
+                document.getElementById('medicineDiv').classList.remove('hidden');
+                document.getElementById('medSupDiv').classList.add('hidden');
+                document.getElementById('referralDiv').classList.add('hidden');
+                document.getElementById('medCaseDiv').classList.remove('hidden');
+                document.getElementById('medCaseOthersDiv').classList.add('hidden');
+            } else if (answer.value == 'Request for Medical Supply') {
+                document.getElementById('medHistoryDiv').classList.add('hidden');
+                document.getElementById('defaultDiv').classList.remove('hidden');
+                document.getElementById('vitalsDiv').classList.add('hidden');
+                document.getElementById('ccDiv').classList.remove('hidden');
+                document.getElementById('ccOthersDiv').classList.add('hidden');
+                document.getElementById('fdDiv').classList.add('hidden');
+                document.getElementById('fdOthersDiv').classList.add('hidden');
+                document.getElementById('remarksDiv').classList.remove('hidden');
+                document.getElementById('medicineDiv').classList.add('hidden');
+                document.getElementById('medSupDiv').classList.remove('hidden');
+                document.getElementById('referralDiv').classList.add('hidden');
+                document.getElementById('medCaseDiv').classList.remove('hidden');
+                document.getElementById('medCaseOthersDiv').classList.add('hidden');
+            }
+        }
+    };
+
+    function enableCc(answer) {
+        console.log(answer.value);
+        {
+            if (answer.value == 'Others:') {
+                document.getElementById('ccOthersDiv').classList.remove('hidden');
+            } else {
+                document.getElementById('ccOthersDiv').classList.add('hidden');
+            }
+        }
+    };
+
+    function enableMedCase(answer) {
+        console.log(answer.value);
+        {
+            if (answer.value == 'Others:') {
+                document.getElementById('medCaseOthersDiv').classList.remove('hidden');
+            } else {
+                document.getElementById('medCaseOthersDiv').classList.add('hidden');
             }
         }
     };
