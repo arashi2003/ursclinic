@@ -3,15 +3,15 @@
 session_start();
 include('../../connection.php');
 include('../../includes/dentist-auth.php');
-$module = 'patients';
-$campus = $_SESSION['campus'];
+$module = 'appointment';
 $userid = $_SESSION['userid'];
 $name = $_SESSION['username'];
+$fullname = $_SESSION['name'];
 $usertype = $_SESSION['usertype'];
 
 
 // get the total nr of rows.
-$records = $conn->query("SELECT * FROM patient_info WHERE campus = '$campus'");
+$records = $conn->query("SELECT * FROM appointment WHERE status='APPROVED' AND physician = ''");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php')

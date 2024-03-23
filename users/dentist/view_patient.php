@@ -161,7 +161,27 @@ include('../../includes/pagination-limit.php');
                                 </div>
                             </div>
                             <?php
-                            if ($designation != "STAFF") { ?>
+                            if ($designation != "STAFF" AND $designation = 'FACULTY') { ?>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                            <h5>Academic Information</h5>
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="row">
+                                                <div class="col-md-12 mb-2">
+                                                    <div class="input-group input-group-md mb-2">
+                                                        <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
+                                                        <input type="text" class="form-control" name="department" value="<?php echo $department ?>" readonly disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } else { ?>
                                 <div class="accordion-item">
                                     <h2 class="accordion-header">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
@@ -193,7 +213,7 @@ include('../../includes/pagination-limit.php');
                                         </div>
                                     </div>
                                 </div>
-                            <?php } ?>
+                            <?php }?>
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
@@ -253,8 +273,8 @@ include('../../includes/pagination-limit.php');
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <table>
-                                    <thead>
+                                <table class="table">
+                                    <thead class="head">
                                         <tr>
                                             <th>Type of Transaction</th>
                                             <th>Service</th>

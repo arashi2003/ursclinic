@@ -57,8 +57,8 @@ include('../../includes/pagination-limit.php') ?>
                 <div class="content">
                     <div class="col-sm-12">
                         <div class="table-responsive">
-                            <table>
-                                <thead>
+                            <table class="table">
+                                <thead class="head">
                                     <tr>
                                         <th>Date and Time</th>
                                         <th>Activity</th>
