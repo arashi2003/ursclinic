@@ -77,7 +77,7 @@ include('../../includes/pagination-limit.php')
             <div class="overview-boxes">
                 <div class="content">
                     <?php
-                    $sql = "SELECT p.patientid, p.designation, p.age, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE patientid='$patientid'";
+                    $sql = "SELECT p.patientid, p.designation, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE patientid='$patientid'";
                     $result = mysqli_query($conn, $sql);
                     while ($data = mysqli_fetch_array($result)) {
                         if (count(explode(" ", $data['middlename'])) > 1) {
@@ -99,7 +99,6 @@ include('../../includes/pagination-limit.php')
                         }
                         $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname']));
                         $designation = $data['designation'];
-                        $age = $data['age'];
                         $sex = $data['sex'];
                         $birthday = $data['birthday'];
                         $department = $data['department'];
@@ -152,12 +151,6 @@ include('../../includes/pagination-limit.php')
                                                 <div class="input-group input-group-md mb-2">
                                                     <span class="input-group-text" id="inputGroup-sizing-md">Designation:</span>
                                                     <input type="text" class="form-control" name="designation" value="<?php echo $designation ?>" readonly disabled>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="input-group input-group-md mb-2">
-                                                    <span class="input-group-text" id="inputGroup-sizing-md">Age:</span>
-                                                    <input type="text" class="form-control" name="age" value="<?php echo $age ?>" readonly disabled>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">

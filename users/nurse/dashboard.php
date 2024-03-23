@@ -196,24 +196,25 @@ include('../../includes/pagination-limit.php');
                         <?php
                         }
                         ?>
-                  </tbody>
-                </table>
-              <?php
-                        include('../../includes/pagination.php');
+
+                      <?php
                       } else {
-              ?>
-                <tr>
-                  <td colspan="7">
+                      ?>
+                        <tr>
+                          <td colspan="7">
+                            <?php
+                            include('../../includes/no-data.php');
+                            ?>
+                          </td>
+                        </tr>
                     <?php
-                        include('../../includes/no-data.php');
-                    ?>
-                  </td>
-                </tr>
-            <?php
                       }
                     }
                     mysqli_close($conn);
-            ?>
+                    ?>
+                  </tbody>
+                </table>
+                <?php include('../../includes/pagination.php'); ?>
               </div>
             </div>
           </div>

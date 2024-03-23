@@ -18,38 +18,37 @@ if (isset($_GET['patient']) || isset($_GET['date']) || isset($_GET['physician'])
     $physician = isset($_GET['physician']) ? $_GET['physician'] : '';
 
     // Construct WHERE clause based on filters
+    $whereClause = "";
     if ($patient !== '') {
-        $whereClause = " AND (CONCAT(ac.firstname, ac.middlename, ac.lastname) LIKE '%$patient%')";
+        $whereClause .= " AND CONCAT(ac.firstname, ac.middlename, ac.lastname) LIKE '%$patient%'";
     }
     if ($date !== '') {
-        $whereClause = " AND ap.date = '$date'";
+        $whereClause .= " AND ap.date = '$date'";
     }
     if ($physician !== '') {
-        $whereClause = " AND ap.physician = '$physician'";
-    } else {
-        $whereClause = "";
+        $whereClause .= " AND ap.physician = '$physician'";
     }
 
     // Construct and execute SQL query for pending appointments count
-    $pending_sql_count = "SELECT COUNT(ap.id) AS total_rows 
+    $pending_sql_count = "SELECT COUNT(*) AS total_rows 
                       FROM appointment ap 
                       INNER JOIN account ac ON ac.accountid = ap.patient
                       WHERE campus ='$campus' AND ap.status = 'PENDING' $whereClause";
 
     // Construct and execute SQL query for approved appointments count
-    $approved_sql_count = "SELECT COUNT(ap.id) AS total_rows 
+    $approved_sql_count = "SELECT COUNT(*) AS total_rows 
                        FROM appointment ap 
                        INNER JOIN account ac ON ac.accountid = ap.patient
                        WHERE campus ='$campus' AND ap.status = 'APPROVED' $whereClause";
 } else {
     // If no filter is set, count all rows
-    $pending_sql_count = "SELECT COUNT(ap.id) AS total_rows 
+    $pending_sql_count = "SELECT COUNT(*) AS total_rows 
                           FROM appointment ap 
                           INNER JOIN account ac ON ac.accountid = ap.patient
                           WHERE ap.status = 'PENDING' AND campus = '$campus'";
 
     // Count all approved appointments
-    $approved_sql_count = "SELECT COUNT(ap.id) AS total_rows 
+    $approved_sql_count = "SELECT COUNT(*) AS total_rows 
                            FROM appointment ap 
                            INNER JOIN account ac ON ac.accountid = ap.patient
                            WHERE ap.status = 'APPROVED' AND campus = '$campus'";
@@ -469,7 +468,7 @@ if ($approved_pages > 4) {
                                                 if (isset($_GET['patient']) && $_GET['patient'] != '') {
                                                     $patient = $_GET['patient'];
                                                     $count = 1;
-                                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE  CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='APPROVED' AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='APPROVED' AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
                                                 } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
                                                     $date = $_GET['date'];
@@ -543,21 +542,21 @@ if ($approved_pages > 4) {
                                     ?>
                                         <ul class="pagination justify-content-end">
                                             <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=approved&page=<?= 1; ?>">&laquo;</a>
+                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
                                             </li>
                                             <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=approved&page=<?= $approved_previous; ?>">&lt;</a>
+                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_previous; ?>">&lt;</a>
                                             </li>
                                             <?php for ($i = $approved_start_loop; $i <= $approved_end_loop; $i++) : ?>
                                                 <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-                                                    <a class="page-link" href="appointment?tab=approved&page=<?= $i; ?>"><?= $i; ?></a>
+                                                    <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
                                                 </li>
                                             <?php endfor; ?>
                                             <li class="page-item <?php echo $page == $approved_pages ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=approved&page=<?= $approved_next; ?>">&gt;</a>
+                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_next; ?>">&gt;</a>
                                             </li>
                                             <li class="page-item <?php echo $page == $approved_pages ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=approved&page=<?= $approved_pages; ?>">&raquo;</a>
+                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_pages; ?>">&raquo;</a>
                                             </li>
                                         </ul>
                                     <?php

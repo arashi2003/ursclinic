@@ -26,25 +26,34 @@ if (isset($_GET['account']) || isset($_GET['date']) || isset($_GET['physician'])
     if ($type !== '') {
         $whereClause .= " AND type = '$type'";
     }
+
+    // Initialize the date filter
+    $date = "";
+
     if ($dt_from == "" and $dt_to == "") {
+        // No date range provided
         $date = "";
     } elseif ($dt_to == $dt_from) {
+        // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime LIKE '$fdate%'";
     } elseif ($dt_to == "" and $dt_from != "") {
+        // Only start date provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime >= '$fdate'";
     } elseif ($dt_from == "" and $dt_to != "") {
+        // Only end date provided
         $d = date("Y-m-d", strtotime($dt_to));
         $date = " AND datetime <= '$d'";
     } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+        // Start and end date range provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-d", strtotime($dt_to));
-        $date = " AND datetime >= '$fdate' AND datetime >= '$ldate'";
+        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
     }
 
     // Construct and execute SQL query for pending appointments count
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' $whereClause AND 
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' $whereClause $date AND 
     transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' 
     AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC";
 
@@ -265,7 +274,7 @@ if ($pages > 4) {
                                             } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $ldate = date("Y-m-d", strtotime($dt_to));
-                                                $date = " AND datetime >= '$fdate' AND datetime >= '$ldate'";
+                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
                                             }
 
                                             //type filter
