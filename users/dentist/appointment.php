@@ -3,25 +3,160 @@
 session_start();
 include('../../connection.php');
 include('../../includes/dentist-auth.php');
+
 $module = 'appointment';
 $userid = $_SESSION['userid'];
 $name = $_SESSION['username'];
-$fullname = $_SESSION['name'];
 $usertype = $_SESSION['usertype'];
 
+// Check if the month filter is set
+if (isset($_GET['patient']) || isset($_GET['date'])) {
+    // Validate and sanitize input
+    $patient = isset($_GET['patient']) ? $_GET['patient'] : '';
+    $date = isset($_GET['date']) ? $_GET['date'] : '';
 
-// get the total nr of rows.
-$records = $conn->query("SELECT * FROM appointment WHERE status='APPROVED' AND physician = ''");
-$nr_of_rows = $records->num_rows;
+    // Construct WHERE clause based on filters
+    if ($patient !== '') {
+        $whereClause = " AND (CONCAT(ac.firstname, ac.middlename, ac.lastname) LIKE '%$patient%')";
+    }
+    if ($date !== '') {
+        $whereClause = " AND ap.date = '$date'";
+    } else {
+        $whereClause = "";
+    }
 
-include('../../includes/pagination-limit.php')
+    // Construct and execute SQL query for pending appointments count
+    $pending_sql_count = "SELECT COUNT(ap.id) AS total_rows 
+                      FROM appointment ap 
+                      INNER JOIN account ac ON ac.accountid = ap.patient
+                      WHERE campus ='$campus' AND ap.status = 'PENDING' $whereClause";
+
+    // Construct and execute SQL query for approved appointments count
+    $approved_sql_count = "SELECT COUNT(ap.id) AS total_rows 
+                       FROM appointment ap 
+                       INNER JOIN account ac ON ac.accountid = ap.patient
+                       WHERE campus ='$campus' AND ap.status = 'APPROVED' $whereClause";
+} else {
+    // If no filter is set, count all rows
+    $pending_sql_count = "SELECT COUNT(ap.id) AS total_rows 
+                          FROM appointment ap 
+                          INNER JOIN account ac ON ac.accountid = ap.patient
+                          WHERE ap.status = 'PENDING'";
+
+    // Count all approved appointments
+    $approved_sql_count = "SELECT COUNT(ap.id) AS total_rows 
+                           FROM appointment ap 
+                           INNER JOIN account ac ON ac.accountid = ap.patient
+                           WHERE ap.status = 'APPROVED'";
+}
+
+// Execute the count queries for pending and approved appointments
+$pending_count_result = $conn->query($pending_sql_count);
+$approved_count_result = $conn->query($approved_sql_count);
+
+// Check if count queries were successful
+if ($pending_count_result && $approved_count_result) {
+    // Fetch the total number of rows for pending appointments
+    $pending_count_row = $pending_count_result->fetch_assoc();
+    $pending_nr_of_rows = $pending_count_row['total_rows'];
+
+    // Fetch the total number of rows for approved appointments
+    $approved_count_row = $approved_count_result->fetch_assoc();
+    $approved_nr_of_rows = $approved_count_row['total_rows'];
+} else {
+    // Handle count query error
+    echo "Error: " . $conn->error;
+}
+
+// Setting the number of rows to display in a page.
+$rows_per_page = 12;
+
+// Determine the page
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Setting the start from value.
+$start = ($page - 1) * $rows_per_page;
+
+// Calculating the number of pages.
+$pending_pages = ceil($pending_nr_of_rows / $rows_per_page);
+$approved_pages = ceil($approved_nr_of_rows / $rows_per_page);
+
+// Calculate the range of page numbers to be displayed for pending appointments
+$pending_start_loop = max(1, $page - 2);
+$pending_end_loop = min($pending_pages, $page + 2);
+
+// Adjust the range if the current page is near the beginning or end for pending appointments
+if ($pending_start_loop > 1) {
+    $pending_start_loop--;
+    $pending_end_loop++;
+}
+
+// Ensure that the range is never smaller than 4 for pending appointments
+if ($pending_end_loop - $pending_start_loop < 4) {
+    $pending_start_loop = max(1, $pending_end_loop - 4);
+}
+
+$pending_previous = $page - 1;
+$pending_next = $page + 1;
+
+// Calculate the start and end loop variables for pending appointments
+$pending_start_loop = $page > 2 ? $page - 2 : 1;
+$pending_end_loop = $page < $pending_pages - 2 ? $page + 2 : $pending_pages;
+
+// Limit the number of pages displayed to a maximum of 4 for pending appointments
+if ($pending_pages > 4) {
+    if ($page > 2 && $page < $pending_pages - 1) {
+        $pending_end_loop = $page + 1;
+    } elseif ($page == 1) {
+        $pending_start_loop = 1;
+        $pending_end_loop = 4;
+    } elseif ($page == $pending_pages) {
+        $pending_start_loop = $pending_pages - 3;
+        $pending_end_loop = $pending_pages;
+    }
+}
+
+// Calculate the range of page numbers to be displayed for approved appointments
+$approved_start_loop = max(1, $page - 2);
+$approved_end_loop = min($approved_pages, $page + 2);
+
+// Adjust the range if the current page is near the beginning or end for approved appointments
+if ($approved_start_loop > 1) {
+    $approved_start_loop--;
+    $approved_end_loop++;
+}
+
+// Ensure that the range is never smaller than 4 for approved appointments
+if ($approved_end_loop - $approved_start_loop < 4) {
+    $approved_start_loop = max(1, $approved_end_loop - 4);
+}
+
+$approved_previous = $page - 1;
+$approved_next = $page + 1;
+
+// Calculate the start and end loop variables for approved appointments
+$approved_start_loop = $page > 2 ? $page - 2 : 1;
+$approved_end_loop = $page < $approved_pages - 2 ? $page + 2 : $approved_pages;
+
+// Limit the number of pages displayed to a maximum of 4 for approved appointments
+if ($approved_pages > 4) {
+    if ($page > 2 && $page < $approved_pages - 1) {
+        $approved_end_loop = $page + 1;
+    } elseif ($page == 1) {
+        $approved_start_loop = 1;
+        $approved_end_loop = 4;
+    } elseif ($page == $approved_pages) {
+        $approved_start_loop = $approved_pages - 3;
+        $approved_end_loop = $approved_pages;
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
 <head>
-    <title>Patient Information</title>
+    <title>Appointment</title>
     <?php include('../../includes/header.php'); ?>
 </head>
 
@@ -31,7 +166,7 @@ include('../../includes/pagination-limit.php')
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">PATIENTS</span>
+                <span class="dashboard">APPOINTMENT</span>
             </div>
             <div class="right-nav">
                 <div class="profile-details">
@@ -49,19 +184,24 @@ include('../../includes/pagination-limit.php')
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
-                            <li><a class="dropdown-item" href="../../logout">Logout</a></li>
+                            <li><a class="dropdown-item" href="../../../logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </nav>
         <div class="home-content">
+            <?php
+            include('../../includes/alert.php')
+            ?>
             <div class="overview-boxes">
                 <div class="content">
+                    <h3>Approved Appointments</h3>
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
-                                <form action="" method="get">
+                                <form action="appointment" method="get">
+                                    <input type="hidden" name="tab" value="approved">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="input-group mb-2">
@@ -70,32 +210,11 @@ include('../../includes/pagination-limit.php')
                                             </div>
                                         </div>
                                         <div class="col-md-2 mb-2">
-                                            <select name="designation" class="form-select">
-                                                <option value="">Select Designation</option>
-                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
-                                                <?php
-                                                $sql = "SELECT DISTINCT designation FROM patient_info ORDER BY designation";
-                                                if ($result = mysqli_query($conn, $sql)) {
-                                                    while ($row = mysqli_fetch_array($result)) { ?>
-                                                        <option value="<?php echo $row["designation"]; ?>" <?= isset($_GET['designation']) == true ? ($_GET['designation'] == $row["designation"] ? 'selected' : '') : '' ?>><?php echo $row["designation"]; ?></option><?php }
-                                                                                                                                                                                                                                                                } ?>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2 mb-2">
-                                            <select name="campus" class="form-select">
-                                                <option value="">Select Campus</option>
-                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
-                                                <?php
-                                                $sql = "SELECT * FROM campus ORDER BY campus";
-                                                if ($result = mysqli_query($conn, $sql)) {
-                                                    while ($row = mysqli_fetch_array($result)) { ?>
-                                                        <option value="<?php echo $row["campus"]; ?>" <?= isset($_GET['campus']) == true ? ($_GET['campus'] == $row["campus"] ? 'selected' : '') : '' ?>><?php echo $row["campus"]; ?></option><?php }
-                                                                                                                                                                                                                                        } ?>
-                                            </select>
+                                            <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
                                         </div>
                                         <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
-                                            <a href="patients" class="btn btn-danger">Reset</a>
+                                            <a href="appointment?tab=approved" class="btn btn-danger">Reset</a>
                                         </div>
                                     </div>
                                 </form>
@@ -106,29 +225,29 @@ include('../../includes/pagination-limit.php')
                                 <table class="table">
                                     <thead class="head">
                                         <tr>
-                                            <th>Patient ID</th>
-                                            <th>Designation</th>
-                                            <th>Department</th>
-                                            <th>College</th>
-                                            <th>Patient Name</th>
+                                            <th>Appointment ID</th>
+                                            <th>Date</th>
+                                            <th>Time from</th>
+                                            <th>Time to</th>
+                                            <th>Patient name</th>
+                                            <th>Status</th>
                                             <th>Action</th>
-                                        </tr>
                                     </thead>
                                     <tbody>
                                         <?php
                                         if (isset($_GET['patient']) && $_GET['patient'] != '') {
                                             $patient = $_GET['patient'];
                                             $count = 1;
-                                            $sql = "SELECT p.patientid, p.address, p.designation, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE (CONCAT(ac.firstname,' ', ac.lastname) LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.middlename,' ', ac.lastname) LIKE '%$patient%' OR patientid LIKE '%$patient%')ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE  CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
-                                        } elseif (isset($_GET['designation']) && $_GET['designation'] != '' || isset($_GET['campus']) && $_GET['campus'] != '') {
-                                            $designation = $_GET['designation'];
+                                        } elseif (isset($_GET['date']) && $_GET['date'] != '') {
+                                            $date = $_GET['date'];
                                             $count = 1;
-                                            $sql = "SELECT p.patientid, p.address, p.designation, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE designation = '$designation' ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT p.patientid, p.address, p.designation, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.status='APPROVED' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -146,55 +265,71 @@ include('../../includes/pagination-limit.php')
                                                             $middleinitial = substr($middle, 0, 1) . ".";
                                                         }
                                                     }
-                                                    if ($data['department'] == NULL) {
-                                                        $dep = "N/A";
-                                                    } else {
-                                                        $dep = $data['department'];
-                                                    }
-                                                    if ($data['college'] == NULL) {
-                                                        $college = "N/A";
-                                                    } else {
-                                                        $college = $data['college'];
-                                                    }
                                         ?>
                                                     <tr>
-                                                        <td><?php echo $data['patientid']; ?></td>
-                                                        <td><?php echo $data['designation']; ?></td>
-                                                        <td><?php echo $dep; ?></td>
-                                                        <td><?php echo $college; ?></td>
-                                                        <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname'])); ?></td>
+                                                        <td><?php echo $data['id']; ?></td>
+                                                        <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
+                                                        <td><?php echo date("g:i A", strtotime($data['time_from'])) ?></td>
+                                                        <td><?php echo date("g:i A", strtotime($data['time_to'])) ?></td>
+                                                        <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])) ?></td>
+                                                        <td><?php echo $data['status']; ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'view_patient?patientid=<?php echo $data['patientid'] ?>'">View</button>
-                                                            <?php $count++; ?>
+                                                            <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'appointment_view?id=<?php echo $data['id'] ?>'">View</button>
                                                         </td>
                                                     </tr>
                                                 <?php
                                                 }
                                             } else {
                                                 ?>
-                                                <td colspan="7">
-                                                    <?php
-                                                    include('../../includes/no-data.php');
-                                                    ?>
-                                                </td>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <?php
+                                                        include('../../includes/no-data.php');
+                                                        ?>
+                                                    </td>
+                                                </tr>
                                             <?php
-                                            } ?>
-                                    </tbody>
-                                </table>
-                            <?php
-                                            include('../../includes/pagination.php');
+                                            }
+                                            ?>
+
+                                        <?php
                                         }
                                         mysqli_close($conn);
-                            ?>
+                                        ?>
+                                    </tbody>
+                                </table>
                             </div>
+                            <?php
+                            if (mysqli_num_rows($result) > 0) {
+                            ?>
+                                <ul class="pagination justify-content-end">
+                                    <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="appointment?tab=approved&page=<?= 1; ?>">&laquo;</a>
+                                    </li>
+                                    <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="appointment?tab=approved&page=<?= $approved_previous; ?>">&lt;</a>
+                                    </li>
+                                    <?php for ($i = $approved_start_loop; $i <= $approved_end_loop; $i++) : ?>
+                                        <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                                            <a class="page-link" href="appointment?tab=approved&page=<?= $i; ?>"><?= $i; ?></a>
+                                        </li>
+                                    <?php endfor; ?>
+                                    <li class="page-item <?php echo $page == $approved_pages ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="appointment?tab=approved&page=<?= $approved_next; ?>">&gt;</a>
+                                    </li>
+                                    <li class="page-item <?php echo $page == $approved_pages ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="appointment?tab=approved&page=<?= $approved_pages; ?>">&raquo;</a>
+                                    </li>
+                                </ul>
+                            <?php
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
-
 </body>
 
 <script>
@@ -210,6 +345,14 @@ include('../../includes/pagination-limit.php')
     console.log(sidebarBtn);
     sidebarBtn.addEventListener("click", () => {
         sidebar.classList.toggle("close");
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        let tabParam = '<?php echo isset($_GET['tab']) ? $_GET['tab'] : ''; ?>';
+        if (tabParam) {
+            document.querySelector('.nav-tabs a[href="#' + tabParam + '"]').classList.add('active');
+            document.querySelector('.tab-pane#' + tabParam).classList.add('show', 'active');
+        }
     });
 </script>
 

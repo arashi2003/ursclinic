@@ -1,6 +1,4 @@
 <?php
-session_start();
-include('connection.php');
 
 $campus = $_SESSION['campus'];
 $today = date("Y-m-d");
@@ -35,7 +33,7 @@ if ($resultCheck > 0) {
             }
         }
     }
-} 
+}
 
 //auto report med in medsupinv
 $query = "SELECT * FROM report_medsupinv WHERE date = '$lastmonth' AND eqty > 0 AND type = 'medicine' AND campus='$campus'";
@@ -63,7 +61,7 @@ if ($resultCheck > 0) {
             }
         }
     }
-} 
+}
 
 //auto report teinv
 $query = "SELECT * FROM report_teinv WHERE date = '$lastmonth' AND etqty > 0 AND campus='$campus'";
@@ -73,7 +71,7 @@ if ($resultCheck > 0) {
     foreach ($result as $data) {
         $teid = $data['teid'];
         $tools_equip = $data['tools_equip'];
-        
+
         $query = "SELECT * FROM report_teinv WHERE date = '$tmonth' AND teid = '$teid' AND campus='$campus'";
         $result = mysqli_query($conn, $query);
         $resultCheck = mysqli_num_rows($result);
@@ -101,20 +99,25 @@ if ($resultCheck > 0) {
             mysqli_query($conn, $sql);
         }
     }
-} 
+}
 
 //update auidit trail about expired stocks
 $query = "SELECT * FROM inventory_medicine WHERE expiration <= '$today' AND campus='$campus'";
 $result = mysqli_query($conn, $query);
 $resultCheck = mysqli_num_rows($result);
 if ($resultCheck > 0) {
-    $user = $_SESSION['userid'];
-    $campus = $_SESSION['campus'];
-    $fullname = strtoupper($_SESSION['name']);
-    $au_status = "unread";
-    $activity = 'there are inventory stocks that already expired';
-    $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
-    mysqli_query($conn, $sql);
+    $query = "SELECT * FROM audit_trail WHERE activity LIKE '%expired%' AND campus='$campus' AND datetime='$today'";
+    $result = mysqli_query($conn, $query);
+    $resultCheck = mysqli_num_rows($result);
+    if ($resultCheck == 0) {
+        $user = $_SESSION['userid'];
+        $campus = $_SESSION['campus'];
+        $fullname = strtoupper($_SESSION['name']);
+        $au_status = "unread";
+        $activity = 'there are inventory stocks that already expired';
+        $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
+        mysqli_query($conn, $sql);
+    }
 }
 
 //done status for doc sched
@@ -185,5 +188,3 @@ if ($resultCheck > 0) {
         }
     }
 }
-
-mysqli_close($conn);
