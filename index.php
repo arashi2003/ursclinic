@@ -357,7 +357,7 @@ if (isset($_POST['submit'])) {
 
 // Check if timer is active
 if ($_SESSION['timer_start'] > 0) {
-  $timer_duration_seconds = 300; // 300 seconds = 5 minutes
+  $timer_duration_seconds = 60; // 300 seconds = 5 minutes
   $remaining_time_minutes = ceil(($timer_duration_seconds - (time() - $_SESSION['timer_start'])) / 60); // Convert remaining time to minutes and round up
   $remaining_time_seconds = ($timer_duration_seconds - (time() - $_SESSION['timer_start'])) % 60; // Remaining seconds
   $remaining_time = sprintf("%02d:%02d", $remaining_time_minutes, $remaining_time_seconds); // Format as MM:SS
