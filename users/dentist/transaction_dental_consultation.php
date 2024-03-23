@@ -26,7 +26,7 @@ $usertype = $_SESSION['usertype'];
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">ADD TRANSACTION</span>
+                <span class="dashboard">DENTAL CONSULTATION</span>
             </div>
             <div class="right-nav">
                 <div class="notification-button">
@@ -70,15 +70,6 @@ $usertype = $_SESSION['usertype'];
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href = 'transaction_add.php'">Default</button>
-                    &ThickSpace;
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href = 'transaction_dental_checkup.php'">Dental Checkup</button>
-                    &ThickSpace;
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href = 'transaction_medhist.php'">Medical History</button>
-                    &ThickSpace;
-                    <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href = 'transaction_vitals.php'">Vitals</button>
-                </div>
                 <form method="POST" action="add/transaction_dental_consultation.php" id="form">
                     <div class="content">
                         <h3><b>Patient</b></h3>

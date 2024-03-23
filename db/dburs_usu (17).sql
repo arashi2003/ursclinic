@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 23, 2024 at 07:14 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Mar 23, 2024 at 08:44 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -2446,7 +2446,13 @@ INSERT INTO `audit_trail` (`id`, `user`, `fullname`, `campus`, `activity`, `stat
 (1871, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'Logged In', 'unread', '2024-03-23 13:06:39'),
 (1872, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'Logged Out', 'unread', '2024-03-23 13:17:28'),
 (1873, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'Logged In', 'unread', '2024-03-23 13:17:36'),
-(1874, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added medicine id 44 stocks in medicine inventory', 'unread', '2024-03-23 13:48:05');
+(1874, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added medicine id 44 stocks in medicine inventory', 'unread', '2024-03-23 13:48:05'),
+(1875, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added supply id 1 stocks in medical supply inventory', 'unread', '2024-03-23 14:48:08'),
+(1876, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added supply id 33 stocks in medical supply inventory', 'unread', '2024-03-23 14:48:36'),
+(1877, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added medicine id 14 stocks in medicine inventory', 'unread', '2024-03-23 15:07:57'),
+(1878, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added medicine id 36 stocks in medicine inventory', 'unread', '2024-03-23 15:34:32'),
+(1879, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added medicine id 44 stocks in medicine inventory', 'unread', '2024-03-23 15:36:00'),
+(1880, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added medicine id 43 stocks in medicine inventory', 'unread', '2024-03-23 15:36:28');
 
 -- --------------------------------------------------------
 
@@ -3007,7 +3013,13 @@ INSERT INTO `inventory` (`id`, `campus`, `batchid`, `stock_type`, `stockid`, `op
 (78, 'BINANGONAN', 'B20240322', 'te', 2, 0, 0, 1, 135, '0000-00-00', NULL, '2024-03-22', '19:55:44'),
 (79, 'BINANGONAN', 'B20240322', 'te', 2, 0, 0, 1, 90, '0000-00-00', NULL, '2024-03-22', '19:55:57'),
 (80, 'BINANGONAN', 'B20240322', 'te', 2, 0, 0, 1, 110, '0000-00-00', NULL, '2024-03-22', '19:56:08'),
-(81, 'BINANGONAN', 'B20240323', 'medicine', 44, 0, 4, 4, 350.45, '2026-10-31', NULL, '2024-03-23', '13:48:05');
+(81, 'BINANGONAN', 'B20240323', 'medicine', 44, 0, 4, 4, 350.45, '2026-10-31', NULL, '2024-03-23', '13:48:05'),
+(82, 'BINANGONAN', 'B20240323', 'supply', 1, 0, 1, 1, 55, '1970-01-31', NULL, '2024-03-23', '14:48:08'),
+(83, 'BINANGONAN', 'B20240323', 'supply', 33, 0, 5, 5, 49, '1970-01-31', NULL, '2024-03-23', '14:48:36'),
+(84, 'BINANGONAN', 'B20240323', 'medicine', 14, 0, 12, 12, 2, '2025-10-31', NULL, '2024-03-23', '15:07:57'),
+(85, 'BINANGONAN', 'B20240323', 'medicine', 36, 0, 5, 5, 450, '2026-09-30', NULL, '2024-03-23', '15:34:32'),
+(86, 'BINANGONAN', 'B20240323', 'medicine', 44, 0, 5, 5, 655.99, '2026-09-30', NULL, '2024-03-23', '15:36:00'),
+(87, 'BINANGONAN', 'B20240323', 'medicine', 43, 0, 2, 2, 320.35, '2026-08-31', NULL, '2024-03-23', '15:36:28');
 
 -- --------------------------------------------------------
 
@@ -3067,7 +3079,11 @@ INSERT INTO `inventory_medicine` (`id`, `campus`, `medid`, `closed`, `open`, `qt
 (41, 'BINANGONAN', 40, 2, 1, 3, 159, '2024-11-30', '2024-03-22', '18:23:18'),
 (42, 'BINANGONAN', 42, 3, 0, 3, 235.45, '2026-06-30', '2024-03-22', '18:25:16'),
 (43, 'BINANGONAN', 45, 3, 1, 4, 175, '2026-05-31', '2024-03-22', '18:26:20'),
-(44, 'BINANGONAN', 44, 4, 0, 4, 350.45, '2026-10-31', '2024-03-23', '13:48:05');
+(44, 'BINANGONAN', 44, 4, 0, 4, 350.45, '2026-10-31', '2024-03-23', '13:48:05'),
+(45, 'BINANGONAN', 14, 12, 0, 12, 2, '2025-10-31', '2024-03-23', '15:07:57'),
+(46, 'BINANGONAN', 36, 5, 0, 5, 450, '2026-09-30', '2024-03-23', '15:34:32'),
+(47, 'BINANGONAN', 44, 5, 0, 5, 655.99, '2026-09-30', '2024-03-23', '15:36:00'),
+(48, 'BINANGONAN', 43, 2, 0, 2, 320.35, '2026-08-31', '2024-03-23', '15:36:28');
 
 -- --------------------------------------------------------
 
@@ -3108,7 +3124,9 @@ INSERT INTO `inventory_supply` (`id`, `campus`, `supid`, `closed`, `open`, `qty`
 (14, 'BINANGONAN', 4, 4, 1, 5, 45, '1970-01-31', '2024-03-22', '19:36:52'),
 (15, 'BINANGONAN', 5, 5, 0, 5, 135, '1970-01-31', '2024-03-22', '19:37:32'),
 (16, 'BINANGONAN', 21, 3, 1, 4, 255, '1970-01-31', '2024-03-22', '19:40:06'),
-(17, 'BINANGONAN', 11, 6, 1, 7, 67.65, '1970-01-31', '2024-03-22', '19:41:17');
+(17, 'BINANGONAN', 11, 6, 1, 7, 67.65, '1970-01-31', '2024-03-22', '19:41:17'),
+(18, 'BINANGONAN', 1, 1, 0, 1, 55, '1970-01-31', '2024-03-23', '14:48:08'),
+(19, 'BINANGONAN', 33, 5, 0, 5, 49, '1970-01-31', '2024-03-23', '14:48:36');
 
 -- --------------------------------------------------------
 
@@ -3182,11 +3200,11 @@ INSERT INTO `inv_total` (`id`, `campus`, `type`, `stockid`, `stock_name`, `open`
 (6, 'BINANGONAN', 'medicine', '30', 'INFUSED 250ml', 0, 7, 7, 250, '2024-03-22 12:49:12'),
 (7, 'BINANGONAN', 'medicine', '31', 'INHALABLE 100mcg', 0, 3, 3, 300, '2024-03-22 14:38:53'),
 (8, 'BINANGONAN', 'medicine', '32', 'INHALABLE 90mcg', 0, 4, 4, 245, '2024-03-22 14:39:16'),
-(9, 'BINANGONAN', 'medicine', '33', 'INHALABLE 180mcg', 0, 5, 5, 250, '2024-03-22 14:39:33'),
+(9, 'BINANGONAN', 'medicine', '33', 'INHALABLE 180mcg', 0, 10, 10, 49, '2024-03-23 14:48:36'),
 (10, 'BINANGONAN', 'medicine', '34', 'NASAL 30ml', 0, 5, 5, 30, '2024-03-22 14:39:57'),
 (16, 'BINANGONAN', 'medicine', '38', 'OPHTHALMIC 5ml/bot', 0, 3, 3, 135.45, '2024-03-22 16:07:45'),
 (17, 'BINANGONAN', 'medicine', '39', 'OPHTHALMIC 2.5ml/bot', 0, 5, 5, 120, '2024-03-22 16:15:19'),
-(18, 'BINANGONAN', 'medicine', '1', 'Ambroxol 30mg/tab', 0, 47, 47, 2, '2024-03-22 16:18:13'),
+(18, 'BINANGONAN', 'medicine', '1', 'Ambroxol 30mg/tab', 0, 48, 48, 55, '2024-03-23 14:48:08'),
 (19, 'BINANGONAN', 'medicine', '2', 'Amoxicillin 500mg/cap', 0, 56, 56, 1.28, '2024-03-22 16:19:18'),
 (20, 'BINANGONAN', 'medicine', '3', 'Paracetamol 500mg/caplet', 0, 58, 58, 2, '2024-03-22 16:21:04'),
 (21, 'BINANGONAN', 'medicine', '4', 'Clonidine HCL 75mcg/tab', 0, 31, 31, 4.95, '2024-03-22 16:21:53'),
@@ -3199,7 +3217,7 @@ INSERT INTO `inv_total` (`id`, `campus`, `type`, `stockid`, `stock_name`, `open`
 (28, 'BINANGONAN', 'medicine', '11', 'Chlorpheniramine maleate 500mg/cap', 0, 24, 24, 11.29, '2024-03-22 16:30:52'),
 (29, 'BINANGONAN', 'medicine', '12', 'Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 30mg/tab', 0, 23, 23, 3.3, '2024-03-22 16:31:45'),
 (30, 'BINANGONAN', 'medicine', '13', 'Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 178mg/tab', 0, 13, 13, 2.2, '2024-03-22 16:32:20'),
-(31, 'BINANGONAN', 'medicine', '14', 'Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 233mg/tab', 0, 10, 10, 1.1, '2024-03-22 16:34:05'),
+(31, 'BINANGONAN', 'medicine', '14', 'Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 233mg/tab', 0, 22, 22, 1.59091, '2024-03-23 15:07:57'),
 (32, 'BINANGONAN', 'medicine', '15', 'Loperamide 2mg/cap', 0, 39, 39, 1, '2024-03-22 16:34:57'),
 (33, 'BINANGONAN', 'medicine', '16', 'Loratadine 10mg/tab', 0, 32, 32, 1.47, '2024-03-22 16:35:45'),
 (34, 'BINANGONAN', 'medicine', '17', 'Meclizine 25mcg/tab', 0, 24, 24, 9, '2024-03-22 16:37:04'),
@@ -3208,22 +3226,24 @@ INSERT INTO `inv_total` (`id`, `campus`, `type`, `stockid`, `stock_name`, `open`
 (44, 'BINANGONAN', 'medicine', '40', 'OTIC 2ml', 1, 2, 3, 159, '2024-03-22 18:23:18'),
 (45, 'BINANGONAN', 'medicine', '42', 'OTIC 10ml', 0, 3, 3, 235.45, '2024-03-22 18:25:16'),
 (46, 'BINANGONAN', 'medicine', '45', 'TOPICAL 50tube', 1, 3, 4, 175, '2024-03-22 18:26:20'),
-(47, 'BINANGONAN', 'supply', '1', 'Anti-Septic Plastic Strips 100strips/box', 1, 2, 3, 55, '2024-03-22 19:20:17'),
+(47, 'BINANGONAN', 'supply', '1', 'Anti-Septic Plastic Strips 100strips/box', 1, 3, 4, 55, '2024-03-23 14:48:08'),
 (48, 'BINANGONAN', 'supply', '8', 'BSI Medicated Spray 75ml', 1, 3, 4, 1350, '2024-03-22 19:22:06'),
 (49, 'BINANGONAN', 'supply', '37', 'Cotton Balls ', 1, 4, 5, 78.75, '2024-03-22 19:22:30'),
 (50, 'BINANGONAN', 'supply', '18', 'Disposable Towel pcs', 1, 0, 1, 270, '2024-03-22 19:23:29'),
 (51, 'BINANGONAN', 'supply', '20', 'Face Mask 50pcs/box', 1, 10, 11, 40.9091, '2024-03-22 19:24:57'),
-(52, 'BINANGONAN', 'supply', '14', 'Fuji 2, glass ionomer pcs', 0, 5, 5, 550, '2024-03-22 19:25:41'),
+(52, 'BINANGONAN', 'supply', '14', 'Fuji 2, glass ionomer pcs', 0, 17, 17, 1.59091, '2024-03-23 15:07:57'),
 (53, 'BINANGONAN', 'supply', '13', 'Fuji1, glass ionomer pcs', 0, 5, 5, 788, '2024-03-22 19:25:55'),
 (54, 'BINANGONAN', 'supply', '15', 'Gel Foam pcs', 0, 5, 5, 230, '2024-03-22 19:26:33'),
-(56, 'BINANGONAN', 'supply', '33', 'Intravenous Catheter gauge 22 ', 0, 10, 10, 49, '2024-03-22 19:32:37'),
+(56, 'BINANGONAN', 'supply', '33', 'Intravenous Catheter gauge 22 ', 0, 15, 15, 49, '2024-03-23 14:48:36'),
 (57, 'BINANGONAN', 'supply', '32', 'Intravenous Catheter gauge 24 ', 0, 10, 10, 49, '2024-03-22 19:33:32'),
 (58, 'BINANGONAN', 'supply', '34', 'Intravenous macroset ', 0, 20, 20, 45, '2024-03-22 19:34:30'),
 (59, 'BINANGONAN', 'supply', '4', 'Isophrophyl Alcohol Spray 330ml', 1, 4, 5, 45, '2024-03-22 19:36:52'),
 (60, 'BINANGONAN', 'supply', '5', 'Isophrophyl Alcohol Spray 500ml', 0, 5, 5, 135, '2024-03-22 19:37:32'),
 (61, 'BINANGONAN', 'supply', '21', 'Latex Gloves  100pcs/box', 1, 3, 4, 255, '2024-03-22 19:40:06'),
 (62, 'BINANGONAN', 'supply', '11', 'Pain Patch 10s/pack', 1, 6, 7, 67.65, '2024-03-22 19:41:17'),
-(63, 'BINANGONAN', 'medicine', '44', 'TOPICAL 750ml/bot', 0, 4, 4, 350.45, '2024-03-23 13:48:05');
+(63, 'BINANGONAN', 'medicine', '44', 'TOPICAL 750ml/bot', 0, 9, 9, 520.194, '2024-03-23 15:36:00'),
+(64, 'BINANGONAN', 'medicine', '36', 'NASAL 50mcg', 0, 5, 5, 450, '2024-03-23 15:34:32'),
+(65, 'BINANGONAN', 'medicine', '43', 'TOPICAL 250tube', 0, 2, 2, 320.35, '2024-03-23 15:36:28');
 
 -- --------------------------------------------------------
 
@@ -5565,7 +5585,59 @@ INSERT INTO `report_medsupinv` (`id`, `campus`, `type`, `admin`, `medid`, `medic
 (166, 'BINANGONAN', 'medicine', 'ORAL', '19', 'Ibuprofen 200mg/capgel', 27, 1.75, 0, 0, 0, 0, 27, 47.25, '2024-02-29'),
 (167, 'BINANGONAN', 'medicine', 'OTIC', '40', 'OTIC 2ml', 3, 159, 0, 0, 0, 0, 3, 477, '2024-02-29'),
 (168, 'BINANGONAN', 'medicine', 'OTIC', '42', 'OTIC 10ml', 3, 235.45, 0, 0, 0, 0, 3, 706.35, '2024-02-29'),
-(169, 'BINANGONAN', 'medicine', 'TOPICAL', '45', 'TOPICAL 50tube', 4, 175, 0, 0, 0, 0, 4, 700, '2024-02-29');
+(169, 'BINANGONAN', 'medicine', 'TOPICAL', '45', 'TOPICAL 50tube', 4, 175, 0, 0, 0, 0, 4, 700, '2024-02-29'),
+(172, 'BINANGONAN', 'supply', '0', '1', 'Anti-Septic Plastic Strips 100strips/box', 3, 55, 1, 1, 0, 0, 4, 220, '2024-03-31'),
+(173, 'BINANGONAN', 'supply', '0', '33', 'Intravenous Catheter gauge 22 ', 10, 49, 5, 5, 0, 0, 15, 735, '2024-03-31'),
+(174, 'BINANGONAN', 'medicine', 'ORAL', '14', 'Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 233mg/tab', 10, 1.59, 12, 12, 0, 0, 22, 35, '2024-03-31'),
+(175, 'BINANGONAN', 'supply', '0', '8', 'BSI Medicated Spray 75ml', 4, 1350, 0, 0, 0, 0, 4, 5400, '2024-03-31'),
+(176, 'BINANGONAN', 'supply', '0', '37', 'Cotton Balls ', 5, 78.75, 0, 0, 0, 0, 5, 393.75, '2024-03-31'),
+(177, 'BINANGONAN', 'supply', '0', '18', 'Disposable Towel pcs', 1, 270, 0, 0, 0, 0, 1, 270, '2024-03-31'),
+(178, 'BINANGONAN', 'supply', '0', '20', 'Face Mask 50pcs/box', 11, 40.9091, 0, 0, 0, 0, 11, 450, '2024-03-31'),
+(179, 'BINANGONAN', 'supply', '0', '14', 'Fuji 2, glass ionomer pcs', 5, 550, 0, 0, 0, 0, 5, 2750, '2024-03-31'),
+(180, 'BINANGONAN', 'supply', '0', '13', 'Fuji1, glass ionomer pcs', 5, 788, 0, 0, 0, 0, 5, 3940, '2024-03-31'),
+(181, 'BINANGONAN', 'supply', '0', '15', 'Gel Foam pcs', 5, 230, 0, 0, 0, 0, 5, 1150, '2024-03-31'),
+(182, 'BINANGONAN', 'supply', '0', '32', 'Intravenous Catheter gauge 24 ', 10, 49, 0, 0, 0, 0, 10, 490, '2024-03-31'),
+(183, 'BINANGONAN', 'supply', '0', '34', 'Intravenous macroset ', 20, 45, 0, 0, 0, 0, 20, 900, '2024-03-31'),
+(184, 'BINANGONAN', 'supply', '0', '4', 'Isophrophyl Alcohol Spray 330ml', 5, 45, 0, 0, 0, 0, 5, 225, '2024-03-31'),
+(185, 'BINANGONAN', 'supply', '0', '5', 'Isophrophyl Alcohol Spray 500ml', 5, 135, 0, 0, 0, 0, 5, 675, '2024-03-31'),
+(186, 'BINANGONAN', 'supply', '0', '21', 'Latex Gloves  100pcs/box', 4, 255, 0, 0, 0, 0, 4, 1020, '2024-03-31'),
+(187, 'BINANGONAN', 'supply', '0', '11', 'Pain Patch 10s/pack', 7, 67.65, 0, 0, 0, 0, 7, 473.55, '2024-03-31'),
+(188, 'BINANGONAN', 'medicine', 'BUCCAL', '24', 'BUCCAL 10mg/cap', 10, 13.25, 0, 0, 0, 0, 10, 132.5, '2024-03-31'),
+(189, 'BINANGONAN', 'medicine', 'BUCCAL', '26', 'BUCCAL 20ml', 30, 30.75, 0, 0, 0, 0, 30, 922.5, '2024-03-31'),
+(190, 'BINANGONAN', 'medicine', 'BUCCAL', '27', 'BUCCAL 250mg/tab', 25, 31.45, 0, 0, 0, 0, 25, 786.25, '2024-03-31'),
+(191, 'BINANGONAN', 'medicine', 'INFUSED', '28', 'INFUSED 1L', 5, 750, 0, 0, 0, 0, 5, 3750, '2024-03-31'),
+(192, 'BINANGONAN', 'medicine', 'INFUSED', '29', 'INFUSED 500ml', 5, 450, 0, 0, 0, 0, 5, 2250, '2024-03-31'),
+(193, 'BINANGONAN', 'medicine', 'INFUSED', '30', 'INFUSED 250ml', 7, 250, 0, 0, 0, 0, 7, 1750, '2024-03-31'),
+(194, 'BINANGONAN', 'medicine', 'INHALABLE', '31', 'INHALABLE 100mcg', 3, 300, 0, 0, 0, 0, 3, 900, '2024-03-31'),
+(195, 'BINANGONAN', 'medicine', 'INHALABLE', '32', 'INHALABLE 90mcg', 4, 245, 0, 0, 0, 0, 4, 980, '2024-03-31'),
+(196, 'BINANGONAN', 'medicine', 'INHALABLE', '33', 'INHALABLE 180mcg', 5, 250, 0, 0, 0, 0, 5, 1250, '2024-03-31'),
+(197, 'BINANGONAN', 'medicine', 'NASAL', '34', 'NASAL 30ml', 5, 30, 0, 0, 0, 0, 5, 150, '2024-03-31'),
+(198, 'BINANGONAN', 'medicine', 'OPHTHALMIC', '38', 'OPHTHALMIC 5ml/bot', 3, 135.45, 0, 0, 0, 0, 3, 406.35, '2024-03-31'),
+(199, 'BINANGONAN', 'medicine', 'OPHTHALMIC', '39', 'OPHTHALMIC 2.5ml/bot', 5, 120, 0, 0, 0, 0, 5, 600, '2024-03-31'),
+(200, 'BINANGONAN', 'medicine', 'ORAL', '1', 'Ambroxol 30mg/tab', 47, 2, 0, 0, 0, 0, 47, 94, '2024-03-31'),
+(201, 'BINANGONAN', 'medicine', 'ORAL', '2', 'Amoxicillin 500mg/cap', 56, 1.28, 0, 0, 0, 0, 56, 71.68, '2024-03-31'),
+(202, 'BINANGONAN', 'medicine', 'ORAL', '3', 'Paracetamol 500mg/caplet', 58, 2, 0, 0, 0, 0, 58, 116, '2024-03-31'),
+(203, 'BINANGONAN', 'medicine', 'ORAL', '4', 'Clonidine HCL 75mcg/tab', 31, 4.95, 0, 0, 0, 0, 31, 153.45, '2024-03-31'),
+(204, 'BINANGONAN', 'medicine', 'ORAL', '5', 'Cefalaxin 500mg/tab', 23, 2.65, 0, 0, 0, 0, 23, 60.95, '2024-03-31'),
+(205, 'BINANGONAN', 'medicine', 'ORAL', '6', 'Cloxacillin 500mg/cap', 45, 2.78, 0, 0, 0, 0, 45, 125.1, '2024-03-31'),
+(206, 'BINANGONAN', 'medicine', 'ORAL', '7', 'Decolsin 15mg/cap', 28, 14, 0, 0, 0, 0, 28, 392, '2024-03-31'),
+(207, 'BINANGONAN', 'medicine', 'ORAL', '8', 'Decolsin 25mg/cap', 20, 16, 0, 0, 0, 0, 20, 320, '2024-03-31'),
+(208, 'BINANGONAN', 'medicine', 'ORAL', '9', 'Decolsin 325mg/cap', 15, 19.25, 0, 0, 0, 0, 15, 288.75, '2024-03-31'),
+(209, 'BINANGONAN', 'medicine', 'ORAL', '10', 'Dequalinium chloride 0.25mg/loz', 18, 7, 0, 0, 0, 0, 18, 126, '2024-03-31'),
+(210, 'BINANGONAN', 'medicine', 'ORAL', '11', 'Chlorpheniramine maleate 500mg/cap', 24, 11.29, 0, 0, 0, 0, 24, 270.96, '2024-03-31'),
+(211, 'BINANGONAN', 'medicine', 'ORAL', '12', 'Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 30mg/tab', 23, 3.3, 0, 0, 0, 0, 23, 75.9, '2024-03-31'),
+(212, 'BINANGONAN', 'medicine', 'ORAL', '13', 'Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 178mg/tab', 13, 2.2, 0, 0, 0, 0, 13, 28.6, '2024-03-31'),
+(213, 'BINANGONAN', 'medicine', 'ORAL', '15', 'Loperamide 2mg/cap', 39, 1, 0, 0, 0, 0, 39, 39, '2024-03-31'),
+(214, 'BINANGONAN', 'medicine', 'ORAL', '16', 'Loratadine 10mg/tab', 32, 1.47, 0, 0, 0, 0, 32, 47.04, '2024-03-31'),
+(215, 'BINANGONAN', 'medicine', 'ORAL', '17', 'Meclizine 25mcg/tab', 24, 9, 0, 0, 0, 0, 24, 216, '2024-03-31'),
+(216, 'BINANGONAN', 'medicine', 'ORAL', '18', 'Ibuprofen 200mg/tab', 45, 1, 0, 0, 0, 0, 45, 45, '2024-03-31'),
+(217, 'BINANGONAN', 'medicine', 'ORAL', '19', 'Ibuprofen 200mg/capgel', 27, 1.75, 0, 0, 0, 0, 27, 47.25, '2024-03-31'),
+(218, 'BINANGONAN', 'medicine', 'OTIC', '40', 'OTIC 2ml', 3, 159, 0, 0, 0, 0, 3, 477, '2024-03-31'),
+(219, 'BINANGONAN', 'medicine', 'OTIC', '42', 'OTIC 10ml', 3, 235.45, 0, 0, 0, 0, 3, 706.35, '2024-03-31'),
+(220, 'BINANGONAN', 'medicine', 'TOPICAL', '45', 'TOPICAL 50tube', 4, 175, 0, 0, 0, 0, 4, 700, '2024-03-31'),
+(221, 'BINANGONAN', 'medicine', 'NASAL', '36', 'NASAL 50mcg', 0, 0, 5, 5, 0, 0, 5, 2250, '2024-03-31'),
+(222, 'BINANGONAN', 'medicine', 'TOPICAL', '44', 'TOPICAL 750ml/bot', 0, 0, 5, 5, 0, 0, 5, 3279.95, '2024-03-31'),
+(223, 'BINANGONAN', 'medicine', 'TOPICAL', '43', 'TOPICAL 250tube', 0, 0, 2, 2, 0, 0, 2, 640.7, '2024-03-31');
 
 -- --------------------------------------------------------
 
@@ -5635,7 +5707,18 @@ INSERT INTO `report_teinv` (`id`, `campus`, `teid`, `tools_equip`, `bnw`, `bum`,
 (85, 'BINANGONAN', 1, 'Hot water bag 500ml', 0, 0, 2, 0, 2, 100, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 200, '2024-02-29'),
 (86, 'BINANGONAN', 6, 'Mouth Mirror', 0, 0, 1, 0, 1, 988.97, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 988.97, '2024-02-29'),
 (87, 'BINANGONAN', 9, 'Root Elevator', 0, 0, 1, 0, 1, 46.5, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 46.5, '2024-02-29'),
-(88, 'BINANGONAN', 2, 'Tebi-pack hot and cold', 0, 0, 3, 0, 3, 111.667, 0, 0, 0, 0, 0, 0, 0, 3, 0, 3, 335, '2024-02-29');
+(88, 'BINANGONAN', 2, 'Tebi-pack hot and cold', 0, 0, 3, 0, 3, 111.667, 0, 0, 0, 0, 0, 0, 0, 3, 0, 3, 335, '2024-02-29'),
+(89, 'BINANGONAN', 4, 'Art P6 Piezo Electric Compact Size Scaler', 0, 0, 1, 0, 1, 605, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 605, '2024-03-31'),
+(90, 'BINANGONAN', 7, 'Cotton Plier', 0, 0, 3, 0, 3, 90, 0, 0, 0, 0, 0, 0, 0, 3, 0, 3, 270, '2024-03-31'),
+(91, 'BINANGONAN', 11, 'Dent Air High Speed Air Turbine Hand Piece', 0, 0, 1, 0, 1, 1217, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1217, '2024-03-31'),
+(92, 'BINANGONAN', 5, 'Dental Explorer', 0, 0, 1, 0, 1, 69, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 69, '2024-03-31'),
+(93, 'BINANGONAN', 8, 'Dental Probe', 0, 0, 1, 0, 1, 278.75, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 278.75, '2024-03-31'),
+(94, 'BINANGONAN', 3, 'Digital Thermometer', 0, 0, 2, 0, 2, 258, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 516, '2024-03-31'),
+(95, 'BINANGONAN', 10, 'Extraction Forcep', 0, 0, 1, 0, 1, 345, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 345, '2024-03-31'),
+(96, 'BINANGONAN', 1, 'Hot water bag 500ml', 0, 0, 2, 0, 2, 100, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 200, '2024-03-31'),
+(97, 'BINANGONAN', 6, 'Mouth Mirror', 0, 0, 1, 0, 1, 988.97, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 988.97, '2024-03-31'),
+(98, 'BINANGONAN', 9, 'Root Elevator', 0, 0, 1, 0, 1, 46.5, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 46.5, '2024-03-31'),
+(99, 'BINANGONAN', 2, 'Tebi-pack hot and cold', 0, 0, 3, 0, 3, 111.667, 0, 0, 0, 0, 0, 0, 0, 3, 0, 3, 335, '2024-03-31');
 
 -- --------------------------------------------------------
 
@@ -6695,7 +6778,7 @@ ALTER TABLE `appointment_type`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1875;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1881;
 
 --
 -- AUTO_INCREMENT for table `campus`
@@ -6755,19 +6838,19 @@ ALTER TABLE `findiag`
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `inventory_medicine`
 --
 ALTER TABLE `inventory_medicine`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `inventory_supply`
 --
 ALTER TABLE `inventory_supply`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `inventory_te`
@@ -6779,7 +6862,7 @@ ALTER TABLE `inventory_te`
 -- AUTO_INCREMENT for table `inv_total`
 --
 ALTER TABLE `inv_total`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `meddoc`
@@ -6857,13 +6940,13 @@ ALTER TABLE `reports_medcase`
 -- AUTO_INCREMENT for table `report_medsupinv`
 --
 ALTER TABLE `report_medsupinv`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=224;
 
 --
 -- AUTO_INCREMENT for table `report_teinv`
 --
 ALTER TABLE `report_teinv`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `request_type`

@@ -85,59 +85,59 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Campus</th>
-                                                    <th>Patient</th>
-                                                    <th>Designation</th>
-                                                    <th>Date</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                <?php
-                                if (isset($_GET['account']) && $_GET['account'] != '') {
-                                    $account = $_GET['account'];
-                                    $count = 1;
-                                    $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient WHERE (patientid LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') AND (transaction = 'Consultation' OR purpose = 'Dental') GROUP BY patient ORDER BY datetime DESC LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } elseif (isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
-                                    $dt_from = $_GET['date_from'];
-                                    $dt_to = $_GET['date_to'];
-                                    $count = 1;
+                                <table class="table">
+                                    <thead class="head">
+                                        <tr>
+                                            <th>Campus</th>
+                                            <th>Patient</th>
+                                            <th>Designation</th>
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['account']) && $_GET['account'] != '') {
+                                            $account = $_GET['account'];
+                                            $count = 1;
+                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient WHERE (patientid LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') AND (transaction = 'Consultation' OR purpose = 'Dental') GROUP BY patient ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
+                                            $dt_from = $_GET['date_from'];
+                                            $dt_to = $_GET['date_to'];
+                                            $count = 1;
 
-                                    //date filter
-                                    if ($dt_from == "" and $dt_to == "") {
-                                        $date = "";
-                                    } elseif ($dt_to == $dt_from) {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $ldate = date("Y-m-d", strtotime($dt_to));
-                                        $date = "WHERE date >= '$fdate' AND date <= '$ldate'";
-                                    } elseif ($dt_to == "" and $dt_from != "") {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $date = "WHERE date >= '$fdate'";
-                                    } elseif ($dt_to == "" and $dt_from != "") {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $date = "WHERE date >= '$fdate'";
-                                    } elseif ($dt_from == "" and $dt_to != "") {
-                                        $d = date("Y-m-d", strtotime($dt_to));
-                                        $date = "WHERE date <= '$d'";
-                                    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
-                                        $fdate = date("Y-m-d", strtotime($dt_from));
-                                        $ldate = date("Y-m-d", strtotime($dt_to));
-                                        $date = "WHERE date >= '$fdate' AND date <= '$ldate'";
-                                    }
+                                            //date filter
+                                            if ($dt_from == "" and $dt_to == "") {
+                                                $date = "";
+                                            } elseif ($dt_to == $dt_from) {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = "WHERE date >= '$fdate' AND date <= '$ldate'";
+                                            } elseif ($dt_to == "" and $dt_from != "") {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = "WHERE date >= '$fdate'";
+                                            } elseif ($dt_to == "" and $dt_from != "") {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = "WHERE date >= '$fdate'";
+                                            } elseif ($dt_from == "" and $dt_to != "") {
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = "WHERE date <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = "WHERE date >= '$fdate' AND date <= '$ldate'";
+                                            }
 
-                                    $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient $date AND (transaction = 'Consultation' OR purpose = 'Dental') GROUP BY patient ORDER BY datetime DESC LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                } else {
-                                    $count = 1;
-                                    $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient WHERE transaction = 'Consultation' OR purpose = 'Dental' GROUP BY patient ORDER BY datetime DESC LIMIT $start, $rows_per_page";
-                                    $result = mysqli_query($conn, $sql);
-                                }
-                                if ($result) {
-                                    if ($row = mysqli_num_rows($result) > 0) {
+                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient $date AND (transaction = 'Consultation' OR purpose = 'Dental') GROUP BY patient ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient WHERE transaction = 'Consultation' OR purpose = 'Dental' GROUP BY patient ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if ($row = mysqli_num_rows($result) > 0) {
                                                 foreach ($result as $data) {
                                                     if (count(explode(" ", $data['middlename'])) > 1) {
                                                         $middle = explode(" ", $data['middlename']);
@@ -156,43 +156,41 @@ include('../../includes/pagination-limit.php');
 
                                                     $sql = "SELECT date FROM treatment_record WHERE patientid='$patientid'";
                                                     $result = mysqli_query($conn, $sql);
-                                                    foreach($result as $row)
-                                                    {
+                                                    foreach ($result as $row) {
                                                         $datelatest = $row['date'];
                                                     }
-                                                ?>
+                                        ?>
                                                     <tr>
                                                         <td><?= $data['campus'] ?></td>
                                                         <td><?= $fullname ?></td>
                                                         <td><?= $data['designation'] ?></td>
-                                                        <td><?= date("F d, Y", strtotime($datelatest))?></td>
+                                                        <td><?= date("F d, Y", strtotime($datelatest)) ?></td>
                                                         <td>
-                                                        <button type="button" class="btn btn-primary btn-sm" onclick="window.open('reports/reports_treatment_record.php?patientid=<?= $patientid?>')" target="_blank">View</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" onclick="window.open('reports/reports_treatment_record.php?patientid=<?= $patientid ?>')" target="_blank">View</button>
                                                         </td>
                                                     </tr>
-                                            <?php
+                                                <?php
                                                 }
-                                            } else
-                                            {?>
-                                                    <tr>
-                                                        <td colspan="5">No record Found</td>
-                                                    </tr>
+                                            } else { ?>
+                                                <tr>
+                                                    <td colspan="5">No record Found</td>
+                                                </tr>
                                             <?php } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php include('../../includes/pagination.php'); ?>
-                                    <?php
-                                } else {
-                                    ?>
-                                        <tr>
-                                            <td colspan="5">No record Found</td>
-                                        </tr>
-                                    <?php
-                                }
-                                mysqli_close($conn);
-                                    ?>
+                                    </tbody>
+                                </table>
+                            <?php
+                                        } else {
+                            ?>
+                                <tr>
+                                    <td colspan="5">No record Found</td>
+                                </tr>
+                            <?php
+                                        }
+                                        mysqli_close($conn);
+                            ?>
                             </div>
                         </div>
+                        <?php include('../../includes/pagination.php'); ?>
                     </div>
                 </div>
             </div>

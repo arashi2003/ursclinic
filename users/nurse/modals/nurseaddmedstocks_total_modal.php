@@ -5,7 +5,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Add Medicine Stocks</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.href = '../nurse/med_stocks_total'"></button>
             </div>
-            <form method="POST" action="../../users/dentist/month" id="form">
+            <form method="POST" action="modals/inv_medstocks_total.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="admin" class="form-label">Medicine Administration:</label>
@@ -13,6 +13,7 @@
                             <option value="" disabled selected>-Select Medicine Administration-</option>
                             <?php
                             //modals/inv_medstocks_total.php
+                            //../../users/dentist/month
                             include('connection.php');
                             $sql = "SELECT * FROM med_admin ORDER BY med_admin";
                             $result = mysqli_query($conn, $sql);
@@ -90,7 +91,21 @@
                 });
             }
         });
-        
+    });
+
+    $(document).ready(function() {
+        $('#showDate').datepicker({
+            dateFormat: "yy-mm-dd",
+            minDate: 0, // Disable past dates
+            beforeShowDay: function(date) {
+                var day = date.getDay();
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
         // Handle medicine selection
         $("#medicine").change(function() {
             var selectedStatus = $(this).find('option:selected').data('status');
@@ -102,23 +117,13 @@
             } else if (selectedStatus == 'per piece') {
                 $("#perpieceDiv").removeClass('hidden');
                 $("#open-closeDiv").addClass('hidden');
-                $("#perpieceDiv input[name='opened[]']").val(0);
+                $("#open-closeDiv input[name='opened[]']").prop('disabled', true);
             } else {
                 // Hide both quantity input fields if status is neither 'open-close' nor 'per piece'
                 $("#open-closeDiv").addClass('hidden');
                 $("#perpieceDiv").addClass('hidden');
                 $("#open-closeDiv input[name='opened[]']").prop('disabled', true);
                 $("#perpieceDiv input[name='opened[]']").prop('disabled', true);
-            }
-        });
-    });
-
-    $(document).ready(function() {
-        $('#showDate').datepicker({
-            dateFormat: "yy-mm-dd",
-            minDate: 0, // Disable past dates
-            beforeShowDay: function(date) {
-                var day = date.getDay();
             }
         });
     });
