@@ -1,6 +1,4 @@
 <?php
-session_start();
-include('connection.php');
 
 $campus = $_SESSION['campus'];
 $today = date("Y-m-d");
@@ -35,7 +33,7 @@ if ($resultCheck > 0) {
             }
         }
     }
-} 
+}
 
 //auto report med in medsupinv
 $query = "SELECT * FROM report_medsupinv WHERE date = '$lastmonth' AND eqty > 0 AND type = 'medicine' AND campus='$campus'";
@@ -63,7 +61,7 @@ if ($resultCheck > 0) {
             }
         }
     }
-} 
+}
 
 //auto report teinv
 $query = "SELECT * FROM report_teinv WHERE date = '$lastmonth' AND etqty > 0 AND campus='$campus'";
@@ -73,7 +71,7 @@ if ($resultCheck > 0) {
     foreach ($result as $data) {
         $teid = $data['teid'];
         $tools_equip = $data['tools_equip'];
-        
+
         $query = "SELECT * FROM report_teinv WHERE date = '$tmonth' AND teid = '$teid' AND campus='$campus'";
         $result = mysqli_query($conn, $query);
         $resultCheck = mysqli_num_rows($result);
@@ -101,7 +99,7 @@ if ($resultCheck > 0) {
             mysqli_query($conn, $sql);
         }
     }
-} 
+}
 
 //update auidit trail about expired stocks
 $query = "SELECT * FROM inventory_medicine WHERE expiration <= '$today' AND campus='$campus'";
@@ -185,5 +183,3 @@ if ($resultCheck > 0) {
         }
     }
 }
-
-mysqli_close($conn);

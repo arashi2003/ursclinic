@@ -448,143 +448,144 @@
             </div>
         </div>
     </div>
+</div>
 
 
-    <script>
-        function duplicate_med() {
-            var row = $('.duplicate_med').first().clone();
-            row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_med(this)');
-            $('.duplicate_med').last().after(row);
-            // Increment the index for each duplicated input
-            row.find('input[type="number"]').val(''); // Clear the value of the new input
-            row.find('select[name="medicine[]"]').val(''); // Clear the value of the new select
-        }
+<script>
+    function duplicate_med() {
+        var row = $('.duplicate_med').first().clone();
+        row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_med(this)');
+        $('.duplicate_med').last().after(row);
+        // Increment the index for each duplicated input
+        row.find('input[type="number"]').val(''); // Clear the value of the new input
+        row.find('select[name="medicine[]"]').val(''); // Clear the value of the new select
+    }
 
-        function remove_med(btn) {
-            $(btn).closest('.duplicate_med').remove();
-        }
+    function remove_med(btn) {
+        $(btn).closest('.duplicate_med').remove();
+    }
 
-        function duplicate_sup() {
-            var row = $('.duplicate_sup').first().clone();
-            row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_sup(this)');
-            $('.duplicate_sup').last().after(row);
-            // Increment the index for each duplicated input
-            row.find('input[type="number"]').val(''); // Clear the value of the new input
-            row.find('select[name="supply[]"]').val(''); // Clear the value of the new select
-        }
+    function duplicate_sup() {
+        var row = $('.duplicate_sup').first().clone();
+        row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_sup(this)');
+        $('.duplicate_sup').last().after(row);
+        // Increment the index for each duplicated input
+        row.find('input[type="number"]').val(''); // Clear the value of the new input
+        row.find('select[name="supply[]"]').val(''); // Clear the value of the new select
+    }
 
-        function remove_sup(btn) {
-            $(btn).closest('.duplicate_sup').remove();
-        }
-    </script>
+    function remove_sup(btn) {
+        $(btn).closest('.duplicate_sup').remove();
+    }
+</script>
 
-    <script>
-        function fetchPatientData() {
-            var patientId = document.getElementById('patientid').value;
-            if (patientId.trim() !== '') {
-                // Perform AJAX request to fetch patient data
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', 'add/get_patientid.php', true);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status === 200) {
-                            // Process the response
-                            var response = JSON.parse(xhr.responseText);
-                            if (response.error) {
-                                // Display Bootstrap form validation error message
-                                document.getElementById('patientid').classList.add('is-invalid');
-                                document.getElementById('patientid').setCustomValidity(response.error);
-                                document.getElementById('patientid').reportValidity();
-                            } else {
-                                // Update form fields with fetched patient data
-                                document.getElementById('firstname').value = response.firstname;
-                                document.getElementById('middlename').value = response.middlename;
-                                document.getElementById('lastname').value = response.lastname;
-                                document.getElementById('designation').value = response.designation;
-                                document.getElementById('sex').value = response.sex;
-                                document.getElementById('birthday').value = response.birthday;
-                                document.getElementById('department').value = response.department;
-                                document.getElementById('college').value = response.college;
-                                document.getElementById('program').value = response.program;
-                                document.getElementById('yearlevel').value = response.yearlevel;
-                                document.getElementById('section').value = response.section;
-                                document.getElementById('block').value = response.block;
-
-                                // Reset form validation state
-                                document.getElementById('patientid').classList.remove('is-invalid');
-                                document.getElementById('patientid').setCustomValidity('');
-                            }
+<script>
+    function fetchPatientData() {
+        var patientId = document.getElementById('patientid').value;
+        if (patientId.trim() !== '') {
+            // Perform AJAX request to fetch patient data
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'add/get_patientid.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Process the response
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.error) {
+                            // Display Bootstrap form validation error message
+                            document.getElementById('patientid').classList.add('is-invalid');
+                            document.getElementById('patientid').setCustomValidity(response.error);
+                            document.getElementById('patientid').reportValidity();
                         } else {
-                            // Handle error if AJAX request fails
-                            console.error('Error: Unable to fetch patient data');
+                            // Update form fields with fetched patient data
+                            document.getElementById('firstname').value = response.firstname;
+                            document.getElementById('middlename').value = response.middlename;
+                            document.getElementById('lastname').value = response.lastname;
+                            document.getElementById('designation').value = response.designation;
+                            document.getElementById('sex').value = response.sex;
+                            document.getElementById('birthday').value = response.birthday;
+                            document.getElementById('department').value = response.department;
+                            document.getElementById('college').value = response.college;
+                            document.getElementById('program').value = response.program;
+                            document.getElementById('yearlevel').value = response.yearlevel;
+                            document.getElementById('section').value = response.section;
+                            document.getElementById('block').value = response.block;
+
+                            // Reset form validation state
+                            document.getElementById('patientid').classList.remove('is-invalid');
+                            document.getElementById('patientid').setCustomValidity('');
                         }
+                    } else {
+                        // Handle error if AJAX request fails
+                        console.error('Error: Unable to fetch patient data');
                     }
-                };
-                xhr.send('action=fetch_patient_data&patientid=' + encodeURIComponent(patientId));
-            } else {
-                // Clear form fields if patient ID is empty
-                // Also reset form validation state
-                document.getElementById('firstname').value = '';
-                document.getElementById('middlename').value = '';
-                document.getElementById('lastname').value = '';
-                document.getElementById('designation').value = '';
-                document.getElementById('sex').value = '';
-                document.getElementById('birthday').value = '';
-                document.getElementById('department').value = '';
-                document.getElementById('college').value = '';
-                document.getElementById('program').value = '';
-                document.getElementById('yearlevel').value = '';
-                document.getElementById('section').value = '';
-                document.getElementById('block').value = '';
-                document.getElementById('patientid').classList.remove('is-invalid');
-                document.getElementById('patientid').setCustomValidity('');
-            }
-        }
-    </script>
-
-    <script type="text/javascript">
-        function enableTransaction(answer) {
-            console.log(answer.value);
-            {
-                if (answer.value == 'Walk-In') {
-                    document.getElementById('medHistoryDiv').classList.add('hidden');
-                    document.getElementById('defaultDiv').classList.remove('hidden');
-                } else if (answer.value == 'Medical History') {
-                    document.getElementById('defaultDiv').classList.add('hidden');
-                    document.getElementById('medHistoryDiv').classList.remove('hidden');
                 }
-            }
-        };
-    </script>
-
-    <script>
-        // Function to check if all required fields except middle name are filled
-        function checkRequiredFields() {
-            var requiredFields = document.querySelectorAll('.patients [required]:not(#middlename)');
-            var allFilled = true;
-            requiredFields.forEach(function(field) {
-                if (field.value.trim() === '') {
-                    allFilled = false;
-                }
-            });
-            return allFilled;
+            };
+            xhr.send('action=fetch_patient_data&patientid=' + encodeURIComponent(patientId));
+        } else {
+            // Clear form fields if patient ID is empty
+            // Also reset form validation state
+            document.getElementById('firstname').value = '';
+            document.getElementById('middlename').value = '';
+            document.getElementById('lastname').value = '';
+            document.getElementById('designation').value = '';
+            document.getElementById('sex').value = '';
+            document.getElementById('birthday').value = '';
+            document.getElementById('department').value = '';
+            document.getElementById('college').value = '';
+            document.getElementById('program').value = '';
+            document.getElementById('yearlevel').value = '';
+            document.getElementById('section').value = '';
+            document.getElementById('block').value = '';
+            document.getElementById('patientid').classList.remove('is-invalid');
+            document.getElementById('patientid').setCustomValidity('');
         }
+    }
+</script>
 
-        // Function to enable/disable Next button based on required fields
-        function toggleNextButton() {
-            var nextButton = document.getElementById('nextButton');
-            if (checkRequiredFields()) {
-                nextButton.disabled = false;
-            } else {
-                nextButton.disabled = true;
+<script type="text/javascript">
+    function enableTransaction(answer) {
+        console.log(answer.value);
+        {
+            if (answer.value == 'Walk-In') {
+                document.getElementById('medHistoryDiv').classList.add('hidden');
+                document.getElementById('defaultDiv').classList.remove('hidden');
+            } else if (answer.value == 'Medical History') {
+                document.getElementById('defaultDiv').classList.add('hidden');
+                document.getElementById('medHistoryDiv').classList.remove('hidden');
             }
         }
-        // Event listener for input change to toggle Next button
-        document.querySelectorAll('.patients input, .patients select').forEach(function(element) {
-            element.addEventListener('change', toggleNextButton);
+    };
+</script>
+
+<script>
+    // Function to check if all required fields except middle name are filled
+    function checkRequiredFields() {
+        var requiredFields = document.querySelectorAll('.patients [required]:not(#middlename)');
+        var allFilled = true;
+        requiredFields.forEach(function(field) {
+            if (field.value.trim() === '') {
+                allFilled = false;
+            }
         });
+        return allFilled;
+    }
 
-        // Initial check on page load
-        toggleNextButton();
-    </script>
+    // Function to enable/disable Next button based on required fields
+    function toggleNextButton() {
+        var nextButton = document.getElementById('nextButton');
+        if (checkRequiredFields()) {
+            nextButton.disabled = false;
+        } else {
+            nextButton.disabled = true;
+        }
+    }
+    // Event listener for input change to toggle Next button
+    document.querySelectorAll('.patients input, .patients select').forEach(function(element) {
+        element.addEventListener('change', toggleNextButton);
+    });
+
+    // Initial check on page load
+    toggleNextButton();
+</script>

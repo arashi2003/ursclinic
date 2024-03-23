@@ -10,13 +10,28 @@ $userid = $_SESSION['userid'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 
-// Check if the month filter is set
-if (isset($_GET['designation']) && !empty($_GET['designation'])) {
-    $designation = $_GET['designation'];
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM patient_info WHERE campus = '$campus' AND designation='$designation'";
+// Check if the patient or designation filter is set
+if (isset($_GET['patient']) || isset($_GET['designation'])) {
+    // Validate and sanitize input
+    $patient = isset($_GET['patient']) ? $_GET['patient'] : '';
+    $designation = isset($_GET['designation']) ? $_GET['designation'] : '';
+
+    // Initialize the WHERE clause
+    $whereClause = " AND ac.campus = '$campus'";
+
+    // Add conditions based on filters
+    if ($patient !== '') {
+        $whereClause .= " AND (CONCAT(ac.firstname,' ', ac.lastname) LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.middlename,' ', ac.lastname) LIKE '%$patient%' OR patientid LIKE '%$patient%')";
+    }
+    if ($designation !== '') {
+        $whereClause .= " AND designation = '$designation'";
+    }
+
+    // Construct and execute SQL query for counting total rows
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE 1=1 $whereClause";
 } else {
-    // If month filter is not set, count all rows
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM patient_info WHERE campus = '$campus'";
+    // If filters are not set, count all rows
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE ac.campus = '$campus'";
 }
 
 // Execute the count query
@@ -261,21 +276,21 @@ if ($pages > 4) {
                                     <?php
                                     if (mysqli_num_rows($result) > 0) : ?>
                                         <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
                                         </li>
                                         <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
                                         </li>
                                         <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
                                             <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-                                                <a class="page-link" href="?<?= isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                                                <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
                                             </li>
                                         <?php endfor; ?>
                                         <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
                                         </li>
                                         <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
                                         </li>
                                     <?php endif; ?>
                                 </ul>

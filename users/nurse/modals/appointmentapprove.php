@@ -15,6 +15,8 @@ if ($result) {
 
     $query = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
     mysqli_query($conn, $sql) or die(mysqli_error($conn));
+
+    $_SESSION['alert'] = 'You have approved an appointment'
 ?>
     <script>
         setTimeout(function() {
