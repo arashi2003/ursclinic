@@ -12,11 +12,95 @@ $usertype = $_SESSION['usertype'];
 
 $ldate = date("Y-m-t");
 
-// get the total nr of rows.
-$records = $conn->query("SELECT b.id, b.campus, b.batchid, b.stock_type, b.stockid, b.qty, b.unit_cost, b.expiration, s.supply, s.volume, s.unit_measure FROM inventory b INNER JOIN supply s on s.supid=b.stockid WHERE stock_type = 'supply' AND campus = '$campus' AND qty > 0  ORDER BY batchid, stockid");
-$nr_of_rows = $records->num_rows;
+// Check if the supply or batch filter is set
+if (isset($_GET['supply']) || isset($_GET['batch'])) {
+    // Validate and sanitize input
+    $supply = isset($_GET['supply']) ? $_GET['supply'] : '';
+    $batch = isset($_GET['batch']) ? $_GET['batch'] : '';
 
-include('../../includes/pagination-limit.php');
+    // Initialize the WHERE clause
+    $whereClause = " campus = '$campus' AND b.qty > 0"; // Start with common conditions
+
+    // Add conditions based on filters
+    if ($supply !== '') {
+        $whereClause .= " AND CONCAT(s.supply, ' ', s.volume, s.unit_measure) LIKE '%$supply%'"; // Add supply filter
+    }
+    if ($batch !== '') {
+        $whereClause .= " AND b.batchid = '$batch'"; // Add batch filter
+    }
+
+    // Construct and execute SQL query for counting total rows
+    $sql_count = "SELECT COUNT(*) AS total_rows 
+                  FROM inventory b 
+                  INNER JOIN supply s ON s.supid = b.stockid 
+                  WHERE $whereClause AND b.stock_type = 'supply'";
+} else {
+    // If filters are not set, count all rows
+    $sql_count = "SELECT COUNT(*) AS total_rows 
+                  FROM inventory b 
+                  INNER JOIN supply s ON s.supid = b.stockid 
+                  WHERE campus = '$campus' AND b.qty > 0 AND b.stock_type = 'supply'";
+}
+
+// Execute the count query
+$count_result = $conn->query($sql_count);
+
+// Check if count query was successful
+if ($count_result) {
+    // Fetch the total number of rows
+    $count_row = $count_result->fetch_assoc();
+    $nr_of_rows = $count_row['total_rows'];
+} else {
+    // Handle count query error
+    echo "Error: " . $conn->error;
+}
+
+// Setting the number of rows to display in a page.
+$rows_per_page = 10;
+
+// determine the page
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Setting the start from, value.
+$start = ($page - 1) * $rows_per_page;
+
+// calculating the nr of pages.
+$pages = ceil($nr_of_rows / $rows_per_page);
+
+// calculate the range of page numbers to be displayed
+$start_loop = max(1, $page - 2);
+$end_loop = min($pages, $page + 2);
+
+// adjust the range if the current page is near the beginning or end
+if ($start_loop > 1) {
+    $start_loop--;
+    $end_loop++;
+}
+
+// ensure that the range is never smaller than 4
+if ($end_loop - $start_loop < 4) {
+    $start_loop = max(1, $end_loop - 4);
+}
+
+$previous = $page - 1;
+$next = $page + 1;
+
+// calculate the start and end loop variables
+$start_loop = $page > 2 ? $page - 2 : 1;
+$end_loop = $page < $pages - 2 ? $page + 2 : $pages;
+
+// limit the number of pages displayed to a maximum of 4
+if ($pages > 4) {
+    if ($page > 2 && $page < $pages - 1) {
+        $end_loop = $page + 1;
+    } elseif ($page == 1) {
+        $start_loop = 1;
+        $end_loop = 4;
+    } elseif ($page == $pages) {
+        $start_loop = $pages - 3;
+        $end_loop = $pages;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -136,14 +220,15 @@ include('../../includes/pagination-limit.php');
                                         </div>
                                         <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
+                                            <a href="sup_stocks_batch" class="btn btn-danger">Reset</a>
                                         </div>
                                 </form>
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <table>
-                                    <thead>
+                                <table class="table">
+                                    <thead class="head">
                                         <tr>
                                             <th>Batch ID</th>
                                             <th>Supply</th>
@@ -189,22 +274,42 @@ include('../../includes/pagination-limit.php');
                                                         } ?></td>
                                                     </tr>
                                                 <?php
-                                            } ?>
-                                    </tbody>
-                                </table>
-                                <?php include('../../includes/pagination.php'); ?>
-                            <?php
-                                        } else {
-                            ?>
-                                <td colspan="7">
-                                    <?php
-                                            include('../../includes/no-data.php');
-                                    ?>
-                                </td>
-                            <?php
+                                            } else {
+                                                ?>
+                                                    <td colspan="7">
+                                                        <?php
+                                                        include('../../includes/no-data.php');
+                                                        ?>
+                                                    </td>
+                                            <?php
+                                            }
                                         }
                                         mysqli_close($conn);
-                            ?>
+                                            ?>
+                                    </tbody>
+                                </table>
+                                <ul class="pagination justify-content-end">
+                                    <?php
+                                    if (mysqli_num_rows($result) > 0) : ?>
+                                        <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['supply']) ? 'supply=' . $_GET['supply'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['supply']) ? 'supply=' . $_GET['supply'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
+                                        </li>
+                                        <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
+                                            <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                                                <a class="page-link" href="?<?= isset($_GET['supply']) ? 'supply=' . $_GET['supply'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                                            </li>
+                                        <?php endfor; ?>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['supply']) ? 'supply=' . $_GET['supply'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['supply']) ? 'supply=' . $_GET['supply'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
                             </div>
                         </div>
                     </div>

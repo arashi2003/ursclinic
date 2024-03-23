@@ -30,7 +30,7 @@
             $this->SetFont('Arial','',10);
             $this->Cell(0, 10, '', 0, 1);
 
-            $dt = date("Y-m");//$_POST['month'];
+            $dt = $_POST['month'];
             if ($dt == "")
             {
                 $date = "";
@@ -98,7 +98,7 @@
 
     $campus = $_SESSION['campus'];
     $user = $_SESSION['userid'];
-    $dt = date("Y-m");//$_POST['month'];
+    $dt = $_POST['month'];
 
 
     //campus filter

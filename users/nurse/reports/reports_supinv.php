@@ -32,7 +32,7 @@
             $this->Cell(0, .1, '', 1, 0);
             $this->Cell(0, 8, '', 0, 1);
 
-            $dt = date("Y-m-t");//$_POST['month'];
+            $dt = $_POST['month'];
             if ($dt == "")
             {
                 $date = "";
@@ -72,7 +72,7 @@
             $this->SetY(-12);
             $user = $_SESSION['userid'];
 
-            $dt = date("Y-m-t");//$_POST['month'];
+            $dt = $_POST['month'];
             $date = strtoupper(date("F Y", strtotime($dt)));
             $activity = "saved a pdf report of medical supply consumption for " . $date;
             
@@ -110,7 +110,7 @@
     $pdf->SetAutoPageBreak(true, 15);
     $pdf->SetFont('Arial', '', 10);
 
-    $dt = date("Y-m-t");//$_POST['month'];
+    $dt = $_POST['month'];
     $date = date("Y-m-t", strtotime($dt));
 
     //campus filter
@@ -300,7 +300,7 @@
     $pdf->Cell(60, -2, $title2, 0, 0, 'C');
     $pdf->Cell(50, -2, $title3, 0, 0, 'C');
 
-    $dt = date("Y-m-t");//$_POST['month'];
+    $dt = $_POST['month'];
     if ($dt == "")
     {
         $ddd = date("F_Y");
