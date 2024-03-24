@@ -21,7 +21,7 @@ include('../../includes/pagination-limit.php');
 <html lang="en" dir="ltr">
 
 <head>
-    <title>Transaction</title>
+    <title>Medical Records</title>
     <?php include('../../includes/header.php'); ?>
 </head>
 
@@ -31,7 +31,7 @@ include('../../includes/pagination-limit.php');
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">TRANSACTION HISTORY</span>
+                <span class="dashboard">MEDICAL RECORDS</span>
             </div>
             <div class="right-nav">
                 <div class="profile-details">

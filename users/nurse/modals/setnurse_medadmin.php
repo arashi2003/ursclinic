@@ -15,7 +15,7 @@
         ?>
         <script>
             setTimeout(function() {
-                window.location = "../medadmin_set.php";
+                window.location = "../medadmin_set";
             });
             </script>
         <?php
@@ -32,7 +32,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../medadmin_set.php";
+                        window.location = "../medadmin_set";
                     });
                     </script>
                 <?php
@@ -43,7 +43,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../medadmin_set.php";
+                        window.location = "../medadmin_set";
                     });
                     </script>
                 <?php
@@ -56,7 +56,7 @@
 ?>
 <script>
     setTimeout(function() {
-        window.location = "../medadmin_set.php";
+        window.location = "../medadmin_set";
     });
     </script>
 <?php

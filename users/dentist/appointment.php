@@ -230,6 +230,7 @@ if ($approved_pages > 4) {
                                             <th>Time to</th>
                                             <th>Patient Name</th>
                                             <th>Action</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         <?php

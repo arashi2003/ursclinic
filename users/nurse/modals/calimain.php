@@ -100,7 +100,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                  window.location = "../te_stocks.php";
+                  window.location = "../te_stocks";
                 });
               </script>
             <?php
@@ -111,7 +111,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                  window.location = "../te_stocks.php";
+                  window.location = "../te_stocks";
                 });
               </script>
             <?php
@@ -127,7 +127,7 @@
           ?>
           <script>
               setTimeout(function() {
-                window.location = "../te_stocks.php";
+                window.location = "../te_stocks";
               });
             </script>
           <?php
@@ -138,7 +138,7 @@
           ?>
           <script>
               setTimeout(function() {
-                window.location = "../te_stocks.php";
+                window.location = "../te_stocks";
               });
             </script>
           <?php
@@ -152,7 +152,7 @@
 ?>
  <script>
     setTimeout(function() {
-      window.location = "../te_stocks.php";
+      window.location = "../te_stocks";
     });
   </script>
 <?php

@@ -16,7 +16,7 @@
         ?>
         <script>
             setTimeout(function() {
-                window.location = "../apptype_set.php";
+                window.location = "../apptype_set";
             });
         </script>
         <?php
@@ -33,7 +33,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../apptype_set.php";
+                        window.location = "../apptype_set";
                     });
                 </script>
                 <?php
@@ -44,7 +44,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../apptype_set.php";
+                        window.location = "../apptype_set";
                     });
                 </script>
                 <?php
@@ -57,7 +57,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../apptype_set.php";
+        window.location = "../apptype_set";
     });
 </script>
 <?php

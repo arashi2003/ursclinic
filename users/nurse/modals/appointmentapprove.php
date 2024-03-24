@@ -20,7 +20,7 @@ if ($result) {
 ?>
     <script>
         setTimeout(function() {
-            window.location = "../appointment.php";
+            window.location = "../appointment";
         });
     </script>
 <?php

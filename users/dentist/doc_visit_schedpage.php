@@ -59,7 +59,7 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addsched">Add Walk-In Schedule</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addsched">Add Walk-In Schedule</button>
                     <?php include('modals/add_sched_modal.php'); ?>
                 </div>
                 <div class="content">

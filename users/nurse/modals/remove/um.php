@@ -17,7 +17,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../umeasure_set.php";
+                    window.location = "../../umeasure_set";
                 });
             </script>
             <?php
@@ -28,7 +28,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../umeasure_set.php";
+                    window.location = "../../umeasure_set";
                 });
             </script>
             <?php
@@ -41,7 +41,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../../umeasure_set.php";
+        window.location = "../../umeasure_set";
     });
 </script>
 <?php

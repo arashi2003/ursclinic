@@ -128,7 +128,7 @@
                             ?>
                             <script>
                                 setTimeout(function() {
-                                    window.location = "../../sup_stocks_total.php";
+                                    window.location = "../../sup_stocks_total";
                                 });
                             </script>
                             <?php
@@ -139,7 +139,7 @@
                             ?>
                             <script>
                                 setTimeout(function() {
-                                    window.location = "../../sup_stocks_total.php";
+                                    window.location = "../../sup_stocks_total";
                                 });
                             </script>
                             <?php
@@ -151,7 +151,7 @@
                         ?>
                             <script>
                                 setTimeout(function() {
-                                    window.location = "../../sup_stocks_total.php";
+                                    window.location = "../../sup_stocks_total";
                                 });
                             </script>
                             <?php
@@ -164,7 +164,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../../sup_stocks_total.php";
+                        window.location = "../../sup_stocks_total";
                     });
                 </script>
                 <?php
@@ -176,7 +176,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../sup_stocks_total.php";
+                    window.location = "../../sup_stocks_total";
                 });
             </script>
             <?php
@@ -189,7 +189,7 @@
 ?>
 <script>
     setTimeout(function() {
-        window.location = "../../sup_stocks_total.php";
+        window.location = "../../sup_stocks_total";
     });
     </script>
 <?php

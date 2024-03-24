@@ -62,8 +62,8 @@ include('../../includes/pagination-limit.php');
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <table>
-                                    <thead>
+                                <table class="table">
+                                    <thead class="head">
                                         <tr>
                                             <th>No.</th>
                                             <th>Campus</th>
@@ -71,6 +71,7 @@ include('../../includes/pagination-limit.php');
                                             <th>Time</th>
                                             <th>Max. No. of Patients</th>
                                             <th>Action</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         <?php

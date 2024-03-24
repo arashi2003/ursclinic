@@ -22,7 +22,7 @@ include('../../../includes/pagination-limit.php');
 <html lang="en" dir="ltr">
 
 <head>
-    <title>Transaction</title>
+    <title>Medical Records</title>
     <?php include('../../../includes/header.php'); ?>
 </head>
 
@@ -32,7 +32,7 @@ include('../../../includes/pagination-limit.php');
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">HISTORY</span>
+                <span class="dashboard">MEDICAL RECORD</span>
             </div>
             <div class="right-nav">
                 <div class="notification-button">

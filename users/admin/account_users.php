@@ -45,7 +45,7 @@ include('../../includes/pagination-limit.php')
 
             /*
             // ito naman code na nagana pag may filter na napili:
-            //<button type="button" class="btn btn-primary btn-lg" onclick="window.open('reports/reports_accounts?campus=<?=$_GET['campus']?>&status=<?=$_GET['status']?>&usertype=<?=$_GET['usertype']?>')" target="_blank">Export to PDF</button>
+            //<button type="button" class="btn btn-primary" onclick="window.open('reports/reports_accounts?campus=<?=$_GET['campus']?>&status=<?=$_GET['status']?>&usertype=<?=$_GET['usertype']?>')" target="_blank">Export to PDF</button>
             */
 
             ?>
@@ -89,10 +89,10 @@ include('../../includes/pagination-limit.php')
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addaccount">Add Account</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addaccount">Add Account</button>
                     <?php include('modals/addaccount_modal.php'); ?>
                     &ThickSpace;
-                    <button type="button" class="btn btn-primary btn-lg" onclick="exportToPDF()">Export to PDF</button>
+                    <button type="button" class="btn btn-primary" onclick="exportToPDF()">Export to PDF</button>
                 </div>
                 <div class="content">
                     <div class="row">

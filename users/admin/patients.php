@@ -63,7 +63,7 @@ include('../../includes/pagination-limit.php')
                             <button class="btn btn-primary" type="submit" name="save_excel_data" id="uploadButton" disabled>Upload</button>
                         </div>
                     </form>&ThickSpace;
-                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addpatient">Add Patient</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addpatient">Add Patient</button>
                     <?php include('modals/addpatient_modal.php'); ?>
                     &ThickSpace;
                 </div>

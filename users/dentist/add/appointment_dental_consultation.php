@@ -4,7 +4,7 @@
     $user = $_SESSION['userid'];
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
-    $activity = "added a Treatment Record for " . $_POST['patientid'];
+    $activity = "added a Appointment Record for " . $_POST['patientid'];
     $au_status = "unread";
 
     //patient info
@@ -21,63 +21,42 @@
     $dentist = $fullname;
     $enddate = date("Y-m-t");
 
-    // get patient info
-    if($patientid != "")
+    $sql = "SELECT * FROM patient_info p INNER JOIN account a on a.accountid=p.patientid WHERE patientid='$patientid'";
+    $result = mysqli_query($conn, $sql);
+    while($data=mysqli_fetch_array($result))
     {
-        $sql = "SELECT * FROM patient_info p INNER JOIN account a on a.accountid=p.patientid WHERE patientid='$patientid'";
-        $result = mysqli_query($conn, $sql);
-        while($data=mysqli_fetch_array($result))
-        {
-            //kukunin sa db
-            $firstname = strtoupper($data['firstname']);
-            $middlename = strtoupper($data['middlename']);
-            $lastname = strtoupper($data['lastname']);
-            $designation = strtoupper($data['designation']);
-            $sex = strtoupper($data['sex']);
-            $department = $data['department'];
-            $college = $data['college'];
-            $campus = $data['campus'];
-            $age = floor((time() - strtotime($data['birthday'])) / 31556926); 
-            $program = $data['program'];
-            $yearlevel = $data['yearlevel'];
-            $section = $data['section'];
-            $block = $data['block'];
-            $address = $data['address'];
-            $birthday = $data['birthday']; 
-        }
-    }
-    else
-    {
-        $firstname = strtoupper($_POST['firstname']);
-        $middlename = strtoupper($_POST['middlename']);
-        $lastname = strtoupper($_POST['lastname']);
-        $designation = strtoupper($_POST['designation']);
-        $sex = strtoupper($_POST['sex']);
-        $department = $_POST['department'];
-        $college = $_POST['college'];
-        $campus = $_POST['campus'];
-        $age = floor((time() - strtotime($_POST['birthday'])) / 31556926); 
-        $program = $_POST['program'];
-        $yearlevel = $_POST['yearlevel'];
-        $section = $_POST['section'];
-        $block = $_POST['block'];
-        $address = $_POST['address'];
-        $birthday = $_POST['birthday']; 
+        //kukunin sa db
+        $firstname = strtoupper($data['firstname']);
+        $middlename = strtoupper($data['middlename']);
+        $lastname = strtoupper($data['lastname']);
+        $designation = strtoupper($data['designation']);
+        $sex = strtoupper($data['sex']);
+        $department = $data['department'];
+        $college = $data['college'];
+        $campus = $data['campus'];
+        $age = floor((time() - strtotime($data['birthday'])) / 31556926); 
+        $program = $data['program'];
+        $yearlevel = $data['yearlevel'];
+        $section = $data['section'];
+        $block = $data['block'];
+        $address = $data['address'];
+        $birthday = $data['birthday']; 
     }
 
-    //kunin medcase as text
-    $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
+    $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
     $result = mysqli_query($conn, $sql);
     while($data=mysqli_fetch_array($result))
     {
         if($data['medcase'] != 'Others:')
-        {
+        { 
+            $medcase =  $_POST['medcase'];
             $medcase_type = $data['type'];
-            $medcase = $data['medcase'];
+            $medcase_others = $_POST['medcase_others'];
         }
         else
         {
-            $medcase_type = "others";
+            $medcase_type ="others";
+            $medcase_others = $_POST['medcase_others'];
             $medcase = $medcase_others;
         }
     }
@@ -127,21 +106,22 @@
     
         // check if may existing na sa medcase report
         $enddate = date("Y-m-t");
-        $medcase_others = $_POST['medcase_others'];
 
         //kunin medcase as text
-        $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
+        $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
         $result = mysqli_query($conn, $sql);
         while($data=mysqli_fetch_array($result))
         {
             if($data['medcase'] != 'Others:')
-            {
+            { 
+                $medcase =  $_POST['medcase'];
                 $medcase_type = $data['type'];
-                $medcase = $data['medcase'];
+                $medcase_others = $_POST['medcase_others'];
             }
             else
             {
                 $medcase_type ="others";
+                $medcase_others = $_POST['medcase_others'];
                 $medcase = $medcase_others;
             }
         }
@@ -164,18 +144,20 @@
             $medcase_others = $_POST['medcase_others'];
 
             //kunin medcase as text
-            $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
+            $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
             $result = mysqli_query($conn, $sql);
             while($data=mysqli_fetch_array($result))
             {
                 if($data['medcase'] != 'Others:')
-                {
+                { 
+                    $medcase =  $_POST['medcase'];
                     $medcase_type = $data['type'];
-                    $medcase = $data['medcase'];
+                    $medcase_others = $_POST['medcase_others'];
                 }
                 else
                 {
                     $medcase_type ="others";
+                    $medcase_others = $_POST['medcase_others'];
                     $medcase = $medcase_others;
                 }
             }
@@ -255,7 +237,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../transaction_dental_consultation";
+                            window.location = "../appointment";
                         });
                     </script>
                     <?php
@@ -266,7 +248,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../transaction_dental_consultation";
+                            window.location = "../appointment";
                         });
                     </script>
                     <?php
@@ -278,7 +260,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../transaction_dental_consultation";
+                        window.location = "../appointment";
                     });
                 </script>
                 <?php
@@ -297,7 +279,24 @@
                 $sex = $data['sex']; 
             }
             $enddate = date("Y-m-t");
-            $medcase_others = $_POST['medcase_others'];
+            
+            $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
+            $result = mysqli_query($conn, $sql);
+            while($data=mysqli_fetch_array($result))
+            {
+                if($data['medcase'] != 'Others:')
+                { 
+                    $medcase =  $_POST['medcase'];
+                    $medcase_type = $data['type'];
+                    $medcase_others = $_POST['medcase_others'];
+                }
+                else
+                {
+                    $medcase_type ="others";
+                    $medcase_others = $_POST['medcase_others'];
+                    $medcase = $medcase_others;
+                }
+            }
 
             // check san sya i-add na column sa database
             switch(true)
@@ -359,22 +358,6 @@
                     break;
                 }
             }
-            //kunin medcase as text
-            $sql = "SELECT * FROM med_case WHERE id='$medcaseid'";
-            $result = mysqli_query($conn, $sql);
-            while($data=mysqli_fetch_array($result))
-            {
-                if($data['medcase'] != 'Others:')
-                {
-                    $medcase_type = $data['type'];
-                    $medcase = $data['medcase'];
-                }
-                else
-                {
-                    $medcase_type ="others";
-                    $medcase = $medcase_others;
-                }
-            }
 
             $sql = "INSERT INTO reports_medcase (campus, type, medcase, sm, sf, st, pm, pf, pt, gm, gf, gt, date) VALUES ('$au_campus', '$medcase_type', '$medcase', '$sm', '$sf', '$st', '$pm', '$pf', '$pt', '$gm', '$gf', '$gt', '$enddate')";
             if($result = mysqli_query($conn, $sql))
@@ -385,7 +368,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../transaction_dental_consultation";
+                            window.location = "../appointment";
                         });
                     </script>
                     <?php
@@ -396,7 +379,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../transaction_dental_consultation";
+                            window.location = "../appointment";
                         });
                     </script>
                     <?php
@@ -408,7 +391,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../transaction_dental_consultation";
+                        window.location = "../appointment";
                     });
                 </script>
                 <?php
@@ -422,7 +405,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../transaction_dental_consultation";
+        window.location = "../appointment";
     });
 </script>
 <?php

@@ -34,7 +34,6 @@
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="usertype" id="usertype" required>
                                 <option value="" disabled selected>-Select Usertype-</option>
                                 <?php
-                                include('connection.php');
                                 $sql = "SELECT DISTINCT usertype FROM account ORDER BY usertype";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_array($result)) {
@@ -70,7 +69,6 @@
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="status" id="status" required>
                                 <option value="" disabled selected>-Select Status-</option>
                                 <?php
-                                include('connection.php');
                                 $sql = "SELECT * FROM user_status ORDER BY status";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_array($result)) {
