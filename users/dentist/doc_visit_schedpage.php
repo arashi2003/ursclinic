@@ -80,7 +80,7 @@ include('../../includes/pagination-limit.php');
                                         <?php
                                         $count = 1;
                                         $date = date("Y-m-d");
-                                        $sql = "SELECT s.id, s.status, s.reason, s.date, s.time_from, s.time_to, s.physician, s.maxp, s.campus, a.firstname, a.middlename, a.lastname FROM schedule s INNER JOIN account a on a.accountid=s.physician WHERE date >= '$today' AND physician = '$userid' ORDER BY date, time_from LIMIT $start, $rows_per_page";
+                                        $sql = "SELECT s.id, s.status, s.reason, s.date, s.time_from, s.time_to, s.physician, s.maxp, s.campus, a.firstname, a.middlename, a.lastname FROM schedule s INNER JOIN account a on a.accountid=s.physician WHERE date >= '$today' AND physician = '$userid' ORDER BY status DESC, date, time_from LIMIT $start, $rows_per_page";
                                         $result = mysqli_query($conn, $sql);
                                         if ($result) {
                                             if (mysqli_num_rows($result) > 0) {

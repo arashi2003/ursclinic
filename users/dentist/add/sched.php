@@ -14,7 +14,7 @@ $fullname = strtoupper($_SESSION['name']);
 $activity = "added a walk-in schedule for " . $campus;
 $au_status = "unread";
 
-$query = "SELECT * FROM schedule WHERE date = '$date' AND physician = '$userid'";
+$query = "SELECT * FROM schedule WHERE date = '$date' AND physician = '$userid' AND status != 'CANCELLED'";
 $result = mysqli_query($conn, $query);
 $resultCheck = mysqli_num_rows($result);
 if ($resultCheck > 0) {
