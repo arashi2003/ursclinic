@@ -7,7 +7,7 @@
             header('Location: medadmin_set');
             break;
         case "dform":
-            header('Location: dform_set.php');
+            header('Location: dform_set');
             break;
         case "um":
             header('Location: umeasure_set');

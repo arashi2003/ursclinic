@@ -10,12 +10,125 @@ $usertype = $_SESSION['usertype'];
 $name = $_SESSION['username'];
 $campus = $_SESSION['campus'];
 
-// get the total nr of rows.
-$records = $conn->query("SELECT * FROM transaction_history WHERE patient='$userid'");
-$nr_of_rows = $records->num_rows;
+// Check if the month filter is set
+if (isset($_GET['type']) || isset($_GET['date_from']) || isset($_GET['date_to'])) {
 
-include('../../../includes/pagination-limit.php');
+    // Validate and sanitize input
+    $type = isset($_GET['type']) ? $_GET['type'] : '';
+    $dt_from = isset($_GET['date_from']) ? $_GET['date_from'] : '';
+    $dt_to = isset($_GET['date_to']) ? $_GET['date_to'] : '';
 
+    $whereClause = ""; // Initialize the WHERE clause
+
+    if ($type !== '') {
+        $whereClause .= " AND type = '$type'";
+    }
+
+    // Initialize the date filter
+    $date = "";
+
+    if ($dt_from == "" and $dt_to == "") {
+        // No date range provided
+        $date = "";
+    } elseif ($dt_to == $dt_from) {
+        // Same start and end date
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " AND datetime LIKE '$fdate%'";
+    } elseif ($dt_to == "" and $dt_from != "") {
+        // Only start date provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " AND datetime >= '$fdate'";
+    } elseif ($dt_from == "" and $dt_to != "") {
+        // Only end date provided
+        $d = date("Y-m-d", strtotime($dt_to));
+        $date = " AND datetime <= '$d'";
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+        // Start and end date range provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $ldate = date("Y-m-d", strtotime($dt_to));
+        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+    }
+
+    // Construct and execute SQL query for pending appointments count
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' $whereClause $date AND 
+    transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' 
+    AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC";
+
+    $count_result = $conn->query($sql_count);
+
+    // Check if count query was successful
+    if ($count_result) {
+        // Fetch the total number of rows
+        $count_row = $count_result->fetch_assoc();
+        $nr_of_rows = $count_row['total_rows'];
+    } else {
+        // Handle count query error
+        echo "Error: " . $conn->error;
+    }
+} else {
+    // If no filters are applied, count all rows in the database
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' AND 
+    transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' 
+    AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC";
+    $count_result = $conn->query($sql_count);
+
+    // Check if count query was successful
+    if ($count_result) {
+        // Fetch the total number of rows
+        $count_row = $count_result->fetch_assoc();
+        $nr_of_rows = $count_row['total_rows'];
+    } else {
+        // Handle count query error
+        echo "Error: " . $conn->error;
+    }
+}
+
+// Setting the number of rows to display in a page.
+$rows_per_page = 10;
+
+// determine the page
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Setting the start from, value.
+$start = ($page - 1) * $rows_per_page;
+
+// calculating the nr of pages.
+$pages = ceil($nr_of_rows / $rows_per_page);
+
+// calculate the range of page numbers to be displayed
+$start_loop = max(1, $page - 2);
+$end_loop = min($pages, $page + 2);
+
+// adjust the range if the current page is near the beginning or end
+if ($start_loop > 1) {
+    $start_loop--;
+    $end_loop++;
+}
+
+// ensure that the range is never smaller than 4
+if ($end_loop - $start_loop < 4) {
+    $start_loop = max(1, $end_loop - 4);
+}
+
+$previous = $page - 1;
+$next = $page + 1;
+
+// calculate the start and end loop variables
+$start_loop = $page > 2 ? $page - 2 : 1;
+$end_loop = $page < $pages - 2 ? $page + 2 : $pages;
+
+// limit the number of pages displayed to a maximum of 4
+if ($pages > 4) {
+    if ($page > 2 && $page < $pages - 1) {
+        $end_loop = $page + 1;
+    } elseif ($page == 1) {
+        $start_loop = 1;
+        $end_loop = 4;
+    } elseif ($page == $pages) {
+        $start_loop = $pages - 3;
+        $end_loop = $pages;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -110,7 +223,7 @@ include('../../../includes/pagination-limit.php');
                                         </div>
                                         <div class="col-md-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
-                                            <a href="transaction_history" class="btn btn-danger">Reset</a>
+                                            <a href="history" class="btn btn-danger">Reset</a>
                                         </div>
                                     </div>
                                 </form>
@@ -206,9 +319,6 @@ include('../../../includes/pagination-limit.php');
                                                 <?php
                                                     include('modals/view_trans_modal.php');
                                                 }
-                                                ?>
-
-                                            <?php include('../../../includes/pagination.php');
                                             } else { ?>
                                                 <tr>
                                                     <td colspan="7">
@@ -217,23 +327,50 @@ include('../../../includes/pagination-limit.php');
                                                         ?>
                                                     </td>
                                                 </tr>
-                                            <?php } ?>
                                         <?php
-                                        } else {
-                                        ?>
-                                            <tr>
-                                                <td colspan="7">
-                                                    <?php
-                                                    include('../../../includes/no-data.php');
-                                                    ?>
-                                                </td>
-                                            </tr>
-                                        <?php
+                                            }
                                         }
                                         mysqli_close($conn);
                                         ?>
                                     </tbody>
                                 </table>
+                                <ul class="pagination justify-content-end">
+                                    <?php
+                                    if (mysqli_num_rows($result) > 0) : ?>
+                                        <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
+                                                <?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
+                                                <?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                                page=<?= 1; ?>">&laquo;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
+                                                <?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
+                                                <?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                                page=<?= $previous; ?>">&lt;</a>
+                                        </li>
+                                        <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
+                                            <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                                                <a class="page-link" href="?<?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
+                                                <?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
+                                                <?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                                page=<?= $i; ?>"><?= $i; ?></a>
+                                            </li>
+                                        <?php endfor; ?>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
+                                                <?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
+                                                <?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                                page=<?= $next; ?>">&gt;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
+                                                <?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
+                                                <?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                                page=<?= $pages; ?>">&raquo;</a>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
                             </div>
                         </div>
                     </div>

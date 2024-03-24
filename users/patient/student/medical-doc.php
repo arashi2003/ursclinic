@@ -83,8 +83,10 @@ $rowCounter = 0;
                             } else {
                                 ?>
                                 <tr>
-                                    <td colspan="7">
-                                        <h4>No Record Found</h4>
+                                    <td colspan="12">
+                                        <?php
+                                        include('../../../includes/no-data.php');
+                                        ?>
                                     </td>
                                 </tr>
                         <?php
@@ -178,8 +180,10 @@ $rowCounter = 0;
                             } else {
                                 ?>
                                 <tr>
-                                    <td colspan="7">
-                                        <h4>No Record Found</h4>
+                                    <td colspan="12">
+                                        <?php
+                                        include('../../../includes/no-data.php');
+                                        ?>
                                     </td>
                                 </tr>
                         <?php
@@ -269,8 +273,10 @@ $rowCounter = 0;
                             } else {
                                 ?>
                                 <tr>
-                                    <td colspan="7">
-                                        <h4>No Record Found</h4>
+                                    <td colspan="12">
+                                        <?php
+                                        include('../../../includes/no-data.php');
+                                        ?>
                                     </td>
                                 </tr>
                         <?php
@@ -365,8 +371,10 @@ $rowCounter = 0;
                             } else {
                                 ?>
                                 <tr>
-                                    <td colspan="7">
-                                        <h4>No Record Found</h4>
+                                    <td colspan="12">
+                                        <?php
+                                        include('../../../includes/no-data.php');
+                                        ?>
                                     </td>
                                 </tr>
                         <?php
@@ -456,8 +464,10 @@ $rowCounter = 0;
                             } else {
                                 ?>
                                 <tr>
-                                    <td colspan="7">
-                                        <h4>No Record Found</h4>
+                                    <td colspan="12">
+                                        <?php
+                                        include('../../../includes/no-data.php');
+                                        ?>
                                     </td>
                                 </tr>
                         <?php
@@ -547,8 +557,10 @@ $rowCounter = 0;
                             } else {
                                 ?>
                                 <tr>
-                                    <td colspan="7">
-                                        <h4>No Record Found</h4>
+                                    <td colspan="12">
+                                        <?php
+                                        include('../../../includes/no-data.php');
+                                        ?>
                                     </td>
                                 </tr>
                         <?php
@@ -593,7 +605,6 @@ $rowCounter = 0;
                                 <?php
                                 include('../../../includes/no-data.php');
                                 ?>
-                                <p style="margin-top: -40px"><strong>No Medical Found</strong></p>
                             </td>
                         </tr>
                     </tbody>
