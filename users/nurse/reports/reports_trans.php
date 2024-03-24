@@ -87,8 +87,8 @@
     $pdf->SetAutoPageBreak(true, 15);
     $pdf->SetFont('Arial', '', 8);
 
-    $dt_from = "";//$_POST['date_from']; 
-    $dt_to = "";//$_POST['date_to'];
+    $dt_from = $_POST['date_from']; 
+    $dt_to = $_POST['date_to'];
     $type = "";//$_POST['type'];
 
     //campus filter
@@ -103,52 +103,52 @@
     //date filter
     if ($dt_from =="" AND $dt_to =="")
     {
-        $date = "";
+        $datetime = "";
     }
     elseif ($ca == "" AND $dt_to == $dt_from)
     {
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-t", strtotime($dt_to));
-        $date = " WHERE date >= '$fdate' AND date <= '$ldate'";
+        $date = " WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
     }
     elseif ($ca != "" AND $dt_to == $dt_from)
     {
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-t", strtotime($dt_to));
-        $date = " AND date >= '$fdate' AND date <= '$ldate'";
+        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
     }
 
     elseif ($ca == "" AND $dt_to == "" AND $dt_from != "" )
     {
         $fdate = date("Y-m-d", strtotime($dt_from));
-        $date = " AND date >= '$fdate'";
+        $date = " AND datetime >= '$fdate'";
     }
     elseif ($ca != "" AND $dt_to == "" AND $dt_from != "" )
     {
         $fdate = date("Y-m-d", strtotime($dt_from));
-        $date = " AND date >= '$fdate'";
+        $date = " AND datetime >= '$fdate'";
     }
     elseif ($ca == "" AND $dt_from == "" AND $dt_to != "" )
     {
         $d = date("Y-m-t", strtotime($dt_to));
-        $date = " WHERE date <= '$d'";
+        $date = " WHERE datetime <= '$d'";
     }
     elseif ($ca != "" AND $dt_from == "" AND $dt_to != "" )
     {
         $d = date("Y-m-t", strtotime($dt_to));
-        $date = " AND date <= '$d'";
+        $date = " AND datetime <= '$d'";
     }
     elseif ($ca == "" AND $dt_from != "" AND $dt_to != "" AND $dt_from != $dt_to)
     {
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-t", strtotime($dt_to));
-        $date = " WHERE date >= '$fdate' AND date <= '$ldate'";
+        $date = " WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
     }
     elseif ($ca != "" AND $dt_from != "" AND $dt_to != "" AND $dt_from != $dt_to)
     {
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-t", strtotime($dt_to));
-        $date = " AND date >= '$fdate' AND date <= '$ldate'";
+        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
     }
     
     $count = 1;
