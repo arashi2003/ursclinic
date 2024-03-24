@@ -327,7 +327,6 @@ if ($pages > 4) {
                                                             <?php }
                                                             ?>
                                                         </td>
-
                                                     </tr>
                                                 <?php
                                                     include('modals/view_trans_modal.php');
