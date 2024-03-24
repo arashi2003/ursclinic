@@ -184,7 +184,7 @@ if ($approved_pages > 4) {
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
-                            <li><a class="dropdown-item" href="../../../logout">Logout</a></li>
+                            <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -196,7 +196,6 @@ if ($approved_pages > 4) {
             ?>
             <div class="overview-boxes">
                 <div class="content">
-                    <h3>Approved Appointments</h3>
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
@@ -229,25 +228,25 @@ if ($approved_pages > 4) {
                                             <th>Date</th>
                                             <th>Time from</th>
                                             <th>Time to</th>
-                                            <th>Patient name</th>
-                                            <th>Status</th>
+                                            <th>Patient Name</th>
                                             <th>Action</th>
                                     </thead>
                                     <tbody>
                                         <?php
+                                        $today = date("Y-m-d");
                                         if (isset($_GET['patient']) && $_GET['patient'] != '') {
                                             $patient = $_GET['patient'];
                                             $count = 1;
-                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE  CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE  CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND (ap.status='APPROVED' OR ap.status='COMPLETED') AND date > '$today' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['date']) && $_GET['date'] != '') {
                                             $date = $_GET['date'];
                                             $count = 1;
-                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' AND (ap.status='APPROVED' OR ap.status='COMPLETED') ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.status='APPROVED' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE (ap.status='APPROVED' OR ap.status='COMPLETED') AND date > '$today' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -272,9 +271,14 @@ if ($approved_pages > 4) {
                                                         <td><?php echo date("g:i A", strtotime($data['time_from'])) ?></td>
                                                         <td><?php echo date("g:i A", strtotime($data['time_to'])) ?></td>
                                                         <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])) ?></td>
-                                                        <td><?php echo $data['status']; ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'appointment_view?id=<?php echo $data['id'] ?>'">View</button>
+                                                            <?php
+                                                            if ($data['status'] == 'APPROVED') { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'appointment_view?id=<?php echo $data['id'] ?>'">Record</button>
+                                                            <?php
+                                                            } elseif ($data['status'] == 'COMPLETED') { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'reports/reports_treatment_record.php?patientid=<?= $data['patient'] ?>'">View</button>
+                                                            <?php } ?>
                                                         </td>
                                                     </tr>
                                                 <?php
@@ -282,7 +286,7 @@ if ($approved_pages > 4) {
                                             } else {
                                                 ?>
                                                 <tr>
-                                                    <td colspan="12">
+                                                    <td colspan="20">
                                                         <?php
                                                         include('../../includes/no-data.php');
                                                         ?>

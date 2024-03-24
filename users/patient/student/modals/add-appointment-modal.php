@@ -50,15 +50,6 @@
                             <label for="time_to" class="col-form-label">Time To:</label>
                             <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_to" id="time_to">
                                 <option value="" disabled selected>-:-- --</option>
-                                <?php
-                                include('connection.php');
-                                $sql = "SELECT * FROM time_pickup WHERE isSelected = 'No'";
-                                $result = mysqli_query($conn, $sql);
-                                while ($row = mysqli_fetch_array($result)) {
-                                    $time = date('g:i A', strtotime($row['time'])); // Format time as '12:00 PM'
-                                ?>
-                                    <option value="<?= $row['time']; ?>"><?= $time; ?></option>
-                                <?php } ?>
                             </select>
                         </div>
                     </div>
@@ -207,7 +198,30 @@
         });
     });
 </script>
-
+<script>
+    $(document).ready(function() {
+        $("#time_from").change(function() {
+            var time_from = $(this).val();
+            if (time_from == '') {
+                $("#time_to").html('<option value="" disabled selected>-:-- --</option>');
+            } else {
+                $("#time_to").html('<option value="" disabled selected>-:-- --</option>');
+                $.ajax({
+                    url: "time.php",
+                    method: "POST",
+                    data: {
+                        time_from: time_from
+                    },
+                    success: function(data) {
+                        $("#time_to").html(data);
+                        // Trigger change event to handle medicine selection
+                        $("#time_to").trigger("change");
+                    }
+                });
+            }
+        });
+    });
+</script>
 <script type="text/javascript">
     function enableAppointment(answer) {
         console.log(answer.value);
