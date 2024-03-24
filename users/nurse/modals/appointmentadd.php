@@ -28,7 +28,7 @@ if (mysqli_query($conn, $sql)) {
 ?>
   <script>
     setTimeout(function() {
-      window.location = "nurseappointment.php";
+      window.location = "nurseappointment";
     });
   </script>
 <?php

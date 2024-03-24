@@ -20,7 +20,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../appcc_set.php";
+                    window.location = "../../appcc_set";
                 });
             </script>
             <?php
@@ -31,7 +31,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../appcc_set.php";
+                    window.location = "../../appcc_set";
                 });
             </script>
             <?php
@@ -44,7 +44,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../../appcc_set.php";
+        window.location = "../../appcc_set";
     });
 </script>
 <?php

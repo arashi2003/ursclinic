@@ -17,7 +17,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../medcase_set.php";
+                    window.location = "../../medcase_set";
                 });
             </script>
             <?php
@@ -28,7 +28,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../medcase_set.php";
+                    window.location = "../../medcase_set";
                 });
             </script>
             <?php
@@ -41,7 +41,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../../medcase_set.php";
+        window.location = "../../medcase_set";
     });
 </script>
 <?php

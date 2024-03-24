@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include('../../add/connection');
+    include('../../add/connection.php');
     $accountid = $_POST['patientid'];
     $designation = $_POST['designation'];
     $age = floor((time() - strtotime($_POST['birthday'])) / 31556926); 

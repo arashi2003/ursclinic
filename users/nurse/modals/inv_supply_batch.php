@@ -159,7 +159,7 @@
                                 ?>
                                 <script>
                                     setTimeout(function() {
-                                        window.location = "../sup_stocks_batch.php";
+                                        window.location = "../sup_stocks_batch";
                                     });
                                 </script>
                                 <?php
@@ -170,7 +170,7 @@
                                 ?>
                                 <script>
                                     setTimeout(function() {
-                                        window.location = "../sup_stocks_batch.php";
+                                        window.location = "../sup_stocks_batch";
                                     });
                                 </script>
                                 <?php
@@ -182,7 +182,7 @@
                             ?>
                                 <script>
                                     setTimeout(function() {
-                                        window.location = "../sup_stocks_batch.php";
+                                        window.location = "../sup_stocks_batch";
                                     });
                                 </script>
                                 <?php
@@ -234,7 +234,7 @@
                                     ?>
                                     <script>
                                         setTimeout(function() {
-                                            window.location = "../sup_stocks_batch.php";
+                                            window.location = "../sup_stocks_batch";
                                         });
                                     </script>
                                     <?php
@@ -245,7 +245,7 @@
                                     ?>
                                     <script>
                                         setTimeout(function() {
-                                            window.location = "../sup_stocks_batch.php";
+                                            window.location = "../sup_stocks_batch";
                                         });
                                     </script>
                                     <?php
@@ -257,7 +257,7 @@
                                 ?>
                                     <script>
                                         setTimeout(function() {
-                                            window.location = "../sup_stocks_batch.php";
+                                            window.location = "../sup_stocks_batch";
                                         });
                                     </script>
                                     <?php
@@ -298,7 +298,7 @@
                                     ?>
                                     <script>
                                         setTimeout(function() {
-                                            window.location = "../sup_stocks_batch.php";
+                                            window.location = "../sup_stocks_batch";
                                         });
                                     </script>
                                     <?php
@@ -309,7 +309,7 @@
                                     ?>
                                     <script>
                                         setTimeout(function() {
-                                            window.location = "../sup_stocks_batch.php";
+                                            window.location = "../sup_stocks_batch";
                                         });
                                     </script>
                                     <?php
@@ -321,7 +321,7 @@
                                 ?>
                                 <script>
                                     setTimeout(function() {
-                                        window.location = "../sup_stocks_batch.php";
+                                        window.location = "../sup_stocks_batch";
                                     });
                                 </script>
                                 <?php
@@ -335,7 +335,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../sup_stocks_batch.php";
+                            window.location = "../sup_stocks_batch";
                         });
                     </script>
                     <?php
@@ -347,7 +347,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../sup_stocks_batch.php";
+                        window.location = "../sup_stocks_batch";
                     });
                 </script>
                 <?php
@@ -450,7 +450,7 @@
                                 ?>
                                 <script>
                                     setTimeout(function() {
-                                        window.location = "../sup_stocks_batch.php";
+                                        window.location = "../sup_stocks_batch";
                                     });
                                 </script>
                                 <?php
@@ -461,7 +461,7 @@
                                 ?>
                                 <script>
                                     setTimeout(function() {
-                                        window.location = "../sup_stocks_batch.php";
+                                        window.location = "../sup_stocks_batch";
                                     });
                                 </script>
                                 <?php
@@ -473,7 +473,7 @@
                             ?>
                                 <script>
                                     setTimeout(function() {
-                                        window.location = "../sup_stocks_batch.php";
+                                        window.location = "../sup_stocks_batch";
                                     });
                                 </script>
                                 <?php
@@ -525,7 +525,7 @@
                                     ?>
                                     <script>
                                         setTimeout(function() {
-                                            window.location = "../sup_stocks_batch.php";
+                                            window.location = "../sup_stocks_batch";
                                         });
                                     </script>
                                     <?php
@@ -536,7 +536,7 @@
                                     ?>
                                     <script>
                                         setTimeout(function() {
-                                            window.location = "../sup_stocks_batch.php";
+                                            window.location = "../sup_stocks_batch";
                                         });
                                     </script>
                                     <?php
@@ -548,7 +548,7 @@
                                 ?>
                                     <script>
                                         setTimeout(function() {
-                                            window.location = "../sup_stocks_batch.php";
+                                            window.location = "../sup_stocks_batch";
                                         });
                                     </script>
                                     <?php
@@ -589,7 +589,7 @@
                                     ?>
                                     <script>
                                         setTimeout(function() {
-                                            window.location = "../sup_stocks_batch.php";
+                                            window.location = "../sup_stocks_batch";
                                         });
                                     </script>
                                     <?php
@@ -600,7 +600,7 @@
                                     ?>
                                     <script>
                                         setTimeout(function() {
-                                            window.location = "../sup_stocks_batch.php";
+                                            window.location = "../sup_stocks_batch";
                                         });
                                     </script>
                                     <?php
@@ -612,7 +612,7 @@
                                 ?>
                                 <script>
                                     setTimeout(function() {
-                                        window.location = "../sup_stocks_batch.php";
+                                        window.location = "../sup_stocks_batch";
                                     });
                                 </script>
                                 <?php
@@ -626,7 +626,7 @@
                     ?>
                     <script>
                         setTimeout(function() {
-                            window.location = "../sup_stocks_batch.php";
+                            window.location = "../sup_stocks_batch";
                         });
                     </script>
                     <?php
@@ -638,7 +638,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../sup_stocks_batch.php";
+                        window.location = "../sup_stocks_batch";
                     });
                 </script>
                 <?php
@@ -652,7 +652,7 @@
 ?>
 <script>
     setTimeout(function() {
-        window.location = "../sup_stocks_batch.php";
+        window.location = "../sup_stocks_batch";
     });
     </script>
 <?php

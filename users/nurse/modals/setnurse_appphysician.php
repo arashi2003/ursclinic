@@ -17,7 +17,7 @@
         ?>
         <script>
             setTimeout(function() {
-                window.location = "../appphysician_set.php";
+                window.location = "../appphysician_set";
             });
         </script>
         <?php
@@ -34,7 +34,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../appphysician_set.php";
+                        window.location = "../appphysician_set";
                     });
                 </script>
                 <?php
@@ -45,7 +45,7 @@
                 ?>
                 <script>
                     setTimeout(function() {
-                        window.location = "../appphysician_set.php";
+                        window.location = "../appphysician_set";
                     });
                 </script>
                 <?php
@@ -57,7 +57,7 @@
             ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../appphysician_set.php";
+                    window.location = "../appphysician_set";
                 });
             </script>
             <?php
@@ -66,7 +66,7 @@
     ?>
 <script>
     setTimeout(function() {
-        window.location = "../appphysician_set.php";
+        window.location = "../appphysician_set";
     });
 </script>
 <?php

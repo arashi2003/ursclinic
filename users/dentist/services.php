@@ -57,7 +57,7 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addtransaction_set">Add Entry</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addtransaction_set">Add Entry</button>
                     <?php include('modals/addtransaction_set_modal.php'); ?>
                 </div>
                 <div class="content">

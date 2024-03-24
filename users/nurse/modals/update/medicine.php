@@ -112,7 +112,7 @@ if ($resultCheck > 0) // if may existing entry ung medicine sa reports
 ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../med_stocks_total.php";
+                    window.location = "../../med_stocks_total";
                 });
             </script>
         <?php
@@ -121,7 +121,7 @@ if ($resultCheck > 0) // if may existing entry ung medicine sa reports
         ?>
             <script>
                 setTimeout(function() {
-                    window.location = "../../med_stocks_total.php";
+                    window.location = "../../med_stocks_total";
                 });
             </script>
         <?php
@@ -131,7 +131,7 @@ if ($resultCheck > 0) // if may existing entry ung medicine sa reports
         ?>
         <script>
             setTimeout(function() {
-                window.location = "../../med_stocks_total.php";
+                window.location = "../../med_stocks_total";
             });
         </script>
     <?php
@@ -142,7 +142,7 @@ if ($resultCheck > 0) // if may existing entry ung medicine sa reports
     ?>
     <script>
         setTimeout(function() {
-            window.location = "../../med_stocks_total.php";
+            window.location = "../../med_stocks_total";
         });
     </script>
 <?php
