@@ -11,7 +11,7 @@ $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 
 // Check if the month filter is set
-if (isset($_GET['account']) || isset($_GET['date']) || isset($_GET['physician'])) {
+if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to']) || isset($_GET['physician'])) {
     // Validate and sanitize input
     $account = isset($_GET['account']) ? $_GET['account'] : '';
     $type = isset($_GET['type']) ? $_GET['type'] : '';
@@ -327,6 +327,7 @@ if ($pages > 4) {
                                                             <?php }
                                                             ?>
                                                         </td>
+
                                                     </tr>
                                                 <?php
                                                     include('modals/view_trans_modal.php');
@@ -340,66 +341,62 @@ if ($pages > 4) {
                                                         ?>
                                                     </td>
                                                 </tr>
-                                    </tbody>
-                            <?php
+                                        <?php
                                             }
                                         }
                                         mysqli_close($conn);
-                            ?>
+                                        ?>
+                                    </tbody>
                                 </table>
-                            </div>
-                            <?php
-                            if (mysqli_num_rows($result) > 0) {
-                            ?>
                                 <ul class="pagination justify-content-end">
-                                    <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
-<?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
-<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
-<?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
-page=<?= 1; ?>">&laquo;</a>
-                                    </li>
-                                    <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
-<?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
-<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
-<?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
-page=<?= $previous; ?>">&lt;</a>
-                                    </li>
-                                    <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
-                                        <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                                    <?php
+                                    if (mysqli_num_rows($result) > 0) : ?>
+                                        <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
                                             <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
-<?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
-<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
-<?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
-page=<?= $i; ?>"><?= $i; ?></a>
+                                                <?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
+                                                <?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
+                                                <?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                                page=<?= 1; ?>">&laquo;</a>
                                         </li>
-                                    <?php endfor; ?>
-                                    <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
-<?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
-<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
-<?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
-page=<?= $next; ?>">&gt;</a>
-                                    </li>
-                                    <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
-<?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
-<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
-<?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
-page=<?= $pages; ?>">&raquo;</a>
-                                    </li>
+                                        <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
+                                                <?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
+                                                <?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
+                                                <?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                                page=<?= $previous; ?>">&lt;</a>
+                                        </li>
+                                        <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
+                                            <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                                                <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
+                                                <?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
+                                                <?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
+                                                <?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                                page=<?= $i; ?>"><?= $i; ?></a>
+                                            </li>
+                                        <?php endfor; ?>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
+                                                <?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
+                                                <?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
+                                                <?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                                page=<?= $next; ?>">&gt;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
+                                                <?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
+                                                <?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
+                                                <?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                                page=<?= $pages; ?>">&raquo;</a>
+                                        </li>
+                                    <?php endif; ?>
                                 </ul>
-                            <?php
-                            }
-                            ?>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
 </body>
 
 <script>
