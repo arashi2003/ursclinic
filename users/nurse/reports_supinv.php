@@ -10,13 +10,88 @@ $userid = $_SESSION['userid'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 
-$now = date("Y-m-t");
+// Check if the supply or batch filter is set
+if (isset($_GET['month'])) {
+    // Validate and sanitize input
+    $month = isset($_GET['month']) ? $_GET['month'] : '';
 
-// get the total nr of rows.
-$records = $conn->query("SELECT * FROM report_medsupinv WHERE type='supply' AND campus = '$campus' AND date='$now'  ORDER BY medicine ");
-$nr_of_rows = $records->num_rows;
+    $whereClause = " type='supply' AND campus = '$campus'"; // Start with common conditions
 
-include('../../includes/pagination-limit.php');
+    if ($month !== '') {
+        $month = date("Y-m-t", strtotime($month)); // Convert month to last day of the month
+        $whereClause .= " AND date = '$month'"; // Add month filter
+    }
+
+    // Construct and execute SQL query for counting total rows for transaction_history
+    $sql_count = "SELECT COUNT(*) AS total_rows 
+                  FROM report_medsupinv 
+                  WHERE $whereClause";
+} else {
+    // If filters are not set, count all rows for transaction_history
+    $now = date("Y-m-t");
+    $sql_count = "SELECT COUNT(*) AS total_rows 
+                  FROM report_medsupinv WHERE type='supply' AND campus = '$campus' AND date='$now'";
+}
+
+// Execute the count query
+$count_result = $conn->query($sql_count);
+
+// Check if count query was successful
+if ($count_result) {
+    // Fetch the total number of rows
+    $count_row = $count_result->fetch_assoc();
+    $nr_of_rows = $count_row['total_rows'];
+} else {
+    // Handle count query error
+    echo "Error: " . $conn->error;
+}
+
+// Setting the number of rows to display in a page.
+$rows_per_page = 10;
+
+// determine the page
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Setting the start from, value.
+$start = ($page - 1) * $rows_per_page;
+
+// calculating the nr of pages.
+$pages = ceil($nr_of_rows / $rows_per_page);
+
+// calculate the range of page numbers to be displayed
+$start_loop = max(1, $page - 2);
+$end_loop = min($pages, $page + 2);
+
+// adjust the range if the current page is near the beginning or end
+if ($start_loop > 1) {
+    $start_loop--;
+    $end_loop++;
+}
+
+// ensure that the range is never smaller than 4
+if ($end_loop - $start_loop < 4) {
+    $start_loop = max(1, $end_loop - 4);
+}
+
+$previous = $page - 1;
+$next = $page + 1;
+
+// calculate the start and end loop variables
+$start_loop = $page > 2 ? $page - 2 : 1;
+$end_loop = $page < $pages - 2 ? $page + 2 : $pages;
+
+// limit the number of pages displayed to a maximum of 4
+if ($pages > 4) {
+    if ($page > 2 && $page < $pages - 1) {
+        $end_loop = $page + 1;
+    } elseif ($page == 1) {
+        $start_loop = 1;
+        $end_loop = 4;
+    } elseif ($page == $pages) {
+        $start_loop = $pages - 3;
+        $end_loop = $pages;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +153,13 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_supinv.php');">Export to PDF</button>
+                    <form action="reports/reports_medinv" method="post" id="exportPdfForm" target="_blank">
+                        <!-- Hidden input fields to store filter values -->
+                        <input type="hidden" value="<?= isset($_GET['month']) == true ? $_GET['month'] : '' ?>" name="month" id="month">
+
+                        <!-- Export PDF button -->
+                        <button type="submit" class="btn btn-primary" name="export_pdf">Export PDF</button>
+                    </form>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -106,10 +187,10 @@ include('../../includes/pagination-limit.php');
                                 </form>
                             </div>
                             <div class="col-md-12 mb-2">
-                                <form action="" method="GET">
+                                <form action="" method="GET" id="filterForm">
                                     <div class="row">
                                         <div class="col-md-2">
-                                            <input type="month" name="month" class="form-control">
+                                            <input type="month" name="month" class="form-control" value="<?= isset($_GET['month']) == true ? $_GET['month'] : '' ?>">
                                         </div>
                                         <div class="col-md-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
@@ -121,8 +202,8 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <table>
-                                    <thead>
+                                <table class="table">
+                                    <thead class="head">
                                         <tr>
                                             <th>Medical Supply</th>
                                             <th>Unit Cost</th>
@@ -183,7 +264,28 @@ include('../../includes/pagination-limit.php');
                                         ?>
                                     </tbody>
                                 </table>
-                                <?php include('../../includes/pagination.php') ?>
+                                <ul class="pagination justify-content-end">
+                                    <?php
+                                    if (mysqli_num_rows($result) > 0) : ?>
+                                        <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['month']) ? 'month=' . $_GET['month'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['month']) ? 'month=' . $_GET['month'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
+                                        </li>
+                                        <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
+                                            <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                                                <a class="page-link" href="?<?= isset($_GET['month']) ? 'month=' . $_GET['month'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                                            </li>
+                                        <?php endfor; ?>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['month']) ? 'month=' . $_GET['month'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['month']) ? 'month=' . $_GET['month'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -207,6 +309,27 @@ include('../../includes/pagination-limit.php');
     console.log(sidebarBtn);
     sidebarBtn.addEventListener("click", () => {
         sidebar.classList.toggle("close");
+    });
+</script>
+
+<script>
+    // Function to update hidden input fields with filter values
+    function updateExportPdfForm() {
+        var monthInput = document.querySelector("input[name='month']");
+
+        document.getElementById("month").value = monthInput.value;
+    }
+
+    // Event listener for Export PDF form submission
+    document.getElementById("exportPdfForm").addEventListener("submit", function(event) {
+        // Update hidden input fields with filter values
+        updateExportPdfForm();
+    });
+
+    // Event listener for Filter form submission
+    document.getElementById("filterForm").addEventListener("submit", function(event) {
+        // Update hidden input fields with filter values
+        updateExportPdfForm();
     });
 </script>
 

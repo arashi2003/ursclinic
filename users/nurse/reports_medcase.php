@@ -10,13 +10,27 @@ $userid = $_SESSION['userid'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 
-// Check if the month filter is set
-if (isset($_GET['month']) && !empty($_GET['month'])) {
-    $month = date("Y-m-t", strtotime($_GET['month']));
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM reports_medcase WHERE campus = '$campus' AND date='$month'";
+// Check if the supply or batch filter is set
+if (isset($_GET['month'])) {
+    // Validate and sanitize input
+    $month = isset($_GET['month']) ? $_GET['month'] : '';
+
+    $whereClause = " campus = '$campus'"; // Start with common conditions
+
+    if ($month !== '') {
+        $month = date("Y-m-t", strtotime($month)); // Convert month to last day of the month
+        $whereClause .= " AND date = '$month'"; // Add month filter
+    }
+
+    // Construct and execute SQL query for counting total rows for transaction_history
+    $sql_count = "SELECT COUNT(*) AS total_rows 
+                  FROM reports_medcase 
+                  WHERE $whereClause";
 } else {
-    // If month filter is not set, count all rows
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM reports_medcase WHERE campus = '$campus'";
+    // If filters are not set, count all rows for transaction_history
+    $now = date("Y-m-t");
+    $sql_count = "SELECT COUNT(*) AS total_rows 
+                  FROM reports_medcase WHERE campus = '$campus' AND date='$now'";
 }
 
 // Execute the count query
@@ -31,7 +45,6 @@ if ($count_result) {
     // Handle count query error
     echo "Error: " . $conn->error;
 }
-
 
 // Setting the number of rows to display in a page.
 $rows_per_page = 10;
@@ -138,7 +151,13 @@ if ($pages > 4) {
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcase.php');">Export to PDF</button>
+                    <form action="reports/reports_medcase" method="post" id="exportPdfForm" target="_blank">
+                        <!-- Hidden input fields to store filter values -->
+                        <input type="hidden" value="<?= isset($_GET['month']) == true ? $_GET['month'] : '' ?>" name="month" id="month">
+
+                        <!-- Export PDF button -->
+                        <button type="submit" class="btn btn-primary" name="export_pdf">Export PDF</button>
+                    </form>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -166,7 +185,7 @@ if ($pages > 4) {
                                 </form>
                             </div>
                             <div class="col-md-12 mb-2">
-                                <form action="" method="GET">
+                                <form action="" method="GET" id="filterForm">
                                     <div class="row">
                                         <div class="col-md-2">
                                             <input type="month" name="month" class="form-control" value="<?= isset($_GET['month']) == true ? $_GET['month'] : '' ?>">
@@ -182,8 +201,8 @@ if ($pages > 4) {
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <table>
-                                    <thead>
+                                <table class="table">
+                                    <thead class="head">
                                         <tr>
                                             <th>Medical Case</th>
                                             <th>Students</th>
@@ -225,9 +244,6 @@ if ($pages > 4) {
                                                 </tr>
                                         <?php
                                             }
-                                        } else {
-                                            // Handle query error
-                                            echo "Error: " . $conn->error;
                                         }
                                         mysqli_close($conn);
                                         ?>
@@ -277,6 +293,27 @@ if ($pages > 4) {
     console.log(sidebarBtn);
     sidebarBtn.addEventListener("click", () => {
         sidebar.classList.toggle("close");
+    });
+</script>
+
+<script>
+    // Function to update hidden input fields with filter values
+    function updateExportPdfForm() {
+        var monthInput = document.querySelector("input[name='month']");
+
+        document.getElementById("month").value = monthInput.value;
+    }
+
+    // Event listener for Export PDF form submission
+    document.getElementById("exportPdfForm").addEventListener("submit", function(event) {
+        // Update hidden input fields with filter values
+        updateExportPdfForm();
+    });
+
+    // Event listener for Filter form submission
+    document.getElementById("filterForm").addEventListener("submit", function(event) {
+        // Update hidden input fields with filter values
+        updateExportPdfForm();
     });
 </script>
 

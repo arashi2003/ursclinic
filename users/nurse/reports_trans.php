@@ -12,13 +12,93 @@ $usertype = $_SESSION['usertype'];
 
 $now = date("Y-m-t");
 
-// get the total nr of rows.
-$records = $conn->query(
-    "SELECT * FROM transaction_history WHERE campus = '$campus'"
-);
-$nr_of_rows = $records->num_rows;
+// Check if the supply or batch filter is set
+if (isset($_GET['date_from']) || isset($_GET['date_to'])) {
+    // Validate and sanitize input
+    $date_from = isset($_GET['date_from']) ? $_GET['date_from'] : '';
+    $date_to = isset($_GET['date_to']) ? $_GET['date_to'] : '';
 
-include('../../includes/pagination-limit.php');
+    $whereClause = " campus = '$campus'"; // Start with common conditions
+
+    if ($date_from !== '') {
+        $date_from = date("Y-m-d", strtotime($date_from));
+        $whereClause .= " AND datetime >= '$date_from'"; // Add date from filter
+    }
+    if ($date_to !== '') {
+        $date_to = date("Y-m-d", strtotime($date_to));
+        $whereClause .= " AND datetime <= '$date_to'"; // Add date to filter
+    }
+
+    // Construct and execute SQL query for counting total rows for transaction_history
+    $sql_count = "SELECT COUNT(*) AS total_rows 
+                  FROM transaction_history 
+                  WHERE $whereClause";
+} else {
+    // If filters are not set, count all rows for transaction_history
+    $sql_count = "SELECT COUNT(*) AS total_rows 
+                  FROM transaction_history 
+                  WHERE campus = '$campus'";
+}
+
+// Execute the count query
+$count_result = $conn->query($sql_count);
+
+// Check if count query was successful
+if ($count_result) {
+    // Fetch the total number of rows
+    $count_row = $count_result->fetch_assoc();
+    $nr_of_rows = $count_row['total_rows'];
+} else {
+    // Handle count query error
+    echo "Error: " . $conn->error;
+}
+
+// Setting the number of rows to display in a page.
+$rows_per_page = 10;
+
+// determine the page
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Setting the start from, value.
+$start = ($page - 1) * $rows_per_page;
+
+// calculating the nr of pages.
+$pages = ceil($nr_of_rows / $rows_per_page);
+
+// calculate the range of page numbers to be displayed
+$start_loop = max(1, $page - 2);
+$end_loop = min($pages, $page + 2);
+
+// adjust the range if the current page is near the beginning or end
+if ($start_loop > 1) {
+    $start_loop--;
+    $end_loop++;
+}
+
+// ensure that the range is never smaller than 4
+if ($end_loop - $start_loop < 4) {
+    $start_loop = max(1, $end_loop - 4);
+}
+
+$previous = $page - 1;
+$next = $page + 1;
+
+// calculate the start and end loop variables
+$start_loop = $page > 2 ? $page - 2 : 1;
+$end_loop = $page < $pages - 2 ? $page + 2 : $pages;
+
+// limit the number of pages displayed to a maximum of 4
+if ($pages > 4) {
+    if ($page > 2 && $page < $pages - 1) {
+        $end_loop = $page + 1;
+    } elseif ($page == 1) {
+        $start_loop = 1;
+        $end_loop = 4;
+    } elseif ($page == $pages) {
+        $start_loop = $pages - 3;
+        $end_loop = $pages;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -120,7 +200,7 @@ include('../../includes/pagination-limit.php');
                                         </div>
                                         <div class="col-md-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
-                                            <a href="reports_teinv" class="btn btn-danger">Reset</a>
+                                            <a href="reports_trans" class="btn btn-danger">Reset</a>
                                         </div>
                                     </div>
                                 </form>
@@ -128,8 +208,8 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <table>
-                                    <thead>
+                                <table class="table">
+                                    <thead class="head">
                                         <tr>
                                             <th>ID</th>
                                             <th>Patient</th>
@@ -158,31 +238,31 @@ include('../../includes/pagination-limit.php');
                                             } elseif ($ca == "" and $dt_to == $dt_from) {
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $ldate = date("Y-m-d", strtotime($dt_to));
-                                                $date = " WHERE date >= '$fdate' AND date <= '$ldate'";
+                                                $date = " WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
                                             } elseif ($ca != "" and $dt_to == $dt_from) {
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $ldate = date("Y-m-d", strtotime($dt_to));
-                                                $date = " AND date >= '$fdate' AND date <= '$ldate'";
+                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
                                             } elseif ($ca == "" and $dt_to == "" and $dt_from != "") {
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $date = " AND date >= '$fdate'";
+                                                $date = " AND datetime >= '$fdate'";
                                             } elseif ($ca != "" and $dt_to == "" and $dt_from != "") {
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $date = " AND date >= '$fdate'";
+                                                $date = " AND datetime >= '$fdate'";
                                             } elseif ($ca == "" and $dt_from == "" and $dt_to != "") {
                                                 $d = date("Y-m-d", strtotime($dt_to));
-                                                $date = " WHERE date <= '$d'";
+                                                $date = " WHERE datetime <= '$d'";
                                             } elseif ($ca != "" and $dt_from == "" and $dt_to != "") {
                                                 $d = date("Y-m-d", strtotime($dt_to));
-                                                $date = " AND date <= '$d'";
+                                                $date = " AND datetime <= '$d'";
                                             } elseif ($ca == "" and $dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $ldate = date("Y-m-d", strtotime($dt_to));
-                                                $date = " WHERE date >= '$fdate' AND date <= '$ldate'";
+                                                $date = " WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
                                             } elseif ($ca != "" and $dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $ldate = date("Y-m-d", strtotime($dt_to));
-                                                $date = " AND date >= '$fdate' AND date <= '$ldate'";
+                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
                                             }
 
                                             $sql = "SELECT id, patient, firstname, middlename, lastname, designation, age, sex, department, college, program, 
@@ -195,7 +275,7 @@ include('../../includes/pagination-limit.php');
                                     remarks, medsup, pod_nod, medcase, medcase_others, 
                                     datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial
                                     FROM transaction_history 
-                                    WHERE $ca $date ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                    WHERE $date ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
@@ -251,7 +331,28 @@ include('../../includes/pagination-limit.php');
                                         ?>
                                     </tbody>
                                 </table>
-                                <?php include('../../includes/pagination.php') ?>
+                                <ul class="pagination justify-content-end">
+                                    <?php
+                                    if (mysqli_num_rows($result) > 0) : ?>
+                                        <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
+                                        </li>
+                                        <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
+                                            <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                                                <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                                            </li>
+                                        <?php endfor; ?>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
                             </div>
                         </div>
                     </div>

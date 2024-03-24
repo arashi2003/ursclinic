@@ -32,7 +32,7 @@ class PDF extends FPDF
         $this->Cell(0, .1, '', 1, 0);
         $this->Cell(0, 8, '', 0, 1);
 
-        $dt = date("Y-m-t"); //$_POST['month'];
+        $dt = $_POST['month'];
         if ($dt == "") {
             $date = "";
         } else {
@@ -70,7 +70,7 @@ class PDF extends FPDF
         $user = $_SESSION['userid'];
 
         // itong date based sa datepicker na month at year lang
-        $dt = date("Y-m-t"); //$_POST['month'];
+        $dt = $_POST['month'];
         $date =  date("Y-m-d", strtotime($dt));
         $activity = "saved a pdf report of medicine consumption for " . $date;
 
@@ -104,7 +104,7 @@ $pdf->AliasNbPages();
 $pdf->SetAutoPageBreak(true, 15);
 $pdf->SetFont('Arial', '', 10);
 
-$dt = "January 2024"; //$dt = date("Y-m-t");//$_POST['month'];
+$dt = $_POST['month'];
 $date = date("Y-m-t", strtotime($dt));
 
 //campus filter
