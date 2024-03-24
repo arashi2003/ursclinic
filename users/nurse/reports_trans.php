@@ -162,7 +162,16 @@ if ($pages > 4) {
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_trans.php');">Export to PDF</button>
+                    <form action="reports/reports_trans" method="post" id="exportPdfForm" target="_blank">
+                        <!-- Hidden input fields to store filter values -->
+                        <!--<input type="hidden" value="<? //=  isset($_GET['physician']) == true ? $_GET['physician'] : '' 
+                                                        ?>" name="physician" id="physician">-->
+                        <input type="hidden" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>" name="date_from" id="date_from">
+                        <input type="hidden" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>" name="date_to" id="date_to">
+
+                        <!-- Export PDF button -->
+                        <button type="submit" class="btn btn-primary" name="export_pdf">Export PDF</button>
+                    </form>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -190,13 +199,13 @@ if ($pages > 4) {
                                 </form>
                             </div>
                             <div class="col-md-12 mb-2">
-                                <form action="" method="GET">
+                                <form action="" method="GET" id="filterForm">
                                     <div class="row">
                                         <div class="col-md-2">
-                                            <input type="date" name="date_from" class="form-control">
+                                            <input type="date" name="date_from" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>" class="form-control">
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="date" name="date_to" class="form-control">
+                                            <input type="date" name="date_to" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>" class="form-control">
                                         </div>
                                         <div class="col-md-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
@@ -229,37 +238,28 @@ if ($pages > 4) {
                                             if ($campus == "") {
                                                 $ca = "";
                                             } else {
-                                                $ca = " WHERE t.campus = '$campus'";
+                                                $ca = " WHERE campus = '$campus'";
                                             }
 
                                             //date filter
+
                                             if ($dt_from == "" and $dt_to == "") {
+                                                // No date range provided
                                                 $date = "";
-                                            } elseif ($ca == "" and $dt_to == $dt_from) {
+                                            } elseif ($dt_to == $dt_from) {
+                                                // Same start and end date
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $ldate = date("Y-m-d", strtotime($dt_to));
-                                                $date = " WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
-                                            } elseif ($ca != "" and $dt_to == $dt_from) {
-                                                $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $ldate = date("Y-m-d", strtotime($dt_to));
-                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
-                                            } elseif ($ca == "" and $dt_to == "" and $dt_from != "") {
+                                                $date = " AND datetime LIKE '$fdate%'";
+                                            } elseif ($dt_to == "" and $dt_from != "") {
+                                                // Only start date provided
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $date = " AND datetime >= '$fdate'";
-                                            } elseif ($ca != "" and $dt_to == "" and $dt_from != "") {
-                                                $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $date = " AND datetime >= '$fdate'";
-                                            } elseif ($ca == "" and $dt_from == "" and $dt_to != "") {
-                                                $d = date("Y-m-d", strtotime($dt_to));
-                                                $date = " WHERE datetime <= '$d'";
-                                            } elseif ($ca != "" and $dt_from == "" and $dt_to != "") {
+                                            } elseif ($dt_from == "" and $dt_to != "") {
+                                                // Only end date provided
                                                 $d = date("Y-m-d", strtotime($dt_to));
                                                 $date = " AND datetime <= '$d'";
-                                            } elseif ($ca == "" and $dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
-                                                $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $ldate = date("Y-m-d", strtotime($dt_to));
-                                                $date = " WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
-                                            } elseif ($ca != "" and $dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                                // Start and end date range provided
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $ldate = date("Y-m-d", strtotime($dt_to));
                                                 $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
@@ -275,7 +275,7 @@ if ($pages > 4) {
                                     remarks, medsup, pod_nod, medcase, medcase_others, 
                                     datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial
                                     FROM transaction_history 
-                                    WHERE $date ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                    $ca $date ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
@@ -376,6 +376,31 @@ if ($pages > 4) {
     console.log(sidebarBtn);
     sidebarBtn.addEventListener("click", () => {
         sidebar.classList.toggle("close");
+    });
+</script>
+
+<script>
+    // Function to update hidden input fields with filter values
+    function updateExportPdfForm() {
+        //var physicianSelect = document.querySelector("input[name='physician']");
+        var dateFromInput = document.querySelector("input[name='date_from']");
+        var dateToInput = document.querySelector("input[name='date_to']");
+
+        //document.getElementById("physician").value = physicianSelect.options[physicianSelect.selectedIndex].value;
+        document.getElementById("date_from").value = dateFromInput.value;
+        document.getElementById("date_to").value = dateToInput.value;
+    }
+
+    // Event listener for Export PDF form submission
+    document.getElementById("exportPdfForm").addEventListener("submit", function(event) {
+        // Update hidden input fields with filter values
+        updateExportPdfForm();
+    });
+
+    // Event listener for Filter form submission
+    document.getElementById("filterForm").addEventListener("submit", function(event) {
+        // Update hidden input fields with filter values
+        updateExportPdfForm();
     });
 </script>
 
