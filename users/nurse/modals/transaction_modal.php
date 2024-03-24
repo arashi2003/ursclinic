@@ -391,6 +391,7 @@
                             </div>
                         </div>
                         <div class="row">
+                            <label for="" class="form-label">Dental:</label>
                             <div class="mb-2">
                                 <input type="text" id="ddefects" name="ddefects" value="" hidden>
                                 <input type="checkbox" id="ddefects" name="ddefects" value="x">

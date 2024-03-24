@@ -22,38 +22,6 @@ include('../../includes/pagination-limit.php')
 <head>
     <title>User Accounts</title>
     <?php include('../../includes/header.php'); ?>
-
-    <script>
-        function exportToPDF() {
-            let url = 'reports/reports_accounts';
-
-            // Construct URL parameters using PHP
-            <?php
-            $parameters = array();
-            if (isset($_GET['campus']) && $_GET['campus'] !== '') {
-                $parameters[] = 'campus=' . urlencode($_GET['campus']);
-            }
-            if (isset($_GET['status']) && $_GET['status'] !== '') {
-                $parameters[] = 'status=' . urlencode($_GET['status']);
-            }
-            if (isset($_GET['usertype']) && $_GET['usertype'] !== '') {
-                $parameters[] = 'usertype=' . urlencode($_GET['usertype']);
-            }
-            if (!empty($parameters)) {
-                $url .= '?' . implode('&', $parameters);
-            }
-
-            /*
-            // ito naman code na nagana pag may filter na napili:
-            //<button type="button" class="btn btn-primary" onclick="window.open('reports/reports_accounts?campus=<?=$_GET['campus']?>&status=<?=$_GET['status']?>&usertype=<?=$_GET['usertype']?>')" target="_blank">Export to PDF</button>
-            */
-
-            ?>
-
-            // Open the PDF in a new tab
-            window.open(url, '_blank');
-        }
-    </script>
 </head>
 
 <body id="<?php echo $id ?>">
@@ -62,7 +30,7 @@ include('../../includes/pagination-limit.php')
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">USER ACCOUNTS</span>
+                <span class="dashboard">ACCOUNTS</span>
             </div>
             <div class="right-nav">
                 <div class="profile-details">
@@ -92,12 +60,20 @@ include('../../includes/pagination-limit.php')
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addaccount">Add Account</button>
                     <?php include('modals/addaccount_modal.php'); ?>
                     &ThickSpace;
-                    <button type="button" class="btn btn-primary" onclick="exportToPDF()">Export to PDF</button>
+                    <form action="reports/reports_accounts" method="post" id="exportPdfForm" target="_blank">
+                        <!-- Hidden input fields to store filter values -->
+                        <input type="hidden" value="<?= isset($_GET['usertype']) == true ? $_GET['usertype'] : '' ?>" name="usertype" id="usertype">
+                        <input type="hidden" value="<?= isset($_GET['campus']) == true ? $_GET['campus'] : '' ?>" name="campus" id="campus">
+                        <input type="hidden" value="<?= isset($_GET['status']) == true ? $_GET['status'] : '' ?>" name="status" id="status">
+
+                        <!-- Export PDF button -->
+                        <button type="submit" class="btn btn-primary" name="export_pdf">Export PDF</button>
+                    </form>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <form action="" method="get">
+                            <form action="" method="GET" id="filterForm">
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-4 mb-2">
@@ -286,5 +262,28 @@ include('../../includes/pagination-limit.php')
         sidebar.classList.toggle("close");
     });
 </script>
+<script>
+    // Function to update hidden input fields with filter values
+    function updateExportPdfForm() {
+        var campusSelect = document.querySelector("input[name='campus']");
+        var statusSelect = document.querySelector("input[name='status']");
+        var usertypeSelect = document.querySelector("input[name='usertype']");
 
+        document.getElementById("campus").value = campusSelect.options[campusSelect.selectedIndex].value;
+        document.getElementById("status").value = statusSelect.options[statusSelect.selectedIndex].value;
+        document.getElementById("usertype").value = usertypeSelect.options[usertypeSelect.selectedIndex].value;
+    }
+
+    // Event listener for Export PDF form submission
+    document.getElementById("exportPdfForm").addEventListener("submit", function(event) {
+        // Update hidden input fields with filter values
+        updateExportPdfForm();
+    });
+
+    // Event listener for Filter form submission
+    document.getElementById("filterForm").addEventListener("submit", function(event) {
+        // Update hidden input fields with filter values
+        updateExportPdfForm();
+    });
+</script>
 </html>

@@ -11,7 +11,7 @@ $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 
 // get the total nr of rows.
-$records = $conn->query("SELECT * FROM transaction_history WHERE transaction = 'Consultation' OR purpose = 'Dental'");
+$records = $conn->query("SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient WHERE transaction = 'Consultation' OR purpose = 'Dental' GROUP BY patient ORDER BY datetime DESC ");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php');
@@ -113,27 +113,27 @@ include('../../includes/pagination-limit.php');
                                             } elseif ($dt_to == $dt_from) {
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $ldate = date("Y-m-d", strtotime($dt_to));
-                                                $date = "WHERE date >= '$fdate' AND date <= '$ldate'";
+                                                $date = "WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
                                             } elseif ($dt_to == "" and $dt_from != "") {
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $date = "WHERE date >= '$fdate'";
+                                                $date = "WHERE datetime >= '$fdate'";
                                             } elseif ($dt_to == "" and $dt_from != "") {
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $date = "WHERE date >= '$fdate'";
+                                                $date = "WHERE datetime >= '$fdate'";
                                             } elseif ($dt_from == "" and $dt_to != "") {
                                                 $d = date("Y-m-d", strtotime($dt_to));
-                                                $date = "WHERE date <= '$d'";
+                                                $date = "WHERE datetime <= '$d'";
                                             } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $ldate = date("Y-m-d", strtotime($dt_to));
-                                                $date = "WHERE date >= '$fdate' AND date <= '$ldate'";
+                                                $date = "WHERE datetime >= '$datetime' datetime date <= '$ldate'";
                                             }
 
-                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient $date AND (transaction = 'Consultation' OR purpose = 'Dental') GROUP BY patient ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient $date AND (transaction = 'Consultation' AND purpose = 'Dental') GROUP BY patient ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient WHERE transaction = 'Consultation' OR purpose = 'Dental' GROUP BY patient ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient WHERE transaction = 'Consultation' AND purpose = 'Dental' GROUP BY patient ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -171,24 +171,24 @@ include('../../includes/pagination-limit.php');
                                                     </tr>
                                                 <?php
                                                 }
-                                            } else { ?>
+                                            } else {
+                                                ?>
                                                 <tr>
-                                                    <td colspan="5">No record Found</td>
+                                                    <td colspan="5">
+                                                        <?php
+                                                        include('../../includes/no-data.php');
+                                                        ?>
+                                                    </td>
                                                 </tr>
-                                            <?php } ?>
-                                    </tbody>
-                                </table>
-                            <?php
-                                        } else {
-                            ?>
-                                <tr>
-                                    <td colspan="5">No record Found</td>
-                                </tr>
-                            <?php
-                                        }
-                                        mysqli_close($conn);
-                            ?>
+                                            <?php
+                                            }
+                                            mysqli_close($conn);
+                                            ?>
+                                        <?php
+                                        } ?>
                             </div>
+                            </tbody>
+                            </table>
                         </div>
                         <?php include('../../includes/pagination.php'); ?>
                     </div>

@@ -149,12 +149,19 @@ include('../../includes/pagination-limit.php')
                                                     } else {
                                                         $dep = $data['department'];
                                                     }
+                                                    if ($data['college'] == NULL) {
+                                                        $college = "N/A";
+                                                    }  elseif ($data['designation'] == 'STUDENT') {
+                                                        $college = $data['college'];
+                                                    } else {
+                                                        $college = "N/A";
+                                                    }
                                         ?>
                                                     <tr>
                                                         <td><?php echo $patientid = $data['patientid']; ?></td>
                                                         <td><?php echo $data['designation']; ?></td>
                                                         <td><?php echo $dep; ?></td>
-                                                        <td><?php echo $data['college']; ?></td>
+                                                        <td><?php echo $college; ?></td>
                                                         <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname'])); ?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatepatient<?php echo $data['patientid']; ?>">Expand</button>

@@ -370,7 +370,8 @@ if ($pages > 4) {
                                                 }
                                                 ?>
                                             <?php
-                                            } else { ?>
+                                            } else {
+                                            ?>
                                                 <tr>
                                                     <td colspan="12">
                                                         <?php
@@ -380,17 +381,8 @@ if ($pages > 4) {
                                                 </tr>
                                             <?php
                                             }
-                                        } else {
                                             ?>
-                                            <tr>
-                                                <td colspan="12">
-                                                    <?php
-                                                    include('../../includes/no-data.php');
-                                                    ?>
-                                                </td>
-                                            </tr>
-                                        <?php
-                                        }
+                                        <?php }
                                         mysqli_close($conn);
                                         ?>
                                     </tbody>

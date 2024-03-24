@@ -89,7 +89,7 @@
 
 
     // add record to transaction_history
-    $sql = "INSERT transaction_history (patient, firstname, middlename, lastname, designation, sex, birthday, department, college, program, yearlevel, section, block, type, transaction, purpose, pod_nod, medcase, medcase_others, campus, datetime) VALUES ('$patientid', '$firstname', '$middlename', '$lastname',' $designation', '$age', '$sex', '$birthday', '$department', '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction', '$purpose', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";
+    $sql = "INSERT transaction_history (patient, firstname, middlename, lastname, designation, age, sex, birthday, department, college, program, yearlevel, section, block, type, transaction, purpose, pod_nod, medcase, medcase_others, campus, datetime) VALUES ('$patientid', '$firstname', '$middlename', '$lastname',' $designation', '$age', '$sex', '$birthday', '$department', '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction', '$purpose', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";
     if($result = mysqli_query($conn, $sql))
     {
         if(isset($_POST['tooth_no']))
@@ -103,7 +103,7 @@
             
             foreach ($toothno_1 as $key => $tooth) {
                 // if insert treatment record
-                $sql = "INSERT INTO treatment_record SET patientid = '$patientid', firstname = '$firstname', middlename = '$middlename', lastname = '$lastname', department = '$department', college = '$college', program = '$program', year = '$year', section = '$section', block = '$block', birthday = '$birthday', civil_status = '$civil_status', sex = '$sex', address = '$address', 
+                $sql = "INSERT INTO treatment_record SET patientid = '$patientid', firstname = '$firstname', middlename = '$middlename', lastname = '$lastname', department = '$department', college = '$college', program = '$program', year = '$yearlevel', section = '$section', block = '$block', birthday = '$birthday', civil_status = '$civil_status', sex = '$sex', address = '$address', 
                 date = '$date_1', diagnosis = '{$diagnosis_1[$key]}', toothno = '{$tooth}', treatment = '{$treatment_1[$key]}', dentist = '$dentist_1'";
                 $result = mysqli_query($conn, $sql);
             }
@@ -119,7 +119,7 @@
             
             foreach ($toothno_1 as $key => $tooth) {
                 // if insert treatment record
-                $sql = "INSERT INTO treatment_record SET patientid = '$patientid', firstname = '$firstname', middlename = '$middlename', lastname = '$lastname', department = '$department', college = '$college', program = '$program', year = '$year', section = '$section', block = '$block', birthday = '$birthday', civil_status = '$civil_status', sex = '$sex', address = '$address', 
+                $sql = "INSERT INTO treatment_record SET patientid = '$patientid', firstname = '$firstname', middlename = '$middlename', lastname = '$lastname', department = '$department', college = '$college', program = '$program', year = '$yearlevel', section = '$section', block = '$block', birthday = '$birthday', civil_status = '$civil_status', sex = '$sex', address = '$address', 
                 date = '$date_1', diagnosis = '{$diagnosis_1[$key]}', toothno = '{$tooth}', treatment = '{$treatment_1[$key]}', dentist = '$dentist_1'";
                 $result = mysqli_query($conn, $sql);
             }
@@ -146,7 +146,7 @@
             }
         }
 
-        $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+        $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate' AND campus='$campus'";
         $result = mysqli_query($conn, $sql);
         if(mysqli_num_rows($result) > 0)
         {
@@ -180,7 +180,7 @@
                 }
             }
 
-            $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+            $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate' AND campus='$campus'";
             $result = mysqli_query($conn, $sql);
             while($data=mysqli_fetch_array($result))
             {
@@ -246,7 +246,7 @@
                 }
             }
             // update if meron
-            $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+            $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate' AND campus='$campus'";
             if($result = mysqli_query($conn, $sql))
             {
                 $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
@@ -376,7 +376,7 @@
                 }
             }
 
-            $sql = "INSERT INTO reports_medcase (campus, type, medcase, sm, sf, st, pm, pf, pt, gm, gf, gt, date) VALUES ('$au_campus', '$medcase_type', '$medcase', '$sm', '$sf', '$st', '$pm', '$pf', '$pt', '$gm', '$gf', '$gt', '$enddate')";
+            $sql = "INSERT INTO reports_medcase (campus, type, medcase, sm, sf, st, pm, pf, pt, gm, gf, gt, date) VALUES ('$campus', '$medcase_type', '$medcase', '$sm', '$sf', '$st', '$pm', '$pf', '$pt', '$gm', '$gf', '$gt', '$enddate')";
             if($result = mysqli_query($conn, $sql))
             {
                 $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";

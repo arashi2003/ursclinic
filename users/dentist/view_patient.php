@@ -11,7 +11,7 @@ $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 
 // get the total nr of rows.
-$records = $conn->query("SELECT * FROM transaction_history WHERE (transaction LIKE '%Dental Checkup%' or transaction LIKE '%Dental Checkup%' OR purpose LIKE '%Dental Checkup%' OR purpose LIKE '%Dental Checkup%') AND patient='$patientid' ORDER BY datetime ");
+$records = $conn->query("SELECT * FROM transaction_history WHERE (transaction LIKE '%Dental Checkup%' OR transaction LIKE '%Medical History%' OR transaction LIKE '%Dental Checkup%' OR purpose LIKE '%Dental Checkup%' OR purpose LIKE '%Dental Checkup%' OR purpose LIKE '%Medical History%') AND patient='$patientid' ORDER BY datetime ");
 $nr_of_rows = $records->num_rows;
 
 include('../../includes/pagination-limit.php');
@@ -161,7 +161,7 @@ include('../../includes/pagination-limit.php');
                                 </div>
                             </div>
                             <?php
-                            if ($designation != "STAFF" AND $designation = 'FACULTY') { ?>
+                            if ($designation != "STAFF" and $designation = 'FACULTY') { ?>
                                 <div class="accordion-item">
                                     <h2 class="accordion-header">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
@@ -213,7 +213,7 @@ include('../../includes/pagination-limit.php');
                                         </div>
                                     </div>
                                 </div>
-                            <?php }?>
+                            <?php } ?>
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
@@ -284,7 +284,7 @@ include('../../includes/pagination-limit.php');
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $sql = "SELECT * FROM transaction_history WHERE (transaction LIKE '%Dental Checkup%' OR transaction LIKE '%Dental Checkup%' OR purpose LIKE '%Dental Checkup%' OR purpose LIKE '%Dental Checkup%') AND patient='$patientid' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                        $sql = "SELECT * FROM transaction_history WHERE (transaction LIKE '%Dental Checkup%' OR transaction LIKE '%Medical History%' OR transaction LIKE '%Dental Checkup%' OR purpose LIKE '%Dental Checkup%' OR purpose LIKE '%Dental Checkup%' OR purpose LIKE '%Medical History%') AND patient='$patientid' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                         $result = mysqli_query($conn, $sql);
                                         if ($result) {
                                             if ($row = mysqli_num_rows($result) > 0) {
@@ -318,35 +318,55 @@ include('../../includes/pagination-limit.php');
                                                         </td>
                                                     </tr>
                                                 <?php
-                                                    if ($data['purpose'] == 'Vitals') {
-                                                        include('modals/view_trans_vitals_modal.php');
+                                                    if ($data['transaction'] == 'Medical History') {
+                                                        include('modals/view_trans_medhist_modal.php');
                                                     } elseif ($data['purpose'] == 'Medical History') {
                                                         include('modals/view_trans_medhist_modal.php');
                                                     }
                                                 }
                                                 ?>
-                                    </tbody>
-                                </table>
-                            <?php
-                                                include('../../includes/pagination.php');
-                                            } else { ?>
-                                <td colspan="7">
-                                    <?php
-                                                include('../../includes/no-data.php');
-                                    ?>
-                                </td>
-                            <?php }
+                                            <?php
+                                            }
                                         } else {
-                            ?>
-                            <td colspan="7">
-                                <?php
-                                            include('../../includes/no-data.php');
-                                ?>
-                            </td>
-                        <?php
+                                            ?>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                        <?php
                                         }
                                         mysqli_close($conn);
-                        ?>
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <?php
+                                if (mysqli_num_rows($result) > 0) {
+                                ?>
+                                    <ul class="pagination justify-content-end">
+                                        <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="view_patient?patientid=<?php echo $patientid ?>&page=<?= 1; ?>">&laquo;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="view_patient?patientid=<?php echo $patientid ?>&page=<?= $previous; ?>">&lt;</a>
+                                        </li>
+                                        <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
+                                            <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                                                <a class="page-link" href="view_patient?patientid=<?php echo $patientid ?>&page=<?= $i; ?>"><?= $i; ?></a>
+                                            </li>
+                                        <?php endfor; ?>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="view_patient?patientid=<?php echo $patientid ?>&page=<?= $next; ?>">&gt;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="view_patient?patientid=<?php echo $patientid ?>&page=<?= $pages; ?>">&raquo;</a>
+                                        </li>
+                                    </ul>
+                                <?php
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -354,7 +374,6 @@ include('../../includes/pagination-limit.php');
             </div>
         </div>
     </section>
-
 </body>
 
 <script>

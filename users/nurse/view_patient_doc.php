@@ -110,20 +110,20 @@ include('../../includes/pagination-limit.php')
                         $emcon_number = $data['emcon_number'];
                     ?>
 
-                        <div class="d-flex justify-content-end">
+                        <!--<div class="d-flex justify-content-end">
                             <div class="mb-2">
                                 <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert.php?patientid=<?php echo $patientid ?>');" target="_blank">Export Medical Certificate</button>
                             </div>
                             <div class="mb-2 ms-2">
-                                <?php
+                                <?php /*
                                 if (strtoupper($designation) != 'STUDENT') { ?>
                                     <button type="button" class="btn btn-primary" hidden>Export Clearance Slip</button>
                                 <?php } else { ?>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#medclear<?php echo $patientid; ?>">Export Clearance Slip</button>
                                 <?php include('modals/medclear_modal.php');
-                                } ?>
+                                } */ ?>
                             </div>
-                        </div>
+                        </div>-->
 
                         <div class="accordion" id="accordionPanelsStayOpenExample">
                             <div class="accordion-item">

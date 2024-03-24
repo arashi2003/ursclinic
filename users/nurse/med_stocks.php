@@ -164,45 +164,47 @@ if ($pages > 4) {
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <form action="stocks_filter.php" method="POST">
-                                        <div class="row">
-                                            <div class="col-md-2 mb-2">
-                                                <select name="stocks" class="form-select">
-                                                    <option value="medicine" selected>Medicine Stocks</option>
-                                                    <option value="supply">Medical Supply Stocks</option>
-                                                    <option value="te">Tools and Equipment Stocks</option>
-                                                </select>
-                                            </div>
-                                            <div class="col mb-2">
-                                                <button type="submit" class="btn btn-primary">View</button>
-                                            </div>
+                            <div class="col-md-4 mb-2">
+                                <form action="stocks_filter.php" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-10 mb-2">
+                                            <select name="stocks" class="form-select">
+                                                <option value="medicine" selected>Medicine Stocks</option>
+                                                <option value="supply">Medical Supply Stocks</option>
+                                                <option value="te">Tools and Equipment Stocks</option>
+                                            </select>
                                         </div>
-                                    </form>
-                                    <form action="medinv_viewfilter.php" method="POST">
-                                        <div class="row">
-                                            <div class="col-md-2 mb-2">
-                                                <select name="medinv_view" class="form-select">
-                                                    <option value="batch">By Batch</option>
-                                                    <option value="expiration" selected>By Expiration</option>
-                                                    <option value="total">By Total</option>
-                                                </select>
-                                            </div>
-                                            <div class="col mb-2">
-                                                <button type="submit" class="btn btn-primary">Filter</button>
-                                            </div>
+                                        <div class="col-md-2 mb-2">
+                                            <button type="submit" class="btn btn-primary">View</button>
                                         </div>
-                                    </form>
-                                    <form action="" method="get">
-                                        <div class="col-md-4 mb-2">
-                                            <div class="input-group">
-                                                <input type="text" name="medicine" value="<?= isset($_GET['medicine']) == true ? $_GET['medicine'] : '' ?>" class="form-control" placeholder="Search medicine">
-                                                <button type="submit" class="btn btn-primary">Search</button>
-                                            </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <form action="medinv_viewfilter.php" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-10 mb-2">
+                                            <select name="medinv_view" class="form-select">
+                                                <option value="batch">By Batch</option>
+                                                <option value="expiration" selected>By Expiration</option>
+                                                <option value="total">By Total</option>
+                                            </select>
                                         </div>
-                                    </form>
-                                </div>
+                                        <div class="col-md-2 mb-2">
+                                            <button type="submit" class="btn btn-primary">Filter</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <form action="" method="get">
+                                    <div class="col-md-12 mb-2">
+                                        <div class="input-group">
+                                            <input type="text" name="medicine" value="<?= isset($_GET['medicine']) == true ? $_GET['medicine'] : '' ?>" class="form-control" placeholder="Search medicine">
+                                            <button type="submit" class="btn btn-primary">Search</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <div class="col-sm-12">

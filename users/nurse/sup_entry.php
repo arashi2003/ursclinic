@@ -155,24 +155,26 @@ if ($pages > 4) {
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-3">
                                 <form action="entry_filter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-2 mb-2">
+                                        <div class="col-md-8 mb-2">
                                             <select name="entry" class="form-select">
                                                 <option value="medicine">Medicine Entry</option>
                                                 <option value="supply" selected>Medical Supply Entry</option>
                                                 <option value="te">Tools and Equipment Entry</option>
                                             </select>
                                         </div>
-                                        <div class="col mb-2">
+                                        <div class="col-md-4 mb-2">
                                             <button type="submit" class="btn btn-primary">View</button>
                                         </div>
                                     </div>
                                 </form>
+                            </div>
+                            <div class="col-md-6">
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-12">
                                             <div class="input-group mb-2">
                                                 <input type="text" name="supply" value="<?= isset($_GET['supply']) == true ? $_GET['supply'] : '' ?>" class="form-control" placeholder="Search supply entry">
                                                 <button type="submit" class="btn btn-primary">Search</button>

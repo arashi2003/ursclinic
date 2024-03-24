@@ -18,7 +18,7 @@ include('../../includes/pagination-limit.php') ?>
 <html lang="en" dir="ltr">
 
 <head>
-    <title>Backup and Restore</title>
+    <title>Backup</title>
     <?php include('../../includes/header.php'); ?>
 </head>
 
@@ -28,7 +28,7 @@ include('../../includes/pagination-limit.php') ?>
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">Backup and Restore</span>
+                <span class="dashboard">BACKUP</span>
             </div>
             <div class="right-nav">
                 <div class="profile-details">
@@ -67,7 +67,7 @@ include('../../includes/pagination-limit.php') ?>
                                 <tbody>
                                     <?php
                                     $count = 1;
-                                    $sql = "SELECT * FROM audit_trail WHERE activity LIKE '%backed up the database%' OR activity LIKE '%restored the database%' LIMIT $start, $rows_per_page";
+                                    $sql = "SELECT * FROM audit_trail WHERE activity LIKE '%backed up the database%' LIMIT $start, $rows_per_page";
                                     $result = mysqli_query($conn, $sql);
                                     if ($result) {
                                         if (mysqli_num_rows($result) > 0) {
@@ -76,8 +76,8 @@ include('../../includes/pagination-limit.php') ?>
                                             foreach ($result as $data) {
                                             ?>
                                                 <tr>
-                                                    <td><?php echo date("F d, Y | g:i A", strtotime($data['datetime'])) ?></td>
-                                                    <td><?php echo $data['request_type'] ?></td>
+                                                    <td><?php echo date("F d, Y  |  g:i A", strtotime($data['datetime'])) ?></td>
+                                                    <td><?php echo $data['fullname'] . " " . $data['activity'] ?></td>
                                                 </tr>
                                             <?php
                                             }

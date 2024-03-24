@@ -133,7 +133,7 @@ include('../../includes/pagination-limit.php');
         <button type=button class="box" style="border: none;" onclick="window.location.href = 'doc_visit_schedpage'">
           <a href="doc_visit_schedpage" style="color:black; text-decoration: none;">
             <div class="right-side">
-              <div class="box-topic">Doctor's Visit</div>
+              <div class="box-topic">Doctor's Visit<p></div>
               <div class="number">
                 <?php
                 $date = date("Y-m-d");
@@ -148,7 +148,7 @@ include('../../includes/pagination-limit.php');
                       $sched = $data['date'];
                     }
                   }
-                  echo date("M. d, Y", strtotime($sched));
+                  echo "<h1>" . date("M. d, Y", strtotime($sched)) . "</h1>";
                 } else {
                   echo "N/A";
                 }

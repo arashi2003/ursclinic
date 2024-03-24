@@ -153,8 +153,10 @@ include('../../includes/pagination-limit.php')
                                                     }
                                                     if ($data['college'] == NULL) {
                                                         $college = "N/A";
-                                                    } else {
+                                                    }  elseif ($data['designation'] == 'STUDENT') {
                                                         $college = $data['college'];
+                                                    } else {
+                                                        $college = "N/A";
                                                     }
                                         ?>
                                                     <tr>

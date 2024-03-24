@@ -362,7 +362,9 @@
                     <li><a class="link_name" href="reports">Audit Trail</a></li>
                 </ul>
             </li>
-            <li>
+            <li class="<?php if ($module == 'campus' || $module == 'department' || $module == 'college' || $module == 'program' || $module == 'yearlevel' || $module == 'organization' || $module == 'buar') {
+                            echo 'active showMenu';
+                        } ?>">
                 <div class="icon-link">
                     <a href="#">
                         <i class='bx bx-cog'></i>
@@ -377,7 +379,7 @@
                     <li><a href="program">Program</a></li>
                     <li><a href="yearlevel">Year Level</a></li>
                     <li><a href="organization">Organization</a></li>
-                    <li><a href="buar">Backup and Restore</a></li>
+                    <li><a href="buar">Backup</a></li>
                 </ul>
             </li>
         </ul>
@@ -440,7 +442,7 @@
                     <li>
                         <a class="<?php if ($module == 'transaction_dental_consultation') {
                                         echo 'active showMenu';
-                                    } ?>" href="transaction_dental_consultation">Records</a>
+                                    } ?>" href="transaction_dental_consultation">Consultation</a>
                     </li>
 
                     <li>

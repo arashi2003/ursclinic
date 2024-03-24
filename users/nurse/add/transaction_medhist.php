@@ -25,7 +25,7 @@
 
     //logbook info
     $type = "Walk-In";
-    $transaction = "Checkup";
+    $transaction = "Consultation";
     $purpose = "Medical History";
     $bp = $_POST['bp'];
     $pr = $_POST['pr'];

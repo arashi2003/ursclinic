@@ -2,11 +2,10 @@
 
 session_start();
 include('../../connection.php');
-include('../../includes/nurse-auth.php');
+include('../../includes/doctor-auth.php');
 
 $module = 'transaction_history';
 $userid = $_SESSION['userid'];
-$campus = $_SESSION['campus'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 
@@ -21,10 +20,10 @@ if (isset($_GET['account']) || isset($_GET['date']) || isset($_GET['physician'])
     $whereClause = ""; // Initialize the WHERE clause
 
     if ($account !== '') {
-        $whereClause .= " AND (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%')";
+        $whereClause .= " (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%')";
     }
     if ($type !== '') {
-        $whereClause .= " AND type = '$type'";
+        $whereClause .= " type = '$type'";
     }
 
     // Initialize the date filter
@@ -53,7 +52,7 @@ if (isset($_GET['account']) || isset($_GET['date']) || isset($_GET['physician'])
     }
 
     // Construct and execute SQL query for pending appointments count
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' $whereClause $date AND 
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE $whereClause $date AND 
     transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' 
     AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC";
 
@@ -70,7 +69,7 @@ if (isset($_GET['account']) || isset($_GET['date']) || isset($_GET['physician'])
     }
 } else {
     // If no filters are applied, count all rows in the database
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' AND 
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE 
     transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' 
     AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC";
     $count_result = $conn->query($sql_count);
@@ -148,27 +147,9 @@ if ($pages > 4) {
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">MEDICAL HISTORY</span>
+                <span class="dashboard">MEDICAL RECORDS</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
-                        <i class='bx bx-bell'></i>
-                        <?php
-                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
-                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
-                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
-                        $result = mysqli_query($conn, $sql);
-                        if ($row = mysqli_num_rows($result)) {
-                        ?>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                <?= $row ?>
-                            </span>
-                        <?php
-                        }
-                        ?>
-                    </button>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
                     <div class="dropdown">
@@ -251,7 +232,7 @@ if ($pages > 4) {
                                         if (isset($_GET['account']) && $_GET['account'] != '') {
                                             $account = $_GET['account'];
                                             $count = 1;
-                                            $sql = "SELECT * FROM transaction_history WHERE campus='$campus' AND (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') AND (transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%') ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history WHERE (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') AND (transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%') ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['type']) && $_GET['type'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
                                             $type = $_GET['type'];
@@ -264,33 +245,33 @@ if ($pages > 4) {
                                                 $date = "";
                                             } elseif ($dt_to == $dt_from) {
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $date = " AND datetime LIKE '$fdate%'";
+                                                $date = " WHERE datetime LIKE '$fdate%'";
                                             } elseif ($dt_to == "" and $dt_from != "") {
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $date = " AND datetime >= '$fdate'";
+                                                $date = " WHERE datetime >= '$fdate'";
                                             } elseif ($dt_from == "" and $dt_to != "") {
                                                 $d = date("Y-m-d", strtotime($dt_to));
-                                                $date = " AND datetime <= '$d'";
+                                                $date = " WHERE datetime <= '$d'";
                                             } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $ldate = date("Y-m-d", strtotime($dt_to));
-                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+                                                $date = " WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
                                             }
 
                                             //type filter
                                             if ($type == "") {
                                                 $tp = "";
                                             } elseif ($type != "" and $date == "") {
-                                                $tp = " AND type = '$type'";
+                                                $tp = " WHERE type = '$type'";
                                             } elseif ($date != "" and $type != "") {
                                                 $tp = " AND type = '$type'";
                                             }
 
-                                            $sql = "SELECT * FROM transaction_history WHERE campus='$campus' $date $tp AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history $date $tp AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT * FROM transaction_history WHERE campus='$campus' AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history WHERE transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -327,6 +308,7 @@ if ($pages > 4) {
                                                             <?php }
                                                             ?>
                                                         </td>
+
                                                     </tr>
                                                 <?php
                                                     include('modals/view_trans_modal.php');
@@ -340,63 +322,64 @@ if ($pages > 4) {
                                                         ?>
                                                     </td>
                                                 </tr>
-                                    </tbody>
-                            <?php
+                                        <?php
                                             }
                                         }
                                         mysqli_close($conn);
-                            ?>
+                                        ?>
+                                    </tbody>
                                 </table>
-                            </div>
-                            <?php
-                            if (mysqli_num_rows($result) > 0) {
-                            ?>
-                                <ul class="pagination justify-content-end">
-                                    <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
-<?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
-<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
-<?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
-page=<?= 1; ?>">&laquo;</a>
-                                    </li>
-                                    <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
-<?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
-<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
-<?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
-page=<?= $previous; ?>">&lt;</a>
-                                    </li>
-                                    <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
-                                        <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                                <?php
+                                if (mysqli_num_rows($result) > 0) {
+                                ?>
+                                    <ul class="pagination justify-content-end">
+                                        <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
                                             <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
 <?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
 <?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
 <?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
-page=<?= $i; ?>"><?= $i; ?></a>
+page=<?= 1; ?>">&laquo;</a>
                                         </li>
-                                    <?php endfor; ?>
-                                    <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
+                                        <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
+<?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
+<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
+<?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+page=<?= $previous; ?>">&lt;</a>
+                                        </li>
+                                        <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
+                                            <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                                                <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
+<?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
+<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
+<?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+page=<?= $i; ?>"><?= $i; ?></a>
+                                            </li>
+                                        <?php endfor; ?>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
 <?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
 <?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
 <?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
 page=<?= $next; ?>">&gt;</a>
-                                    </li>
-                                    <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
+                                        </li>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '' ?>
 <?= isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '' ?>
 <?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '' ?>
 <?= isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
 page=<?= $pages; ?>">&raquo;</a>
-                                    </li>
-                                </ul>
-                            <?php
-                            }
-                            ?>
+                                        </li>
+                                    </ul>
+                                <?php
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 

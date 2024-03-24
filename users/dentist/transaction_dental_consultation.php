@@ -119,12 +119,6 @@ $usertype = $_SESSION['usertype'];
                             </div>
                             <div class="col-md-4 mb-2">
                                 <div class="input-group input-group-md mb-2">
-                                    <span class="input-group-text" id="inputGroup-sizing-md">Age Last Birthday:</span>
-                                    <input type="text" maxlength="3" class="form-control" name="age" id="age" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <div class="input-group input-group-md mb-2">
                                     <span class="input-group-text" id="inputGroup-sizing-md">Sex:</span>
                                     <select class="form-control" aria-label=".form-select-md example" name="sex" id="sex" required>
                                         <option value="" disabled selected></option>
@@ -356,6 +350,7 @@ $usertype = $_SESSION['usertype'];
                             document.getElementById('yearlevel').value = response.yearlevel;
                             document.getElementById('section').value = response.section;
                             document.getElementById('block').value = response.block;
+                            document.getElementById('address').value = response.address;
 
                             // Reset form validation state
                             document.getElementById('patientid').classList.remove('is-invalid');
@@ -375,7 +370,6 @@ $usertype = $_SESSION['usertype'];
             document.getElementById('middlename').value = '';
             document.getElementById('lastname').value = '';
             document.getElementById('designation').value = '';
-            document.getElementById('age').value = '';
             document.getElementById('sex').value = '';
             document.getElementById('department').value = '';
             document.getElementById('college').value = '';
@@ -383,10 +377,10 @@ $usertype = $_SESSION['usertype'];
             document.getElementById('yearlevel').value = '';
             document.getElementById('section').value = '';
             document.getElementById('block').value = '';
+            document.getElementById('address').value = '';
             document.getElementById('patientid').classList.remove('is-invalid');
             document.getElementById('patientid').setCustomValidity('');
         }
     }
 </script>
-
 </html>

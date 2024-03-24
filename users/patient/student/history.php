@@ -199,17 +199,21 @@ include('../../../includes/pagination-limit.php');
                                                         <td><?= $data['pod_nod'] ?></td>
                                                         <td><?= date("M. d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'])) ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
+                                                            <?php
+                                                            if ($data['purpose'] == 'Dental' && $data['transaction'] == 'Consultation') { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" onclick="window.open('reports/reports_treatment_record.php?patientid=<?= $userid ?>')" target="_blank">Expand</button>
+                                                            <?php } else { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
+                                                            <?php }
+                                                            ?>
                                                         </td>
-
                                                     </tr>
                                                 <?php
                                                     include('modals/view_trans_modal.php');
                                                 }
                                                 ?>
-
-                                            <?php include('../../../includes/pagination.php');
-                                            } else { ?>
+                                            <?php } else {
+                                            ?>
                                                 <tr>
                                                     <td colspan="7">
                                                         <?php
@@ -217,23 +221,14 @@ include('../../../includes/pagination-limit.php');
                                                         ?>
                                                     </td>
                                                 </tr>
-                                            <?php } ?>
                                         <?php
-                                        } else {
-                                        ?>
-                                            <tr>
-                                                <td colspan="7">
-                                                    <?php
-                                                    include('../../../includes/no-data.php');
-                                                    ?>
-                                                </td>
-                                            </tr>
-                                        <?php
+                                            }
                                         }
                                         mysqli_close($conn);
                                         ?>
                                     </tbody>
                                 </table>
+                                <?php include('../../../includes/pagination.php'); ?>
                             </div>
                         </div>
                     </div>

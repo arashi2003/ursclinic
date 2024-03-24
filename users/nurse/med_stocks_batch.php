@@ -167,65 +167,65 @@ if ($pages > 4) {
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <form action="stocks_filter.php" method="POST">
-                                        <div class="row">
-                                            <div class="col-md-2 mb-2">
-                                                <select name="stocks" class="form-select">
-                                                    <option value="medicine" selected>Medicine Stocks</option>
-                                                    <option value="supply">Medical Supply Stocks</option>
-                                                    <option value="te">Tools and Equipment Stocks</option>
-                                                </select>
-                                            </div>
-                                            <div class="col mb-2">
-                                                <button type="submit" class="btn btn-primary">View</button>
-                                            </div>
+                            <div class="col-md-4">
+                                <form action="stocks_filter.php" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-10 mb-2">
+                                            <select name="stocks" class="form-select">
+                                                <option value="medicine" selected>Medicine Stocks</option>
+                                                <option value="supply">Medical Supply Stocks</option>
+                                                <option value="te">Tools and Equipment Stocks</option>
+                                            </select>
                                         </div>
-                                    </form>
-                                    <form action="medinv_viewfilter.php" method="POST">
-                                        <div class="row">
-                                            <div class="col-md-2 mb-2">
-                                                <select name="medinv_view" class="form-select">
-                                                    <option value="batch" selected>By Batch</option>
-                                                    <option value="expiration">By Expiration</option>
-                                                    <option value="total">By Total</option>
-                                                </select>
-                                            </div>
-                                            <div class="col mb-2">
-                                                <button type="submit" class="btn btn-primary">View</button>
-                                            </div>
+                                        <div class="col-md-2 mb-2">
+                                            <button type="submit" class="btn btn-primary">View</button>
                                         </div>
-                                    </form>
-                                    <form action="" method="get">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="input-group mb-2">
-                                                    <input type="text" name="medicine" value="<?= isset($_GET['medicine']) == true ? $_GET['medicine'] : '' ?>" class="form-control" placeholder="Search medicine">
-                                                    <button type="submit" class="btn btn-primary">Search</button>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2 mb-2">
-                                                <select name="batch" class="form-select">
-                                                    <option value="">Select Batch ID</option>
-                                                    <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
-                                                    <?php
-                                                    $sql = "SELECT DISTINCT batchid FROM inventory WHERE stock_type = 'medicine' AND campus = '$campus' ORDER BY batchid ASC";
-                                                    if ($result = mysqli_query($conn, $sql)) {
-                                                        while ($row = mysqli_fetch_array($result)) {
-                                                            $batch = $row["batchid"]; ?>
-                                                            <option value="<?php echo $row["batchid"]; ?>" <?= isset($_GET['batch']) == true ? ($_GET['batch'] == $row["batchid"] ? 'selected' : '') : '' ?>><?php echo $row["batchid"]; ?></option><?php }
-                                                                                                                                                                                                                                    } ?>
-                                                </select>
-                                            </div>
-                                            <div class="col mb-2">
-                                                <button type="submit" class="btn btn-primary">Filter</button>
-                                                <a href="med_stocks_batch" class="btn btn-danger">Reset</a>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                                    </div>
+                                </form>
                             </div>
+                            <div class="col-md-4">
+                                <form action="medinv_viewfilter.php" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-9 mb-2">
+                                            <select name="medinv_view" class="form-select">
+                                                <option value="batch" selected>By Batch</option>
+                                                <option value="expiration">By Expiration</option>
+                                                <option value="total">By Total</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <button type="submit" class="btn btn-primary">View</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <form action="" method="get">
+                                <div class="row">
+                                    <div class="col-md-4 mb-2">
+                                        <div class="input-group mb-2">
+                                            <input type="text" name="medicine" value="<?= isset($_GET['medicine']) == true ? $_GET['medicine'] : '' ?>" class="form-control" placeholder="Search medicine">
+                                            <button type="submit" class="btn btn-primary">Search</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <select name="batch" class="form-select">
+                                            <option value="">Select Batch ID</option>
+                                            <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                            <?php
+                                            $sql = "SELECT DISTINCT batchid FROM inventory WHERE stock_type = 'medicine' AND campus = '$campus' ORDER BY batchid ASC";
+                                            if ($result = mysqli_query($conn, $sql)) {
+                                                while ($row = mysqli_fetch_array($result)) {
+                                                    $batch = $row["batchid"]; ?>
+                                                    <option value="<?php echo $row["batchid"]; ?>" <?= isset($_GET['batch']) == true ? ($_GET['batch'] == $row["batchid"] ? 'selected' : '') : '' ?>><?php echo $row["batchid"]; ?></option><?php }
+                                                                                                                                                                                                                                    } ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <button type="submit" class="btn btn-primary">Filter</button>
+                                        <a href="med_stocks_batch" class="btn btn-danger">Reset</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">

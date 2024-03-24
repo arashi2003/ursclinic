@@ -26,23 +26,24 @@ $name = $_SESSION['username'];
                 <span class="dashboard">PROFILE</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <i class='bx bx-bell'></i>
-                </div>
                 <div class="profile-details">
-                    <i class='bx bx-user-circle'></i>
-                    <div class="dropdown">
-                        <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="admin_name">
-                                <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
-                            </span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="profile">Profile</a></li>
-                            <li><a class="dropdown-item" href="../../logout">Logout</a></li>
-                        </ul>
-                    </div>
+                <i class='bx bx-user-circle'></i>
+                <div class="dropdown">
+                    <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="admin_name">
+                        <?php
+                        echo $name ?>
+                    </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                    <li class="usertype"><?= $usertype ?></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="../../logout">Logout</a></li>
+                    </ul>
+                </div>
                 </div>
             </div>
         </nav>

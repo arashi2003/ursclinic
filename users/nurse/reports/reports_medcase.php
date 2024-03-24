@@ -126,7 +126,7 @@ if ($dt == "") {
 }
 
 //main
-$query = mysqli_query($conn, "SELECT * FROM reports_medcase $ca $date AND type='main'");
+$query = mysqli_query($conn, "SELECT * FROM reports_medcase $ca $date AND type='main' AND medcase NOT LIKE '%Others%'");
 while ($data = mysqli_fetch_array($query)) {
     $pdf->Cell(60, 6, $data['medcase'], 1, 0);
     $pdf->Cell(14.3, 6, $data['sm'], 1, 0, 'C');
@@ -147,7 +147,7 @@ $pdf->SetFont('Arial', '', 10);
 $pdf->Cell(129, 6, '', 1, 0, 'C');
 $pdf->Cell(0, 6, '', 0, 1);
 
-$query = mysqli_query($conn, "SELECT * FROM reports_medcase $ca $date AND type='others'");
+$query = mysqli_query($conn, "SELECT * FROM reports_medcase $ca $date AND type LIKE '%other%'");
 while ($data = mysqli_fetch_array($query)) {
     $pdf->Cell(60, 6, $data['medcase'], 1, 0);
     $pdf->Cell(14.3, 6, $data['sm'], 1, 0, 'C');
