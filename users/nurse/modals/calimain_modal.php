@@ -1,4 +1,4 @@
-<div class="modal fade" id="calimain<?php echo $data['teid']?>" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="calimain<?php echo $data['id']?>" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,6 +9,7 @@
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="te" class="form-label">Tool/Equipment:</label>
+                        <input type="text" name="id" value="<?php echo $data['id']?>" hidden>
                         <input type="text" name="te" value="<?php echo $data['teid']?>" hidden>
                         <input type="text" name="d" value="<?php echo $data['date']?>" hidden>
                         <input type="text" name="t" value="<?php echo $data['time']?>" hidden>

@@ -23,11 +23,6 @@
         $te = $data['tools_equip'];
     }
     //te_status id
-    $query = mysqli_query($conn, "SELECT * FROM te_status WHERE te_status = '$status'");
-    while($data=mysqli_fetch_array($query))
-    {
-        $statusid = $data['id'];
-    }
 
 
     // last day of this month
@@ -74,7 +69,7 @@
                     $bgc = $data['bgc'];
                     $bd = $data['bd'];
 
-                    if ($statusid == 1) //Good Condition
+                    if ($status == "Good Condition") //Good Condition
                     {
                         $rgc = $data['rgc'] + $qty;
                         $egc = $data['egc'] + $qty;
@@ -86,7 +81,7 @@
                         $eum = $data['eum'];
                         $ed = $data['ed'];
                     }
-                    else if ($statusid == 2) //Not Working
+                    else if ($status == "Not Working") //Not Working
                     {
                         $rnw = $data['rnw'] + $qty;
                         $enw = $data['enw'] + $qty;
@@ -98,7 +93,7 @@
                         $egc = $data['egc'];
                         $ed = $data['ed'];
                     }
-                    else if ($statusid == 3) //Damaged
+                    else if ($status == "Damaged") //Damaged
                     {
                         $rd = $data['rd'] + $qty;
                         $ed = $data['ed'] + $qty;
@@ -110,7 +105,7 @@
                         $eum = $data['eum'];
                         $egc = $data['egc'];
                     }
-                    else //Under Maintenance
+                    else if ($status == "Under Maintenance") //Under Maintenance
                     {
                         $rum = $data['rum'] + $qty;
                         $eum = $data['eum'] + $qty;
@@ -206,7 +201,7 @@
                         $bgc = $data['egc'];
                         $bd = $data['ed'];
 
-                        if ($statusid == 1) //Good Condition
+                        if ($status == 1) //Good Condition
                         {
                             $rgc = $data['rgc'] + $qty;
                             $egc = $data['egc'] + $qty;
@@ -218,7 +213,7 @@
                             $eum = $data['eum'];
                             $ed = $data['ed'];
                         }
-                        else if ($statusid == 2) //Not Working
+                        else if ($status == 2) //Not Working
                         {
                             $rnw = $data['rnw'] + $qty;
                             $enw = $data['enw'] + $qty;
@@ -230,7 +225,7 @@
                             $egc = $data['egc'];
                             $ed = $data['ed'];
                         }
-                        else if ($statusid == 3) //Damaged
+                        else if ($status == 3) //Damaged
                         {
                             $rd = $data['rd'] + $qty;
                             $ed = $data['ed'] + $qty;
@@ -305,7 +300,7 @@
                     $bgc = 0;
                     $bd = 0;
 
-                    if ($statusid == 1) //Good Condition
+                    if ($status == 1) //Good Condition
                     {
                         $rgc = $qty;
                         $egc = $qty;
@@ -317,7 +312,7 @@
                         $eum = 0;
                         $ed = 0;
                     }
-                    else if ($statusid == 2) //Not Working
+                    else if ($status == 2) //Not Working
                     {
                         $rnw = $qty;
                         $enw = $qty;
@@ -329,7 +324,7 @@
                         $egc = 0;
                         $ed = 0;
                     }
-                    else if ($statusid == 3) //Damaged
+                    else if ($status == 3) //Damaged
                     {
                         $rd = $qty;
                         $ed = $qty;

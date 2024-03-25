@@ -3,6 +3,7 @@
     include('connection.php');
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
+    $id = $_POST['id'];
     $date_from = $_POST['date_from'];
     $date_to = $_POST['date_to'];
     $status = $_POST['status'];
@@ -14,24 +15,19 @@
     $fullname = $_SESSION['name'];
     $activity = "added a record to the calibration and maintenance of " . $te;
     $au_status = "unread";
-
-    $query = "SELECT te_status FROM te_status WHERE id='$status'";    
-    $result = mysqli_query($conn, $query);
-    if($data=mysqli_fetch_array($result))
-    {
-      $stat = $data['te_status'];
-    }
     
-    $query = "INSERT INTO te_calimain (campus, tools_equip, date_from, date_to, status) VALUES ('$campus', '$te', '$date_from', '$date_to', '$status')";    
+    $query = "INSERT INTO te_calimain (campus, tools_equip, date_from, date_to, status) VALUES 
+    ('$campus', '$te', '$date_from', '$date_to', '$status')";    
     if($result = mysqli_query($conn, $query))
     {
-      $query = "UPDATE inventory_te SET status = '$status' WHERE teid ='$te' AND date='$d' AND time='$t'";    
+      $query = "UPDATE inventory_te SET status = '$status' WHERE id='$id' AND status='$istatus' AND teid ='$te' AND date='$d' AND time='$t'";    
       if($result = mysqli_query($conn, $query))
       {
+        $istatus = $_POST['istatus'];
         switch($istatus)
         {
-          case 3:
-            switch($stat)
+          case "Damaged":
+            switch($status)
             {
               case "Under Maintenance":
                 $add = "eum = eum + 1";
@@ -39,14 +35,16 @@
               case "Not Working":
                 $add = "enw = enw + 1";
                 break;
-              default: //good condition
+              case "Good Condition": 
                 $add = "egc = egc + 1";
+                break;
+              default:
                 break;
             }
             $end = "ed= ed - 1, " . $add;
             break;
-          case 4:
-            switch($stat)
+          case "Under Maintenance":
+            switch($status)
             {
               case "Damaged":
                 $add = "ed = ed + 1";
@@ -54,14 +52,16 @@
               case "Not Working":
                 $add = "enw = enw + 1";
                 break;
-              default: //good condition
+              case "Good Condition": 
                 $add = "egc = egc + 1";
+                break;
+              default:
                 break;
             }
             $end = "eum= eum - 1, " . $add;
             break;
-          case 2:
-            switch($stat)
+          case "Not Working":
+            switch($status)
             {
               case "Damaged":
                 $add = "ed = ed + 1";
@@ -69,14 +69,16 @@
               case "Under Maintenance":
                 $add = "eum = eum + 1";
                 break;
-              default: //good condition
+              case "Good Condition": 
                 $add = "egc = egc + 1";
+                break;
+              default:
                 break;
             }
             $end = "enw= enw - 1, " . $add;
             break;
-          default: //good condition
-            switch($stat)
+          case "Good Condition": //good condition
+            switch($status)
             {
               case "Damaged":
                 $add = "ed = ed + 1";
@@ -84,14 +86,18 @@
               case "Under Maintenance":
                 $add = "eum = eum + 1";
                 break;
-              default: //Not working
+              case "Not working":
                 $add = "enw = enw + 1";
                 break;
+              default: 
+                break;
             }
-            $end = "egc= egc - 1, " . $add;
+            $end = "egc = egc - 1, " . $add;
+            break;
+          default: 
             break;
         }
-        $sql = "UPDATE report_teinv SET $end WHERE date='$ldate'";
+        $sql = "UPDATE report_teinv SET $end WHERE id='$id' AND date='$ldate'";
         if($result = mysqli_query($conn, $sql))
         {
           $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";

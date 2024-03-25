@@ -8,6 +8,7 @@ $module = 'medcase';
 $userid = $_SESSION['userid'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
+$campus = $_SESSION['campus'];
 
 // Check if the medicine, med_admin, or dosage form filter is set
 if (isset($_GET['medcase'])) {
@@ -111,9 +112,7 @@ if ($pages > 4) {
                     <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
                         <i class='bx bx-bell'></i>
                         <?php
-                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
-                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
-                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
+                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image FROM audit_trail au INNER JOIN account ac ON ac.accountid = au.user INNER JOIN patient_image i ON i.patient_id = au.user WHERE ((au.activity LIKE '%added a walk-in schedule%' AND au.activity LIKE '%$campus%') OR (au.activity LIKE '%cancelled a walk-in schedule%' AND au.activity LIKE '%$campus%') OR au.activity LIKE 'sent%' OR au.activity LIKE 'cancelled%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%expired%') AND au.status='unread' AND au.user != '$userid' ORDER BY au.datetime DESC";
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
@@ -155,10 +154,10 @@ if ($pages > 4) {
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <form action="medrec_filter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-2 mb-2">
+                                        <div class="col-md-10 mb-2">
                                             <select name="medrec" class="form-select">
                                                 <option value="cc">Chief Complaint</option>
                                                 <option value="findings">Findings/Diagnosis</option>
@@ -166,14 +165,16 @@ if ($pages > 4) {
                                                 <option value="designation">Designation</option>
                                             </select>
                                         </div>
-                                        <div class="col mb-2">
+                                        <div class="col-md-2 mb-2">
                                             <button type="submit" class="btn btn-primary">View</button>
                                         </div>
                                     </div>
                                 </form>
+                            </div>
+                            <div class="col-md-4">
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-4 mb-2">
+                                        <div class="col-md-12 mb-2">
                                             <div class="input-group">
                                                 <input type="text" name="medcase" value="<?= isset($_GET['medcase']) == true ? $_GET['medcase'] : '' ?>" class="form-control" placeholder="Search medical case">
                                                 <button type="submit" class="btn btn-primary">Search</button>

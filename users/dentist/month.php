@@ -2,13 +2,18 @@
 session_start();
 include('connection.php');
 
+
+$note = "approved a request for appointment of B2021-0569 for BINANGONAN";
+echo $n = rtrim($note, "of B2021-0569");
+echo $n = rtrim($n, "for BINANGONAN");
+/*
 $time_from = "10:00:00";
 
 $sql = "SELECT * FROM time_pickup WHERE time > '$time_from'";
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_array($result)) {
 echo $row['time'] . "<br>";
-    }
+    
 
 /*
 //$endmonth =  date("Y-m-t");

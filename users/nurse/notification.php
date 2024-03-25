@@ -7,6 +7,7 @@ include('../../includes/nurse-auth.php');
 $userid = $_SESSION['userid'];
 $usertype = $_SESSION['usertype'];
 $name = $_SESSION['username'];
+$campus = $_SESSION['campus'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
@@ -15,8 +16,8 @@ $records = $conn->query("SELECT au.id, au.user, au.campus, au.activity, au.datet
                         WHERE 
                         (au.activity LIKE '%added a walk-in schedule%' OR 
                         au.activity LIKE '%cancelled a walk-in schedule%' OR 
-                        au.activity LIKE 'sent a request for%' OR 
-                        au.activity LIKE 'cancelled a request for%' OR 
+                        au.activity LIKE 'sent%' OR 
+                        au.activity LIKE 'cancelled%' OR 
                         au.activity LIKE 'uploaded medical document%' OR 
                         au.activity LIKE '%already expired') 
                         AND au.status='unread' AND au.user != '$userid'");
@@ -48,17 +49,7 @@ include('../../includes/pagination-limit.php');
                     <button type="button" class="btn btn-sm position-relative">
                         <i class='bx bx-bell'></i>
                         <?php
-                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
-                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user 
-                        INNER JOIN patient_image i ON i.patient_id=au.user 
-                        WHERE 
-                        (au.activity LIKE '%added a walk-in schedule%' OR 
-                        au.activity LIKE '%cancelled a walk-in schedule%' OR 
-                        au.activity LIKE 'sent a request for%' OR 
-                        au.activity LIKE 'cancelled a request for%' OR 
-                        au.activity LIKE 'uploaded medical document%' OR 
-                        au.activity LIKE '%already expired') 
-                        AND au.status='unread' AND au.user != '$userid'";
+                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image FROM audit_trail au INNER JOIN account ac ON ac.accountid = au.user INNER JOIN patient_image i ON i.patient_id = au.user WHERE ((au.activity LIKE '%added a walk-in schedule%' AND au.activity LIKE '%$campus%') OR (au.activity LIKE '%cancelled a walk-in schedule%' AND au.activity LIKE '%$campus%') OR au.activity LIKE 'sent%' OR au.activity LIKE 'cancelled%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%expired%') AND au.status='unread' AND au.user != '$userid' ORDER BY au.datetime DESC";
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
@@ -107,18 +98,7 @@ include('../../includes/pagination-limit.php');
                             <main>
                                 <?php
 
-                                $query = $conn->prepare("SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
-                                FROM audit_trail au 
-                                INNER JOIN account ac ON ac.accountid = au.user 
-                                INNER JOIN patient_image i ON i.patient_id = au.user 
-                                WHERE 
-                                (au.activity LIKE '%added a walk-in schedule%' OR 
-                                au.activity LIKE '%cancelled a walk-in schedule%' OR 
-                                au.activity LIKE 'sent a request for%' OR 
-                                au.activity LIKE 'cancelled a request for%' OR 
-                                au.activity LIKE 'uploaded medical document%' OR 
-                                au.activity LIKE '%already expired') 
-                                AND au.status='unread' AND au.user != ? ORDER BY au.datetime DESC");
+                                $query = $conn->prepare("SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image FROM audit_trail au INNER JOIN account ac ON ac.accountid = au.user INNER JOIN patient_image i ON i.patient_id = au.user WHERE ((au.activity LIKE '%added a walk-in schedule%' AND au.activity LIKE '%$campus%') OR (au.activity LIKE '%cancelled a walk-in schedule%' AND au.activity LIKE '%$campus%') OR au.activity LIKE 'sent%' OR au.activity LIKE 'cancelled%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%expired%') AND au.status='unread' AND au.user != ? ORDER BY au.datetime DESC");
                                 $query->bind_param('s', $userid);
                                 $query->execute();
                                 $result = $query->get_result();
@@ -144,13 +124,16 @@ include('../../includes/pagination-limit.php');
                                         }
 
                                         $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
-
+                                        $act1 = rtrim($data['activity'], "of $userid");
+                                        $act2 = rtrim($act1, "for $campus");
+                                        $act3 = rtrim($act2, "for ALL");
+                                        $activity = rtrim($act3, "for ");
                                 ?>
                                         <div class="notif_card <?= $data['status'] ?>">
                                             <img src="../../images/<?php echo $data['image']; ?>" alt="avatar" />
                                             <div class="description" data-id="<?php echo $data['id']; ?>">
                                                 <p class="user_activity">
-                                                    <strong><?= $fullname ?></strong> <?= $data['activity'] ?>
+                                                    <strong><?= $fullname ?></strong> <?= $activity; ?>
                                                 </p>
                                                 <p class="time"><?= $dt ?></p>
                                             </div>

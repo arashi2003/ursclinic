@@ -157,24 +157,26 @@ if ($pages > 4) {
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <form action="inv_filter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-2 mb-2">
+                                        <div class="col-md-10 mb-2">
                                             <select name="inv" class="form-select">
                                                 <option value="medadmin">Medical Administration</option>
                                                 <option value="dform">Dosage Form</option>
                                                 <option value="um" selected>Unit Measure</option>
                                             </select>
                                         </div>
-                                        <div class="col mb-2">
+                                        <div class="col-md-2 mb-2">
                                             <button type="submit" class="btn btn-primary">View</button>
                                         </div>
                                     </div>
                                 </form>
+                            </div>
+                            <div class="col-md-4">
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-12">
                                             <div class="input-group mb-2">
                                                 <input type="text" name="um_set" value="<?= isset($_GET['um_set']) == true ? $_GET['um_set'] : '' ?>" class="form-control" placeholder="Search unit measure">
                                                 <button type="submit" class="btn btn-primary">Search</button>

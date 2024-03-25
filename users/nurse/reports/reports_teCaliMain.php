@@ -118,15 +118,15 @@
     }
     elseif ($ca == "" AND $dt != "" )
     {
-        $fdate = date("Y-m-d", strtotime($dt));
-        $ldate = date("Y-m-t", strtotime($dt));
-        $date = " WHERE date_from >= '$fdate' AND date_to <= '$ldate'";
+        $fdate = date("Y-m", strtotime($dt));
+        $ldate = date("Y-m", strtotime($dt));
+        $date = " WHERE date_from LIKE '%$fdate%' AND date_to LIKE '%$ldate%'";
     }
     elseif ($ca != "" AND $dt != "" )
     {
-        $fdate = date("Y-m-d", strtotime($dt));
-        $ldate = date("Y-m-t", strtotime($dt));
-        $date = " AND date_from >= '$fdate' AND date_to <= '$ldate'";
+        $fdate = date("Y-m", strtotime($dt));
+        $ldate = date("Y-m", strtotime($dt));
+        $date = " AND (date_from LIKE '%$fdate%' AND date_to LIKE '%$ldate%')";
     }
     elseif ($ca != "" AND $dt == "" )
     {
@@ -137,13 +137,13 @@
         $date = " WHERE date_from = '0000-00-00' AND date_to = '0000-00-00'";
     }
 
-    $query = mysqli_query($conn, "SELECT tc.campus, tc.tools_equip, date_from, date_to, tc.status, te.tools_equip, te.unit_measure, s.te_status FROM te_calimain tc INNER JOIN tools_equip te ON te.teid=tc.tools_equip INNER JOIN te_status s ON s.id=tc.status $ca $date ORDER BY date_from DESC");
+    $query = mysqli_query($conn, "SELECT tc.campus, tc.tools_equip, date_from, date_to, tc.status, te.tools_equip, te.unit_measure, status FROM te_calimain tc INNER JOIN tools_equip te ON te.teid=tc.tools_equip $ca $date ORDER BY date_from DESC");
     while($data=mysqli_fetch_array($query))
     {
         $pdf->Cell(85, 6, $data['tools_equip'] . " " . $data['unit_measure'], 1, 0,);
         $pdf->Cell(35, 6, date("F d, Y", strtotime($data['date_from'])), 1, 0, 'C');
         $pdf->Cell(35, 6, date("F d, Y", strtotime($data['date_to'])), 1, 0, 'C');
-        $pdf->Cell(35, 6, $data['te_status'], 1, 0, 'C');
+        $pdf->Cell(35, 6, $data['status'], 1, 0, 'C');
         $pdf->Cell(0, 6, '', 0, 1);
     }
     

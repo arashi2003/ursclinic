@@ -34,7 +34,7 @@
         $sql= "INSERT INTO patient_info SET patientid = '$accountid', designation = '$designation', age = '$age', sex = '$sex', birthday = '$birthday', department = '$department', campus = '$au_campus', college = '$college', program = '$program', yearlevel = '$yearlevel', section = '$section', email = '$email', contactno = '$contactno', address='$address', emcon_name = '$emcon_name', emcon_number = '$emcon_number', datetime_updated = now(), datetime_created = now()";
         if (mysqli_query($conn, $sql))
             {
-                $sql= "INSERT INTO patient_image (patient_id, image,created_at) VALUES ('$accountid', 'noptofile.png', now())";
+                $sql= "INSERT INTO patient_image (patient_id, image,created_at) VALUES ('$accountid', 'noprofile.png', now())";
                 if (mysqli_query($conn, $sql))
                 {
                     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";

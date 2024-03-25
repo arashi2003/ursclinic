@@ -69,6 +69,12 @@
                 }
             }
 
+            if($_POST['usertype'] == 'NURSE' || $_POST['usertype'] == 'ADMIN' || $_POST['usertype'] == 'DOCTOR' || $_POST['usertype'] == 'DENTIST')
+            {
+                $sql= "INSERT INTO patient_image (patient_id, image,created_at) VALUES ('$accountid', 'noprofile.png', now())";
+                mysqli_query($conn, $sql);
+            }
+
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
             if($result = mysqli_query($conn, $sql))
             {

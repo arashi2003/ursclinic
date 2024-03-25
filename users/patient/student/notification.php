@@ -41,12 +41,11 @@ include('../../../includes/pagination-limit.php');
                         <?php
                         $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus 
                         FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user WHERE 
-                        ((au.activity LIKE 'approved a request%' AND au.activity LIKE '%$userid') 
-                        OR (au.activity LIKE 'disapproved a request%' AND au.activity LIKE '%$userid') 
-                        OR (au.activity LIKE 'cancelled a request%' AND au.activity LIKE '%$userid') 
-                        OR (au.activity LIKE 'approved a request%' AND au.activity LIKE '%$userid') 
-                        OR (au.activity LIKE 'completed a request%' AND au.activity LIKE '%$userid') 
-                        OR (au.activity LIKE 'dismissed a request%' AND au.activity LIKE '%$userid') 
+                        ((au.activity LIKE 'approved%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'disapproved%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'cancelled%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'completed%' AND au.activity LIKE '%$userid') 
+                        OR (au.activity LIKE 'dismissed%' AND au.activity LIKE '%$userid') 
                         OR (au.activity LIKE 'added%' AND au.activity LIKE '%$userid') 
                         OR (au.activity LIKE 'added a walk-in schedule%' AND au.activity LIKE '%$campus') 
                         OR (au.activity LIKE 'cancelled a walk-in schedule%' AND au.activity LIKE '%$campus')) 
@@ -107,15 +106,14 @@ include('../../../includes/pagination-limit.php');
 
                                 $query = mysqli_query($conn, "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus 
                                 FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user WHERE 
-                                ((au.activity LIKE 'approved a request%' AND au.activity LIKE '%$userid') 
-                                OR (au.activity LIKE 'disapproved a request%' AND au.activity LIKE '%$userid') 
-                                OR (au.activity LIKE 'cancelled a request%' AND au.activity LIKE '%$userid') 
-                                OR (au.activity LIKE 'approved a request%' AND au.activity LIKE '%$userid') 
-                                OR (au.activity LIKE 'completed a request%' AND au.activity LIKE '%$userid') 
-                                OR (au.activity LIKE 'dismissed a request%' AND au.activity LIKE '%$userid') 
+                                ((au.activity LIKE 'approved%' AND au.activity LIKE '%$userid') 
+                                OR (au.activity LIKE 'disapproved%' AND au.activity LIKE '%$userid') 
+                                OR (au.activity LIKE 'cancelled%' AND au.activity LIKE '%$userid') 
+                                OR (au.activity LIKE 'completed%' AND au.activity LIKE '%$userid') 
+                                OR (au.activity LIKE 'dismissed%' AND au.activity LIKE '%$userid') 
                                 OR (au.activity LIKE 'added%' AND au.activity LIKE '%$userid') 
                                 OR (au.activity LIKE 'added a walk-in schedule%' AND au.activity LIKE '%$campus') 
-                                OR (au.activity LIKE 'cancelled a walk-in schedule%' AND au.activity LIKE '%$campus')) 
+                                OR (au.activity LIKE 'cancelled a walk-in schedule%' AND au.activity LIKE '%$campus%')) 
                                 AND au.status = 'unread' AND au.user != '$userid' ORDER BY au.datetime DESC");
                                 if ($query) {
                                     if (mysqli_num_rows($query) > 0) {
@@ -139,20 +137,15 @@ include('../../../includes/pagination-limit.php');
                                                 $dt = date("g:i A", strtotime($data['datetime']));
                                             }
 
-                                            /*if($data['activity'] = "added a dental health record for $userid")
-                                            {
-                                                $activity = "added a new Dental Health Record in your Medical History";
-                                            }*/
-
-
                                             $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
-
+                                            $act1 = rtrim($data['activity'], "of $userid");
+                                            $activity = rtrim($act1, "for $campus");
                                 ?>
                                             <div class="notif_card <?= $data['status'] ?>">
                                                 <img src="../../../images/noprofile.png" alt="avatar" />
                                                 <div class="description" data-id="<?php echo $data['id']; ?>">
                                                     <p class="user_activity">
-                                                        <strong><?= $fullname ?></strong> <?= $data['activity'] ?>
+                                                        <strong><?= $fullname ?></strong> <?= $activity ?>
                                                     </p>
                                                     <p class="time"><?= $dt ?></p>
                                                 </div>

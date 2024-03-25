@@ -14,7 +14,11 @@
     $c = implode($_POST['close']);
     $qty = floatval($o) + floatval($c);
     $cost = $_POST['unit_cost'];
-    $exp = date("Y-m-t", strtotime($_POST['expiration']));
+    if($_POST['expiration'] != "" || $_POST['expiration'] != "0000-00-00"){
+        $exp = date("Y-m-t", strtotime($_POST['expiration']));
+    } else{
+        $exp = "";
+    }
 
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);

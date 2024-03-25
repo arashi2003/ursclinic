@@ -9,6 +9,7 @@ $patientid = $_REQUEST['patientid'];
 $userid = $_SESSION['userid'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
+$campus = $_SESSION['campus'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM patient_info WHERE patientid='$patientid'");
@@ -38,9 +39,7 @@ include('../../includes/pagination-limit.php')
                     <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
                         <i class='bx bx-bell'></i>
                         <?php
-                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
-                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
-                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
+                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image FROM audit_trail au INNER JOIN account ac ON ac.accountid = au.user INNER JOIN patient_image i ON i.patient_id = au.user WHERE ((au.activity LIKE '%added a walk-in schedule%' AND au.activity LIKE '%$campus%') OR (au.activity LIKE '%cancelled a walk-in schedule%' AND au.activity LIKE '%$campus%') OR au.activity LIKE 'sent%' OR au.activity LIKE 'cancelled%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%expired%') AND au.status='unread' AND au.user != '$userid' ORDER BY au.datetime DESC";
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
@@ -109,22 +108,6 @@ include('../../includes/pagination-limit.php')
                         $emcon_name = $data['emcon_name'];
                         $emcon_number = $data['emcon_number'];
                     ?>
-
-                        <!--<div class="d-flex justify-content-end">
-                            <div class="mb-2">
-                                <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert.php?patientid=<?php echo $patientid ?>');" target="_blank">Export Medical Certificate</button>
-                            </div>
-                            <div class="mb-2 ms-2">
-                                <?php /*
-                                if (strtoupper($designation) != 'STUDENT') { ?>
-                                    <button type="button" class="btn btn-primary" hidden>Export Clearance Slip</button>
-                                <?php } else { ?>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#medclear<?php echo $patientid; ?>">Export Clearance Slip</button>
-                                <?php include('modals/medclear_modal.php');
-                                } */ ?>
-                            </div>
-                        </div>-->
-
                         <div class="accordion" id="accordionPanelsStayOpenExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header">

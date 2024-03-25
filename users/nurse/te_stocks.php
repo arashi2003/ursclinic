@@ -123,9 +123,7 @@ if ($pages > 4) {
                     <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
                         <i class='bx bx-bell'></i>
                         <?php
-                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
-                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
-                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
+                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image FROM audit_trail au INNER JOIN account ac ON ac.accountid = au.user INNER JOIN patient_image i ON i.patient_id = au.user WHERE ((au.activity LIKE '%added a walk-in schedule%' AND au.activity LIKE '%$campus%') OR (au.activity LIKE '%cancelled a walk-in schedule%' AND au.activity LIKE '%$campus%') OR au.activity LIKE 'sent%' OR au.activity LIKE 'cancelled%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%expired%') AND au.status='unread' AND au.user != '$userid' ORDER BY au.datetime DESC";
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
@@ -167,30 +165,32 @@ if ($pages > 4) {
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <form action="stocks_filter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-2 mb-2">
+                                        <div class="col-md-10 mb-2">
                                             <select name="stocks" class="form-select">
                                                 <option value="medicine">Medicine Stocks</option>
                                                 <option value="supply">Medical Supply Stocks</option>
                                                 <option value="te" selected>Tools and Equipment Stocks</option>
                                             </select>
                                         </div>
-                                        <div class="col mb-2">
+                                        <div class="col-md-2 mb-2">
                                             <button type="submit" class="btn btn-primary">View</button>
                                         </div>
                                     </div>
                                 </form>
+                            </div>
+                            <div class="col-md-8">
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-5 mb-2">
                                             <div class="input-group mb-2">
                                                 <input type="text" name="te" value="<?= isset($_GET['te']) == true ? $_GET['te'] : '' ?>" class="form-control" placeholder="Search tool/equipment">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 mb-2">
+                                        <div class="col-md-4 mb-2">
                                             <select name="te_status" class="form-select">
                                                 <option value="" selected disabled>Select Status</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -204,7 +204,7 @@ if ($pages > 4) {
                                                                                                                                                                                                         } ?>
                                             </select>
                                         </div>
-                                        <div class="col mb-2">
+                                        <div class="col-md-3 mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                             <a href="te_stocks" class="btn btn-danger">Reset</a>
                                         </div>
@@ -254,7 +254,7 @@ if ($pages > 4) {
                                                         <td><?php echo number_format($amount, '2', '.') ?></td>
                                                         <td><?php echo $data['status']; ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#calimain<?php echo $data['teid'] ?>">Maintenance/Calibration</button>
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#calimain<?php echo $data['id'] ?>">Maintenance/Calibration</button>
                                                         </td>
                                                     </tr>
                                                 <?php

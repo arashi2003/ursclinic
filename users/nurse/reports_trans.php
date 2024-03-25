@@ -124,9 +124,7 @@ if ($pages > 4) {
                     <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
                         <i class='bx bx-bell'></i>
                         <?php
-                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image 
-                        FROM audit_trail au INNER JOIN account ac ON ac.accountid=au.user INNER JOIN patient_image i ON i.patient_id=au.user WHERE (au.activity LIKE '%added a walk-in schedule%' OR au.activity 
-                        LIKE 'sent a request for%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%already expired') AND au.status='unread' AND au.user != '$userid'";
+                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image FROM audit_trail au INNER JOIN account ac ON ac.accountid = au.user INNER JOIN patient_image i ON i.patient_id = au.user WHERE ((au.activity LIKE '%added a walk-in schedule%' AND au.activity LIKE '%$campus%') OR (au.activity LIKE '%cancelled a walk-in schedule%' AND au.activity LIKE '%$campus%') OR au.activity LIKE 'sent%' OR au.activity LIKE 'cancelled%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%expired%') AND au.status='unread' AND au.user != '$userid' ORDER BY au.datetime DESC";
                         $result = mysqli_query($conn, $sql);
                         if ($row = mysqli_num_rows($result)) {
                         ?>
@@ -176,10 +174,10 @@ if ($pages > 4) {
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <form action="reports_filter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-2 mb-2">
+                                        <div class="col-md-10 mb-2">
                                             <select name="reports" class="form-select">
                                                 <option value="" disabled>Select Report</option>
                                                 <option value="appointment">Appointment Report</option>
@@ -192,22 +190,22 @@ if ($pages > 4) {
                                                 <option value="tecalimain">Tools and Equipment Calibration and Maintenance Report</option>
                                             </select>
                                         </div>
-                                        <div class="col mb-2">
+                                        <div class="col-md-2 mb-2">
                                             <button type="submit" class="btn btn-primary">View</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-md-12 mb-2">
+                            <div class="col-md-8 mb-2">
                                 <form action="" method="GET" id="filterForm">
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <input type="date" name="date_from" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>" class="form-control">
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <input type="date" name="date_to" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>" class="form-control">
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-4">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                             <a href="reports_trans" class="btn btn-danger">Reset</a>
                                         </div>
@@ -265,33 +263,12 @@ if ($pages > 4) {
                                                 $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
                                             }
 
-                                            $sql = "SELECT id, patient, firstname, middlename, lastname, designation, age, sex, department, college, program, 
-                                    birthday, yearlevel, section,
-                                    type, transaction, purpose, height,
-                                    weight, bp, pr, temp, heent, chest_lungs,
-                                    heart, abdomen, extremities, bronchial_asthma, surgery, 
-                                    lmp, heart_disease, allergies, epilepsy, hernia,
-                                    respiratory, oxygen_saturation, chief_complaint, findiag,
-                                    remarks, medsup, pod_nod, medcase, medcase_others, 
-                                    datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial
-                                    FROM transaction_history 
-                                    $ca $date ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT id, patient, firstname, middlename, lastname, designation, age, sex, department, college, program, birthday, yearlevel, section,type, transaction, purpose, height,weight, bp, pr, temp, heent, chest_lungs,heart, abdomen, extremities, bronchial_asthma, surgery, lmp, heart_disease, allergies, epilepsy, hernia,respiratory, oxygen_saturation, chief_complaint, findiag,remarks, medsup, pod_nod, medcase, medcase_others, datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial FROM transaction_history $ca $date ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
                                             $now = date("Y-m-t");
-                                            $sql = "SELECT id, patient, firstname, middlename, lastname, 
-                                    designation, age, sex, department, college, program, 
-                                    birthday, yearlevel, section,
-                                    type, transaction, purpose, height,
-                                    weight, bp, pr, temp, heent, chest_lungs,
-                                    heart, abdomen, extremities, bronchial_asthma, surgery, 
-                                    lmp, heart_disease, allergies, epilepsy, hernia,
-                                    respiratory, oxygen_saturation, chief_complaint, findiag,
-                                    remarks, medsup, pod_nod, medcase, medcase_others, 
-                                    datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial
-                                    FROM transaction_history 
-                                    WHERE campus = '$campus' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT id, patient, firstname, middlename, lastname, designation, age, sex, department, college, program, birthday, yearlevel, section,type, transaction, purpose, height,weight, bp, pr, temp, heent, chest_lungs,heart, abdomen, extremities, bronchial_asthma, surgery, lmp, heart_disease, allergies, epilepsy, hernia,respiratory, oxygen_saturation, chief_complaint, findiag,remarks, medsup, pod_nod, medcase, medcase_others, datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial FROM transaction_history WHERE campus = '$campus' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {

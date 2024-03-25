@@ -28,7 +28,7 @@ $rowCounter = 0;
                 if ($total_approved === $total_medical_docs && $total_medical_docs > 0) {
                     // If all medical documents are approved and there are documents available, show the button
                 ?>
-                    <button type="button" class="btn btn-primary">Download Medical Certificate</button>
+                    <button type="button" class="btn btn-primary">Download Medical Clearance</button>
                 <?php } ?>
             </div>
         </div>
@@ -107,26 +107,6 @@ $rowCounter = 0;
         <div class="d-flex justify-content-between">
             <div class="p-2">
                 <h3>Freshmen Medical Documents</h3>
-            </div>
-            <div class="p-2">
-                <?php
-                // Check if all medical documents are approved
-                $sql_check_approved = "SELECT COUNT(*) AS total_approved FROM meddoc WHERE applicant='$userid' AND type='FRESHMEN' AND status='Approved'";
-                $result_check_approved = mysqli_query($conn, $sql_check_approved);
-                $row_check_approved = mysqli_fetch_assoc($result_check_approved);
-                $total_approved = $row_check_approved['total_approved'];
-
-                // Fetch total number of medical documents for OJT of the user
-                $sql_total_medical_docs = "SELECT COUNT(*) AS total_medical_docs FROM meddoc WHERE applicant='$userid' AND type='FRESHMEN'";
-                $result_total_medical_docs = mysqli_query($conn, $sql_total_medical_docs);
-                $row_total_medical_docs = mysqli_fetch_assoc($result_total_medical_docs);
-                $total_medical_docs = $row_total_medical_docs['total_medical_docs'];
-
-                if ($total_approved === $total_medical_docs && $total_medical_docs > 0) {
-                    // If all medical documents are approved and there are documents available, show the button
-                ?>
-                    <button type="button" class="btn btn-primary">Download Medical Certificate</button>
-                <?php } ?>
             </div>
         </div>
         <div class="row">
@@ -218,7 +198,7 @@ $rowCounter = 0;
                 if ($total_approved === $total_medical_docs && $total_medical_docs > 0) {
                     // If all medical documents are approved and there are documents available, show the button
                 ?>
-                    <button type="button" class="btn btn-primary">Download Medical Certificate</button>
+                    <button type="button" class="btn btn-primary" >Download Medical Certificate</button>
                 <?php } ?>
             </div>
         </div>
@@ -298,26 +278,6 @@ $rowCounter = 0;
         <div class="d-flex justify-content-between">
             <div class="p-2">
                 <h3>Freshmen Medical Documents</h3>
-            </div>
-            <div class="p-2">
-                <?php
-                // Check if all medical documents are approved
-                $sql_check_approved = "SELECT COUNT(*) AS total_approved FROM meddoc WHERE applicant='$userid' AND type='FRESHMEN' AND status='Approved'";
-                $result_check_approved = mysqli_query($conn, $sql_check_approved);
-                $row_check_approved = mysqli_fetch_assoc($result_check_approved);
-                $total_approved = $row_check_approved['total_approved'];
-
-                // Fetch total number of medical documents for OJT of the user
-                $sql_total_medical_docs = "SELECT COUNT(*) AS total_medical_docs FROM meddoc WHERE applicant='$userid' AND type='FRESHMEN'";
-                $result_total_medical_docs = mysqli_query($conn, $sql_total_medical_docs);
-                $row_total_medical_docs = mysqli_fetch_assoc($result_total_medical_docs);
-                $total_medical_docs = $row_total_medical_docs['total_medical_docs'];
-
-                if ($total_approved === $total_medical_docs && $total_medical_docs > 0) {
-                    // If all medical documents are approved and there are documents available, show the button
-                ?>
-                    <button type="button" class="btn btn-primary">Download Medical Certificate</button>
-                <?php } ?>
             </div>
         </div>
         <div class="row">

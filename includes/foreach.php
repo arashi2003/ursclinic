@@ -106,13 +106,18 @@ $query = "SELECT * FROM inventory_medicine WHERE expiration <= '$today' AND camp
 $result = mysqli_query($conn, $query);
 $resultCheck = mysqli_num_rows($result);
 if ($resultCheck > 0) {
-    $query = "SELECT * FROM audit_trail WHERE activity LIKE '%expired%' AND campus='$campus' AND datetime='$today'";
+    $query = "SELECT * FROM audit_trail WHERE activity LIKE '%expired%' AND campus='$campus' AND datetime LIKE '%$today%'";
     $result = mysqli_query($conn, $query);
     $resultCheck = mysqli_num_rows($result);
     if ($resultCheck == 0) {
         $user = $_SESSION['userid'];
         $campus = $_SESSION['campus'];
-        $fullname = strtoupper($_SESSION['name']);
+         $fullname = strtoupper($_SESSION['name']);
+        $query = "SELECT * FROM account WHERE campus = '$campus' AND usertype='ADMIN'";
+        $result = mysqli_query($conn, $query);
+        while($data=mysqli_fetch_array($result)) {
+             $user = $data['accountid'];
+        }
         $au_status = "unread";
         $activity = 'there are inventory stocks that already expired';
         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";

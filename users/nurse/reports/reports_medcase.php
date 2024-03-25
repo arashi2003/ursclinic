@@ -39,7 +39,7 @@ class PDF extends FPDF
 
         $dt = $_POST['month'];
         if ($dt == "") {
-            $date = "";
+            $date = "FOR " . strtoupper(date("F Y"));
         } else {
             $date = "FOR " . strtoupper(date("F Y", strtotime($dt)));
         }
@@ -117,8 +117,12 @@ if ($campus == "") {
     $ca = " WHERE campus = '$campus'";
 }
 //date filter
-if ($dt == "") {
-    $date = "AND date = '0000-00-00'";
+if ($ca != "" && $dt == "") {
+    $tmonth = date("Y-m-t");
+    $date = "AND date = '$tmonth'";
+} elseif ($ca == "" && $dt == "") {
+    $tmonth = date("Y-m-t");
+    $date = " WHERE date = '$tmonth'";
 } elseif ($ca == "" and $dt != "") {
     $date = " WHERE date = '$date'";
 } elseif ($ca != "" and $dt != "") {

@@ -15,7 +15,17 @@ if ($result) {
                             <h3>Freshmen Medical Documents</h3>
                         </div>
                         <div class="p-2">
-                            <button type="button" class="btn btn-primary" hidden>Download Medical Certificate</button>
+                        <?php
+                            $sql = "SELECT * FROM meddoc WHERE applicant='$patientid' and type='FRESHMEN' AND status != 'Approved'";
+                            $result = mysqli_query($conn, $sql);
+                            if ($result) {
+                                if (mysqli_num_rows($result) > 0) {?>
+                                    <button type="button" class="btn btn-primary" hidden>Download Medical Clearance</button>
+                                <?php } else{?>
+                                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medclearance.php?patientid=<?php echo $patientid ?>');" target="_blank">Download Medical Clearance</button>
+                                <?php }
+                            }
+                        ?>
                         </div>
                     </div>
                     <div class="row">
@@ -95,7 +105,17 @@ if ($result) {
                             <h3>Freshmen Medical Documents</h3>
                         </div>
                         <div class="p-2">
-                            <button type="button" class="btn btn-primary" hidden>Download Medical Certificate</button>
+                        <?php
+                            $sql = "SELECT * FROM meddoc WHERE applicant='$patientid' and type='FRESHMEN' AND status != 'Approved'";
+                            $result = mysqli_query($conn, $sql);
+                            if ($result) {
+                                if (mysqli_num_rows($result) > 0) {?>
+                                    <button type="button" class="btn btn-primary" hidden>Download Medical Clearance</button>
+                                <?php } else{?>
+                                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medclearance.php?patientid=<?php echo $patientid ?>');" target="_blank">Download Medical Clearance</button>
+                                <?php }
+                            }
+                        ?>
                         </div>
                     </div>
                     <div class="row">
@@ -169,7 +189,17 @@ if ($result) {
                             <h3>Athlete Medical Documents</h3>
                         </div>
                         <div class="p-2">
-                            <button type="button" class="btn btn-primary" hidden>Download Medical Certificate</button>
+                        <?php
+                            $sql = "SELECT * FROM meddoc WHERE applicant='$patientid' and type='ATHLETE' AND status != 'Approved'";
+                            $result = mysqli_query($conn, $sql);
+                            if ($result) {
+                                if (mysqli_num_rows($result) > 0) {?>
+                                    <button type="button" class="btn btn-primary" hidden>Download Medical Certificate</button>
+                                <?php } else{?>
+                                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert.php?patientid=<?php echo $patientid ?>');" target="_blank">Download Medical Certificate</button>
+                                <?php }
+                            }
+                        ?>
                         </div>
                     </div>
                     <div class="row">
@@ -249,7 +279,7 @@ if ($result) {
                             <h3>Freshmen Medical Documents</h3>
                         </div>
                         <div class="p-2">
-                            <button type="button" class="btn btn-primary" hidden>Download Medical Certificate</button>
+                            <button type="button" class="btn btn-primary" hidden>Download Medical Clearance</button>
                         </div>
                     </div>
                     <div class="row">
@@ -323,7 +353,17 @@ if ($result) {
                             <h3>Athlete Medical Documents</h3>
                         </div>
                         <div class="p-2">
-                            <button type="button" class="btn btn-primary" hidden>Download Medical Certificate</button>
+                        <?php
+                            $sql = "SELECT * FROM meddoc WHERE applicant='$patientid' and type='ATHLETE' AND status != 'Approved'";
+                            $result = mysqli_query($conn, $sql);
+                            if ($result) {
+                                if (mysqli_num_rows($result) > 0) {?>
+                                    <button type="button" class="btn btn-primary" hidden>Download Medical Certificate</button>
+                                <?php } else{?>
+                                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert.php?patientid=<?php echo $patientid ?>');" target="_blank">Download Medical Certificate</button>
+                                <?php }
+                            }
+                        ?>
                         </div>
                     </div>
                     <div class="row">
@@ -400,7 +440,17 @@ if ($result) {
                             <h3>OJT Medical Documents</h3>
                         </div>
                         <div class="p-2">
-                            <button type="button" class="btn btn-primary" hidden>Download Medical Certificate</button>
+                        <?php
+                            $sql = "SELECT * FROM meddoc WHERE applicant='$patientid' and type='OJT' AND status != 'Approved'";
+                            $result = mysqli_query($conn, $sql);
+                            if ($result) {
+                                if (mysqli_num_rows($result) > 0) {?>
+                                    <button type="button" class="btn btn-primary" hidden>Download Medical Certificate</button>
+                                <?php } else{?>
+                                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert.php?patientid=<?php echo $patientid ?>');" target="_blank">Download Medical Certificate</button>
+                                <?php }
+                            }
+                        ?>
                         </div>
                     </div>
                     <div class="row">
