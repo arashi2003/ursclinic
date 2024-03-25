@@ -37,7 +37,7 @@
                                 <option value="" disabled selected>-:-- --</option>
                                 <?php
                                 include('connection.php');
-                                $sql = "SELECT * FROM time_pickup WHERE isSelected = 'No'";
+                                $sql = "SELECT * FROM time_pickup";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_array($result)) {
                                     $time = date('g:i A', strtotime($row['time'])); // Format time as '12:00 PM'
@@ -50,6 +50,15 @@
                             <label for="time_to" class="col-form-label">Time To:</label>
                             <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_to" id="time_to">
                                 <option value="" disabled selected>-:-- --</option>
+                                <?php
+                                include('connection.php');
+                                $sql = "SELECT * FROM time_pickup";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                    $time = date('g:i A', strtotime($row['time'])); // Format time as '12:00 PM'
+                                ?>
+                                    <option value="<?= $row['time']; ?>"><?= $time; ?></option>
+                                <?php } ?>
                             </select>
                         </div>
                     </div>
@@ -69,17 +78,18 @@
                         <label for="other" class="col-form-label">Others:</label>
                         <input type="text" class="form-control" name="others">
                     </div>
-                    <div class="row duplicate">
+
+                    <div class="row duplicate hidden">
                         <div class="col-md hidden" id="medDupDiv">
                             <label for="medicine" class="col-form-label">Medicine:</label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="medicine[]" id="medicine">
                                 <option value="" disabled selected></option>
                                 <?php
-                                $sql = "SELECT * FROM inventory_medicine im INNER JOIN medicine m ON m.medid=im.medid ";
+                                $sql = "SELECT * FROM inv_total im INNER JOIN medicine m ON m.medid=im.stockid WHERE qty > 0 ORDER BY im.stock_name";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_array($result)) {
                                 ?>
-                                    <option value="<?= $row['medid']; ?>"><?= $row['medicine'] . ' ' . $row['unit_cost']; ?></option>
+                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -88,11 +98,11 @@
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="medical[]" id="medical">
                                 <option value="" disabled selected></option>
                                 <?php
-                                $sql = "SELECT * FROM inventory_supply i INNER JOIN supply s ON s.supid=i.supid ";
+                                $sql = "SELECT * FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid WHERE qty > 0 ORDER BY i.stock_name";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_array($result)) {
                                 ?>
-                                    <option value="<?= $row['supid']; ?>"><?= $row['supply']; ?></option>
+                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -108,6 +118,213 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <!-- MED 1 -->
+                    <div class="row">
+                        <div class="col-md" id="medDupDiv">
+                            <label for="medicine" class="col-form-label">Medicine:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="med_1" id="med_1">
+                                <option value="" disabled selected></option>
+                                <?php
+                                $sql = "SELECT * FROM inv_total im INNER JOIN medicine m ON m.medid=im.stockid WHERE qty > 0 AND type='medicine' ORDER BY im.stock_name";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name'] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md" id="supDupDiv">
+                            <label for="medical" class="col-form-label">Medical Supply:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sup_1" id="sup_1">
+                                <option value="" disabled selected></option>
+                                <?php
+                                $sql = "SELECT * FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid  WHERE qty > 0 AND type='supply' ORDER BY i.stock_name";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md-4" id="quantityDiv">
+                            <label for="quantity" class="col-form-label">Quantity:</label>
+                            <div class="row">
+                                <div class="col-sm-7 mb-2">
+                                    <input type="number" class="form-control" min="1" name="qty_1" id="qty_1">
+                                </div>
+                                <div class="col-sm mb-2">
+                                    <button type="button" class="btn btn-primary">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MED 2 -->
+                    <div class="row">
+                        <div class="col-md" id="medDupDiv">
+                            <label for="medicine" class="col-form-label">Medicine:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="med_2" id="med_2">
+                                <option value="" disabled selected></option>
+                                <?php
+                                $sql = "SELECT * FROM inv_total im INNER JOIN medicine m ON m.medid=im.stockid WHERE qty > 0 AND type='medicine' ORDER BY im.stock_name";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name'] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md" id="supDupDiv">
+                            <label for="medical" class="col-form-label">Medical Supply:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sup_2" id="sup_2">
+                                <option value="" disabled selected></option>
+                                <?php
+                                $sql = "SELECT * FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid  WHERE qty > 0 AND type='supply' ORDER BY i.stock_name";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md-4" id="quantityDiv">
+                            <label for="quantity" class="col-form-label">Quantity:</label>
+                            <div class="row">
+                                <div class="col-sm-7 mb-2">
+                                    <input type="number" class="form-control" min="1" name="qty_2" id="qty_2">
+                                </div>
+                                <div class="col-sm mb-2">
+                                    <button type="button" class="btn btn-primary">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MED 3 -->
+                    <div class="row">
+                        <div class="col-md" id="medDupDiv">
+                            <label for="medicine" class="col-form-label">Medicine:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="med_3" id="med_3">
+                                <option value="" disabled selected></option>
+                                <?php
+                                $sql = "SELECT * FROM inv_total im INNER JOIN medicine m ON m.medid=im.stockid WHERE qty > 0 AND type='medicine' ORDER BY im.stock_name";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name'] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md" id="supDupDiv">
+                            <label for="medical" class="col-form-label">Medical Supply:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sup_3" id="sup_3">
+                                <option value="" disabled selected></option>
+                                <?php
+                                $sql = "SELECT * FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid  WHERE qty > 0 AND type='supply' ORDER BY i.stock_name";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md-4" id="quantityDiv">
+                            <label for="quantity" class="col-form-label">Quantity:</label>
+                            <div class="row">
+                                <div class="col-sm-7 mb-2">
+                                    <input type="number" class="form-control" min="1" name="qty_3" id="qty_3">
+                                </div>
+                                <div class="col-sm mb-2">
+                                    <button type="button" class="btn btn-primary">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- MED 4 -->
+                    <div class="row">
+                        <div class="col-md" id="medDupDiv">
+                            <label for="medicine" class="col-form-label">Medicine:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="med_4" id="med_4">
+                                <option value="" disabled selected></option>
+                                <?php
+                                $sql = "SELECT * FROM inv_total im INNER JOIN medicine m ON m.medid=im.stockid WHERE qty > 0 AND type='medicine' ORDER BY im.stock_name";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name'] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md" id="supDupDiv">
+                            <label for="medical" class="col-form-label">Medical Supply:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sup_4" id="sup_4">
+                                <option value="" disabled selected></option>
+                                <?php
+                                $sql = "SELECT * FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid  WHERE qty > 0 AND type='supply' ORDER BY i.stock_name";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md-4" id="quantityDiv">
+                            <label for="quantity" class="col-form-label">Quantity:</label>
+                            <div class="row">
+                                <div class="col-sm-7 mb-2">
+                                    <input type="number" class="form-control" min="1" name="qty_4" id="qty_4">
+                                </div>
+                                <div class="col-sm mb-2">
+                                    <button type="button" class="btn btn-primary">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MED 5 -->
+                    <div class="row">
+                        <div class="col-md" id="medDupDiv">
+                            <label for="medicine" class="col-form-label">Medicine:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="med_5" id="med_5">
+                                <option value="" disabled selected></option>
+                                <?php
+                                $sql = "SELECT * FROM inv_total im INNER JOIN medicine m ON m.medid=im.stockid WHERE qty > 0 AND type='medicine' ORDER BY im.stock_name";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name'] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md" id="supDupDiv">
+                            <label for="medical" class="col-form-label">Medical Supply:</label>
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sup_5" id="sup_5">
+                                <option value="" disabled selected></option>
+                                <?php
+                                $sql = "SELECT * FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid  WHERE qty > 0 AND type='supply' ORDER BY i.stock_name";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md-4" id="quantityDiv">
+                            <label for="quantity" class="col-form-label">Quantity:</label>
+                            <div class="row">
+                                <div class="col-sm-7 mb-2">
+                                    <input type="number" class="form-control" min="1" name="qty_5" id="qty_5">
+                                </div>
+                                <div class="col-sm mb-2">
+                                    <button type="button" class="btn btn-primary">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="mb-2 hidden" id="physicianDiv">
                         <label for="physician" class="col-form-label">Physician:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="physician" id="physician">
@@ -122,6 +339,10 @@
         </div>
     </div>
 </div>
+
+
+
+
 <script type="text/javascript">
     $(document).ready(function() {
         $("#appointment").change(function() {
@@ -199,9 +420,10 @@
     });
 </script>
 <script>
+    /*
     $(document).ready(function() {
         $("#time_from").change(function() {
-            var time_from = $(this).val();
+            var time_fromid = $(this).val();
             if (time_from == '') {
                 $("#time_to").html('<option value="" disabled selected>-:-- --</option>');
             } else {
@@ -210,17 +432,16 @@
                     url: "time.php",
                     method: "POST",
                     data: {
-                        time_from: time_from
+                        time_from: time_fromid
                     },
                     success: function(data) {
                         $("#time_to").html(data);
-                        // Trigger change event to handle medicine selection
                         $("#time_to").trigger("change");
                     }
                 });
             }
         });
-    });
+    });*/
 </script>
 <script type="text/javascript">
     function enableAppointment(answer) {
@@ -238,9 +459,9 @@
                 document.getElementById('physicianDiv').classList.remove('hidden');
                 document.getElementById('others').classList.add('hidden');
             } else if (answer.value == 4) {
-                document.getElementById('dateDiv').classList.add('hidden');
-                document.getElementById('timeFromDiv').classList.add('hidden');
-                document.getElementById('timeToDiv').classList.add('hidden');
+                document.getElementById('dateDiv').classList.remove('hidden');
+                document.getElementById('timeFromDiv').classList.remove('hidden');
+                document.getElementById('timeToDiv').classList.remove('hidden');
                 document.getElementById('purposeDiv').classList.remove('hidden');
                 document.getElementById('ccDiv').classList.remove('hidden');
                 document.getElementById('supDupDiv').classList.add('hidden');
@@ -249,9 +470,9 @@
                 document.getElementById('physicianDiv').classList.add('hidden');
                 document.getElementById('others').classList.add('hidden');
             } else if (answer.value == 5) {
-                document.getElementById('dateDiv').classList.add('hidden');
-                document.getElementById('timeFromDiv').classList.add('hidden');
-                document.getElementById('timeToDiv').classList.add('hidden');
+                document.getElementById('dateDiv').classList.remove('hidden');
+                document.getElementById('timeFromDiv').classList.remove('hidden');
+                document.getElementById('timeToDiv').classList.remove('hidden');
                 document.getElementById('purposeDiv').classList.remove('hidden');
                 document.getElementById('ccDiv').classList.remove('hidden');
                 document.getElementById('medDupDiv').classList.add('hidden');

@@ -23,7 +23,7 @@ while($data=mysqli_num_rows($result))
 if (isset($_POST['medicine'])) {
   $activity = "sent a request for medicine";
   $medicine = $_POST['medicine'];
-  $sql = "INSERT INTO transaction_request SET patient='$patient', request_type='$request', medid='$medicine', qty='$quantity', purpose='$purpose', date_pickup='$date', time_pickup='$time', status='Pending', datetime=now()";
+  $sql = "INSERT INTO transaction_request SET patient='$patient', request_type='$request', medid='$medicine', qty='$quantity', purpose='$purpose', date_pickup='$date', time_pickup='$time', status='PENDING', datetime=now()";
   if (mysqli_query($conn, $sql)) 
   {
     $sql = "UPDATE inventory_medicine SET qty = qty - $quantity WHERE medid='$medicine'";
@@ -66,7 +66,7 @@ if (isset($_POST['medicine'])) {
   }
 } elseif (isset($_POST['medical'])) {
   $medical = $_POST['medical'];
-  $sql = "INSERT INTO transaction_request SET patient='$patient', request_type='$request', supid='$medical', qty='$quantity', purpose='$purpose', date_pickup='$date', time_pickup='$time', status='Pending', datetime=now()";
+  $sql = "INSERT INTO transaction_request SET patient='$patient', request_type='$request', supid='$medical', qty='$quantity', purpose='$purpose', date_pickup='$date', time_pickup='$time', status='PENDING', datetime=now()";
   if (mysqli_query($conn, $sql)) {
     $sql = "UPDATE inventory_supply SET qty = qty - $quantity WHERE supid='$medical'";
     mysqli_query($conn, $sql);
@@ -109,7 +109,7 @@ if (isset($_POST['medicine'])) {
 }
 else{
   $medical = $_POST['medical'];
-  $sql = "INSERT INTO transaction_request SET patient='$patient', request_type='$type', purpose='$purpose', date_pickup='$date', time_pickup='$time', status='Pending', datetime=now()";
+  $sql = "INSERT INTO transaction_request SET patient='$patient', request_type='$type', purpose='$purpose', date_pickup='$date', time_pickup='$time', status='PENDING', datetime=now()";
   if(mysqli_query($conn, $sql))
   {
     $request = $_POST['request'];

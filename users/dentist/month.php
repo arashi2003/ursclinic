@@ -2,6 +2,15 @@
 session_start();
 include('connection.php');
 
+$time_from = "10:00:00";
+
+$sql = "SELECT * FROM time_pickup WHERE time > '$time_from'";
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_array($result)) {
+echo $row['time'] . "<br>";
+    }
+
+/*
 //$endmonth =  date("Y-m-t");
 $month = "April 2024";
 $endmonth =  date("Y-m-t", strtotime($month));

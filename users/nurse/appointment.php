@@ -437,8 +437,9 @@ if ($approved_pages > 4) {
                                                                     }
                                                                 }
                                                                 $physician = strtoupper($row['firstname'] . " " . $middleinitial . " " . $row['lastname']); ?>
-                                                                <option value="<?php echo $physician; ?>" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == '$physician' ? 'selected' : '') : '' ?>><?php echo $physician; ?></option><?php }
-                                                                                                                                                                                                                                            } ?>
+                                                                <option value="<?php echo $physician; ?>" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == '$physician' ? 'selected' : '') : '' ?>><?php echo $physician; ?></option>
+                                                        <?php }
+                                                        } ?>
                                                     </select>
                                                 </div>
                                                 <div class="col mb-2">
@@ -460,7 +461,6 @@ if ($approved_pages > 4) {
                                                     <th>Time to</th>
                                                     <th>Patient name</th>
                                                     <th>Physician</th>
-                                                    <th>Status</th>
                                                     <th>Action</th>
                                             </thead>
                                             <tbody>
@@ -468,17 +468,18 @@ if ($approved_pages > 4) {
                                                 if (isset($_GET['patient']) && $_GET['patient'] != '') {
                                                     $patient = $_GET['patient'];
                                                     $count = 1;
-                                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='APPROVED' AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND (ap.status='APPROVED' OR ap.status='COMPLETED') AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
                                                 } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
                                                     $date = $_GET['date'];
                                                     $physician = $_GET['physician'];
                                                     $count = 1;
-                                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' or ap.physician = '$physician' AND ac.campus='$campus' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' or ap.physician = '$physician' AND ac.campus='$campus' AND (ap.status='APPROVED' OR ap.status='COMPLETED') ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
                                                 } else {
                                                     $count = 1;
-                                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.status='APPROVED' AND ac.campus='$campus' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $today = date("Y-m-d");
+                                                    $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE (ap.status='APPROVED' OR ap.status='COMPLETED') AND ac.campus='$campus' AND date >= '$today'  ORDER BY ap.status DESC,ap.date, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
                                                 }
                                                 if ($result) {
@@ -509,14 +510,38 @@ if ($approved_pages > 4) {
                                                                 <td><?php echo date("g:i A", strtotime($data['time_to'])) ?></td>
                                                                 <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])) ?></td>
                                                                 <td><?php echo $physician; ?></td>
-                                                                <td><?php echo $data['status']; ?></td>
                                                                 <td>
-                                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#completeappointment">Complete</button>
-                                                                </td>
-                                                            </tr>
-                                                        <?php
-                                                            include('modals/complete-appointment-modal.php');
-                                                        }
+                                                            <?php
+                                                            if ($data['status'] == 'CANCELLED') {
+                                                            ?>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancelled<?php echo $data['id'] ?>">
+                                                                    <?php echo $data['status']; ?>
+                                                                </button>
+                                                            <?php
+                                                            } elseif ($data['status'] == 'APPROVED') {
+                                                            ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#app_approved">Record</button>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?php echo $data['id']; ?>">Cancel</button>
+                                                            <?php
+                                                            } elseif ($data['status'] == 'COMPLETED') {
+                                                            ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#app_completed<?php echo $data['id'] ?>">
+                                                                    <?php echo $data['status']; ?>
+                                                                </button>
+                                                                <?php }?>
+                                                        </td>
+                                                    </tr>
+                                                <?php
+                                                if ($data['status'] == 'CANCELLED') {
+                                                    include('modals/app_cancelled_modal.php');
+                                                } elseif ($data['status'] == 'APPROVED') {
+                                                    //include('modals/app_approved_modal.php');
+                                                    //conditional for trans modal
+                                                    include('modals/app_cancel_modal.php');
+                                                } elseif ($data['status'] == 'COMPLETED') {
+                                                    include('modals/app_completed_modal.php');
+                                                } 
+                                                }
                                                     } else {
                                                         ?>
                                                         <tr>

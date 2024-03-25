@@ -52,7 +52,7 @@ if (isset($_GET['type']) || isset($_GET['date_from']) || isset($_GET['date_to'])
     // Construct and execute SQL query for pending appointments count
     $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' $whereClause $date AND 
     transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' 
-    AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC";
+    AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' AND patient='$userid' ORDER BY datetime DESC";
 
     $count_result = $conn->query($sql_count);
 
@@ -69,7 +69,7 @@ if (isset($_GET['type']) || isset($_GET['date_from']) || isset($_GET['date_to'])
     // If no filters are applied, count all rows in the database
     $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' AND 
     transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' 
-    AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC";
+    AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' AND patient='$userid'  ORDER BY datetime DESC";
     $count_result = $conn->query($sql_count);
 
     // Check if count query was successful

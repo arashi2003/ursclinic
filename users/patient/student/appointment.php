@@ -29,10 +29,10 @@ if (isset($_GET['physician']) || isset($_GET['date'])) {
     }
 
     // Construct and execute SQL query for counting total rows
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment WHERE $whereClause patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment WHERE $whereClause patient='$userid'  ORDER BY date, time_from, time_to";
 } else {
     // If filters are not set, count all rows
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment WHERE patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment WHERE patient='$userid' ORDER BY date, time_from, time_to";
 }
 
 // Execute the count query
@@ -180,7 +180,6 @@ if ($pages > 4) {
                 include('../../../includes/alert.php')
                 ?>
                 <div class="content">
-                    <h3>Pending Appointments</h3>
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
@@ -210,7 +209,7 @@ if ($pages > 4) {
                                 <table class="table">
                                     <thead class="head">
                                         <tr>
-                                            <th>No.</th>
+                                            <th>Appointment ID</th>
                                             <th>Date</th>
                                             <th>Time from</th>
                                             <th>Time to</th>
@@ -223,16 +222,16 @@ if ($pages > 4) {
                                         if (isset($_GET['date']) && $_GET['date'] != '') {
                                             $date = $_GET['date'];
                                             $count = 1;
-                                            $sql = "SELECT * FROM appointment WHERE date='$date' AND patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM appointment WHERE date='$date' AND patient='$userid' ORDER BY date DESC, time_from, time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['physician']) && $_GET['physician'] != '') {
                                             $physician = $_GET['physician'];
                                             $count = 1;
-                                            $sql = "SELECT * FROM appointment WHERE physician='$physician' AND patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM appointment WHERE physician='$physician' AND patient='$userid' ORDER BY date DESC, time_from, time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT * FROM appointment WHERE patient='$userid' AND status='PENDING' ORDER BY date, time_from, time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM appointment WHERE patient='$userid' ORDER BY date DESC, time_from, time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -249,23 +248,68 @@ if ($pages > 4) {
 
                                                 ?>
                                                     <tr>
-                                                        <td><?php $id = $count;
-                                                            echo $id; ?></td>
-                                                        <td><?php echo $data['date'] ?></td>
-                                                        <td><?php echo date("h:i a", strtotime($data['time_from'])) ?></td>
-                                                        <td><?php echo date("h:i a", strtotime($data['time_to'])) ?></td>
+                                                        <td><?= $data['id']; ?></td>
+                                                        <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
+                                                        <td><?php echo date("g:i A", strtotime($data['time_from'])) ?></td>
+                                                        <td><?php echo date("g:i A", strtotime($data['time_to'])) ?></td>
                                                         <td><?php echo $physician; ?></td>
-                                                        <td><?php echo $data['status'];
-                                                            $count++; ?></td>
+                                                        <td>
+                                                            <?php
+                                                            if ($data['status'] == 'PENDING') {
+                                                            ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?php echo $data['id'] ?>">
+                                                                    <?php echo $data['status']; ?>
+                                                                </button>
+                                                            <?php
+                                                            } elseif ($data['status'] == 'CANCELLED') {
+                                                            ?>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancelled<?php echo $data['id'] ?>">
+                                                                    <?php echo $data['status']; ?>
+                                                                </button>
+                                                            <?php
+                                                            } elseif ($data['status'] == 'APPROVED') {
+                                                            ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#app_approved">
+                                                                    <?php echo $data['status']; ?>
+                                                                </button>
+                                                            <?php
+                                                            } elseif ($data['status'] == 'DISAPPROVED') {
+                                                            ?>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_disapproved<?php echo $data['id'] ?>">
+                                                                    <?php echo $data['status']; ?>
+                                                                </button>
+                                                            <?php
+                                                            } elseif ($data['status'] == 'COMPLETED') {
+                                                            ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#app_completed<?php echo $data['id'] ?>">
+                                                                    <?php echo $data['status']; ?>
+                                                                </button>
+                                                            <?php
+                                                            } elseif ($data['status'] == 'DISMISSED') {
+                                                            ?>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_dismissed<?php echo $data['id'] ?>">
+                                                                <?php echo $data['status'];
+                                                            } ?>
+                                                                </button>
+                                                        </td>
                                                     </tr>
                                                 <?php
+                                                    if ($data['status'] == 'PENDING') {
+                                                        include('modals/app_cancel_modal.php');
+                                                    } elseif ($data['status'] == 'CANCELLED') {
+                                                        include('modals/app_cancelled_modal.php');
+                                                    } elseif ($data['status'] == 'APPROVED') {
+                                                        include('modals/app_approved_modal.php');
+                                                    } elseif ($data['status'] == 'DISAPPROVED') {
+                                                        include('modals/app_disapproved_modal.php');
+                                                    } elseif ($data['status'] == 'COMPLETED') {
+                                                        include('modals/app_completed_modal.php');
+                                                    } elseif ($data['status'] == 'DISMISSED') {
+                                                        include('modals/app_dismissed_modal.php');
+                                                    }
                                                 }
-                                                ?>
-
-                                            <?php
-
                                             } else {
-                                            ?>
+                                                ?>
                                                 <tr>
                                                     <td colspan="6">
                                                         <?php
