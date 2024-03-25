@@ -66,7 +66,7 @@ include('../../includes/pagination-limit.php')
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-2">
                                                 <input type="text" name="campus" value="<?= isset($_GET['campus']) == true ? $_GET['campus'] : '' ?>" class="form-control" placeholder="Search campus">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
@@ -113,29 +113,23 @@ include('../../includes/pagination-limit.php')
                                                     include('modals/update_campus_modal.php');
                                                     include('modals/rem_campus_modal.php');
                                                 } ?>
+
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <td colspan="2">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
+                                        <?php
+                                            }
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
                                     </tbody>
                                 </table>
                                 <?php include('../../includes/pagination.php') ?>
-                            <?php
-                                            } else {
-                            ?>
-                                <td colspan="2">
-                                    <?php
-                                                include('../../includes/no-data.php');
-                                    ?>
-                                </td>
-                            <?php
-                                            }
-                                        } else {
-                            ?>
-                            <td colspan="2">
-                                <?php
-                                            include('../../includes/no-data.php');
-                                ?>
-                            </td>
-                        <?php }
-                                        mysqli_close($conn);
-                        ?>
                             </div>
                         </div>
                     </div>

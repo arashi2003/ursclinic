@@ -165,8 +165,8 @@ include('../../includes/pagination-limit.php');
             </div>
             <div class="col-sm-12">
               <div class="table-responsive">
-                <table>
-                  <thead>
+                <table class="table">
+                  <thead class="head">
                     <tr>
                       <th>Appointment No.</th>
                       <th>Date</th>
@@ -272,28 +272,21 @@ include('../../includes/pagination-limit.php');
                         <?php
                           include('modals/update_account_modal.php');
                         }
-                      } else { ?>
+                      } else {
+                        ?>
                         <td colspan="6">
                           <?php
                           include('../../includes/no-data.php');
                           ?>
                         </td>
-                      <?php } ?>
+                    <?php
+                      }
+                    }
+                    mysqli_close($conn);
+                    ?>
                   </tbody>
                 </table>
                 <?php include('../../includes/pagination.php') ?>
-              <?php
-                    } else {
-              ?>
-                <td colspan="6">
-                  <?php
-                      include('../../includes/no-data.php');
-                  ?>
-                </td>
-              <?php
-                    }
-                    mysqli_close($conn);
-              ?>
               </div>
             </div>
           </div>

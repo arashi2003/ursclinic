@@ -76,7 +76,7 @@ include('../../includes/pagination-limit.php')
                             <form action="" method="GET" id="filterForm">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-4 mb-2">
+                                        <div class="col-md-4">
                                             <div class="input-group mb-2">
                                                 <input type="text" name="account" value="<?= isset($_GET['account']) == true ? $_GET['account'] : '' ?>" class="form-control" placeholder="Search user account">
                                                 <button type="submit" class="btn btn-primary">Search</button>
@@ -146,61 +146,62 @@ include('../../includes/pagination-limit.php')
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody><?php
-                                            if (isset($_GET['account']) && $_GET['account'] != '') {
-                                                $account = strtoupper($_GET['account']);
-                                                $sql = "SELECT * FROM account WHERE (CONCAT(firstname, ' ', middlename, ' ' , lastname) LIKE '%$account%' OR CONCAT(firstname, ' ' , lastname) LIKE '%$account%' OR accountid LIKE '%$account%') ORDER BY accountid LIMIT $start, $rows_per_page";
-                                                $result = mysqli_query($conn, $sql);
-                                            } elseif (isset($_GET['campus']) && $_GET['campus'] != '' || isset($_GET['status']) && $_GET['status'] != '' || isset($_GET['usertype']) && $_GET['usertype'] != '') {
-                                                $campus = $_GET['campus'];
-                                                $status = $_GET['status'];
-                                                $usertype = $_GET['usertype'];
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['account']) && $_GET['account'] != '') {
+                                            $account = strtoupper($_GET['account']);
+                                            $sql = "SELECT * FROM account WHERE (CONCAT(firstname, ' ', middlename, ' ' , lastname) LIKE '%$account%' OR CONCAT(firstname, ' ' , lastname) LIKE '%$account%' OR accountid LIKE '%$account%') ORDER BY accountid LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['campus']) && $_GET['campus'] != '' || isset($_GET['status']) && $_GET['status'] != '' || isset($_GET['usertype']) && $_GET['usertype'] != '') {
+                                            $campus = $_GET['campus'];
+                                            $status = $_GET['status'];
+                                            $usertype = $_GET['usertype'];
 
-                                                //campus filter
-                                                if ($campus == "") {
-                                                    $ca = "";
-                                                } else {
-                                                    $ca = " WHERE campus = '$campus'";
-                                                }
-
-                                                //status filter
-                                                if ($status == "") {
-                                                    $stat = "";
-                                                } elseif ($ca == "" and $status != "") {
-                                                    $stat = " WHERE status = '$status'";
-                                                } elseif ($ca != "" and $status != "") {
-                                                    $stat = " AND status = '$status'";
-                                                }
-
-                                                //status filter
-                                                if ($usertype == "") {
-                                                    $utype = "";
-                                                } elseif ($ca == "" and $stat == "" and $usertype != "") {
-                                                    $utype = " WHERE usertype = '$usertype'";
-                                                } elseif ($ca != "" or $stat != "" and $statususertype != "") {
-                                                    $utype = " AND usertype = '$usertype'";
-                                                }
-                                                $sql = "SELECT * FROM account $ca $stat $utype ORDER BY accountid LIMIT $start, $rows_per_page";
-                                                $result = mysqli_query($conn, $sql);
+                                            //campus filter
+                                            if ($campus == "") {
+                                                $ca = "";
                                             } else {
-                                                $sql = "SELECT * FROM account ORDER BY accountid LIMIT $start, $rows_per_page";
-                                                $result = mysqli_query($conn, $sql);
+                                                $ca = " WHERE campus = '$campus'";
                                             }
-                                            if ($result) {
-                                                if (mysqli_num_rows($result) > 0) {
-                                                    foreach ($result as $data) {
-                                                        if (count(explode(" ", $data['middlename'])) > 1) {
-                                                            $middle = explode(" ", $data['middlename']);
-                                                            $letter = !empty($middle[0][0]) . !empty($middle[1][0]);
-                                                            $middleinitial = $letter . ".";
+
+                                            //status filter
+                                            if ($status == "") {
+                                                $stat = "";
+                                            } elseif ($ca == "" and $status != "") {
+                                                $stat = " WHERE status = '$status'";
+                                            } elseif ($ca != "" and $status != "") {
+                                                $stat = " AND status = '$status'";
+                                            }
+
+                                            //status filter
+                                            if ($usertype == "") {
+                                                $utype = "";
+                                            } elseif ($ca == "" and $stat == "" and $usertype != "") {
+                                                $utype = " WHERE usertype = '$usertype'";
+                                            } elseif ($ca != "" or $stat != "" and $statususertype != "") {
+                                                $utype = " AND usertype = '$usertype'";
+                                            }
+                                            $sql = "SELECT * FROM account $ca $stat $utype ORDER BY accountid LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $sql = "SELECT * FROM account ORDER BY accountid LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
+                                                foreach ($result as $data) {
+                                                    if (count(explode(" ", $data['middlename'])) > 1) {
+                                                        $middle = explode(" ", $data['middlename']);
+                                                        $letter = !empty($middle[0][0]) . !empty($middle[1][0]);
+                                                        $middleinitial = $letter . ".";
+                                                    } else {
+                                                        $middle = $data['middlename'];
+                                                        if ($middle == "" or $middle == " ") {
+                                                            $middleinitial = "";
                                                         } else {
-                                                            $middle = $data['middlename'];
-                                                            if ($middle == "" or $middle == " ") {
-                                                                $middleinitial = "";
-                                                            } else {
-                                                                $middleinitial = substr($middle, 0, 1) . ".";
-                                                            }
-                                                        } ?>
+                                                            $middleinitial = substr($middle, 0, 1) . ".";
+                                                        }
+                                                    } ?>
                                                     <tr>
                                                         <td><?php echo $data['campus'] ?></td>
                                                         <td><?php echo $data['accountid'] ?></td>
@@ -212,30 +213,23 @@ include('../../includes/pagination-limit.php')
                                                         </td>
                                                     </tr>
                                                 <?php
-                                                        include('modals/update_account_modal.php');
-                                                    }
-                                                } else { ?>
+                                                    include('modals/update_account_modal.php');
+                                                }
+                                            } else {
+                                                ?>
                                                 <td colspan="6">
                                                     <?php
                                                     include('../../includes/no-data.php');
                                                     ?>
                                                 </td>
-                                            <?php } ?>
+                                        <?php
+                                            }
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
                                     </tbody>
                                 </table>
                                 <?php include('../../includes/pagination.php') ?>
-                            <?php
-                                            } else {
-                            ?>
-                                <td colspan="6">
-                                    <?php
-                                                include('../../includes/no-data.php');
-                                    ?>
-                                </td>
-                            <?php
-                                            }
-                                            mysqli_close($conn);
-                            ?>
                             </div>
                         </div>
                     </div>
@@ -286,4 +280,5 @@ include('../../includes/pagination-limit.php')
         updateExportPdfForm();
     });
 </script>
+
 </html>

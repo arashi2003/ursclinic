@@ -165,29 +165,23 @@ include('../../includes/pagination-limit.php')
                                                     include('modals/update_program_modal.php');
                                                     include('modals/rem_program_modal.php');
                                                 } ?>
+
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <td colspan="4">
+                                                    <?php
+                                                    include('../../includes/no-data.php');
+                                                    ?>
+                                                </td>
+                                        <?php
+                                            }
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
                                     </tbody>
                                 </table>
                                 <?php include('../../includes/pagination.php') ?>
-                            <?php
-                                            } else {
-                            ?>
-                                <td colspan="4">
-                                    <?php
-                                                include('../../includes/no-data.php');
-                                    ?>
-                                </td>
-                            <?php
-                                            }
-                                        } else {
-                            ?>
-                            <td colspan="4">
-                                <?php
-                                            include('../../includes/no-data.php');
-                                ?>
-                            </td>
-                        <?php }
-                                        mysqli_close($conn);
-                        ?>
                             </div>
                         </div>
                     </div>

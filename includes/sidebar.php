@@ -8,7 +8,7 @@
         </div>
         <ul class="nav-links">
             <li class="<?php if ($module == 'dashboard') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="dashboard">
                     <i class='bx bx-grid-alt'></i>
@@ -19,7 +19,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'appointment') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="appointment?tab=pending">
                     <i class='bx bx-calendar'></i>
@@ -30,7 +30,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'patient_add' or $module == 'view_patient') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="patients">
                     <i class='bx bx-id-card'></i>
@@ -41,7 +41,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'transaction_history') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="transaction_history">
                     <i class='bx bx-collection'></i>
@@ -52,7 +52,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'medical') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="med_doc">
                     <i class='bx bx-file'></i>
@@ -86,7 +86,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'reports' or $module == 'reports_appointment' or $module == 'report_doc_visit' or $module == 'reports_transaction' or $module == 'reports_medcase' or $module == 'reports_medinv' or $module == 'reports_supinv' or $module == 'reports_teinv' or $module == 'reports_tecalimain') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="reports_appointment">
                     <i class='bx bx-file'></i>
@@ -138,7 +138,7 @@
         </div>
         <ul class="nav-links">
             <li class="<?php if ($module == 'appointment') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="appointment">
                     <i class='bx bx-calendar'></i>
@@ -149,7 +149,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'medical') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="medical">
                     <i class='bx bx-folder'></i>
@@ -160,7 +160,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'history') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="history">
                     <i class='bx bx-collection'></i>
@@ -183,7 +183,7 @@
         </div>
         <ul class="nav-links">
             <li class="<?php if ($module == 'appointment') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="appointment">
                     <i class='bx bx-calendar'></i>
@@ -194,7 +194,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'history') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="history">
                     <i class='bx bx-collection'></i>
@@ -217,7 +217,7 @@
         </div>
         <ul class="nav-links">
             <li class="<?php if ($module == 'appointment') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="appointment">
                     <i class='bx bx-calendar'></i>
@@ -228,7 +228,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'history') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="history">
                     <i class='bx bx-collection'></i>
@@ -251,7 +251,7 @@
         </div>
         <ul class="nav-links">
             <li class="<?php if ($module == 'appointment') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="appointment">
                     <i class='bx bx-calendar'></i>
@@ -262,7 +262,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'transaction') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <div class="icon-link">
                     <a href="#">
@@ -291,7 +291,7 @@
         </div>
         <ul class="nav-links">
             <li class="<?php if ($module == 'appointment') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="appointment">
                     <i class='bx bx-calendar'></i>
@@ -302,7 +302,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'transaction') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <div class="icon-link">
                     <a href="#">
@@ -330,7 +330,7 @@
         </div>
         <ul class="nav-links">
             <li class="<?php if ($module == 'account_users') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="account_users">
                     <i class='bx bx-file'></i>
@@ -340,8 +340,8 @@
                     <li><a class="link_name" href="account_users">Accounts</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'patients') {
-                            echo 'active showMenu';
+            <li class="<?php if ($module == 'patient_add') {
+                            echo 'active';
                         } ?>">
                 <a href="patients">
                     <i class='bx bx-file'></i>
@@ -352,7 +352,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'audittrail') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="audittrail.php">
                     <i class='bx bxs-report'></i>
@@ -373,13 +373,27 @@
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a href="campus">Campus</a></li>
-                    <li><a href="department">Department</a></li>
-                    <li><a href="college">College</a></li>
-                    <li><a href="program">Program</a></li>
-                    <li><a href="yearlevel">Year Level</a></li>
-                    <li><a href="organization">Organization</a></li>
-                    <li><a href="buar">Backup</a></li>
+                    <li><a href="campus" class="<?php if ($module == 'campus') {
+                                                    echo 'active';
+                                                } ?>">Campus</a></li>
+                    <li><a href="department" class="<?php if ($module == 'department') {
+                                                        echo 'active';
+                                                    } ?>">Department</a></li>
+                    <li><a href="college" class="<?php if ($module == 'college') {
+                                                        echo 'active';
+                                                    } ?>">College</a></li>
+                    <li><a href="program" class="<?php if ($module == 'program') {
+                                                        echo 'active';
+                                                    } ?>">Program</a></li>
+                    <li><a href="yearlevel" class="<?php if ($module == 'yearlevel') {
+                                                        echo 'active';
+                                                    } ?>">Year Level</a></li>
+                    <li><a href="organization" class="<?php if ($module == 'organization') {
+                                                            echo 'active';
+                                                        } ?>">Organization</a></li>
+                    <li><a href="buar" class="<?php if ($module == 'buar') {
+                                                    echo 'active';
+                                                } ?>">Backup</a></li>
                 </ul>
             </li>
         </ul>
@@ -394,7 +408,7 @@
         </div>
         <ul class="nav-links">
             <li class="<?php if ($module == 'dashboard') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="dashboard">
                     <i class='bx bx-grid-alt'></i>
@@ -405,7 +419,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'appointment') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="appointment">
                     <i class='bx bx-calendar'></i>
@@ -416,7 +430,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'patients' || $module == 'view_patient') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="patients">
                     <i class='bx bx-file'></i>
@@ -426,7 +440,7 @@
                     <li><a class="link_name" href="patients">Patient Information</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'transaction_history' || $module == 'transaction_dental_consultation') {
+            <li class="<?php if ($module == 'transaction_history' || $module == 'dental_consultation') {
                             echo 'active showMenu';
                         } ?>">
                 <div class="icon-link">
@@ -440,14 +454,14 @@
                     <li><a class="link_name" href="#">Dental Records</a></li>
 
                     <li>
-                        <a class="<?php if ($module == 'transaction_dental_consultation') {
-                                        echo 'active showMenu';
+                        <a class="<?php if ($module == 'dental_consultation') {
+                                        echo 'active';
                                     } ?>" href="transaction_dental_consultation">Consultation</a>
                     </li>
 
                     <li>
                         <a class="<?php if ($module == 'transaction_history') {
-                                        echo 'active showMenu';
+                                        echo 'active';
                                     } ?>" href="transaction_history">History</a>
                     </li>
                 </ul>
