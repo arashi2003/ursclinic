@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 23, 2024 at 05:53 PM
+-- Generation Time: Mar 25, 2024 at 06:22 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -577,7 +577,7 @@ INSERT INTO `account` (`accountid`, `password`, `usertype`, `firstname`, `middle
 ('URS-998', 'admin', 'ADMIN', 'JOCELYN', '', 'FLORES', 'email@gmail.com', '09123456789', 'RODRIGUEZ', 'LOCKED', '2023-12-08 03:12:34', '2023-12-08 03:12:34'),
 ('URS-999', 'admin', 'ADMIN', 'ALLEN', 'JANE', 'CALEJO', 'email@gmail.com', '09123456789', 'BINANGONAN', 'ACTIVE', '2023-12-08 02:46:01', '2024-02-28 11:45:36'),
 ('URSD-001', 'maycacayan', 'DOCTOR', 'EDNA', 'C', 'MAYCACAYAN', 'email@gmail.com', '09123456789', 'ALL', 'ACTIVE', '2023-12-08 02:39:55', '2023-12-08 02:46:01'),
-('URSD-002', 'admin', 'DENTIST', 'GODWIN', 'A', 'OLIVAS', 'email@gmail.com', '09123456789', 'ALL', 'ACTIVE', '2023-12-13 14:26:35', '2024-03-20 14:57:56'),
+('URSD-002', 'admin', 'DENTIST', 'GODWIN', 'A', 'OLIVAS', 'email@gmail.com', '09123456789', 'ALL', 'ACTIVE', '2023-12-13 14:26:35', '2024-03-24 21:59:10'),
 ('URSF-000', 'admin', 'FACULTY', 'EDEN', 'C', 'SANTOS', 'email@gmail.com', '09123456789', 'BINANGONAN', 'ACTIVE', '2024-03-15 23:30:12', '2024-03-15 23:30:12'),
 ('URSN-000', 'admin', 'NURSE', 'SHEILA', 'C', 'OLIVAS', 'email@gmail.com', '09123456789', 'ALL', 'ACTIVE', '2024-03-15 18:23:05', '2024-03-15 18:52:00'),
 ('URSN-001', 'admin', 'NURSE', 'DIOSA', 'A', 'SALVADOR', 'email@gmail.com', '09123456789', 'BINANGONAN', 'ACTIVE', '2023-12-08 02:39:55', '2024-02-28 12:02:13'),
@@ -659,14 +659,24 @@ INSERT INTO `appointment` (`id`, `date`, `time_from`, `time_to`, `physician`, `p
 (20, '2024-01-30', '10:30:00', '11:00:00', 'GODWIN A. OLIVAS', 'B2021-0542', 2, 3, 'Toothache', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'COMPLETED', NULL, '2024-01-30 22:57:16'),
 (21, '2024-01-30', '10:30:00', '11:00:00', 'GODWIN A. OLIVAS', 'B2021-0542', 2, 3, 'Toothache', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'COMPLETED', NULL, '2024-01-30 22:59:16'),
 (22, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0542', 2, 7, 'Others', 'butt hurt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DISMISSED', 'Dismissed due to exceeding the requested date.', '2024-03-22 00:00:00'),
-(23, '2023-12-11', '14:00:00', '14:30:00', 'EDNA C. MAYCACAYAN', 'B2021-0542', 1, 3, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DISAPPROVED', NULL, '2023-12-10 00:00:00'),
+(23, '2023-12-11', '14:00:00', '14:30:00', 'EDNA C. MAYCACAYAN', 'B2021-0542', 1, 3, '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DISAPPROVED', 'Physician has a sudden emergency to attend to.', '2023-12-10 00:00:00'),
 (25, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0542', 1, 2, 'Abdominal pain', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DISMISSED', 'Dismissed due to exceeding the requested date.', '2024-03-22 00:00:00'),
 (26, '2024-01-30', '10:30:00', '11:00:00', 'GODWIN A. OLIVAS', 'B2021-0542', 1, 1, 'Sprain', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DISMISSED', 'Dismissed due to exceeding the requested date.', '2024-03-22 00:00:00'),
 (27, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0542', 1, 1, 'Flu', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DISMISSED', 'Dismissed due to exceeding the requested date.', '2024-03-22 00:00:00'),
 (28, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0569', 1, 1, 'Allergy', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DISMISSED', 'Dismissed due to exceeding the requested date.', '2024-03-22 00:00:00'),
 (29, '2024-01-30', '10:30:00', '11:00:00', 'EDNA C. MAYCACAYAN', 'B2021-0569', 1, 1, 'Diarrhea', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'APPROVED', NULL, '2024-03-17 13:01:46'),
 (30, '2024-03-30', '01:00:00', '01:00:00', 'NONE', 'B2021-0569', 1, 5, 'Others', 'Ouchie', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'APPROVED', NULL, '2024-03-20 17:28:05'),
-(31, '2024-03-27', '01:00:00', '01:00:00', 'GODWIN A. OLIVAS', 'B2021-0569', 2, 6, 'Toothache', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'PENDING', NULL, '2024-03-20 17:40:37');
+(31, '2024-03-27', '01:00:00', '01:00:00', 'GODWIN A. OLIVAS', 'B2021-0569', 2, 6, 'Toothache', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'APPROVED', NULL, '2024-03-20 17:40:37'),
+(32, '2024-03-31', '08:30:00', '08:45:00', 'GODWIN A. OLIVAS', 'B2021-0569', 1, 17, 'Toothache, Tooth Decay', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'APPROVED', NULL, '2024-03-24 03:46:48'),
+(33, '2024-03-28', '10:00:00', '10:15:00', 'NONE', 'B2021-0569', 1, 1, 'Asthma', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'PENDING', NULL, '2024-03-25 10:08:35'),
+(34, '2024-03-29', '10:15:00', '10:30:00', 'EDNA C. MAYCACAYAN', 'B2021-0569', 2, 7, 'Rash', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'PENDING', NULL, '2024-03-25 10:09:54'),
+(35, '2024-03-28', '10:30:00', '10:45:00', 'EDNA C. MAYCACAYAN', 'B2021-0569', 2, 7, 'Headache', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'APPROVED', NULL, '2024-03-25 10:10:35'),
+(36, '2024-03-27', '11:00:00', '11:15:00', 'NONE', 'B2021-0569', 1, 1, 'Headache', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'APPROVED', NULL, '2024-03-25 10:43:24'),
+(37, '1970-01-01', '01:00:00', '01:00:00', '', 'B2021-0569', 4, 16, 'Allergy', '', 24, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'PENDING', NULL, '2024-03-25 11:09:17'),
+(38, '1970-01-01', '01:00:00', '01:00:00', '', 'B2021-0569', 4, 16, 'Cough', '', 26, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'PENDING', NULL, '2024-03-25 11:09:56'),
+(39, '2024-03-27', '09:00:00', '09:15:00', '', 'B2021-0569', 4, 16, 'Abdominal pain', '', 24, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'APPROVED', NULL, '2024-03-25 11:17:02'),
+(40, '2024-03-27', '09:30:00', '09:45:00', '', 'B2021-0569', 5, 15, 'Back pain', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'APPROVED', NULL, '2024-03-25 11:27:05'),
+(41, '2024-03-28', '10:15:00', '10:00:00', '', 'B2021-0569', 5, 15, 'Neck pain', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'PENDING', NULL, '2024-03-25 11:28:41');
 
 -- --------------------------------------------------------
 
@@ -868,7 +878,85 @@ INSERT INTO `appointment_cc` (`id`, `purpose`, `chief_complaint`) VALUES
 (192, 6, 'Orthodontic Pain'),
 (193, 6, 'Broken or Chipped Tooth'),
 (194, 6, 'Loose Teeth'),
-(195, 6, 'Dental Abscess or Infection');
+(195, 6, 'Dental Abscess or Infection'),
+(196, 16, 'Abdominal pain'),
+(197, 16, 'Allergy'),
+(198, 16, 'Asthma'),
+(199, 16, 'Back pain'),
+(200, 16, 'Chest pain'),
+(201, 16, 'Cold'),
+(202, 16, 'Constipation'),
+(203, 16, 'Cough'),
+(204, 16, 'Diarrhea'),
+(205, 16, 'Difficulty in breathing'),
+(206, 16, 'Dizziness'),
+(207, 16, 'Dysmenorrhea'),
+(208, 16, 'Fever'),
+(209, 16, 'Flu'),
+(210, 16, 'Headache'),
+(211, 16, 'Heart burn'),
+(212, 16, 'Injury'),
+(213, 16, 'Muscle pain'),
+(214, 16, 'Nausea'),
+(215, 16, 'Neck pain'),
+(216, 16, 'Rash'),
+(217, 16, 'Sprain'),
+(218, 16, 'Stomach ache'),
+(219, 16, 'Toothache'),
+(220, 16, 'Vomiting'),
+(221, 16, 'Others:'),
+(222, 16, 'Dental Abscess or Infection'),
+(223, 16, 'Loose Teeth'),
+(224, 16, 'Broken or Chipped Tooth'),
+(225, 16, 'Orthodontic Pain'),
+(226, 16, 'Wisdom Teeth Problems'),
+(227, 16, 'Tooth Erosion'),
+(228, 16, 'Oral Sores or Ulcers'),
+(229, 16, 'Jaw Pain or TMJ Disorders'),
+(230, 16, 'Bad Breath'),
+(231, 16, 'Cavity or Tooth Decay'),
+(232, 16, 'Bleeding Gums'),
+(233, 16, 'Gum Pain or Swelling'),
+(234, 16, 'Tooth Sensitivity'),
+(235, 15, 'Abdominal pain'),
+(236, 15, 'Allergy'),
+(237, 15, 'Asthma'),
+(238, 15, 'Back pain'),
+(239, 15, 'Chest pain'),
+(240, 15, 'Cold'),
+(241, 15, 'Constipation'),
+(242, 15, 'Cough'),
+(243, 15, 'Diarrhea'),
+(244, 15, 'Difficulty in breathing'),
+(245, 15, 'Dizziness'),
+(246, 15, 'Dysmenorrhea'),
+(247, 15, 'Fever'),
+(248, 15, 'Flu'),
+(249, 15, 'Headache'),
+(250, 15, 'Heart burn'),
+(251, 15, 'Injury'),
+(252, 15, 'Muscle pain'),
+(253, 15, 'Nausea'),
+(254, 15, 'Neck pain'),
+(255, 15, 'Rash'),
+(256, 15, 'Sprain'),
+(257, 15, 'Stomach ache'),
+(258, 15, 'Toothache'),
+(259, 15, 'Vomiting'),
+(260, 15, 'Others:'),
+(261, 15, 'Dental Abscess or Infection'),
+(262, 15, 'Loose Teeth'),
+(263, 15, 'Broken or Chipped Tooth'),
+(264, 15, 'Orthodontic Pain'),
+(265, 15, 'Wisdom Teeth Problems'),
+(266, 15, 'Tooth Erosion'),
+(267, 15, 'Oral Sores or Ulcers'),
+(268, 15, 'Jaw Pain or TMJ Disorders'),
+(269, 15, 'Bad Breath'),
+(270, 15, 'Cavity or Tooth Decay'),
+(271, 15, 'Bleeding Gums'),
+(272, 15, 'Gum Pain or Swelling'),
+(273, 15, 'Tooth Sensitivity');
 
 -- --------------------------------------------------------
 
@@ -2478,7 +2566,87 @@ INSERT INTO `audit_trail` (`id`, `user`, `fullname`, `campus`, `activity`, `stat
 (1906, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added a transaction record for Walk-In of B2021-0569', 'unread', '2024-03-24 00:24:45'),
 (1907, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added a transaction record for Walk-In of B2021-0569', 'unread', '2024-03-24 00:26:19'),
 (1908, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'added a transaction record for Walk-In of B2021-0569', 'unread', '2024-03-24 00:27:42'),
-(1909, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'added tool/equipment ID 3 inventory stocks', 'unread', '2024-03-24 00:50:08');
+(1909, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'added tool/equipment ID 3 inventory stocks', 'unread', '2024-03-24 00:50:08'),
+(1910, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'Logged In', 'unread', '2024-03-24 01:46:18'),
+(1911, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-24 01:46:19'),
+(1912, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-24 01:47:21'),
+(1913, 'URSN-001', 'DIOSA A SALVADOR', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-24 01:47:24'),
+(1914, 'URSD-002', 'Godwin A. Olivas', 'ALL', 'Logged In', 'unread', '2024-03-24 01:47:33'),
+(1915, 'B2021-0569', 'Juleanne Rozier  Caranza', 'BINANGONAN', 'Logged In', 'unread', '2024-03-24 02:54:29'),
+(1916, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a walk-in schedule for ANGONO', 'unread', '2024-03-24 13:52:37'),
+(1917, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a walk-in schedule for ANTIPOLO', 'unread', '2024-03-24 13:53:23'),
+(1918, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a walk-in schedule for CAINTA', 'unread', '2024-03-24 13:58:35'),
+(1919, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a walk-in schedule for CARDONA', 'unread', '2024-03-24 13:59:51'),
+(1920, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a walk-in schedule for BINANGONAN', 'unread', '2024-03-24 14:00:17'),
+(1921, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Appointment Record for B2021-0569', 'unread', '2024-03-24 14:10:50'),
+(1922, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for B2021-0576', 'unread', '2024-03-24 19:33:03'),
+(1923, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for B2021-0542', 'unread', '2024-03-24 19:44:02'),
+(1924, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for B2021-0341', 'unread', '2024-03-24 21:06:03'),
+(1925, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for URS-0245', 'unread', '2024-03-24 21:07:07'),
+(1926, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for URS-0065', 'unread', '2024-03-24 21:09:31'),
+(1927, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for URS-0332', 'unread', '2024-03-24 21:12:25'),
+(1928, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for URS-034', 'unread', '2024-03-24 21:20:13'),
+(1929, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for B2021-0191', 'unread', '2024-03-24 21:22:48'),
+(1930, 'URS-999', 'Allen J. Calejo', 'BINANGONAN', 'Logged In', 'unread', '2024-03-24 21:35:28'),
+(1931, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'updated their account details', 'unread', '2024-03-24 21:59:04'),
+(1932, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'updated their account details', 'unread', '2024-03-24 21:59:10'),
+(1933, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for B2021-0569', 'unread', '2024-03-24 22:27:04'),
+(1934, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for B2021-0576', 'unread', '2024-03-24 22:29:53'),
+(1935, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for B2021-0542', 'unread', '2024-03-24 22:30:36'),
+(1936, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for B2021-0341', 'unread', '2024-03-24 22:31:50'),
+(1937, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for URS-0245', 'unread', '2024-03-24 22:32:42'),
+(1938, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for URS-0065', 'unread', '2024-03-24 22:33:26'),
+(1939, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for URS-0341', 'unread', '2024-03-24 22:35:13'),
+(1940, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for B2021-0201', 'unread', '2024-03-24 22:36:12'),
+(1941, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for B2021-0078', 'unread', '2024-03-24 22:37:07'),
+(1942, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for B2021-0089', 'unread', '2024-03-24 22:39:04'),
+(1943, 'URSD-002', 'GODWIN A. OLIVAS', 'ALL', 'added a Treatment Record for URS-034', 'unread', '2024-03-24 22:41:17'),
+(1944, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'Logged Out', 'unread', '2024-03-24 22:41:29'),
+(1945, 'URS-999', 'Allen J. Calejo', 'BINANGONAN', 'Logged In', 'unread', '2024-03-24 22:41:41'),
+(1946, 'URS-999', 'ALLEN JANE CALEJO', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-24 22:58:36'),
+(1947, 'URSD-001', 'Edna C. Maycacayan', 'ALL', 'Logged In', 'unread', '2024-03-24 22:58:52'),
+(1948, 'URSD-001', 'EDNA C MAYCACAYAN', 'ALL', 'Logged Out', 'unread', '2024-03-24 23:14:49'),
+(1949, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'Logged In', 'unread', '2024-03-24 23:15:03'),
+(1950, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-24 23:15:03'),
+(1951, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-24 23:15:22'),
+(1952, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-24 23:16:30'),
+(1953, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-24 23:16:34'),
+(1954, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-24 23:16:51'),
+(1955, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-24 23:17:11'),
+(1956, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-24 23:17:43'),
+(1957, 'URSN-001', 'DIOSA A SALVADOR', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-25 00:17:22'),
+(1958, 'B2021-0569', 'Juleanne Rozier  Caranza', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 00:17:37'),
+(1959, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-25 00:36:58'),
+(1960, 'URS-0245', 'Kelia S. Roberts', 'CAINTA', 'Logged In', 'unread', '2024-03-25 00:38:12'),
+(1961, 'URS-0245', 'KELIA SHIV ROBERTS', 'CAINTA', 'Logged Out', 'unread', '2024-03-25 00:43:54'),
+(1962, 'B2021-0569', 'Juleanne Rozier  Caranza', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 00:44:29'),
+(1963, 'URS-999', 'ALLEN JANE CALEJO', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-25 01:07:43'),
+(1964, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 01:08:04'),
+(1965, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-25 01:08:04'),
+(1966, 'URSN-001', 'DIOSA A SALVADOR', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-25 01:13:47'),
+(1967, 'URSD-002', 'Godwin A. Olivas', 'ALL', 'Logged In', 'unread', '2024-03-25 01:14:02'),
+(1968, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'Logged Out', 'unread', '2024-03-25 01:27:16'),
+(1969, 'B2021-0569', 'Juleanne Rozier  Caranza', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 01:27:34'),
+(1970, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-25 09:39:51'),
+(1971, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 09:40:16'),
+(1972, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-25 09:40:16'),
+(1973, 'URSN-001', 'DIOSA A SALVADOR', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-25 09:49:54'),
+(1974, 'B2021-0569', 'Juleanne Rozier  Caranza', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 09:50:06'),
+(1975, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-25 10:08:35'),
+(1976, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-25 10:09:54'),
+(1977, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-25 10:10:35'),
+(1978, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-25 10:43:24'),
+(1979, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-25 11:09:17'),
+(1980, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-25 11:09:56'),
+(1981, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-25 11:17:02'),
+(1982, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-25 11:27:05'),
+(1983, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-25 11:28:41'),
+(1984, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-25 12:40:40'),
+(1985, 'B2021-0542', 'Mark Lourence P. Quilab', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 12:41:00'),
+(1986, 'B2021-0542', 'MARK LOURENCE PATANGAN QUILAB', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-25 12:49:01'),
+(1987, 'B2021-0569', 'Juleanne Rozier  Caranza', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 12:49:13'),
+(1988, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-25 12:49:43'),
+(1989, 'B2021-0542', 'Mark Lourence P. Quilab', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 12:49:50');
 
 -- --------------------------------------------------------
 
@@ -2549,7 +2717,20 @@ INSERT INTO `chief_complaint` (`id`, `chief_complaint`) VALUES
 (23, 'Stomach ache'),
 (24, 'Toothache'),
 (25, 'Vomiting'),
-(26, 'Others:');
+(26, 'Others:'),
+(27, 'Dental Abscess or Infection'),
+(28, 'Loose Teeth'),
+(29, 'Broken or Chipped Tooth'),
+(30, 'Orthodontic Pain'),
+(31, 'Wisdom Teeth Problems'),
+(32, 'Tooth Erosion'),
+(33, 'Oral Sores or Ulcers'),
+(34, 'Jaw Pain or TMJ Disorders'),
+(35, 'Bad Breath'),
+(36, 'Cavity or Tooth Decay'),
+(37, 'Bleeding Gums'),
+(38, 'Gum Pain or Swelling'),
+(39, 'Tooth Sensitivity');
 
 -- --------------------------------------------------------
 
@@ -5440,7 +5621,13 @@ INSERT INTO `reports_medcase` (`id`, `campus`, `type`, `medcase`, `sm`, `sf`, `s
 (685, 'BINANGONAN', 'checkups', 'Athlete/Varsity', 0, 0, 0, 0, 0, 0, 0, 0, 0, '2024-04-30'),
 (686, 'BINANGONAN', 'checkups', 'ROTC', 0, 0, 0, 0, 0, 0, 0, 0, 0, '2024-04-30'),
 (687, 'BINANGONAN', 'checkups', 'OJT/SIT/WAP', 0, 0, 0, 0, 0, 0, 0, 0, 0, '2024-04-30'),
-(688, 'BINANGONAN', 'checkups', 'BP/Ht/RBS/Wt Monitoring', 0, 0, 0, 0, 0, 0, 0, 0, 0, '2024-04-30');
+(688, 'BINANGONAN', 'checkups', 'BP/Ht/RBS/Wt Monitoring', 0, 0, 0, 0, 0, 0, 0, 0, 0, '2024-04-30'),
+(691, 'BINANGONAN', 'others', 'Dental Treatment', 1, 2, 3, 0, 1, 1, 1, 3, 4, '2024-03-31'),
+(693, 'ANGONO', 'others', 'Dental Treatment', 0, 1, 1, 0, 0, 0, 0, 1, 1, '2024-03-31'),
+(694, 'CAINTA', 'others', 'Dental Treatment', 0, 0, 0, 0, 1, 1, 0, 1, 1, '2024-03-31'),
+(695, 'TANAY', 'others', 'Dental Treatment', 0, 0, 0, 1, 1, 2, 1, 1, 2, '2024-03-31'),
+(696, 'MORONG', 'others', 'Dental Treatment', 0, 1, 1, 0, 0, 0, 0, 1, 1, '2024-03-31'),
+(697, 'ANTIPOLO', 'others', 'Dental Treatment', 1, 1, 2, 0, 0, 0, 1, 1, 2, '2024-03-31');
 
 -- --------------------------------------------------------
 
@@ -5648,7 +5835,7 @@ INSERT INTO `report_medsupinv` (`id`, `campus`, `type`, `admin`, `medid`, `medic
 (198, 'BINANGONAN', 'medicine', 'OPHTHALMIC', '38', 'OPHTHALMIC 5ml/bot', 3, 135.45, 0, 0, 0, 0, 3, 406.35, '2024-03-31'),
 (199, 'BINANGONAN', 'medicine', 'OPHTHALMIC', '39', 'OPHTHALMIC 2.5ml/bot', 5, 120, 0, 0, 0, 0, 5, 600, '2024-03-31'),
 (200, 'BINANGONAN', 'medicine', 'ORAL', '1', 'Ambroxol 30mg/tab', 47, 2, 2, 2, 0, 0, 49, 2591.12, '2024-03-31'),
-(201, 'BINANGONAN', 'medicine', 'ORAL', '2', 'Amoxicillin 500mg/cap', 56, 1.28, 0, 0, 1, 0, 55, 0, '2024-03-31'),
+(201, 'BINANGONAN', 'medicine', 'ORAL', '2', 'Amoxicillin 500mg/cap', 56, 1.28, 0, 0, 1, 0, 55, 70.4, '2024-03-31'),
 (202, 'BINANGONAN', 'medicine', 'ORAL', '3', 'Paracetamol 500mg/caplet', 58, 2, 0, 0, 0, 0, 58, 116, '2024-03-31'),
 (203, 'BINANGONAN', 'medicine', 'ORAL', '4', 'Clonidine HCL 75mcg/tab', 31, 4.95, 0, 0, 0, 0, 31, 153.45, '2024-03-31'),
 (204, 'BINANGONAN', 'medicine', 'ORAL', '5', 'Cefalaxin 500mg/tab', 23, 2.65, 0, 0, 0, 0, 23, 60.95, '2024-03-31'),
@@ -5835,7 +6022,12 @@ INSERT INTO `schedule` (`id`, `physician`, `date`, `time_from`, `time_to`, `camp
 (37, 'URSD-002', '2024-03-30', '10:00:00', '01:00:00', 'ALL', 5, 'CANCELLED', 'Wrong selection of campus'),
 (38, 'URSD-002', '2024-03-29', '08:00:00', '01:30:00', 'BINANGONAN', 20, 'CANCELLED', 'Wrong selection of campus'),
 (39, 'URSD-002', '2024-03-28', '08:40:00', '04:20:00', 'BINANGONAN', 20, 'PENDING', NULL),
-(40, 'URSD-002', '2024-04-25', '09:30:00', '03:00:00', 'BINANGONAN', 10, 'PENDING', NULL);
+(40, 'URSD-002', '2024-04-25', '09:30:00', '03:00:00', 'BINANGONAN', 10, 'PENDING', NULL),
+(41, 'URSD-002', '2024-03-25', '08:30:00', '04:00:00', 'ANGONO', 10, 'PENDING', NULL),
+(42, 'URSD-002', '2024-03-26', '08:00:00', '12:00:00', 'ANTIPOLO', 5, 'PENDING', NULL),
+(43, 'URSD-002', '2024-03-27', '10:30:00', '04:00:00', 'CAINTA', 5, 'PENDING', NULL),
+(44, 'URSD-002', '2024-03-29', '09:30:00', '03:30:00', 'CARDONA', 10, 'PENDING', NULL),
+(45, 'URSD-002', '2024-03-30', '12:00:00', '04:30:00', 'BINANGONAN', 10, 'PENDING', NULL);
 
 -- --------------------------------------------------------
 
@@ -6106,35 +6298,13 @@ CREATE TABLE `transaction_history` (
 --
 
 INSERT INTO `transaction_history` (`id`, `patient`, `firstname`, `middlename`, `lastname`, `designation`, `age`, `sex`, `birthday`, `department`, `college`, `program`, `yearlevel`, `section`, `block`, `type`, `transaction`, `purpose`, `height`, `weight`, `bp`, `pr`, `temp`, `heent`, `chest_lungs`, `heart`, `abdomen`, `extremities`, `bronchial_asthma`, `surgery`, `lmp`, `heart_disease`, `allergies`, `epilepsy`, `hernia`, `ddefects`, `dcs`, `gp`, `scaling_polish`, `dento_facial`, `respiratory`, `oxygen_saturation`, `chief_complaint`, `findiag`, `remarks`, `referral`, `medsup`, `pod_nod`, `medcase`, `medcase_others`, `campus`, `datetime`) VALUES
-(1, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Request for Medicine', '', '', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', 'Headache, Cough', 'Fever', 'Rest for a day and take medicine twice a day.', '', '1 Paracetamol 500mg/caplet', 'DIOSA A. SALVADOR', 'Others:', 'Request for Medicine', 'BINANGONAN', '2024-03-03 14:11:32'),
-(2, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Request for Medical Supply', '', '', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', 'Others: Skin Abrasions', 'Skin Abrasions', '', '', '1 Isophrophyl Alcohol Spray 330ml, 1 Cotton Balls', 'DIOSA A. SALVADOR', 'Others:', 'Request for Medical Supply', 'BINANGONAN', '2024-03-03 14:23:32'),
-(4, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Vitals', '', '', '', '119/70', '75', '36.4', '', '', '', '', '', '', '', '0000-00-00', '', '', '', '', '', '', '', '', '', '16', '91%', '', 'Others: Normal vitals', '', '', '', 'DIOSA A. SALVADOR', 'Others:', 'Checkup', 'BINANGONAN', '2024-03-03 14:28:49'),
-(5, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Medical History', '', '4\'11', '53kg', '119/70', '64', '35.6', 'None', 'None', 'None', 'None', 'None', 'None', 'None', '2024-03-10', 'None', 'None', 'None', 'None', 'x', '', '', '', '', '', '', '', '', '', '', '', 'DIOSA A. SALVADOR', 'Others:', 'Checkup', 'BINANGONAN', '2024-03-03 14:32:44'),
-(6, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', '', '', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', 'Stomachache, Diarrhea', 'Diarrhea', '', '', '2 Loperamide 2mg/cap ', 'DIOSA A. SALVADOR', 'Others:', 'Checkup', 'BINANGONAN', '2024-03-03 14:35:56'),
 (7, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Appoinment', 'Consultation', 'General', '', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', 'Headache, Neck Pain, Back Pain', 'Flu', 'Rest for 3 days and take the prescribed medicine three times a day after meal', '', '1 Paracetamol 500mg/caplet', 'DIOSA A. SALVADOR', 'Others:', 'Checkup', 'BINANGONAN', '2024-03-03 20:26:36'),
-(14, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '0000-00-00', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Vitals', '', '', '119/70', '65', '34.', '', '', '', '', '', '', '', '0000-00-00', '', '', '', '', '', '', '', '', '', '18', '96%', ' ', ' ', '', '', '', 'DIOSA A SALVADOR', 'BP/Ht/RBS/Wt Monitoring', '', 'BINANGONAN', '2024-03-09 18:58:17'),
 (15, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Medical History', '147 cm', '55 kg.', '119/70', '65', '34.5', 'None', 'None', 'None', 'None', 'None', '', '', '2024-02-05', '', '', '', '', 'x', '', '', '', '', NULL, NULL, NULL, NULL, '', '', NULL, 'DIOSA A SALVADOR', 'Medical Certification', '', 'BINANGONAN', '2024-03-10 12:48:20'),
-(18, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Medical History', 'Dental Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-10 17:28:36'),
-(19, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Medical History', 'Dental Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-10 17:29:54'),
-(20, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Medical History', 'Dental Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-10 17:31:25'),
-(21, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Medical History', 'Dental Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-10 17:32:54'),
-(22, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Medical History', 'Dental Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-10 17:33:32'),
-(23, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Medical History', 'Dental Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-10 17:34:07'),
-(24, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Medical History', 'Dental Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-10 17:37:49'),
-(25, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Medical History', 'Dental Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-10 17:46:26'),
-(26, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Medical History', 'Dental Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-10 17:47:17'),
-(27, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Medical History', 'Dental Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-10 17:47:41'),
-(28, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Medical History', 'Dental Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-10 17:51:28'),
 (29, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Medical History', '147 cm', '55 kg.', '119/70', '65', '34.5', 'None', 'None', 'None', 'None', 'None', '', '', '2024-02-10', '', '', '', '', 'x', '', '', '', '', NULL, NULL, NULL, NULL, '', '', NULL, 'DIOSA A SALVADOR', 'Medical Certification', '', 'BINANGONAN', '2024-03-11 09:16:36'),
-(30, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-11 12:52:50'),
-(31, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-11 12:55:22'),
-(32, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-11 12:56:37'),
-(33, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-11 13:02:46'),
 (34, 'B2021-0569', 'Juleanne Rozier', '', 'Caranza', 'STUDENT', 20, 'FEMALE', '0000-00-00', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' ', 'Allergy ', '', '', '  ', 'DIOSA A SALVADOR', '11', 'Checkup', 'BINANGONAN', '2024-03-12 18:22:22'),
 (35, 'B2021-0569', 'Juleanne Rozier', '', 'Caranza', 'STUDENT', 20, 'FEMALE', '0000-00-00', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ' ', 'Allergy ', '', '', '1 BUCCAL10mg,  BUCCAL10mg,  ', 'DIOSA A SALVADOR', '11', 'Checkup', 'BINANGONAN', '2024-03-12 18:25:38'),
 (36, 'B2021-0569', 'Juleanne Rozier', '', 'Caranza', 'STUDENT', 20, 'FEMALE', '0000-00-00', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Allergy ', 'Allergy ', '', '', '1 BUCCAL10mg,  BUCCAL10mg,  ', 'DIOSA A SALVADOR', '11', 'Checkup', 'BINANGONAN', '2024-03-12 18:26:56'),
 (37, 'B2021-0569', 'Juleanne Rozier', '', 'Caranza', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Allergy ', 'Allergy ', '', '', '1 BUCCAL10mg,  BUCCAL10mg,  ', 'DIOSA A SALVADOR', '11', 'Checkup', 'BINANGONAN', '2024-03-12 18:29:34'),
-(38, 'B2021-0569', 'Juleanne Rozier', '', 'Caranza', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Allergy ', 'Allergy ', '', '', 'Array BUCCAL10mg, Array BUCCAL10mg,  ', 'DIOSA A SALVADOR', '11', 'Checkup', 'BINANGONAN', '2024-03-12 18:32:29'),
 (39, 'B2021-0569', 'Juleanne Rozier', '', 'Caranza', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Allergy ', 'Allergy ', '', '', '1 BUCCAL10mg,  BUCCAL10mg,  ', 'DIOSA A SALVADOR', '11', 'Checkup', 'BINANGONAN', '2024-03-12 18:40:19'),
 (40, 'B2021-0569', 'Juleanne Rozier', '', 'Caranza', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Allergy ', 'Allergy ', '', '', '1 BUCCAL10mg,  BUCCAL10mg,  ', 'DIOSA A SALVADOR', '11', 'Checkup', 'BINANGONAN', '2024-03-12 18:43:56'),
 (42, 'B2021-0569', 'Juleanne Rozier', '', 'Caranza', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Allergy ', 'Allergy ', '', '', '1 BUCCAL10mg,  BUCCAL10mg,  ', 'DIOSA A SALVADOR', '11', 'Checkup', 'BINANGONAN', '2024-03-12 18:45:52'),
@@ -6209,8 +6379,7 @@ INSERT INTO `transaction_history` (`id`, `patient`, `firstname`, `middlename`, `
 (111, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', '', 'BSIT', '', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Back pain ', 'Diarrhea ', '', '', '1 Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 178 mg/tab, 1 Anti-Septic Plastic Strips 100 strips/box', 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-15 12:49:54'),
 (112, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', '', 'BSIT', '', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Back pain ', 'Diarrhea ', '', '', '1 Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 178 mg/tab, 1 Anti-Septic Plastic Strips 100 strips/box', 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-15 12:50:29'),
 (113, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', '', '', '', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Allergy ', 'Body Malaise ', '', '', '1 Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 178 mg/tab, 1 Anti-Septic Plastic Strips 100 strips/box', 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-15 12:54:33'),
-(114, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', '', '', '', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Allergy ', 'Body Malaise ', '', '', '1 Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 178 mg/tab, 1 Anti-Septic Plastic Strips 100 strips/box', 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-15 12:54:34');
-INSERT INTO `transaction_history` (`id`, `patient`, `firstname`, `middlename`, `lastname`, `designation`, `age`, `sex`, `birthday`, `department`, `college`, `program`, `yearlevel`, `section`, `block`, `type`, `transaction`, `purpose`, `height`, `weight`, `bp`, `pr`, `temp`, `heent`, `chest_lungs`, `heart`, `abdomen`, `extremities`, `bronchial_asthma`, `surgery`, `lmp`, `heart_disease`, `allergies`, `epilepsy`, `hernia`, `ddefects`, `dcs`, `gp`, `scaling_polish`, `dento_facial`, `respiratory`, `oxygen_saturation`, `chief_complaint`, `findiag`, `remarks`, `referral`, `medsup`, `pod_nod`, `medcase`, `medcase_others`, `campus`, `datetime`) VALUES
+(114, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', '', '', '', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Allergy ', 'Body Malaise ', '', '', '1 Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 178 mg/tab, 1 Anti-Septic Plastic Strips 100 strips/box', 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-15 12:54:34'),
 (115, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', '', '', '', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Allergy ', 'Body Malaise ', '', '', '1 Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 178 mg/tab, 1 Anti-Septic Plastic Strips 100 strips/box', 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-15 12:54:35'),
 (116, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', '', '', '', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Allergy ', 'Body Malaise ', '', '', '1 Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 178 mg/tab, 1 Anti-Septic Plastic Strips 100 strips/box', 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-15 12:54:35'),
 (117, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', '', '', '', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Allergy ', 'Body Malaise ', '', '', '1 Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 178 mg/tab, 1 Anti-Septic Plastic Strips 100 strips/box', 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-15 12:54:35'),
@@ -6227,34 +6396,27 @@ INSERT INTO `transaction_history` (`id`, `patient`, `firstname`, `middlename`, `
 (128, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Abdominal pain ', 'Diarrhea ', '', '', '1 Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 30 mg/tab,  BUCCAL 20 ml', 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-16 20:37:33'),
 (129, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Abdominal pain ', 'Diarrhea ', '', '', '1 Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 30 mg/tab, 1 BUCCAL 20 ml', 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-16 20:39:44'),
 (130, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Abdominal pain ', 'Diarrhea ', '', '', '1 Aluminum Hydroxide/Magnesium Hydroxide/Simethicone 30 mg/tab, 1 BUCCAL 20 ml', 'DIOSA A SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-16 20:40:50'),
-(131, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Medical History', 'Dental Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A. SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-20 18:07:24'),
-(132, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'DIOSA A. SALVADOR', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 18:09:14'),
-(133, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 20:44:20'),
-(134, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 20:47:31'),
-(135, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 20:55:21'),
-(136, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 20:59:19'),
-(137, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:00:52'),
-(138, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:02:40'),
-(139, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:09:21'),
-(140, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:13:13'),
-(141, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:16:07'),
-(142, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:18:19'),
-(143, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:19:31'),
-(144, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:21:06'),
-(145, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:25:35'),
-(146, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-20 21:27:23'),
-(147, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', 'Heart burn ', 'Headache ', '', '', '', ' A. ', '', '', 'BINANGONAN', '2024-03-23 23:08:47'),
-(148, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', 'Dizziness ', 'Headache ', '', '', '', ' A. ', 'Others:', '', 'BINANGONAN', '2024-03-23 23:17:23'),
-(149, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'Flu ', 'Headache ', '', '', '', ' A. ', '', '', 'BINANGONAN', '2024-03-23 23:46:47'),
 (150, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'Dysmenorrhea ', 'Headache ', '', '', '', 'DIOSA A. SALVADOR', '', '', 'BINANGONAN', '2024-03-23 23:49:08'),
-(151, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', '', NULL, NULL, '119/70', '18', '34.5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', ' ', ' ', '', '', '', 'DIOSA A. SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-23 23:51:05'),
-(152, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', '', NULL, NULL, '119/70', '18', '34.5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', ' ', ' ', '', '', '', 'DIOSA A. SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-23 23:52:51'),
-(153, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', '', NULL, NULL, '119/70', '18', '34.5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', ' ', ' ', '', '', '', 'DIOSA A. SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-24 00:03:08'),
-(154, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Checkup', 'Medical History', '147 cm', '55', '119/70', '18', '34.5', 'None', 'None', 'None', 'None', 'None', '', '', '2024-02-10', '', '', '', '', 'x', '', '', '', '', NULL, NULL, NULL, NULL, '', '', NULL, 'DIOSA A. SALVADOR', '', 'Checkup', 'BINANGONAN', '2024-03-24 00:05:49'),
-(155, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Checkup', 'Medical History', '147 cm', '55', '119/70', '18', '34.5', 'None', 'None', 'None', 'None', 'None', '', '', '2024-02-10', '', '', '', '', 'x', '', '', '', '', NULL, NULL, NULL, NULL, '', '', NULL, 'DIOSA A. SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-24 00:10:58'),
+(151, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Medical History', NULL, NULL, '119/70', '18', '34.5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', ' ', ' ', '', '', '', 'DIOSA A. SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-23 23:51:05'),
+(152, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Medical History', NULL, NULL, '119/70', '18', '34.5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', ' ', ' ', '', '', '', 'DIOSA A. SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-23 23:52:51'),
+(153, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Medical History', NULL, NULL, '119/70', '18', '34.5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', ' ', ' ', '', '', '', 'DIOSA A. SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-24 00:03:08');
+INSERT INTO `transaction_history` (`id`, `patient`, `firstname`, `middlename`, `lastname`, `designation`, `age`, `sex`, `birthday`, `department`, `college`, `program`, `yearlevel`, `section`, `block`, `type`, `transaction`, `purpose`, `height`, `weight`, `bp`, `pr`, `temp`, `heent`, `chest_lungs`, `heart`, `abdomen`, `extremities`, `bronchial_asthma`, `surgery`, `lmp`, `heart_disease`, `allergies`, `epilepsy`, `hernia`, `ddefects`, `dcs`, `gp`, `scaling_polish`, `dento_facial`, `respiratory`, `oxygen_saturation`, `chief_complaint`, `findiag`, `remarks`, `referral`, `medsup`, `pod_nod`, `medcase`, `medcase_others`, `campus`, `datetime`) VALUES
+(154, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Medical History', '147 cm', '55', '119/70', '18', '34.5', 'None', 'None', 'None', 'None', 'None', '', '', '2024-02-10', '', '', '', '', 'x', '', '', '', '', NULL, NULL, NULL, NULL, '', '', NULL, 'DIOSA A. SALVADOR', '', 'Checkup', 'BINANGONAN', '2024-03-24 00:05:49'),
+(155, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Medical History', '147 cm', '55', '119/70', '18', '34.5', 'None', 'None', 'None', 'None', 'None', '', '', '2024-02-10', '', '', '', '', 'x', '', '', '', '', NULL, NULL, NULL, NULL, '', '', NULL, 'DIOSA A. SALVADOR', 'Checkup', 'Checkup', 'BINANGONAN', '2024-03-24 00:10:58'),
 (156, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Checkup', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'Fever ', 'Muscle Strain ', '', '', '', 'DIOSA A. SALVADOR', '', '', 'BINANGONAN', '2024-03-24 00:24:45'),
 (157, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'MALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Request for Medicine', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'Allergy ', ' ', '', '', '1 Amoxicillin 500 mg/cap', 'DIOSA A. SALVADOR', '', '', 'BINANGONAN', '2024-03-24 00:26:19'),
-(158, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Request for Medical Supply', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'Asthma ', ' ', '', '', ' ,  Pain Patch 10 s/pack', 'DIOSA A. SALVADOR', '', '', 'BINANGONAN', '2024-03-24 00:27:42');
+(158, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Walk-In', 'Request for Medical Supply', NULL, NULL, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', 'Asthma ', ' ', '', '', ' ,  Pain Patch 10 s/pack', 'DIOSA A. SALVADOR', '', '', 'BINANGONAN', '2024-03-24 00:27:42'),
+(168, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', ' STUDENT', 20, 'FEMALE', '2003-08-25', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-24 22:27:04'),
+(169, 'B2021-0576', 'ALYSSA', 'BUENO', 'BANGAYAN', ' STUDENT', 23, 'FEMALE', '2001-02-04', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'B', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-24 22:29:53'),
+(170, 'B2021-0542', 'MARK LOURENCE', 'PATANGAN', 'QUILAB', ' STUDENT', 20, 'MALE', '2003-04-23', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '4', '1', 'B', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-24 22:30:36'),
+(171, 'B2021-0341', 'LILIAN', 'SANJANA', 'RICHARD', ' STUDENT', 16, 'FEMALE', '2007-11-19', 'COLLEGE', 'EDUCATION', 'BSGC', '2', '1', 'B', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'ANGONO', '2024-03-24 22:31:50'),
+(172, 'URS-0245', 'KELIA', 'SHIV', 'ROBERTS', ' FACULTY', 37, 'FEMALE', '1986-10-21', 'COLLEGE', '', '', '', '', '', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'CAINTA', '2024-03-24 22:32:42'),
+(173, 'URS-0065', 'ARTHUR', 'GOPAL', 'MCCOSKEY', ' FACULTY', 31, 'FEMALE', '1992-10-12', 'COLLEGE', '', '', '', '', '', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'BINANGONAN', '2024-03-24 22:33:26'),
+(174, 'URS-0341', 'ILIAN', 'DHARAM', 'MANN', ' FACULTY', 36, 'MALE', '1987-07-01', 'COLLEGE', '', '', '', '', '', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'TANAY', '2024-03-24 22:35:13'),
+(175, 'B2021-0201', 'FANCY NANCY', 'USHA', 'MOORE', ' STUDENT', 19, 'FEMALE', '2005-03-17', 'SENIOR HIGH SCHOOL', 'HUMSS', '', '11', 'B', '', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'MORONG', '2024-03-24 22:36:12'),
+(176, 'B2021-0078', 'MARION', 'ANANYA', 'MATHIS', ' STUDENT', 18, 'FEMALE', '2005-12-24', 'COLLEGE', 'COMPUTER STUDIES', 'BSIS', '2', '2', 'B', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'ANTIPOLO', '2024-03-24 22:37:07'),
+(177, 'B2021-0089', 'MANON', 'SHAILA', 'JONES', ' STUDENT', 18, 'MALE', '2005-05-18', 'COLLEGE', 'BUSINESS', 'BSBA-BEM', '4', '2', 'A', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'ANTIPOLO', '2024-03-24 22:39:04'),
+(178, 'URS-034', 'LAURA', 'HET', 'JOHNSON, JR.', ' STAFF', 40, 'FEMALE', '1984-03-13', 'COLLEGE', '', '', '', '', '', 'Walk-In', 'Consultation', 'Dental', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Treatment', 'Dental Treatment', 'TANAY', '2024-03-24 22:41:17');
 
 -- --------------------------------------------------------
 
@@ -6341,24 +6503,26 @@ CREATE TABLE `treatment_record` (
 --
 
 INSERT INTO `treatment_record` (`id`, `patientid`, `firstname`, `middlename`, `lastname`, `department`, `college`, `program`, `year`, `section`, `block`, `birthday`, `civil_status`, `sex`, `address`, `date`, `diagnosis`, `toothno`, `treatment`, `dentist`) VALUES
-(1, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-11', '1', 'A', '2003-08-25', '', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-11', 'Decayed', 15, 'Extraction', 'DIOSA A SALVADOR'),
-(2, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-11', '1', 'A', '2003-08-25', '', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-11', 'Decayed', 48, 'Extraction', 'DIOSA A SALVADOR'),
-(3, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-11', '1', 'A', '2003-08-25', '', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-11', 'Decayed', 48, 'Extraction', 'DIOSA A SALVADOR'),
-(4, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-11', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-11', 'Decayed', 48, 'Extraction', 'DIOSA A SALVADOR'),
-(5, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-20', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-20', '', 0, '', 'DIOSA A. SALVADOR'),
-(6, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-20', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '0000-00-00', '', 0, '', ''),
-(7, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-20', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '0000-00-00', '', 0, '', ''),
-(8, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-20', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-20', 'Array', 0, 'Array', 'GODWIN A. OLIVAS'),
-(9, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-20', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-20', 'Decayed', 18, 'Extraction', 'GODWIN A. OLIVAS'),
-(10, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-20', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-20', 'Decayed', 18, 'Extraction', 'GODWIN A. OLIVAS'),
-(11, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-20', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-20', 'Hollow', 46, 'Filling', 'GODWIN A. OLIVAS'),
-(12, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-20', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-20', 'ROOORWOW', 4872, 'ACKSLEEP', 'GODWIN A. OLIVAS'),
-(13, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-20', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-20', 'AYOKO NAAAAAAAAAAAAA', 48, 'YAWAAAAAAAAAAAAAAAAA', 'GODWIN A. OLIVAS'),
-(14, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-20', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-20', 'GRRRRRRRRRRRRRRRRRRR', 48, 'SAKIT SA LIKOD FOCK', 'GODWIN A. OLIVAS'),
-(15, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-20', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-20', 'GRRRRRRRRRRRRRRRRRRRBAKIT GANON ANG LIFE', 4846, 'SAKIT SA LIKOD FOCKHAY', 'GODWIN A. OLIVAS'),
-(16, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-20', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-20', 'AHHHHHHHHHHHHHHHHHHHBAKEEEEEEEEEEEEEEEET', 4889, 'REEEEEEEEEEEEEEEEESTHUWAW', 'GODWIN A. OLIVAS'),
-(17, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-20', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-20', 'YOW WUDDAP', 48, 'SAKIT SA LIKOD FOCK', 'GODWIN A. OLIVAS'),
-(18, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '2024-03-20', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-20', 'AHHHHHHHHHHHHHHHHHHH', 89, 'REEEEEEEEEEEEEEEEEST', 'GODWIN A. OLIVAS');
+(1, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', '2003-08-25', 'Single', 'FEMALE', 'BLK 1 LT 22 Luxury Villas Subdivision, San Isidro, Angono, Rizal', '2024-03-24', 'Loose Teeth', 18, 'Extraction', 'GODWIN A. OLIVAS'),
+(2, 'B2021-0576', 'ALYSSA', 'BUENO', 'BANGAYAN', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'B', '2001-02-04', 'Single', 'FEMALE', 'Block 34 Sitio Lambak, San Juan, Taytay, Rizal', '2024-03-24', 'Loose Teeth', 34, 'Extraction', 'GODWIN A. OLIVAS'),
+(3, 'B2021-0542', 'MARK LOURENCE', 'PATANGAN', 'QUILAB', 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'B', '2003-04-23', 'Single', 'MALE', '0554 Camias Street, Dalig Batingan, Binangonan, Rizal', '2024-03-24', 'Tooth Decay', 17, 'Extraction', 'GODWIN A. OLIVAS'),
+(4, 'B2021-0341', 'LILIAN', 'SANJANA', 'RICHARD', 'COLLEGE', 'EDUCATION', 'BSGC', '2', '1', 'B', '2007-11-19', 'Single', 'FEMALE', '6951 Narra Avenue, Binangonan, Rizal', '2024-03-24', 'Presence of Tartar', 65, 'Tooth Cleaning', 'GODWIN A. OLIVAS'),
+(5, 'B2021-0341', 'LILIAN', 'SANJANA', 'RICHARD', 'COLLEGE', 'EDUCATION', 'BSGC', '2', '1', 'B', '2007-11-19', 'Single', 'FEMALE', '6951 Narra Avenue, Binangonan, Rizal', '2024-03-24', 'Presence of Tartar', 64, 'Tooth Cleaning', 'GODWIN A. OLIVAS'),
+(6, 'B2021-0341', 'LILIAN', 'SANJANA', 'RICHARD', 'COLLEGE', 'EDUCATION', 'BSGC', '2', '1', 'B', '2007-11-19', 'Single', 'FEMALE', '6951 Narra Avenue, Binangonan, Rizal', '2024-03-24', 'Presence of Tartar', 63, 'Tooth Cleaning', 'GODWIN A. OLIVAS'),
+(7, 'B2021-0341', 'LILIAN', 'SANJANA', 'RICHARD', 'COLLEGE', 'EDUCATION', 'BSGC', '2', '1', 'B', '2007-11-19', 'Single', 'FEMALE', '6951 Narra Avenue, Binangonan, Rizal', '2024-03-24', 'Presence of Tartar', 62, 'Tooth Cleaning', 'GODWIN A. OLIVAS'),
+(8, 'B2021-0341', 'LILIAN', 'SANJANA', 'RICHARD', 'COLLEGE', 'EDUCATION', 'BSGC', '2', '1', 'B', '2007-11-19', 'Single', 'FEMALE', '6951 Narra Avenue, Binangonan, Rizal', '2024-03-24', 'Presence of Tartar', 61, 'Tooth Cleaning', 'GODWIN A. OLIVAS'),
+(9, 'URS-0245', 'KELIA', 'SHIV', 'ROBERTS', 'COLLEGE', '', '', '', '', '', '1986-10-21', 'Married', 'FEMALE', '7941 Dahlia Street, Antipolo City, Rizal', '2024-03-24', 'Tooth Erosion', 16, 'Filling', 'GODWIN A. OLIVAS'),
+(10, 'URS-0065', 'ARTHUR', 'GOPAL', 'MCCOSKEY', 'COLLEGE', '', '', NULL, '', '', '1992-10-12', 'Single', 'FEMALE', '7127 Ilang-Ilang Street, Rodriguez, Rizal', '2024-03-24', 'Tooth Decay', 17, 'Extraction', 'GODWIN A. OLIVAS'),
+(11, 'URS-0065', 'ARTHUR', 'GOPAL', 'MCCOSKEY', 'COLLEGE', '', '', NULL, '', '', '1992-10-12', 'Single', 'FEMALE', '7127 Ilang-Ilang Street, Rodriguez, Rizal', '2024-03-24', 'Presence of Tartar', 16, 'Tooth Cleaning', 'GODWIN A. OLIVAS'),
+(12, 'URS-0341', 'ILIAN', 'DHARAM', 'MANN', 'COLLEGE', '', '', NULL, '', '', '1987-07-01', 'Married', 'MALE', '10075 Narra Avenue, Tanay, Rizal', '2024-03-24', 'Presence of Tartar', 45, 'Tooth Cleaning', 'GODWIN A. OLIVAS'),
+(13, 'URS-0341', 'ILIAN', 'DHARAM', 'MANN', 'COLLEGE', '', '', NULL, '', '', '1987-07-01', 'Married', 'MALE', '10075 Narra Avenue, Tanay, Rizal', '2024-03-24', 'Presence of Tartar', 46, 'Tooth Cleaning', 'GODWIN A. OLIVAS'),
+(14, 'URS-0341', 'ILIAN', 'DHARAM', 'MANN', 'COLLEGE', '', '', NULL, '', '', '1987-07-01', 'Married', 'MALE', '10075 Narra Avenue, Tanay, Rizal', '2024-03-24', 'Presence of Tartar', 47, 'Tooth Cleaning', 'GODWIN A. OLIVAS'),
+(15, 'B2021-0201', 'FANCY NANCY', 'USHA', 'MOORE', 'SENIOR HIGH SCHOOL', 'HUMSS', '', '11', 'B', '', '2005-03-17', 'Single', 'FEMALE', '3893 Makiling Street, Pililla, Rizal', '2024-03-24', 'Loose Tooth', 11, 'Extraction', 'GODWIN A. OLIVAS'),
+(16, 'B2021-0078', 'MARION', 'ANANYA', 'MATHIS', 'COLLEGE', 'COMPUTER STUDIES', 'BSIS', '2', '2', 'B', '2005-12-24', 'Single', 'FEMALE', '1187 Sampaguita Street, Morong, Rizal', '2024-03-24', 'Tooth Erosion', 55, 'Filling', 'GODWIN A. OLIVAS'),
+(17, 'B2021-0089', 'MANON', 'SHAILA', 'JONES', 'COLLEGE', 'BUSINESS', 'BSBA-BEM', '4', '2', 'A', '2005-05-18', 'Single', 'MALE', '1429 Sampaguita Street, Taytay, Rizal', '2024-03-24', 'Tooth Erosion', 43, 'Filling', 'GODWIN A. OLIVAS'),
+(18, 'B2021-0089', 'MANON', 'SHAILA', 'JONES', 'COLLEGE', 'BUSINESS', 'BSBA-BEM', '4', '2', 'A', '2005-05-18', 'Single', 'MALE', '1429 Sampaguita Street, Taytay, Rizal', '2024-03-24', 'Gum Pain or Swelling', 45, 'Wisdom T. Extraction', 'GODWIN A. OLIVAS'),
+(19, 'URS-034', 'LAURA', 'HET', 'JOHNSON, JR.', 'COLLEGE', '', '', NULL, '', '', '1984-03-13', 'Widowed', 'FEMALE', '10031 Kamagong Street, Angono, Rizal', '2024-03-24', 'Lose Tooth', 53, 'Extraction', 'GODWIN A. OLIVAS'),
+(20, 'URS-034', 'LAURA', 'HET', 'JOHNSON, JR.', 'COLLEGE', '', '', '', '', '', '1984-03-13', 'Widowed', 'FEMALE', '10031 Kamagong Street, Angono, Rizal', '2024-03-24', 'Gum Pain or Swelling', 54, 'Wisdom T. Extraction', 'GODWIN A. OLIVAS');
 
 -- --------------------------------------------------------
 
@@ -6793,13 +6957,13 @@ ALTER TABLE `yearlevel`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `appointment_cc`
 --
 ALTER TABLE `appointment_cc`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=274;
 
 --
 -- AUTO_INCREMENT for table `appointment_physician`
@@ -6823,7 +6987,7 @@ ALTER TABLE `appointment_type`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1910;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1990;
 
 --
 -- AUTO_INCREMENT for table `campus`
@@ -6835,7 +6999,7 @@ ALTER TABLE `campus`
 -- AUTO_INCREMENT for table `chief_complaint`
 --
 ALTER TABLE `chief_complaint`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `college`
@@ -6979,7 +7143,7 @@ ALTER TABLE `program`
 -- AUTO_INCREMENT for table `reports_medcase`
 --
 ALTER TABLE `reports_medcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=691;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=698;
 
 --
 -- AUTO_INCREMENT for table `report_medsupinv`
@@ -7003,7 +7167,7 @@ ALTER TABLE `request_type`
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `supply`
@@ -7045,7 +7209,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `transaction_history`
 --
 ALTER TABLE `transaction_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=179;
 
 --
 -- AUTO_INCREMENT for table `transaction_request`
@@ -7057,7 +7221,7 @@ ALTER TABLE `transaction_request`
 -- AUTO_INCREMENT for table `treatment_record`
 --
 ALTER TABLE `treatment_record`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `unit_measure`
