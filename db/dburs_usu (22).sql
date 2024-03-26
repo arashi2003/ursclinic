@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 25, 2024 at 06:22 AM
+-- Generation Time: Mar 26, 2024 at 06:24 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -672,11 +672,13 @@ INSERT INTO `appointment` (`id`, `date`, `time_from`, `time_to`, `physician`, `p
 (34, '2024-03-29', '10:15:00', '10:30:00', 'EDNA C. MAYCACAYAN', 'B2021-0569', 2, 7, 'Rash', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'PENDING', NULL, '2024-03-25 10:09:54'),
 (35, '2024-03-28', '10:30:00', '10:45:00', 'EDNA C. MAYCACAYAN', 'B2021-0569', 2, 7, 'Headache', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'APPROVED', NULL, '2024-03-25 10:10:35'),
 (36, '2024-03-27', '11:00:00', '11:15:00', 'NONE', 'B2021-0569', 1, 1, 'Headache', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'APPROVED', NULL, '2024-03-25 10:43:24'),
-(37, '1970-01-01', '01:00:00', '01:00:00', '', 'B2021-0569', 4, 16, 'Allergy', '', 24, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'PENDING', NULL, '2024-03-25 11:09:17'),
-(38, '1970-01-01', '01:00:00', '01:00:00', '', 'B2021-0569', 4, 16, 'Cough', '', 26, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'PENDING', NULL, '2024-03-25 11:09:56'),
-(39, '2024-03-27', '09:00:00', '09:15:00', '', 'B2021-0569', 4, 16, 'Abdominal pain', '', 24, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'APPROVED', NULL, '2024-03-25 11:17:02'),
-(40, '2024-03-27', '09:30:00', '09:45:00', '', 'B2021-0569', 5, 15, 'Back pain', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'APPROVED', NULL, '2024-03-25 11:27:05'),
-(41, '2024-03-28', '10:15:00', '10:00:00', '', 'B2021-0569', 5, 15, 'Neck pain', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'PENDING', NULL, '2024-03-25 11:28:41');
+(37, '2024-03-29', '01:00:00', '01:00:00', 'NONE', 'B2021-0569', 4, 16, 'Allergy', '', 24, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'DISMISSED', 'Dismissed due to exceeding the requested date.', '2024-03-25 00:00:00'),
+(38, '2024-03-29', '01:00:00', '01:00:00', 'NONE', 'B2021-0569', 4, 16, 'Cough', '', 26, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'DISMISSED', 'Dismissed due to exceeding the requested date.', '2024-03-25 00:00:00'),
+(39, '2024-03-27', '09:00:00', '09:15:00', 'NONE', 'B2021-0569', 4, 16, 'Abdominal pain', '', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'APPROVED', NULL, '2024-03-25 11:17:02'),
+(40, '2024-03-27', '09:30:00', '09:45:00', 'NONE', 'B2021-0569', 5, 15, 'Back pain', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'APPROVED', NULL, '2024-03-25 11:27:05'),
+(41, '2024-03-28', '10:15:00', '10:00:00', 'NONE', 'B2021-0569', 5, 15, 'Neck pain', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'PENDING', NULL, '2024-03-25 11:28:41'),
+(42, '2024-03-28', '09:15:00', '09:30:00', 'NONE', 'B2021-0542', 5, 15, 'Skin Abrasion', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PENDING', NULL, '2024-03-26 10:41:09'),
+(43, '2024-03-27', '09:00:00', '09:15:00', 'NONE', 'B2021-0542', 4, 16, 'Injury', '', 13, 1, 2, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PENDING', NULL, '2024-03-26 13:17:38');
 
 -- --------------------------------------------------------
 
@@ -2629,7 +2631,6 @@ INSERT INTO `audit_trail` (`id`, `user`, `fullname`, `campus`, `activity`, `stat
 (1969, 'B2021-0569', 'Juleanne Rozier  Caranza', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 01:27:34'),
 (1970, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-25 09:39:51'),
 (1971, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 09:40:16'),
-(1972, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-25 09:40:16'),
 (1973, 'URSN-001', 'DIOSA A SALVADOR', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-25 09:49:54'),
 (1974, 'B2021-0569', 'Juleanne Rozier  Caranza', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 09:50:06'),
 (1975, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-25 10:08:35'),
@@ -2646,7 +2647,17 @@ INSERT INTO `audit_trail` (`id`, `user`, `fullname`, `campus`, `activity`, `stat
 (1986, 'B2021-0542', 'MARK LOURENCE PATANGAN QUILAB', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-25 12:49:01'),
 (1987, 'B2021-0569', 'Juleanne Rozier  Caranza', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 12:49:13'),
 (1988, 'B2021-0569', 'JULEANNE ROZIER  CARANZA', 'BINANGONAN', 'Logged Out', 'unread', '2024-03-25 12:49:43'),
-(1989, 'B2021-0542', 'Mark Lourence P. Quilab', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 12:49:50');
+(1989, 'B2021-0542', 'Mark Lourence P. Quilab', 'BINANGONAN', 'Logged In', 'unread', '2024-03-25 12:49:50'),
+(1990, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'added a record to the calibration and maintenance of 7', 'unread', '2024-03-25 16:29:26'),
+(1991, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'added tool/equipment ID 10 inventory stocks', 'unread', '2024-03-25 17:20:57'),
+(1992, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'added a record to the calibration and maintenance of 1', 'unread', '2024-03-25 17:32:19'),
+(1994, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'dismissed a request of B2021-0569', 'unread', '2024-03-25 18:53:20'),
+(1995, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'dismissed a request of B2021-0569', 'unread', '2024-03-25 18:53:20'),
+(1996, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'dismissed a request of B2021-0569', 'unread', '2024-03-25 18:53:20'),
+(1997, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'dismissed a request of B2021-0569', 'unread', '2024-03-25 18:53:20'),
+(2000, 'B2021-0542', 'MARK LOURENCE P. QUILAB', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-26 10:41:09'),
+(2001, 'URS-999', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-26 11:40:45'),
+(2002, 'B2021-0542', 'MARK LOURENCE P. QUILAB', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-26 13:17:38');
 
 -- --------------------------------------------------------
 
@@ -3229,7 +3240,8 @@ INSERT INTO `inventory` (`id`, `campus`, `batchid`, `stock_type`, `stockid`, `op
 (87, 'BINANGONAN', 'B20240323', 'medicine', 43, 0, 2, 2, 320.35, '2026-08-31', NULL, '2024-03-23', '15:36:28'),
 (88, 'BINANGONAN', 'B20240323', 'medicine', 1, 0, 2, 2, 2, '2024-02-29', NULL, '2024-03-23', '19:09:19'),
 (89, 'BINANGONAN', 'B20240323', 'medicine', 24, 0, 4, 4, 2, '2024-02-29', NULL, '2024-03-23', '19:09:42'),
-(90, 'BINANGONAN', 'B20240323', 'te', 3, 0, 0, 1, 300, '0000-00-00', NULL, '2024-03-24', '00:50:08');
+(90, 'BINANGONAN', 'B20240323', 'te', 3, 0, 0, 1, 300, '0000-00-00', NULL, '2024-03-24', '00:50:08'),
+(91, 'BINANGONAN', 'B20240325', 'te', 10, 0, 0, 1, 1235, '0000-00-00', NULL, '2024-03-25', '17:20:57');
 
 -- --------------------------------------------------------
 
@@ -3321,24 +3333,24 @@ CREATE TABLE `inventory_supply` (
 --
 
 INSERT INTO `inventory_supply` (`id`, `campus`, `supid`, `closed`, `open`, `qty`, `unit_cost`, `expiration`, `date`, `time`) VALUES
-(1, 'BINANGONAN', 1, 2, 1, 3, 55, '1970-01-31', '2024-03-22', '19:20:17'),
-(2, 'BINANGONAN', 8, 3, 1, 4, 1350, '1970-01-31', '2024-03-22', '19:22:06'),
-(3, 'BINANGONAN', 37, 4, 1, 5, 78.75, '1970-01-31', '2024-03-22', '19:22:30'),
-(4, 'BINANGONAN', 18, 0, 1, 1, 270, '1970-01-31', '2024-03-22', '19:23:29'),
-(5, 'BINANGONAN', 20, 5, 0, 5, 66, '1970-01-31', '2024-03-22', '19:24:03'),
-(6, 'BINANGONAN', 20, 5, 1, 6, 20, '1970-01-31', '2024-03-22', '19:24:57'),
-(7, 'BINANGONAN', 14, 5, 0, 5, 550, '1970-01-31', '2024-03-22', '19:25:41'),
-(8, 'BINANGONAN', 13, 5, 0, 5, 788, '1970-01-31', '2024-03-22', '19:25:55'),
-(9, 'BINANGONAN', 15, 5, 0, 5, 230, '1970-01-31', '2024-03-22', '19:26:33'),
-(11, 'BINANGONAN', 33, 10, 0, 10, 49, '1970-01-31', '2024-03-22', '19:32:37'),
-(12, 'BINANGONAN', 32, 10, 0, 10, 49, '1970-01-31', '2024-03-22', '19:33:32'),
-(13, 'BINANGONAN', 34, 20, 0, 20, 45, '1970-01-31', '2024-03-22', '19:34:30'),
-(14, 'BINANGONAN', 4, 4, 1, 5, 45, '1970-01-31', '2024-03-22', '19:36:52'),
-(15, 'BINANGONAN', 5, 5, 0, 5, 135, '1970-01-31', '2024-03-22', '19:37:32'),
-(16, 'BINANGONAN', 21, 3, 1, 4, 255, '1970-01-31', '2024-03-22', '19:40:06'),
-(17, 'BINANGONAN', 11, 6, 1, 7, 67.65, '1970-01-31', '2024-03-22', '19:41:17'),
-(18, 'BINANGONAN', 1, 1, 0, 1, 55, '1970-01-31', '2024-03-23', '14:48:08'),
-(19, 'BINANGONAN', 33, 5, 0, 5, 49, '1970-01-31', '2024-03-23', '14:48:36');
+(1, 'BINANGONAN', 1, 2, 1, 3, 55, NULL, '2024-03-22', '19:20:17'),
+(2, 'BINANGONAN', 8, 3, 1, 4, 1350, NULL, '2024-03-22', '19:22:06'),
+(3, 'BINANGONAN', 37, 4, 1, 5, 78.75, NULL, '2024-03-22', '19:22:30'),
+(4, 'BINANGONAN', 18, 0, 1, 1, 270, NULL, '2024-03-22', '19:23:29'),
+(5, 'BINANGONAN', 20, 5, 0, 5, 66, NULL, '2024-03-22', '19:24:03'),
+(6, 'BINANGONAN', 20, 5, 1, 6, 20, NULL, '2024-03-22', '19:24:57'),
+(7, 'BINANGONAN', 14, 5, 0, 5, 550, NULL, '2024-03-22', '19:25:41'),
+(8, 'BINANGONAN', 13, 5, 0, 5, 788, NULL, '2024-03-22', '19:25:55'),
+(9, 'BINANGONAN', 15, 5, 0, 5, 230, NULL, '2024-03-22', '19:26:33'),
+(11, 'BINANGONAN', 33, 10, 0, 10, 49, NULL, '2024-03-22', '19:32:37'),
+(12, 'BINANGONAN', 32, 10, 0, 10, 49, NULL, '2024-03-22', '19:33:32'),
+(13, 'BINANGONAN', 34, 20, 0, 20, 45, NULL, '2024-03-22', '19:34:30'),
+(14, 'BINANGONAN', 4, 4, 1, 5, 45, NULL, '2024-03-22', '19:36:52'),
+(15, 'BINANGONAN', 5, 5, 0, 5, 135, NULL, '2024-03-22', '19:37:32'),
+(16, 'BINANGONAN', 21, 3, 1, 4, 255, NULL, '2024-03-22', '19:40:06'),
+(17, 'BINANGONAN', 11, 6, 1, 7, 67.65, NULL, '2024-03-22', '19:41:17'),
+(18, 'BINANGONAN', 1, 1, 0, 1, 55, NULL, '2024-03-23', '14:48:08'),
+(19, 'BINANGONAN', 33, 5, 0, 5, 49, NULL, '2024-03-23', '14:48:36');
 
 -- --------------------------------------------------------
 
@@ -3362,24 +3374,25 @@ CREATE TABLE `inventory_te` (
 --
 
 INSERT INTO `inventory_te` (`id`, `campus`, `teid`, `qty`, `unit_cost`, `status`, `date`, `time`) VALUES
-(1, 'BINANGONAN', 4, 1, 605, 'Good Condition', '2024-03-22', '19:45:51'),
-(2, 'BINANGONAN', 7, 1, 90, 'Good Condition', '2024-03-22', '19:49:33'),
+(1, 'BINANGONAN', 4, 1, 605, 'Under Maintenance', '2024-03-22', '19:45:51'),
+(2, 'BINANGONAN', 7, 1, 90, 'Not Working', '2024-03-22', '19:49:33'),
 (3, 'BINANGONAN', 7, 1, 90, 'Good Condition', '2024-03-22', '19:49:47'),
-(4, 'BINANGONAN', 7, 1, 90, 'Good Condition', '2024-03-22', '19:50:02'),
+(4, 'BINANGONAN', 7, 1, 90, 'Damaged', '2024-03-22', '19:50:02'),
 (5, 'BINANGONAN', 11, 1, 1217, 'Good Condition', '2024-03-22', '19:51:04'),
 (6, 'BINANGONAN', 5, 1, 69, 'Good Condition', '2024-03-22', '19:51:34'),
 (7, 'BINANGONAN', 8, 1, 278.75, 'Good Condition', '2024-03-22', '19:51:58'),
-(8, 'BINANGONAN', 3, 1, 266, 'Good Condition', '2024-03-22', '19:52:30'),
+(8, 'BINANGONAN', 3, 1, 266, 'Not Working', '2024-03-22', '19:52:30'),
 (9, 'BINANGONAN', 3, 1, 250, 'Good Condition', '2024-03-22', '19:52:53'),
-(10, 'BINANGONAN', 10, 1, 345, 'Good Condition', '2024-03-22', '19:53:33'),
-(11, 'BINANGONAN', 1, 1, 90, 'Good Condition', '2024-03-22', '19:54:04'),
+(10, 'BINANGONAN', 10, 1, 345, 'Damaged', '2024-03-22', '19:53:33'),
+(11, 'BINANGONAN', 1, 1, 90, 'Damaged', '2024-03-22', '19:54:04'),
 (12, 'BINANGONAN', 1, 1, 110, 'Good Condition', '2024-03-22', '19:54:15'),
 (13, 'BINANGONAN', 6, 1, 988.97, 'Good Condition', '2024-03-22', '19:54:46'),
 (14, 'BINANGONAN', 9, 1, 46.5, 'Good Condition', '2024-03-22', '19:55:10'),
 (15, 'BINANGONAN', 2, 1, 135, 'Good Condition', '2024-03-22', '19:55:44'),
 (16, 'BINANGONAN', 2, 1, 90, 'Good Condition', '2024-03-22', '19:55:57'),
 (17, 'BINANGONAN', 2, 1, 110, 'Good Condition', '2024-03-22', '19:56:08'),
-(18, 'BINANGONAN', 3, 1, 300, 'Good Condition', '2024-03-24', '00:50:08');
+(18, 'BINANGONAN', 3, 1, 300, 'Good Condition', '2024-03-24', '00:50:08'),
+(19, 'BINANGONAN', 10, 1, 1235, 'Good Condition', '2024-03-25', '17:20:57');
 
 -- --------------------------------------------------------
 
@@ -4269,7 +4282,32 @@ INSERT INTO `patient_image` (`id`, `patient_id`, `image`, `created_at`) VALUES
 (522, 'URS-0356', 'noprofile.png', '2024-03-16 00:01:37'),
 (523, 'URS-0357', 'noprofile.png', '2024-03-16 00:01:37'),
 (524, 'URS-0358', 'noprofile.png', '2024-03-16 00:01:37'),
-(525, 'URS-0359', 'noprofile.png', '2024-03-16 00:01:37');
+(525, 'URS-0359', 'noprofile.png', '2024-03-16 00:01:37'),
+(526, 'URS-000', 'noprofile.png', '2024-03-25 19:57:41'),
+(527, 'URS-959', 'noprofile.png', '2024-03-25 19:57:42'),
+(528, 'URS-963', 'noprofile.png', '2024-03-25 19:57:42'),
+(529, 'URS-964', 'noprofile.png', '2024-03-25 19:57:42'),
+(530, 'URS-965', 'noprofile.png', '2024-03-25 19:57:42'),
+(531, 'URS-966', 'noprofile.png', '2024-03-25 19:57:42'),
+(532, 'URS-994', 'noprofile.png', '2024-03-25 19:57:42'),
+(533, 'URS-995', 'noprofile.png', '2024-03-25 19:57:42'),
+(534, 'URS-998', 'noprofile.png', '2024-03-25 19:57:42'),
+(535, 'URS-999', 'noprofile.png', '2024-03-25 19:57:42'),
+(536, 'URSD-001', 'noprofile.png', '2024-03-25 19:57:42'),
+(537, 'URSD-002', 'noprofile.png', '2024-03-25 19:57:42'),
+(538, 'URSN-000', 'noprofile.png', '2024-03-25 19:57:42'),
+(539, 'URSN-001', 'noprofile.png', '2024-03-25 19:57:42'),
+(540, 'URSN-002', 'noprofile.png', '2024-03-25 19:57:42'),
+(541, 'URSN-003', 'noprofile.png', '2024-03-25 19:57:42'),
+(542, 'URSN-004', 'noprofile.png', '2024-03-25 19:57:42'),
+(543, 'URSN-005', 'noprofile.png', '2024-03-25 19:57:42'),
+(544, 'URSN-006', 'noprofile.png', '2024-03-25 19:57:42'),
+(545, 'URSN-007', 'noprofile.png', '2024-03-25 19:57:42'),
+(546, 'URSN-008', 'noprofile.png', '2024-03-25 19:57:43'),
+(547, 'URSN-009', 'noprofile.png', '2024-03-25 19:57:43'),
+(548, 'URSN-010', 'noprofile.png', '2024-03-25 19:57:43'),
+(549, 'URSN-011', 'noprofile.png', '2024-03-25 19:57:43'),
+(550, 'URSN-012', 'noprofile.png', '2024-03-25 19:57:43');
 
 -- --------------------------------------------------------
 
@@ -5928,13 +5966,13 @@ INSERT INTO `report_teinv` (`id`, `campus`, `teid`, `tools_equip`, `bnw`, `bum`,
 (86, 'BINANGONAN', 6, 'Mouth Mirror', 0, 0, 1, 0, 1, 988.97, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 988.97, '2024-02-29'),
 (87, 'BINANGONAN', 9, 'Root Elevator', 0, 0, 1, 0, 1, 46.5, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 46.5, '2024-02-29'),
 (88, 'BINANGONAN', 2, 'Tebi-pack hot and cold', 0, 0, 3, 0, 3, 111.667, 0, 0, 0, 0, 0, 0, 0, 3, 0, 3, 335, '2024-02-29'),
-(89, 'BINANGONAN', 4, 'Art P6 Piezo Electric Compact Size Scaler', 0, 0, 1, 0, 1, 605, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 605, '2024-03-31'),
-(90, 'BINANGONAN', 7, 'Cotton Plier', 0, 0, 3, 0, 3, 90, 0, 0, 0, 0, 0, 0, 0, 3, 0, 3, 270, '2024-03-31'),
+(89, 'BINANGONAN', 4, 'Art P6 Piezo Electric Compact Size Scaler', 0, 0, 1, 0, 1, 605, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 605, '2024-03-31'),
+(90, 'BINANGONAN', 7, 'Cotton Plier', 0, 0, 3, 0, 3, 90, 0, 0, 0, 0, 0, 1, 0, 1, 1, 3, 270, '2024-03-31'),
 (91, 'BINANGONAN', 11, 'Dent Air High Speed Air Turbine Hand Piece', 0, 0, 1, 0, 1, 1217, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1217, '2024-03-31'),
 (92, 'BINANGONAN', 5, 'Dental Explorer', 0, 0, 1, 0, 1, 69, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 69, '2024-03-31'),
 (93, 'BINANGONAN', 8, 'Dental Probe', 0, 0, 1, 0, 1, 278.75, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 278.75, '2024-03-31'),
-(94, 'BINANGONAN', 3, 'Digital Thermometer', 0, 0, 2, 0, 2, 258, 0, 0, 1, 0, 1, 0, 0, 3, 0, 3, 816, '2024-03-31'),
-(95, 'BINANGONAN', 10, 'Extraction Forcep', 0, 0, 1, 0, 1, 345, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 345, '2024-03-31'),
+(94, 'BINANGONAN', 3, 'Digital Thermometer', 0, 0, 2, 0, 2, 258, 0, 0, 1, 0, 1, 1, 0, 2, 0, 3, 774, '2024-03-31'),
+(95, 'BINANGONAN', 10, 'Extraction Forcep', 0, 0, 1, 0, 1, 345, 0, 0, 1, 0, 1, 0, 0, 1, 1, 2, 1580, '2024-03-31'),
 (96, 'BINANGONAN', 1, 'Hot water bag 500ml', 0, 0, 2, 0, 2, 100, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 200, '2024-03-31'),
 (97, 'BINANGONAN', 6, 'Mouth Mirror', 0, 0, 1, 0, 1, 988.97, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 988.97, '2024-03-31'),
 (98, 'BINANGONAN', 9, 'Root Elevator', 0, 0, 1, 0, 1, 46.5, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 46.5, '2024-03-31'),
@@ -6023,7 +6061,7 @@ INSERT INTO `schedule` (`id`, `physician`, `date`, `time_from`, `time_to`, `camp
 (38, 'URSD-002', '2024-03-29', '08:00:00', '01:30:00', 'BINANGONAN', 20, 'CANCELLED', 'Wrong selection of campus'),
 (39, 'URSD-002', '2024-03-28', '08:40:00', '04:20:00', 'BINANGONAN', 20, 'PENDING', NULL),
 (40, 'URSD-002', '2024-04-25', '09:30:00', '03:00:00', 'BINANGONAN', 10, 'PENDING', NULL),
-(41, 'URSD-002', '2024-03-25', '08:30:00', '04:00:00', 'ANGONO', 10, 'PENDING', NULL),
+(41, 'URSD-002', '2024-03-25', '08:30:00', '04:00:00', 'ANGONO', 10, 'DONE', NULL),
 (42, 'URSD-002', '2024-03-26', '08:00:00', '12:00:00', 'ANTIPOLO', 5, 'PENDING', NULL),
 (43, 'URSD-002', '2024-03-27', '10:30:00', '04:00:00', 'CAINTA', 5, 'PENDING', NULL),
 (44, 'URSD-002', '2024-03-29', '09:30:00', '03:30:00', 'CARDONA', 10, 'PENDING', NULL),
@@ -6100,8 +6138,25 @@ CREATE TABLE `te_calimain` (
   `tools_equip` int(11) NOT NULL,
   `date_from` date NOT NULL,
   `date_to` date NOT NULL,
-  `status` int(11) NOT NULL
+  `status` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `te_calimain`
+--
+
+INSERT INTO `te_calimain` (`id`, `campus`, `tools_equip`, `date_from`, `date_to`, `status`) VALUES
+(3, 'BINANGONAN', 7, '2024-03-25', '2024-03-25', 'Damaged'),
+(4, 'BINANGONAN', 3, '2024-03-25', '2024-03-25', 'Not Working'),
+(5, 'BINANGONAN', 7, '2024-03-25', '2024-03-26', 'Under Maintenance'),
+(6, 'BINANGONAN', 7, '2024-03-25', '2024-03-26', 'Under Maintenance'),
+(7, 'BINANGONAN', 7, '2024-03-25', '2024-03-25', 'Not Working'),
+(8, 'BINANGONAN', 7, '2024-03-25', '2024-03-25', 'Not Working'),
+(9, 'BINANGONAN', 7, '2024-03-25', '2024-03-25', 'Not Working'),
+(10, 'BINANGONAN', 7, '2024-03-25', '2024-03-25', 'Damaged'),
+(11, 'BINANGONAN', 4, '2024-03-03', '2024-03-16', 'Under Maintenance'),
+(12, 'BINANGONAN', 10, '2024-03-25', '2024-03-25', 'Damaged'),
+(13, 'BINANGONAN', 1, '2024-03-25', '2024-03-25', 'Damaged');
 
 -- --------------------------------------------------------
 
@@ -6885,7 +6940,6 @@ ALTER TABLE `supply`
 --
 ALTER TABLE `te_calimain`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `status_idx` (`status`),
   ADD KEY `teid_idx` (`tools_equip`);
 
 --
@@ -6957,7 +7011,7 @@ ALTER TABLE `yearlevel`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `appointment_cc`
@@ -6987,7 +7041,7 @@ ALTER TABLE `appointment_type`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1990;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2003;
 
 --
 -- AUTO_INCREMENT for table `campus`
@@ -7047,7 +7101,7 @@ ALTER TABLE `findiag`
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT for table `inventory_medicine`
@@ -7065,7 +7119,7 @@ ALTER TABLE `inventory_supply`
 -- AUTO_INCREMENT for table `inventory_te`
 --
 ALTER TABLE `inventory_te`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `inv_total`
@@ -7125,7 +7179,7 @@ ALTER TABLE `organization`
 -- AUTO_INCREMENT for table `patient_image`
 --
 ALTER TABLE `patient_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=526;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=551;
 
 --
 -- AUTO_INCREMENT for table `patient_info`
@@ -7179,7 +7233,7 @@ ALTER TABLE `supply`
 -- AUTO_INCREMENT for table `te_calimain`
 --
 ALTER TABLE `te_calimain`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `te_status`
@@ -7292,13 +7346,6 @@ ALTER TABLE `patient_info`
 --
 ALTER TABLE `schedule`
   ADD CONSTRAINT `physician` FOREIGN KEY (`physician`) REFERENCES `account` (`accountid`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `te_calimain`
---
-ALTER TABLE `te_calimain`
-  ADD CONSTRAINT `status` FOREIGN KEY (`status`) REFERENCES `te_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `teid` FOREIGN KEY (`tools_equip`) REFERENCES `tools_equip` (`teid`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `transaction_request`

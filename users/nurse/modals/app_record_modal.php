@@ -1,4 +1,4 @@
-<div class="modal fade" id="approveappointment<?php echo $data['id'] ?>" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="recordppointment<?php echo $data['id'] ?>" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -7,8 +7,9 @@
             </div>
             <form method="POST" action="modals/approve-appointment.php">
                 <div class="modal-body">
-                    <input type="text" name="id" value="<?= $id = $data['id'] ?>" hidden>
+                    <input type="text" name="id" value="<?= $data['id'] ?>" hidden>
                     <?php
+                    $id = $data['id'];
                     $sql = "SELECT * FROM appointment a  INNER JOIN appointment_purpose p ON p.id=a.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE a.id = '$id'";
                     $result = mysqli_query($conn, $sql);
                     foreach ($result as $row) {
