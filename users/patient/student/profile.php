@@ -116,7 +116,7 @@ $campus = $_SESSION['campus'];
                 <div class="profile-info box">
                     <div class="row">
                         <?php
-                        $sql = "SELECT p.patientid, p.address, p.designation, p.sex, p.birthday, p.department, p.campus, p.college, p.program, p.yearlevel, p.section, p.block, p.email, p.contactno, a.firstname, a.middlename, a.lastname from patient_info p INNER JOIN account a on a.accountid='$userid' WHERE patientid='$userid'";
+                        $sql = "SELECT p.patientid, p.address, p.designation, emcon_name, emcon_number, p.sex, p.birthday, p.department, p.campus, p.college, p.program, p.yearlevel, p.section, p.block, p.email, p.contactno, a.firstname, a.middlename, a.lastname from patient_info p INNER JOIN account a on a.accountid='$userid' WHERE patientid='$userid'";
                         $result = mysqli_query($conn, $sql);
                         $row = mysqli_fetch_assoc($result);
 
@@ -222,6 +222,11 @@ $campus = $_SESSION['campus'];
                                     <span class="input-group-text" id="inputGroup-sizing-md">Address:</span>
                                     <input type="text" class="form-control" name="contactno" value="<?php echo $row['address'] ?>" readonly disabled>
                                 </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateacc<?php echo $userid; ?>">Update</button>
+                                <?php
+                                include('modals/update_account_modal.php'); ?>
                             </div>
                         </div>
                     </div>
