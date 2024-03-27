@@ -18,7 +18,7 @@ $firstname = strtoupper($_POST['firstname']);
 $middlename = strtoupper($_POST['middlename']);
 $lastname = strtoupper($_POST['lastname']);
 $designation = strtoupper($_POST['designation']);
-$age = floor((time() - strtotime($_POST['birthday'])) / 31556926); 
+$age = floor((time() - strtotime($_POST['birthday'])) / 31556926);
 $sex = strtoupper($_POST['sex']);
 $birthday = date("Y-m-d", strtotime($_POST['birthday']));
 $department = $_POST['department'];
@@ -35,28 +35,24 @@ $temp = $_POST['temp'];
 $respiratory = $_POST['respiratory'];
 $oxygen = $_POST['oxygen'];
 $type = "Walk-In";
-$transaction =  $_POST['transaction'];
-echo $purpose = $_POST['service'];
+$transaction = "Walk-In";
+$purpose = $_POST['service'];
 $chief_complaint = $_POST['chief_complaint'] . " " . $_POST['chief_complaint_others'];
 $findiag = $_POST['findiag'] . " " . $_POST['findiag_others'];
-$remarks = $_POST['remarks'];
-$referral = $_POST['referral'];
+echo $remarks = $_POST['remarks'];
+echo $referral = $_POST['referral'];
 $med_case = $_POST['medcase'];
 $pod_nod = $fullname;
 
 $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
 $result = mysqli_query($conn, $sql);
-while($data=mysqli_fetch_array($result))
-{
-    if($data['medcase'] != 'Others:')
-    { 
+while ($data = mysqli_fetch_array($result)) {
+    if ($data['medcase'] != 'Others:') {
         $medcase =  $_POST['medcase'];
         $medcase_type = $data['type'];
         $medcase_others = $_POST['medcase_others'];
-    }
-    else
-    {
-        $medcase_type ="others";
+    } else {
+        $medcase_type = "others";
         $medcase_others = $_POST['medcase_others'];
         $medcase = $medcase_others;
     }
@@ -121,56 +117,58 @@ if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
     $medicines = $_POST['medicine'];
     $quantities = $_POST['quantity_med'];
     foreach ($medicines as $key => $medicine) {
-        $query5 = "SELECT state FROM medicine WHERE medid = '$medicine'";
-        $result = mysqli_query($conn, $query5);
-        while ($data = mysqli_fetch_array($result)) {
-            $mstate = $data['state'];
-        }
+        if ($medicine != "") {
+            $query5 = "SELECT state FROM medicine WHERE medid = '$medicine'";
+            $result = mysqli_query($conn, $query5);
+            while ($data = mysqli_fetch_array($result)) {
+                $mstate = $data['state'];
+            }
 
-        if($mstate == 'per piece')
-        {
-            // Update inventory_medicine
-            $query0 = "UPDATE inventory_medicine SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE campus='$campus' AND medid='$medicine' AND expiration > '$datenow' AND qty > 0";
-            mysqli_query($conn, $query0);
-            // Update inv_total
-            $query1 = "UPDATE inv_total SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE stockid='$medicine' AND type = 'medicine' AND campus='$campus'";
-            mysqli_query($conn, $query1);
-            // Update inventory
-            $query2 = "UPDATE inventory SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE campus='$campus' AND stock_type='medicine' AND stockid='$medicine' AND qty != 0 AND expiration > '$datenow' ORDER BY date LIMIT 1";
-            mysqli_query($conn, $query2);
-            // Update report_medsupinv
-            $query3 = "SELECT * FROM report_medsupinv WHERE medid = '$medicine' AND type = 'medicine' AND date = '$enddate' AND campus = '$campus' AND eqty > 0";
-            $result = mysqli_query($conn, $query3);
-            while ($data = mysqli_fetch_assoc($result)) {
+            if ($mstate == 'per piece') {
+                // Update inventory_medicine
+                $query0 = "UPDATE inventory_medicine SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE campus='$campus' AND medid='$medicine' AND expiration > '$datenow' AND qty > 0";
+                mysqli_query($conn, $query0);
+                // Update inv_total
+                $query1 = "UPDATE inv_total SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE stockid='$medicine' AND type = 'medicine' AND campus='$campus'";
+                mysqli_query($conn, $query1);
+                // Update inventory
+                $query2 = "UPDATE inventory SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE campus='$campus' AND stock_type='medicine' AND stockid='$medicine' AND qty != 0 AND expiration > '$datenow' ORDER BY date LIMIT 1";
+                mysqli_query($conn, $query2);
                 // Update report_medsupinv
-                $qty = $quantities[$key];
-                $aotqty = $data['tqty'];
-                $aieqty = $data['eqty'];
-                $aiiamt = $data['iamt'];
-                $aiiqty = $data['iqty'];
-                $aieamt = $data['eamt']; //buc
-                $cost = $data['eamt'] / $data['eqty'];
-    
-                $tqty = $aotqty - $qty;
-                $eqty = $data['eqty'] - $qty;
-    
-                if ($data['tqty'] == 0) {
-                    $aobuc = 0;
-                    $abuc = number_format($aobuc, 2, ".");
-                } else {
-                    $aobuc = ($data['eamt'] - ($qty * $cost)) / $eqty;
-                    $abuc = number_format($aobuc, 2, ".");
+                $query3 = "SELECT * FROM report_medsupinv WHERE medid = '$medicine' AND type = 'medicine' AND date = '$enddate' AND campus = '$campus' AND eqty > 0";
+                $result = mysqli_query($conn, $query3);
+                while ($data = mysqli_fetch_assoc($result)) {
+                    // Update report_medsupinv
+                    $qty = $quantities[$key];
+                    $aotqty = $data['tqty'];
+                    $aieqty = $data['eqty'];
+                    $aiiamt = $data['iamt'];
+                    $aiiqty = $data['iqty'];
+                    $aieamt = $data['eamt']; //buc
+                    $cost = $data['eamt'] / $data['eqty'];
+
+                    $tqty = $aotqty - $qty;
+                    $eqty = $data['eqty'] - $qty;
+
+                    if ($data['tqty'] == 0) {
+                        $aobuc = 0;
+                        $abuc = number_format($aobuc, 2, ".");
+                    } else {
+                        $aobuc = ($data['eamt'] - ($qty * $cost)) / $eqty;
+                        $abuc = number_format($aobuc, 2, ".");
+                    }
+                    $aeamt = $eqty * $aobuc;
+                    if ($data['iqty'] == 0) {
+                        $iamt =  $qty * $aobuc;
+                        $iqty =  $qty;
+                    } else {
+                        $iqty = $data['iqty'] + $qty;
+                        $iamt = $iqty * ($aeamt / $eqty);
+                    }
+                    $query4 = "UPDATE report_medsupinv SET iqty = '$iqty', iamt = '$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medicine' AND date = '$enddate' AND type = 'medicine' AND campus = '$campus'";
+                    mysqli_query($conn, $query4);
                 }
-                $aeamt = $eqty * $aobuc;
-                if ($data['iqty'] == 0) {
-                    $iamt =  $qty * $aobuc;
-                    $iqty =  $qty;
-                } else {
-                    $iqty = $data['iqty'] + $qty;
-                    $iamt = $iqty * ($aeamt / $eqty);
-                }
-                $query4 = "UPDATE report_medsupinv SET iqty = '$iqty', iamt = '$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medicine' AND date = '$enddate' AND type = 'medicine' AND campus = '$campus'";
-                mysqli_query($conn, $query4);
+            } else {
             }
         }
     }
@@ -181,126 +179,245 @@ if (!empty($_POST['supply']) && isset($_POST['supply'])) {
     $supplies = $_POST['supply'];
     $quantities_sup = $_POST['quantity_sup'];
     foreach ($supplies as $key => $supply) {
-        $query5 = "SELECT state FROM supply WHERE supid = '$supply'";
-        $result = mysqli_query($conn, $query5);
-        while ($data = mysqli_fetch_array($result)) {
-            $sstate = $data['state'];
-        }
+        if ($supply != "") {
+            $query5 = "SELECT state FROM supply WHERE supid = '$supply'";
+            $result = mysqli_query($conn, $query5);
+            while ($data = mysqli_fetch_array($result)) {
+                $sstate = $data['state'];
+            }
 
-        if($sstate == 'per piece')
-        {
-            // Update inventory_supply
-            $query0 = "UPDATE inventory_supply SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE campus='$campus' AND supid='$supply' AND expiration > '$datenow' AND qty > 0";
-            mysqli_query($conn, $query0);
-            // Update inv_total
-            $query1 = "UPDATE inv_total SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE stockid='$supply' AND type = 'supply' AND campus='$campus'";
-            mysqli_query($conn, $query1);
-            // Update inventory
-            $query2 = "UPDATE inventory SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE campus='$campus' AND stock_type='supply' AND stockid='$supply' AND qty != 0 AND expiration > '$datenow' ORDER BY date LIMIT 1";
-            mysqli_query($conn, $query2);
-            // Update report_medsupinv
-            $query3 = "SELECT * FROM report_medsupinv WHERE medid = '$supply' AND type = 'supply' AND date = '$enddate' AND campus = '$campus' AND eqty > 0";
-            $result = mysqli_query($conn, $query3);
-            while ($data = mysqli_fetch_assoc($result)) {
+            if ($sstate == 'per piece') {
+                // Update inventory_supply
+                $query0 = "UPDATE inventory_supply SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE campus='$campus' AND supid='$supply' AND expiration > '$datenow' AND qty > 0";
+                mysqli_query($conn, $query0);
+                // Update inv_total
+                $query1 = "UPDATE inv_total SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE stockid='$supply' AND type = 'supply' AND campus='$campus'";
+                mysqli_query($conn, $query1);
+                // Update inventory
+                $query2 = "UPDATE inventory SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE campus='$campus' AND stock_type='supply' AND stockid='$supply' AND qty != 0 AND expiration > '$datenow' ORDER BY date LIMIT 1";
+                mysqli_query($conn, $query2);
                 // Update report_medsupinv
-                $qty = $quantities_sup[$key];
-                $aotqty = $data['tqty'];
-                $aieqty = $data['eqty'];
-                $aiiamt = $data['iamt'];
-                $aiiqty = $data['iqty'];
-                $aieamt = $data['eamt']; //buc
-                $cost = $data['eamt'] / $data['eqty'];
+                $query3 = "SELECT * FROM report_medsupinv WHERE medid = '$supply' AND type = 'supply' AND date = '$enddate' AND campus = '$campus' AND eqty > 0";
+                $result = mysqli_query($conn, $query3);
+                while ($data = mysqli_fetch_assoc($result)) {
+                    // Update report_medsupinv
+                    $qty = $quantities_sup[$key];
+                    $aotqty = $data['tqty'];
+                    $aieqty = $data['eqty'];
+                    $aiiamt = $data['iamt'];
+                    $aiiqty = $data['iqty'];
+                    $aieamt = $data['eamt']; //buc
+                    $cost = $data['eamt'] / $data['eqty'];
 
-                $tqty = $aotqty - $qty;
-                $eqty = $data['eqty'] - $qty;
+                    $tqty = $aotqty - $qty;
+                    $eqty = $data['eqty'] - $qty;
 
-                if ($data['tqty'] == 0) {
-                    $aobuc = 0;
-                    $abuc = number_format($aobuc, 2, ".");
-                } else {
-                    $aobuc = ($data['eamt'] - ($qty * $cost)) / $eqty;
-                    $abuc = number_format($aobuc, 2, ".");
+                    if ($data['tqty'] == 0) {
+                        $aobuc = 0;
+                        $abuc = number_format($aobuc, 2, ".");
+                    } else {
+                        $aobuc = ($data['eamt'] - ($qty * $cost)) / $eqty;
+                        $abuc = number_format($aobuc, 2, ".");
+                    }
+                    $aeamt = $eqty * $aobuc;
+                    if ($data['iqty'] == 0) {
+                        $iamt =  $qty * $aobuc;
+                        $iqty =  $qty;
+                    } else {
+                        $iqty = $data['iqty'] + $qty;
+                        $iamt = $iqty * ($aeamt / $eqty);
+                    }
+                    $query4 = "UPDATE report_medsupinv SET iqty = '$iqty', iamt = '$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$supply' AND date = '$enddate' AND type = 'supply' AND campus = '$campus'";
+                    mysqli_query($conn, $query4);
                 }
-                $aeamt = $eqty * $aobuc;
-                if ($data['iqty'] == 0) {
-                    $iamt =  $qty * $aobuc;
-                    $iqty =  $qty;
-                } else {
-                    $iqty = $data['iqty'] + $qty;
-                    $iamt = $iqty * ($aeamt / $eqty);
-                }
-                $query4 = "UPDATE report_medsupinv SET iqty = '$iqty', iamt = '$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$supply' AND date = '$enddate' AND type = 'supply' AND campus = '$campus'";
-                mysqli_query($conn, $query4);
+            } else {
             }
         }
     }
 }
 
-// Update medcase report
-$sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+// check if may existing na
+$enddate = date("Y-m-t");
+
+//kunin medcase as text
+$medcase = $_POST['medcase'];
+$sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
 $result = mysqli_query($conn, $sql);
 while ($data = mysqli_fetch_array($result)) {
-    // Update counts based on designation and sex
-    switch (true) {
-        case ($designation == "STUDENT" && $sex == "MALE"):
-            $sm = $data['sm'] + 1;
-            $sf = $data['sf'];
-            $st = $data['st'] + 1;
-            $pm = $data['pm'];
-            $pf = $data['pf'];
-            $pt = $data['pt'];
-            $gm = $data['gm'] + 1;
-            $gf = $data['gf'];
-            $gt = $data['gt'] + 1;
-            break;
-        case ($designation == "STUDENT" && $sex == "FEMALE"):
-            $sm = $data['sm'];
-            $sf = $data['sf'] + 1;
-            $st = $data['st'] + 1;
-            $pm = $data['pm'];
-            $pf = $data['pf'];
-            $pt = $data['pt'];
-            $gm = $data['gm'];
-            $gf = $data['gf'] + 1;
-            $gt = $data['gt'] + 1;
-            break;
-        case ($designation != "STUDENT" && $sex == "MALE"):
-            $sm = $data['sm'];
-            $sf = $data['sf'];
-            $st = $data['st'];
-            $pm = $data['pm'] + 1;
-            $pf = $data['pf'];
-            $pt = $data['pt'] + 1;
-            $gm = $data['gm'] + 1;
-            $gf = $data['gf'];
-            $gt = $data['gt'] + 1;
-            break;
-        case ($designation != "STUDENT" && $sex == "FEMALE"):
-            $sm = $data['sm'];
-            $sf = $data['sf'];
-            $st = $data['st'];
-            $pm = $data['pm'];
-            $pf = $data['pf'] + 1;
-            $pt = $data['pt'] + 1;
-            $gm = $data['gm'];
-            $gf = $data['gf'] + 1;
-            $gt = $data['gt'] + 1;
-            break;
-        default:
-            $sm = $data['sm'];
-            $sf = $data['sf'];
-            $st = $data['st'];
-            $pm = $data['pm'];
-            $pf = $data['pf'];
-            $pt = $data['pt'];
-            $gm = $data['gm'];
-            $gf = $data['gf'];
-            $gt = $data['gt'];
-            break;
+    if ($data['medcase'] != 'Others:') {
+        $medcase =  $_POST['medcase'];
+        $medcase_type = $data['type'];
+        $medcase_others = $_POST['medcase_others'];
+    } else {
+        $medcase_type = "others";
+        $medcase_others = $_POST['medcase_others'];
+        $medcase = $medcase_others;
     }
-    // Update report
+}
+
+$sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate' AND campus='$campus'";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0) {
+    // fetch data ng existing entry
+
+    $enddate = date("Y-m-t");
+    $designation = strtoupper($_POST['designation']);
+    $sex = strtoupper($_POST['sex']);
+
+    //kunin medcase type
+    $medcase = $_POST['medcase'];
+    $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
+    $result = mysqli_query($conn, $sql);
+    while ($data = mysqli_fetch_array($result)) {
+        if ($data['medcase'] != 'Others:') {
+            $medcase =  $_POST['medcase'];
+            $medcase_type = $data['type'];
+            $medcase_others = $_POST['medcase_others'];
+        } else {
+            $medcase_type = "others";
+            $medcase_others = $_POST['medcase_others'];
+            $medcase = $medcase_others;
+        }
+    }
+
+    $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate' AND campu='$campus'";
+    $result = mysqli_query($conn, $sql);
+    while ($data = mysqli_fetch_array($result)) {
+        // check san sya i-add na column sa database
+        switch (true) {
+            case ($designation == "STUDENT" and $sex == "MALE"): {
+                    $sm = $data['sm'] + 1;
+                    $sf = $data['sf'];
+                    $st = $data['st'] + 1;
+                    $pm = $data['pm'];
+                    $pf = $data['pf'];
+                    $pt = $data['pt'];
+                    $gm = $data['gm'] + 1;
+                    $gf = $data['gf'];
+                    $gt = $data['gt'] + 1;
+                    break;
+                }
+            case ($designation == "STUDENT" and $sex == "FEMALE"): {
+                    $sm = $data['sm'];
+                    $sf = $data['sf'] + 1;
+                    $st = $data['st'] + 1;
+                    $pm = $data['pm'];
+                    $pf = $data['pf'];
+                    $pt = $data['pt'];
+                    $gm = $data['gm'];
+                    $gf = $data['gf'] + 1;
+                    $gt = $data['gt'] + 1;
+                    break;
+                }
+            case ($designation != "STUDENT" and $sex == "MALE"): {
+                    $sm = $data['sm'];
+                    $sf = $data['sf'];
+                    $st = $data['st'];
+                    $pm = $data['pm'] + 1;
+                    $pf = $data['pf'];
+                    $pt = $data['pt'] + 1;
+                    $gm = $data['gm'] + 1;
+                    $gf = $data['gf'];
+                    $gt = $data['gt'] + 1;
+                    break;
+                }
+            case ($designation != "STUDENT" and $sex == "FEMALE"): {
+                    $sm = $data['sm'];
+                    $sf = $data['sf'];
+                    $st = $data['st'];
+                    $pm = $data['pm'];
+                    $pf = $data['pf'] + 1;
+                    $pt = $data['pt'] + 1;
+                    $gm = $data['gm'];
+                    $gf = $data['gf'] + 1;
+                    $gt = $data['gt'] + 1;
+                    break;
+                }
+            default: {
+                    break;
+                }
+        }
+    }
+    // update if meron
     $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
-    mysqli_query($conn, $sql);
+    $result = mysqli_query($conn, $sql);
+} else {
+    // add pag wala
+
+    $designation = strtoupper($_POST['designation']);
+    $sex = strtoupper($_POST['sex']);
+    // check san sya i-add na column sa database
+    switch (true) {
+        case ($designation == "STUDENT" and $sex == "MALE"): {
+                $sm = 1;
+                $sf = 0;
+                $st = 1;
+                $pm = 0;
+                $pf = 0;
+                $pt = 0;
+                $gm = 1;
+                $gf = 0;
+                $gt = 1;
+                break;
+            }
+        case ($designation == "STUDENT" and $sex == "FEMALE"): {
+                $sm = 0;
+                $sf = 1;
+                $st = 1;
+                $pm = 0;
+                $pf = 0;
+                $pt = 0;
+                $gm = 0;
+                $gf = 1;
+                $gt = 1;
+                break;
+            }
+        case ($designation != "STUDENT" and $sex == "MALE"): {
+                $sm = 0;
+                $sf = 0;
+                $st = 0;
+                $pm = 1;
+                $pf = 0;
+                $pt = 1;
+                $gm = 1;
+                $gf = 0;
+                $gt = 1;
+                break;
+            }
+        case ($designation != "STUDENT" and $sex == "FEMALE"): {
+                $sm = 0;
+                $sf = 0;
+                $st = 0;
+                $pm = 0;
+                $pf = 1;
+                $pt = 1;
+                $gm = 0;
+                $gf = 1;
+                $gt = 1;
+                break;
+            }
+        default: {
+                break;
+            }
+    }
+    $enddate = date("Y-m-t");
+    $medcase = $_POST['medcase'];
+    $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
+    $result = mysqli_query($conn, $sql);
+    while ($data = mysqli_fetch_array($result)) {
+        if ($data['medcase'] != 'Others:') {
+            $medcase =  $_POST['medcase'];
+            $medcase_type = $data['type'];
+            $medcase_others = $_POST['medcase_others'];
+        } else {
+            $medcase_type = "others";
+            $medcase_others = $_POST['medcase_others'];
+            $medcase = $medcase_others;
+        }
+    }
+
+    $sql = "INSERT INTO reports_medcase (campus, type, medcase, sm, sf, st, pm, pf, pt, gm, gf, gt, date) VALUES ('$campus', '$medcase_type', '$medcase', '$sm', '$sf', '$st', '$pm', '$pf', '$pt', '$gm', '$gf', '$gt', '$enddate')";
+    $result = mysqli_query($conn, $sql);
 }
 
 // Audit trail 

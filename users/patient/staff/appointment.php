@@ -2,7 +2,7 @@
 
 session_start();
 include('../../../connection.php');
-include('../../../includes/student-auth.php');
+include('../../../includes/staff-auth.php');
 
 $module = 'appointment';
 $userid = $_SESSION['userid'];

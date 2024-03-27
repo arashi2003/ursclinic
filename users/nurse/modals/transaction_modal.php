@@ -306,8 +306,6 @@
                         <div class="mb-2 hidden" id="medCaseOthersDiv">
                             <label for="" class="form-label">Others:</label>
                             <input type="text" class="form-control" name="medcase_others" id="medcase_others">
-                            <input type="text" class="form-control" name="type" value="Walk-In" id="type" hidden>
-                            <input type="text" class="form-control" name="transaction" value="Walk-In" id="transaction" hidden>
                         </div>
                     </div>
 
@@ -422,18 +420,18 @@
                             </div>
                             <div class="mb-2">
                                 <label for="" class="form-label">Remarks:</label>
-                                <input type="text" class="form-control" name="remarks" id="remarks">
+                                <input type="text" class="form-control" name="remark" id="remark">
                             </div>
                             <div class="mb-2">
                                 <label for="" class="form-label">Recommendation:</label>
-                                <input type="text" class="form-control" name="referral" id="referral">
+                                <input type="text" class="form-control" name="refer" id="refer">
                             </div>
                         </div>
 
                         <!-- responsive pag others pinili lalabas additional na textbox-->
                         <div class="mb-2">
                             <label for="" class="form-label">Medical Case:</label>
-                            <select class="form-control" aria-label=".form-select-md example" name="medcase" id="medcase" >
+                            <select class="form-control" aria-label=".form-select-md example" name="medcase" id="medcase">
                                 <option value="" disabled selected></option>
                                 <?php
                                 include('connection.php');
@@ -519,6 +517,8 @@
                             document.getElementById('yearlevel').value = response.yearlevel;
                             document.getElementById('section').value = response.section;
                             document.getElementById('block').value = response.block;
+                            var nextButton = document.getElementById('nextButton');
+                            nextButton.disabled = false;
 
                             // Reset form validation state
                             document.getElementById('patientid').classList.remove('is-invalid');
@@ -548,6 +548,8 @@
             document.getElementById('block').value = '';
             document.getElementById('patientid').classList.remove('is-invalid');
             document.getElementById('patientid').setCustomValidity('');
+            var nextButton = document.getElementById('nextButton');
+            nextButton.disabled = true;
         }
     }
 </script>
@@ -557,12 +559,16 @@
         console.log(answer.value);
         {
             if (answer.value == 'Walk-In') {
+                document.getElementById('medHistoryDiv').setAttribute('disabled', 'disabled');
                 document.getElementById('medHistoryDiv').classList.add('hidden');
                 document.getElementById('transactDiv').classList.remove('hidden');
             } else if (answer.value == 'Medical History') {
                 document.getElementById('transactDiv').classList.add('hidden');
                 document.getElementById('defaultDiv').classList.add('hidden');
                 document.getElementById('medHistoryDiv').classList.remove('hidden');
+                document.getElementById('medHistoryDiv').removeAttribute('disabled');
+                document.getElementById('transactDiv').setAttribute('disabled', 'disabled');
+                document.getElementById('defaultDiv').setAttribute('disabled', 'disabled');
             }
         }
     };
@@ -606,10 +612,10 @@
                 document.getElementById('ccOthersDiv').classList.add('hidden');
                 document.getElementById('fdDiv').classList.add('hidden');
                 document.getElementById('fdOthersDiv').classList.add('hidden');
-                document.getElementById('remarksDiv').classList.remove('hidden');
+                //document.getElementById('remarksDiv').classList.remove('hidden');
                 document.getElementById('medicineDiv').classList.add('hidden');
                 document.getElementById('medSupDiv').classList.remove('hidden');
-                document.getElementById('referralDiv').classList.add('hidden');
+                //document.getElementById('referralDiv').classList.add('hidden');
                 document.getElementById('medCaseDiv').classList.remove('hidden');
                 document.getElementById('medCaseOthersDiv').classList.add('hidden');
             }

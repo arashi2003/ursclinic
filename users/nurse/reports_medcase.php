@@ -25,12 +25,12 @@ if (isset($_GET['month'])) {
     // Construct and execute SQL query for counting total rows for transaction_history
     $sql_count = "SELECT COUNT(*) AS total_rows 
                   FROM reports_medcase 
-                  WHERE $whereClause";
+                  WHERE $whereClause AND medcase !='Others:'";
 } else {
     // If filters are not set, count all rows for transaction_history
     $now = date("Y-m-t");
     $sql_count = "SELECT COUNT(*) AS total_rows 
-                  FROM reports_medcase WHERE campus = '$campus' AND date='$now'";
+                  FROM reports_medcase WHERE campus = '$campus' AND date='$now' AND medcase !='Others:'";
 }
 
 // Execute the count query
@@ -212,11 +212,11 @@ if ($pages > 4) {
                                         <?php
                                         if (isset($_GET['month']) && $_GET['month'] != '') {
                                             $month = date("Y-m-t", strtotime($_GET['month']));
-                                            $sql = "SELECT * FROM reports_medcase WHERE campus = '$campus' AND date='$month' LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM reports_medcase WHERE campus = '$campus' AND date='$month' AND medcase !='Others:' LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $now = date("Y-m-t");
-                                            $sql = "SELECT * FROM reports_medcase WHERE campus = '$campus' AND date='$now' LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM reports_medcase WHERE campus = '$campus' AND date='$now' AND medcase !='Others:' LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {

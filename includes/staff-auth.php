@@ -7,7 +7,7 @@ if (!isset($_SESSION['usertype'])) {
     header('Refresh: 3; URL=../../index');
     exit(0);
 } else {
-    if ($_SESSION['usertype'] != "FACULTY") {
+    if ($_SESSION['usertype'] != "STAFF") {
         header("location:javascript://history.go(-1)");
         exit(0);
     }

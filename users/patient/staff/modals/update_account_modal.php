@@ -45,6 +45,10 @@
                         <label for="contactno" class="form-label">Emergency Contact Number:</label>
                         <input type="text" maxlength="13" class="form-control" name="emcon_number" id="emcon_number" value="<?php echo $row['emcon_number'] ?>" required>
                     </div>
+                    <div class="mb-2">
+                        <label for="email" class="form-label">Home Address:</label>
+                        <textarea style="resize: none;" class="form-control" name="address" id="address" required><?php echo $row['address']?></textarea>
+                    </div>
 
                     <!-- responsive na magiging required fields ung mga password related textbox-->
 

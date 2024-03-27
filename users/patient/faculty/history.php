@@ -2,7 +2,7 @@
 
 session_start();
 include('../../../connection.php');
-include('../../../includes/faculty-auth.php');
+include('../../../includes/faculty-staff-auth.php');
 
 $module = 'history';
 $userid = $_SESSION['userid'];

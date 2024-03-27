@@ -21,25 +21,22 @@ if (isset($_POST['save_excel_data'])) {
         $count = "0";
         foreach ($data as $row) {
             if ($count > 0) {
-                $patientid = $row['0'];
-                $designation = $row['1'];
-                $sex = $row['2'];
-                $birthday = $row['3'];
-                $department = $row['4'];
-                $campus = $row['5'];
-                $college = $row['6'];
-                $program = $row['7'];
-                $yearlevel = $row['8'];
-                $section = $row['9'];
-                $block = $row['10'];
-                $address = $row['11'];
-                $email = $row['12'];
-                $contactno = $row['13'];
-                $emcon_name = $row['14'];
-                $emcon_number = $row['15'];
-
-                $studentQuery = "INSERT INTO patient_info (patientid,designation,age,sex,birthday,department,campus,college,program,yearlevel,section,block,address,email,contactno,emcon_name,emcon_number, datetime_created, datetime_updated) 
-                VALUES ('$patientid','$designation','$sex','$birthday','$department','$campus','$college','$program','$yearlevel','$section','$block','$address','$email','$contactno','$emcon_name','$emcon_number', now(), now())";
+                $accountid = $row['0'];
+                $password = $row['1'];
+                $usertype = $row['2'];
+                $firstname = $row['3'];
+                $middlename = $row['4'];
+                $lastname = $row['5'];
+                $email = $row['6'];
+                $contactno = $row['7'];
+                $campus = $row['8'];
+                $status = $row['9'];
+                $datetime_created = $row['10'];
+                $datetime_updated = $row['11'];
+                $studentQuery = "INSERT INTO account 
+                (accountid, password, usertype, firstname, middlename, lastname, email, contactno, campus, status, datetime_created, datetime_updated) 
+                VALUES 
+                ('$accountid','$password','$usertype','$firstname','$middlename','$lastname','$email','$contactno','$campus','$status', now(), now())";
                 $result = mysqli_query($conn, $studentQuery);
                 $msg = true;
             } else {
@@ -49,16 +46,16 @@ if (isset($_POST['save_excel_data'])) {
 
         if (isset($msg)) {
             $_SESSION['alert'] = "Successfully Imported";
-            header('Location: patients');
+            header('Location: account_users');
             exit(0);
         } else {
             $_SESSION['alert'] = "Not Imported";
-            header('Location: patients');
+            header('Location: account_users');
             exit(0);
         }
     } else {
         $_SESSION['alert'] = "Invalid File";
-        header('Location: patients');
+        header('Location: account_users');
         exit(0);
     }
 }

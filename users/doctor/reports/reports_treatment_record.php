@@ -1,7 +1,7 @@
 <?php
     session_start();
-    require('../../../../fpdf/fpdf.php');
-    include('../../../../connection.php');
+    require('../../../fpdf/fpdf.php');
+    include('../connection.php');
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     
@@ -9,11 +9,11 @@
     {
         function Header()
         {
-            include('../../../../connection.php');
+            include('../connection.php');
             $campus = $_SESSION['campus'];
 
-            $this->Image('../../../../images/urs.png', 55, 12, 12);
-            $this->Image('../../../../images/medlogo.png', 140, 12, 22);
+            $this->Image('../../../images/urs.png', 55, 12, 12);
+            $this->Image('../../../images/medlogo.png', 140, 12, 22);
             $this->Cell(0, 4, '', 0, 1);
             $this->SetFont('Arial','',10);
             $this->Cell(0, 0, 'Republic of the Philippines', 0, 1, 'C');
@@ -33,7 +33,7 @@
             $this->Cell(0, .1, '', 1, 0);
             $this->Cell(0, 5, '', 0, 1);
 
-            $patientid = $_SESSION['userid'];
+            $patientid = $_REQUEST['patientid'];
 
             $this->Cell(0, 2, '', 0, 1);
             $this->SetFont('Arial', 'B', 13);
@@ -80,17 +80,8 @@
                 {
                     $dc = ucfirst(strtolower($data['department'])) . " - " . ucwords(strtolower($data['college']));
                 }
-
-                if($data['year'] != "")
-                {
-                    $yl = $data['year'] . "-" . $data['section'] . $data['block'];
-                }
-                else
-                {
-                    $yl = "";
-                }
                 $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " .ucwords(strtolower($data['lastname']));
-                $pys = $data['program'] . " " . $yl;
+                $pys = $data['program'] . " " . $data['year'] . "-" . $data['section'] . $data['block'];
 
                 $this->SetFont('Arial', 'B', 10);
                 $this->Cell(40, 6, 'Student/Employee No.: ', 0);
@@ -173,7 +164,7 @@
             $user = $_SESSION['userid'];
             $activity = "saved a pdf for dental form";
             // code for revision number  
-            include('../../../../connection.php');        
+            include('../connection.php');        
             $query = mysqli_query($conn, "SELECT * FROM audit_trail WHERE user = '$user' AND activity = '$activity'");
             $count = 0;
             while($data=mysqli_fetch_array($query))

@@ -1,17 +1,18 @@
 <?php
     session_start();
-    include('../../add/connection.php');
+    include('../connection.php');
     $cupassword = $_POST['cupassword'];
     $password = $_POST['npassword'];
     $copassword = $_POST['copassword'];
     $firstname = strtoupper($_POST['firstname']);
     $middlename = strtoupper($_POST['middlename']);
     $lastname = strtoupper($_POST['lastname']);
+    $email = $_POST['email'];
+    $contactno = $_POST['contactno'];
+    $address = $_POST['address'];
     
     // MAG CONDITIONAL FOR PATIENT INFO
     $birthday = date("Y-m-d", strtotime($_POST['birthday']));
-    $email = $_POST['email'];
-    $contactno = $_POST['contactno'];
     $emcon_name = $_POST['emcon_name'];
     $emcon_number = $_POST['emcon_number'];
 
@@ -43,32 +44,21 @@
         {
             if($password == $copassword)
             {
-                $sql= "UPDATE account SET password='$password', usertype='$usertype', firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', campus='$campus', status='$status', datetime_updated=now() WHERE accountid='$user'";
-                if (mysqli_query($conn, $sql))
+                $sql0= "UPDATE account SET password='$password', email='$email', contactno='$contactno', firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', datetime_updated=now() WHERE accountid='$user'";
+                mysqli_query($conn, $sql0);
+                $sql1= "UPDATE patient_info SET birthday='$birthday', email='$email', contactno='$contactno', address='$address', emcon_name='$emcon_name', emcon_number='$emcon_number', datetime_updated=now() WHERE patientid='$user'";
+                mysqli_query($conn, $sql1);
+                $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
+                if($result = mysqli_query($conn, $sql))
                 {
-                    $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
-                    if($result = mysqli_query($conn, $sql))
-                    {
-                        ?>
-                        <script>
-                            setTimeout(function() {
-                                window.location = "../../profile";
-                            });
-                        </script>
-                        <?php
-                        // modal na account details has been updated
-                    }
-                    else
-                    {
-                        ?>
-                        <script>
-                            setTimeout(function() {
-                                window.location = "../../profile";
-                            });
-                        </script>
-                        <?php
-                        // modal na account details has been updated
-                    }
+                    ?>
+                    <script>
+                        setTimeout(function() {
+                            window.location = "../../profile";
+                        });
+                    </script>
+                    <?php
+                    // modal na account details has been updated
                 }
                 else
                 {
@@ -79,7 +69,7 @@
                         });
                     </script>
                     <?php
-                    // modal na account details has not been updated
+                    // modal na account details has been updated
                 }
             }
             else
@@ -108,42 +98,33 @@
     } 
     else
     {
-        $sql= "UPDATE account SET accountid='$user', campus='$campus', status = '$status', usertype='$usertype', firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', campus='$campus', status='$status', datetime_updated=now() WHERE accountid='$user'";
-        if (mysqli_query($conn, $sql))
+        $sql0= "UPDATE account SET accountid='$user', firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', datetime_updated=now() WHERE accountid='$user'";
+        mysqli_query($conn, $sql0);
+        $sql1= "UPDATE patient_info SET address='$address', birthday='$birthday', emcon_name='$emcon_name', emcon_number='$emcon_number', datetime_updated=now() WHERE patientid='$user'";
+        mysqli_query($conn, $sql1);
+
+        $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
+        if($result = mysqli_query($conn, $sql))
         {
-            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
-            if($result = mysqli_query($conn, $sql))
-            {
-                ?>
-                <script>
-                    setTimeout(function() {
-                        window.location = "../../profile";
-                    });
-                </script>
-                <?php
-                // modal na account details has been updated
-            }
-            else
-            {
-                ?>
-                <script>
-                    setTimeout(function() {
-                        window.location = "../../profile";
-                    });
-                </script>
-                <?php
-                // modal account details has been updated
-            }
+            ?>
+            <script>
+                setTimeout(function() {
+                    window.location = "../../profile";
+                });
+            </script>
+            <?php
+            // modal na account details has been updated
         }
         else
         {
-            // modal na account details has not been updated
-    ?>
-<script>
-    setTimeout(function() {
-        window.location = "../../profile";
-    });
-</script>
-<?php
-}}
+            ?>
+            <script>
+                setTimeout(function() {
+                    window.location = "../../profile";
+                });
+            </script>
+            <?php
+            // modal account details has been updated
+        }
+    }
 mysqli_close($conn);

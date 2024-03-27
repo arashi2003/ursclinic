@@ -21,23 +21,23 @@
                     </div>
                     <div class="mb-2">
                         <label for="chief_complaint" class="form-label">Chief Complaints:</label>
-                        <input type="text" class="form-control" name="chief_complaint" value="<?php echo $data['chief_complaint'] ?>" id="chief_complaint" disabled>
+                        <textarea style="resize: none;" class="form-control" name="chief_complaint" id="chief_complaint" disabled><?php echo $data['chief_complaint'] ?></textarea>
                     </div>
                     <div class="mb-2">
-                        <label for="chief_complaint" class="form-label">Findings/Diagnosis:</label>
-                        <input type="text" class="form-control" name="findiag" value="<?php echo $data['findiag'] ?>" id="findiag" disabled>
+                        <label for="findiag" class="form-label">Findings/Diagnosis:</label>
+                        <textarea style="resize: none;"  class="form-control" name="findiag" id="findiag" disabled><?php echo $data['findiag'] ?></textarea>
                     </div>
                     <div class="mb-2">
                         <label for="remarks" class="form-label">Remarks:</label>
-                        <input type="text" class="form-control" name="remarks" value="<?php echo $data['remarks'] ?>" id="remarks" disabled>
+                        <textarea style="resize: none;" class="form-control" name="remarks" id="remarks" disabled><?php echo $data['remarks'] ?></textarea>
                     </div>
                     <div class="mb-2">
                         <label for="referral" class="form-label">Referral:</label>
-                        <input type="text" class="form-control" name="referral" value="<?php echo $data['referral'] ?>" id="referral" disabled>
+                        <textarea style="resize: none;" class="form-control" name="referral" id="referral" disabled><?php echo $data['referral'] ?></textarea>
                     </div>
                     <div class="mb-2">
                         <label for="medsup" class="form-label">Issued Medicine/Medical Supplies:</label>
-                        <input type="text" class="form-control" name="medsup" value="<?php echo $data['medsup'] ?>" id="medsup" disabled>
+                        <textarea style="resize: none;" class="form-control" name="medsup" id="medsup" disabled><?php echo $data['medsup'] ?></textarea>
                     </div>
                     <div class="mb-2">
                         <label for="pod_nod" class="form-label">Physician/Nurse on Duty:</label>

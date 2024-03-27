@@ -1,7 +1,7 @@
 <?php
     session_start();
-    require('../../../../../fpdf/fpdf.php');
-    include('../../../../connection.php');
+    require('../../../fpdf/fpdf.php');
+    include('../connection.php');
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     
@@ -11,8 +11,8 @@
         {
             $campus = $_SESSION['campus'];
 
-            $this->Image('../../../../../images/urs.png', 55, 12, 12);
-            $this->Image('../../../../../images/medlogo.png', 140, 12, 22);
+            $this->Image('../../../images/urs.png', 55, 12, 12);
+            $this->Image('../../../images/medlogo.png', 140, 12, 22);
             $this->Cell(0, 4, '', 0, 1);
             $this->SetFont('Arial','',10);
             $this->Cell(0, 0, 'Republic of the Philippines', 0, 1, 'C');
@@ -39,7 +39,7 @@
             $user = $_SESSION['userid'];
             $activity = "saved a pdf for dental form";
             // code for revision number  
-            include('../../../connection.php');        
+            include('../connection.php');        
             $query = mysqli_query($conn, "SELECT * FROM audit_trail WHERE user = '$user' AND activity = '$activity'");
             $count = 0;
             while($data=mysqli_fetch_array($query))
@@ -637,74 +637,74 @@
         $pdf->Cell(15.8, 5, $data['fa_5'] , 1, 0, 'C');// 
     }
 
-    $pdf->Image('../../../../../images/smoltooth.jpg', 55.5, 103, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 65.5, 103, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 75.5, 103, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 85.5, 103, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 95.5, 103, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 55.5, 103, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 65.5, 103, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 75.5, 103, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 85.5, 103, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 95.5, 103, 9, 6);
 
-    $pdf->Image('../../../../../images/smoltooth.jpg', 105.5, 103, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 115.5, 103, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 125.5, 103, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 135.5, 103, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 145.5, 103, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 105.5, 103, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 115.5, 103, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 125.5, 103, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 135.5, 103, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 145.5, 103, 9, 6);
 
-    $pdf->Image('../../../../../images/bigtooth.jpg', 25.5, 121, 9, 6);
-    $pdf->Image('../../../../../images/bigtooth.jpg', 35.5, 121, 9, 6);
-    $pdf->Image('../../../../../images/bigtooth.jpg', 45.5, 121, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 55.5, 121, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 65.5, 121, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 75.5, 121, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 85.5, 121, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 95.5, 121, 9, 6);
+    $pdf->Image('../../../images/bigtooth.jpg', 25.5, 121, 9, 6);
+    $pdf->Image('../../../images/bigtooth.jpg', 35.5, 121, 9, 6);
+    $pdf->Image('../../../images/bigtooth.jpg', 45.5, 121, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 55.5, 121, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 65.5, 121, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 75.5, 121, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 85.5, 121, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 95.5, 121, 9, 6);
 
-    $pdf->Image('../../../../../images/smoltooth.jpg', 105.5, 121, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 115.5, 121, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 125.5, 121, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 135.5, 121, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 145.5, 121, 9, 6);
-    $pdf->Image('../../../../../images/bigtooth.jpg', 155.5, 121, 9, 6);
-    $pdf->Image('../../../../../images/bigtooth.jpg', 165.5, 121, 9, 6);
-    $pdf->Image('../../../../../images/bigtooth.jpg', 175.5, 121, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 105.5, 121, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 115.5, 121, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 125.5, 121, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 135.5, 121, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 145.5, 121, 9, 6);
+    $pdf->Image('../../../images/bigtooth.jpg', 155.5, 121, 9, 6);
+    $pdf->Image('../../../images/bigtooth.jpg', 165.5, 121, 9, 6);
+    $pdf->Image('../../../images/bigtooth.jpg', 175.5, 121, 9, 6);
 
-    $pdf->Image('../../../../../images/bigtooth.jpg', 25.5, 137.5, 9, 6);
-    $pdf->Image('../../../../../images/bigtooth.jpg', 35.5, 137.5, 9, 6);
-    $pdf->Image('../../../../../images/bigtooth.jpg', 45.5, 137.5, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 55.5, 137.5, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 65.5, 137.5, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 75.5, 137.5, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 85.5, 137.5, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 95.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/bigtooth.jpg', 25.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/bigtooth.jpg', 35.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/bigtooth.jpg', 45.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 55.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 65.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 75.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 85.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 95.5, 137.5, 9, 6);
 
-    $pdf->Image('../../../../../images/smoltooth.jpg', 105.5, 137.5, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 115.5, 137.5, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 125.5, 137.5, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 135.5, 137.5, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 145.5, 137.5, 9, 6);
-    $pdf->Image('../../../../../images/bigtooth.jpg', 155.5, 137.5, 9, 6);
-    $pdf->Image('../../../../../images/bigtooth.jpg', 165.5, 137.5, 9, 6);
-    $pdf->Image('../../../../../images/bigtooth.jpg', 175.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 105.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 115.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 125.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 135.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 145.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/bigtooth.jpg', 155.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/bigtooth.jpg', 165.5, 137.5, 9, 6);
+    $pdf->Image('../../../images/bigtooth.jpg', 175.5, 137.5, 9, 6);
 
-    $pdf->Image('../../../../../images/smoltooth.jpg', 55.5, 160, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 65.5, 160, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 75.5, 160, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 85.5, 160, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 95.5, 160, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 55.5, 160, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 65.5, 160, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 75.5, 160, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 85.5, 160, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 95.5, 160, 9, 6);
 
-    $pdf->Image('../../../../../images/smoltooth.jpg', 105.5, 160, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 115.5, 160, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 125.5, 160, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 135.5, 160, 9, 6);
-    $pdf->Image('../../../../../images/smoltooth.jpg', 145.5, 160, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 105.5, 160, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 115.5, 160, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 125.5, 160, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 135.5, 160, 9, 6);
+    $pdf->Image('../../../images/smoltooth.jpg', 145.5, 160, 9, 6);
 
     
-    $pdf->Image('../../../../../images/right.jpeg', 10, 100.5, 17, 8);
-    $pdf->Image('../../../../../images/left.jpeg', 167, 100.5, 17, 8);
+    $pdf->Image('../../../images/right.jpeg', 10, 100.5, 17, 8);
+    $pdf->Image('../../../images/left.jpeg', 167, 100.5, 17, 8);
 
-    $pdf->Image('../../../../../images/upper.jpeg', 185, 123, 16, 6);
-    $pdf->Image('../../../../../images/lower.jpeg', 185, 137, 16, 6);
+    $pdf->Image('../../../images/upper.jpeg', 185, 123, 16, 6);
+    $pdf->Image('../../../images/lower.jpeg', 185, 137, 16, 6);
 
-    $pdf->Image('../../../../../images/decayed.jpg', 99.5, 227, 3, 18);
+    $pdf->Image('../../../images/decayed.jpg', 99.5, 227, 3, 18);
 
     $filename = "Dental_Form_". $patientid . ".pdf";
     $pdf->Output($filename, 'I');

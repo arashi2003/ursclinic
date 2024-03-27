@@ -15,8 +15,10 @@ if (isset($_SESSION['usertype'])) {
     header('location:users/dentish/dashboard');
   } elseif ($_SESSION['usertype'] == "ADMIN") {
     header('location:users/admin/profile');
-  } elseif ($_SESSION['usertype'] == "FACULTY" || $_SESSION['usertype'] == "STAFF") {
+  } elseif ($_SESSION['usertype'] == "FACULTY") {
     header('location:users/patient/faculty/appointment');
+  } elseif ($_SESSION['usertype'] == "STAFF") {
+    header('location:users/patient/staff/appointment');
   }
   exit(); // Stop executing further code
 }
@@ -280,7 +282,49 @@ if (isset($_POST['submit'])) {
     ?>
       <script>
         setTimeout(function() {
-          window.location = "users/patient/faculty-staff/appointment";
+          window.location = "users/patient/faculty/appointment";
+        });
+      </script>
+    <?php
+
+    } elseif ($count == 1 && $row['usertype'] == "STAFF" && $row['status'] != 'INACTIVE') {
+
+      //select data from usertb for audit trail
+      $sql = "SELECT * FROM account WHERE accountid='$username'";
+      $result = mysqli_query($conn, $sql);
+      $row = mysqli_fetch_array($result);
+
+      if (count(explode(" ", $row['middlename'])) > 1) {
+        $middle = explode(" ", $row['middlename']);
+        $letter = $middle[0][0] . $middle[1][0];
+        $middleinitial = $letter . ".";
+      } else {
+        $middle = $row['middlename'];
+        if ($middle == "" or $middle == " ") {
+          $middleinitial = "";
+        } else {
+          $middleinitial = substr($middle, 0, 1) . ".";
+        }
+      }
+      $fullname = ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($row['lastname']));
+      $campus = $row['campus'];
+
+      //audit trail
+      $sql = "INSERT INTO audit_trail SET campus='$campus', user='$username', fullname='$fullname', activity='Logged In'";
+      mysqli_query($conn, $sql) or die(mysqli_error($conn));
+
+      //redirect to dashboard
+      $_SESSION['userid'] = $row['accountid'];
+      $_SESSION['username'] = $row['lastname'];
+      $_SESSION['usertype'] = $row['usertype'];
+      $_SESSION['campus'] = $row['campus'];
+      $_SESSION['status'] = $row['status'];
+      $_SESSION['name'] = $fullname;
+      $_SESSION['alert'] = 'You have successfully logged in!';
+    ?>
+      <script>
+        setTimeout(function() {
+          window.location = "users/patient/staff/appointment";
         });
       </script>
     <?php

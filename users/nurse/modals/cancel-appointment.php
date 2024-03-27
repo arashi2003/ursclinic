@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../../connection.php');
+include('connection.php');
 $id = $_POST['id'];
 $reason = $_POST['reason'];
 
@@ -23,7 +23,7 @@ if ($result = mysqli_query($conn, $query)) {
 ?>
         <script>
             setTimeout(function() {
-                window.location = "../../appoinment";
+                window.location = "../../appoinment?tab=pending";
             });
         </script>
     <?php
@@ -32,7 +32,7 @@ if ($result = mysqli_query($conn, $query)) {
     ?>
         <script>
             setTimeout(function() {
-                window.location = "../../appoinment";
+                window.location = "../../appoinment?tab=pending";
             });
         </script>
     <?php
@@ -43,7 +43,7 @@ if ($result = mysqli_query($conn, $query)) {
     ?>
     <script>
         setTimeout(function() {
-            window.location = "../../appoinment";
+            window.location = "../../appoinment?tab=pending";
         });
     </script>
 <?php

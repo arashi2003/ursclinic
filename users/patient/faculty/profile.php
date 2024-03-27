@@ -2,7 +2,7 @@
 
 session_start();
 include('../../../connection.php');
-include('../../../includes/student-auth.php');
+include('../../../includes/faculty-staff-auth.php');
 
 $module = 'profile';
 $userid = $_SESSION['userid'];
@@ -184,25 +184,6 @@ $campus = $_SESSION['campus'];
                                 <div class="input-group input-group-md mb-2">
                                     <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
                                     <input type="text" class="form-control" name="department" value="<?php echo $row['department'] ?>" readonly disabled>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 mb-2">
-                                <div class="input-group input-group-md mb-2">
-                                    <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
-                                    <input type="text" class="form-control" name="college" value="<?php echo $row['college'] ?>" readonly disabled>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <div class="input-group input-group-md mb-2">
-                                    <span class="input-group-text" id="inputGroup-sizing-md">Program:</span>
-                                    <input type="text" class="form-control" name="program" value="<?php echo $row['program'] ?>" readonly disabled>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <div class="input-group input-group-md mb-2">
-                                    <span class="input-group-text" id="inputGroup-sizing-md">Year, Block, Section:</span>
-                                    <input type="text" class="form-control" name="yearlevel" value="<?php echo $row['yearlevel'] . " " . $row['section'] . "-" . $row['block'] ?>" readonly disabled>
                                 </div>
                             </div>
                             <div class="col-md-4 mb-2">
