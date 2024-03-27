@@ -8,6 +8,11 @@
             <form method="POST" action="modals/approve-appointment.php">
                 <div class="modal-body">
                     <input type="text" name="id" value="<?= $id = $data['id'] ?>" hidden>
+                    <input type="text" name="name" value="<?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])) ?>" hidden>
+                    <input type="text" name="date" value="<?php echo date("F d, Y", strtotime($data['date'])) ?>" hidden>
+                    <input type="text" name="time" value="<?php echo date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to'])) ?>" hidden>
+                    <input type="text" name="email" value="<?= $data['email'] ?>" hidden>
+                    <input type="text" name="physician" value="<?= $physician ?>" hidden>
                     <?php
                     $sql = "SELECT * FROM appointment a  INNER JOIN appointment_purpose p ON p.id=a.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE a.id = '$id'";
                     $result = mysqli_query($conn, $sql);
