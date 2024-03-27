@@ -340,7 +340,7 @@ if ($approved_pages > 4) {
                                                                 <td><?php echo $physician; ?></td>
                                                                 <td>
                                                                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#approveappointment<?php echo $data['id'] ?>">Approve</button>
-                                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#disapproveappointment<?php echo $id ?>">Disapprove</button>
+                                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#disapproveappointment<?php echo $data['id'] ?>">Disapprove</button>
                                                                 </td>
                                                             </tr>
                                                         <?php

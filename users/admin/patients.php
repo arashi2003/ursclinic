@@ -57,15 +57,11 @@ include('../../includes/pagination-limit.php')
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <form action="modals/import_patient.php" method="POST" enctype="multipart/form-data">
-                        <div class="input-group">
-                            <input type="file" class="form-control" name="import_file" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" onchange="enableButton()">
-                            <button class="btn btn-primary" type="submit" name="save_excel_data" id="uploadButton" disabled>Upload</button>
-                        </div>
-                    </form>&ThickSpace;
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#patient_bulk">CSV Upload</button>
+                    <?php include('modals/patient_bulk.php'); ?>
+                    &ThickSpace;
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addpatient">Add Patient</button>
                     <?php include('modals/addpatient_modal.php'); ?>
-                    &ThickSpace;
                 </div>
                 <div class="content">
                     <div class="row">

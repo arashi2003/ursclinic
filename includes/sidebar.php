@@ -333,7 +333,7 @@
                             echo 'active';
                         } ?>">
                 <a href="account_users">
-                    <i class='bx bx-file'></i>
+                    <i class='bx bx-user'></i>
                     <span class="link_name">Accounts</span>
                 </a>
                 <ul class="sub-menu blank">

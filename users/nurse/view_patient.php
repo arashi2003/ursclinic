@@ -166,7 +166,6 @@ if ($pages > 4) {
                         $emcon_number = $data['emcon_number'];
                         $address = $data['address'];
                     ?>
-
                         <div class="accordion" id="accordionPanelsStayOpenExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
