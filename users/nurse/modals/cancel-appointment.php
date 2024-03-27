@@ -36,7 +36,7 @@ if ($result) {
     $query = "INSERT INTO audit_trail (user, campus, fullname, activity, status, datetime) VALUES ('$userid', '$au_campus', '$fullname', '$activity', '$au_status', now())";
     mysqli_query($conn, $query) or die(mysqli_error($conn));
 
-    $_SESSION['alert'] = "Appointment has been disapproved";
+    $_SESSION['alert'] = "Appointment has been disapproved!";
 
     // Send email
     $mail = new PHPMailer();
