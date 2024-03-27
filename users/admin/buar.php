@@ -54,6 +54,9 @@ include('../../includes/pagination-limit.php') ?>
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
+                        <div class="schedule-button">
+                            <a href="backup" class="btn btn-primary">Back Up</a>
+                        </div>
                 <div class="content">
                     <div class="col-sm-12">
                         <div class="table-responsive">

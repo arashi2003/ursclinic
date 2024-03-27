@@ -261,20 +261,15 @@
                     <li><a class="link_name" href="appointment">Appointment</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'transaction') {
+            <li class="<?php if ($module == 'history') {
                             echo 'active';
                         } ?>">
-                <div class="icon-link">
-                    <a href="#">
-                        <i class='bx bx-collection'></i>
-                        <span class="link_name">Transaction</span>
-                    </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
-                </div>
-                <ul class="sub-menu">
-                    <li><a class="link_name" href="#">Transaction</a></li>
-                    <li><a href="request">Request</a></li>
-                    <li><a href="history">History</a></li>
+                <a href="history">
+                    <i class='bx bx-collection'></i>
+                    <span class="link_name">Medical Records</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="history">Medical Records</a></li>
                 </ul>
             </li>
         </ul>
@@ -301,20 +296,15 @@
                     <li><a class="link_name" href="appointment">Appointment</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'transaction') {
+            <li class="<?php if ($module == 'history') {
                             echo 'active';
                         } ?>">
-                <div class="icon-link">
-                    <a href="#">
-                        <i class='bx bx-collection'></i>
-                        <span class="link_name">Medical Records</span>
-                    </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
-                </div>
-                <ul class="sub-menu">
-                    <li><a class="link_name" href="#">Medical Records</a></li>
-                    <li><a href="request">Request</a></li>
-                    <li><a href="history">History</a></li>
+                <a href="history">
+                    <i class='bx bx-collection'></i>
+                    <span class="link_name">Medical Records</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="history">Medical Records</a></li>
                 </ul>
             </li>
         </ul>
@@ -333,7 +323,7 @@
                             echo 'active';
                         } ?>">
                 <a href="account_users">
-                    <i class='bx bx-file'></i>
+                    <i class='bx bx-user'></i>
                     <span class="link_name">Accounts</span>
                 </a>
                 <ul class="sub-menu blank">

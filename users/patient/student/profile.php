@@ -223,11 +223,13 @@ $campus = $_SESSION['campus'];
                                     <input type="text" class="form-control" name="contactno" value="<?php echo $row['address'] ?>" readonly disabled>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateacc<?php echo $userid; ?>">Update</button>
-                                <?php
-                                include('modals/update_account_modal.php'); ?>
-                            </div>
+                            <div class="col-md-12 mb-2">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateacc<?php echo $userid; ?>">Update</button>
+                                    <?php
+                                    include('modals/update_account_modal.php'); ?>
+                                </div>
+                    </div>
                         </div>
                     </div>
                 </div>

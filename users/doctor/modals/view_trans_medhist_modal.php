@@ -5,7 +5,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Medical Record</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
             </div>
-            <form method="POST" action="reports/reports_medcert_trans.php" id="form">
+            <form method="POST" action="reports/reports_medcert_trans.php" id="form" target="_blank">
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="datetime" class="form-label">Date and Time:</label>

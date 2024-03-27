@@ -11,10 +11,8 @@
                         <label for="te" class="form-label">Dental Examination:</label>
                         <input type="text" maxlength="200" class="form-control" name="rem_den" id="rem_den">
                     </div>
-                </div>
-                <div class="modal-body">
                     <div class="mb-2">
-                        <label for="te" class="form-label">Medical Examination:</label>
+                        <label for="rem_dem" class="form-label">Medical Examination:</label>
                         <input type="text" class="form-control" maxlength="200"  name="rem_med" id="rem_med">
                     </div>
                 </div>

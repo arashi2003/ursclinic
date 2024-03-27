@@ -1,8 +1,7 @@
 <?php
-$type = $_POST['type'];
-
-if($type == "Walk-In") {
-    include('../add/transaction.php');
+echo $_POST['type']; 
+if($_POST['type'] == "Walk-In") {
+    require('../add/transaction.php');
 } else {
-    include('../add/transaction_medhist.php');
+    require('../add/transaction_medhist.php');
 }

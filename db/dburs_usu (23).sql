@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 26, 2024 at 06:24 AM
+-- Generation Time: Mar 27, 2024 at 10:39 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -2657,7 +2657,9 @@ INSERT INTO `audit_trail` (`id`, `user`, `fullname`, `campus`, `activity`, `stat
 (1997, 'URSN-001', 'DIOSA A. SALVADOR', 'BINANGONAN', 'dismissed a request of B2021-0569', 'unread', '2024-03-25 18:53:20'),
 (2000, 'B2021-0542', 'MARK LOURENCE P. QUILAB', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-26 10:41:09'),
 (2001, 'URS-999', 'DIOSA A. SALVADOR', 'BINANGONAN', 'there are inventory stocks that already expired', 'unread', '2024-03-26 11:40:45'),
-(2002, 'B2021-0542', 'MARK LOURENCE P. QUILAB', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-26 13:17:38');
+(2002, 'B2021-0542', 'MARK LOURENCE P. QUILAB', 'BINANGONAN', 'sent a request for appointment', 'unread', '2024-03-26 13:17:38'),
+(2004, 'URS-999', 'Allen J. Calejo', 'BINANGONAN', 'Logged In', 'unread', '2024-03-27 08:42:10'),
+(2005, 'URS-999', 'ALLEN J. CALEJO', 'BINANGONAN', 'backed up the database', 'unread', '2024-03-27 08:44:01');
 
 -- --------------------------------------------------------
 
@@ -7041,7 +7043,7 @@ ALTER TABLE `appointment_type`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2003;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2006;
 
 --
 -- AUTO_INCREMENT for table `campus`

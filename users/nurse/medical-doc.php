@@ -15,17 +15,28 @@ if ($result) {
                             <h3>Freshmen Medical Documents</h3>
                         </div>
                         <div class="p-2">
-                        <?php
-                            $sql = "SELECT * FROM meddoc WHERE applicant='$patientid' and type='FRESHMEN' AND status != 'Approved'";
-                            $result = mysqli_query($conn, $sql);
-                            if ($result) {
-                                if (mysqli_num_rows($result) > 0) {?>
-                                    <button type="button" class="btn btn-primary" hidden>Download Medical Clearance</button>
-                                <?php } else{?>
-                                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medclearance.php?patientid=<?php echo $patientid ?>');" target="_blank">Download Medical Clearance</button>
-                                <?php }
+                            <?php
+                            // Check if all medical documents are approved
+                            $sql_check_approved = "SELECT COUNT(*) AS total_approved FROM meddoc WHERE applicant='$userid' AND type='FRESHMEN' AND status='Approved'";
+                            $result_check_approved = mysqli_query($conn, $sql_check_approved);
+                            $row_check_approved = mysqli_fetch_assoc($result_check_approved);
+                            $total_approved = $row_check_approved['total_approved'];
+
+                            // Fetch total number of medical documents for OJT of the user
+                            $sql_total_medical_docs = "SELECT COUNT(*) AS total_medical_docs FROM meddoc WHERE applicant='$userid' AND type='FRESHMEN'";
+                            $result_total_medical_docs = mysqli_query($conn, $sql_total_medical_docs);
+                            $row_total_medical_docs = mysqli_fetch_assoc($result_total_medical_docs);
+                            $total_medical_docs = $row_total_medical_docs['total_medical_docs'];
+
+                            if ($total_approved === $total_medical_docs && $total_medical_docs > 0) {
+                                // If all medical documents are approved and there are documents available, show the button
+                            ?>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#medclear<?php echo $patientid; ?>">Export Clearance Slip</button>
+                            <?php
                             }
-                        ?>
+                            include('modals/medclear_modal.php');
+
+                            ?>
                         </div>
                     </div>
                     <div class="row">
@@ -104,19 +115,6 @@ if ($result) {
                         <div class="p-2">
                             <h3>Freshmen Medical Documents</h3>
                         </div>
-                        <div class="p-2">
-                        <?php
-                            $sql = "SELECT * FROM meddoc WHERE applicant='$patientid' and type='FRESHMEN' AND status != 'Approved'";
-                            $result = mysqli_query($conn, $sql);
-                            if ($result) {
-                                if (mysqli_num_rows($result) > 0) {?>
-                                    <button type="button" class="btn btn-primary" hidden>Download Medical Clearance</button>
-                                <?php } else{?>
-                                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medclearance.php?patientid=<?php echo $patientid ?>');" target="_blank">Download Medical Clearance</button>
-                                <?php }
-                            }
-                        ?>
-                        </div>
                     </div>
                     <div class="row">
                         <div class="table-responsive">
@@ -130,6 +128,7 @@ if ($result) {
                                         <th>Status</th>
                                         <th>Remarks</th>
                                         <th>Action</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     <?php
@@ -189,17 +188,26 @@ if ($result) {
                             <h3>Athlete Medical Documents</h3>
                         </div>
                         <div class="p-2">
-                        <?php
-                            $sql = "SELECT * FROM meddoc WHERE applicant='$patientid' and type='ATHLETE' AND status != 'Approved'";
-                            $result = mysqli_query($conn, $sql);
-                            if ($result) {
-                                if (mysqli_num_rows($result) > 0) {?>
-                                    <button type="button" class="btn btn-primary" hidden>Download Medical Certificate</button>
-                                <?php } else{?>
-                                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert.php?patientid=<?php echo $patientid ?>');" target="_blank">Download Medical Certificate</button>
-                                <?php }
-                            }
-                        ?>
+                            <?php
+                            // Check if all medical documents are approved
+                            $sql_check_approved = "SELECT COUNT(*) AS total_approved FROM meddoc WHERE applicant='$userid' AND type='ATHLETE' AND status='Approved'";
+                            $result_check_approved = mysqli_query($conn, $sql_check_approved);
+                            $row_check_approved = mysqli_fetch_assoc($result_check_approved);
+                            $total_approved = $row_check_approved['total_approved'];
+
+                            // Fetch total number of medical documents for OJT of the user
+                            $sql_total_medical_docs = "SELECT COUNT(*) AS total_medical_docs FROM meddoc WHERE applicant='$userid' AND type='ATHLETE'";
+                            $result_total_medical_docs = mysqli_query($conn, $sql_total_medical_docs);
+                            $row_total_medical_docs = mysqli_fetch_assoc($result_total_medical_docs);
+                            $total_medical_docs = $row_total_medical_docs['total_medical_docs'];
+
+                            if ($total_approved === $total_medical_docs && $total_medical_docs > 0) {
+                                // If all medical documents are approved and there are documents available, show the button
+                            ?>
+                                <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert.php?patientid=<?php echo $patientid ?>');" target="_blank">Download Medical Certificate</button>
+                            <?php }
+
+                            ?>
                         </div>
                     </div>
                     <div class="row">
@@ -278,9 +286,6 @@ if ($result) {
                         <div class="p-2">
                             <h3>Freshmen Medical Documents</h3>
                         </div>
-                        <div class="p-2">
-                            <button type="button" class="btn btn-primary" hidden>Download Medical Clearance</button>
-                        </div>
                     </div>
                     <div class="row">
                         <div class="table-responsive">
@@ -353,17 +358,25 @@ if ($result) {
                             <h3>Athlete Medical Documents</h3>
                         </div>
                         <div class="p-2">
-                        <?php
-                            $sql = "SELECT * FROM meddoc WHERE applicant='$patientid' and type='ATHLETE' AND status != 'Approved'";
-                            $result = mysqli_query($conn, $sql);
-                            if ($result) {
-                                if (mysqli_num_rows($result) > 0) {?>
-                                    <button type="button" class="btn btn-primary" hidden>Download Medical Certificate</button>
-                                <?php } else{?>
-                                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert.php?patientid=<?php echo $patientid ?>');" target="_blank">Download Medical Certificate</button>
-                                <?php }
-                            }
-                        ?>
+                            <?php
+                            // Check if all medical documents are approved
+                            $sql_check_approved = "SELECT COUNT(*) AS total_approved FROM meddoc WHERE applicant='$userid' AND type='ATHLETE' AND status='Approved'";
+                            $result_check_approved = mysqli_query($conn, $sql_check_approved);
+                            $row_check_approved = mysqli_fetch_assoc($result_check_approved);
+                            $total_approved = $row_check_approved['total_approved'];
+
+                            // Fetch total number of medical documents for OJT of the user
+                            $sql_total_medical_docs = "SELECT COUNT(*) AS total_medical_docs FROM meddoc WHERE applicant='$userid' AND type='ATHLETE'";
+                            $result_total_medical_docs = mysqli_query($conn, $sql_total_medical_docs);
+                            $row_total_medical_docs = mysqli_fetch_assoc($result_total_medical_docs);
+                            $total_medical_docs = $row_total_medical_docs['total_medical_docs'];
+
+                            if ($total_approved === $total_medical_docs && $total_medical_docs > 0) {
+                                // If all medical documents are approved and there are documents available, show the button
+                            ?>
+                                <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert.php?patientid=<?php echo $patientid ?>');" target="_blank">Download Medical Certificate</button>
+                            <?php }
+                            ?>
                         </div>
                     </div>
                     <div class="row">
@@ -440,17 +453,25 @@ if ($result) {
                             <h3>OJT Medical Documents</h3>
                         </div>
                         <div class="p-2">
-                        <?php
-                            $sql = "SELECT * FROM meddoc WHERE applicant='$patientid' and type='OJT' AND status != 'Approved'";
-                            $result = mysqli_query($conn, $sql);
-                            if ($result) {
-                                if (mysqli_num_rows($result) > 0) {?>
-                                    <button type="button" class="btn btn-primary" hidden>Download Medical Certificate</button>
-                                <?php } else{?>
-                                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert.php?patientid=<?php echo $patientid ?>');" target="_blank">Download Medical Certificate</button>
-                                <?php }
-                            }
-                        ?>
+                            <?php
+                            // Check if all medical documents are approved
+                            $sql_check_approved = "SELECT COUNT(*) AS total_approved FROM meddoc WHERE applicant='$userid' AND type='OJT' AND status='Approved'";
+                            $result_check_approved = mysqli_query($conn, $sql_check_approved);
+                            $row_check_approved = mysqli_fetch_assoc($result_check_approved);
+                            $total_approved = $row_check_approved['total_approved'];
+
+                            // Fetch total number of medical documents for OJT of the user
+                            $sql_total_medical_docs = "SELECT COUNT(*) AS total_medical_docs FROM meddoc WHERE applicant='$userid' AND type='OJT'";
+                            $result_total_medical_docs = mysqli_query($conn, $sql_total_medical_docs);
+                            $row_total_medical_docs = mysqli_fetch_assoc($result_total_medical_docs);
+                            $total_medical_docs = $row_total_medical_docs['total_medical_docs'];
+
+                            if ($total_approved === $total_medical_docs && $total_medical_docs > 0) {
+                                // If all medical documents are approved and there are documents available, show the button
+                            ?>
+                                <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert.php?patientid=<?php echo $patientid ?>');" target="_blank">Download Medical Certificate</button>
+                            <?php }
+                            ?>
                         </div>
                     </div>
                     <div class="row">

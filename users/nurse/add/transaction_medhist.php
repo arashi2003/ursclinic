@@ -49,8 +49,8 @@
     $gp = $_POST['gp'];
     $scaling_polish	 = $_POST['scaling_polish'];
     $dento_facial = $_POST['dento_facial'];
-    $remarks = $_POST['remarks'];
-    $referral = $_POST['referral'];
+    $remarks = $_POST['remark'];
+    $referral = $_POST['refer'];
     $enddate = date("Y-m-t");
     $med_case = $_POST['medcase'];
     $pod_nod = $fullname;

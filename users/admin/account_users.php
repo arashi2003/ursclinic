@@ -57,6 +57,9 @@ include('../../includes/pagination-limit.php')
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#account_bulk">CSV Upload</button>
+                    <?php include('modals/account_bulk.php'); ?>
+                    &ThickSpace;
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addaccount">Add Account</button>
                     <?php include('modals/addaccount_modal.php'); ?>
                     &ThickSpace;
