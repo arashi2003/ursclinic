@@ -169,10 +169,10 @@ if ($pages > 4) {
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-4">
                                             <div class="input-group mb-2">
                                                 <input type="text" name="te" value="<?= isset($_GET['te']) == true ? $_GET['te'] : '' ?>" class="form-control" placeholder="Search tool/equipment entry">
                                                 <button type="submit" class="btn btn-primary">Search</button>

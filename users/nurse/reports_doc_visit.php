@@ -199,10 +199,10 @@ if ($pages > 4) {
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <form action="reports_filter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-10 mb-2">
+                                        <div class="col-md-2 mb-2">
                                             <select name="reports" class="form-select">
                                                 <option value="" disabled selected>Select Report</option>
                                                 <option value="appointment">Appointment Report</option>
@@ -221,10 +221,10 @@ if ($pages > 4) {
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col">
                                 <form action="" method="GET" id="filterForm">
                                     <div class="row">
-                                        <div class="col-md-4 mb-2">
+                                        <div class="col-md-2 mb-2">
                                             <select name="physician" class="form-select">
                                                 <option value="" selected disabled>-Select Physician-</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>

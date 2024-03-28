@@ -147,30 +147,31 @@ if ($pages > 4) {
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addccmain">Add Entry</button>
-                    <?php include('modals/addccmain_modal.php'); ?>
+                <div class="inv-tabs">
+                    <div class="tabs">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Chief Complaint</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="findings">Findings/Diagnosis</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="medcase_set">Medical Case</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="designation">Designation</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addccmain">Add Entry</button>
+                        <?php include('modals/addccmain_modal.php'); ?>
+                    </div>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-4">
-                                <form action="medrec_filter.php" method="POST">
-                                    <div class="row">
-                                        <div class="col-md-10 mb-2">
-                                            <select name="medrec" class="form-select">
-                                                <option value="cc" selected>Chief Complaint</option>
-                                                <option value="findings">Findings/Diagnosis</option>
-                                                <option value="medcase">Medical Case</option>
-                                                <option value="designation">Designation</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2 mb-2">
-                                            <button type="submit" class="btn btn-primary">View</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
                             <div class="col-md-4">
                                 <form action="" method="get">
                                     <div class="row">

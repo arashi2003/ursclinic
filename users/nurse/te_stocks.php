@@ -180,16 +180,16 @@ if ($pages > 4) {
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-5 mb-2">
+                                        <div class="col-md-4 mb-2">
                                             <div class="input-group">
                                                 <input type="text" name="te" value="<?= isset($_GET['te']) == true ? $_GET['te'] : '' ?>" class="form-control" placeholder="Search tool/equipment">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 mb-2">
+                                        <div class="col-md-2 mb-2">
                                             <select name="te_status" class="form-select">
                                                 <option value="" selected disabled>Select Status</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
