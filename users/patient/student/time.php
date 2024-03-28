@@ -24,4 +24,3 @@ if(isset($_POST['time_from'])) {
     // If POST data is not set, return an error message
     echo "Error: No data received";
 }
-?>
