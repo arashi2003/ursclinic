@@ -3,8 +3,8 @@ session_start();
 include('connection.php');
 
 $date = date("Y-m-d", strtotime($_POST['date']));
-$time_from = date("h:i:s", strtotime($_POST['time_from']));
-$time_to =  date("h:i:s", strtotime($_POST['time_to']));
+$time_from = date("H:i:s", strtotime($_POST['time_from']));
+$time_to =  date("H:i:s", strtotime($_POST['time_from']));
 $patient  = $_SESSION['userid'];
 $type  = $_POST['appointment'];
 $purpose = $_POST['purpose'];

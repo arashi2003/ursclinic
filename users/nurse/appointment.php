@@ -337,8 +337,8 @@ if ($approved_pages > 4) {
                                                                 <td><?php echo $id = $data['id']; ?></td>
                                                                 <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
                                                                 <td><?php echo date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to'])) ?></td>
-                                                                <td><?php echo $id = $data['type']; ?></td>
-                                                                <td><?php echo $id = $data['purpose']; ?></td>
+                                                                <td><?php echo  $data['type']; ?></td>
+                                                                <td><?php echo  $data['purpose']; ?></td>
                                                                 <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])) ?></td>
                                                                 <td><?php echo $physician; ?></td>
                                                                 <td>
@@ -464,6 +464,7 @@ if ($approved_pages > 4) {
                                                     <th>Patient</th>
                                                     <th>Physician</th>
                                                     <th>Action</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
                                                 <?php

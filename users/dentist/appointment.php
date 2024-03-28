@@ -7,6 +7,7 @@ include('../../includes/dentist-auth.php');
 $module = 'appointment';
 $userid = $_SESSION['userid'];
 $name = $_SESSION['username'];
+$fullname = $_SESSION['name'];
 $usertype = $_SESSION['usertype'];
 $today = date("Y-m-d");
 
@@ -30,13 +31,13 @@ if (isset($_GET['patient']) || isset($_GET['date'])) {
     $approved_sql_count = "SELECT COUNT(ap.id) AS total_rows 
                        FROM appointment ap 
                        INNER JOIN account ac ON ac.accountid = ap.patient
-                       WHERE campus ='$campus' AND ap.status = 'APPROVED' and date < '$today' $whereClause";
+                       WHERE campus ='$campus' AND ap.status = 'APPROVED' AND physician = '$fullname' and date < '$today' $whereClause";
 } else {
     // Count all approved appointments
     $approved_sql_count = "SELECT COUNT(ap.id) AS total_rows 
                            FROM appointment ap 
                            INNER JOIN account ac ON ac.accountid = ap.patient
-                           WHERE ap.status = 'APPROVED' AND date < '$today'";
+                           WHERE ap.status = 'APPROVED' AND physician = '$fullname' AND date < '$today'";
 }
 
 // Execute the count queries for pending and approved appointments
@@ -186,16 +187,16 @@ if ($approved_pages > 4) {
                                         if (isset($_GET['patient']) && $_GET['patient'] != '') {
                                             $patient = $_GET['patient'];
                                             $count = 1;
-                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE (CONCAT(ac.firstname, ' ', ac.middlename, ' ' ,ac.lastname) LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.lastname) LIKE '%$patient%') AND ap.status='APPROVED' AND date > '$today' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE (CONCAT(ac.firstname, ' ', ac.middlename, ' ' ,ac.lastname)  LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.lastname) LIKE '%$patient%') AND ap.status='APPROVED' AND date > '$today'  AND physician = '$fullname' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['date']) && $_GET['date'] != '') {
                                             $date = $_GET['date'];
                                             $count = 1;
-                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' AND ap.status='APPROVED'  AND physician = '$fullname' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.status='APPROVED' AND date > '$today' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.status='APPROVED' AND date > '$today'  AND physician = '$fullname' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {

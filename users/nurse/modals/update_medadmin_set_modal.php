@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" value="Add Medicine Administration"></input>
+                    <input type="submit" class="btn btn-primary" value="Save"></input>
                 </div>
             </form>
         </div>

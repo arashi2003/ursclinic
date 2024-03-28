@@ -10,13 +10,39 @@
                     <label for="datetime" class="form-label">Date and Time:</label>
                     <input type="text" class="form-control" name="datetime" value="<?php echo date("F d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'])) ?>" id="datetime" disabled>
                 </div>
-                <div class="mb-2">
-                    <label for="transaction" class="form-label">Transaction:</label>
-                    <input type="text" class="form-control" name="transaction" value="<?php echo $data['transaction'] ?>" id="transaction" disabled>
+                <div class="row">
+                    <div class="col mb-2">
+                        <label for="transaction" class="form-label">Transaction:</label>
+                        <input type="text" class="form-control" name="transaction" value="<?php echo $data['transaction'] ?>" id="transaction" disabled>
+                    </div>
+                    <div class="col mb-2">
+                        <label for="purpose" class="form-label">Service:</label>
+                        <input type="text" class="form-control" name="purpose" value="<?php echo $data['purpose'] ?>" id="purpose" disabled>
+                    </div>
                 </div>
-                <div class="mb-2">
-                    <label for="purpose" class="form-label">Service:</label>
-                    <input type="text" class="form-control" name="purpose" value="<?php echo $data['purpose'] ?>" id="purpose" disabled>
+                <div class="row">
+                    <div class="col mb-2">
+                        <label for="pr" class="form-label">Blood Pressure:</label>
+                        <input type="text" class="form-control" name="bp" value="<?php echo $data['bp'] ?>" id="bp" disabled>
+                    </div>
+                    <div class="col mb-2">
+                        <label for="pr" class="form-label">Pulse Rate:</label>
+                        <input type="text" class="form-control" name="pr" value="<?php echo $data['pr'] ?>" id="pr" disabled>
+                    </div>
+                    <div class="col mb-2">
+                        <label for="te" class="form-label">Temperature:</label>
+                        <input type="text" class="form-control" name="temp" value="<?php echo $data['temp'] ?>" id="temp" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mb-2">
+                        <label for="pr" class="form-label">Respiratory Rate:</label>
+                        <input type="text" class="form-control" name="respiratory" value="<?php echo $data['respiratory'] ?>" id="respiratory" disabled>
+                    </div>
+                    <div class="col mb-2">
+                        <label for="pr" class="form-label">Oxygen Saturation:</label>
+                        <input type="text" class="form-control" name="oxygen" value="<?php echo $data['oxygen_saturation'] ?>" id="oxygen" disabled>
+                    </div>
                 </div>
                 <div class="mb-2">
                     <label for="chief_complaint" class="form-label">Chief Complaints:</label>

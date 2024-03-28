@@ -41,7 +41,7 @@
             $this->SetFont('Arial', '', 10);
             $this->Cell(0, 5, '', 0, 1);
 
-            $sql = "SELECT * FROM treatment_record WHERE patientid='$patientid'";
+            $sql = "SELECT * FROM treatment_record WHERE patientid='$patientid' LIMIT 1";
             $result = mysqli_query($conn, $sql);
             while($data=mysqli_fetch_array($result))
             {
