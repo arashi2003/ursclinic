@@ -64,12 +64,12 @@
         { 
             $medcase =  $_POST['medcase'];
             $medcase_type = $data['type'];
-            $medcase_others = $_POST['medcase_others'];
+            $medcase_others = $_POST['medcase_other'];
         }
         else
         {
             $medcase_type ="others";
-            $medcase_others = $_POST['medcase_others'];
+            $medcase_others = $_POST['medcase_other'];
             $medcase = $medcase_others;
         }
     }
@@ -90,12 +90,12 @@
             { 
                 $medcase =  $_POST['medcase'];
                 $medcase_type = $data['type'];
-                $medcase_others = $_POST['medcase_others'];
+                $medcase_others = $_POST['medcase_other'];
             }
             else
             {
                 $medcase_type ="others";
-                $medcase_others = $_POST['medcase_others'];
+                $medcase_others = $_POST['medcase_other'];
                 $medcase = $medcase_others;
             }
         }
@@ -120,12 +120,12 @@
                 { 
                     $medcase =  $_POST['medcase'];
                     $medcase_type = $data['type'];
-                    $medcase_others = $_POST['medcase_others'];
+                    $medcase_others = $_POST['medcase_other'];
                 }
                 else
                 {
                     $medcase_type ="others";
-                    $medcase_others = $_POST['medcase_others'];
+                    $medcase_others = $_POST['medcase_other'];
                     $medcase = $medcase_others;
                 }
             }
@@ -311,12 +311,12 @@
                 { 
                     $medcase =  $_POST['medcase'];
                     $medcase_type = $data['type'];
-                    $medcase_others = $_POST['medcase_others'];
+                    $medcase_others = $_POST['medcase_other'];
                 }
                 else
                 {
                     $medcase_type ="others";
-                    $medcase_others = $_POST['medcase_others'];
+                    $medcase_others = $_POST['medcase_other'];
                     $medcase = $medcase_others;
                 }
             }

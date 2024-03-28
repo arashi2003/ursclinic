@@ -39,24 +39,10 @@ $transaction = "Walk-In";
 $purpose = $_POST['service'];
 $chief_complaint = $_POST['chief_complaint'] . " " . $_POST['chief_complaint_others'];
 $findiag = $_POST['findiag'] . " " . $_POST['findiag_others'];
-echo $remarks = $_POST['remarks'];
-echo $referral = $_POST['referral'];
-$med_case = $_POST['medcase'];
+$remarks = $_POST['remarks'];
+$referral = $_POST['referral'];
 $pod_nod = $fullname;
 
-$sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
-$result = mysqli_query($conn, $sql);
-while ($data = mysqli_fetch_array($result)) {
-    if ($data['medcase'] != 'Others:') {
-        $medcase =  $_POST['medcase'];
-        $medcase_type = $data['type'];
-        $medcase_others = $_POST['medcase_others'];
-    } else {
-        $medcase_type = "others";
-        $medcase_others = $_POST['medcase_others'];
-        $medcase = $medcase_others;
-    }
-}
 
 $datenow = date("Y-m-d");
 $enddate = date("Y-m-t");
@@ -105,6 +91,20 @@ if (!empty($_POST['supply'])) {
 // Combine issued medicine and supply statements into a single statement
 $medsup = rtrim($issued_medicine_statement . ", " . $issued_supply_statement, ", ");
 
+$med_case = $_POST['medcase'];
+$sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
+$result = mysqli_query($conn, $sql);
+while ($data = mysqli_fetch_array($result)) {
+    if ($data['medcase'] != 'Others:') {
+        $medcase =  $data['medcase'];
+        $medcase_type = $data['type'];
+        echo $medcase_others = $_POST['medcase_others'];
+    } else {
+        $medcase_type = "others";
+        $medcase_others = $_POST['medcase_others'];
+        echo $medcase = $_POST['medcase_others'];
+    }
+}
 // Insert transaction history
 $query = "INSERT INTO transaction_history (patient, firstname, middlename, lastname, designation, age, sex, department, college, program, yearlevel, section, block, type, transaction, purpose,  bp, pr, temp, respiratory, oxygen_saturation, chief_complaint, findiag, remarks, referral, medsup, pod_nod, medcase, medcase_others, campus, datetime) 
     VALUES ('$patientid', '$firstname', '$middlename', '$lastname', '$designation', '$age', '$sex', '$department', 
@@ -238,20 +238,20 @@ if (!empty($_POST['supply']) && isset($_POST['supply'])) {
 
 // check if may existing na
 $enddate = date("Y-m-t");
-
+$campus = $_SESSION['campus'];
 //kunin medcase as text
 $medcase = $_POST['medcase'];
 $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
 $result = mysqli_query($conn, $sql);
 while ($data = mysqli_fetch_array($result)) {
     if ($data['medcase'] != 'Others:') {
-        $medcase =  $_POST['medcase'];
+        $medcase =  $data['medcase'];
         $medcase_type = $data['type'];
         $medcase_others = $_POST['medcase_others'];
     } else {
         $medcase_type = "others";
         $medcase_others = $_POST['medcase_others'];
-        $medcase = $medcase_others;
+        $medcase = $_POST['medcase_others'];
     }
 }
 
@@ -261,6 +261,7 @@ if (mysqli_num_rows($result) > 0) {
     // fetch data ng existing entry
 
     $enddate = date("Y-m-t");
+    $campus = $_SESSION['campus'];
     $designation = strtoupper($_POST['designation']);
     $sex = strtoupper($_POST['sex']);
 
@@ -270,17 +271,17 @@ if (mysqli_num_rows($result) > 0) {
     $result = mysqli_query($conn, $sql);
     while ($data = mysqli_fetch_array($result)) {
         if ($data['medcase'] != 'Others:') {
-            $medcase =  $_POST['medcase'];
+            $medcase =  $data['medcase'];
             $medcase_type = $data['type'];
             $medcase_others = $_POST['medcase_others'];
         } else {
             $medcase_type = "others";
             $medcase_others = $_POST['medcase_others'];
-            $medcase = $medcase_others;
+            $medcase = $_POST['medcase_others'];
         }
     }
 
-    $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate' AND campu='$campus'";
+    $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate' AND campus='$campus'";
     $result = mysqli_query($conn, $sql);
     while ($data = mysqli_fetch_array($result)) {
         // check san sya i-add na column sa database
@@ -346,6 +347,7 @@ if (mysqli_num_rows($result) > 0) {
 
     $designation = strtoupper($_POST['designation']);
     $sex = strtoupper($_POST['sex']);
+    $campus = $_SESSION['campus'];
     // check san sya i-add na column sa database
     switch (true) {
         case ($designation == "STUDENT" and $sex == "MALE"): {
@@ -406,13 +408,13 @@ if (mysqli_num_rows($result) > 0) {
     $result = mysqli_query($conn, $sql);
     while ($data = mysqli_fetch_array($result)) {
         if ($data['medcase'] != 'Others:') {
-            $medcase =  $_POST['medcase'];
+            $medcase =  $data['medcase'];
             $medcase_type = $data['type'];
             $medcase_others = $_POST['medcase_others'];
         } else {
             $medcase_type = "others";
             $medcase_others = $_POST['medcase_others'];
-            $medcase = $medcase_others;
+            $medcase =  $_POST['medcase_others'];
         }
     }
 

@@ -444,7 +444,7 @@
                         </div>
                         <div class="mb-2">
                             <label for="" class="form-label">Others:</label>
-                            <input type="text" maxlength="45" class="form-control" name="medcase_others" id="medcase_others">
+                            <input type="text" maxlength="45" class="form-control" name="medcase_other" id="medcase_other">
                         </div>
                     </div>
 
