@@ -5,7 +5,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Appointment Details</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="modals/approve-appointment.php">
+            <form method="POST" action="../add/record-app-medsup.php">
                 <div class="modal-body">
                     <input type="text" name="id" value="<?= $data['id'] ?>" hidden>
                     <?php
@@ -172,7 +172,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" value="Approve"></input>
+                    <input type="submit" class="btn btn-primary" value="Record"></input>
                 </div>
             </form>
         </div>

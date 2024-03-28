@@ -147,7 +147,7 @@ if ($result) {
 ?>
     <script>
         setTimeout(function() {
-            window.location = "../appointment?tab=approved";
+            window.location = "../appointment?tab=pending";
         });
     </script>
 <?php

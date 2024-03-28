@@ -112,7 +112,7 @@ if ($pages > 4) {
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
                 <span class="dashboard">
-                    <H2>CALIBRATION AND MAINTENANCE REPORT</H2>
+                    CALIBRATION AND MAINTENANCE REPORT
                 </span>
             </div>
             <div class="right-nav">

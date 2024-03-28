@@ -13,7 +13,7 @@ if(isset($_POST['time_from'])) {
     if ($result) {
         // Loop through the results and generate the options
         while ($row = mysqli_fetch_array($result)) {
-            $output .= '<option value="' . $row['time'] . '">' . date('g:i A', strtotime($row['time'])) .  '</option>';
+            $output .= '<option value="' . date("H:i:s", strtotime($row['time'])) . '">' . date('g:i A', strtotime($row['time'])) .  '</option>';
         }
         echo $output;
     } else {

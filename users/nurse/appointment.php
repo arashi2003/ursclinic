@@ -464,6 +464,7 @@ if ($approved_pages > 4) {
                                                     <th>Patient</th>
                                                     <th>Physician</th>
                                                     <th>Action</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
                                                 <?php

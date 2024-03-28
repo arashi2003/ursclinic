@@ -38,7 +38,11 @@ $type = "Walk-In";
 $transaction = "Walk-In";
 $purpose = $_POST['service'];
 $chief_complaint = $_POST['chief_complaint'] . " " . $_POST['chief_complaint_others'];
-$findiag = $_POST['findiag'] . " " . $_POST['findiag_others'];
+if (!empty($_POST['findiag'])) {
+    $findiag = $_POST['findiag'] . " " . $_POST['findiag_others'];
+} else {
+    $findiag = "";
+}
 $remarks = $_POST['remarks'];
 $referral = $_POST['referral'];
 $pod_nod = $fullname;
@@ -98,11 +102,11 @@ while ($data = mysqli_fetch_array($result)) {
     if ($data['medcase'] != 'Others:') {
         $medcase =  $data['medcase'];
         $medcase_type = $data['type'];
-        echo $medcase_others = $_POST['medcase_others'];
+        $medcase_others = $_POST['medcase_others'];
     } else {
         $medcase_type = "others";
         $medcase_others = $_POST['medcase_others'];
-        echo $medcase = $_POST['medcase_others'];
+        $medcase = $_POST['medcase_others'];
     }
 }
 // Insert transaction history
@@ -137,35 +141,20 @@ if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
                 // Update report_medsupinv
                 $query3 = "SELECT * FROM report_medsupinv WHERE medid = '$medicine' AND type = 'medicine' AND date = '$enddate' AND campus = '$campus' AND eqty > 0";
                 $result = mysqli_query($conn, $query3);
-                while ($data = mysqli_fetch_assoc($result)) {
+                while ($row = mysqli_fetch_assoc($result)) {
                     // Update report_medsupinv
                     $qty = $quantities[$key];
-                    $aotqty = $data['tqty'];
-                    $aieqty = $data['eqty'];
-                    $aiiamt = $data['iamt'];
-                    $aiiqty = $data['iqty'];
-                    $aieamt = $data['eamt']; //buc
-                    $cost = $data['eamt'] / $data['eqty'];
+                    $eqty = $row['eqty'] - $qty;
+                    $aeqty = $row['iqty'];
 
-                    $tqty = $aotqty - $qty;
-                    $eqty = $data['eqty'] - $qty;
-
-                    if ($data['tqty'] == 0) {
-                        $aobuc = 0;
-                        $abuc = number_format($aobuc, 2, ".");
-                    } else {
-                        $aobuc = ($data['eamt'] - ($qty * $cost)) / $eqty;
-                        $abuc = number_format($aobuc, 2, ".");
+                    $query3 = "SELECT * FROM inv_total WHERE stockid = '$medicine' AND type = 'medicine' AND campus = '$campus'";
+                    $result = mysqli_query($conn, $query3);
+                    while ($data = mysqli_fetch_assoc($result)) {
+                        $cost = $data['unit_cost'];
                     }
-                    $aeamt = $eqty * $aobuc;
-                    if ($data['iqty'] == 0) {
-                        $iamt =  $qty * $aobuc;
-                        $iqty =  $qty;
-                    } else {
-                        $iqty = $data['iqty'] + $qty;
-                        $iamt = $iqty * ($aeamt / $eqty);
-                    }
-                    $query4 = "UPDATE report_medsupinv SET iqty = '$iqty', iamt = '$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$medicine' AND date = '$enddate' AND type = 'medicine' AND campus = '$campus'";
+                    $aeamt = $eqty * $cost;
+                    $iamt = ($aeqty + $qty) * $cost;
+                    $query4 = "UPDATE report_medsupinv SET iqty = iqty + '$qty', iamt = '$iamt', eqty = eqty - '$qty', eamt = '$aeamt' WHERE medid = '$medicine' AND date = '$enddate' AND type = 'medicine' AND campus = '$campus'";
                     mysqli_query($conn, $query4);
                 }
             } else {
@@ -202,31 +191,16 @@ if (!empty($_POST['supply']) && isset($_POST['supply'])) {
                 while ($data = mysqli_fetch_assoc($result)) {
                     // Update report_medsupinv
                     $qty = $quantities_sup[$key];
-                    $aotqty = $data['tqty'];
-                    $aieqty = $data['eqty'];
-                    $aiiamt = $data['iamt'];
-                    $aiiqty = $data['iqty'];
-                    $aieamt = $data['eamt']; //buc
-                    $cost = $data['eamt'] / $data['eqty'];
+                    $eqty = $row['eqty'] - $qty;
+                    $aeqty = $row['iqty'];
 
-                    $tqty = $aotqty - $qty;
-                    $eqty = $data['eqty'] - $qty;
-
-                    if ($data['tqty'] == 0) {
-                        $aobuc = 0;
-                        $abuc = number_format($aobuc, 2, ".");
-                    } else {
-                        $aobuc = ($data['eamt'] - ($qty * $cost)) / $eqty;
-                        $abuc = number_format($aobuc, 2, ".");
+                    $query3 = "SELECT * FROM inv_total WHERE stockid = '$supply' AND type = 'supply' AND campus = '$campus'";
+                    $result = mysqli_query($conn, $query3);
+                    while ($data = mysqli_fetch_assoc($result)) {
+                        $cost = $data['unit_cost'];
                     }
-                    $aeamt = $eqty * $aobuc;
-                    if ($data['iqty'] == 0) {
-                        $iamt =  $qty * $aobuc;
-                        $iqty =  $qty;
-                    } else {
-                        $iqty = $data['iqty'] + $qty;
-                        $iamt = $iqty * ($aeamt / $eqty);
-                    }
+                    $aeamt = $eqty * $cost;
+                    $iamt = ($aeqty + $qty) * $cost;
                     $query4 = "UPDATE report_medsupinv SET iqty = '$iqty', iamt = '$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$supply' AND date = '$enddate' AND type = 'supply' AND campus = '$campus'";
                     mysqli_query($conn, $query4);
                 }

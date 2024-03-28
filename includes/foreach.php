@@ -142,19 +142,19 @@ if ($resultCheck > 0) {
 }
 
 //auto dismiss appointment
-$query = "SELECT * FROM appointment WHERE appointment.status='PENDING' AND date <= '$today'";
+$query = "SELECT * FROM appointment WHERE appointment.status='PENDING' AND date < '$today'";
 $result = mysqli_query($conn, $query);
 $resultCheck = mysqli_num_rows($result);
 if ($resultCheck > 0) {
     foreach ($result as $data) {
         $today = date("Y-m-d");
 
-        $query = "SELECT * FROM appointment WHERE appointment.status='PENDING' AND date <= '$today'";
+        $query = "SELECT * FROM appointment WHERE appointment.status='PENDING' AND date < '$today'";
         $result = mysqli_query($conn, $query);
         $resultCheck = mysqli_num_rows($result);
         if ($resultCheck > 0) {
             foreach ($result as $data) {
-                $sql = "UPDATE appointment SET status='DISMISSED', reason='Dismissed due to exceeding the requested date.', created_at='$today' WHERE status='PENDING' AND date <= '$today'";
+                $sql = "UPDATE appointment SET status='DISMISSED', reason='Dismissed due to exceeding the requested date.', created_at='$today' WHERE status='PENDING' AND date < '$today'";
                 if (mysqli_query($conn, $sql)) {
                     $query = "SELECT * FROM appointment WHERE appointment.status='DISMISSED' AND created_at = '$today'";
                     $result = mysqli_query($conn, $query);
@@ -165,6 +165,39 @@ if ($resultCheck > 0) {
                         $au_status = "unread";
                         $patient = $data['patient'];
                         $activity = 'dismissed a request of ' . $patient;
+                        $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
+                        mysqli_query($conn, $sql);
+                    }
+                }
+            }
+        }
+    }
+}
+
+//auto cancel appointment
+$query = "SELECT * FROM appointment WHERE appointment.status='APPROVED' AND date < '$today'";
+$result = mysqli_query($conn, $query);
+$resultCheck = mysqli_num_rows($result);
+if ($resultCheck > 0) {
+    foreach ($result as $data) {
+        $today = date("Y-m-d");
+
+        $query = "SELECT * FROM appointment WHERE appointment.status='APPROVED' AND date < '$today'";
+        $result = mysqli_query($conn, $query);
+        $resultCheck = mysqli_num_rows($result);
+        if ($resultCheck > 0) {
+            foreach ($result as $data) {
+                $sql = "UPDATE appointment SET status='CANCELLED', reason='The appointment had to be cancelled as it was not fulfilled within the allocated timeframe.', created_at='$today' WHERE status='APPROVED' AND date < '$today'";
+                if (mysqli_query($conn, $sql)) {
+                    $query = "SELECT * FROM appointment WHERE appointment.status='DISMISSED' AND created_at = '$today'";
+                    $result = mysqli_query($conn, $query);
+                    while ($data = mysqli_fetch_array($result)) {
+                        $user = $_SESSION['userid'];
+                        $campus = $_SESSION['campus'];
+                        $fullname = strtoupper($_SESSION['name']);
+                        $au_status = "unread";
+                        $patient = $data['patient'];
+                        $activity = 'cancelled an appointment of ' . $patient;
                         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
                         mysqli_query($conn, $sql);
                     }
