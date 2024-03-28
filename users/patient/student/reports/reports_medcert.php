@@ -386,6 +386,6 @@
 
 
     $filename = "Medical_Certificate_". $account_no . ".pdf";
-    $pdf->Output($filename, 'I');
+    $pdf->Output($filename, 'D');
     mysqli_close($conn);
 ?>

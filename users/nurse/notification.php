@@ -98,7 +98,7 @@ include('../../includes/pagination-limit.php');
                             <main>
                                 <?php
 
-                                $query = $conn->prepare("SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image FROM audit_trail au INNER JOIN account ac ON ac.accountid = au.user INNER JOIN patient_image i ON i.patient_id = au.user WHERE ((au.activity LIKE '%added a walk-in schedule%' AND au.activity LIKE '%$campus%') OR (au.activity LIKE '%cancelled a walk-in schedule%' AND au.activity LIKE '%$campus%') OR au.activity LIKE 'sent%' OR au.activity LIKE 'cancelled%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%expired%') AND au.status='unread' AND au.user != ? ORDER BY au.datetime DESC");
+                                $query = $conn->prepare("SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.usertype, ac.lastname, ac.campus, i.image FROM audit_trail au INNER JOIN account ac ON ac.accountid = au.user INNER JOIN patient_image i ON i.patient_id = au.user WHERE ((au.activity LIKE '%added a walk-in schedule%' AND au.activity LIKE '%$campus%') OR (au.activity LIKE '%cancelled a walk-in schedule%' AND au.activity LIKE '%$campus%') OR au.activity LIKE 'sent%' OR au.activity LIKE 'cancelled%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%expired%') AND au.status='unread' AND au.user != ? ORDER BY au.datetime DESC");
                                 $query->bind_param('s', $userid);
                                 $query->execute();
                                 $result = $query->get_result();
@@ -123,7 +123,11 @@ include('../../includes/pagination-limit.php');
                                             $dt = date("g:i A", strtotime($data['datetime']));
                                         }
 
-                                        $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
+                                        if ($data['usertype'] == 'ADMIN') {
+                                            $fullname = "SYSTEM ALERT! ";
+                                        } else {
+                                            $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
+                                        }
                                         $act1 = rtrim($data['activity'], "of $userid");
                                         $act2 = rtrim($act1, "for $campus");
                                         $act3 = rtrim($act2, "for ALL");
