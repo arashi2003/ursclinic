@@ -216,10 +216,10 @@ if ($pages > 4) {
                                             </select>
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control" name="date_from" id="from" placeholder="Date From">
+                                            <input type="text" class="form-control" name="date_from" id="from" placeholder="Date From" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>">
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control" name="date_to" id="to" placeholder="Date To">
+                                            <input type="text" class="form-control" name="date_to" id="to" placeholder="Date To" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>">
                                         </div>
                                         <div class="col-md-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>

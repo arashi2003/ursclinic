@@ -155,30 +155,41 @@ if ($pages > 4) {
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addsupstocks">Add Entry</button>
-                    <?php include('modals/nurseaddsupstocks_total_modal.php'); ?>
+                <div class="inv-tabs">
+                    <div class="tabs">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link" href="med_stocks_total">Medicine</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Medical Supply</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="te_stocks">Tools and Equipment</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addsupstocks">Add Entry</button>
+                        <?php include('modals/nurseaddsupstocks_total_modal.php'); ?>
+                    </div>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
                             <div class="col-md-4">
-                                <form action="stocks_filter.php" method="POST">
+                                <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-10 mb-2">
-                                            <select name="stocks" class="form-select">
-                                                <option value="medicine">Medicine Stocks</option>
-                                                <option value="supply" selected>Medical Supply Stocks</option>
-                                                <option value="te">Tools and Equipment Stocks</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2 mb-2">
-                                            <button type="submit" class="btn btn-primary">View</button>
+                                        <div class="col-md-12">
+                                            <div class="input-group mb-2">
+                                                <input type="text" name="supply" value="<?= isset($_GET['supply']) == true ? $_GET['supply'] : '' ?>" class="form-control" placeholder="Search medical supply">
+                                                <button type="submit" class="btn btn-primary">Search</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <form action="supinv_viewfilter.php" method="POST">
                                     <div class="row">
                                         <div class="col-md-10 mb-2">
@@ -190,18 +201,6 @@ if ($pages > 4) {
                                         </div>
                                         <div class="col-md-2 mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-md-4">
-                                <form action="" method="get">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="input-group mb-2">
-                                                <input type="text" name="supply" value="<?= isset($_GET['supply']) == true ? $_GET['supply'] : '' ?>" class="form-control" placeholder="Search medical supply">
-                                                <button type="submit" class="btn btn-primary">Search</button>
-                                            </div>
                                         </div>
                                     </div>
                                 </form>

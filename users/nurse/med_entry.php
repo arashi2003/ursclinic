@@ -155,29 +155,28 @@ if ($pages > 4) {
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmedentry">Add Entry</button>
-                    <?php include('modals/nurseaddmedentrymodal.php'); ?>
+                <div class="inv-tabs">
+                    <div class="tabs">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Medicine</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="sup_entry">Medical Supply</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="te_entry">Tools and Equipment</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmedentry">Add Entry</button>
+                        <?php include('modals/nurseaddmedentrymodal.php'); ?>
+                    </div>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-3">
-                                <form action="entry_filter.php" method="POST">
-                                    <div class="row">
-                                        <div class="col-md-8 mb-2">
-                                            <select name="entry" class="form-select">
-                                                <option value="medicine" selected>Medicine Entry</option>
-                                                <option value="supply">Medical Supply Entry</option>
-                                                <option value="te">Tools and Equipment Entry</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4 mb-2">
-                                            <button type="submit" class="btn btn-primary">View</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
                             <div class="col-md-9">
                                 <form action="" method="get">
                                     <div class="row">

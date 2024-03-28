@@ -158,34 +158,33 @@ if ($pages > 4) {
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addtestocks">Add Entry</button>
-                    <?php include('modals/nurseaddtestocksmodal.php'); ?>
+                <div class="inv-tabs">
+                    <div class="tabs">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link" href="med_stocks_total">Medicine</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="sup_stocks_total">Medical Supply</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Tools and Equipment</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addtestocks">Add Entry</button>
+                        <?php include('modals/nurseaddtestocksmodal.php'); ?>
+                    </div>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-4">
-                                <form action="stocks_filter.php" method="POST">
-                                    <div class="row">
-                                        <div class="col-md-10 mb-2">
-                                            <select name="stocks" class="form-select">
-                                                <option value="medicine">Medicine Stocks</option>
-                                                <option value="supply">Medical Supply Stocks</option>
-                                                <option value="te" selected>Tools and Equipment Stocks</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2 mb-2">
-                                            <button type="submit" class="btn btn-primary">View</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
                             <div class="col-md-8">
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-5 mb-2">
-                                            <div class="input-group mb-2">
+                                            <div class="input-group">
                                                 <input type="text" name="te" value="<?= isset($_GET['te']) == true ? $_GET['te'] : '' ?>" class="form-control" placeholder="Search tool/equipment">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
