@@ -147,33 +147,32 @@ if ($pages > 4) {
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addteentry">Add Entry</button>
-                    <?php include('modals/nurseaddteentrymodal.php'); ?>
+                <div class="inv-tabs">
+                    <div class="tabs">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link" href="med_entry">Medicine</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="sup_entry">Medical Supply</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Tools and Equipment</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addteentry">Add Entry</button>
+                        <?php include('modals/nurseaddteentrymodal.php'); ?>
+                    </div>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-3">
-                                <form action="entry_filter.php" method="POST">
-                                    <div class="row">
-                                        <div class="col-md-8 mb-2">
-                                            <select name="entry" class="form-select">
-                                                <option value="medicine">Medicine Entry</option>
-                                                <option value="te">Medical te Entry</option>
-                                                <option value="te" selected>Tools and Equipment Entry</option>
-                                            </select>
-                                        </div>
-                                        <div class="col mb-2">
-                                            <button type="submit" class="btn btn-primary">View</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-4">
                                             <div class="input-group mb-2">
                                                 <input type="text" name="te" value="<?= isset($_GET['te']) == true ? $_GET['te'] : '' ?>" class="form-control" placeholder="Search tool/equipment entry">
                                                 <button type="submit" class="btn btn-primary">Search</button>

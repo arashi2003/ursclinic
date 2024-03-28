@@ -216,10 +216,10 @@ if ($pages > 4) {
                                             </select>
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="date" name="date_from" class="form-control">
+                                            <input type="text" class="form-control" name="date_from" id="from" placeholder="Date From" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>">
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="date" name="date_to" class="form-control">
+                                            <input type="text" class="form-control" name="date_to" id="to" placeholder="Date To" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>">
                                         </div>
                                         <div class="col-md-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
@@ -399,6 +399,36 @@ if ($pages > 4) {
     console.log(sidebarBtn);
     sidebarBtn.addEventListener("click", () => {
         sidebar.classList.toggle("close");
+    });
+
+    $(function() {
+        var dateFormat = "mm/dd/yy",
+            from = $("#from")
+            .datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+            })
+            .on("change", function() {
+                to.datepicker("option", "minDate", getDate(this));
+            }),
+            to = $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+            })
+            .on("change", function() {
+                from.datepicker("option", "maxDate", getDate(this));
+            });
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+            } catch (error) {
+                date = null;
+            }
+
+            return date;
+        }
     });
 </script>
 

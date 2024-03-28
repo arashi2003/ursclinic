@@ -147,31 +147,31 @@ if ($pages > 4) {
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#physician_set">Add Entry</button>
-                    <?php include('modals/appphysician_set_modal.php'); ?>
+                <div class="inv-tabs">
+                    <div class="tabs">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link" href="apptype_set">Type</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="apppurpose_set">Purpose</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="appcc_set">Chief Complaint</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Physician</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#physician_set">Add Entry</button>
+                        <?php include('modals/appphysician_set_modal.php'); ?>
+                    </div>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-3">
-                                <form action="app_filter.php" method="POST">
-                                    <div class="row">
-                                        <div class="col-md-10 mb-2">
-                                            <select name="app" class="form-select">
-                                                <option value="type">Type</option>
-                                                <option value="purpose">Purpose</option>
-                                                <option value="cc">Chief Complaint</option>
-                                                <option value="physician" selected>Physician</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2 mb-2">
-                                            <button type="submit" class="btn btn-primary">View</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            &ThickSpace; &ThickSpace; &ThickSpace; &ThickSpace;
                             <div class="col-md-4">
                                 <form action="" method="get">
                                     <div class="row">

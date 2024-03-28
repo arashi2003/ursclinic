@@ -96,24 +96,24 @@ $campus = $_SESSION['campus'];
                                 <div class="row p-2">
                                     <div class="col">
                                         <div class="input-group input-group-md">
-                                            <input type="text" class="form-control" value="<?= $data['patientid'] ?>" readonly>
+                                            <input type="text" class="form-control" value="<?= $data['patientid'] ?>" disabled>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="input-group input-group-md">
-                                            <input type="text" class="form-control" value="<?= $data['firstname'] . ' ' . $data['middlename'] . ' ' . $data['lastname'] ?>" readonly>
+                                            <input type="text" class="form-control" value="<?= $data['firstname'] . ' ' . $data['middlename'] . ' ' . $data['lastname'] ?>" disabled>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row p-2">
                                     <div class="col">
                                         <div class="input-group input-group-md">
-                                            <input type="text" class="form-control" value="<?= $data['program'] . ' ' . $data['yearlevel'] . '-' . $data['section']  . $data['block'] ?>" readonly>
+                                            <input type="text" class="form-control" value="<?= $data['program'] . ' ' . $data['yearlevel'] . '-' . $data['section']  . $data['block'] ?>" disabled>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="input-group input-group-md">
-                                            <input type="text" class="form-control" value="<?= $data['college'] ?>" readonly>
+                                            <input type="text" class="form-control" value="<?= $data['college'] ?>" disabled>
                                         </div>
                                     </div>
                                 </div>

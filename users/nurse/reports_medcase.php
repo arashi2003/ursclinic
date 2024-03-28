@@ -164,10 +164,10 @@ if ($pages > 4) {
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-4 mb-2">
+                            <div class="col-md-12">
                                 <form action="reports_filter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-10 mb-2">
+                                        <div class="col-md-2 mb-2">
                                             <select name="reports" class="form-select">
                                                 <option value="" disabled>Select Report</option>
                                                 <option value="appointment">Appointment Report</option>
@@ -180,19 +180,19 @@ if ($pages > 4) {
                                                 <option value="tecalimain">Tools and Equipment Calibration and Maintenance Report</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-2     mb-2">
+                                        <div class="col-md-2 mb-2">
                                             <button type="submit" class="btn btn-primary">View</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-md-6 mb-2">
+                            <div class="col">
                                 <form action="" method="GET" id="filterForm">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-2 mb-2">
                                             <input type="month" name="month" class="form-control" value="<?= isset($_GET['month']) == true ? $_GET['month'] : '' ?>">
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-2 mb-2">
                                             <input type="hidden" name="page" value="<?= $page ?>">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                             <a href="reports_medcase" class="btn btn-danger">Reset</a>

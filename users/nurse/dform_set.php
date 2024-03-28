@@ -146,29 +146,28 @@ if ($pages > 4) {
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adddform_set">Add Entry</button>
-                    <?php include('modals/adddform_set_modal.php'); ?>
+                <div class="inv-tabs">
+                    <div class="tabs">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link" href="medadmin_set">Medical Administration</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Dosage Form</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="umeasure_set">Unit Measure</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adddform_set">Add Entry</button>
+                        <?php include('modals/adddform_set_modal.php'); ?>
+                    </div>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-4">
-                                <form action="inv_filter.php" method="POST">
-                                    <div class="row">
-                                        <div class="col-md-10 mb-2">
-                                            <select name="inv" class="form-select">
-                                                <option value="medadmin">Medical Administration</option>
-                                                <option value="dform" selected>Dosage Form</option>
-                                                <option value="um">Unit Measure</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2 mb-2">
-                                            <button type="submit" class="btn btn-primary">View</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
                             <div class="col-md-4">
                                 <form action="" method="get">
                                     <div class="row">
