@@ -2,7 +2,13 @@
 
 session_start();
 include('../../connection.php');
-include('../../includes/doctor-auth.php');
+include('../../includes/nurse-auth.php');
+
+$module = 'services';
+$userid = $_SESSION['userid'];
+$name = $_SESSION['username'];
+$usertype = $_SESSION['usertype'];
+$campus = $_SESSION['campus'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM transaction");
@@ -28,18 +34,29 @@ include('../../includes/pagination-limit.php');
                 <span class="dashboard">AVAILABLE SERVICES</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <i class='bx bx-bell'></i>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
-                    <span class="admin_name">DOCTOR
-                        <?php
-                        echo $_SESSION['username'] ?>
-                    </span>
+                    <div class="dropdown">
+                        <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="admin_name">
+                                <?php
+                                echo $name ?>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="profile">Profile</a></li>
+                            <li><a class="dropdown-item" href="../../logout">Logout</a></li>
+                        </ul>
+                    </div>
                 </div>
+            </div>
         </nav>
         <div class="home-content">
+            <?php include('../../includes/alert.php'); ?>
             <div class="overview-boxes">
                 <div class="schedule-button">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addtransaction_set">Add Entry</button>
@@ -80,10 +97,10 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <table class="table">
-                                    <thead class="head">
+                                <table>
+                                    <thead>
                                         <tr>
-                                            <th>No.</th>
+                                            <th>ID</th>
                                             <th>Transaction</th>
                                             <th>Service</th>
                                             <th>Action</th>
@@ -107,7 +124,7 @@ include('../../includes/pagination-limit.php');
                                         }
                                         if ($result) {
                                             if (mysqli_num_rows($result) > 0) {
-                                                while ($data = mysqli_fetch_array($result)) {
+                                                foreach ($result as $data) {
                                                     if ($data['service'] == NULL) {
                                                         $service = $data['transaction_type'];
                                                     } else {
@@ -115,17 +132,13 @@ include('../../includes/pagination-limit.php');
                                                     }
                                         ?>
                                                     <tr>
-                                                        <td><?php $id = $count;
-                                                            echo $id; ?></td>
+                                                        <td><?php echo $data['id']; ?></td>
                                                         <td><?php echo $data['transaction_type']; ?></td>
                                                         <td><?php echo $service; ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatetransaction_set<?php echo $data['id']; ?>">Update</button>
-                                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#removetransaction_set<?php echo $data['id']; ?>">Remove</button>
-                                                            <?php $count++;
-                                                            ?>
+                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updatetransaction_set<?php echo $data['id']; ?>">Update</button>
+                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#removetransaction_set<?php echo $data['id']; ?>">Remove</button>
                                                         </td>
-
                                                     </tr>
                                             <?php
                                                     include('modals/update_transaction_set_modal.php');
@@ -138,7 +151,7 @@ include('../../includes/pagination-limit.php');
                             <?php
                                         } else {
                             ?>
-                                <td colspan="4">
+                                <td colspan="7">
                                     <?php
                                             include('../../includes/no-data.php');
                                     ?>

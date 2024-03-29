@@ -17,6 +17,7 @@ $query = "UPDATE schedule SET time_from = '$time_from', time_to = '$time_to', ma
 if ($result = mysqli_query($conn, $query)) {
     $query = "INSERT INTO audit_trail (user, campus, fullname, activity, status, datetime) VALUES ('$userid', '$au_campus', '$fullname', '$activity', '$au_status', now())";
     if ($result = mysqli_query($conn, $query)) {
+        $_SESSION['alert'] = "Walk-In Schedule Details has been updated."
 ?>
         <script>
             setTimeout(function() {
@@ -24,8 +25,8 @@ if ($result = mysqli_query($conn, $query)) {
             });
         </script>
     <?php
-        // modal message box saying "Walk-In Schedule has been updated."
     } else {
+        $_SESSION['alert'] = "Walk-In Schedule Details has been updated."
     ?>
         <script>
             setTimeout(function() {
@@ -33,10 +34,9 @@ if ($result = mysqli_query($conn, $query)) {
             });
         </script>
     <?php
-        // modal message box saying "Walk-In Schedule has been updated."
     }
 } else {
-    // modal message box saying "Walk-In Schedule was not updated."
+    $_SESSION['alert'] = "Walk-In Schedule Details was not updated."
     ?>
     <script>
         setTimeout(function() {

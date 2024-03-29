@@ -17,7 +17,11 @@
                     $sql = "SELECT * FROM appointment a  INNER JOIN appointment_purpose p ON p.id=a.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE a.id = '$id'";
                     $result = mysqli_query($conn, $sql);
                     foreach ($result as $row) {
-                        $chief_complaint = $row['chiefcomplaint'];
+                        if ($row['chiefcomplaint'] == 'Others' || $row['chiefcomplaint'] == 'Others:') {
+                            $chief_complaint = $row['others'];
+                        } else {
+                            $chief_complaint = $row['chiefcomplaint'];
+                        }
                         $type = $row['type'];
                         $purpose = $row['purpose'];
                         $physician = $row['physician'];

@@ -51,6 +51,9 @@ $usertype = $_SESSION['usertype'];
             </div>
         </nav>
         <div class="home-content">
+            <?php
+            include('../../includes/alert.php')
+            ?>
             <div class="overview-boxes">
                 <ul class="nav nav-pills mb-4">
                     <li class="nav-item">

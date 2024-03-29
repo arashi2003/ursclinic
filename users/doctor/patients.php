@@ -5,7 +5,7 @@ include('../../connection.php');
 include('../../includes/doctor-auth.php');
 
 $module = 'patient_add';
-$campus = $_SESSION['campus'];
+$fullname=$_SESSION['name'];
 $userid = $_SESSION['userid'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
@@ -31,7 +31,7 @@ if (isset($_GET['patient']) || isset($_GET['designation'])) {
     $sql_count = "SELECT COUNT(*) AS total_rows FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE 1=1 $whereClause";
 } else {
     // If filters are not set, count all rows
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE ac.campus = '$campus'";
 }
 
 // Execute the count query
@@ -112,22 +112,6 @@ if ($pages > 4) {
                 <span class="dashboard">PATIENTS</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <button type="button" class="btn btn-sm position-relative" onclick="window.location.href = 'notification'">
-                        <i class='bx bx-bell'></i>
-                        <?php
-                        $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, au.status, ac.firstname, ac.middlename, ac.lastname, ac.campus, i.image FROM audit_trail au INNER JOIN account ac ON ac.accountid = au.user INNER JOIN patient_image i ON i.patient_id = au.user WHERE ((au.activity LIKE '%added a walk-in schedule%' AND au.activity LIKE '%$campus%') OR (au.activity LIKE '%cancelled a walk-in schedule%' AND au.activity LIKE '%$campus%') OR au.activity LIKE 'sent%' OR au.activity LIKE 'cancelled%' OR au.activity LIKE 'uploaded medical document%' OR au.activity LIKE '%expired%') AND au.status='unread' AND au.user != '$userid' ORDER BY au.datetime DESC";
-                        $result = mysqli_query($conn, $sql);
-                        if ($row = mysqli_num_rows($result)) {
-                        ?>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                <?= $row ?>
-                            </span>
-                        <?php
-                        }
-                        ?>
-                    </button>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
                     <div class="dropdown">

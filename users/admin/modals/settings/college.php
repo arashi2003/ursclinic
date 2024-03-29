@@ -12,6 +12,7 @@
     $result = mysqli_query($conn, $sql);
     if(mysqli_num_rows($result) > 0)
     {
+        $_SESSION['alert'] = "College already exists.";
         ?>
         <script>
             setTimeout(function() {
@@ -19,7 +20,6 @@
             });
         </script>
         <?php
-        // modal Entry already exists
     }
     else
     {
@@ -29,6 +29,7 @@
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
             if($result = mysqli_query($conn, $sql))
             {
+                $_SESSION['alert'] = "College has been added.";
                 ?>
                 <script>
                     setTimeout(function() {
@@ -36,10 +37,10 @@
                     });
                 </script>
                 <?php
-                // modal Entry has been added
             }
             else
             {
+                $_SESSION['alert'] = "College has been added.";
                 ?>
                 <script>
                     setTimeout(function() {
@@ -47,12 +48,11 @@
                     });
                 </script>
                 <?php
-                // modal Entry has been added
             }
         }
         else
         {
-            // modal Entry has not been added
+            $_SESSION['alert'] = "College was not added.";
     ?>
 <script>
     setTimeout(function() {

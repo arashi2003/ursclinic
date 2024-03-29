@@ -15,6 +15,7 @@
         $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$userid', '$fullname', 'updated a transaction and service entry', '$au_status', now())";
         if($result = mysqli_query($conn, $query))
         {
+            $_SESSION['alert'] = "Service has been updated."
             ?>
             <script>
                 setTimeout(function() {
@@ -22,10 +23,10 @@
                 });
                 </script>
             <?php
-            // modal message box saying "Transaction added."
         }
         else
         {
+            $_SESSION['alert'] = "Service has been updated."
             ?>
             <script>
                 setTimeout(function() {
@@ -33,12 +34,11 @@
                 });
                 </script>
             <?php
-            // modal message box saying "Transaction added."
         }
     }
     else
     {
-        // modal message box saying "Transaction was not added."
+        $_SESSION['alert'] = "Service was not updated."
 ?>
 <script>
     setTimeout(function() {

@@ -31,6 +31,7 @@
         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
         if($result = mysqli_query($conn, $sql))
         {
+            $_SESSION['alert'] = "Entry has been updated.";
             ?>
             <script>
                 setTimeout(function() {
@@ -38,22 +39,22 @@
                 });
             </script>
             <?php
-            // modal Entry has been added
         }
         else
         {
+            $_SESSION['alert'] = "Entry has been updated.";
             ?>
             <script>
                 setTimeout(function() {
                     window.location = "../../organization";
                 });
             </script>
-            <?php
-            // modal Entry has been added but activity was not recorded
+            <?php 
         }
     }
     else
     {
+        $_SESSION['alert'] = "Entry was not updated.";
         ?>
         <script>
             setTimeout(function() {
@@ -61,7 +62,6 @@
             });
         </script>
         <?php
-        // modal Entry has not been added
     ?>
 <script>
     setTimeout(function() {

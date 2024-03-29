@@ -57,6 +57,7 @@ include('../../includes/pagination-limit.php');
       </div>
     </nav>
     <div class="home-content">
+      <?php include('../../includes/alert.php'); ?>
       <div class="overview-boxes">
         <div class="box">
           <div class="right-side">

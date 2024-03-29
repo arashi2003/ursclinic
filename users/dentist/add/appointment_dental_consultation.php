@@ -42,19 +42,25 @@ while ($data = mysqli_fetch_array($result)) {
     $birthday = $data['birthday'];
 }
 
-$med_case =  $_POST['medcase'];
+
 $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
 $result = mysqli_query($conn, $sql);
-while ($data = mysqli_fetch_array($result)) {
-    if ($data['medcase'] != 'Others:') {
-        $medcase =  $_POST['medcase'];
-        $medcase_type = $data['type'];
-        $medcase_others = $_POST['medcase_others'];
-    } else {
-        $medcase_type = "others";
-        $medcase_others = $_POST['medcase_others'];
-        $medcase = $medcase_others;
+if (mysqli_num_rows($result) > 0) {
+    while ($data = mysqli_fetch_array($result)) {
+        if ($data['medcase'] != 'Others:') {
+            $medcase =  $data['medcase'];
+            $medcase_type = $data['type'];
+            $medcase_others = $purpose;
+        } else {
+            $medcase_type = "others";
+            $medcase_others = $med_case;
+            $medcase = $purpose;
+        }
     }
+} else {
+    $medcase_type = "others";
+    $medcase_others = $med_case;
+    $medcase = $purpose;
 }
 
 //date related info
@@ -102,23 +108,28 @@ if ($result = mysqli_query($conn, $sql)) {
     //kunin medcase as text
     $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
     $result = mysqli_query($conn, $sql);
-    while ($data = mysqli_fetch_array($result)) {
-        if ($data['medcase'] != 'Others:') {
-            $medcase =  $_POST['medcase'];
-            $medcase_type = $data['type'];
-            $medcase_others = $_POST['medcase_others'];
-        } else {
-            $medcase_type = "others";
-            $medcase_others = $_POST['medcase_others'];
-            $medcase = $medcase_others;
+    if (mysqli_num_rows($result) > 0) {
+        while ($data = mysqli_fetch_array($result)) {
+            if ($data['medcase'] != 'Others:') {
+                $medcase =  $data['medcase'];
+                $medcase_type = $data['type'];
+                $medcase_others = $purpose;
+            } else {
+                $medcase_type = "others";
+                $medcase_others = $med_case;
+                $medcase = $purpose;
+            }
         }
+    } else {
+        $medcase_type = "others";
+        $medcase_others = $med_case;
+        $medcase = $purpose;
     }
 
     $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         // fetch data ng existing entry
-
 
         $sql = "SELECT * FROM patient_info WHERE patientid='$patientid'";
         $result = mysqli_query($conn, $sql);
@@ -133,109 +144,115 @@ if ($result = mysqli_query($conn, $sql)) {
         //kunin medcase as text
         $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
         $result = mysqli_query($conn, $sql);
-        while ($data = mysqli_fetch_array($result)) {
-            if ($data['medcase'] != 'Others:') {
-                $medcase =  $_POST['medcase'];
-                $medcase_type = $data['type'];
-                $medcase_others = $_POST['medcase_others'];
-            } else {
-                $medcase_type = "others";
-                $medcase_others = $_POST['medcase_others'];
-                $medcase = $medcase_others;
-            }
-
-
-            $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
-            $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
             while ($data = mysqli_fetch_array($result)) {
-                // check san sya i-add na column sa database
-                switch (true) {
-                    case ($designation == "STUDENT" and $sex == "MALE"): {
-                            $sm = $data['sm'] + 1;
-                            $sf = $data['sf'];
-                            $st = $data['st'] + 1;
-                            $pm = $data['pm'];
-                            $pf = $data['pf'];
-                            $pt = $data['pt'];
-                            $gm = $data['gm'] + 1;
-                            $gf = $data['gf'];
-                            $gt = $data['gt'] + 1;
-                            break;
-                        }
-                    case ($designation == "STUDENT" and $sex == "FEMALE"): {
-                            $sm = $data['sm'];
-                            $sf = $data['sf'] + 1;
-                            $st = $data['st'] + 1;
-                            $pm = $data['pm'];
-                            $pf = $data['pf'];
-                            $pt = $data['pt'];
-                            $gm = $data['gm'];
-                            $gf = $data['gf'] + 1;
-                            $gt = $data['gt'] + 1;
-                            break;
-                        }
-                    case ($designation != "STUDENT" and $sex == "MALE"): {
-                            $sm = $data['sm'];
-                            $sf = $data['sf'];
-                            $st = $data['st'];
-                            $pm = $data['pm'] + 1;
-                            $pf = $data['pf'];
-                            $pt = $data['pt'] + 1;
-                            $gm = $data['gm'] + 1;
-                            $gf = $data['gf'];
-                            $gt = $data['gt'] + 1;
-                            break;
-                        }
-                    case ($designation != "STUDENT" and $sex == "FEMALE"): {
-                            $sm = $data['sm'];
-                            $sf = $data['sf'];
-                            $st = $data['st'];
-                            $pm = $data['pm'];
-                            $pf = $data['pf'] + 1;
-                            $pt = $data['pt'] + 1;
-                            $gm = $data['gm'];
-                            $gf = $data['gf'] + 1;
-                            $gt = $data['gt'] + 1;
-                            break;
-                        }
-                    default: {
-                            break;
-                        }
+                if ($data['medcase'] != 'Others:') {
+                    $medcase =  $data['medcase'];
+                    $medcase_type = $data['type'];
+                    $medcase_others = $purpose;
+                } else {
+                    $medcase_type = "others";
+                    $medcase_others = $med_case;
+                    $medcase = $purpose;
                 }
             }
-            // update if meron
-            $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+        } else {
+            $medcase_type = "others";
+            $medcase_others = $med_case;
+            $medcase = $purpose;
+        }
+
+
+        $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+        $result = mysqli_query($conn, $sql);
+        while ($data = mysqli_fetch_array($result)) {
+            // check san sya i-add na column sa database
+            switch (true) {
+                case ($designation == "STUDENT" and $sex == "MALE"): {
+                        $sm = $data['sm'] + 1;
+                        $sf = $data['sf'];
+                        $st = $data['st'] + 1;
+                        $pm = $data['pm'];
+                        $pf = $data['pf'];
+                        $pt = $data['pt'];
+                        $gm = $data['gm'] + 1;
+                        $gf = $data['gf'];
+                        $gt = $data['gt'] + 1;
+                        break;
+                    }
+                case ($designation == "STUDENT" and $sex == "FEMALE"): {
+                        $sm = $data['sm'];
+                        $sf = $data['sf'] + 1;
+                        $st = $data['st'] + 1;
+                        $pm = $data['pm'];
+                        $pf = $data['pf'];
+                        $pt = $data['pt'];
+                        $gm = $data['gm'];
+                        $gf = $data['gf'] + 1;
+                        $gt = $data['gt'] + 1;
+                        break;
+                    }
+                case ($designation != "STUDENT" and $sex == "MALE"): {
+                        $sm = $data['sm'];
+                        $sf = $data['sf'];
+                        $st = $data['st'];
+                        $pm = $data['pm'] + 1;
+                        $pf = $data['pf'];
+                        $pt = $data['pt'] + 1;
+                        $gm = $data['gm'] + 1;
+                        $gf = $data['gf'];
+                        $gt = $data['gt'] + 1;
+                        break;
+                    }
+                case ($designation != "STUDENT" and $sex == "FEMALE"): {
+                        $sm = $data['sm'];
+                        $sf = $data['sf'];
+                        $st = $data['st'];
+                        $pm = $data['pm'];
+                        $pf = $data['pf'] + 1;
+                        $pt = $data['pt'] + 1;
+                        $gm = $data['gm'];
+                        $gf = $data['gf'] + 1;
+                        $gt = $data['gt'] + 1;
+                        break;
+                    }
+                default: {
+                        break;
+                    }
+            }
+        }
+        // update if meron
+        $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+        if ($result = mysqli_query($conn, $sql)) {
+            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
             if ($result = mysqli_query($conn, $sql)) {
-                $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
-                if ($result = mysqli_query($conn, $sql)) {
+                $_SESSION['alert'] = "Appointment has been recorded.";
 ?>
-                    <script>
-                        setTimeout(function() {
-                            window.location = "../appointment";
-                        });
-                    </script>
-                <?php
-                    // Treatment Record was recorded
-                } else {
-                ?>
-                    <script>
-                        setTimeout(function() {
-                            window.location = "../appointment";
-                        });
-                    </script>
-                <?php
-                    // Treatment Record was recorded
-                }
-            } else {
-                ?>
                 <script>
                     setTimeout(function() {
                         window.location = "../appointment";
                     });
                 </script>
             <?php
-                // Treatment Record was recorded
+            } else {
+                $_SESSION['alert'] = "Appointment has been recorded.";
+            ?>
+                <script>
+                    setTimeout(function() {
+                        window.location = "../appointment";
+                    });
+                </script>
+            <?php
             }
+        } else {
+            $_SESSION['alert'] = "Appointment was not recorded.";
+            ?>
+            <script>
+                setTimeout(function() {
+                    window.location = "../appointment";
+                });
+            </script>
+            <?php
         }
     } else {
         // add pag wala
@@ -248,18 +265,25 @@ if ($result = mysqli_query($conn, $sql)) {
         }
         $enddate = date("Y-m-t");
 
+
         $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
         $result = mysqli_query($conn, $sql);
-        while ($data = mysqli_fetch_array($result)) {
-            if ($data['medcase'] != 'Others:') {
-                $medcase =  $_POST['medcase'];
-                $medcase_type = $data['type'];
-                $medcase_others = $_POST['medcase_others'];
-            } else {
-                $medcase_type = "others";
-                $medcase_others = $_POST['medcase_others'];
-                $medcase = $medcase_others;
+        if (mysqli_num_rows($result) > 0) {
+            while ($data = mysqli_fetch_array($result)) {
+                if ($data['medcase'] != 'Others:') {
+                    $medcase =  $data['medcase'];
+                    $medcase_type = $data['type'];
+                    $medcase_others = $purpose;
+                } else {
+                    $medcase_type = "others";
+                    $medcase_others = $med_case;
+                    $medcase = $purpose;
+                }
             }
+        } else {
+            $medcase_type = "others";
+            $medcase_others = $med_case;
+            $medcase = $purpose;
         }
 
         // check san sya i-add na column sa database
@@ -321,6 +345,7 @@ if ($result = mysqli_query($conn, $sql)) {
         if ($result = mysqli_query($conn, $sql)) {
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
             if ($result = mysqli_query($conn, $sql)) {
+                $_SESSION['alert'] = "Appointment has been recorded.";
             ?>
                 <script>
                     setTimeout(function() {
@@ -328,8 +353,8 @@ if ($result = mysqli_query($conn, $sql)) {
                     });
                 </script>
             <?php
-                // Treatment Record was recorded
             } else {
+                $_SESSION['alert'] = "Appointment has been recorded.";
             ?>
                 <script>
                     setTimeout(function() {
@@ -337,9 +362,9 @@ if ($result = mysqli_query($conn, $sql)) {
                     });
                 </script>
             <?php
-                // Treatment Record was recorded
             }
         } else {
+            $_SESSION['alert'] = "Appointment was not recorded.";
             ?>
             <script>
                 setTimeout(function() {
@@ -347,11 +372,10 @@ if ($result = mysqli_query($conn, $sql)) {
                 });
             </script>
     <?php
-            // Treatment Record was recorded
         }
     }
 } else {
-    // Treatment Record was not recorded
+    $_SESSION['alert'] = "Appointment was not recorded.";
     ?>
     <script>
         setTimeout(function() {

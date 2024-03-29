@@ -3,14 +3,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Add Account</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  onclick="location.reload()"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
             </div>
             <form method="POST" action="../admin/add/account_add.php" id="form">
                 <div class="modal-body">
-                    <div class="input-group input-group-md">
-                        <input class="form-control" type="file" name="acccsv" accept=".jpg, .jpeg, .png, .csv">
-                    </div>
-                    <br>
                     <div class="mb-2">
                         <label for="accountid" class="form-label">Account ID:</label>
                         <input type="text" class="form-control" name="accountid" id="accountid" required>
@@ -24,7 +20,7 @@
                                 include('connection.php');
                                 $sql = "SELECT * FROM campus ORDER BY campus";
                                 $result = mysqli_query($conn, $sql);
-                                while ($row = mysqli_fetch_array($result)) {?>
+                                while ($row = mysqli_fetch_array($result)) { ?>
                                     <option value="<?= $row['campus']; ?>"><?= $row['campus']; ?></option>
                                 <?php } ?>
                             </select>

@@ -2,11 +2,14 @@
 
 session_start();
 include('../../connection.php');
-include('../../includes/doctor-auth.php');
+include('../../includes/nurse-auth.php');
+
 $module = 'profile';
 $userid = $_SESSION['userid'];
 $usertype = $_SESSION['usertype'];
 $name = $_SESSION['username'];
+$campus = $_SESSION['campus'];
+
 ?>
 
 <!DOCTYPE html>
@@ -27,27 +30,28 @@ $name = $_SESSION['username'];
             </div>
             <div class="right-nav">
                 <div class="profile-details">
-                <i class='bx bx-user-circle'></i>
-                <div class="dropdown">
-                    <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="admin_name">
-                        <?php
-                        echo $name ?>
-                    </span>
-                    </a>
-                    <ul class="dropdown-menu">
-                    <li class="usertype"><?= $usertype ?></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="profile">Profile</a></li>
-                    <li><a class="dropdown-item" href="../../logout">Logout</a></li>
-                    </ul>
-                </div>
+                    <i class='bx bx-user-circle'></i>
+                    <div class="dropdown">
+                        <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="admin_name">
+                                <?php
+                                echo $name ?>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="usertype"><?= $usertype ?></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="profile">Profile</a></li>
+                            <li><a class="dropdown-item" href="../../logout">Logout</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
         <div class="home-content">
+            <?php include('../../includes/alert.php'); ?>
             <div class="profile">
                 <div class="profile-info box">
                     <?php
@@ -77,7 +81,7 @@ $name = $_SESSION['username'];
                     </div>
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Full name:</span>
-                        <input type="text" class="form-control" name="patientname" value="<?php echo ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " .ucwords(strtolower($row['lastname'])) ?>" readonly disabled>
+                        <input type="text" class="form-control" name="patientname" value="<?php echo ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($row['lastname'])) ?>" readonly disabled>
                     </div>
                     <div class="input-group input-group-md mb-2">
                         <span class="input-group-text" id="inputGroup-sizing-md">Designation:</span>
@@ -118,4 +122,5 @@ $name = $_SESSION['username'];
         sidebar.classList.toggle("close");
     });
 </script>
+
 </html>

@@ -2,13 +2,12 @@
     session_start();
     require('connection.php');
     require('../../../fpdf/fpdf.php');
-    $campus = $_SESSION['campus'];
+
     class PDF extends FPDF
     {
         function Header()
         {
-            
-            $campus = $_SESSION['campus']  . ' CAMPUS';
+            $au_campus = $_SESSION['campus']  . ' CAMPUS';
             
             $this->Image('../../../images/urs.png', 100, 12, 12);
             $this->Image('../../../images/medlogo.png', 183, 12, 22);
@@ -25,7 +24,7 @@
             $this->Cell(0, 0, 'HEALTH SERVICES UNIT', 0, 1, 'C');
             $this->Cell(0, 4, '', 0, 1);
             $this->SetFont('Arial', 'B', 8);
-            $this->Cell(0, 0, $campus, 0, 1, 'C');
+            $this->Cell(0, 0, $au_campus, 0, 1, 'C');
             $this->SetFont('Arial', '', 10);
             $this->Cell(0, 4, '', 0, 1);
             $this->Cell(0, .1, '', 1, 0);

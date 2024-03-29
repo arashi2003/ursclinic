@@ -20,7 +20,8 @@ if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
     $count++;
   }
   $medsup1 = implode(", ", $rmed);
-  $medsup = rtrim($medsup1, " , ");
+  $ms = rtrim($medsup1, " , ");
+  $medsup = "medsup = '$ms,'";
 } elseif (!empty($_POST['supply']) && isset($_POST['supply'])) {
   $count = 1;
   foreach ($_POST['supply'] as $key => $supply) {
@@ -29,7 +30,8 @@ if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
     $count++;
   }
   $medsup1 = implode(", ", $rsup);
-  $medsup = rtrim($medsup1, " , ");
+  $ms = rtrim($medsup1, " , ");
+  $medsup = "medsup = '$ms,'";
 } else {
   $medsup = "";
 }
@@ -47,7 +49,7 @@ $au_status = "unread";
 $activity = "sent a request for appointment";
 
 
-$sql = "INSERT INTO appointment SET date='$date', time_from='$time_from', time_to= '$time_to', physician='$physician', patient='$patient', type='$type', purpose='$purpose', chiefcomplaint='$chiefcomplaint', others='$others', $medsup, status='$status', created_at=now()";
+$sql = "INSERT INTO appointment SET date='$date', time_from='$time_from', time_to= '$time_to', physician='$physician', patient='$patient', type='$type', purpose='$purpose', chiefcomplaint='$chiefcomplaint', others='$others', $medsup status='$status', created_at=now()";
 if (mysqli_query($conn, $sql)) {
   $query = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
   if ($result = mysqli_query($conn, $query)) {

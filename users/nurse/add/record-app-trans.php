@@ -5,6 +5,18 @@ include('../../../connection.php');
 // Patient info
 $id = $_POST['id'];
 $remarks = $_POST['remarks'];
+$bp = $_POST['bp'];
+$pr = $_POST['pr'];
+$temp = $_POST['temp'];
+$respiratory = $_POST['respiratory'];
+$oxygen = $_POST['oxygen'];
+if (!empty($_POST['findiag'])) {
+    $findiag = $_POST['findiag'] . " " . $_POST['findiag_others'];
+} else {
+    $findiag = "";
+}
+$remarks = $_POST['remarks'];
+$referral = $_POST['referral'];
 
 $doot = "SELECT * FROM appointment WHERE id='$id'";
 $result0 = mysqli_query($conn, $doot);

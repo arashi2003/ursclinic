@@ -9,7 +9,6 @@ $patientid = $_REQUEST['patientid'];
 $userid = $_SESSION['userid'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
-$campus = $_SESSION['campus'];
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM transaction_history WHERE (transaction LIKE '%Medical History%' or transaction LIKE '%Vitals%' OR purpose LIKE '%Medical History%' OR purpose LIKE '%Vitals%') AND patient='$patientid' ORDER BY datetime ");
@@ -119,6 +118,7 @@ if ($pages > 4) {
             </div>
         </nav>
         <div class="home-content">
+            <?php include('../../includes/alert.php'); ?>
             <div class="profile">
                 <div class="profile-pic box">
                     <?php

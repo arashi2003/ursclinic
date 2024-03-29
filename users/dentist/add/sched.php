@@ -18,6 +18,7 @@ $query = "SELECT * FROM schedule WHERE date = '$date' AND physician = '$userid' 
 $result = mysqli_query($conn, $query);
 $resultCheck = mysqli_num_rows($result);
 if ($resultCheck > 0) {
+    $_SESSION['alert'] = "A schedule has already been set on that date."
 ?>
     <script>
         setTimeout(function() {
@@ -25,12 +26,12 @@ if ($resultCheck > 0) {
         });
     </script>
     <?php
-    // modal message box saying "A schedule has already been set on that date."
 } else {
     $query = "INSERT INTO schedule(physician, date, time_from, time_to, maxp, campus) VALUES ('$userid', '$date', '$time_from', '$time_to', '$maxp', '$campus')";
     if ($result = mysqli_query($conn, $query)) {
         $query = "INSERT INTO audit_trail (user, campus, fullname, activity, status, datetime) VALUES ('$userid', '$au_campus', '$fullname', '$activity', '$au_status', now())";
         if ($result = mysqli_query($conn, $query)) {
+            $_SESSION['alert'] = "Walk-In Schedule has added.";
     ?>
             <script>
                 setTimeout(function() {
@@ -38,8 +39,8 @@ if ($resultCheck > 0) {
                 });
             </script>
         <?php
-            // modal message box saying "Walk-In Schedule has been added."
         } else {
+            $_SESSION['alert'] = "Walk-In Schedule has added.";
         ?>
             <script>
                 setTimeout(function() {
@@ -47,10 +48,9 @@ if ($resultCheck > 0) {
                 });
             </script>
         <?php
-            // modal message box saying "Walk-In Schedule has been added."
         }
     } else {
-        // modal message box saying "Walk-In Schedule was not added."
+        $_SESSION['alert'] = "Walk-In Schedule was not added.";
         ?>
         <script>
             setTimeout(function() {

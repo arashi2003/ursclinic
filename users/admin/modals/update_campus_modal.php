@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <label for="campus" class="form-label">Campus:</label>
                     <div class="mb-2">
-                        <input type="text" name="campusid" value="<?php echo $data['id']?>" hidden>
+                        <input type="text" name="id" value="<?php echo $data['id']?>" hidden>
                         <input type="text" class="form-control" name="campus" id="campus" value="<?php echo $data['campus']?>" required>
                     </div>
                 </div>

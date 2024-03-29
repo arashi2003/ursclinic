@@ -13,6 +13,7 @@
     $result = mysqli_query($conn, $sql);
     if(mysqli_num_rows($result) > 0)
     {
+        $_SESSION['alert'] = "Year Level for this department already exists.";
         ?>
         <script>
             setTimeout(function() {
@@ -20,7 +21,6 @@
             });
         </script>
         <?php
-        // modal Entry already exists
     }
     else
     {
@@ -30,6 +30,7 @@
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
             if($result = mysqli_query($conn, $sql))
             {
+                $_SESSION['alert'] = "Year Level has been added.";
                 ?>
                 <script>
                     setTimeout(function() {
@@ -37,10 +38,10 @@
                     });
                 </script>
                 <?php
-                // modal Entry has been added
             }
             else
             {
+                $_SESSION['alert'] = "Year Level has been added.";
                 ?>
                 <script>
                     setTimeout(function() {
@@ -48,12 +49,11 @@
                     });
                 </script>
                 <?php
-                // modal Entry has been added
             }
         }
         else
         {
-            // modal Entry has not been added
+            $_SESSION['alert'] = "Year Level was not added.";
     ?>
 <script>
     setTimeout(function() {

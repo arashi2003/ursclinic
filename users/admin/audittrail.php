@@ -59,6 +59,9 @@ include('../../includes/pagination-limit.php')
             </div>
         </nav>
         <div class="home-content">
+            <?php
+            include('../../includes/alert.php')
+            ?>
             <div class="overview-boxes">
                 <div class="schedule-button">
                     <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_audit_trail?date_from=<?= !empty($_GET['date_from']) ?>&date_to=<?= !empty($_GET['date_to']) ?>');" target="_blank">Export to PDF</button>
