@@ -1,4 +1,4 @@
-<form action="../add/record-app-trans.php" method="POST">
+<form action="add/record-app-trans.php" method="POST">
     <div class="modal fade" id="recordppointment<?php echo $data['id'] ?>" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -80,6 +80,7 @@
                             <label for="chief_complaint" class="form-label">Chief Complaints:</label>
                             <textarea class="form-control" style="resize:none;" name="chief_complaint" id="chief_complaint" disabled><?= $chief_complaint ?></textarea>
                         </div>
+
                         <div class="vitals" id="vitalsDiv">
                             <div class="row">
                                 <div class="col-md-4 mb-2">
