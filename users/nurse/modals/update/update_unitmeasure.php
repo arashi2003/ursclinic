@@ -15,6 +15,7 @@
         $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'updated a unit measure entry', '$au_status', now())";
         if($result = mysqli_query($conn, $query))
         {
+            $_SESSION['alert'] = "Unit Measure has been updated.";
             ?>
             <script>
                 setTimeout(function() {
@@ -22,10 +23,10 @@
                 });
                 </script>
             <?php
-            // modal message box saying "Unit Measure added."
         }
         else
         {
+            $_SESSION['alert'] = "Unit Measure has been updated.";
             ?>
             <script>
                 setTimeout(function() {
@@ -33,12 +34,11 @@
                 });
                 </script>
             <?php
-            // modal message box saying "Unit Measure added."
         }
     }
     else
     {
-        // modal message box saying "Unit Measure was not added."
+        $_SESSION['alert'] = "Unit Measure was not updated.";
 ?>
 <script>
     setTimeout(function() {

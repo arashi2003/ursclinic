@@ -3,8 +3,8 @@
 if (isset($_SESSION['alert'])) {
 ?>
     <div class="alert-message">
-        <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
-            <strong>Hey!</strong> <?= $_SESSION['alert']; ?>
+        <div class="alert alert-info alert-dismissible fade show" role="alert" id="success-alert">
+            <?= $_SESSION['alert']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>

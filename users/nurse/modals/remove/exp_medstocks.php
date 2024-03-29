@@ -48,6 +48,7 @@
         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
         if($result = mysqli_query($conn, $sql))
         {
+            $_SESSION['alert'] = "Expired stocks has been removed.";
             ?>
             <script>
                 setTimeout(function() {
@@ -55,10 +56,10 @@
                 });
             </script>
             <?php
-            // modal Expired stocks have been removed
         }
         else
         {
+            $_SESSION['alert'] = "Expired stocks has been removed.";
             ?>
             <script>
                 setTimeout(function() {
@@ -66,7 +67,6 @@
                 });
             </script>
             <?php
-            // modal Expired stocks have been removed
         }
     }
 mysqli_close($conn);

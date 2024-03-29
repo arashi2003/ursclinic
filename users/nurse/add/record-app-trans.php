@@ -463,6 +463,7 @@ while ($row = mysqli_fetch_array($result0)) {
     // Audit trail 
     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
     if ($result = mysqli_query($conn, $sql)) {
+        $_SESSION['alert'] = "Appointment has been added."
 ?>
         <script>
             setTimeout(function() {
@@ -470,8 +471,8 @@ while ($row = mysqli_fetch_array($result0)) {
             });
         </script>
     <?php
-        // modal message box saying "Transaction was recorded."
     } else {
+        $_SESSION['alert'] = "Appointment has been added."
     ?>
         <script>
             setTimeout(function() {
@@ -479,7 +480,6 @@ while ($row = mysqli_fetch_array($result0)) {
             });
         </script>
 <?php
-        // modal message box saying "Transaction was recorded."
     }
 }
 mysqli_close($conn);

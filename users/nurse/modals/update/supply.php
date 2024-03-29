@@ -125,6 +125,7 @@
                         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
                         if($result = mysqli_query($conn, $sql))
                         {
+                            $_SESSION['alert'] = "Medical Supply Stocks has been updated.";
                             ?>
                             <script>
                                 setTimeout(function() {
@@ -132,10 +133,10 @@
                                 });
                             </script>
                             <?php
-                            // modal message box saying "Medical Supply stocks was added."
                         }
                         else
                         {
+                            $_SESSION['alert'] = "Medical Supply Stocks has been updated.";
                             ?>
                             <script>
                                 setTimeout(function() {
@@ -143,11 +144,11 @@
                                 });
                             </script>
                             <?php
-                            // modal message box saying "Medical Supply stocks was added."
                         }
                     }
                     else
                     {
+                        $_SESSION['alert'] = "Medical Supply Stocks has been updated.";
                         ?>
                             <script>
                                 setTimeout(function() {
@@ -155,12 +156,12 @@
                                 });
                             </script>
                             <?php
-                        // modal message box saying "Medical Supply stocks was added."
                     }
                 }
             }
             else
             {
+                $_SESSION['alert'] = "Medical Supply Stocks has been updated.";
                 ?>
                 <script>
                     setTimeout(function() {
@@ -168,11 +169,11 @@
                     });
                 </script>
                 <?php
-                // modal message box saying "Medical Supply stocks was added."
             }
         }
         else
         {
+            $_SESSION['alert'] = "Medical Supply Stocks has been updated.";
             ?>
             <script>
                 setTimeout(function() {
@@ -180,12 +181,11 @@
                 });
             </script>
             <?php
-            // modal message box saying "Medical Supply stocks was added."
         }
     }
     else
     {
-        // modal message box saying "Medical Supply stocks was not added."  
+        $_SESSION['alert'] = "Medical Supply Stocks was not updated.";
 ?>
 <script>
     setTimeout(function() {

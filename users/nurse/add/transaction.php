@@ -423,6 +423,7 @@ if (mysqli_num_rows($result) > 0) {
 // Audit trail 
 $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
 if ($result = mysqli_query($conn, $sql)) {
+    $_SESSION['alert'] = "Medical Record has been added."
 ?>
     <script>
         setTimeout(function() {
@@ -430,8 +431,8 @@ if ($result = mysqli_query($conn, $sql)) {
         });
     </script>
 <?php
-    // modal message box saying "Transaction was recorded."
 } else {
+    $_SESSION['alert'] = "Medical Record has been added."
 ?>
     <script>
         setTimeout(function() {
@@ -439,7 +440,6 @@ if ($result = mysqli_query($conn, $sql)) {
         });
     </script>
 <?php
-    // modal message box saying "Transaction was recorded."
 }
 
 mysqli_close($conn);

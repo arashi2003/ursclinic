@@ -103,6 +103,7 @@
           $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
           if($result = mysqli_query($conn, $sql))
           {
+            $_SESSION['alert'] = "Calibration and Maintenance has been recorded.";
             ?>
             <script>
                 setTimeout(function() {
@@ -110,10 +111,10 @@
                 });
               </script>
             <?php
-            // modal message box saying "Calibration and Maintenance Record was added."
           }
           else
           {
+            $_SESSION['alert'] = "Calibration and Maintenance has been recorded.";
             ?>
             <script>
                 setTimeout(function() {
@@ -121,7 +122,6 @@
                 });
               </script>
             <?php
-            // modal message box saying "Calibration and Maintenance Record was added."
           }
         }
       }
@@ -130,6 +130,7 @@
         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
         if($result = mysqli_query($conn, $sql))
         {
+          $_SESSION['alert'] = "Calibration and Maintenance has been recorded.";
           ?>
           <script>
               setTimeout(function() {
@@ -137,10 +138,10 @@
               });
             </script>
           <?php
-          // modal message box saying "Calibration and Maintenance Record was added."
         }
         else
         {
+          $_SESSION['alert'] = "Calibration and Maintenance has been recorded.";
           ?>
           <script>
               setTimeout(function() {
@@ -148,13 +149,12 @@
               });
             </script>
           <?php
-          // modal message box saying "Calibration and Maintenance Record was added."
         }
       }
     }
     else
     {
-      // modal message box saying "Calibration and Maintenance Record was not added."
+      $_SESSION['alert'] = "Calibration and Maintenance was not recorded.";
 ?>
  <script>
     setTimeout(function() {

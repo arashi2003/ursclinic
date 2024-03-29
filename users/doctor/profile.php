@@ -2,7 +2,7 @@
 
 session_start();
 include('../../connection.php');
-include('../../includes/nurse-auth.php');
+include('../../includes/doctor-auth.php');
 
 $module = 'profile';
 $userid = $_SESSION['userid'];

@@ -31,7 +31,7 @@ if (isset($_GET['patient']) || isset($_GET['designation'])) {
     $sql_count = "SELECT COUNT(*) AS total_rows FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE 1=1 $whereClause";
 } else {
     // If filters are not set, count all rows
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE ac.campus = '$campus'";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid ";
 }
 
 // Execute the count query

@@ -109,6 +109,7 @@ if ($resultCheck > 0) // if may existing entry ung medicine sa reports
     if (mysqli_query($conn, $query)) {
         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
         if ($result = mysqli_query($conn, $sql)) {
+            $_SESSION['alert'] = "Medicine Stocks has been updated.";
 ?>
             <script>
                 setTimeout(function() {
@@ -116,8 +117,8 @@ if ($resultCheck > 0) // if may existing entry ung medicine sa reports
                 });
             </script>
         <?php
-            // modal message box saying "Medicine stocks was added."
         } else {
+            $_SESSION['alert'] = "Medicine Stocks has been updated.";
         ?>
             <script>
                 setTimeout(function() {
@@ -125,9 +126,9 @@ if ($resultCheck > 0) // if may existing entry ung medicine sa reports
                 });
             </script>
         <?php
-            // modal message box saying "Medicine stocks was added."
         }
     } else {
+        $_SESSION['alert'] = "Medicine Stocks has been updated.";
         ?>
         <script>
             setTimeout(function() {
@@ -135,10 +136,9 @@ if ($resultCheck > 0) // if may existing entry ung medicine sa reports
             });
         </script>
     <?php
-        // modal message box saying "Medicine stocks was added."
     }
 } else {
-    // modal message box saying "Medicine stocks was not added."  
+    $_SESSION['alert'] = "Medicine Stocks was not updated.";
     ?>
     <script>
         setTimeout(function() {

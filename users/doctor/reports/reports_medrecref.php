@@ -62,7 +62,6 @@
     $account_no = $_POST['patientid'];
     $fullname = $_POST['patient'];
     $sex = ucfirst(strtolower($_POST['sex']));
-    $age = floor((time() - strtotime($_POST['birthday'])) / 31556926); 
     $medsup = $_POST['medsup'];
     $pys = $_POST['pys'];
     $cc = $_POST['cc'];
@@ -71,7 +70,7 @@
     $referral = $_POST['referral'];
     $datetime = date("F d, Y | g:i A", strtotime($_POST['datetime']));
     
-    $query = mysqli_query($conn, "SELECT designation, department, college, campus FROM patient_info WHERE patientid = '$account_no'");
+    $query = mysqli_query($conn, "SELECT designation, birthday, department, college, campus FROM patient_info WHERE patientid = '$account_no'");
     if($data=mysqli_fetch_array($query))
     {
         
@@ -79,6 +78,11 @@
         $campus = $data['campus'];
         $designation = $data['designation'];
         $department = $data['department'];
+        if(!empty($_POST['age'])){
+            $age = floor((time() - strtotime($data['department']) / 31556926)); 
+        }else{
+        $age = $_POST['age'];
+        }
     }
 
     $pdf->SetFont('Arial', '', 10);

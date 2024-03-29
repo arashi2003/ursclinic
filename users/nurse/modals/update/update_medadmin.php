@@ -14,6 +14,7 @@
         $query = "INSERT INTO audit_trail (user, '$fullname', activity, status, datetime) VALUES ('$accountid', '$fullname', 'updated a medicine administration entry', '$au_status', now())";
         if($result = mysqli_query($conn, $query))
         {
+            $_SESSION['alert'] = "Medicine Administration has been updated.";
             ?>
             <script>
                 setTimeout(function() {
@@ -21,10 +22,10 @@
                 });
                 </script>
             <?php
-            // modal message box saying "Medicine Administration added."
         }
         else
         {
+            $_SESSION['alert'] = "Medicine Administration has been updated.";
             ?>
             <script>
                 setTimeout(function() {
@@ -32,12 +33,11 @@
                 });
                 </script>
             <?php
-            // modal message box saying "Medicine Administration was not added."
         }
     }
     else
     {
-        // modal message box saying "Medicine Administration was not added."
+        $_SESSION['alert'] = "Medicine Administration was not updated.";
 ?>
 <script>
     setTimeout(function() {

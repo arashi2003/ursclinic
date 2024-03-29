@@ -20,6 +20,7 @@ $query = "UPDATE appointment SET status='CANCELLED', reason = '$reason' WHERE id
 if ($result = mysqli_query($conn, $query)) {
     $query = "INSERT INTO audit_trail (user, campus, fullname, activity, status, datetime) VALUES ('$userid', '$au_campus', '$fullname', '$activity', '$au_status', now())";
     if ($result = mysqli_query($conn, $query)) {
+        $_SESSION['alert'] = "Appointment has been cancelled.";
 ?>
         <script>
             setTimeout(function() {
@@ -27,8 +28,8 @@ if ($result = mysqli_query($conn, $query)) {
             });
         </script>
     <?php
-        // modal message box saying "Appointment has been cancelled."
     } else {
+        $_SESSION['alert'] = "Appointment has been cancelled.";
     ?>
         <script>
             setTimeout(function() {
@@ -36,10 +37,9 @@ if ($result = mysqli_query($conn, $query)) {
             });
         </script>
     <?php
-        // modal message box saying "Appointment has been cancelled."
     }
 } else {
-    // modal message box saying "Appointment was not cancelled."
+    $_SESSION['alert'] = "Appointment was not cancelled.";
     ?>
     <script>
         setTimeout(function() {

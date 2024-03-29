@@ -15,17 +15,18 @@
         $query = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
         if($result = mysqli_query($conn, $query))
         {
+            $_SESSION['alert'] = "Chief Complaint has been updated.";
             ?>
             <script>
                 setTimeout(function() {
                     window.location = "../../chiefcomplaint";
                 });
             </script>
-            <?php
-            // modal message box saying "Chief Complaint was added."            
+            <?php         
         }
         else
         {
+            $_SESSION['alert'] = "Chief Complaint has been updated.";
             ?>
             <script>
                 setTimeout(function() {
@@ -33,12 +34,11 @@
                 });
             </script>
             <?php
-            // modal message box saying "Chief Complaint was added."
         }
     }
     else
     {
-        // modal message box saying "Chief Complaint was not added."
+        $_SESSION['alert'] = "Chief Complaint was not updated.";
 ?>
 <script>
     setTimeout(function() {

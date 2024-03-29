@@ -198,7 +198,7 @@ if ($result = mysqli_query($conn, $sql)) {
         if ($result = mysqli_query($conn, $sql)) {
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
             if ($result = mysqli_query($conn, $sql)) {
-                $_SESSION['alert'] = "Medical Record has been added."
+                $_SESSION['alert'] = "Medical History has been recorded."
 ?>
                 <script>
                     setTimeout(function() {
@@ -207,7 +207,7 @@ if ($result = mysqli_query($conn, $sql)) {
                 </script>
             <?php
             } else {
-                $_SESSION['alert'] = "Medical Record has been added."
+                $_SESSION['alert'] = "Medical History has been recorded."
             ?>
                 <script>
                     setTimeout(function() {
@@ -217,7 +217,7 @@ if ($result = mysqli_query($conn, $sql)) {
             <?php
             }
         } else {
-            $_SESSION['alert'] = "Medical Record has been added."
+            $_SESSION['alert'] = "Medical History has been recorded."
             ?>
             <script>
                 setTimeout(function() {
@@ -312,7 +312,7 @@ if ($result = mysqli_query($conn, $sql)) {
         if ($result = mysqli_query($conn, $sql)) {
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
             if ($result = mysqli_query($conn, $sql)) {
-                $_SESSION['alert'] = "Medical Record has been added."
+                $_SESSION['alert'] = "Medical History has been recorded."
             ?>
                 <script>
                     setTimeout(function() {
@@ -321,7 +321,7 @@ if ($result = mysqli_query($conn, $sql)) {
                 </script>
             <?php
             } else {
-                $_SESSION['alert'] = "Medical Record has been added."
+                $_SESSION['alert'] = "Medical History has been recorded."
             ?>
                 <script>
                     setTimeout(function() {
@@ -331,7 +331,7 @@ if ($result = mysqli_query($conn, $sql)) {
             <?php
             }
         } else {
-            $_SESSION['alert'] = "Medical Record has been added."
+            $_SESSION['alert'] = "Medical History has been recorded."
             ?>
             <script>
                 setTimeout(function() {
@@ -342,7 +342,7 @@ if ($result = mysqli_query($conn, $sql)) {
         }
     }
 } else {
-    $_SESSION['alert'] = "Medical Record was not added."
+    $_SESSION['alert'] = "Medical History was not recorded."
     ?>
     <script>
         setTimeout(function() {
