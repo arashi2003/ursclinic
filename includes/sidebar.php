@@ -430,7 +430,7 @@
                     <li><a class="link_name" href="patients">Patient Information</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'transaction_history' || $module == 'dental_consultation') {
+            <li class="<?php if ($module == 'transaction_history' || $module == 'dental_consultation' || $module == 'dental_checkup') {
                             echo 'active showMenu';
                         } ?>">
                 <div class="icon-link">

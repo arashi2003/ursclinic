@@ -89,15 +89,19 @@
                         </select>
                     </div>
                     <div class="row">
-                        <div class="col mb-2 hidden" id="yearlevelDiv">
+                        <div class="col-md-4 mb-2 hidden" id="yearlevelDiv">
                             <label for="yearlevel" class="form-label">Year Level:</label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="yearlevel" id="yearlevelSelect">
                                 <option value="" disabled selected>-Select Year Level-</option>
                             </select>
                         </div>
-                        <div class="col mb-2 hidden" id="section">
+                        <div class="col-md-4 mb-2 hidden" id="section">
                             <label for="section" class="form-label">Section:</label>
                             <input type="text" class="form-control" name="section" id="section">
+                        </div>
+                        <div class="col-md-4 mb-2 hidden" id="block">
+                            <label for="section" class="form-label">Block:</label>
+                            <input type="text" class="form-control" name="block" id="block">
                         </div>
                     </div>
                     <div class="mb-2">
@@ -139,6 +143,7 @@
                 document.getElementById('programDiv').classList.add('hidden');
                 document.getElementById('yearlevelDiv').classList.add('hidden');
                 document.getElementById('section').classList.add('hidden');
+                document.getElementById('block').classList.add('hidden');
             } else if (answer.value == 'STUDENT') {
                 document.getElementById('departmentDiv').classList.remove('hidden');
             }
@@ -157,11 +162,13 @@
                 document.getElementById('programDiv').classList.remove('hidden');
                 document.getElementById('yearlevelDiv').classList.remove('hidden');
                 document.getElementById('section').classList.remove('hidden');
+                document.getElementById('block').classList.remove('hidden');
             } else if (answer.value == 'SENIOR HIGH SCHOOL') {
                 document.getElementById('collegeDiv').classList.add('hidden');
                 document.getElementById('programDiv').classList.remove('hidden');
                 document.getElementById('yearlevelDiv').classList.remove('hidden');
                 document.getElementById('section').classList.remove('hidden');
+                document.getElementById('block').classList.remove('hidden');
             }
         }
     };

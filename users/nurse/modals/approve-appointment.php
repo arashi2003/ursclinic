@@ -46,7 +46,7 @@ if ($result) {
     $mail->Password = 'viwnydtwfagjlzyy'; // Your SMTP password
     $mail->SMTPSecure = 'ssl';
     $mail->Port = 465; // TCP port to connect to
-    $mail->setFrom('urshealthservice@gmail.com', 'URS Health Service Unit');
+    $mail->setFrom('urshealthservice@gmail.com', 'URS Health Services Unit');
     $mail->addAddress($email); // Assuming you have user's email in session
     $mail->isHTML(true);
     $mail->Subject = 'Appointment Approved';

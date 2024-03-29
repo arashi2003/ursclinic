@@ -129,6 +129,6 @@
     //date kung kelan prinint/sinave
     $date = date("F_Y");
     $filename = "Clearance_Slip_". $account_no . "_" . $date. ".pdf";
-    $pdf->Output($filename, 'I');
+    $pdf->Output($filename, 'D');
     mysqli_close($conn);
 ?>

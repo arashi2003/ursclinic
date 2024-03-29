@@ -544,7 +544,12 @@ if ($approved_pages > 4) {
                                                             if ($data['status'] == 'CANCELLED') {
                                                                 include('modals/app_cancelled_modal.php');
                                                             } elseif ($data['status'] == 'APPROVED') {
-                                                                include('modals/app_record_modal.php');
+                                                                if($data['type'] == "Request for Medicine" || $data['purpose'] == "Request for Medicine" || $data['type'] == "Request for Medical Supply" || $data['purpose'] == "Request for Medical Supply"){
+                                                                    include('modals/app_record_medsup_modal.php');
+                                                                }
+                                                                else{
+                                                                    include('modals/app_record_trans_modal.php');
+                                                                }
                                                                 include('modals/app_cancel_modal.php');
                                                             } elseif ($data['status'] == 'COMPLETED') {
                                                                 include('modals/app_completed_modal.php');
