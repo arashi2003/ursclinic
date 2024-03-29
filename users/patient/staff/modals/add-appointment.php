@@ -4,7 +4,7 @@ include('connection.php');
 
 $date = date("Y-m-d", strtotime($_POST['date']));
 $time_from = date("H:i:s", strtotime($_POST['time_from']));
-$time_to =  date("H:i:s", strtotime($_POST['time_from']));
+$time_to =  date("H:i:s", strtotime($_POST['time_to']));
 $patient  = $_SESSION['userid'];
 $type  = $_POST['appointment'];
 $purpose = $_POST['purpose'];

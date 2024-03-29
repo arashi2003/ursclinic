@@ -5,7 +5,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Appointment Details</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="../add/record-app-medsup.php">
+            <form method="POST" action="../nurse/add/record-app-medsup.php">
                 <div class="modal-body">
                     <input type="text" name="id" value="<?= $data['id'] ?>" hidden>
                     <?php
@@ -167,8 +167,8 @@
                         <textarea type="text" style="resize:none;" class="form-control" name="medsup" id="medsup" disabled><?= $medsup ?></textarea>
                     </div>
                     <div class="mb-2">
-                        <label for="pod_nod" class="form-label">Physician/Nurse:</label>
-                        <input type="text" class="form-control" name="pod_nod" value="<?= $physician ?>" id="pod_nod" disabled>
+                        <label for="medsup" class="form-label">Remarks:</label>
+                        <textarea type="text" style="resize:none;" class="form-control" name="remarks" id="remarks" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

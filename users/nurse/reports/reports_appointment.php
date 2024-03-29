@@ -146,7 +146,7 @@ if ($status == "") {
 }
 
 
-$query = mysqli_query($conn, "SELECT ap.date, ap.time_from, ap.time_to, ap.physician, ap.patient, ap.type, ap.status, ap.purpose, ac.campus, ac.firstname, ac.middlename, ac.lastname, t.type, p.purpose FROM appointment ap INNER JOIN account ac ON ac.accountid=ap.patient INNER JOIN appointment_type t ON t.id=ap.type INNER JOIN appointment_purpose p ON p.id=ap.purpose $ca $date $doc $st ORDER BY ap.date, ap.time_from");
+$query = mysqli_query($conn, "SELECT ap.date, ap.time_from, ap.time_to, ap.physician, ap.patient, ap.type, ap.status, ap.purpose, ac.campus, ac.firstname, ac.middlename, ac.lastname, t.type, p.purpose FROM appointment ap INNER JOIN account ac ON ac.accountid=ap.patient INNER JOIN appointment_type t ON t.id=ap.type INNER JOIN appointment_purpose p ON p.id=ap.purpose $ca $date $doc $st ORDER BY ap.date DESC, ap.time_from");
 while ($data = mysqli_fetch_array($query)) {
     if (count(explode(" ", $data['middlename'])) > 1) {
         $middle = explode(" ", $data['middlename']);
@@ -170,9 +170,14 @@ while ($data = mysqli_fetch_array($query)) {
     $pdf->Cell(30, 6, date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to'])), 1, 0, 'C');
     $pdf->Cell(50, 6, $phys, 1, 0);
 
+    if($data['type'] != $data['purpose']){
+        $app = $data['type'] . " - " . $data['purpose'];
+    } else{
+        $app = $data['type'];
+    }
 
     $pdf->Cell(70, 6, ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])), 1, 0);
-    $pdf->Cell(65, 6, $data['type'] . " - " . $data['purpose'], 1, 0);
+    $pdf->Cell(65, 6, $app, 1, 0);
     $pdf->Cell(30, 6, strtoupper($data['status']), 1, 0, 'C');
     $pdf->Cell(0, 6, '', 0, 1);
 }

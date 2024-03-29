@@ -146,9 +146,8 @@ while ($data = mysqli_fetch_array($query)) {
 }
 
 $pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(60, 6, 'Others:', 1, 0);
+$pdf->Cell(189, 6, 'Others:', 1, 0);
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(129, 6, '', 1, 0, 'C');
 $pdf->Cell(0, 6, '', 0, 1);
 
 $query = mysqli_query($conn, "SELECT * FROM reports_medcase $ca $date AND type LIKE '%other%'");
@@ -168,7 +167,6 @@ while ($data = mysqli_fetch_array($query)) {
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(60, 6, 'Total', 1, 0, 'C');
-$pdf->SetFont('Arial', '', 10);
 
 $query = mysqli_query($conn, "SELECT sum(sm) FROM reports_medcase $ca $date AND type != 'checkups'");
 while ($data = mysqli_fetch_array($query)) {
@@ -217,9 +215,8 @@ while ($data = mysqli_fetch_array($query)) {
 
 $pdf->Cell(0, 6, '', 0, 1);
 $pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(60, 6, 'Checkups', 1, 0);
+$pdf->Cell(189, 6, 'Checkups', 1, 0);
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(129, 6, '', 1, 0, 'C');
 $pdf->Cell(0, 6, '', 0, 1);
 
 $query = mysqli_query($conn, "SELECT * FROM reports_medcase $ca $date AND type='checkups'");
@@ -239,7 +236,6 @@ while ($data = mysqli_fetch_array($query)) {
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(60, 6, 'Total', 1, 0, 'C');
-$pdf->SetFont('Arial', '', 10);
 
 $query = mysqli_query($conn, "SELECT sum(sm) FROM reports_medcase $ca $date AND type='checkups'");
 while ($data = mysqli_fetch_array($query)) {
@@ -290,7 +286,6 @@ $pdf->Cell(0, 6, '', 0, 1);
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(60, 6, 'GRAND TOTAL', 1, 0, 'C');
-$pdf->SetFont('Arial', '', 10);
 
 $query = mysqli_query($conn, "SELECT sum(sm) FROM reports_medcase $ca $date");
 while ($data = mysqli_fetch_array($query)) {
@@ -349,7 +344,7 @@ if ($dt == "") {
 } else {
     $ddd = date("F d, Y", strtotime('first day of next month', strtotime($dt)));
 }
-$ds = date("F d, Y H:i A");
+$ds = date("F d, Y h:i A");
 $pdf->Cell(10, 8, 'Date and Time Printed: ' . $ds);
 $pdf->Cell(180, 6, 'Date Submitted: ' . $ddd, 0, 0, 'R');
 $pdf->SetFont('Arial', '', 10);

@@ -482,7 +482,7 @@ if ($approved_pages > 4) {
                                                 } else {
                                                     $count = 1;
                                                     $today = date("Y-m-d");
-                                                    $sql = "SELECT ap.id, ap.date, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE (ap.status='APPROVED' OR ap.status='COMPLETED') AND ac.campus='$campus' AND date >= '$today' ORDER BY ap.status DESC, ap.date, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";    
+                                                    $sql = "SELECT ap.id, ap.date, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE (ap.status='APPROVED' OR ap.status='COMPLETED') AND ac.campus='$campus' AND date >= '$today' ORDER BY ap.status DESC, ap.date, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
                                                 }
                                                 if ($result) {
@@ -526,11 +526,12 @@ if ($approved_pages > 4) {
                                                                         if ($data['physician'] == 'NONE') {
                                                                         ?>
                                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#recordppointment<?php echo $data['id'] ?>">Record</button>
+                                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?php echo $data['id']; ?>">Cancel</button>
                                                                         <?php } else { ?>
                                                                             <button type="button" class="btn btn-primary btn-sm" disabled>Record</button>
+                                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?php echo $data['id']; ?>">Cancel</button>
                                                                         <?php }
                                                                         ?>
-                                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?php echo $data['id']; ?>">Cancel</button>
                                                                     <?php
                                                                     } elseif ($data['status'] == 'COMPLETED') {
                                                                     ?>
@@ -544,13 +545,13 @@ if ($approved_pages > 4) {
                                                             if ($data['status'] == 'CANCELLED') {
                                                                 include('modals/app_cancelled_modal.php');
                                                             } elseif ($data['status'] == 'APPROVED') {
-                                                                if($data['type'] == "Request for Medicine" || $data['purpose'] == "Request for Medicine" || $data['type'] == "Request for Medical Supply" || $data['purpose'] == "Request for Medical Supply"){
+                                                                if ($data['type'] == "Request for Medicine" || $data['purpose'] == "Request for Medicine" || $data['type'] == "Request for Medical Supply" || $data['purpose'] == "Request for Medical Supply") {
                                                                     include('modals/app_record_medsup_modal.php');
-                                                                }
-                                                                else{
+                                                                    include('modals/app_cancel_modal.php');
+                                                                } else {
                                                                     include('modals/app_record_trans_modal.php');
+                                                                    include('modals/app_cancel_modal.php');
                                                                 }
-                                                                include('modals/app_cancel_modal.php');
                                                             } elseif ($data['status'] == 'COMPLETED') {
                                                                 include('modals/app_completed_modal.php');
                                                             }

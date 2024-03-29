@@ -4,14 +4,14 @@ include('../../../connection.php');
 
 // Patient info
 $id = $_POST['id'];
+$remarks = $_POST['remarks'];
 
-$sql = "SELECT * FROM appointment WHERE id='$id'";
-$result = mysqli_query($conn, $sql);
-while ($row = mysqli_fetch_array($result)) {
-    $patientid = $row['patientid'];
-    $patient = $row['patient'];
-    $transaction = $row['type'];
-    $purpose = $row['purpose'];
+$doot = "SELECT * FROM appointment WHERE id='$id'";
+$result0 = mysqli_query($conn, $doot);
+while ($row = mysqli_fetch_array($result0)) {
+    $patientid = $row['patient'];
+    $trans = $row['type'];
+    $purp = $row['purpose'];
     $chief_complaint = $row['chiefcomplaint'] . " " . $row['others'];
     $med_1 = $row['med_1'];
     $mqty_1 = $row['mqty_1'];
@@ -34,12 +34,21 @@ while ($row = mysqli_fetch_array($result)) {
     $sup_5 = $row['sup_5'];
     $sqty_5 = $row['sqty_5'];
 
-    $sql = "SELECT * FROM patient_info WHERE patientid='$patientid'";
+    $sql = "SELECT type FROM appointment_type WHERE id='$trans'";
     $result = mysqli_query($conn, $sql);
+    while ($grr = mysqli_fetch_array($result)) {
+        $transaction = $grr['type'] ;
+    }
+
+    $sql = "SELECT purpose FROM appointment_purpose WHERE id='$purp'";
+    $result = mysqli_query($conn, $sql);
+    while ($grr = mysqli_fetch_array($result)) {
+        $purpose = $grr['purpose'];
+    }
+
+    $query0 = "SELECT * FROM patient_info WHERE patientid = '$patientid'";
+    $result = mysqli_query($conn, $query0);
     while ($data = mysqli_fetch_array($result)) {
-        $firstname = strtoupper($data['firstname']);
-        $middlename = strtoupper($data['middlename']);
-        $lastname = strtoupper($data['lastname']);
         $designation = strtoupper($data['designation']);
         $age = floor((time() - strtotime($data['birthday'])) / 31556926);
         $sex = strtoupper($data['sex']);
@@ -51,9 +60,39 @@ while ($row = mysqli_fetch_array($result)) {
         $section = $data['section'];
         $block = strtoupper($data['block']);
     }
-}
+
+    $query1 = "SELECT * FROM account WHERE accountid = '$patientid'";
+    $result = mysqli_query($conn, $query1);
+    while ($data = mysqli_fetch_array($result)) {
+        $firstname = strtoupper($data['firstname']);
+        $middlename = strtoupper($data['middlename']);
+        $lastname = strtoupper($data['lastname']);
+    }
 
 
+    //kunin medcase type
+    $med_case = $transaction;
+    $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
+    $result = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result) > 0) {
+        while ($data = mysqli_fetch_array($result)) {
+            if ($data['medcase'] != 'Others:') {
+                $medcase =  $data['medcase'];
+                $medcase_type = $data['type'];
+                $medcase_others = $purpose;
+            } else {
+                $medcase_type = "others";
+                $medcase_others = $transaction;
+                $medcase = $purpose;
+            }
+        }
+    } else {
+        $medcase_type = "others";
+        $medcase_others = $transaction;
+        $medcase = $purpose;
+    }
+
+    
 $user = $_SESSION['userid'];
 $campus = $_SESSION['campus'];
 $fullname = strtoupper($_SESSION['name']);
@@ -65,6 +104,7 @@ $pod_nod = $fullname;
 $type = "Appointment";
 $datenow = date("Y-m-d");
 $enddate = date("Y-m-t");
+$medsup0 = "";
 
 if (!empty($med_1)) {
     $sql = "SELECT * FROM inv_total WHERE stockid = '$med_1' AND type = 'medicine'";
@@ -170,23 +210,32 @@ if (!empty($sup_5)) {
 //$medsup1 = implode(", ", $medsup0);
 $medsup = rtrim($medsup0, " , ");
 
-$med_case = $transaction;
-$sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
-$result = mysqli_query($conn, $sql);
-while ($data = mysqli_fetch_array($result)) {
-    if ($data['medcase'] != 'Others:') {
-        $medcase =  $data['medcase'];
-        $medcase_type = $data['type'];
-        $medcase_others = $purpose;
+
+    //kunin medcase type
+    $med_case = $transaction;
+    $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
+    $result = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result) > 0) {
+        while ($data = mysqli_fetch_array($result)) {
+            if ($data['medcase'] != 'Others:') {
+                $medcase =  $data['medcase'];
+                $medcase_type = $data['type'];
+                $medcase_others = $purpose;
+            } else {
+                $medcase_type = "others";
+                $medcase_others = $transaction;
+                $medcase = $purpose;
+            }
+        }
     } else {
         $medcase_type = "others";
         $medcase_others = $transaction;
         $medcase = $purpose;
     }
-}
 
+    
 // Insert transaction history
-$query = "INSERT INTO appointment?tab=approved (patient, firstname, middlename, lastname, designation, age, sex, department, college, program, yearlevel, section, block, type, transaction, purpose,  bp, pr, temp, respiratory, oxygen_saturation, chief_complaint, findiag, remarks, referral, medsup, pod_nod, medcase, medcase_others, campus, datetime) VALUES ('$patientid', '$firstname', '$middlename', '$lastname', '$designation', '$age', '$sex', '$department', '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction', '$purpose', '$chief_complaint', '$medsup', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";
+$query = "INSERT INTO transaction_history (patient, firstname, middlename, lastname, designation, age, sex, department, college, program, yearlevel, section, block, type, transaction, purpose, chief_complaint, remarks, medsup, pod_nod, medcase, medcase_others, campus, datetime) VALUES ('$patientid', '$firstname', '$middlename', '$lastname', '$designation', '$age', '$sex', '$department', '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction', '$purpose', '$chief_complaint', '$remarks', '$medsup', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";
 $result = mysqli_query($conn, $query);
 
 // Update inventory for each medicine
@@ -616,23 +665,33 @@ if (!empty($sup_5)) {
     }
 }
 
+
+$sql = "UPDATE appointment SET status='COMPLETED' WHERE id='$id'";
+mysqli_query($conn, $sql);
+
 // check if may existing na
 $enddate = date("Y-m-t");
 $campus = $_SESSION['campus'];
-//kunin medcase as text
+//kunin medcase type
 $med_case = $transaction;
 $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
 $result = mysqli_query($conn, $sql);
-while ($data = mysqli_fetch_array($result)) {
-    if ($data['medcase'] != 'Others:') {
-        $medcase =  $data['medcase'];
-        $medcase_type = $data['type'];
-        $medcase_others = $purpose;
-    } else {
-        $medcase_type = "others";
-        $medcase_others = $transaction;
-        $medcase = $purpose;
+if (mysqli_num_rows($result) > 0) {
+    while ($data = mysqli_fetch_array($result)) {
+        if ($data['medcase'] != 'Others:') {
+            $medcase =  $data['medcase'];
+            $medcase_type = $data['type'];
+            $medcase_others = $purpose;
+        } else {
+            $medcase_type = "others";
+            $medcase_others = $transaction;
+            $medcase = $purpose;
+        }
     }
+} else {
+    $medcase_type = "others";
+    $medcase_others = $transaction;
+    $medcase = $purpose;
 }
 
 $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate' AND campus='$campus'";
@@ -647,18 +706,25 @@ if (mysqli_num_rows($result) > 0) {
     $med_case = $transaction;
     $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
     $result = mysqli_query($conn, $sql);
-    while ($data = mysqli_fetch_array($result)) {
-        if ($data['medcase'] != 'Others:') {
-            $medcase =  $data['medcase'];
-            $medcase_type = $data['type'];
-            $medcase_others = $purpose;
-        } else {
-            $medcase_type = "others";
-            $medcase_others = $transaction;
-            $medcase = $purpose;
+    if (mysqli_num_rows($result) > 0) {
+        while ($data = mysqli_fetch_array($result)) {
+            if ($data['medcase'] != 'Others:') {
+                $medcase =  $data['medcase'];
+                $medcase_type = $data['type'];
+                $medcase_others = $purpose;
+            } else {
+                $medcase_type = "others";
+                $medcase_others = $transaction;
+                $medcase = $purpose;
+            }
         }
+    } else {
+        $medcase_type = "others";
+        $medcase_others = $transaction;
+        $medcase = $purpose;
     }
 
+    
     $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate' AND campus='$campus'";
     $result = mysqli_query($conn, $sql);
     while ($data = mysqli_fetch_array($result)) {
@@ -820,5 +886,5 @@ if ($result = mysqli_query($conn, $sql)) {
     // modal message box saying "Transaction was recorded."
 }
 
+}
 mysqli_close($conn);
-?>
