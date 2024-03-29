@@ -52,9 +52,14 @@ $usertype = $_SESSION['usertype'];
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" onclick="window.location.href = 'transaction_dental_consultation.php'">Dental Consultation</button>
-                </div>
+                <ul class="nav nav-pills mb-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="transaction_dental_consultation">Consultation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Checkup</a>
+                    </li>
+                </ul>
                 <form method="POST" action="add/transaction_dental_checkup.php" id="form">
                     <div class="content">
                         <h3><b>Patient</b></h3>
@@ -114,11 +119,11 @@ $usertype = $_SESSION['usertype'];
                                 </div>
                             </div>
                             <!-- responsive-->
-                            <div class="col-md-4 mb-2 hidden" id="departmentDiv">
+                            <div class="col-md-4 mb-2" id="departmentDiv">
                                 <div class="input-group input-group-md mb-2">
                                     <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
                                     <select class="form-control" aria-label=".form-select-md example" name="department" id="departmentSelect" onchange="enableDepartment(this)">
-                                        <option value="" selected>-Select Department-</option>
+                                        <option value="" disabled selected></option>
                                         <?php
                                         include('connection.php');
                                         $sql = "SELECT * FROM department ORDER BY department";
@@ -133,11 +138,11 @@ $usertype = $_SESSION['usertype'];
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4 mb-2 hidden" id="collegeDiv">
+                            <div class="col-md-4 mb-2" id="collegeDiv">
                                 <div class="input-group input-group-md mb-2">
                                     <span class="input-group-text" id="inputGroup-sizing-md">College:</span>
                                     <select class="form-control" aria-label=".form-select-md example" name="college" id="collegeSelect">
-                                        <option value="" disabled selected>-Select College-</option>
+                                        <option value="" disabled selected></option>
                                         <?php
                                         include('connection.php');
                                         $sql = "SELECT * FROM college ORDER BY college";
@@ -149,36 +154,50 @@ $usertype = $_SESSION['usertype'];
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-2 hidden" id="programDiv">
+                            <div class="col-md-4 mb-2" id="programDiv">
                                 <div class="input-group input-group-md mb-2">
                                     <span class="input-group-text" id="inputGroup-sizing-md">Program:</span>
                                     <select class="form-control" aria-label=".form-select-md example" name="program" id="programSelect">
-                                        <option value="" disabled selected>-Select Program-</option>
+                                        <option value="" disabled selected></option>
+                                        <?php
+                                        include('connection.php');
+                                        $sql = "SELECT * FROM program";
+                                        $result = mysqli_query($conn, $sql);
+                                        while ($row = mysqli_fetch_array($result)) {
+                                        ?>
+                                            <option value="<?= $row['abbrev']; ?>"><?= $row['program']; ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-2 hidden" id="yearlevelDiv">
+                            <div class="col-md-4 mb-2" id="yearlevelDiv">
                                 <div class="input-group input-group-md mb-2">
                                     <span class="input-group-text" id="inputGroup-sizing-md">Year Level:</span>
                                     <select class="form-control" aria-label=".form-select-md example" name="yearlevel" id="yearlevelSelect">
-                                        <option value="" disabled selected>-Select Year Level-</option>
+                                        <option value="" disabled selected></option>
+                                        <?php
+                                        include('connection.php');
+                                        $sql = "SELECT * FROM yearlevel";
+                                        $result = mysqli_query($conn, $sql);
+                                        while ($row = mysqli_fetch_array($result)) {
+                                        ?>
+                                            <option value="<?= $row['yearlevel']; ?>"><?= $row['yearlevel']; ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-2 hidden" id="section">
+                            <div class="col-md-4 mb-2" id="sectionDiv">
                                 <div class="input-group input-group-md mb-2">
                                     <span class="input-group-text" id="inputGroup-sizing-md">Section:</span>
                                     <input type="text" class="form-control" name="section" id="section">
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-2 hidden" id="block">
+                            <div class="col-md-4 mb-2" id="blockDiv">
                                 <div class="input-group input-group-md mb-2">
                                     <span class="input-group-text" id="inputGroup-sizing-md">Block:</span>
                                     <input type="text" class="form-control" name="block" id="block">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-4 mb-2">
                                 <div class="input-group input-group-md mb-2">
                                     <span class="input-group-text" id="inputGroup-sizing-md">Civl Status:</span>
@@ -191,7 +210,9 @@ $usertype = $_SESSION['usertype'];
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-8 mb-2">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-2">
                                 <div class="input-group input-group-md mb-2">
                                     <span class="input-group-text" id="inputGroup-sizing-md">Address:</span>
                                     <input type="text" class="form-control" name="address" id="address">
@@ -1068,45 +1089,42 @@ $usertype = $_SESSION['usertype'];
         sidebar.classList.toggle("close");
     });
 </script>
+
 <script>
     function fetchPatientData() {
         var patientId = document.getElementById('patientid').value;
         if (patientId.trim() !== '') {
-            // Perform AJAX request to fetch patient data
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'add/get_patientid.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
-                        // Process the response
                         var response = JSON.parse(xhr.responseText);
+                        console.log(response); // Check response in console
                         if (response.error) {
-                            // Display Bootstrap form validation error message
                             document.getElementById('patientid').classList.add('is-invalid');
                             document.getElementById('patientid').setCustomValidity(response.error);
                             document.getElementById('patientid').reportValidity();
                         } else {
-                            // Update form fields with fetched patient data
                             document.getElementById('firstname').value = response.firstname;
                             document.getElementById('middlename').value = response.middlename;
                             document.getElementById('lastname').value = response.lastname;
                             document.getElementById('designation').value = response.designation;
                             document.getElementById('sex').value = response.sex;
-                            document.getElementById('department').value = response.department;
-                            document.getElementById('college').value = response.college;
-                            document.getElementById('program').value = response.program;
-                            document.getElementById('yearlevel').value = response.yearlevel;
-                            document.getElementById('section').value = response.section;
-                            document.getElementById('block').value = response.block;
+                            document.getElementById('departmentSelect').value = response.department;
+                            document.getElementById('collegeSelect').value = response.college;
+                            document.getElementById('programSelect').value = response.program;
+                            document.getElementById('yearlevelSelect').value = response.yearlevel;
+                            document.getElementById('section').value = response.section; // Check this line
+                            document.getElementById('block').value = response.block; // Check this line
                             document.getElementById('address').value = response.address;
 
-                            // Reset form validation state
+
                             document.getElementById('patientid').classList.remove('is-invalid');
                             document.getElementById('patientid').setCustomValidity('');
                         }
                     } else {
-                        // Handle error if AJAX request fails
                         console.error('Error: Unable to fetch patient data');
                     }
                 }
@@ -1120,10 +1138,10 @@ $usertype = $_SESSION['usertype'];
             document.getElementById('lastname').value = '';
             document.getElementById('designation').value = '';
             document.getElementById('sex').value = '';
-            document.getElementById('department').value = '';
-            document.getElementById('college').value = '';
-            document.getElementById('program').value = '';
-            document.getElementById('yearlevel').value = '';
+            document.getElementById('departmentSelect').value = '';
+            document.getElementById('collegeSelect').value = '';
+            document.getElementById('programSelect').value = '';
+            document.getElementById('yearlevelSelect').value = '';
             document.getElementById('section').value = '';
             document.getElementById('block').value = '';
             document.getElementById('address').value = '';
@@ -1142,8 +1160,8 @@ $usertype = $_SESSION['usertype'];
                 document.getElementById('collegeDiv').classList.add('hidden');
                 document.getElementById('programDiv').classList.add('hidden');
                 document.getElementById('yearlevelDiv').classList.add('hidden');
-                document.getElementById('section').classList.add('hidden');
-                document.getElementById('block').classList.add('hidden');
+                document.getElementById('sectionDiv').classList.add('hidden');
+                document.getElementById('blockDiv').classList.add('hidden');
             } else if (answer.value == 'STUDENT') {
                 document.getElementById('departmentDiv').classList.remove('hidden');
             }
@@ -1157,19 +1175,19 @@ $usertype = $_SESSION['usertype'];
                 document.getElementById('collegeDiv').classList.add('hidden');
                 document.getElementById('programDiv').classList.add('hidden');
                 document.getElementById('yearlevelDiv').classList.remove('hidden');
-                document.getElementById('block').classList.add('hidden');
+                document.getElementById('blockDiv').classList.add('hidden');
             } else if (answer.value == 'COLLEGE') {
                 document.getElementById('collegeDiv').classList.remove('hidden');
                 document.getElementById('programDiv').classList.remove('hidden');
                 document.getElementById('yearlevelDiv').classList.remove('hidden');
-                document.getElementById('section').classList.remove('hidden');
-                document.getElementById('block').classList.remove('hidden');
+                document.getElementById('sectionDiv').classList.remove('hidden');
+                document.getElementById('blockDiv').classList.remove('hidden');
             } else if (answer.value == 'SENIOR HIGH SCHOOL') {
                 document.getElementById('collegeDiv').classList.add('hidden');
                 document.getElementById('programDiv').classList.remove('hidden');
                 document.getElementById('yearlevelDiv').classList.remove('hidden');
-                document.getElementById('section').classList.remove('hidden');
-                document.getElementById('block').classList.add('hidden');
+                document.getElementById('sectionDiv').classList.remove('hidden');
+                document.getElementById('blockDiv').classList.add('hidden');
             }
         }
     };
@@ -1180,9 +1198,9 @@ $usertype = $_SESSION['usertype'];
         $("#collegeSelect").change(function() {
             var college_id = $(this).val();
             if (college_id == '') {
-                $("#programSelect").html('<option value="" disable selected>-Select Program-</option>');
+                $("#programSelect").html('<option value="" disable selected></option>');
             } else {
-                $("#programSelect").html('<option value="" disable selected>-Select Program-</option>');
+                $("#programSelect").html('<option value="" disable selected></option>');
                 $.ajax({
                     url: "action_college.php",
                     method: "POST",
@@ -1214,7 +1232,7 @@ $usertype = $_SESSION['usertype'];
 
     $(document).ready(function() {
         $("#departmentSelect").change(function() {
-            $("#programSelect").html('<option value="" disable selected>-Select Program-</option>');
+            $("#programSelect").html('<option value="" disable selected></option>');
         });
     });
 </script>

@@ -436,17 +436,17 @@
                 <div class="icon-link">
                     <a href="#">
                         <i class='bx bx-collection'></i>
-                        <span class="link_name">Dental Records</span>
+                        <span class="link_name">Dental</span>
                     </a>
                     <i class='bx bxs-chevron-down arrow'></i>
                 </div>
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="#">Dental Records</a></li>
+                    <li><a class="link_name" href="#">Dental</a></li>
 
                     <li>
                         <a class="<?php if ($module == 'dental_consultation') {
                                         echo 'active';
-                                    } ?>" href="transaction_dental_consultation">Consultation</a>
+                                    } ?>" href="transaction_dental_consultation">Record</a>
                     </li>
 
                     <li>
