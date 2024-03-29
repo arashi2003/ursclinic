@@ -56,7 +56,7 @@
                             <div class="col-md-6 mb-2" id="departmentDiv">
                                 <label for="department" class="form-label">Department:</label>
                                 <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="departmentSelect" onchange="enableDepartment(this)">
-                                    <option value="" selected></option>
+                                    <option value="" disabled selected></option>
                                     <?php
                                     include('connection.php');
                                     $sql = "SELECT * FROM department ORDER BY department";
@@ -74,7 +74,7 @@
                             <div class="mb-2" id="collegeDiv">
                                 <label for="college" class="form-label">College:</label>
                                 <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="college" id="collegeSelect">
-                                    <option value="" disabled selected>-Select College-</option>
+                                    <option value="" disabled selected></option>
                                     <?php
                                     include('connection.php');
                                     $sql = "SELECT * FROM college ORDER BY college";
@@ -89,6 +89,14 @@
                                 <label for="program" class="form-label">Program:</label>
                                 <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="program" id="programSelect">
                                     <option value="" disabled selected></option>
+                                    <?php
+                                    include('connection.php');
+                                    $sql = "SELECT * FROM program";
+                                    $result = mysqli_query($conn, $sql);
+                                    while ($row = mysqli_fetch_array($result)) {
+                                    ?>
+                                        <option value="<?= $row['abbrev']; ?>"><?= $row['program']; ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="row">
@@ -96,354 +104,361 @@
                                     <label for="yearlevel" class="form-label">Year Level:</label>
                                     <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="yearlevel" id="yearlevelSelect">
                                         <option value="" disabled selected></option>
+                                        <?php
+                                        include('connection.php');
+                                        $sql = "SELECT * FROM yearlevel";
+                                        $result = mysqli_query($conn, $sql);
+                                        while ($row = mysqli_fetch_array($result)) {
+                                        ?>
+                                            <option value="<?= $row['yearlevel']; ?>"><?= $row['yearlevel']; ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
-                                <div class="col-md-4 mb-2" id="section">
+                                <div class="col-md-4 mb-2" id="sectionDiv">
                                     <label for="section" class="form-label">Section:</label>
                                     <input type="text" class="form-control" name="section" id="section">
                                 </div>
-                                <div class="col-md-4 mb-2" id="block">
+                                <div class="col-md-4 mb-2" id="blockDiv">
                                     <label for="section" class="form-label">Block:</label>
                                     <input type="text" class="form-control" name="block" id="block">
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" id="nextButton" data-bs-toggle="modal" data-bs-target="#addtransaction" disabled>Next</button>
-                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="nextButton" data-bs-toggle="modal" data-bs-target="#addtransaction">Next</button>
+                </div>
             </div>
-
-            <div class="modal fade" id="addtransaction" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="addtransaction">Add Transaction</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="mb-2">
-                                    <select name="type" class="form-select" onchange="enableTransaction(this)">
-                                        <option value="" disabled selected>Select Transaction Type</option>
-                                        <option value="Walk-In">Walk-In</option>
-                                        <option value="Medical History">Medical History</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="transaction hidden" id="transactDiv">
-                                <div class="row">
-                                    <div class="mb-2">
-                                        <label for="" class="form-label">Transaction:</label>
-                                        <select class="form-control" aria-label=".form-select-md example" name="service" id="service" onchange="enableService(this)">
-                                            <option value="" disabled selected></option>
-                                            <?php
-                                            include('connection.php');
-                                            $sql = "SELECT DISTINCT service FROM transaction WHERE transaction_type = 'Walk-In' ORDER BY service";
-                                            $result = mysqli_query($conn, $sql);
-                                            while ($row = mysqli_fetch_array($result)) { ?>
-                                                <option value="<?= $row['service']; ?>"><?= $row['service']; ?></option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="default hidden" id="defaultDiv">
-                                <div class="vitals hidden" id="vitalsDiv">
-                                    <div class="row">
-                                        <div class="col-md-4 mb-2">
-                                            <label for="" class="form-label">Blood Pressure:</label>
-                                            <input type="text" maxlength="7" class="form-control" name="bp" id="bp">
-                                        </div>
-                                        <div class="col-md-4 mb-2">
-                                            <label for="" class="form-label">Pulse Rate:</label>
-                                            <input type="number" min="0" maxlength="4" class="form-control" name="pr" id="pr">
-                                        </div>
-                                        <div class="col-md-4 mb-2">
-                                            <label for="" class="form-label">Temperature:</label>
-                                            <input type="text" maxlength="4" class="form-control" name="temp" id="temp">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4 mb-2">
-                                            <label for="" class="form-label">Respiratory Rate:</label>
-                                            <input type="number" min="0" maxlength="4" class="form-control" name="respiratory" id="respiratory">
-                                        </div>
-                                        <div class="col-md-4 mb-2">
-                                            <label for="" class="form-label">Oxygen Saturation:</label>
-                                            <input type="text" maxlength="4" class="form-control" name="oxygen" id="oxygen">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- responsive pag others pinili lalabas additional na textbox-->
-                                <div class="mb-2 hidden" id="ccDiv">
-                                    <label for="" class="form-label">Chief Complaints:</label>
-                                    <select class="form-control" aria-label=".form-select-md example" name="chief_complaint" id="chief_complaint" onchange="enableCc(this)">
-                                        <option value="" disabled selected></option>
-                                        <?php
-                                        include('connection.php');
-                                        $sql = "SELECT * FROM chief_complaint ORDER BY chief_complaint";
-                                        $result = mysqli_query($conn, $sql);
-                                        while ($row = mysqli_fetch_array($result)) { ?>
-                                            <option value="<?= $row['chief_complaint']; ?>"><?= $row['chief_complaint']; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="mb-2 hidden" id="ccOthersDiv">
-                                    <label for="" class="form-label">Others:</label>
-                                    <input type="text" class="form-control" name="chief_complaint_others" id="chief_complaint_others">
-                                </div>
-                                <!-- responsive pag others pinili lalabas additional na textbox-->
-                                <div class="mb-2 hidden" id="fdDiv">
-                                    <label for="" class="form-label">Findings/Diagnosis:</label>
-                                    <select class="form-control" aria-label=".form-select-md example" name="findiag" id="findiag" onchange="enableFd(this)">
-                                        <option value="" disabled selected></option>
-                                        <?php
-                                        include('connection.php');
-                                        $sql = "SELECT * FROM findiag ORDER BY findiag";
-                                        $result = mysqli_query($conn, $sql);
-                                        while ($row = mysqli_fetch_array($result)) { ?>
-                                            <option value="<?= $row['findiag']; ?>"><?= $row['findiag']; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="mb-2 hidden" id="fdOthersDiv">
-                                    <label for="" class="form-label">Others:</label>
-                                    <input type="text" class="form-control" name="findiag_others" id="findiag_others">
-                                </div>
-                                <div class="mb-2 hidden" id="remarksDiv">
-                                    <label for="" class="form-label">Remarks:</label>
-                                    <input type="text" class="form-control" name="remarks" id="remarks">
-                                </div>
-                                <div class="medicine hidden" id="medicineDiv">
-                                    <div class="row duplicate_med">
-                                        <div class="col-md-8 mb-2">
-                                            <label for="" class="form-label">Medicine:</label>
-                                            <select class="form-select" aria-label=".form-select-md example" name="medicine[]" id="medicine">
-                                                <option value="" selected></option>
-                                                <?php
-                                                $sql = "SELECT * FROM inv_total WHERE type = 'medicine' AND qty >= 0 AND campus='$campus' ORDER BY stock_name";
-                                                $result = mysqli_query($conn, $sql);
-                                                while ($row = mysqli_fetch_array($result)) {
-                                                ?>
-                                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4 mb-2">
-                                            <label for="" class="form-label">Quantity:</label>
-                                            <div class="row">
-                                                <div class="col">
-                                                    <input type="number" min="0" class="form-control" name="quantity_med[]">
-                                                </div>
-                                                <div class="col">
-                                                    <button type="button" class="btn btn-primary" onclick="duplicate_med()">+</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="medSupply hidden" id="medSupDiv">
-                                    <div class="row duplicate_sup">
-                                        <div class="col-md-8 mb-2">
-                                            <label for="" class="form-label">Medical Supply:</label>
-                                            <select class="form-select" aria-label=".form-select-md example" name="supply[]" id="supply">
-                                                <option value="" selected></option>
-                                                <?php
-                                                $sql = "SELECT * FROM inv_total WHERE type = 'supply' AND qty >= 0 AND campus='$campus' ORDER BY stock_name";
-                                                $result = mysqli_query($conn, $sql);
-                                                while ($row = mysqli_fetch_array($result)) {
-                                                ?>
-                                                    <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4 mb-2">
-                                            <label for="" class="form-label">Quantity:</label>
-                                            <div class="row">
-                                                <div class="col">
-                                                    <input type="number" min="0" class="form-control" name="quantity_sup[]">
-                                                </div>
-                                                <div class="col">
-                                                    <button type="button" class="btn btn-primary" onclick="duplicate_sup()">+</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mb-2 hidden" id="referralDiv">
-                                    <label for="" class="form-label">Referral:</label>
-                                    <input type="text" class="form-control" name="referral" id="referral">
-                                </div>
-
-                                <!-- responsive pag others pinili lalabas additional na textbox-->
-                                <div class="mb-2 hidden" id="medCaseDiv">
-                                    <label for="" class="form-label">Medical Case:</label>
-                                    <select class="form-control" aria-label=".form-select-md example" name="medcase" id="medcase" onchange="enableMedCase(this)">
-                                        <option value="" disabled selected></option>
-                                        <?php
-                                        include('connection.php');
-                                        $sql = "SELECT * FROM med_case ORDER BY type, medcase";
-                                        $result = mysqli_query($conn, $sql);
-                                        while ($row = mysqli_fetch_array($result)) { ?>
-                                            <option value="<?= $row['medcase']; ?>"><?= "(" . ucfirst(strtolower($row['type'])) . ") " . $row['medcase']; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="mb-2 hidden" id="medCaseOthersDiv">
-                                    <label for="" class="form-label">Others:</label>
-                                    <input type="text" class="form-control" name="medcase_others" id="medcase_others">
-                                </div>
-                            </div>
-
-                            <div class="medhist hidden" id="medHistoryDiv">
-                                <div class="row">
-                                    <div class="col-md-6 mb-2">
-                                        <label for="" class="form-label">Height (cm):</label>
-                                        <input type="number" min="0" maxlength="7" class="form-control" name="height" id="height">
-                                    </div>
-                                    <div class="col-md-6 mb-2">
-                                        <label for="" class="form-label">Weight:</label>
-                                        <input type="text" maxlength="7" class="form-control" name="weight" id="weight">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-2">
-                                        <label for="" class="form-label">Blood Pressure:</label>
-                                        <input type="text" maxlength="7" class="form-control" name="bp" id="bp">
-                                    </div>
-                                    <div class="col-md-6 mb-2">
-                                        <label for="" class="form-label">Pulse Rate:</label>
-                                        <input type="number" min="0" maxlength="3" class="form-control" name="pr" id="pr">
-                                    </div>
-                                    <div class="col-md-6 mb-2">
-                                        <label for="" class="form-label">Temperature:</label>
-                                        <input type="text" maxlength="4" class="form-control" name="temp" id="temp">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="mb-2">
-                                        <label for="" class="form-label">H.E.E.N.T.:</label>
-                                        <input type="text" maxlength="65" class="form-control" name="heent" id="heent">
-                                    </div>
-                                    <div class="mb-2">
-                                        <label for="" class="form-label">Chest/Lungs:</label>
-                                        <input type="text" maxlength="65" class="form-control" name="chest_lungs" id="chest_lungs">
-                                    </div>
-                                    <div class="mb-2">
-                                        <label for="" class="form-label">Heart:</label>
-                                        <input type="text" maxlength="65" class="form-control" name="heart" id="heart">
-                                    </div>
-                                    <div class="mb-2">
-                                        <label for="" class="form-label">Abdomen:</label>
-                                        <input type="text" maxlength="65" class="form-control" name="abdomen" id="abdomen">
-                                    </div>
-                                    <div class="mb-2">
-                                        <label for="" class="form-label">Extremities:</label>
-                                        <input type="text" maxlength="65" class="form-control" name="extremities" id="extremities">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-2">
-                                        <label for="" class="form-label">Last Menstrual Period:</label>
-                                        <input type="date" class="form-control" name="lmp" id="lmp">
-                                    </div>
-                                    <div class="col-md-6 mb-2">
-                                        <label for="" class="form-label">Bronchial Asthma:</label>
-                                        <input type="date" class="form-control" name="bronchial_asthma" id="bronchial_asthma">
-                                    </div>
-                                    <div class="col-md-6 mb-2">
-                                        <label for="" class="form-label">Surgery:</label>
-                                        <input type="date" class="form-control" name="surgery" id="" surgery>
-                                    </div>
-                                    <div class="col-md-6 mb-2">
-                                        <label for="" class="form-label">Heart Disease:</label>
-                                        <input type="date" class="form-control" name="heart_disease" id="heart_disease">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-2">
-                                        <label for="" class="form-label">Allergies:</label>
-                                        <input type="date" class="form-control" name="allergies" id="allergies">
-                                    </div>
-                                    <div class="col-md-6 mb-2">
-                                        <label for="" class="form-label">Epilepsy:</label>
-                                        <input type="date" class="form-control" name="epilepsy" id="epilepsy">
-                                    </div>
-                                    <div class="col-md-6 mb-2">
-                                        <label for="" class="form-label">Hernia:</label>
-                                        <input type="date" class="form-control" name="hernia" id="hernia">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <label for="" class="form-label">Dental:</label>
-                                    <div class="mb-2">
-                                        <input type="text" id="ddefects" name="ddefects" value="" hidden>
-                                        <input type="checkbox" id="ddefects" name="ddefects" value="x">
-                                        <label for="ddefects"> No Dental Defects</label>
-                                    </div>
-                                    <div class="mb-2">
-                                        <input type="text" id="dcs" name="dcs" value="" hidden>
-                                        <input type="checkbox" id="dcs" name="dcs" value="x">
-                                        <label for="dcs"> Presence of Oral Debris, Calculi (tartar) deposits, Stains/discoloration</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="mb-2">
-                                        <input type="text" id="gp" name="gp" value="" hidden>
-                                        <input type="checkbox" id="gp" name="gp" value="x">
-                                        <label for="gp"> Presence of GINGIVITIS and/or PERIODONTITIS</label>
-                                    </div>
-                                    <div class="mb-2">
-                                        <input type="text" id="scaling_polish" name="scaling_polish" value="" hidden>
-                                        <input type="checkbox" id="scaling_polish" name="scaling_polish" value="x">
-                                        <label for="scaling_polish"> For Tooth Scaling and Polishing</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="mb-2">
-                                        <label for="" class="form-label">Other Dento-Facial Findings:</label>
-                                        <input type="text" maxlength="45" class="form-control" name="dento_facial" id="dento_facial">
-                                    </div>
-                                    <div class="mb-2">
-                                        <label for="" class="form-label">Remarks:</label>
-                                        <input type="text" class="form-control" name="remark" id="remark">
-                                    </div>
-                                    <div class="mb-2">
-                                        <label for="" class="form-label">Recommendation:</label>
-                                        <input type="text" class="form-control" name="refer" id="refer">
-                                    </div>
-                                </div>
-
-                                <!-- responsive pag others pinili lalabas additional na textbox-->
-                                <div class="mb-2">
-                                    <label for="" class="form-label">Medical Case:</label>
-                                    <select class="form-control" aria-label=".form-select-md example" name="medcase" id="medcase">
-                                        <option value="" disabled selected></option>
-                                        <?php
-                                        include('connection.php');
-                                        $sql = "SELECT * FROM med_case ORDER BY type, medcase";
-                                        $result = mysqli_query($conn, $sql);
-                                        while ($row = mysqli_fetch_array($result)) { ?>
-                                            <option value="<?= $row['medcase']; ?>"><?= "(" . ucfirst(strtolower($row['type'])) . ") " . $row['medcase']; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="mb-2">
-                                    <label for="" class="form-label">Others:</label>
-                                    <input type="text" maxlength="45" class="form-control" name="medcase_other" id="medcase_other">
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <input type="submit" class="btn btn-primary" value="Add Record"></input>
+        </div>
+    </div>
+    <div class="modal fade" id="addtransaction" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addtransaction">Add Transaction</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="mb-2">
+                            <select name="type" class="form-select" onchange="enableTransaction(this)">
+                                <option value="" disabled selected>Select Transaction Type</option>
+                                <option value="Walk-In">Walk-In</option>
+                                <option value="Medical History">Medical History</option>
+                            </select>
                         </div>
                     </div>
+                    <div class="transaction hidden" id="transactDiv">
+                        <div class="row">
+                            <div class="mb-2">
+                                <label for="" class="form-label">Transaction:</label>
+                                <select class="form-control" aria-label=".form-select-md example" name="service" id="service" onchange="enableService(this)">
+                                    <option value="" disabled selected></option>
+                                    <?php
+                                    include('connection.php');
+                                    $sql = "SELECT DISTINCT service FROM transaction WHERE transaction_type = 'Walk-In' ORDER BY service";
+                                    $result = mysqli_query($conn, $sql);
+                                    while ($row = mysqli_fetch_array($result)) { ?>
+                                        <option value="<?= $row['service']; ?>"><?= $row['service']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="default hidden" id="defaultDiv">
+                        <div class="vitals hidden" id="vitalsDiv">
+                            <div class="row">
+                                <div class="col-md-4 mb-2">
+                                    <label for="" class="form-label">Blood Pressure:</label>
+                                    <input type="text" maxlength="7" class="form-control" name="bp" id="bp">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="" class="form-label">Pulse Rate:</label>
+                                    <input type="number" min="0" maxlength="4" class="form-control" name="pr" id="pr">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="" class="form-label">Temperature:</label>
+                                    <input type="text" maxlength="4" class="form-control" name="temp" id="temp">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mb-2">
+                                    <label for="" class="form-label">Respiratory Rate:</label>
+                                    <input type="number" min="0" maxlength="4" class="form-control" name="respiratory" id="respiratory">
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="" class="form-label">Oxygen Saturation:</label>
+                                    <input type="text" maxlength="4" class="form-control" name="oxygen" id="oxygen">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- responsive pag others pinili lalabas additional na textbox-->
+                        <div class="mb-2 hidden" id="ccDiv">
+                            <label for="" class="form-label">Chief Complaints:</label>
+                            <select class="form-control" aria-label=".form-select-md example" name="chief_complaint" id="chief_complaint" onchange="enableCc(this)">
+                                <option value="" disabled selected></option>
+                                <?php
+                                include('connection.php');
+                                $sql = "SELECT * FROM chief_complaint ORDER BY chief_complaint";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) { ?>
+                                    <option value="<?= $row['chief_complaint']; ?>"><?= $row['chief_complaint']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="mb-2 hidden" id="ccOthersDiv">
+                            <label for="" class="form-label">Others:</label>
+                            <input type="text" class="form-control" name="chief_complaint_others" id="chief_complaint_others">
+                        </div>
+                        <!-- responsive pag others pinili lalabas additional na textbox-->
+                        <div class="mb-2 hidden" id="fdDiv">
+                            <label for="" class="form-label">Findings/Diagnosis:</label>
+                            <select class="form-control" aria-label=".form-select-md example" name="findiag" id="findiag" onchange="enableFd(this)">
+                                <option value="" disabled selected></option>
+                                <?php
+                                include('connection.php');
+                                $sql = "SELECT * FROM findiag ORDER BY findiag";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) { ?>
+                                    <option value="<?= $row['findiag']; ?>"><?= $row['findiag']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="mb-2 hidden" id="fdOthersDiv">
+                            <label for="" class="form-label">Others:</label>
+                            <input type="text" class="form-control" name="findiag_others" id="findiag_others">
+                        </div>
+                        <div class="mb-2 hidden" id="remarksDiv">
+                            <label for="" class="form-label">Remarks:</label>
+                            <input type="text" class="form-control" name="remarks" id="remarks">
+                        </div>
+                        <div class="medicine hidden" id="medicineDiv">
+                            <div class="row duplicate_med">
+                                <div class="col-md-8 mb-2">
+                                    <label for="" class="form-label">Medicine:</label>
+                                    <select class="form-select" aria-label=".form-select-md example" name="medicine[]" id="medicine">
+                                        <option value="" selected></option>
+                                        <?php
+                                        $sql = "SELECT * FROM inv_total WHERE type = 'medicine' AND qty >= 0 AND campus='$campus' ORDER BY stock_name";
+                                        $result = mysqli_query($conn, $sql);
+                                        while ($row = mysqli_fetch_array($result)) {
+                                        ?>
+                                            <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="" class="form-label">Quantity:</label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="number" min="0" class="form-control" name="quantity_med[]">
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" class="btn btn-primary" onclick="duplicate_med()">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="medSupply hidden" id="medSupDiv">
+                            <div class="row duplicate_sup">
+                                <div class="col-md-8 mb-2">
+                                    <label for="" class="form-label">Medical Supply:</label>
+                                    <select class="form-select" aria-label=".form-select-md example" name="supply[]" id="supply">
+                                        <option value="" selected></option>
+                                        <?php
+                                        $sql = "SELECT * FROM inv_total WHERE type = 'supply' AND qty >= 0 AND campus='$campus' ORDER BY stock_name";
+                                        $result = mysqli_query($conn, $sql);
+                                        while ($row = mysqli_fetch_array($result)) {
+                                        ?>
+                                            <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-2">
+                                    <label for="" class="form-label">Quantity:</label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="number" min="0" class="form-control" name="quantity_sup[]">
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" class="btn btn-primary" onclick="duplicate_sup()">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-2 hidden" id="referralDiv">
+                            <label for="" class="form-label">Referral:</label>
+                            <input type="text" class="form-control" name="referral" id="referral">
+                        </div>
+
+                        <!-- responsive pag others pinili lalabas additional na textbox-->
+                        <div class="mb-2 hidden" id="medCaseDiv">
+                            <label for="" class="form-label">Medical Case:</label>
+                            <select class="form-control" aria-label=".form-select-md example" name="medcase" id="medcase" onchange="enableMedCase(this)">
+                                <option value="" disabled selected></option>
+                                <?php
+                                include('connection.php');
+                                $sql = "SELECT * FROM med_case ORDER BY type, medcase";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) { ?>
+                                    <option value="<?= $row['medcase']; ?>"><?= "(" . ucfirst(strtolower($row['type'])) . ") " . $row['medcase']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="mb-2 hidden" id="medCaseOthersDiv">
+                            <label for="" class="form-label">Others:</label>
+                            <input type="text" class="form-control" name="medcase_others" id="medcase_others">
+                        </div>
+                    </div>
+
+                    <div class="medhist hidden" id="medHistoryDiv">
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <label for="" class="form-label">Height (cm):</label>
+                                <input type="number" min="0" maxlength="7" class="form-control" name="height" id="height">
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="" class="form-label">Weight:</label>
+                                <input type="text" maxlength="7" class="form-control" name="weight" id="weight">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <label for="" class="form-label">Blood Pressure:</label>
+                                <input type="text" maxlength="7" class="form-control" name="bp" id="bp">
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="" class="form-label">Pulse Rate:</label>
+                                <input type="number" min="0" maxlength="3" class="form-control" name="pr" id="pr">
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="" class="form-label">Temperature:</label>
+                                <input type="text" maxlength="4" class="form-control" name="temp" id="temp">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-2">
+                                <label for="" class="form-label">H.E.E.N.T.:</label>
+                                <input type="text" maxlength="65" class="form-control" name="heent" id="heent">
+                            </div>
+                            <div class="mb-2">
+                                <label for="" class="form-label">Chest/Lungs:</label>
+                                <input type="text" maxlength="65" class="form-control" name="chest_lungs" id="chest_lungs">
+                            </div>
+                            <div class="mb-2">
+                                <label for="" class="form-label">Heart:</label>
+                                <input type="text" maxlength="65" class="form-control" name="heart" id="heart">
+                            </div>
+                            <div class="mb-2">
+                                <label for="" class="form-label">Abdomen:</label>
+                                <input type="text" maxlength="65" class="form-control" name="abdomen" id="abdomen">
+                            </div>
+                            <div class="mb-2">
+                                <label for="" class="form-label">Extremities:</label>
+                                <input type="text" maxlength="65" class="form-control" name="extremities" id="extremities">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <label for="" class="form-label">Last Menstrual Period:</label>
+                                <input type="date" class="form-control" name="lmp" id="lmp">
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="" class="form-label">Bronchial Asthma:</label>
+                                <input type="date" class="form-control" name="bronchial_asthma" id="bronchial_asthma">
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="" class="form-label">Surgery:</label>
+                                <input type="date" class="form-control" name="surgery" id="" surgery>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="" class="form-label">Heart Disease:</label>
+                                <input type="date" class="form-control" name="heart_disease" id="heart_disease">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <label for="" class="form-label">Allergies:</label>
+                                <input type="date" class="form-control" name="allergies" id="allergies">
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="" class="form-label">Epilepsy:</label>
+                                <input type="date" class="form-control" name="epilepsy" id="epilepsy">
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label for="" class="form-label">Hernia:</label>
+                                <input type="date" class="form-control" name="hernia" id="hernia">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="" class="form-label">Dental:</label>
+                            <div class="mb-2">
+                                <input type="text" id="ddefects" name="ddefects" value="" hidden>
+                                <input type="checkbox" id="ddefects" name="ddefects" value="x">
+                                <label for="ddefects"> No Dental Defects</label>
+                            </div>
+                            <div class="mb-2">
+                                <input type="text" id="dcs" name="dcs" value="" hidden>
+                                <input type="checkbox" id="dcs" name="dcs" value="x">
+                                <label for="dcs"> Presence of Oral Debris, Calculi (tartar) deposits, Stains/discoloration</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-2">
+                                <input type="text" id="gp" name="gp" value="" hidden>
+                                <input type="checkbox" id="gp" name="gp" value="x">
+                                <label for="gp"> Presence of GINGIVITIS and/or PERIODONTITIS</label>
+                            </div>
+                            <div class="mb-2">
+                                <input type="text" id="scaling_polish" name="scaling_polish" value="" hidden>
+                                <input type="checkbox" id="scaling_polish" name="scaling_polish" value="x">
+                                <label for="scaling_polish"> For Tooth Scaling and Polishing</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-2">
+                                <label for="" class="form-label">Other Dento-Facial Findings:</label>
+                                <input type="text" maxlength="45" class="form-control" name="dento_facial" id="dento_facial">
+                            </div>
+                            <div class="mb-2">
+                                <label for="" class="form-label">Remarks:</label>
+                                <input type="text" class="form-control" name="remark" id="remark">
+                            </div>
+                            <div class="mb-2">
+                                <label for="" class="form-label">Recommendation:</label>
+                                <input type="text" class="form-control" name="refer" id="refer">
+                            </div>
+                        </div>
+
+                        <!-- responsive pag others pinili lalabas additional na textbox-->
+                        <div class="mb-2">
+                            <label for="" class="form-label">Medical Case:</label>
+                            <select class="form-control" aria-label=".form-select-md example" name="medcase" id="medcase">
+                                <option value="" disabled selected></option>
+                                <?php
+                                include('connection.php');
+                                $sql = "SELECT * FROM med_case ORDER BY type, medcase";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) { ?>
+                                    <option value="<?= $row['medcase']; ?>"><?= "(" . ucfirst(strtolower($row['type'])) . ") " . $row['medcase']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label for="" class="form-label">Others:</label>
+                            <input type="text" maxlength="45" class="form-control" name="medcase_other" id="medcase_other">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" value="Add Record"></input>
                 </div>
             </div>
         </div>
@@ -482,22 +497,19 @@
     function fetchPatientData() {
         var patientId = document.getElementById('patientid').value;
         if (patientId.trim() !== '') {
-            // Perform AJAX request to fetch patient data
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'add/get_patientid.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
-                        // Process the response
                         var response = JSON.parse(xhr.responseText);
+                        console.log(response); // Check response in console
                         if (response.error) {
-                            // Display Bootstrap form validation error message
                             document.getElementById('patientid').classList.add('is-invalid');
                             document.getElementById('patientid').setCustomValidity(response.error);
                             document.getElementById('patientid').reportValidity();
                         } else {
-                            // Update form fields with fetched patient data
                             document.getElementById('firstname').value = response.firstname;
                             document.getElementById('middlename').value = response.middlename;
                             document.getElementById('lastname').value = response.lastname;
@@ -508,17 +520,15 @@
                             document.getElementById('collegeSelect').value = response.college;
                             document.getElementById('programSelect').value = response.program;
                             document.getElementById('yearlevelSelect').value = response.yearlevel;
-                            document.getElementById('section').value = response.section;
-                            document.getElementById('block').value = response.block;
+                            document.getElementById('section').value = response.section; // Check this line
+                            document.getElementById('block').value = response.block; // Check this line
                             var nextButton = document.getElementById('nextButton');
                             nextButton.disabled = false;
 
-                            // Reset form validation state
                             document.getElementById('patientid').classList.remove('is-invalid');
                             document.getElementById('patientid').setCustomValidity('');
                         }
                     } else {
-                        // Handle error if AJAX request fails
                         console.error('Error: Unable to fetch patient data');
                     }
                 }
@@ -546,6 +556,7 @@
         }
     }
 </script>
+
 
 <script type="text/javascript">
     function enableTransaction(answer) {
@@ -681,6 +692,7 @@
 </script>
 
 
+
 <script type="text/javascript">
     function enableDesignation(answer) {
         console.log(answer.value);
@@ -690,8 +702,8 @@
                 document.getElementById('collegeDiv').classList.add('hidden');
                 document.getElementById('programDiv').classList.add('hidden');
                 document.getElementById('yearlevelDiv').classList.add('hidden');
-                document.getElementById('section').classList.add('hidden');
-                document.getElementById('block').classList.add('hidden');
+                document.getElementById('sectionDiv').classList.add('hidden');
+                document.getElementById('blockDiv').classList.add('hidden');
             } else if (answer.value == 'STUDENT') {
                 document.getElementById('departmentDiv').classList.remove('hidden');
             }
@@ -705,19 +717,19 @@
                 document.getElementById('collegeDiv').classList.add('hidden');
                 document.getElementById('programDiv').classList.add('hidden');
                 document.getElementById('yearlevelDiv').classList.remove('hidden');
-                document.getElementById('block').classList.add('hidden');
+                document.getElementById('blockDiv').classList.add('hidden');
             } else if (answer.value == 'COLLEGE') {
                 document.getElementById('collegeDiv').classList.remove('hidden');
                 document.getElementById('programDiv').classList.remove('hidden');
                 document.getElementById('yearlevelDiv').classList.remove('hidden');
-                document.getElementById('section').classList.remove('hidden');
-                document.getElementById('block').classList.remove('hidden');
+                document.getElementById('sectionDiv').classList.remove('hidden');
+                document.getElementById('blockDiv').classList.remove('hidden');
             } else if (answer.value == 'SENIOR HIGH SCHOOL') {
                 document.getElementById('collegeDiv').classList.add('hidden');
                 document.getElementById('programDiv').classList.remove('hidden');
                 document.getElementById('yearlevelDiv').classList.remove('hidden');
-                document.getElementById('section').classList.remove('hidden');
-                document.getElementById('block').classList.add('hidden');
+                document.getElementById('sectionDiv').classList.remove('hidden');
+                document.getElementById('blockDiv').classList.add('hidden');
             }
         }
     };
@@ -727,10 +739,8 @@
     $(document).ready(function() {
         $("#collegeSelect").change(function() {
             var college_id = $(this).val();
-            if (college_id == '') {
-                $("#programSelect").html('<option value="" disable selected></option>');
-            } else {
-                $("#programSelect").html('<option value="" disable selected></option>');
+            if (college_id != '') {
+                // Fetch programs based on college_id
                 $.ajax({
                     url: "action_college.php",
                     method: "POST",
@@ -738,12 +748,23 @@
                         cid: college_id
                     },
                     success: function(data) {
-                        console.log(data); // Log received data
+                        // Update program options
                         $("#programSelect").html(data);
+
+                        // Reset year level options
+                        $("#yearlevelSelect").html('<option value="" disabled selected></option>');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
                     }
                 });
+            } else {
+                // Reset program and year level options if college_id is empty
+                $("#programSelect").html('<option value="" disabled selected></option>');
+                $("#yearlevelSelect").html('<option value="" disabled selected></option>');
             }
         });
+
         $("#departmentSelect").change(function() {
             var department_id = $(this).val();
             $.ajax({

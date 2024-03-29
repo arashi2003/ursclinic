@@ -8,7 +8,7 @@ if (isset($_POST['type'])) {
         $output = '';
         $sql = "SELECT * FROM yearlevel WHERE department = '" . $_POST['did'] . "'";
         $result = mysqli_query($conn, $sql);
-        $output .= '<option value="" disabled selected>-Select Year Level-</option>';
+        $output .= '<option value="" disabled selected></option>';
         while ($row = mysqli_fetch_array($result)) {
             $output .= '<option value="' . $row['yearlevel'] . '">' . $row['yearlevel'] . '</option>';
         }
