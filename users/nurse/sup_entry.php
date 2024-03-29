@@ -166,6 +166,9 @@ if ($pages > 4) {
                         <?php include('modals/nurseaddsupentrymodal.php'); ?>
                     </div>
                 </div>
+                <?php
+                include('../../includes/alert.php');
+                ?>
                 <div class="content">
                     <div class="row">
                         <div class="row">

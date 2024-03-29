@@ -194,6 +194,9 @@ if ($pages > 4) {
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addpatient">Add Record</button>
                     <?php include('modals/transaction_modal.php'); ?>
                 </div>
+                <?php
+                include('../../includes/alert.php');
+                ?>
                 <div class="content">
                     <div class="row">
                         <div class="row">

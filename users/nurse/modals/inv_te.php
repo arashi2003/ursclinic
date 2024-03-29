@@ -15,6 +15,7 @@
     $resultCheck = mysqli_num_rows($result);
     if($resultCheck > 0)
     {
+        $_SESSION['alert'] = "Tool/Equipment already exists.";
         ?>
         <script>
             setTimeout(function() {
@@ -22,7 +23,6 @@
             });
             </script>
         <?php
-        // modal message box saying "Tool/Equipment already exists."
     }
     else
     {
@@ -32,6 +32,7 @@
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
             if($result = mysqli_query($conn, $sql))
             {
+                $_SESSION['alert'] = "Tool/Equipment has been added as an entry.";
                 ?>
                 <script>
                     setTimeout(function() {
@@ -39,10 +40,10 @@
                     });
                     </script>
                 <?php
-                // modal message box saying "Tool/Equipment added."
             }
             else
             {
+                $_SESSION['alert'] = "Tool/Equipment has been added as an entry.";
                 ?>
                 <script>
                     setTimeout(function() {
@@ -50,12 +51,11 @@
                     });
                     </script>
                 <?php
-                // modal message box saying "Tool/Equipment added."
             }
         }
         else
         {
-            // modal message box saying "Tool/Equipment was not added."
+            $_SESSION['alert'] = "Tool/Equipment was not added as an entry.";
 ?>
 <script>
     setTimeout(function() {

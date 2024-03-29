@@ -51,9 +51,6 @@ $usertype = $_SESSION['usertype'];
             </div>
         </nav>
         <div class="home-content">
-            <?php
-            include('../../includes/alert.php')
-            ?>
             <div class="overview-boxes">
                 <ul class="nav nav-pills mb-4">
                     <li class="nav-item">
@@ -63,6 +60,9 @@ $usertype = $_SESSION['usertype'];
                         <a class="nav-link active" aria-current="page" href="#">Checkup</a>
                     </li>
                 </ul>
+                <?php
+                include('../../includes/alert.php')
+                ?>
                 <form method="POST" action="add/transaction_dental_checkup.php" id="form">
                     <div class="content">
                         <h3><b>Patient</b></h3>

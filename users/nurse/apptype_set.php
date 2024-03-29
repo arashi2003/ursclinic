@@ -154,7 +154,7 @@ if ($pages > 4) {
                                 <a class="nav-link active" aria-current="page" href="#">Type</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="apppurpose_set">Purpose</a>
+                                <a class="nav-link" href="apppurpose_set">Request</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="appcc_set">Chief Complaint</a>
@@ -169,6 +169,9 @@ if ($pages > 4) {
                         <?php include('modals/apptype_set_modal.php'); ?>
                     </div>
                 </div>
+                <?php
+                include('../../includes/alert.php')
+                ?>
                 <div class="content">
                     <div class="row">
                         <div class="row">

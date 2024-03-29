@@ -12,6 +12,7 @@
     $resultCheck = mysqli_num_rows($result);
     if($resultCheck > 0)
     {
+        $_SESSION['alert'] = "Dosage Form already exists.";
         ?>
         <script>
             setTimeout(function() {
@@ -19,7 +20,6 @@
             });
             </script>
         <?php
-        // modal message box saying "Dosage Form already exists."
     }
     else
     {
@@ -29,6 +29,7 @@
             $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'added a dosage form', '$au_status', now())";
             if($result = mysqli_query($conn, $query))
             {
+                $_SESSION['alert'] = "Dosage Form has been added.";
                 ?>
                 <script>
                     setTimeout(function() {
@@ -36,10 +37,10 @@
                     });
                     </script>
                 <?php
-                // modal message box saying "Dosage Form added."
             }
             else
             {
+                $_SESSION['alert'] = "Dosage Form has been added.";
                 ?>
                 <script>
                     setTimeout(function() {
@@ -47,12 +48,11 @@
                     });
                     </script>
                 <?php
-                // modal message box saying "Dsoage Form was not added."
             }
         }
         else
         {
-            // modal message box saying "Dosage Form was not added."
+            $_SESSION['alert'] = "Dosage Form has been added.";
 ?>
 <script>
     setTimeout(function() {

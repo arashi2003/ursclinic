@@ -169,6 +169,9 @@ if ($pages > 4) {
             </div>
         </nav>
         <div class="home-content">
+            <?php
+            include('../../includes/alert.php');
+            ?>
             <div class="overview-boxes">
                 <div class="schedule-button">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addappointment">Request Appointment</button>

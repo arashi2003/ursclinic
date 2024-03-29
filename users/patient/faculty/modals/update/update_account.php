@@ -51,6 +51,7 @@
                 $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
                 if($result = mysqli_query($conn, $sql))
                 {
+                    $_SESSION['alert'] = "Account has been updated.";
                     ?>
                     <script>
                         setTimeout(function() {
@@ -58,10 +59,10 @@
                         });
                     </script>
                     <?php
-                    // modal na account details has been updated
                 }
                 else
                 {
+                    $_SESSION['alert'] = "Account has been updated.";
                     ?>
                     <script>
                         setTimeout(function() {
@@ -69,11 +70,11 @@
                         });
                     </script>
                     <?php
-                    // modal na account details has been updated
                 }
             }
             else
             {
+                $_SESSION['alert'] = "New Password and Confirm Password did not match.";
                 ?>
                 <script>
                     setTimeout(function() {
@@ -81,11 +82,11 @@
                     });
                 </script>
                 <?php
-                // modal na password and confirm password does not match
             }
         }
         else
         {
+            $_SESSION['alert'] = "Current Password input does not match the current password.";
             ?>
             <script>
                 setTimeout(function() {
@@ -93,7 +94,6 @@
                 });
             </script>
             <?php
-            // modal na current password does not match the account's password in the database
         }
     } 
     else
@@ -106,6 +106,7 @@
         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
         if($result = mysqli_query($conn, $sql))
         {
+            $_SESSION['alert'] = "Account has been updated.";
             ?>
             <script>
                 setTimeout(function() {
@@ -113,10 +114,10 @@
                 });
             </script>
             <?php
-            // modal na account details has been updated
         }
         else
         {
+            $_SESSION['alert'] = "Account has been updated.";
             ?>
             <script>
                 setTimeout(function() {
@@ -124,7 +125,6 @@
                 });
             </script>
             <?php
-            // modal account details has been updated
         }
     }
 mysqli_close($conn);

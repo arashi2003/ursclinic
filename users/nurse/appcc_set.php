@@ -154,7 +154,7 @@ if ($pages > 4) {
                                 <a class="nav-link" href="apptype_set">Type</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="apppurpose_set">Purpose</a>
+                                <a class="nav-link" href="apppurpose_set">Request</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#">Chief Complaint</a>
@@ -169,6 +169,9 @@ if ($pages > 4) {
                         <?php include('modals/appcc_set_modal.php'); ?>
                     </div>
                 </div>
+                <?php
+                include('../../includes/alert.php')
+                ?>
                 <div class="content">
                     <div class="row">
                         <div class="row">
@@ -192,7 +195,7 @@ if ($pages > 4) {
                                         <tr>
                                             <th>No.</th>
                                             <th>Appointment Type</th>
-                                            <th>Appointment Purpose</th>
+                                            <th>Appointment Request</th>
                                             <th>Appointment Chief Complaint</th>
                                             <th>Action</th>
                                         </tr>

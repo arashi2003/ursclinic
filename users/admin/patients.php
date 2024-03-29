@@ -55,9 +55,6 @@ include('../../includes/pagination-limit.php')
             </div>
         </nav>
         <div class="home-content">
-            <?php
-            include('../../includes/alert.php')
-            ?>
             <div class="overview-boxes">
                 <div class="schedule-button">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#patient_bulk">CSV Upload</button>
@@ -66,6 +63,9 @@ include('../../includes/pagination-limit.php')
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addpatient">Add Patient</button>
                     <?php include('modals/addpatient_modal.php'); ?>
                 </div>
+                <?php
+                include('../../includes/alert.php')
+                ?>
                 <div class="content">
                     <div class="row">
                         <div class="row">
@@ -150,7 +150,7 @@ include('../../includes/pagination-limit.php')
                                                     }
                                                     if ($data['college'] == NULL) {
                                                         $college = "N/A";
-                                                    }  elseif ($data['designation'] == 'STUDENT') {
+                                                    } elseif ($data['designation'] == 'STUDENT') {
                                                         $college = $data['college'];
                                                     } else {
                                                         $college = "N/A";

@@ -160,6 +160,9 @@ if ($pages > 4) {
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addsupstocks">Add Entry</button>
                     <?php include('modals/nurseaddsupstocks_exp_modal.php'); ?>
                 </div>
+                <?php
+                include('../../includes/alert.php');
+                ?>
                 <div class="content">
                     <div class="row">
                         <div class="row">

@@ -55,14 +55,14 @@ include('../../includes/pagination-limit.php');
             </div>
         </nav>
         <div class="home-content">
-            <?php
-            include('../../includes/alert.php')
-            ?>
             <div class="overview-boxes">
                 <div class="schedule-button">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addtransaction_set">Add Entry</button>
                     <?php include('modals/addtransaction_set_modal.php'); ?>
                 </div>
+                <?php
+                include('../../includes/alert.php')
+                ?>
                 <div class="content">
                     <div class="row">
                         <div class="row">

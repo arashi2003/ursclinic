@@ -61,6 +61,9 @@ $userid = $_SESSION['userid'];
             </div>
         </nav>
         <div class="home-content">
+            <?php
+            include('../../includes/alert.php');
+            ?>
             <div class="overview-boxes">
                 <div class="schedule-button">
                     <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href = 'transaction_medhist.php'">Medical History</button>

@@ -12,6 +12,7 @@
     $resultCheck = mysqli_num_rows($result);
     if($resultCheck > 0)
     {
+        $_SESSION['alert'] = "Findings/Diagnosis already exists.";
         ?>
         <script>
             setTimeout(function() {
@@ -19,7 +20,6 @@
             });
             </script>
         <?php
-        // modal message box saying "Findings/Diagnosis already exists."
     }
     else
     {
@@ -29,6 +29,7 @@
             $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'added a findings/diagnosis', '$au_status', now())";
             if($result = mysqli_query($conn, $query))
             {
+                $_SESSION['alert'] = "Findings/Diagnosis has been added.";
                 ?>
                 <script>
                     setTimeout(function() {
@@ -36,10 +37,10 @@
                     });
                     </script>
                 <?php
-                // modal message box saying "Findings/Diagnosis added."
             }
             else
             {
+                $_SESSION['alert'] = "Findings/Diagnosis has been added.";
                 ?>
                 <script>
                     setTimeout(function() {
@@ -47,12 +48,11 @@
                     });
                     </script>
                 <?php
-                // modal message box saying "Findings/Diagnosis was not added."
             }
         }
         else
         {
-            // modal message box saying "Findings/Diagnosis was not added."
+            $_SESSION['alert'] = "Findings/Diagnosis was not added.";
 ?>
 <script>
     setTimeout(function() {

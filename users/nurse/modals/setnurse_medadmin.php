@@ -12,6 +12,7 @@
     $resultCheck = mysqli_num_rows($result);
     if($resultCheck > 0)
     {
+        $_SESSION['alert'] = "Medicine Administration already exists.";
         ?>
         <script>
             setTimeout(function() {
@@ -19,7 +20,6 @@
             });
             </script>
         <?php
-        // modal message box saying "Medicine Administration already exists."
     }
     else
     {
@@ -29,6 +29,7 @@
             $query = "INSERT INTO audit_trail (user, '$fullname', activity, status, datetime) VALUES ('$accountid', '$fullname', 'added a medicine administration', '$au_status', now())";
             if($result = mysqli_query($conn, $query))
             {
+                $_SESSION['alert'] = "Medicine Administration has been added.";
                 ?>
                 <script>
                     setTimeout(function() {
@@ -36,10 +37,10 @@
                     });
                     </script>
                 <?php
-                // modal message box saying "Medicine Administration added."
             }
             else
             {
+                $_SESSION['alert'] = "Medicine Administration has been added.";
                 ?>
                 <script>
                     setTimeout(function() {
@@ -47,12 +48,11 @@
                     });
                     </script>
                 <?php
-                // modal message box saying "Medicine Administration was not added."
             }
         }
         else
         {
-            // modal message box saying "Medicine Administration was not added."
+            $_SESSION['alert'] = "Medicine Administration was not added.";
 ?>
 <script>
     setTimeout(function() {

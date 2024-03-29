@@ -67,6 +67,9 @@ $campus = $_SESSION['campus'];
             </div>
         </nav>
         <div class="home-content">
+            <?php
+            include('../../includes/alert.php');
+            ?>
             <div class="profile">
                 <div class="profile-info box">
                     <?php

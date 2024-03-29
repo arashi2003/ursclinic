@@ -68,6 +68,9 @@ $usertype = $_SESSION['usertype'];
             </div>
         </nav>
         <div class="home-content">
+            <?php
+            include('../../includes/alert.php');
+            ?>
             <div class="overview-boxes">
                 <div class="content">
                     <form action="entry_filter.php" method="POST">

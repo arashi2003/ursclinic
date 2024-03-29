@@ -165,6 +165,9 @@ if ($pages > 4) {
                         <?php include('modals/adddform_set_modal.php'); ?>
                     </div>
                 </div>
+                <?php
+                include('../../includes/alert.php');
+                ?>
                 <div class="content">
                     <div class="row">
                         <div class="row">

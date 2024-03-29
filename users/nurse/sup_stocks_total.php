@@ -174,6 +174,9 @@ if ($pages > 4) {
                         <?php include('modals/nurseaddsupstocks_total_modal.php'); ?>
                     </div>
                 </div>
+                <?php
+                include('../../includes/alert.php');
+                ?>
                 <div class="content">
                     <div class="row">
                         <div class="row">

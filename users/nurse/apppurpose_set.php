@@ -105,7 +105,7 @@ if ($pages > 4) {
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">APPOINTMENT PURPOSE</span>
+                <span class="dashboard">APPOINTMENT REQUEST</span>
             </div>
             <div class="right-nav">
                 <div class="notification-button">
@@ -154,7 +154,7 @@ if ($pages > 4) {
                                 <a class="nav-link" href="apptype_set">Type</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Purpose</a>
+                                <a class="nav-link active" aria-current="page" href="#">Request</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="appcc_set">Chief Complaint</a>
@@ -169,6 +169,9 @@ if ($pages > 4) {
                         <?php include('modals/apppurpose_set_modal.php'); ?>
                     </div>
                 </div>
+                <?php
+                include('../../includes/alert.php')
+                ?>
                 <div class="content">
                     <div class="row">
                         <div class="row">
