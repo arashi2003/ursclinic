@@ -57,6 +57,9 @@ include('../../includes/pagination-limit.php');
       </div>
     </nav>
     <div class="home-content">
+      <?php
+      include('../../includes/alert.php')
+      ?>
       <div class="overview-boxes">
         <div class="box">
           <div class="right-side">
@@ -239,7 +242,8 @@ include('../../includes/pagination-limit.php');
                       if (mysqli_num_rows($result) > 0) {
                     ?>
                         <tr>
-                          <td><?php //echo $data['id']; ?></td>
+                          <td><?php //echo $data['id']; 
+                              ?></td>
                           <td><?php echo $data['date'] ?></td>
                           <td><?php echo date("g:i a", strtotime($data['time_from'])) ?></td>
                           <td><?php echo date("g:i a", strtotime($data['time_to'])) ?></td>
