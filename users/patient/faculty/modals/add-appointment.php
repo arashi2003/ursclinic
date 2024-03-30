@@ -21,7 +21,7 @@ if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
   }
   $medsup1 = implode(", ", $rmed);
   $ms = rtrim($medsup1, " , ");
-  $medsup = "medsup = '$ms,'";
+  $medsup = "$ms,";
 } elseif (!empty($_POST['supply']) && isset($_POST['supply'])) {
   $count = 1;
   foreach ($_POST['supply'] as $key => $supply) {
@@ -31,7 +31,7 @@ if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
   }
   $medsup1 = implode(", ", $rsup);
   $ms = rtrim($medsup1, " , ");
-  $medsup = "medsup = '$ms,'";
+  $medsup = "$ms,";
 } else {
   $medsup = "";
 }
