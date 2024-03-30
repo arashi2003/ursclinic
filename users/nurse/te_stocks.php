@@ -200,10 +200,9 @@ if ($pages > 4) {
                                                 $sql = "SELECT * FROM te_status ORDER BY te_status";
                                                 if ($result = mysqli_query($conn, $sql)) {
                                                     while ($row = mysqli_fetch_array($result)) {
-                                                        $te_status = $row["te_status"];
-                                                        $id = $row["id"]; ?>
-                                                        <option value="<?php echo $id; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $te_status ? 'selected' : '') : '' ?>"><?php echo $te_status; ?></option><?php }
-                                                                                                                                                                                                        } ?>
+                                                        $te_status = $row["te_status"]; ?>
+                                                        <option value="<?php echo $te_status; ?>" <?= isset($_GET['te_status']) == true ? ($_GET['te_status'] == $te_status ? 'selected' : '') : '' ?>><?php echo $te_status; ?></option><?php }
+                                                                                                                                                                                                                } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-3 mb-2">

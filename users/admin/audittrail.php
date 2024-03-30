@@ -13,11 +13,106 @@ if (!isset($_SESSION['username'])) {
     header('location:../../index');
 }
 
-// get the total nr of rows.
-$records = $conn->query("SELECT * FROM audit_trail ORDER BY id DESC");
-$nr_of_rows = $records->num_rows;
+// Check if the medicine, med_admin, or dosage form filter is set
+if (isset($_GET['date_from']) || isset($_GET['date_to'])) {
+    // Validate and sanitize input
+    $dt_from = isset($_GET['date_from']) ? $_GET['date_from'] : '';
+    $dt_to = isset($_GET['date_to']) ? $_GET['date_to'] : '';
 
-include('../../includes/pagination-limit.php')
+    // Initialize the WHERE clause
+    $whereClause = "WHERE"; // Start with a default condition that is always true
+
+    // Initialize the date filter
+    $date = "";
+
+    if ($dt_from == "" and $dt_to == "") {
+        // No date range provided
+        $date = "";
+    } elseif ($dt_to == $dt_from) {
+        // Same start and end date
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " datetime LIKE '$fdate%'";
+    } elseif ($dt_to == "" and $dt_from != "") {
+        // Only start date provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " datetime >= '$fdate'";
+    } elseif ($dt_from == "" and $dt_to != "") {
+        // Only end date provided
+        $d = date("Y-m-d", strtotime($dt_to));
+        $date = " datetime <= '$d'";
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+        // Start and end date range provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $ldate = date("Y-m-d", strtotime($dt_to));
+        $date = " datetime >= '$fdate' AND datetime <= '$ldate'";
+    }
+
+    // Construct and execute SQL query for counting total rows
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user $whereClause $date";
+} else {
+    // If filters are not set, count all rows
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user ORDER BY id DESC";
+}
+
+// Execute the count query
+$count_result = $conn->query($sql_count);
+
+// Check if count query was successful
+if ($count_result) {
+    // Fetch the total number of rows
+    $count_row = $count_result->fetch_assoc();
+    $nr_of_rows = $count_row['total_rows'];
+} else {
+    // Handle count query error
+    echo "Error: " . $conn->error;
+}
+
+// Setting the number of rows to display in a page.
+$rows_per_page = 10;
+
+// determine the page
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Setting the start from, value.
+$start = ($page - 1) * $rows_per_page;
+
+// calculating the nr of pages.
+$pages = ceil($nr_of_rows / $rows_per_page);
+
+// calculate the range of page numbers to be displayed
+$start_loop = max(1, $page - 2);
+$end_loop = min($pages, $page + 2);
+
+// adjust the range if the current page is near the beginning or end
+if ($start_loop > 1) {
+    $start_loop--;
+    $end_loop++;
+}
+
+// ensure that the range is never smaller than 4
+if ($end_loop - $start_loop < 4) {
+    $start_loop = max(1, $end_loop - 4);
+}
+
+$previous = $page - 1;
+$next = $page + 1;
+
+// calculate the start and end loop variables
+$start_loop = $page > 2 ? $page - 2 : 1;
+$end_loop = $page < $pages - 2 ? $page + 2 : $pages;
+
+// limit the number of pages displayed to a maximum of 4
+if ($pages > 4) {
+    if ($page > 2 && $page < $pages - 1) {
+        $end_loop = $page + 1;
+    } elseif ($page == 1) {
+        $start_loop = 1;
+        $end_loop = 4;
+    } elseif ($page == $pages) {
+        $start_loop = $pages - 3;
+        $end_loop = $pages;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -72,11 +167,11 @@ include('../../includes/pagination-limit.php')
                             <div class="col-md-12">
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-2 mb-2">
-                                            <input type="date" name="date_from" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>" class="form-control">
+                                        <div class="col-md-2">
+                                            <input type="text" name="date_from" id="from" placeholder="Date From" class="form-control" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>">
                                         </div>
-                                        <div class="col-md-2 mb-2">
-                                            <input type="date" name="date_to" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>" class="form-control">
+                                        <div class="col-md-2">
+                                            <input type="text" name="date_to" id="to" placeholder="Date To" class="form-control" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>">
                                         </div>
                                         <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
@@ -105,28 +200,36 @@ include('../../includes/pagination-limit.php')
                                             $dt_to = $_GET['date_to'];
                                             $count = 1;
 
+                                            // Initialize the date filter
+                                            $date = "";
+
                                             if ($dt_from == "" and $dt_to == "") {
+                                                // No date range provided
                                                 $date = "";
                                             } elseif ($dt_to == $dt_from) {
-                                                $d2 = date("Y-m-d", strtotime("$dt_to + 1 day"));
-                                                $date = " AND datetime >= '$dt_from' AND datetime <= '$d2'";
+                                                // Same start and end date
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " datetime LIKE '$fdate%'";
                                             } elseif ($dt_to == "" and $dt_from != "") {
-                                                $d1 = date("Y-m-d", strtotime("$dt_from"));
-                                                $d2 = date("Y-m-d", strtotime("+ 1 day"));
-                                                $date = " AND datetime >= '$d1' AND datetime <= '$d2'";
+                                                // Only start date provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " datetime >= '$fdate'";
                                             } elseif ($dt_from == "" and $dt_to != "") {
-                                                $d = date("Y-m-d", strtotime("$dt_to + 1 day"));
-                                                $date = " AND datetime <= '$d'";
-                                            } elseif ($dt_from != "" and $dt_to != "") {
-                                                $d = date($dt_to, strtotime("+ 1 day"));
-                                                $date = " AND datetime >= '$dt_from' AND datetime <= '$d'";
+                                                // Only end date provided
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " datetime <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                                // Start and end date range provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " datetime >= '$fdate' AND datetime <= '$ldate'";
                                             }
 
-                                            $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, ac.firstname, ac.middlename, ac.lastname, ac.usertype FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user WHERE au.campus = '$campus' $date ORDER BY id DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT au.id, au.user, au.activity, au.datetime, ac.firstname, ac.middlename, ac.lastname, ac.usertype FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user WHERE $date ORDER BY id DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT au.id, au.user, au.campus, au.activity, au.datetime, ac.firstname, ac.middlename, ac.lastname, ac.usertype FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user WHERE au.campus = '$campus' ORDER BY id DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT au.id, au.user, au.activity, au.datetime, ac.firstname, ac.middlename, ac.lastname, ac.usertype FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user ORDER BY id DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -160,22 +263,35 @@ include('../../includes/pagination-limit.php')
                                                     include('../../includes/no-data.php');
                                                     ?>
                                                 </td>
-                                            <?php } ?>
-                                    </tbody>
-                                </table>
-                                <?php include('../../includes/pagination.php') ?>
-                            <?php
-                                        } else {
-                            ?>
-                                <td colspan="5">
-                                    <?php
-                                            include('../../includes/no-data.php');
-                                    ?>
-                                </td>
-                            <?php
+                                        <?php
+                                            }
                                         }
                                         mysqli_close($conn);
-                            ?>
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <ul class="pagination justify-content-end">
+                                    <?php
+                                    if (mysqli_num_rows($result) > 0) : ?>
+                                        <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
+                                        </li>
+                                        <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
+                                            <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                                                <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                                            </li>
+                                        <?php endfor; ?>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -198,6 +314,36 @@ include('../../includes/pagination-limit.php')
     console.log(sidebarBtn);
     sidebarBtn.addEventListener("click", () => {
         sidebar.classList.toggle("close");
+    });
+
+    $(function() {
+        var dateFormat = "mm/dd/yy",
+            from = $("#from")
+            .datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+            })
+            .on("change", function() {
+                to.datepicker("option", "minDate", getDate(this));
+            }),
+            to = $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+            })
+            .on("change", function() {
+                from.datepicker("option", "maxDate", getDate(this));
+            });
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+            } catch (error) {
+                date = null;
+            }
+
+            return date;
+        }
     });
 </script>
 

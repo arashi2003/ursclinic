@@ -167,6 +167,7 @@ include('../../includes/pagination-limit.php');
                       <th>Time to</th>
                       <th>Patient</th>
                       <th>Action</th>
+                    </tr>
                   </thead>
                   <tbody>
                     <?php
@@ -238,19 +239,32 @@ include('../../includes/pagination-limit.php');
                     }
                     if ($result) {
                       if (mysqli_num_rows($result) > 0) {
+
+                        while ($data = mysqli_fetch_array($result)) {
+                          if (count(explode(" ", $data['middlename'])) > 1) {
+                            $middle = explode(" ", $data['middlename']);
+                            $letter = $middle[0][0] . $middle[1][0];
+                            $middleinitial = $letter . ".";
+                          } else {
+                            $middle = $data['middlename'];
+                            if ($middle == "" or $middle == " ") {
+                              $middleinitial = "";
+                            } else {
+                              $middleinitial = substr($middle, 0, 1) . ".";
+                            }
+                          }
+                          $fullname = strtoupper($data['firstname'] . " " . $middleinitial . " " . $data['lastname']);
+
                     ?>
-                        <tr>
-                          <td><?php //echo $data['id']; 
-                              ?></td>
-                          <td><?php echo $data['date'] ?></td>
-                          <td><?php echo date("g:i a", strtotime($data['time_from'])) ?></td>
-                          <td><?php echo date("g:i a", strtotime($data['time_to'])) ?></td>
-                          <td><?php echo $data['firstname'] . " " . $middleinitial . " " . $data['lastname'] ?></td>
-                          <td><?php //button cancel 
-                              ?></td>
-                        </tr>
-                      <?php
-                        include('modals/update_account_modal.php');
+                          <tr>
+                            <td><?php echo $data['id'] ?></td>
+                            <td><?php echo $data['date'] ?></td>
+                            <td><?php echo date("g:i a", strtotime($data['time_from'])) ?></td>
+                            <td><?php echo date("g:i a", strtotime($data['time_to'])) ?></td>
+                            <td><?php echo $data['firstname'] . " " . $middleinitial . " " . $data['lastname'];  ?></td>
+                          </tr>
+                        <?php
+                        }
                       } else { ?>
                         <td colspan="6">
                           <?php

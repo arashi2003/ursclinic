@@ -250,10 +250,10 @@ if ($pages > 4) {
                                             </select>
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="date" name="date_from" class="form-control" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>">
+                                            <input type="text" name="date_from" id="from" placeholder="Date From" class="form-control" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>">
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="date" name="date_to" class="form-control" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>">
+                                            <input type="text" name="date_to" id="to" placeholder="Date To" class="form-control" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>">
                                         </div>
                                         <div class="col-md-4">
                                             <button type="submit" class="btn btn-primary">Filter</button>
@@ -316,7 +316,7 @@ if ($pages > 4) {
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $now=date("Y-m-d");
+                                            $now = date("Y-m-d");
                                             $sql = "SELECT physician, date, time_from, time_to, s.campus, maxp, firstname, middlename, lastname FROM schedule s INNER JOIN account a ON a.accountid=s.physician WHERE s.campus = '$campus' ORDER BY date DESC, time_from ASC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
@@ -430,6 +430,36 @@ if ($pages > 4) {
     document.getElementById("filterForm").addEventListener("submit", function(event) {
         // Update hidden input fields with filter values
         updateExportPdfForm();
+    });
+
+    $(function() {
+        var dateFormat = "mm/dd/yy",
+            from = $("#from")
+            .datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+            })
+            .on("change", function() {
+                to.datepicker("option", "minDate", getDate(this));
+            }),
+            to = $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+            })
+            .on("change", function() {
+                from.datepicker("option", "maxDate", getDate(this));
+            });
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+            } catch (error) {
+                date = null;
+            }
+
+            return date;
+        }
     });
 </script>
 

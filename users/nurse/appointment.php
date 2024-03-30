@@ -299,17 +299,20 @@ if ($approved_pages > 4) {
                                                 if (isset($_GET['patient']) && $_GET['patient'] != '') {
                                                     $patient = $_GET['patient'];
                                                     $count = 1;
-                                                    $sql = "SELECT ap.id, ap.date, ap.patient, p.purpose, t.type, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus, ac.email FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE  CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='PENDING' AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $sql = "SELECT ap.id, ap.date, ap.patient, ap.med_1, ap.mqty_1, ap.med_2, ap.mqty_2, ap.med_3, ap.mqty_3, ap.med_4, ap.mqty_4, ap.med_5, ap.mqty_5, ap.sup_1, ap.sqty_1, ap.sup_2, ap.sqty_2, ap.sup_3, ap.sqty_3, ap.sup_4, ap.sqty_4, ap.sup_5, ap.sqty_5, p.purpose, t.type, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus, ac.email FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE  CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='PENDING' AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
                                                 } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
                                                     $date = $_GET['date'];
                                                     $physician = $_GET['physician'];
                                                     $count = 1;
-                                                    $sql = "SELECT ap.id, ap.date, ap.patient, p.purpose, t.type, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus, ac.email FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE ap.date = '$date' or ap.physician = '$physician' AND ac.campus='$campus' AND ap.status='PENDING' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $sql = "SELECT ap.id, ap.date, ap.patient, ap.med_1, ap.mqty_1, ap.med_2, ap.mqty_2, ap.med_3, ap.mqty_3, ap.med_4, ap.mqty_4, ap.med_5, ap.mqty_5, ap.sup_1, ap.sqty_1, ap.sup_2, ap.sqty_2, ap.sup_3, ap.sqty_3, ap.sup_4, ap.sqty_4, ap.sup_5, ap.sqty_5, p.purpose, t.type, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus, ac.email FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE ap.date = '$date' or ap.physician = '$physician' AND ac.campus='$campus' AND ap.status='PENDING' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
                                                 } else {
                                                     $count = 1;
-                                                    $sql = "SELECT ap.id, ap.date, ap.patient, p.purpose, t.type, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus, ac.email FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE ap.status='PENDING' AND ac.campus='$campus' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $sql = "SELECT ap.id, ap.date, ap.patient, ap.chiefcomplaint, ap.med_1, ap.mqty_1, ap.med_2, ap.mqty_2, ap.med_3, ap.mqty_3, ap.med_4, ap.mqty_4, ap.med_5, ap.mqty_5, ap.sup_1, ap.sqty_1, ap.sup_2, ap.sqty_2, ap.sup_3, ap.sqty_3, ap.sup_4, ap.sqty_4, ap.sup_5, ap.sqty_5, p.purpose, t.type, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus, ac.email FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type 
+                                                    
+                                                    
+                                                     WHERE ap.status='PENDING' AND ac.campus='$campus' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
                                                 }
                                                 if ($result) {
@@ -332,9 +335,149 @@ if ($approved_pages > 4) {
                                                             } else {
                                                                 $physician = $data['physician'];
                                                             }
+                                                            $id = $data['id'];
+
+                                                            $sql = "SELECT * FROM appointment a  INNER JOIN appointment_purpose p ON p.id=a.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE a.id = '$id'";
+                                                            $result = mysqli_query($conn, $sql);
+                                                            foreach ($result as $row) {
+                                                                if ($row['chiefcomplaint'] == 'Others' || $row['chiefcomplaint'] == 'Others:') {
+                                                                    $chief_complaint = $row['others'];
+                                                                } else {
+                                                                    $chief_complaint = $row['chiefcomplaint'];
+                                                                }
+                                                                $type = $row['type'];
+                                                                $purpose = $row['purpose'];
+                                                                $physician = $row['physician'];
+                                                                $med_1 = $row['med_1'];
+                                                                $mqty_1 = $row['mqty_1'];
+                                                                $med_2 = $row['med_2'];
+                                                                $mqty_2 = $row['mqty_2'];
+                                                                $med_3 = $row['med_3'];
+                                                                $mqty_3 = $row['mqty_3'];
+                                                                $med_4 = $row['med_4'];
+                                                                $mqty_4 = $row['mqty_4'];
+                                                                $med_5 = $row['med_5'];
+                                                                $mqty_5 = $row['mqty_5'];
+                                                                $sup_1 = $row['sup_1'];
+                                                                $sqty_1 = $row['sqty_1'];
+                                                                $sup_2 = $row['sup_2'];
+                                                                $sqty_2 = $row['sqty_2'];
+                                                                $sup_3 = $row['sup_3'];
+                                                                $sqty_3 = $row['sqty_3'];
+                                                                $sup_4 = $row['sup_4'];
+                                                                $sqty_4 = $row['sqty_4'];
+                                                                $sup_5 = $row['sup_5'];
+                                                                $sqty_5 = $row['sqty_5'];
+                                                                $medsup0 = "";
+                                        
+                                                                if (!empty($med_1)) {
+                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$med_1' AND type = 'medicine'";
+                                                                    $result = mysqli_query($conn, $sql);
+                                                                    while ($data = mysqli_fetch_array($result)) {
+                                                                        $medicine = $data['stock_name'];
+                                                                        $medsup0 .= "$mqty_1 $medicine,";
+                                                                    }
+                                                                } else {
+                                                                    $medsup0 .= "";
+                                                                }
+                                                                if (!empty($med_2)) {
+                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$med_2' AND type = 'medicine'";
+                                                                    $result = mysqli_query($conn, $sql);
+                                                                    while ($data = mysqli_fetch_array($result)) {
+                                                                        $medicine = $data['stock_name'];
+                                                                        $medsup0 .= "$mqty_2 $medicine,";
+                                                                    }
+                                                                } else {
+                                                                    $medsup0 .= "";
+                                                                }
+                                                                if (!empty($med_3)) {
+                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$med_3' AND type = 'medicine'";
+                                                                    $result = mysqli_query($conn, $sql);
+                                                                    while ($data = mysqli_fetch_array($result)) {
+                                                                        $medicine = $data['stock_name'];
+                                                                        $medsup0 .= "$mqty_3 $medicine,";
+                                                                    }
+                                                                } else {
+                                                                    $medsup0 .= "";
+                                                                }
+                                                                if (!empty($med_4)) {
+                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$med_4' AND type = 'medicine'";
+                                                                    $result = mysqli_query($conn, $sql);
+                                                                    while ($data = mysqli_fetch_array($result)) {
+                                                                        $medicine = $data['stock_name'];
+                                                                        $medsup0 .= "$mqty_4 $medicine,";
+                                                                    }
+                                                                } else {
+                                                                    $medsup0 .= "";
+                                                                }
+                                                                if (!empty($med_5)) {
+                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$med_5' AND type = 'medicine'";
+                                                                    $result = mysqli_query($conn, $sql);
+                                                                    while ($data = mysqli_fetch_array($result)) {
+                                                                        $medicine = $data['stock_name'];
+                                                                        $medsup0 .= "$mqty_5 $medicine,";
+                                                                    }
+                                                                } else {
+                                                                    $medsup0 .= "";
+                                                                }
+                                                                if (!empty($sup_1)) {
+                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$sup_1' AND type = 'supply'";
+                                                                    $result = mysqli_query($conn, $sql);
+                                                                    while ($data = mysqli_fetch_array($result)) {
+                                                                        $supply = $data['stock_name'];
+                                                                        $medsup0 .= "$sqty_1 $supply,";
+                                                                    }
+                                                                } else {
+                                                                    $medsup0 .= "";
+                                                                }
+                                                                if (!empty($sup_2)) {
+                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$sup_2' AND type = 'supply'";
+                                                                    $result = mysqli_query($conn, $sql);
+                                                                    while ($data = mysqli_fetch_array($result)) {
+                                                                        $supply = $data['stock_name'];
+                                                                        $medsup0 .= "$sqty_2 $supply,";
+                                                                    }
+                                                                } else {
+                                                                    $medsup0 .= "";
+                                                                }
+                                                                if (!empty($sup_3)) {
+                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$sup_3' AND type = 'supply'";
+                                                                    $result = mysqli_query($conn, $sql);
+                                                                    while ($data = mysqli_fetch_array($result)) {
+                                                                        $supply = $data['stock_name'];
+                                                                        $medsup0 .= "$sqty_3 $supply,";
+                                                                    }
+                                                                } else {
+                                                                    $medsup0 .= "";
+                                                                }
+                                                                if (!empty($sup_4)) {
+                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$sup_4' AND type = 'supply'";
+                                                                    $result = mysqli_query($conn, $sql);
+                                                                    while ($data = mysqli_fetch_array($result)) {
+                                                                        $supply = $data['stock_name'];
+                                                                        $medsup0 .= "$sqty_4 $supply,";
+                                                                    }
+                                                                } else {
+                                                                    $medsup0 .= "";
+                                                                }
+                                                                if (!empty($sup_5)) {
+                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$sup_5' AND type = 'supply'";
+                                                                    $result = mysqli_query($conn, $sql);
+                                                                    while ($data = mysqli_fetch_array($result)) {
+                                                                        $supply = $data['stock_name'];
+                                                                        $medsup0 .= "$sqty_5 $supply,";
+                                                                    }
+                                                                } else {
+                                                                    $medsup0 .= "";
+                                                                }
+                                        
+                                                                //$medsup1 = implode(", ", $medsup0);
+                                                                $medsup = rtrim($medsup0, " , ");
+                                                            }
+
                                                 ?>
                                                             <tr>
-                                                                <td><?php echo $id = $data['id']; ?></td>
+                                                                <td><?php echo $physician; ?></td>
                                                                 <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
                                                                 <td><?php echo date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to'])) ?></td>
                                                                 <td><?php echo  $data['type']; ?></td>
@@ -471,13 +614,13 @@ if ($approved_pages > 4) {
                                                 if (isset($_GET['patient']) && $_GET['patient'] != '') {
                                                     $patient = $_GET['patient'];
                                                     $count = 1;
-                                                    $sql = "SELECT ap.id, ap.date, ap.reason ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND (ap.status='APPROVED' OR ap.status='COMPLETED') AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $sql = "SELECT ap.id, ap.date, ap.reason, ap.patient, ap.med_1, ap.mqty_1, ap.med_2, ap.mqty_2, ap.med_3, ap.mqty_3, ap.med_4, ap.mqty_4, ap.med_5, ap.mqty_5, ap.sup_1, ap.sqty_1, ap.sup_2, ap.sqty_2, ap.sup_3, ap.sqty_3, ap.sup_4, ap.sqty_4, ap.sup_5, ap.sqty_5, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND (ap.status='APPROVED' OR ap.status='COMPLETED') AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
                                                 } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
                                                     $date = $_GET['date'];
                                                     $physician = $_GET['physician'];
                                                     $count = 1;
-                                                    $sql = "SELECT ap.id, ap.date, ap.reason, ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE ap.date = '$date' or ap.physician = '$physician' AND ac.campus='$campus' AND (ap.status='APPROVED' OR ap.status='COMPLETED') ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $sql = "SELECT ap.id, ap.date, ap.reason, ap.med_1, ap.mqty_1, ap.med_2, ap.mqty_2, ap.med_3, ap.mqty_3, ap.med_4, ap.mqty_4, ap.med_5, ap.mqty_5, ap.sup_1, ap.sqty_1, ap.sup_2, ap.sqty_2, ap.sup_3, ap.sqty_3, ap.sup_4, ap.sqty_4, ap.sup_5, ap.sqty_5, ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE ap.date = '$date' or ap.physician = '$physician' AND ac.campus='$campus' AND (ap.status='APPROVED' OR ap.status='COMPLETED') ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
                                                 } else {
                                                     $count = 1;
