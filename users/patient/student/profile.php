@@ -229,7 +229,7 @@ $campus = $_SESSION['campus'];
                                     <?php
                                     include('modals/update_account_modal.php'); ?>
                                 </div>
-                    </div>
+                            </div>
                         </div>
                     </div>
                 </div>
