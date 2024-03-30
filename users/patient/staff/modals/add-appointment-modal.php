@@ -181,7 +181,7 @@
     function enableOther(answer) {
         console.log(answer.value);
         {
-            if (answer.value == 'Others') {
+            if (answer.value == 'Others:') {
                 document.getElementById('others').classList.remove('hidden');
             } else {
                 document.getElementById('others').classList.add('hidden');

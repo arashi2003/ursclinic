@@ -13,7 +13,7 @@ $sql = "UPDATE campus SET campus='$campus' WHERE id='$id'";
 if ($result = mysqli_query($conn, $sql)) {
     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
     if ($result = mysqli_query($conn, $sql)) {
-        $_SESSION['alert'] = "Campus has been updated added.";
+        $_SESSION['alert'] = "Campus has been updated.";
 ?>
         <script>
             setTimeout(function() {
@@ -22,7 +22,7 @@ if ($result = mysqli_query($conn, $sql)) {
         </script>
     <?php
     } else {
-        $_SESSION['alert'] = "Campus has been updated added.";
+        $_SESSION['alert'] = "Campus has been updated.";
     ?>
         <script>
             setTimeout(function() {
@@ -32,7 +32,7 @@ if ($result = mysqli_query($conn, $sql)) {
     <?php
     }
 } else {
-    $_SESSION['alert'] = "Campus was not updated added.";
+    $_SESSION['alert'] = "Campus was not updated.";
 
     ?>
     <script>
