@@ -10,11 +10,7 @@ require '../../../phpmailer/src/Exception.php';
 require '../../../phpmailer/src/PHPMailer.php';
 require '../../../phpmailer/src/SMTP.php';
 
-$name = $_POST['name'];
-$date = $_POST['date'];
-$time = $_POST['time'];
-$email = $_POST['email'];
-$physician = $_POST['physician'];
+
 $reason = $_POST['reason'];
 
 $id = $_POST['id'];
@@ -24,6 +20,29 @@ $query = "SELECT * FROM appointment WHERE id = '$id'";
 $result = mysqli_query($conn, $query);
 while ($data = mysqli_fetch_array($result)) {
     $patientid = $data['patient'];
+    $date = date("F d, Y", strtotime($data['date']));
+    $time = $data['time_from'] . " - " . $data['time_from'];
+    $physician = $data['physician'];
+}
+
+
+$grr = "SELECT * FROM account WHERE accountid = '$patientid'";
+$result = mysqli_query($conn, $grr);
+while ($brr = mysqli_fetch_array($result)) {
+    if (count(explode(" ", $brr['middlename'])) > 1) {
+        $middle = explode(" ", $brr['middlename']);
+        $letter = $middle[0][0] . $middle[1][0];
+        $middleinitial = $letter . ".";
+    } else {
+        $middle = $brr['middlename'];
+        if ($middle == "" or $middle == " ") {
+            $middleinitial = "";
+        } else {
+            $middleinitial = substr($middle, 0, 1) . ".";
+        }
+    }
+    $name = ucwords(strtolower($brr['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($brr['lastname']));
+    $email = $brr['email'];
 }
 
 if ($result) {

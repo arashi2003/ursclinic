@@ -1,4 +1,4 @@
-<div class="modal fade" id="approveappointment<?php echo $data['id'] ?>" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="approveappointment<?php echo $id ?>" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -15,7 +15,7 @@
                     <input type="text" name="physician" value="<?= $physician ?>" hidden>
                     <div class="col-md-6 mb-2">
                         <label for="id" class="form-label">Appointment ID:</label>
-                        <input type="text" class="form-control" style="resize:none;" value="<?= $id ?>" name="idview" id="idview" disabled></input>
+                        <input type="text" class="form-control" style="resize:none;" value="<?= $id ?>" name="id" id="id" disabled></input>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-2">

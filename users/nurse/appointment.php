@@ -337,7 +337,8 @@ if ($approved_pages > 4) {
                                                             }
                                                             $id = $data['id'];
 
-                                                            $sql = "SELECT * FROM appointment a  INNER JOIN appointment_purpose p ON p.id=a.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE a.id = '$id'";
+
+                                                            $sql = "SELECT * FROM appointment a  INNER JOIN appointment_purpose p ON p.id=a.purpose INNER JOIN appointment_type t ON t.id=p.type INNER JOIN account ac ON ac.accountid=a.patient WHERE a.id = '$id'";
                                                             $result = mysqli_query($conn, $sql);
                                                             foreach ($result as $row) {
                                                                 if ($row['chiefcomplaint'] == 'Others' || $row['chiefcomplaint'] == 'Others:') {
@@ -348,6 +349,9 @@ if ($approved_pages > 4) {
                                                                 $type = $row['type'];
                                                                 $purpose = $row['purpose'];
                                                                 $physician = $row['physician'];
+                                                                $date = $row['date'];
+                                                                $time_from = $row['time_from'];
+                                                                $time_to = $row['time_to'];
                                                                 $med_1 = $row['med_1'];
                                                                 $mqty_1 = $row['mqty_1'];
                                                                 $med_2 = $row['med_2'];
@@ -369,128 +373,144 @@ if ($approved_pages > 4) {
                                                                 $sup_5 = $row['sup_5'];
                                                                 $sqty_5 = $row['sqty_5'];
                                                                 $medsup0 = "";
-                                        
-                                                                if (!empty($med_1)) {
-                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$med_1' AND type = 'medicine'";
-                                                                    $result = mysqli_query($conn, $sql);
-                                                                    while ($data = mysqli_fetch_array($result)) {
-                                                                        $medicine = $data['stock_name'];
-                                                                        $medsup0 .= "$mqty_1 $medicine,";
-                                                                    }
+
+
+                                                                if (count(explode(" ", $row['middlename'])) > 1) {
+                                                                    $middle = explode(" ", $row['middlename']);
+                                                                    $letter = $middle[0][0] . $middle[1][0];
+                                                                    $middleinitial = $letter . ".";
                                                                 } else {
-                                                                    $medsup0 .= "";
-                                                                }
-                                                                if (!empty($med_2)) {
-                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$med_2' AND type = 'medicine'";
-                                                                    $result = mysqli_query($conn, $sql);
-                                                                    while ($data = mysqli_fetch_array($result)) {
-                                                                        $medicine = $data['stock_name'];
-                                                                        $medsup0 .= "$mqty_2 $medicine,";
+                                                                    $middle = $row['middlename'];
+                                                                    if ($middle == "" or $middle == " ") {
+                                                                        $middleinitial = "";
+                                                                    } else {
+                                                                        $middleinitial = substr($middle, 0, 1) . ".";
                                                                     }
-                                                                } else {
-                                                                    $medsup0 .= "";
                                                                 }
-                                                                if (!empty($med_3)) {
-                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$med_3' AND type = 'medicine'";
-                                                                    $result = mysqli_query($conn, $sql);
-                                                                    while ($data = mysqli_fetch_array($result)) {
-                                                                        $medicine = $data['stock_name'];
-                                                                        $medsup0 .= "$mqty_3 $medicine,";
-                                                                    }
-                                                                } else {
-                                                                    $medsup0 .= "";
-                                                                }
-                                                                if (!empty($med_4)) {
-                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$med_4' AND type = 'medicine'";
-                                                                    $result = mysqli_query($conn, $sql);
-                                                                    while ($data = mysqli_fetch_array($result)) {
-                                                                        $medicine = $data['stock_name'];
-                                                                        $medsup0 .= "$mqty_4 $medicine,";
-                                                                    }
-                                                                } else {
-                                                                    $medsup0 .= "";
-                                                                }
-                                                                if (!empty($med_5)) {
-                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$med_5' AND type = 'medicine'";
-                                                                    $result = mysqli_query($conn, $sql);
-                                                                    while ($data = mysqli_fetch_array($result)) {
-                                                                        $medicine = $data['stock_name'];
-                                                                        $medsup0 .= "$mqty_5 $medicine,";
-                                                                    }
-                                                                } else {
-                                                                    $medsup0 .= "";
-                                                                }
-                                                                if (!empty($sup_1)) {
-                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$sup_1' AND type = 'supply'";
-                                                                    $result = mysqli_query($conn, $sql);
-                                                                    while ($data = mysqli_fetch_array($result)) {
-                                                                        $supply = $data['stock_name'];
-                                                                        $medsup0 .= "$sqty_1 $supply,";
-                                                                    }
-                                                                } else {
-                                                                    $medsup0 .= "";
-                                                                }
-                                                                if (!empty($sup_2)) {
-                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$sup_2' AND type = 'supply'";
-                                                                    $result = mysqli_query($conn, $sql);
-                                                                    while ($data = mysqli_fetch_array($result)) {
-                                                                        $supply = $data['stock_name'];
-                                                                        $medsup0 .= "$sqty_2 $supply,";
-                                                                    }
-                                                                } else {
-                                                                    $medsup0 .= "";
-                                                                }
-                                                                if (!empty($sup_3)) {
-                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$sup_3' AND type = 'supply'";
-                                                                    $result = mysqli_query($conn, $sql);
-                                                                    while ($data = mysqli_fetch_array($result)) {
-                                                                        $supply = $data['stock_name'];
-                                                                        $medsup0 .= "$sqty_3 $supply,";
-                                                                    }
-                                                                } else {
-                                                                    $medsup0 .= "";
-                                                                }
-                                                                if (!empty($sup_4)) {
-                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$sup_4' AND type = 'supply'";
-                                                                    $result = mysqli_query($conn, $sql);
-                                                                    while ($data = mysqli_fetch_array($result)) {
-                                                                        $supply = $data['stock_name'];
-                                                                        $medsup0 .= "$sqty_4 $supply,";
-                                                                    }
-                                                                } else {
-                                                                    $medsup0 .= "";
-                                                                }
-                                                                if (!empty($sup_5)) {
-                                                                    $sql = "SELECT * FROM inv_total WHERE stockid = '$sup_5' AND type = 'supply'";
-                                                                    $result = mysqli_query($conn, $sql);
-                                                                    while ($data = mysqli_fetch_array($result)) {
-                                                                        $supply = $data['stock_name'];
-                                                                        $medsup0 .= "$sqty_5 $supply,";
-                                                                    }
-                                                                } else {
-                                                                    $medsup0 .= "";
-                                                                }
-                                        
-                                                                //$medsup1 = implode(", ", $medsup0);
-                                                                $medsup = rtrim($medsup0, " , ");
+                                                                $pname = ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($row['lastname']));
                                                             }
+
+                                                            if (!empty($med_1)) {
+                                                                $md1 = "SELECT * FROM inv_total WHERE stockid = '$med_1' AND type = 'medicine'";
+                                                                $result = mysqli_query($conn, $md1);
+                                                                while ($data = mysqli_fetch_array($result)) {
+                                                                    $medicine = $data['stock_name'];
+                                                                    $medsup0 .= "$mqty_1 $medicine,";
+                                                                }
+                                                            } else {
+                                                                $medsup0 .= "";
+                                                            }
+                                                            if (!empty($med_2)) {
+                                                                $md2 = "SELECT * FROM inv_total WHERE stockid = '$med_2' AND type = 'medicine'";
+                                                                $result = mysqli_query($conn, $md2);
+                                                                while ($data = mysqli_fetch_array($result)) {
+                                                                    $medicine = $data['stock_name'];
+                                                                    $medsup0 .= "$mqty_2 $medicine,";
+                                                                }
+                                                            } else {
+                                                                $medsup0 .= "";
+                                                            }
+                                                            if (!empty($med_3)) {
+                                                                $md3 = "SELECT * FROM inv_total WHERE stockid = '$med_3' AND type = 'medicine'";
+                                                                $result = mysqli_query($conn, $md3);
+                                                                while ($data = mysqli_fetch_array($result)) {
+                                                                    $medicine = $data['stock_name'];
+                                                                    $medsup0 .= "$mqty_3 $medicine,";
+                                                                }
+                                                            } else {
+                                                                $medsup0 .= "";
+                                                            }
+                                                            if (!empty($med_4)) {
+                                                                $md4 = "SELECT * FROM inv_total WHERE stockid = '$med_4' AND type = 'medicine'";
+                                                                $result = mysqli_query($conn, $md4);
+                                                                while ($data = mysqli_fetch_array($result)) {
+                                                                    $medicine = $data['stock_name'];
+                                                                    $medsup0 .= "$mqty_4 $medicine,";
+                                                                }
+                                                            } else {
+                                                                $medsup0 .= "";
+                                                            }
+                                                            if (!empty($med_5)) {
+                                                                $md5 = "SELECT * FROM inv_total WHERE stockid = '$med_5' AND type = 'medicine'";
+                                                                $result = mysqli_query($conn, $md5);
+                                                                while ($data = mysqli_fetch_array($result)) {
+                                                                    $medicine = $data['stock_name'];
+                                                                    $medsup0 .= "$mqty_5 $medicine,";
+                                                                }
+                                                            } else {
+                                                                $medsup0 .= "";
+                                                            }
+                                                            if (!empty($sup_1)) {
+                                                                $sp1 = "SELECT * FROM inv_total WHERE stockid = '$sup_1' AND type = 'supply'";
+                                                                $result = mysqli_query($conn, $sp1);
+                                                                while ($data = mysqli_fetch_array($result)) {
+                                                                    $supply = $data['stock_name'];
+                                                                    $medsup0 .= "$sqty_1 $supply,";
+                                                                }
+                                                            } else {
+                                                                $medsup0 .= "";
+                                                            }
+                                                            if (!empty($sup_2)) {
+                                                                $sp2 = "SELECT * FROM inv_total WHERE stockid = '$sup_2' AND type = 'supply'";
+                                                                $result = mysqli_query($conn, $sp2);
+                                                                while ($data = mysqli_fetch_array($result)) {
+                                                                    $supply = $data['stock_name'];
+                                                                    $medsup0 .= "$sqty_2 $supply,";
+                                                                }
+                                                            } else {
+                                                                $medsup0 .= "";
+                                                            }
+                                                            if (!empty($sup_3)) {
+                                                                $sp3 = "SELECT * FROM inv_total WHERE stockid = '$sup_3' AND type = 'supply'";
+                                                                $result = mysqli_query($conn, $sp3);
+                                                                while ($data = mysqli_fetch_array($result)) {
+                                                                    $supply = $data['stock_name'];
+                                                                    $medsup0 .= "$sqty_3 $supply,";
+                                                                }
+                                                            } else {
+                                                                $medsup0 .= "";
+                                                            }
+                                                            if (!empty($sup_4)) {
+                                                                $sp4 = "SELECT * FROM inv_total WHERE stockid = '$sup_4' AND type = 'supply'";
+                                                                $result = mysqli_query($conn, $sp4);
+                                                                while ($data = mysqli_fetch_array($result)) {
+                                                                    $supply = $data['stock_name'];
+                                                                    $medsup0 .= "$sqty_4 $supply,";
+                                                                }
+                                                            } else {
+                                                                $medsup0 .= "";
+                                                            }
+                                                            if (!empty($sup_5)) {
+                                                                $sp5 = "SELECT * FROM inv_total WHERE stockid = '$sup_5' AND type = 'supply'";
+                                                                $result = mysqli_query($conn, $sp5);
+                                                                while ($data = mysqli_fetch_array($result)) {
+                                                                    $supply = $data['stock_name'];
+                                                                    $medsup0 .= "$sqty_5 $supply,";
+                                                                }
+                                                            } else {
+                                                                $medsup0 .= "";
+                                                            }
+
+                                                            //$medsup1 = implode(", ", $medsup0);
+                                                            $medsup = rtrim($medsup0, " , ");
 
                                                 ?>
                                                             <tr>
-                                                                <td><?php echo $physician; ?></td>
-                                                                <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
-                                                                <td><?php echo date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to'])) ?></td>
-                                                                <td><?php echo  $data['type']; ?></td>
-                                                                <td><?php echo  $data['purpose']; ?></td>
-                                                                <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])) ?></td>
+                                                                <td><?php echo $id ?></td>
+                                                                <td><?php echo date("F d, Y", strtotime($date)) ?></td>
+                                                                <td><?php echo date("g:i A", strtotime($time_from)) . " - " . date("g:i A", strtotime($time_to)) ?></td>
+                                                                <td><?php echo  $type; ?></td>
+                                                                <td><?php echo  $purpose; ?></td>
+                                                                <td><?php echo $pname ?></td>
                                                                 <td><?php echo $physician; ?></td>
                                                                 <td>
-                                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#approveappointment<?php echo $data['id'] ?>">Approve</button>
-                                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#disapproveappointment<?php echo $data['id'] ?>">Disapprove</button>
+                                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#approveappointment<?php echo $id ?>">Approve</button>
+                                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#disapproveappointment<?= $id ?>">Disapprove</button>
                                                                 </td>
                                                             </tr>
                                                         <?php
                                                             include('modals/approve-appointment-modal.php');
+                                                            //$_GET['apid'] = $id;
                                                             include('modals/disapprove-appointment-modal.php');
                                                         }
                                                     } else {
