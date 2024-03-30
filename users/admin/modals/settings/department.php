@@ -2,7 +2,6 @@
     session_start();
     include('../../add/connection.php');
     $department = strtoupper($_POST['department']);
-    $abbrev = strtoupper($_POST['abbrev']);
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
@@ -24,7 +23,7 @@
     }
     else
     {
-        $sql = "INSERT INTO department (department, abbrev) VALUES ('$department', '$abbrev')";
+        $sql = "INSERT INTO department (department) VALUES ('$department')";
         if($result = mysqli_query($conn, $sql))
         {
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
