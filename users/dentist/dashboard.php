@@ -93,20 +93,18 @@ include('../../includes/pagination-limit.php');
             </div>
           </div>
         </div>
-        <button type=button class="box" style="border: none;">
-          <a href="services" style="color:black; text-decoration: none;">
-            <div class="right-side">
-              <div class="box-topic">Available Services</div>
-              <div class="number">
-                <?php
-                $query = "SELECT * from transaction";
-                $result = mysqli_query($conn, $query);
-                $totalCount = mysqli_num_rows($result);
-                echo $totalCount;
-                ?>
-              </div>
+        <button type=button class="box" style="border: none;" onclick="window.location.href = 'doc_visit_schedpage'">
+          <div class="right-side">
+            <div class="box-topic">Available Services</div>
+            <div class="number">
+              <?php
+              $query = "SELECT * from transaction";
+              $result = mysqli_query($conn, $query);
+              $totalCount = mysqli_num_rows($result);
+              echo $totalCount;
+              ?>
             </div>
-          </a>
+          </div>
         </button>
         <button type=button class="box" style="border: none;" onclick="window.location.href = 'doc_visit_schedpage'">
           <div class="right-side">

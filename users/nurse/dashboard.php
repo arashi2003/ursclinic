@@ -79,85 +79,77 @@ include('../../includes/pagination-limit.php');
       </div>
     </nav>
     <div class="home-content">
-            <?php
-            include('../../includes/alert.php')
-            ?>
+      <?php
+      include('../../includes/alert.php')
+      ?>
       <div class="overview-boxes">
         <?php
         include('../../includes/alert.php')
         ?>
         <button type=button class="box" style="border: none;" onclick="window.location.href = 'appointment?tab=approved'">
-          <a href="appointment?tab=approved" style="color:black; text-decoration: none;">
-            <div class="right-side">
-              <div class="box-topic">Total Approved Appointment</div>
-              <div class="number">
-                <?php
-                $query = "SELECT * from appointment WHERE status='APPROVED' AND date = '$today' AND status != 'COMPLETED'";
-                $result = mysqli_query($conn, $query);
-                $totalCount = mysqli_num_rows($result);
-                echo $totalCount;
-                ?>
-              </div>
+          <div class="right-side">
+            <div class="box-topic">Total Approved Appointment</div>
+            <div class="number">
+              <?php
+              $query = "SELECT * from appointment WHERE status='APPROVED' AND date = '$today' AND status != 'COMPLETED'";
+              $result = mysqli_query($conn, $query);
+              $totalCount = mysqli_num_rows($result);
+              echo $totalCount;
+              ?>
             </div>
-          </a>
+          </div>
         </button>
         <button type=button class="box" style="border: none;" onclick="window.location.href = 'appointment?tab=pending'">
-          <a href="appointment?tab=pending" style="color:black; text-decoration: none;">
-            <div class="right-side">
-              <div class="box-topic">Total Pending Appointment</div>
-              <div class="number">
-                <?php
-                $query = "SELECT * from appointment WHERE status='Pending'";
-                $result = mysqli_query($conn, $query);
-                $totalCount = mysqli_num_rows($result);
-                echo $totalCount;
-                ?>
-              </div>
+          <div class="right-side">
+            <div class="box-topic">Total Pending Appointment</div>
+            <div class="number">
+              <?php
+              $query = "SELECT * from appointment WHERE status='Pending'";
+              $result = mysqli_query($conn, $query);
+              $totalCount = mysqli_num_rows($result);
+              echo $totalCount;
+              ?>
             </div>
-          </a>
+          </div>
         </button>
         <button type=button class="box" style="border: none;" onclick="window.location.href = 'services'">
-          <a href="services" style="color:black; text-decoration: none;">
-            <div class="right-side">
-              <div class="box-topic">Available Services</div>
-              <div class="number">
-                <?php
-                $query = "SELECT * from transaction";
-                $result = mysqli_query($conn, $query);
-                $totalCount = mysqli_num_rows($result);
-                echo $totalCount;
-                ?>
-              </div>
+          <div class="right-side">
+            <div class="box-topic">Available Services</div>
+            <div class="number">
+              <?php
+              $query = "SELECT * from transaction";
+              $result = mysqli_query($conn, $query);
+              $totalCount = mysqli_num_rows($result);
+              echo $totalCount;
+              ?>
             </div>
-          </a>
+          </div>
         </button>
         <button type=button class="box" style="border: none;" onclick="window.location.href = 'doc_visit_schedpage'">
-          <a href="doc_visit_schedpage" style="color:black; text-decoration: none;">
-            <div class="right-side">
-              <div class="box-topic">Doctor's Visit<p>
-              </div>
-              <div class="number">
-                <?php
-                $date = date("Y-m-d");
-                $query = "SELECT date, campus FROM schedule WHERE date >= '$date' AND campus = '$campus'";
-                $result = mysqli_query($conn, $query);
-                if (mysqli_num_rows($result) > 0) {
-                  while ($data = mysqli_fetch_array($result)) {
-                    $date = date("Y-m-d");
-                    if ($data['date'] == $date) {
-                      $sched = "TODAY";
-                    } else {
-                      $sched = $data['date'];
-                    }
-                  }
-                  echo "<h1>" . date("M. d, Y", strtotime($sched)) . "</h1>";
-                } else {
-                  echo "N/A";
-                }
-                ?>
-              </div>
+          <div class="right-side">
+            <div class="box-topic">Doctor's Visit<p>
             </div>
-          </a>
+            <div class="number">
+              <?php
+              $date = date("Y-m-d");
+              $query = "SELECT date, campus FROM schedule WHERE date >= '$date' AND campus = '$campus'";
+              $result = mysqli_query($conn, $query);
+              if (mysqli_num_rows($result) > 0) {
+                while ($data = mysqli_fetch_array($result)) {
+                  $date = date("Y-m-d");
+                  if ($data['date'] == $date) {
+                    $sched = "TODAY";
+                  } else {
+                    $sched = $data['date'];
+                  }
+                }
+                echo "<h1>" . date("M. d, Y", strtotime($sched)) . "</h1>";
+              } else {
+                echo "N/A";
+              }
+              ?>
+            </div>
+          </div>
         </button>
         <div class="content">
           <h3>Low Inventory Stocks</h3>
