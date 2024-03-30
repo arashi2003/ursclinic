@@ -248,7 +248,7 @@ if ($approved_pages > 4) {
                                                 </div>
                                                 <div class="col-md-2 mb-2">
                                                     <select name="physician" class="form-select">
-                                                        <option value="">Select Physician</option>
+                                                        <option value="" disabled selected>-Select Physician-</option>
                                                         <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                         <?php
                                                         $sql = "SELECT * FROM account WHERE usertype='DOCTOR' OR usertype='DENTIST' ORDER BY firstname";
@@ -302,8 +302,8 @@ if ($approved_pages > 4) {
                                                     $sql = "SELECT ap.id, ap.date, ap.patient, ap.med_1, ap.mqty_1, ap.med_2, ap.mqty_2, ap.med_3, ap.mqty_3, ap.med_4, ap.mqty_4, ap.med_5, ap.mqty_5, ap.sup_1, ap.sqty_1, ap.sup_2, ap.sqty_2, ap.sup_3, ap.sqty_3, ap.sup_4, ap.sqty_4, ap.sup_5, ap.sqty_5, p.purpose, t.type, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus, ac.email FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE  CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='PENDING' AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
                                                 } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
-                                                    $date = $_GET['date'];
-                                                    $physician = $_GET['physician'];
+                                                    $date = isset($_GET['date']) ? $_GET['date'] : '';
+                                                    $physician = isset($_GET['physician']) ? $_GET['physician'] : '';
                                                     $count = 1;
                                                     $sql = "SELECT ap.id, ap.date, ap.patient, ap.med_1, ap.mqty_1, ap.med_2, ap.mqty_2, ap.med_3, ap.mqty_3, ap.med_4, ap.mqty_4, ap.med_5, ap.mqty_5, ap.sup_1, ap.sqty_1, ap.sup_2, ap.sqty_2, ap.sup_3, ap.sqty_3, ap.sup_4, ap.sqty_4, ap.sup_5, ap.sqty_5, p.purpose, t.type, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus, ac.email FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE ap.date = '$date' or ap.physician = '$physician' AND ac.campus='$campus' AND ap.status='PENDING' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
@@ -582,7 +582,7 @@ if ($approved_pages > 4) {
                                                 </div>
                                                 <div class="col-md-2 mb-2">
                                                     <select name="physician" class="form-select">
-                                                        <option value="">Select Physician</option>
+                                                        <option value="" disabled selected>-Select Physician-</option>
                                                         <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                         <?php
                                                         $sql = "SELECT * FROM account WHERE usertype='DOCTOR' OR usertype='DENTIST' ORDER BY firstname";
@@ -634,13 +634,13 @@ if ($approved_pages > 4) {
                                                 if (isset($_GET['patient']) && $_GET['patient'] != '') {
                                                     $patient = $_GET['patient'];
                                                     $count = 1;
-                                                    $sql = "SELECT ap.id, ap.date, ap.reason, ap.patient, ap.med_1, ap.mqty_1, ap.med_2, ap.mqty_2, ap.med_3, ap.mqty_3, ap.med_4, ap.mqty_4, ap.med_5, ap.mqty_5, ap.sup_1, ap.sqty_1, ap.sup_2, ap.sqty_2, ap.sup_3, ap.sqty_3, ap.sup_4, ap.sqty_4, ap.sup_5, ap.sqty_5, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND (ap.status='APPROVED' OR ap.status='COMPLETED') AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $sql = "SELECT ap.id, ap.date, ap.reason, ap.patient, ap.med_1, ap.mqty_1, ap.med_2, ap.mqty_2, ap.med_3, ap.mqty_3, ap.med_4, ap.mqty_4, ap.med_5, ap.mqty_5, ap.sup_1, ap.sqty_1, ap.sup_2, ap.sqty_2, ap.sup_3, ap.sqty_3, ap.sup_4, ap.sqty_4, ap.sup_5, ap.sqty_5, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='APPROVED' AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
                                                 } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
-                                                    $date = $_GET['date'];
-                                                    $physician = $_GET['physician'];
+                                                    $date = isset($_GET['date']) ? $_GET['date'] : '';
+                                                    $physician = isset($_GET['physician']) ? $_GET['physician'] : '';
                                                     $count = 1;
-                                                    $sql = "SELECT ap.id, ap.date, ap.reason, ap.med_1, ap.mqty_1, ap.med_2, ap.mqty_2, ap.med_3, ap.mqty_3, ap.med_4, ap.mqty_4, ap.med_5, ap.mqty_5, ap.sup_1, ap.sqty_1, ap.sup_2, ap.sqty_2, ap.sup_3, ap.sqty_3, ap.sup_4, ap.sqty_4, ap.sup_5, ap.sqty_5, ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE ap.date = '$date' or ap.physician = '$physician' AND ac.campus='$campus' AND (ap.status='APPROVED' OR ap.status='COMPLETED') ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $sql = "SELECT ap.id, ap.date, ap.reason, ap.med_1, ap.mqty_1, ap.med_2, ap.mqty_2, ap.med_3, ap.mqty_3, ap.med_4, ap.mqty_4, ap.med_5, ap.mqty_5, ap.sup_1, ap.sqty_1, ap.sup_2, ap.sqty_2, ap.sup_3, ap.sqty_3, ap.sup_4, ap.sqty_4, ap.sup_5, ap.sqty_5, ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE (ap.date = '$date' or ap.physician = '$physician') AND ac.campus='$campus' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
                                                 } else {
                                                     $count = 1;
@@ -670,7 +670,7 @@ if ($approved_pages > 4) {
                                                             }
                                                 ?>
                                                             <tr>
-                                                                <td><?php echo $data['id']; ?></td>
+                                                                <td><?php echo $id = $data['id']; ?></td>
                                                                 <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
                                                                 <td><?php echo date("g:i A", strtotime($data['time_from'])) . " - " .  date("g:i A", strtotime($data['time_to'])) ?></td>
                                                                 <td><?php echo $data['type']; ?></td>
@@ -689,10 +689,10 @@ if ($approved_pages > 4) {
                                                                         if ($data['physician'] == 'NONE') {
                                                                         ?>
                                                                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#recordppointment<?php echo $data['id'] ?>">Record</button>
-                                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?php echo $data['id']; ?>">Cancel</button>
+                                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?= $id; ?>">Cancel</button>
                                                                         <?php } else { ?>
                                                                             <button type="button" class="btn btn-primary btn-sm" disabled>Record</button>
-                                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?php echo $data['id']; ?>">Cancel</button>
+                                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?= $id; ?>">Cancel</button>
                                                                         <?php }
                                                                         ?>
                                                                     <?php

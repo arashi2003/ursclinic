@@ -8,8 +8,8 @@
             <div class="modal-body">
                 <form action="modals/import_account.php" method="POST" enctype="multipart/form-data">
                     <div class="input-group">
-                        <input type="file" class="form-control" name="import_file" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" onchange="enableButton()">
-                        <button class="btn btn-primary" type="submit" name="save_excel_data" id="uploadButton" disabled>Upload</button>
+                        <input type="file" class="form-control" name="import_file" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                        <button class="btn btn-primary" type="submit" name="save_excel_data" id="uploadButton">Upload</button>
                     </div>
                 </form>
             </div>

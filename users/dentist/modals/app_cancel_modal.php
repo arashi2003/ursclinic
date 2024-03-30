@@ -5,11 +5,10 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Cancellation of Appointment</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
             </div>
-            <form method="POST" action="modals/cancel/appointment.php" id="form">
+            <form method="POST" action="modals/cancel/appointment.php">
                 <div class="modal-body">
-                    <input type="hidden" name="id" value="<?= $id ?>">
                     <div class="mb-2">
-                        <label for="cancelreasonling" class="form-label">Reason for cancellation:</label>
+                        <label for="cancelreasonling" class="form-label text-start">Reason for cancellation:</label>
                         <textarea class="form-control" name="reason" id="reason" style="resize: none;" required></textarea>
                     </div>
                 </div>

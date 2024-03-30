@@ -25,25 +25,12 @@ if (isset($_GET['patient']) || isset($_GET['date'])) {
     if ($date !== '') {
         $whereClause .= " AND ap.date = '$date'";
     }
-
-    // Construct and execute SQL query for pending appointments count
-    $pending_sql_count = "SELECT COUNT(*) AS total_rows 
-                      FROM appointment ap 
-                      INNER JOIN account ac ON ac.accountid = ap.patient
-                      WHERE physician='$fullname' AND ap.status = 'PENDING' $whereClause";
-
     // Construct and execute SQL query for approved appointments count
     $approved_sql_count = "SELECT COUNT(*) AS total_rows 
                        FROM appointment ap 
                        INNER JOIN account ac ON ac.accountid = ap.patient
                        WHERE physician='$fullname' AND (ap.status='APPROVED' OR ap.status='COMPLETED') $whereClause";
 } else {
-    // If no filter is set, count all rows
-    $pending_sql_count = "SELECT COUNT(*) AS total_rows 
-                          FROM appointment ap 
-                          INNER JOIN account ac ON ac.accountid = ap.patient
-                          WHERE ap.status = 'PENDING' AND physician='$fullname'";
-
     // Count all approved appointments
     $approved_sql_count = "SELECT COUNT(*) AS total_rows 
                            FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient 
@@ -55,15 +42,10 @@ if (isset($_GET['patient']) || isset($_GET['date'])) {
 }
 
 // Execute the count queries for pending and approved appointments
-$pending_count_result = $conn->query($pending_sql_count);
 $approved_count_result = $conn->query($approved_sql_count);
 
 // Check if count queries were successful
-if ($pending_count_result && $approved_count_result) {
-    // Fetch the total number of rows for pending appointments
-    $pending_count_row = $pending_count_result->fetch_assoc();
-    $pending_nr_of_rows = $pending_count_row['total_rows'];
-
+if ($approved_count_result) {
     // Fetch the total number of rows for approved appointments
     $approved_count_row = $approved_count_result->fetch_assoc();
     $approved_nr_of_rows = $approved_count_row['total_rows'];
@@ -81,44 +63,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 // Setting the start from value.
 $start = ($page - 1) * $rows_per_page;
 
-// Calculating the number of pages.
-$pending_pages = ceil($pending_nr_of_rows / $rows_per_page);
 $approved_pages = ceil($approved_nr_of_rows / $rows_per_page);
-
-// Calculate the range of page numbers to be displayed for pending appointments
-$pending_start_loop = max(1, $page - 2);
-$pending_end_loop = min($pending_pages, $page + 2);
-
-// Adjust the range if the current page is near the beginning or end for pending appointments
-if ($pending_start_loop > 1) {
-    $pending_start_loop--;
-    $pending_end_loop++;
-}
-
-// Ensure that the range is never smaller than 4 for pending appointments
-if ($pending_end_loop - $pending_start_loop < 4) {
-    $pending_start_loop = max(1, $pending_end_loop - 4);
-}
-
-$pending_previous = $page - 1;
-$pending_next = $page + 1;
-
-// Calculate the start and end loop variables for pending appointments
-$pending_start_loop = $page > 2 ? $page - 2 : 1;
-$pending_end_loop = $page < $pending_pages - 2 ? $page + 2 : $pending_pages;
-
-// Limit the number of pages displayed to a maximum of 4 for pending appointments
-if ($pending_pages > 4) {
-    if ($page > 2 && $page < $pending_pages - 1) {
-        $pending_end_loop = $page + 1;
-    } elseif ($page == 1) {
-        $pending_start_loop = 1;
-        $pending_end_loop = 4;
-    } elseif ($page == $pending_pages) {
-        $pending_start_loop = $pending_pages - 3;
-        $pending_end_loop = $pending_pages;
-    }
-}
 
 // Calculate the range of page numbers to be displayed for approved appointments
 $approved_start_loop = max(1, $page - 2);
@@ -246,9 +191,8 @@ if ($approved_pages > 4) {
                                                     $count = 1;
                                                     $sql = "SELECT ap.id, ap.date, ap.reason ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND (ap.status='APPROVED' OR ap.status='COMPLETED') AND physician='$fullname' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
-                                                } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
+                                                } elseif (isset($_GET['date']) && $_GET['date'] != '') {
                                                     $date = $_GET['date'];
-                                                    $physician = $_GET['physician'];
                                                     $count = 1;
                                                     $sql = "SELECT ap.id, ap.date, ap.reason, ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE ap.date = '$date' AND physician='$fullname' AND (ap.status='APPROVED' OR ap.status='COMPLETED') ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
@@ -275,7 +219,7 @@ if ($approved_pages > 4) {
                                                             }
                                                 ?>
                                                             <tr>
-                                                                <td><?php echo $data['id']; ?></td>
+                                                                <td><?php echo $id = $data['id']; ?></td>
                                                                 <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
                                                                 <td><?php echo date("g:i A", strtotime($data['time_from'])) . " - " .  date("g:i A", strtotime($data['time_to'])) ?></td>
                                                                 <td><?php echo $data['type']; ?></td>
@@ -291,7 +235,7 @@ if ($approved_pages > 4) {
                                                                     <?php
                                                                     } elseif ($data['status'] == 'APPROVED') { ?>
                                                                         <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#recordppointment<?php echo $data['id'] ?>">Record</button>
-                                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?php echo $data['id']; ?>">Cancel</button>
+                                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?=$id ?>">Cancel</button>
 
                                                                     <?php
                                                                     } elseif ($data['status'] == 'COMPLETED') {

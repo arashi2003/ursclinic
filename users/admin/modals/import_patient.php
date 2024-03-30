@@ -38,8 +38,9 @@ if (isset($_POST['save_excel_data'])) {
                 $emcon_name = $row['14'];
                 $emcon_number = $row['15'];
 
-                $studentQuery = "INSERT INTO patient_info (patientid,designation,age,sex,birthday,department,campus,college,program,yearlevel,section,block,address,email,contactno,emcon_name,emcon_number, datetime_created, datetime_updated) 
-                VALUES ('$patientid','$designation','$sex','$birthday','$department','$campus','$college','$program','$yearlevel','$section','$block','$address','$email','$contactno','$emcon_name','$emcon_number', now(), now())";
+                $studentQuery = "INSERT INTO patient_info 
+                (patientid,designation,sex,birthday,department,campus,college,program,yearlevel,section,block,address,email,contactno,emcon_name,emcon_number, datetime_created, datetime_updated) VALUES 
+                ('$patientid','$designation','$sex','$birthday','$department','$campus','$college','$program','$yearlevel','$section','$block','$address','$email','$contactno','$emcon_name','$emcon_number', now(), now())";
                 $result = mysqli_query($conn, $studentQuery);
                 $msg = true;
             } else {
@@ -49,16 +50,16 @@ if (isset($_POST['save_excel_data'])) {
 
         if (isset($msg)) {
             $_SESSION['alert'] = "Successfully Imported";
-            header('Location: patients');
+            header('Location: ../patients');
             exit(0);
         } else {
             $_SESSION['alert'] = "Not Imported";
-            header('Location: patients');
+            header('Location: ../patients');
             exit(0);
         }
     } else {
         $_SESSION['alert'] = "Invalid File";
-        header('Location: patients');
+        header('Location: ../patients');
         exit(0);
     }
 }

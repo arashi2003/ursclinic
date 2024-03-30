@@ -148,7 +148,7 @@ if ($pages > 4) {
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">MEDICAL HISTORY</span>
+                <span class="dashboard">MEDICAL RECORDS</span>
             </div>
             <div class="right-nav">
                 <div class="notification-button">

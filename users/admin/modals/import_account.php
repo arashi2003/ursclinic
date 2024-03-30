@@ -31,8 +31,7 @@ if (isset($_POST['save_excel_data'])) {
                 $contactno = $row['7'];
                 $campus = $row['8'];
                 $status = $row['9'];
-                $datetime_created = $row['10'];
-                $datetime_updated = $row['11'];
+                
                 $studentQuery = "INSERT INTO account 
                 (accountid, password, usertype, firstname, middlename, lastname, email, contactno, campus, status, datetime_created, datetime_updated) 
                 VALUES 
@@ -46,16 +45,16 @@ if (isset($_POST['save_excel_data'])) {
 
         if (isset($msg)) {
             $_SESSION['alert'] = "Successfully Imported";
-            header('Location: account_users');
+            header('Location: ../account_users');
             exit(0);
         } else {
             $_SESSION['alert'] = "Not Imported";
-            header('Location: account_users');
+            header('Location: ../account_users');
             exit(0);
         }
     } else {
         $_SESSION['alert'] = "Invalid File";
-        header('Location: account_users');
+        header('Location: ../account_users');
         exit(0);
     }
 }

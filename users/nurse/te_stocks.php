@@ -194,7 +194,7 @@ if ($pages > 4) {
                                         </div>
                                         <div class="col-md-2 mb-2">
                                             <select name="te_status" class="form-select">
-                                                <option value="" selected disabled>Select Status</option>
+                                                <option value="" selected disabled>-Select Status-</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT * FROM te_status ORDER BY te_status";
