@@ -21,23 +21,34 @@ if (isset($_POST['save_excel_data'])) {
         $count = "0";
         foreach ($data as $row) {
             if ($count > 0) {
-                $accountid = $row['0'];
-                $password = $row['1'];
-                $usertype = $row['2'];
-                $firstname = $row['3'];
-                $middlename = $row['4'];
-                $lastname = $row['5'];
-                $email = $row['6'];
-                $contactno = $row['7'];
-                $campus = $row['8'];
-                $status = $row['9'];
-                
-                $studentQuery = "INSERT INTO account 
-                (accountid, password, usertype, firstname, middlename, lastname, email, contactno, campus, status, datetime_created, datetime_updated) 
-                VALUES 
-                ('$accountid','$password','$usertype','$firstname','$middlename','$lastname','$email','$contactno','$campus','$status', now(), now())";
-                $result = mysqli_query($conn, $studentQuery);
-                $msg = true;
+                if (count($data) == 10) {
+                    $accountid = $row['0'];
+                    $password = $row['1'];
+                    $usertype = $row['2'];
+                    $firstname = $row['3'];
+                    $middlename = $row['4'];
+                    $lastname = $row['5'];
+                    $email = $row['6'];
+                    $contactno = $row['7'];
+                    $campus = $row['8'];
+                    $status = $row['9'];
+
+                    $dup = "SELECT accountid FROM account WHERE accountid = '$accountid'";
+                    $result = mysqli_query($conn, $dup);
+                    if (mysqli_num_rows($result) == 0) {
+                        $studentQuery = "INSERT INTO account (accountid, password, usertype, firstname, middlename, lastname, email, contactno, campus, status, datetime_created, datetime_updated) VALUES ('$accountid','$password','$usertype','$firstname','$middlename','$lastname','$email','$contactno','$campus','$status', now(), now())";
+                        $result = mysqli_query($conn, $studentQuery);
+                        $msg = true;
+                    } else {
+                        $_SESSION['alert'] = "Not Imported. There is a duplicate entry for Account ID.";
+                        header('Location: ../account_users');
+                        exit(0);
+                    }
+                } else{
+                    $_SESSION['alert'] = "Invalid File. Column number does not match.";
+                    header('Location: ../account_users');
+                    exit(0);
+                }
             } else {
                 $count = "1";
             }

@@ -26,6 +26,18 @@
                             <?php } ?>
                         </select>
                     </div>
+                    <div class="mb-2 hidden" id="purposeDiv">
+                        <label for="purposes" class="col-form-label">Request:</label>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose">
+                            <option value="" disabled selected></option>
+                        </select>
+                    </div>
+                    <div class="mb-2 hidden" id="physicianDiv">
+                        <label for="physician" class="col-form-label">Physician:</label>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="physician" id="physician">
+                            <option value="" disabled selected></option>
+                        </select>
+                    </div>
                     <div class="row">
                         <div class="col hidden" id="dateDiv">
                             <label for="date" class="col-form-label">Date:</label>
@@ -52,12 +64,6 @@
                                 <option value="" disabled selected>-:-- --</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="mb-2 hidden" id="purposeDiv">
-                        <label for="purposes" class="col-form-label">Request:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose">
-                            <option value="" disabled selected></option>
-                        </select>
                     </div>
                     <div class="mb-2 hidden" id="ccDiv">
                         <label for="chiefcomplaint" class="col-form-label">Chief Complaint:</label>
@@ -108,13 +114,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="mb-2 hidden" id="physicianDiv">
-                        <label for="physician" class="col-form-label">Physician:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="physician" id="physician">
-                            <option value="" disabled selected></option>
-                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -202,28 +201,28 @@
 </script>
 <script>
     $(document).ready(function() {
-    $("#time_from").change(function() {
-        var time_fromid = $(this).val();
-        if (time_fromid == '') {
-            $("#time_to").html('<option value="" disabled selected>-:-- --</option>');
-        } else {
-            $.ajax({
-                url: "time.php", // Ensure this URL is correct
-                method: "POST",
-                data: {
-                    time_from: time_fromid
-                },
-                success: function(data) {
-                    $("#time_to").html('<option value="" disabled selected>-:-- --</option>');
-                    $("#time_to").html(data);
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        }
+        $("#time_from").change(function() {
+            var time_fromid = $(this).val();
+            if (time_fromid == '') {
+                $("#time_to").html('<option value="" disabled selected>-:-- --</option>');
+            } else {
+                $.ajax({
+                    url: "time.php", // Ensure this URL is correct
+                    method: "POST",
+                    data: {
+                        time_from: time_fromid
+                    },
+                    success: function(data) {
+                        $("#time_to").html('<option value="" disabled selected>-:-- --</option>');
+                        $("#time_to").html(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        });
     });
-});
 </script>
 <script type="text/javascript">
     function enableAppointment(answer) {

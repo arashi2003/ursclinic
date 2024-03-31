@@ -2,6 +2,7 @@
     session_start();
     require('connection.php');
     require('../../../fpdf/fpdf.php');
+    date_default_timezone_set("Asia/Manila");
 
     class PDF extends FPDF
     {

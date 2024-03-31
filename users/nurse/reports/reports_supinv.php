@@ -4,6 +4,7 @@ require('../../../fpdf/fpdf.php');
 include('connection.php');
 $campus = $_SESSION['campus'];
 $accountid = $_SESSION['userid'];
+date_default_timezone_set("Asia/Manila");
 
 class PDF extends FPDF
 {
