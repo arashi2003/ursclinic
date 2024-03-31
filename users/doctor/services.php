@@ -2,7 +2,7 @@
 
 session_start();
 include('../../connection.php');
-include('../../includes/nurse-auth.php');
+include('../../includes/doctor-auth.php');
 
 $module = 'services';
 $userid = $_SESSION['userid'];
@@ -97,13 +97,14 @@ include('../../includes/pagination-limit.php');
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <table>
-                                    <thead>
+                                <table class="table">
+                                    <thead class="head">
                                         <tr>
                                             <th>ID</th>
                                             <th>Transaction</th>
                                             <th>Service</th>
                                             <th>Action</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         <?php

@@ -2,9 +2,6 @@
 session_start();
 include('connection.php');
 
-$date = date("Y-m-d", strtotime($_POST['date']));
-$time_from = date("H:i:s", strtotime($_POST['time_from']));
-$time_to =  date("H:i:s", strtotime($_POST['time_to']));
 $patient  = $_SESSION['userid'];
 $type  = $_POST['appointment'];
 $purpose = $_POST['purpose'];
@@ -38,8 +35,14 @@ if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
 
 if (!empty($_POST['physician'])) {
   $physician  = $_POST['physician'];
+  $date = date("Y-m-d", strtotime($_POST['datep']));
+  $time_from = date("H:i:s", strtotime($_POST['time_fromp']));
+  $time_to =  date("H:i:s", strtotime($_POST['time_top']));
 } else {
   $physician  = "NONE";
+  $date = date("Y-m-d", strtotime($_POST['daten']));
+  $time_from = date("H:i:s", strtotime($_POST['time_fromn']));
+  $time_to =  date("H:i:s", strtotime($_POST['time_ton']));
 }
 
 $user = $_SESSION['userid'];

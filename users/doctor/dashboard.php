@@ -91,7 +91,7 @@ include('../../includes/pagination-limit.php');
             </div>
           </div>
         </div>
-        <button type=button class="box" style="border: none;" onclick="window.location.href = 'doc_visit_schedpage'">
+        <button type=button class="box" style="border: none;" onclick="window.location.href = 'services'">
           <div class="right-side">
             <div class="box-topic">Available Services</div>
             <div class="number">

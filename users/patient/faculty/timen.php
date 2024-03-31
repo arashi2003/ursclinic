@@ -2,11 +2,11 @@
 include('modals/connection.php');
 
 // Check if the POST data is set
-if(isset($_POST['time_from'])) {
-    $time_from = $_POST['time_from'];
+if(isset($_POST['time_fromn'])) {
+    $time_fromn = $_POST['time_fromn'];
 
     // Perform SQL injection prevention here if necessary
-    $sql = "SELECT * FROM time_pickup WHERE time > '$time_from'";
+    $sql = "SELECT * FROM time_pickup WHERE time > '$time_fromn'";
     $output = '';
     $result = mysqli_query($conn, $sql);
 

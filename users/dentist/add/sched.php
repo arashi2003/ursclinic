@@ -3,8 +3,8 @@ session_start();
 include('../connection.php');
 $campus = $_POST['campus'];
 $date = date("Y-m-d", strtotime($_POST['date']));
-$time_from = date("h:i:s", strtotime($_POST['time_from']));
-$time_to = date("h:i:s", strtotime($_POST['time_to']));
+$time_from = date("H:i:s", strtotime($_POST['time_from']));
+$time_to = date("H:i:s", strtotime($_POST['time_to']));
 $maxp = $_POST['maxp'];
 $campus = $_POST['campus'];
 
@@ -14,7 +14,7 @@ $fullname = strtoupper($_SESSION['name']);
 $activity = "added a walk-in schedule for " . $campus;
 $au_status = "unread";
 
-$query = "SELECT * FROM schedule WHERE date = '$date' AND physician = '$userid' AND status != 'CANCELLED'";
+$query = "SELECT * FROM schedule WHERE date = '$date' AND physician = '$userid' AND status = 'PENDING'";
 $result = mysqli_query($conn, $query);
 $resultCheck = mysqli_num_rows($result);
 if ($resultCheck > 0) {

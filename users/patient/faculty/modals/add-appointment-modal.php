@@ -26,14 +26,47 @@
                             <?php } ?>
                         </select>
                     </div>
-                    <div class="row">
-                        <div class="col hidden" id="dateDiv">
+                    <div class="mb-2 hidden" id="purposeDiv">
+                        <label for="purposes" class="col-form-label">Request:</label>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose">
+                            <option value="" disabled selected></option>
+                        </select>
+                    </div>
+                    <div class="mb-2 hidden" id="physicianDiv">
+                        <label for="physician" class="col-form-label">Physician:</label>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="physician" id="physician" onchange="enablePhys(this)">
+                            <option value="" disabled selected></option>
+                        </select>
+                    </div>
+                    <div class="row hidden" id="datetimeDiv">
+                        <div class="col-md-4 mb-2 hidden" id="dateNDiv">
                             <label for="date" class="col-form-label">Date:</label>
-                            <input type="text" class="form-control" name="date" id="showDate" placeholder="mm/dd/yyyy">
+                            <input type="text" class="form-control" name="daten" id="showDate" placeholder="mm/dd/yyyy">
                         </div>
-                        <div class="col hidden" id="timeFromDiv">
+
+                        <div class="col-md-4 mb-2 hidden" id="datePDiv">
+                            <label for="date" class="col-form-label">Date:</label>
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="datep" id="dateSelect" onchange="datepchange(this)">
+                                <option value="" disabled selected></option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 mb-2 hidden" id="timeFromPDiv">
                             <label for="time_from" class="col-form-label">Time From:</label>
-                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_from" id="time_from">
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_fromp" id="time_fromp" onchange="timeToPchange(this)">
+                                <option value="" disabled selected>-:-- --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-2 hidden" id="timeToPDiv">
+                            <label for="time_to" class="col-form-label">Time To:</label>
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_top" id="time_top">
+                                <option value="" disabled selected>-:-- --</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 mb-2 hidden" id="timeFromNDiv">
+                            <label for="time_from" class="col-form-label">Time From:</label>
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_fromn" id="time_fromn">
                                 <option value="" disabled selected>-:-- --</option>
                                 <?php
                                 include('connection.php');
@@ -46,19 +79,14 @@
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col hidden" id="timeToDiv">
+                        <div class="col-md-4 mb-2 hidden" id="timeToNDiv">
                             <label for="time_to" class="col-form-label">Time To:</label>
-                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_to" id="time_to">
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_ton" id="time_ton">
                                 <option value="" disabled selected>-:-- --</option>
                             </select>
                         </div>
                     </div>
-                    <div class="mb-2 hidden" id="purposeDiv">
-                        <label for="purposes" class="col-form-label">Request:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose">
-                            <option value="" disabled selected></option>
-                        </select>
-                    </div>
+
                     <div class="mb-2 hidden" id="ccDiv">
                         <label for="chiefcomplaint" class="col-form-label">Chief Complaint:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="chiefcomplaint" id="chiefcomplaint" onchange="enableOther(this)">
@@ -109,13 +137,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="mb-2 hidden" id="physicianDiv">
-                        <label for="physician" class="col-form-label">Physician:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="physician" id="physician">
-                            <option value="" disabled selected></option>
-                        </select>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-primary" value="Request"></input>
@@ -143,6 +164,18 @@
                         aid: appointment_id
                     },
                     success: function(data) {
+                        document.getElementById('dateNDiv').value = "";
+                        document.getElementById('datePDiv').value = "";
+                        document.getElementById('timeFromNDiv').value = "";
+                        document.getElementById('timeToNDiv').value = "";
+                        document.getElementById('timeFromPDiv').value = "";
+                        document.getElementById('timeToPDiv').value = "";
+                        document.getElementById('dateNDiv').classList.add('hidden');
+                        document.getElementById('datePDiv').classList.add('hidden');
+                        document.getElementById('timeFromNDiv').classList.add('hidden');
+                        document.getElementById('timeToNDiv').classList.add('hidden');
+                        document.getElementById('timeFromPDiv').classList.add('hidden');
+                        document.getElementById('timeToPDiv').classList.add('hidden');
                         $("#purpose").html(data);
                     }
                 });
@@ -158,6 +191,18 @@
                     type: 'purpose'
                 },
                 success: function(data) {
+                    document.getElementById('dateNDiv').value = "";
+                    document.getElementById('datePDiv').value = "";
+                    document.getElementById('timeFromNDiv').value = "";
+                    document.getElementById('timeToNDiv').value = "";
+                    document.getElementById('timeFromPDiv').value = "";
+                    document.getElementById('timeToPDiv').value = "";
+                    document.getElementById('dateNDiv').classList.add('hidden');
+                    document.getElementById('datePDiv').classList.add('hidden');
+                    document.getElementById('timeFromNDiv').classList.add('hidden');
+                    document.getElementById('timeToNDiv').classList.add('hidden');
+                    document.getElementById('timeFromPDiv').classList.add('hidden');
+                    document.getElementById('timeToPDiv').classList.add('hidden');
                     $("#chiefcomplaint").html(data);
                 }
             });
@@ -172,7 +217,41 @@
                     type: 'physician'
                 },
                 success: function(data) {
+                    document.getElementById('dateNDiv').value = "";
+                    document.getElementById('datePDiv').value = "";
+                    document.getElementById('timeFromNDiv').value = "";
+                    document.getElementById('timeToNDiv').value = "";
+                    document.getElementById('timeFromPDiv').value = "";
+                    document.getElementById('timeToPDiv').value = "";
+                    document.getElementById('dateNDiv').classList.add('hidden');
+                    document.getElementById('datePDiv').classList.add('hidden');
+                    document.getElementById('timeFromNDiv').classList.add('hidden');
+                    document.getElementById('timeToNDiv').classList.add('hidden');
+                    document.getElementById('timeFromPDiv').classList.add('hidden');
+                    document.getElementById('timeToPDiv').classList.add('hidden');
                     $("#physician").html(data);
+                }
+            });
+        });
+
+        $("#physician").change(function() {
+            var physician_id = $(this).val();
+            console.log(physician_id);
+            $.ajax({
+                url: "action.php",
+                method: "POST",
+                data: {
+                    pid: physician_id,
+                    type: 'date'
+                },
+                success: function(data) {
+                    document.getElementById('dateNDiv').value = "";
+                    document.getElementById('datePDiv').value = "";
+                    document.getElementById('timeFromNDiv').value = "";
+                    document.getElementById('timeToNDiv').value = "";
+                    document.getElementById('timeFromPDiv').value = "";
+                    document.getElementById('timeToPDiv').value = "";
+                    $("#dateSelect").html(data);
                 }
             });
         });
@@ -189,6 +268,27 @@
         }
     };
 
+    /*
+    $(function() {
+        // Calculate the date one week ahead from now
+        var currentDate = new Date();
+        var disabledDate = new Date();
+        disabledDate.setDate(currentDate.getDate() - 1);
+
+        // Initialize Datepicker
+        $("#showDate").datepicker({
+            dateFormat: "yy-mm-dd",
+            beforeShowDay: function(date) {
+                // Disable dates within the next week
+                var disabled = date <= disabledDate;
+                // Enable dates beyond the next week
+                var enabled = date > disabledDate;
+                return [enabled, enabled ? "" : "disabled", enabled ? "" : "Dates within the next week are disabled"];
+            }
+        });
+    });
+    */
+
     $(document).ready(function() {
         $('#showDate').datepicker({
             dateFormat: "yy-mm-dd",
@@ -202,82 +302,167 @@
 </script>
 <script>
     $(document).ready(function() {
-    $("#time_from").change(function() {
-        var time_fromid = $(this).val();
-        if (time_fromid == '') {
-            $("#time_to").html('<option value="" disabled selected>-:-- --</option>');
-        } else {
-            $.ajax({
-                url: "time.php", // Ensure this URL is correct
-                method: "POST",
-                data: {
-                    time_from: time_fromid
-                },
-                success: function(data) {
-                    $("#time_to").html('<option value="" disabled selected>-:-- --</option>');
-                    $("#time_to").html(data);
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
+        $("#time_fromn").change(function() {
+            var time_fromnid = $(this).val();
+            if (time_fromnid == '') {
+                $("#time_ton").html('<option value="" disabled selected>-:-- --</option>');
+            } else {
+                $.ajax({
+                    url: "timen.php", // Ensure this URL is correct
+                    method: "POST",
+                    data: {
+                        time_fromn: time_fromnid
+                    },
+                    success: function(data) {
+                        $("#time_ton").html('<option value="" disabled selected>-:-- --</option>');
+                        $("#time_ton").html(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        // Define the datepchange function
+        function datepchange(answer) {
+            var dateSelect = $("#dateSelect"); // Cache the jQuery object for better performance
+            dateSelect.change(function() {
+                var dateSelect_id = $(this).val();
+                var physician_id = $("#physician").val(); // Get the value of the selected physician
+                console.log(dateSelect_id);
+                console.log(physician_id);
+                $.ajax({
+                    url: "timepfrom.php",
+                    method: "POST",
+                    data: {
+                        date: dateSelect_id,
+                        physician: physician_id // Include the physician parameter
+                    },
+                    success: function(data) {
+                        $("#time_fromp").html(data);
+                    }
+                });
             });
         }
+
+        // Call the datepchange function when the document is ready
+        datepchange(); // Call the function
+
+        // Define the timeToPchange function
+        function timeToPchange(answer) {
+            var time_fromp = $("#time_fromp"); // Cache the jQuery object for better performance
+            time_fromp.change(function() {
+                var dateSelect_id = $("#dateSelect").val();
+                var physician_id = $("#physician").val();
+                var time_from_id = $("#time_fromp").val(); // Get the value of the selected physician
+                console.log(time_from_id);
+                $.ajax({
+                    url: "timepto.php",
+                    method: "POST",
+                    data: {
+                        date: dateSelect_id,
+                        physician: physician_id,
+                        time_fromp: time_from_id
+                    },
+                    success: function(data) {
+                        $("#time_top").html(data);
+                    }
+                });
+            });
+        }
+
+        // Call the timeToPchange function when the document is ready
+        timeToPchange(); // Call the function
     });
-});
 </script>
+
 <script type="text/javascript">
     function enableAppointment(answer) {
         console.log(answer.value);
-        {
-            if (answer.value == 1 || answer.value == 2 || answer.value == 3) {
-                document.getElementById('dateDiv').classList.remove('hidden');
-                document.getElementById('timeFromDiv').classList.remove('hidden');
-                document.getElementById('timeToDiv').classList.remove('hidden');
-                document.getElementById('purposeDiv').classList.remove('hidden');
-                document.getElementById('ccDiv').classList.remove('hidden');
-                document.getElementById('medDupDiv').classList.add('hidden');
-                document.getElementById('supDupDiv').classList.add('hidden');
-                document.getElementById('quantityDiv').classList.add('hidden');
-                document.getElementById('physicianDiv').classList.remove('hidden');
-                document.getElementById('others').classList.add('hidden');
-            } else if (answer.value == 4) {
-                document.getElementById('dateDiv').classList.remove('hidden');
-                document.getElementById('timeFromDiv').classList.remove('hidden');
-                document.getElementById('timeToDiv').classList.remove('hidden');
-                document.getElementById('purposeDiv').classList.remove('hidden');
-                document.getElementById('ccDiv').classList.remove('hidden');
-                document.getElementById('supDupDiv').classList.add('hidden');
-                document.getElementById('medDupDiv').classList.remove('hidden');
-                document.getElementById('quantityDiv').classList.remove('hidden');
-                document.getElementById('physicianDiv').classList.add('hidden');
-                document.getElementById('others').classList.add('hidden');
-            } else if (answer.value == 5) {
-                document.getElementById('dateDiv').classList.remove('hidden');
-                document.getElementById('timeFromDiv').classList.remove('hidden');
-                document.getElementById('timeToDiv').classList.remove('hidden');
-                document.getElementById('purposeDiv').classList.remove('hidden');
-                document.getElementById('ccDiv').classList.remove('hidden');
-                document.getElementById('medDupDiv').classList.add('hidden');
-                document.getElementById('supDupDiv').classList.remove('hidden');
-                document.getElementById('quantityDiv').classList.remove('hidden');
-                document.getElementById('physicianDiv').classList.add('hidden');
-                document.getElementById('others').classList.add('hidden');
-            } else if (answer.value == 6 || answer.value == 7) {
-                document.getElementById('dateDiv').classList.remove('hidden');
-                document.getElementById('timeFromDiv').classList.remove('hidden');
-                document.getElementById('timeToDiv').classList.remove('hidden');
-                document.getElementById('purposeDiv').classList.remove('hidden');
-                document.getElementById('ccDiv').classList.add('hidden');
-                document.getElementById('medDupDiv').classList.add('hidden');
-                document.getElementById('supDupDiv').classList.add('hidden');
-                document.getElementById('quantityDiv').classList.add('hidden');
-                document.getElementById('physicianDiv').classList.add('hidden');
-                document.getElementById('others').classList.add('hidden');
-            }
+        if (answer.value == 1 || answer.value == 2 || answer.value == 3) {
+            document.getElementById('dateNDiv').value = "";
+            document.getElementById('datePDiv').value = "";
+            document.getElementById('timeFromNDiv').value = "";
+            document.getElementById('timeToNDiv').value = "";
+            document.getElementById('timeFromPDiv').value = "";
+            document.getElementById('timeToPDiv').value = "";
+            document.getElementById('datetimeDiv').classList.remove('hidden');
+            document.getElementById('purposeDiv').classList.remove('hidden');
+            document.getElementById('ccDiv').classList.remove('hidden');
+            document.getElementById('medDupDiv').classList.add('hidden');
+            document.getElementById('supDupDiv').classList.add('hidden');
+            document.getElementById('quantityDiv').classList.add('hidden');
+            document.getElementById('physicianDiv').classList.remove('hidden');
+            document.getElementById('others').classList.add('hidden');
+        } else if (answer.value == 4) {
+            document.getElementById('dateNDiv').value = "";
+            document.getElementById('datePDiv').value = "";
+            document.getElementById('timeFromNDiv').value = "";
+            document.getElementById('timeToNDiv').value = "";
+            document.getElementById('timeFromPDiv').value = "";
+            document.getElementById('timeToPDiv').value = "";
+            document.getElementById('datetimeDiv').classList.remove('hidden');
+            document.getElementById('purposeDiv').classList.remove('hidden');
+            document.getElementById('ccDiv').classList.remove('hidden');
+            document.getElementById('supDupDiv').classList.add('hidden');
+            document.getElementById('medDupDiv').classList.remove('hidden');
+            document.getElementById('quantityDiv').classList.remove('hidden');
+            document.getElementById('physicianDiv').classList.add('hidden');
+            document.getElementById('others').classList.add('hidden');
+        } else if (answer.value == 5) {
+            document.getElementById('dateNDiv').value = "";
+            document.getElementById('datePDiv').value = "";
+            document.getElementById('timeFromNDiv').value = "";
+            document.getElementById('timeToNDiv').value = "";
+            document.getElementById('timeFromPDiv').value = "";
+            document.getElementById('timeToPDiv').value = "";
+            document.getElementById('datetimeDiv').classList.remove('hidden');
+            document.getElementById('purposeDiv').classList.remove('hidden');
+            document.getElementById('ccDiv').classList.remove('hidden');
+            document.getElementById('medDupDiv').classList.add('hidden');
+            document.getElementById('supDupDiv').classList.remove('hidden');
+            document.getElementById('quantityDiv').classList.remove('hidden');
+            document.getElementById('physicianDiv').classList.add('hidden');
+            document.getElementById('others').classList.add('hidden');
+        }
+    };
+
+    function enablePhys(answer) {
+        console.log(answer.value);
+        var physicianValue = document.getElementById('physician').value;
+        if (answer.value == "NONE") {
+            document.getElementById('timeFromNDiv').value = "";
+            document.getElementById('timeToNDiv').value = "";
+            document.getElementById('timeFromPDiv').value = "";
+            document.getElementById('timeToPDiv').value = "";
+            document.getElementById('dateNDiv').value = "";
+            document.getElementById('datePDiv').value = "";
+            document.getElementById('dateNDiv').classList.remove('hidden');
+            document.getElementById('datePDiv').classList.add('hidden');
+            document.getElementById('timeFromNDiv').classList.remove('hidden');
+            document.getElementById('timeToNDiv').classList.remove('hidden');
+            document.getElementById('timeFromPDiv').classList.add('hidden');
+            document.getElementById('timeToPDiv').classList.add('hidden');
+        } else {
+            document.getElementById('dateNDiv').value = "";
+            document.getElementById('datePDiv').value = "";
+            document.getElementById('timeFromNDiv').value = "";
+            document.getElementById('timeToNDiv').value = "";
+            document.getElementById('timeFromPDiv').value = "";
+            document.getElementById('timeToPDiv').value = "";
+            document.getElementById('dateNDiv').classList.add('hidden');
+            document.getElementById('datePDiv').classList.remove('hidden');
+            document.getElementById('timeFromNDiv').classList.add('hidden');
+            document.getElementById('timeToNDiv').classList.add('hidden');
+            document.getElementById('timeFromPDiv').classList.remove('hidden');
+            document.getElementById('timeToPDiv').classList.remove('hidden');
         }
     };
 </script>
-
 <script>
     var duplicateCount = 1; // Initialize the duplicate count
 
