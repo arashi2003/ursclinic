@@ -9,11 +9,98 @@ $user = $_SESSION['userid'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 
-// get the total nr of rows.
-$records = $conn->query("SELECT * FROM account ORDER BY accountid");
-$nr_of_rows = $records->num_rows;
+// Check if the medicine, med_admin, or dosage form filter is set
+if (isset($_GET['account']) || isset($_GET['campus']) || isset($_GET['status']) || isset($_GET['usertype'])) {
+    // Validate and sanitize input
+    $account = isset($_GET['account']) ? $_GET['account'] : '';
+    $campus = isset($_GET['campus']) ? $_GET['campus'] : '';
+    $status = isset($_GET['status']) ? $_GET['status'] : '';
+    $usertype = isset($_GET['usertype']) ? $_GET['usertype'] : '';
 
-include('../../includes/pagination-limit.php')
+    // Initialize the WHERE clause
+    $whereClause = " WHERE 1"; // Start with a default condition that is always true
+
+    // Add conditions based on filters
+    if ($account !== '') {
+        $account = strtoupper($account);
+        $whereClause .= " AND (CONCAT(firstname, ' ', middlename, ' ' , lastname) LIKE '%$account%' OR CONCAT(firstname, ' ' , lastname) LIKE '%$account%' OR accountid LIKE '%$account%')";
+    }
+    if ($campus !== '') {
+        $whereClause .= " AND campus = '$campus'";
+    }
+    if ($status !== '') {
+        $whereClause .= " AND status = '$status'";
+    }
+    if ($usertype !== '') {
+        $whereClause .= " AND usertype = '$usertype'";
+    }
+
+    // Construct and execute SQL query for counting total rows
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM account $whereClause";
+} else {
+    // If filters are not set, count all rows
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM account ORDER BY accountid";
+}
+
+// Execute the count query
+$count_result = $conn->query($sql_count);
+
+// Check if count query was successful
+if ($count_result) {
+    // Fetch the total number of rows
+    $count_row = $count_result->fetch_assoc();
+    $nr_of_rows = $count_row['total_rows'];
+} else {
+    // Handle count query error
+    echo "Error: " . $conn->error;
+}
+
+// Setting the number of rows to display in a page.
+$rows_per_page = 10;
+
+// determine the page
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Setting the start from, value.
+$start = ($page - 1) * $rows_per_page;
+
+// calculating the nr of pages.
+$pages = ceil($nr_of_rows / $rows_per_page);
+
+// calculate the range of page numbers to be displayed
+$start_loop = max(1, $page - 2);
+$end_loop = min($pages, $page + 2);
+
+// adjust the range if the current page is near the beginning or end
+if ($start_loop > 1) {
+    $start_loop--;
+    $end_loop++;
+}
+
+// ensure that the range is never smaller than 4
+if ($end_loop - $start_loop < 4) {
+    $start_loop = max(1, $end_loop - 4);
+}
+
+$previous = $page - 1;
+$next = $page + 1;
+
+// calculate the start and end loop variables
+$start_loop = $page > 2 ? $page - 2 : 1;
+$end_loop = $page < $pages - 2 ? $page + 2 : $pages;
+
+// limit the number of pages displayed to a maximum of 4
+if ($pages > 4) {
+    if ($page > 2 && $page < $pages - 1) {
+        $end_loop = $page + 1;
+    } elseif ($page == 1) {
+        $start_loop = 1;
+        $end_loop = 4;
+    } elseif ($page == $pages) {
+        $start_loop = $pages - 3;
+        $end_loop = $pages;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -90,42 +177,42 @@ include('../../includes/pagination-limit.php')
                                         </div>
                                         <div class="col-md-2 mb-2">
                                             <select name="campus" class="form-select">
-                                                <option value="">Select Campus</option>
+                                                <option value="" disabled selected>-Select Campus-</option>
                                                 <option value="<?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>">NONE</option>
                                                 <?php
                                                 $sql = "SELECT * FROM campus ORDER BY campus";
                                                 if ($result = mysqli_query($conn, $sql)) {
                                                     while ($row = mysqli_fetch_array($result)) {
                                                         $campus = $row["campus"]; ?>
-                                                        <option value="<?php echo $row["campus"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["campus"] ? 'selected' : '') : '' ?>"><?php echo $row["campus"]; ?></option>
+                                                        <option value="<?php echo $row["campus"]; ?>" <?= isset($_GET['campus']) == true ? ($_GET['campus'] == $row["campus"] ? 'selected' : '') : '' ?>><?php echo $row["campus"]; ?></option>
                                                 <?php }
                                                 } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2 mb-2">
                                             <select name="status" class="form-select">
-                                                <option value="">Select Status</option>
+                                                <option value="" disabled selected>-Select Status-</option>
                                                 <option value="<?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>">NONE</option>
                                                 <?php
                                                 $sql = "SELECT * FROM user_status ORDER BY status";
                                                 if ($result = mysqli_query($conn, $sql)) {
                                                     while ($row = mysqli_fetch_array($result)) {
                                                         $status = $row["status"]; ?>
-                                                        <option value="<?php echo $row["status"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["status"] ? 'selected' : '') : '' ?>"><?php echo $row["status"]; ?></option>
+                                                        <option value="<?php echo $row["status"]; ?>" <?= isset($_GET['status']) == true ? ($_GET['status'] == $row["status"] ? 'selected' : '') : '' ?>><?php echo $row["status"]; ?></option>
                                                 <?php }
                                                 } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2 mb-2">
                                             <select name="usertype" class="form-select">
-                                                <option value="">Select Usertype</option>
+                                                <option value="" disabled selected>-Select Usertype-</option>
                                                 <option value="<?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>">NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT usertype FROM account ORDER BY usertype";
                                                 if ($result = mysqli_query($conn, $sql)) {
                                                     while ($row = mysqli_fetch_array($result)) {
                                                         $usertype = $row["usertype"]; ?>
-                                                        <option value="<?php echo $row["usertype"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["usertype"] ? 'selected' : '') : '' ?>"><?php echo $row["usertype"]; ?></option>
+                                                        <option value="<?php echo $row["usertype"]; ?>" <?= isset($_GET['usertype']) == true ? ($_GET['usertype'] == $row["usertype"] ? 'selected' : '') : '' ?>><?php echo $row["usertype"]; ?></option>
                                                 <?php }
                                                 } ?>
                                             </select>
@@ -159,9 +246,9 @@ include('../../includes/pagination-limit.php')
                                             $sql = "SELECT * FROM account WHERE (CONCAT(firstname, ' ', middlename, ' ' , lastname) LIKE '%$account%' OR CONCAT(firstname, ' ' , lastname) LIKE '%$account%' OR accountid LIKE '%$account%') ORDER BY accountid LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['campus']) && $_GET['campus'] != '' || isset($_GET['status']) && $_GET['status'] != '' || isset($_GET['usertype']) && $_GET['usertype'] != '') {
-                                            $campus = $_GET['campus'];
-                                            $status = $_GET['status'];
-                                            $usertype = $_GET['usertype'];
+                                            $campus = isset($_GET['campus']) ? $_GET['campus'] : '';
+                                            $status = isset($_GET['status']) ? $_GET['status'] : '';
+                                            $usertype = isset($_GET['usertype']) ? $_GET['usertype'] : '';
 
                                             //campus filter
                                             if ($campus == "") {
@@ -235,7 +322,28 @@ include('../../includes/pagination-limit.php')
                                         ?>
                                     </tbody>
                                 </table>
-                                <?php include('../../includes/pagination.php') ?>
+                                <ul class="pagination justify-content-end">
+                                    <?php
+                                    if (mysqli_num_rows($result) > 0) : ?>
+                                        <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['campus']) ? 'campus=' . $_GET['campus'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['usertype']) ? 'usertype=' . $_GET['usertype'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['campus']) ? 'campus=' . $_GET['campus'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['usertype']) ? 'usertype=' . $_GET['usertype'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
+                                        </li>
+                                        <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
+                                            <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                                                <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['campus']) ? 'campus=' . $_GET['campus'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['usertype']) ? 'usertype=' . $_GET['usertype'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                                            </li>
+                                        <?php endfor; ?>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['campus']) ? 'campus=' . $_GET['campus'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['usertype']) ? 'usertype=' . $_GET['usertype'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
+                                        </li>
+                                        <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['campus']) ? 'campus=' . $_GET['campus'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['usertype']) ? 'usertype=' . $_GET['usertype'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
                             </div>
                         </div>
                     </div>

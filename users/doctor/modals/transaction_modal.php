@@ -458,6 +458,7 @@
 
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addpatient">Back</button>
                     <input type="submit" class="btn btn-primary" value="Add Record"></input>
                 </div>
             </div>

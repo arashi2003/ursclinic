@@ -455,9 +455,9 @@
                             <input type="text" maxlength="45" class="form-control" name="medcase_other" id="medcase_other">
                         </div>
                     </div>
-
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addpatient">Back</button>
                     <input type="submit" class="btn btn-primary" value="Add Record"></input>
                 </div>
             </div>

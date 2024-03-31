@@ -26,11 +26,31 @@
                             <?php } ?>
                         </select>
                     </div>
+                    <div class="mb-2 hidden" id="purposeDiv">
+                        <label for="purposes" class="col-form-label">Request:</label>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose">
+                            <option value="" disabled selected></option>
+                        </select>
+                    </div>
+                    <div class="mb-2 hidden" id="physicianDiv">
+                        <label for="physician" class="col-form-label">Physician:</label>
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="physician" id="physician">
+                            <option value="" disabled selected></option>
+                        </select>
+                    </div>
                     <div class="row">
-                        <div class="col hidden" id="dateDiv">
+                        <div class="mb-2 hidden" id="dateDiv">
                             <label for="date" class="col-form-label">Date:</label>
                             <input type="text" class="form-control" name="date" id="showDate" placeholder="mm/dd/yyyy">
                         </div>
+
+                        <div class="mb-2 hidden" id="datePDiv">
+                            <label for="date" class="col-form-label">Date:</label>
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="date" id="dateSelect">
+                                <option value="" disabled selected></option>
+                            </select>
+                        </div>
+
                         <div class="col hidden" id="timeFromDiv">
                             <label for="time_from" class="col-form-label">Time From:</label>
                             <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_from" id="time_from">
@@ -52,12 +72,6 @@
                                 <option value="" disabled selected>-:-- --</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="mb-2 hidden" id="purposeDiv">
-                        <label for="purposes" class="col-form-label">Request:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose">
-                            <option value="" disabled selected></option>
-                        </select>
                     </div>
                     <div class="mb-2 hidden" id="ccDiv">
                         <label for="chiefcomplaint" class="col-form-label">Chief Complaint:</label>
@@ -108,13 +122,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="mb-2 hidden" id="physicianDiv">
-                        <label for="physician" class="col-form-label">Physician:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="physician" id="physician">
-                            <option value="" disabled selected></option>
-                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -176,6 +183,22 @@
                 }
             });
         });
+
+        $("#physician").change(function() {
+            var physician_id = $(this).val();
+            console.log(physician_id);
+            $.ajax({
+                url: "action.php",
+                method: "POST",
+                data: {
+                    pid: physician_id,
+                    type: 'date'
+                },
+                success: function(data) {
+                    $("#dateSelect").html(data);
+                }
+            });
+        });
     });
 
     function enableOther(answer) {
@@ -189,47 +212,57 @@
         }
     };
 
-    $(document).ready(function() {
-        $('#showDate').datepicker({
+    $(function() {
+        // Calculate the date one week ahead from now
+        var currentDate = new Date();
+        var disabledDate = new Date();
+        disabledDate.setDate(currentDate.getDate() + 7);
+
+        // Initialize Datepicker
+        $("#showDate").datepicker({
             dateFormat: "yy-mm-dd",
-            minDate: 0, // Disable past dates
             beforeShowDay: function(date) {
-                var day = date.getDay();
-                return [(day != 0)]; // Disable Sundays
+                // Disable dates within the next week
+                var disabled = date <= disabledDate;
+                // Enable dates beyond the next week
+                var enabled = date > disabledDate;
+                return [enabled, enabled ? "" : "disabled", enabled ? "" : "Dates within the next week are disabled"];
             }
         });
     });
 </script>
+
 <script>
     $(document).ready(function() {
-    $("#time_from").change(function() {
-        var time_fromid = $(this).val();
-        if (time_fromid == '') {
-            $("#time_to").html('<option value="" disabled selected>-:-- --</option>');
-        } else {
-            $.ajax({
-                url: "time.php", // Ensure this URL is correct
-                method: "POST",
-                data: {
-                    time_from: time_fromid
-                },
-                success: function(data) {
-                    $("#time_to").html('<option value="" disabled selected>-:-- --</option>');
-                    $("#time_to").html(data);
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        }
+        $("#time_from").change(function() {
+            var time_fromid = $(this).val();
+            if (time_fromid == '') {
+                $("#time_to").html('<option value="" disabled selected>-:-- --</option>');
+            } else {
+                $.ajax({
+                    url: "time.php", // Ensure this URL is correct
+                    method: "POST",
+                    data: {
+                        time_from: time_fromid
+                    },
+                    success: function(data) {
+                        $("#time_to").html('<option value="" disabled selected>-:-- --</option>');
+                        $("#time_to").html(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        });
     });
-});
 </script>
 <script type="text/javascript">
     function enableAppointment(answer) {
         console.log(answer.value);
         {
             if (answer.value == 1 || answer.value == 2 || answer.value == 3) {
+                document.getElementById('datePDiv').classList.remove('hidden');
                 document.getElementById('dateDiv').classList.remove('hidden');
                 document.getElementById('timeFromDiv').classList.remove('hidden');
                 document.getElementById('timeToDiv').classList.remove('hidden');
@@ -241,6 +274,7 @@
                 document.getElementById('physicianDiv').classList.remove('hidden');
                 document.getElementById('others').classList.add('hidden');
             } else if (answer.value == 4) {
+                document.getElementById('datePDiv').classList.remove('hidden');
                 document.getElementById('dateDiv').classList.remove('hidden');
                 document.getElementById('timeFromDiv').classList.remove('hidden');
                 document.getElementById('timeToDiv').classList.remove('hidden');
@@ -252,6 +286,7 @@
                 document.getElementById('physicianDiv').classList.add('hidden');
                 document.getElementById('others').classList.add('hidden');
             } else if (answer.value == 5) {
+                document.getElementById('datePDiv').classList.remove('hidden');
                 document.getElementById('dateDiv').classList.remove('hidden');
                 document.getElementById('timeFromDiv').classList.remove('hidden');
                 document.getElementById('timeToDiv').classList.remove('hidden');
@@ -263,6 +298,7 @@
                 document.getElementById('physicianDiv').classList.add('hidden');
                 document.getElementById('others').classList.add('hidden');
             } else if (answer.value == 6 || answer.value == 7) {
+                document.getElementById('datePDiv').classList.remove('hidden');
                 document.getElementById('dateDiv').classList.remove('hidden');
                 document.getElementById('timeFromDiv').classList.remove('hidden');
                 document.getElementById('timeToDiv').classList.remove('hidden');

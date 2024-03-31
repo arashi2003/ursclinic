@@ -2,6 +2,7 @@
     session_start();
     require('connection.php');
     require('../../../fpdf/fpdf.php');
+    date_default_timezone_set("Asia/Manila");
     class PDF extends FPDF
     {
         function Header()
@@ -57,9 +58,9 @@
     $pdf->SetAutoPageBreak(true, 15);
     $pdf->SetFont('Arial', '', 10);
     
-    $dt_from = "";//$_POST['date_from'];
-    $dt_to = ""; //$_POST['date_to'];
-    $campus = "";//$_SESSION['campus'];
+    $dt_from = $_POST['date_from'];
+    $dt_to = $_POST['date_to'];
+    $campus = $_SESSION['campus'];
 
 
     //campus filter

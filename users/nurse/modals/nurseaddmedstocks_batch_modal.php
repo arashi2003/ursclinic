@@ -53,7 +53,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="expiration" class="col-form-label">Expiration Date:</label>
-                        <input type="date" name="expiration" class="form-control">
+                        <input type="text" name="expiration" id="datepicker" placeholder="Expiration Date" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -113,14 +113,13 @@
             }
         });
     });
+</script>
 
-    $(document).ready(function() {
-        $('#showDate').datepicker({
+<script>
+    $(function() {
+        $("#datepicker").datepicker({
             dateFormat: "yy-mm-dd",
             minDate: 0, // Disable past dates
-            beforeShowDay: function(date) {
-                var day = date.getDay();
-            }
         });
     });
 </script>

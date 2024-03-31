@@ -7,8 +7,12 @@
             </div>
             <form method="POST" action="modals/approve-appointment.php">
                 <div class="modal-body">
-                    <?php
-                    ?>
+                    <input type="text" name="id" value="<?= $id = $data['id'] ?>" hidden>
+                    <input type="text" name="name" value="<?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])) ?>" hidden>
+                    <input type="text" name="date" value="<?php echo date("F d, Y", strtotime($data['date'])) ?>" hidden>
+                    <input type="text" name="time" value="<?php echo date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to'])) ?>" hidden>
+                    <input type="text" name="email" value="<?= $data['email'] ?>" hidden>
+                    <input type="text" name="physician" value="<?= $physician ?>" hidden>
                     <div class="col-md-6 mb-2">
                         <label for="id" class="form-label">Appointment ID:</label>
                         <input type="text" class="form-control" style="resize:none;" value="<?= $id ?>" name="id" id="id" disabled></input>

@@ -62,7 +62,12 @@
                     </div>
                     <div class="mb-2">
                         <label for="copassword" class="form-label">Confirm Password:</label>
-                        <input type="password" maxlength="13" class="form-control" name="copassword" id="copassword">
+                        <input type="password" maxlength="13" class="form-control" name="copassword" id="copassword" oninput="checkPasswordMatch()">
+                        <div id="passwordMatchError" style="color: red;"></div>
+                    </div>
+                    <div class="mb-2">
+                        <label for="status" class="form-label">Status:</label>
+                        <input type="text" class="form-control" name="status" id="status" value="<?php echo $row['status']?>" disabled>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -72,3 +77,16 @@
         </div>
     </div>
 </div>
+<script>
+    function checkPasswordMatch() {
+        var password = document.getElementById("npassword").value;
+        var confirmPassword = document.getElementById("copassword").value;
+
+        // Check if the passwords match
+        if (password !== confirmPassword) {
+            document.getElementById("passwordMatchError").innerHTML = "Passwords do not match";
+        } else {
+            document.getElementById("passwordMatchError").innerHTML = "";
+        }
+    }
+</script>

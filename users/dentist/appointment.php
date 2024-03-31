@@ -11,92 +11,87 @@ $fullname = $_SESSION['name'];
 $usertype = $_SESSION['usertype'];
 $today = date("Y-m-d");
 
-// Check if the month filter is set
+// Check if the patient or date filter is set
 if (isset($_GET['patient']) || isset($_GET['date'])) {
     // Validate and sanitize input
     $patient = isset($_GET['patient']) ? $_GET['patient'] : '';
     $date = isset($_GET['date']) ? $_GET['date'] : '';
 
-    // Construct WHERE clause based on filters
+    // Initialize the WHERE clause
+    $whereClause = ""; // Start with common conditions
+
+    // Add conditions based on filters
     if ($patient !== '') {
-        $whereClause = " AND (CONCAT(ac.firstname, ' ', ac.middlename, ' ', ac.lastname) LIKE '%$patient%' OR (CONCAT(ac.firstname, ' ', ac.lastname) LIKE '%$patient%')) ";
+        $whereClause .= " AND (CONCAT(ac.firstname, ' ', ac.middlename, ' ', ac.lastname) LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.lastname) LIKE '%$patient%') "; // Add patient filter
     }
     if ($date !== '') {
-        $whereClause = " AND ap.date = '$date'";
-    } else {
-        $whereClause = "";
+        $whereClause .= " AND ap.date = '$date'"; // Add date filter
     }
 
-    // Construct and execute SQL query for approved appointments count
-    $approved_sql_count = "SELECT COUNT(ap.id) AS total_rows 
-                       FROM appointment ap 
-                       INNER JOIN account ac ON ac.accountid = ap.patient
-                       WHERE campus ='$campus' AND ap.status = 'APPROVED' AND physician = '$fullname' and date < '$today' $whereClause";
+    // Construct and execute SQL query for counting total rows
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE date > '$today'  AND physician = '$fullname' AND ap.status='APPROVED' $whereClause ORDER BY ap.date, ap.time_from, ap.time_to";
 } else {
-    // Count all approved appointments
-    $approved_sql_count = "SELECT COUNT(ap.id) AS total_rows 
-                           FROM appointment ap 
-                           INNER JOIN account ac ON ac.accountid = ap.patient
-                           WHERE ap.status = 'APPROVED' AND physician = '$fullname' AND date < '$today'";
+    // If filters are not set, count all rows
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE date > '$today'  AND physician = '$fullname' AND ap.status='APPROVED' ORDER BY ap.date, ap.time_from, ap.time_to";
 }
 
-// Execute the count queries for pending and approved appointments
-$approved_count_result = $conn->query($approved_sql_count);
+// Execute the count query
+$count_result = $conn->query($sql_count);
 
-// Check if count queries were successful
-if ($approved_count_result) {
-    // Fetch the total number of rows for approved appointments
-    $approved_count_row = $approved_count_result->fetch_assoc();
-    $approved_nr_of_rows = $approved_count_row['total_rows'];
+// Check if count query was successful
+if ($count_result) {
+    // Fetch the total number of rows
+    $count_row = $count_result->fetch_assoc();
+    $nr_of_rows = $count_row['total_rows'];
 } else {
     // Handle count query error
     echo "Error: " . $conn->error;
 }
 
 // Setting the number of rows to display in a page.
-$rows_per_page = 12;
+$rows_per_page = 10;
 
-// Determine the page
+// determine the page
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-// Setting the start from value.
+// Setting the start from, value.
 $start = ($page - 1) * $rows_per_page;
 
-// Calculating the number of pages.
-$approved_pages = ceil($approved_nr_of_rows / $rows_per_page);
+// calculating the nr of pages.
+$pages = ceil($nr_of_rows / $rows_per_page);
 
-// Calculate the range of page numbers to be displayed for approved appointments
-$approved_start_loop = max(1, $page - 2);
-$approved_end_loop = min($approved_pages, $page + 2);
+// calculate the range of page numbers to be displayed
+$start_loop = max(1, $page - 2);
+$end_loop = min($pages, $page + 2);
 
-// Adjust the range if the current page is near the beginning or end for approved appointments
-if ($approved_start_loop > 1) {
-    $approved_start_loop--;
-    $approved_end_loop++;
+// adjust the range if the current page is near the beginning or end
+if ($start_loop > 1) {
+    $start_loop--;
+    $end_loop++;
 }
 
-// Ensure that the range is never smaller than 4 for approved appointments
-if ($approved_end_loop - $approved_start_loop < 4) {
-    $approved_start_loop = max(1, $approved_end_loop - 4);
+// ensure that the range is never smaller than 4
+if ($end_loop - $start_loop < 4) {
+    $start_loop = max(1, $end_loop - 4);
 }
 
-$approved_previous = $page - 1;
-$approved_next = $page + 1;
+$previous = $page - 1;
+$next = $page + 1;
 
-// Calculate the start and end loop variables for approved appointments
-$approved_start_loop = $page > 2 ? $page - 2 : 1;
-$approved_end_loop = $page < $approved_pages - 2 ? $page + 2 : $approved_pages;
+// calculate the start and end loop variables
+$start_loop = $page > 2 ? $page - 2 : 1;
+$end_loop = $page < $pages - 2 ? $page + 2 : $pages;
 
-// Limit the number of pages displayed to a maximum of 4 for approved appointments
-if ($approved_pages > 4) {
-    if ($page > 2 && $page < $approved_pages - 1) {
-        $approved_end_loop = $page + 1;
+// limit the number of pages displayed to a maximum of 4
+if ($pages > 4) {
+    if ($page > 2 && $page < $pages - 1) {
+        $end_loop = $page + 1;
     } elseif ($page == 1) {
-        $approved_start_loop = 1;
-        $approved_end_loop = 4;
-    } elseif ($page == $approved_pages) {
-        $approved_start_loop = $approved_pages - 3;
-        $approved_end_loop = $approved_pages;
+        $start_loop = 1;
+        $end_loop = 4;
+    } elseif ($page == $pages) {
+        $start_loop = $pages - 3;
+        $end_loop = $pages;
     }
 }
 ?>
@@ -149,7 +144,6 @@ if ($approved_pages > 4) {
                         <div class="row">
                             <div class="col-md-12">
                                 <form action="appointment" method="get">
-                                    <input type="hidden" name="tab" value="approved">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="input-group mb-2">
@@ -162,7 +156,7 @@ if ($approved_pages > 4) {
                                         </div>
                                         <div class="col mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
-                                            <a href="appointment?tab=approved" class="btn btn-danger">Reset</a>
+                                            <a href="appointment" class="btn btn-danger">Reset</a>
                                         </div>
                                     </div>
                                 </form>
@@ -184,19 +178,20 @@ if ($approved_pages > 4) {
                                     <tbody>
                                         <?php
                                         $today = date("Y-m-d");
+                                        // Construct and execute SQL query based on filters
                                         if (isset($_GET['patient']) && $_GET['patient'] != '') {
                                             $patient = $_GET['patient'];
                                             $count = 1;
-                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE (CONCAT(ac.firstname, ' ', ac.middlename, ' ' ,ac.lastname)  LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.lastname) LIKE '%$patient%') AND ap.status='APPROVED' AND date > '$today'  AND physician = '$fullname' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE (CONCAT(ac.firstname, ' ', ac.middlename, ' ' ,ac.lastname)  LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.lastname) LIKE '%$patient%') AND date > '$today'  AND physician = '$fullname'  AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['date']) && $_GET['date'] != '') {
                                             $date = $_GET['date'];
                                             $count = 1;
-                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' AND ap.status='APPROVED'  AND physician = '$fullname' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' AND physician = '$fullname' AND ap.status='APPROVED'  ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.status='APPROVED' AND date > '$today'  AND physician = '$fullname' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.patient, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE date > '$today'  AND physician = '$fullname' AND ap.status='APPROVED' ORDER BY ap.date, ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -216,22 +211,34 @@ if ($approved_pages > 4) {
                                                     }
                                         ?>
                                                     <tr>
-                                                        <td><?php echo $data['id']; ?></td>
+                                                        <td><?php echo $id = $data['id']; ?></td>
                                                         <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
                                                         <td><?php echo date("g:i A", strtotime($data['time_from'])) ?></td>
                                                         <td><?php echo date("g:i A", strtotime($data['time_to'])) ?></td>
                                                         <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])) ?></td>
                                                         <td>
                                                             <?php
-                                                            if ($data['status'] == 'APPROVED') { ?>
+                                                            if ($data['status'] == 'APPROVED') {
+                                                            ?>
                                                                 <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'appointment_view?id=<?php echo $data['id'] ?>'">Record</button>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?= $id; ?>">Cancel</button>
                                                             <?php
-                                                            } elseif ($data['status'] == 'COMPLETED') { ?>
-                                                                <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'reports/reports_treatment_record.php?patientid=<?= $data['patient'] ?>'">View</button>
-                                                            <?php } ?>
+                                                            } elseif ($data['status'] == 'COMPLETED') {
+                                                            ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'reports/reports_treatment_record.php?patientid=<?= $data['patient'] ?>'">COMPLETED</button>
+                                                            <?php
+                                                            } elseif ($data['status'] == 'CANCELLED') {
+                                                            ?>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancelled<?php echo $data['id'] ?>">CANCELLED</button>
+                                                            <?php
+
+                                                            } ?>
                                                         </td>
                                                     </tr>
                                                 <?php
+                                                    include('modals/app_cancel_modal.php');
+                                                    include('modals/app_cancelled_modal.php');
+                                                    include('modals/app_completed_modal.php');
                                                 }
                                             } else {
                                                 ?>
@@ -242,42 +249,36 @@ if ($approved_pages > 4) {
                                                         ?>
                                                     </td>
                                                 </tr>
-                                            <?php
-                                            }
-                                            ?>
-
                                         <?php
+                                            }
                                         }
                                         mysqli_close($conn);
                                         ?>
                                     </tbody>
                                 </table>
                             </div>
-                            <?php
-                            if (mysqli_num_rows($result) > 0) {
-                            ?>
-                                <ul class="pagination justify-content-end">
+                            <ul class="pagination justify-content-end">
+                                <?php
+                                if (mysqli_num_rows($result) > 0) : ?>
                                     <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="appointment?tab=approved&page=<?= 1; ?>">&laquo;</a>
+                                        <a class="page-link" href="?<?= isset($_GET['medicine']) ? 'medicine=' . $_GET['medicine'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
                                     </li>
                                     <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="appointment?tab=approved&page=<?= $approved_previous; ?>">&lt;</a>
+                                        <a class="page-link" href="?<?= isset($_GET['medicine']) ? 'medicine=' . $_GET['medicine'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
                                     </li>
-                                    <?php for ($i = $approved_start_loop; $i <= $approved_end_loop; $i++) : ?>
+                                    <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
                                         <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-                                            <a class="page-link" href="appointment?tab=approved&page=<?= $i; ?>"><?= $i; ?></a>
+                                            <a class="page-link" href="?<?= isset($_GET['medicine']) ? 'medicine=' . $_GET['medicine'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
                                         </li>
                                     <?php endfor; ?>
-                                    <li class="page-item <?php echo $page == $approved_pages ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="appointment?tab=approved&page=<?= $approved_next; ?>">&gt;</a>
+                                    <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="?<?= isset($_GET['medicine']) ? 'medicine=' . $_GET['medicine'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
                                     </li>
-                                    <li class="page-item <?php echo $page == $approved_pages ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="appointment?tab=approved&page=<?= $approved_pages; ?>">&raquo;</a>
+                                    <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="?<?= isset($_GET['medicine']) ? 'medicine=' . $_GET['medicine'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
                                     </li>
-                                </ul>
-                            <?php
-                            }
-                            ?>
+                                <?php endif; ?>
+                            </ul>
                         </div>
                     </div>
                 </div>

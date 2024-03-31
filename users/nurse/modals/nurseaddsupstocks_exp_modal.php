@@ -16,14 +16,13 @@
                             $sql = "SELECT * FROM supply ORDER BY supply";
                             $result = mysqli_query($conn, $sql);
                             while ($row = mysqli_fetch_array($result)) {
-                                if($row['volume'] != "0" || $row['volume'] != ""){
+                                if ($row['volume'] != "0" || $row['volume'] != "") {
                                     $supply = $row['supply'] . " " . $row['volume'] . $row['unit_measure'];
-                                }
-                                elseif($row['volume'] == "0" || $row['volume'] == ""){
+                                } elseif ($row['volume'] == "0" || $row['volume'] == "") {
                                     $supply = $row['supply'] . " " . $row['unit_measure'];
                                 }
                             ?>
-                                <option value="<?= $row['supid']; ?>" data-status="<?= $row['state']?>"><?= $supply; ?></option>
+                                <option value="<?= $row['supid']; ?>" data-status="<?= $row['state'] ?>"><?= $supply; ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -53,7 +52,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="expiration" class="col-form-label">Expiration Date:</label>
-                        <input type="date" name="expiration" class="form-control">
+                        <input type="text" name="expiration" id="datepicker" placeholder="Expiration Date" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -86,6 +85,15 @@
                 $("#open-closeDiv input[name='opened[]']").prop('disabled', true);
                 $("#perpieceDiv input[name='opened[]']").prop('disabled', true);
             }
+        });
+    });
+</script>
+
+<script>
+    $(function() {
+        $("#datepicker").datepicker({
+            dateFormat: "yy-mm-dd",
+            minDate: 0, // Disable past dates
         });
     });
 </script>

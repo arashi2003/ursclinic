@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="accountid" class="form-label">Account ID:</label>
-                        <input type="text" class="form-control" name="accountid" id="accountid" required>
+                        <input type="text" class="form-control" name="accountid" id="accountid" onchange="fetchAccountData()" required>
                     </div>
                     <div class="row">
                         <div class="col mb-2">
@@ -76,12 +76,13 @@
                     </div>
                     <div class="row">
                         <div class="col mb-2">
-                            <label for="npassword" class="form-label">Password:</label>
-                            <input type="password" class="form-control" name="password" id="password">
+                            <label for="password" class="form-label">Password:</label>
+                            <input type="password" minlength="8" class="form-control" name="password" id="password" required>
                         </div>
                         <div class="col mb-2">
-                            <label for="copassword" class="form-label">Confirm Password:</label>
-                            <input type="password" maxlength="13" class="form-control" name="cpassword" id="cpassword">
+                            <label for="cpassword" class="form-label">Confirm Password:</label>
+                            <input type="password" minlength="8" class="form-control" name="cpassword" id="cpassword" oninput="checkPasswordMatch()" required>
+                            <div id="passwordMatchError" style="color: red;"></div>
                         </div>
                     </div>
                 </div>
@@ -92,3 +93,55 @@
         </div>
     </div>
 </div>
+
+<script>
+    function fetchAccountData() {
+        var accountId = document.getElementById('accountid').value;
+        console.log('Account ID:', accountId);
+        if (accountId.trim() !== '') {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'modals/check_account.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        console.log(response); // Check response in console
+                        if (response.error) {
+                            // Account does not exist
+                            document.getElementById('accountid').classList.add('is-invalid');
+                            document.getElementById('accountid').setCustomValidity(response.error);
+                            document.getElementById('accountid').reportValidity();
+                        } else {
+                            // Account exists
+                            document.getElementById('accountid').classList.remove('is-invalid');
+                            document.getElementById('accountid').setCustomValidity('');
+                            // Additional actions if needed
+                        }
+                    } else {
+                        console.error('Error: Unable to fetch account data');
+                    }
+                }
+            };
+            xhr.send('accountid=' + encodeURIComponent(accountId));
+        } else {
+            // Clear any previous errors
+            document.getElementById('accountid').classList.remove('is-invalid');
+            document.getElementById('accountid').setCustomValidity('');
+        }
+    }
+</script>
+
+<script>
+    function checkPasswordMatch() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("cpassword").value;
+
+        // Check if the passwords match
+        if (password !== confirmPassword) {
+            document.getElementById("passwordMatchError").innerHTML = "Passwords do not match";
+        } else {
+            document.getElementById("passwordMatchError").innerHTML = "";
+        }
+    }
+</script>

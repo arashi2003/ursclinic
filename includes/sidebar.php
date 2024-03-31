@@ -468,7 +468,7 @@
         </div>
         <ul class="nav-links">
             <li class="<?php if ($module == 'dashboard') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="dashboard">
                     <i class='bx bx-grid-alt'></i>
@@ -479,7 +479,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'appointment') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="appointment?tab=approved">
                     <i class='bx bx-calendar'></i>
@@ -489,8 +489,8 @@
                     <li><a class="link_name" href="#">Appointment</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'patients' or $module == 'view_patient') {
-                            echo 'active showMenu';
+            <li class="<?php if ($module == 'patient_add' or $module == 'view_patient') {
+                            echo 'active';
                         } ?>">
                 <a href="patients">
                     <i class='bx bx-id-card'></i>
@@ -501,7 +501,7 @@
                 </ul>
             </li>
             <li class="<?php if ($module == 'transaction_history') {
-                            echo 'active showMenu';
+                            echo 'active';
                         } ?>">
                 <a href="transaction_history">
                     <i class='bx bx-collection'></i>

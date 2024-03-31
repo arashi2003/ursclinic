@@ -143,7 +143,7 @@ include('../../includes/pagination-limit.php');
                     $sched = $data['date'];
                   }
                 }
-                echo "<h1>" . date("M. d, Y", strtotime($sched)) . "</h1>";
+                echo "<h2>" . date("M. d, Y", strtotime($sched)) . "</h2>";
               } else {
                 echo "N/A";
               }

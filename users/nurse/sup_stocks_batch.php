@@ -160,9 +160,24 @@ if ($pages > 4) {
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addsupstocks">Add Entry</button>
-                    <?php include('modals/nurseaddsupstocks_total_modal.php'); ?>
+                <div class="inv-tabs">
+                    <div class="tabs">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link" href="med_stocks_total">Medicine</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Medical Supply</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="te_stocks">Tools and Equipment</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addsupstocks">Add Entry</button>
+                        <?php include('modals/nurseaddsupstocks_total_modal.php'); ?>
+                    </div>
                 </div>
                 <?php
                 include('../../includes/alert.php');
@@ -170,60 +185,57 @@ if ($pages > 4) {
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-12">
-                                <form action="stocks_filter.php" method="POST">
+                            <div class="col-md-4 mb-2">
+                                <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-2 mb-2">
-                                            <select name="stocks" class="form-select">
-                                                <option value="medicine">Medicine Stocks</option>
-                                                <option value="supply" selected>Medical Supply Stocks</option>
-                                                <option value="te">Tools and Equipment Stocks</option>
-                                            </select>
-                                        </div>
-                                        <div class="col mb-2">
-                                            <button type="submit" class="btn btn-primary">View</button>
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                <input type="text" name="supply" value="<?= isset($_GET['supply']) == true ? $_GET['supply'] : '' ?>" class="form-control" placeholder="Search medicine">
+                                                <button type="submit" class="btn btn-primary">Search</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
+                            </div>
+                            <div class="col-md-3">
                                 <form action="supinv_viewfilter.php" method="POST">
                                     <div class="row">
-                                        <div class="col-md-2 mb-2">
+                                        <div class="col mb-2">
                                             <select name="supinv_view" class="form-select">
                                                 <option value="batch" selected>By Batch</option>
                                                 <option value="expiration">By Expiration</option>
                                                 <option value="total">By Total</option>
                                             </select>
                                         </div>
-                                        <div class="col mb-2">
+                                        <div class="col-md-3 mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                         </div>
                                     </div>
                                 </form>
+                            </div>
+                            <div class="col-md-3">
                                 <form action="" method="get">
                                     <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="input-group mb-2">
-                                                <input type="text" name="supply" value="<?= isset($_GET['supply']) == true ? $_GET['supply'] : '' ?>" class="form-control" placeholder="Search medical supply">
-                                                <button type="submit" class="btn btn-primary">Search</button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 mb-2">
+                                        <div class="col-md-9 mb-2">
                                             <select name="batch" class="form-select">
                                                 <option value="">Select Batch ID</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
-                                                $sql = "SELECT DISTINCT batchid FROM inventory WHERE stock_type = 'supply' AND campus = '$campus' ORDER BY batchid ASC";
+                                                $sql = "SELECT DISTINCT batchid FROM inventory WHERE stock_type = 'medicine' AND campus = '$campus' ORDER BY batchid ASC";
                                                 if ($result = mysqli_query($conn, $sql)) {
                                                     while ($row = mysqli_fetch_array($result)) {
                                                         $batch = $row["batchid"]; ?>
-                                                        <option value="<?php echo $row["batchid"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["batchid"] ? 'selected' : '') : '' ?>"><?php echo $row["batchid"]; ?></option><?php }
-                                                                                                                                                                                                                                } ?>
+                                                        <option value="<?php echo $row["batchid"]; ?>" <?= isset($_GET['batch']) == true ? ($_GET['batch'] == $row["batchid"] ? 'selected' : '') : '' ?>><?php echo $row["batchid"]; ?></option><?php }
+                                                                                                                                                                                                                                        } ?>
                                             </select>
                                         </div>
-                                        <div class="col mb-2">
-                                            <button type="submit" class="btn btn-primary">Filter</button>
-                                            <a href="sup_stocks_batch" class="btn btn-danger">Reset</a>
+                                        <div class="col-md-3 mb-2">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <button type="submit" class="btn btn-primary me-2">Filter</button>
+                                                <a href="sup_stocks_batch" class="btn btn-danger">Reset</a>
+                                            </div>
                                         </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>

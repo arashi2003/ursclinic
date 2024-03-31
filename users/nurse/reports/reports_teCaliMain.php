@@ -4,6 +4,7 @@
     include('connection.php');
     $campus = $_SESSION['campus'];
     $user = $_SESSION['userid'];
+    date_default_timezone_set("Asia/Manila");
 
     class PDF extends FPDF
     {

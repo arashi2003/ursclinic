@@ -66,7 +66,7 @@ foreach ($tables as $table) {
 
 if (!empty($sqlScript)) {
     // Define the directory where the backup files will be saved
-    $backup_directory = dirname('__FILE__') . '../../../../../backup/';
+    $backup_directory = dirname('__FILE__') . '../../../../backup/';
 
     // Check if the backup directory exists, if not, create it
     if (!is_dir($backup_directory)) {
