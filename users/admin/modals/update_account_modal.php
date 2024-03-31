@@ -12,7 +12,7 @@
                         <input type="text" class="form-control" name="accountid" id="accountid" value="<?php echo $data['accountid']?>" required>
                     </div>
                     <div class="row">
-                        <div class="col mb-2">
+                        <div class="col-md-6 mb-2">
                             <label for="campus" class="form-label">Campus:</label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="campus" id="campus" required>
                                 <option value="" disabled selected>-Select Campus-</option>
@@ -31,7 +31,7 @@
                                 <?php }} ?>
                             </select>
                         </div>
-                        <div class="col mb-2">
+                        <div class="col-md-6 mb-2">
                             <label for="usertype" class="form-label">Usertype:</label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="usertype" id="usertype" required>
                                 <option value="" disabled selected>-Select Usertype-</option>
@@ -84,7 +84,8 @@
                     </div>
                     <div class="mb-2">
                         <label for="copassword" class="form-label">Confirm Password:</label>
-                        <input type="password" maxlength="13" class="form-control" name="copassword" id="copassword">
+                        <input type="password" maxlength="13" class="form-control" name="copassword" id="copassword" oninput="checkPasswordMatch()">
+                        <div id="passwordMatchError" style="color: red;"></div>
                     </div>
 
 
@@ -115,3 +116,16 @@
         </div>
     </div>
 </div>
+<script>
+    function checkPasswordMatch() {
+        var password = document.getElementById("npassword").value;
+        var confirmPassword = document.getElementById("copassword").value;
+
+        // Check if the passwords match
+        if (password !== confirmPassword) {
+            document.getElementById("passwordMatchError").innerHTML = "Passwords do not match";
+        } else {
+            document.getElementById("passwordMatchError").innerHTML = "";
+        }
+    }
+</script>

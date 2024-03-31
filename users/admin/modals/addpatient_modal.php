@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="patientid" class="form-label">Patient ID:</label>
-                        <input type="text" class="form-control" name="patientid" id="patientid">
+                        <input type="text" class="form-control" name="patientid" id="patientid" onchange="fetchPatientData()">
                     </div>
                     <div class="mb-2">
                         <label for="firstname" class="form-label">First Name:</label>
@@ -227,6 +227,44 @@
             uploadButton.disabled = false;
         } else {
             uploadButton.disabled = true;
+        }
+    }
+</script>
+
+<script>
+    function fetchPatientData() {
+        var patientId = document.getElementById('patientid').value;
+        console.log('Patient ID:', patientId);
+        if (patientId.trim() !== '') {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'modals/check_patient.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        console.log(response); // Check response in console
+                        if (response.error) {
+                            // Account does not exist
+                            document.getElementById('patientid').classList.add('is-invalid');
+                            document.getElementById('patientid').setCustomValidity(response.error);
+                            document.getElementById('patientid').reportValidity();
+                        } else {
+                            // Account exists
+                            document.getElementById('patientid').classList.remove('is-invalid');
+                            document.getElementById('patientid').setCustomValidity('');
+                            // Additional actions if needed
+                        }
+                    } else {
+                        console.error('Error: Unable to fetch account data');
+                    }
+                }
+            };
+            xhr.send('patientid=' + encodeURIComponent(patientId));
+        } else {
+            // Clear any previous errors
+            document.getElementById('patientid').classList.remove('is-invalid');
+            document.getElementById('patientid').setCustomValidity('');
         }
     }
 </script>

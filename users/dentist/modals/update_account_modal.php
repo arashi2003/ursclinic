@@ -12,11 +12,11 @@
                         <input type="text" class="form-control" name="accountid" id="accountid" value="<?php echo $userid?>" readonly disabled>
                     </div>
                     <div class="row">
-                        <div class="col mb-2">
+                        <div class="col-md-6 mb-2">
                             <label for="campus" class="form-label">Campus:</label>
                             <input type="text" class="form-control" name="campus" id="campus" value="<?php echo $row['campus']?>" readonly disabled>
                         </div>
-                        <div class="col mb-2">
+                        <div class="col-md-6 mb-2">
                             <label for="usertype" class="form-label">Usertype:</label>
                             <input type="text" class="form-control" name="usertype" id="usertype" value="<?php echo $row['usertype']?>" readonly disabled>
                         </div>
@@ -51,7 +51,8 @@
                     </div>
                     <div class="mb-2">
                         <label for="copassword" class="form-label">Confirm Password:</label>
-                        <input type="password" maxlength="13" class="form-control" name="copassword" id="copassword">
+                        <input type="password" maxlength="13" class="form-control" name="copassword" id="copassword" oninput="checkPasswordMatch()">
+                        <div id="passwordMatchError" style="color: red;"></div>
                     </div>
                     <div class="mb-2">
                         <label for="status" class="form-label">Status:</label>
@@ -65,3 +66,16 @@
         </div>
     </div>
 </div>
+<script>
+    function checkPasswordMatch() {
+        var password = document.getElementById("npassword").value;
+        var confirmPassword = document.getElementById("copassword").value;
+
+        // Check if the passwords match
+        if (password !== confirmPassword) {
+            document.getElementById("passwordMatchError").innerHTML = "Passwords do not match";
+        } else {
+            document.getElementById("passwordMatchError").innerHTML = "";
+        }
+    }
+</script>
