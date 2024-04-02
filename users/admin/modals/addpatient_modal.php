@@ -9,11 +9,11 @@
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="patientid" class="form-label">Patient ID:</label>
-                        <input type="text" class="form-control" name="patientid" id="patientid" onchange="fetchPatientData()">
+                        <input type="text" class="form-control" name="patientid" id="patientid" onchange="fetchPatientData()" required>
                     </div>
                     <div class="mb-2">
                         <label for="firstname" class="form-label">First Name:</label>
-                        <input type="text" class="form-control" name="firstname" id="firstname">
+                        <input type="text" class="form-control" name="firstname" id="firstname" required>
                     </div>
                     <div class="mb-2">
                         <label for="middlename" class="form-label">Middle Name:</label>
@@ -21,16 +21,16 @@
                     </div>
                     <div class="mb-2">
                         <label for="lastname" class="form-label">Last Name:</label>
-                        <input type="text" class="form-control" name="lastname" id="lastname">
+                        <input type="text" class="form-control" name="lastname" id="lastname" required>
                     </div>
                     <div class="row">
                         <div class="col mb-2">
                             <label for="birthday" class="form-label">Birthday:</label>
-                            <input type="date" class="form-control" name="birthday" id="birthday">
+                            <input type="date" class="form-control" name="birthday" id="birthday" required>
                         </div>
                         <div class="col mb-2">
                             <label for="sex" class="form-label">Sex:</label>
-                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sex" id="sex">
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sex" id="sex" required>
                                 <option value="" disabled selected>-Select Sex-</option>
                                 <option value="MALE>">MALE</option>
                                 <option value="FEMALE>">FEMALE</option>
@@ -40,7 +40,7 @@
                     <div class="row">
                         <div class="col mb-2">
                             <label for="designation" class="form-label">Designation:</label>
-                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="designation" id="designation" onchange="enableDesignation(this)">
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="designation" id="designation" onchange="enableDesignation(this)" required>
                                 <option value="" disabled selected>-Select Designation-</option>
                                 <?php
                                 include('connection.php');
@@ -55,7 +55,7 @@
                         <!-- RESPONSIVE ROR ROR-->
                         <div class="col mb-2 hidden" id="departmentDiv">
                             <label for="department" class="form-label">Department:</label>
-                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="departmentSelect" onchange="enableDepartment(this)">
+                            <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="departmentSelect" onchange="enableDepartment(this)" required>
                                 <option value="" selected>-Select Department-</option>
                                 <?php
                                 include('connection.php');
@@ -106,15 +106,15 @@
                     </div>
                     <div class="mb-2">
                         <label for="email" class="form-label">Email Address:</label>
-                        <input type="text" class="form-control" name="email" id="email">
+                        <input type="text" class="form-control" name="email" id="email" required>
                     </div>
                     <div class="mb-2">
                         <label for="contactno" class="form-label">Contact Number:</label>
-                        <input type="text" maxlength="13" class="form-control" name="contactno" id="contactno">
+                        <input type="text" maxlength="13" class="form-control" name="contactno" id="contactno" required>
                     </div>
                     <div class="mb-2">
                         <label for="email" class="form-label">Home Address:</label>
-                        <textarea class="form-control" name="address" id="address" style="resize: none;"></textarea>
+                        <textarea class="form-control" name="address" id="address" style="resize: none;" required></textarea>
                     </div>
                     <div class="mb-2">
                         <label for="emcon_name" class="form-label">Emergency Contact Name:</label>
@@ -127,6 +127,8 @@
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-primary" value="Add"></input>
+                    &ThickSpace;
+                    <input type="submit" class="btn btn-danger" value="Cancel" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
                 </div>
             </form>
         </div>

@@ -53,9 +53,7 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     }
 
     // Construct and execute SQL query for pending appointments count
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' $whereClause $date AND 
-    transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' 
-    AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' $whereClause $date ORDER BY datetime DESC";
 
     $count_result = $conn->query($sql_count);
 
@@ -70,9 +68,7 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     }
 } else {
     // If no filters are applied, count all rows in the database
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' AND 
-    transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' 
-    AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' ORDER BY datetime DESC";
     $count_result = $conn->query($sql_count);
 
     // Check if count query was successful
@@ -252,7 +248,7 @@ if ($pages > 4) {
                                         if (isset($_GET['account']) && $_GET['account'] != '') {
                                             $account = $_GET['account'];
                                             $count = 1;
-                                            $sql = "SELECT * FROM transaction_history WHERE campus='$campus' AND (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') AND (transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%') ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history WHERE campus='$campus' AND (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['type']) && $_GET['type'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
                                             $type = $_GET['type'];
@@ -287,11 +283,11 @@ if ($pages > 4) {
                                                 $tp = " AND type = '$type'";
                                             }
 
-                                            $sql = "SELECT * FROM transaction_history WHERE campus='$campus' $date $tp AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history WHERE campus='$campus' $date $tp ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT * FROM transaction_history WHERE campus='$campus' AND transaction NOT LIKE '%Medical History%' AND transaction NOT LIKE '%Vitals%' AND purpose NOT LIKE '%Medical History%' AND purpose NOT LIKE '%Vitals%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history WHERE campus='$campus' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -323,6 +319,8 @@ if ($pages > 4) {
                                                             <?php
                                                             if ($data['purpose'] == 'Dental' && $data['transaction'] == 'Consultation') { ?>
                                                                 <button type="button" class="btn btn-primary btn-sm" onclick="window.open('reports/reports_treatment_record.php?patientid=<?= $data['patient'] ?>')" target="_blank">Expand</button>
+                                                            <?php } elseif ($data['purpose'] == 'Medical History' || $data['transaction'] == 'Medical History') { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
                                                             <?php } else { ?>
                                                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
                                                             <?php }
@@ -330,7 +328,11 @@ if ($pages > 4) {
                                                         </td>
                                                     </tr>
                                                 <?php
-                                                    include('modals/view_trans_modal.php');
+                                                    if ($data['purpose'] == 'Medical History') {
+                                                        include('modals/view_trans_medhist_modal.php');
+                                                    } else {
+                                                        include('modals/view_trans_modal.php');
+                                                    }
                                                 }
                                             } else {
                                                 ?>

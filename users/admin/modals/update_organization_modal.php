@@ -75,6 +75,8 @@
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-primary" value="Save"></input>
+                    &ThickSpace;
+                    <input type="submit" class="btn btn-danger" value="Cancel" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
                 </div>
             </form>
         </div>
