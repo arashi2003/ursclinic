@@ -91,19 +91,19 @@ include('../../includes/pagination-limit.php');
             </div>
           </div>
         </div>
-        <button type=button class="box" style="border: none;" onclick="window.location.href = 'services'">
+        <div class="box">
           <div class="right-side">
-            <div class="box-topic">Available Services</div>
+            <div class="box-topic">Total Appointments for this Month</div>
             <div class="number">
               <?php
-              $query = "SELECT * from transaction";
+              $query = "SELECT * from appointment WHERE physician = '$fullname' AND date LIKE '$month%'";
               $result = mysqli_query($conn, $query);
               $totalCount = mysqli_num_rows($result);
               echo $totalCount;
               ?>
             </div>
           </div>
-        </button>
+        </div>
         <button type=button class="box" style="border: none;" onclick="window.location.href = 'doc_visit_schedpage'">
           <div class="right-side">
             <div class="box-topic">Doctor's Visit</div>

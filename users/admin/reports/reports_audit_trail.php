@@ -58,8 +58,8 @@
     $pdf->SetAutoPageBreak(true, 15);
     $pdf->SetFont('Arial', '', 10);
     
-    $dt_from = $_POST['date_from'];
-    $dt_to = $_POST['date_to'];
+    $dt_from = $_REQUEST['date_from'];
+    $dt_to = $_REQUEST['date_to'];
     $campus = $_SESSION['campus'];
 
 
