@@ -1,4 +1,11 @@
 <?php
+
+echo $_POST['time_top'];
+/*
+// TIME SETTINGS FOR APPOINTMENT
+
+
+
 // Function to generate time increments
 function generateTimeIncrements($time_from, $time_to, $interval) {
     $result = array();
@@ -24,4 +31,5 @@ $time_increments = generateTimeIncrements($time_from, $time_to, $interval);
 foreach ($time_increments as $time) {
     echo $time . "\n";
 }
+*/
 ?>

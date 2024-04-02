@@ -5,8 +5,10 @@ include('../../includes/dentist-auth.php');
 $campus = $_SESSION['campus'];
 $name = $_SESSION['username'];
 $userid = $_SESSION['userid'];
+$fullname = $_SESSION['name'];
 $usertype = $_SESSION['usertype'];
 $date = date("Y-m-d");
+$month = date("Y-m");
 $module = 'dashboard';
 
 // get the total nr of rows.
@@ -66,7 +68,6 @@ include('../../includes/pagination-limit.php');
             <div class="box-topic">Patients for Today</div>
             <div class="number">
               <?php
-
               $query = "SELECT * from account WHERE accountid = '$userid'";
               $result = mysqli_query($conn, $query);
               while ($data = mysqli_fetch_array($result)) {
@@ -93,19 +94,19 @@ include('../../includes/pagination-limit.php');
             </div>
           </div>
         </div>
-        <button type=button class="box" style="border: none;" onclick="window.location.href = 'services'">
+        <div class="box">
           <div class="right-side">
-            <div class="box-topic">Available Services</div>
+            <div class="box-topic">Total Appointments for this Month</div>
             <div class="number">
               <?php
-              $query = "SELECT * from transaction";
+              $query = "SELECT * from appointment WHERE physician = '$fullname' AND date LIKE '$month%'";
               $result = mysqli_query($conn, $query);
               $totalCount = mysqli_num_rows($result);
               echo $totalCount;
               ?>
             </div>
           </div>
-        </button>
+        </div>
         <button type=button class="box" style="border: none;" onclick="window.location.href = 'doc_visit_schedpage'">
           <div class="right-side">
             <div class="box-topic">Dentist's Visit</div>
@@ -250,12 +251,12 @@ include('../../includes/pagination-limit.php');
                         <?php
                         }
                       } else { ?>
-                          <td colspan="6">
-                            <?php
-                            include('../../includes/no-data.php');
-                            ?>
-                          </td>
-                        <?php } ?>
+                        <td colspan="6">
+                          <?php
+                          include('../../includes/no-data.php');
+                          ?>
+                        </td>
+                      <?php } ?>
                   </tbody>
                 </table>
                 <?php include('../../includes/pagination.php') ?>
