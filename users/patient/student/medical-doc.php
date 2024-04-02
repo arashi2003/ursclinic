@@ -316,7 +316,7 @@ $rowCounter = 0;
                                             <?php if ($data['status'] === 'Disapproved') : ?>
                                                 <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>" disabled>Update</button>
                                             <?php else : ?>
-                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploaddocument<?php echo $rowCounter; ?>" disabled>Upload</button>
+                                                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#uploaddocument<?php echo $rowCounter; ?>" disabled>Upload</button>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -407,7 +407,7 @@ $rowCounter = 0;
                                         <td><?php echo $data['remarks'] ?></td>
                                         <td>
                                             <?php if ($data['status'] === 'Disapproved') : ?>
-                                                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>">Update</button>
+                                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>">Update</button>
                                             <?php else : ?>
                                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploaddocument<?php echo $rowCounter; ?>" onclick="handleUploadSuccess()">Upload</button>
                                             <?php endif; ?>
@@ -500,7 +500,7 @@ $rowCounter = 0;
                                         <td><?php echo $data['remarks'] ?></td>
                                         <td>
                                             <?php if ($data['status'] === 'Disapproved') : ?>
-                                                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>">Update</button>
+                                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>">Update</button>
                                             <?php else : ?>
                                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploaddocument<?php echo $rowCounter; ?>">Upload</button>
                                             <?php endif; ?>
