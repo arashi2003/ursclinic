@@ -172,7 +172,14 @@ if ($pages > 4) {
                     </button>
                 </div>
                 <div class="profile-details">
-                    <i class='bx bx-user-circle'></i>
+                    <?php
+                    $image = "SELECT * FROM patient_image WHERE patient_id = '$userid'";
+                    $result = mysqli_query($conn, $image);
+                    $row = mysqli_fetch_assoc($result);
+                    ?>
+                    <div class="profile">
+                        <img src="../../../images/<?php echo $row['image']; ?>">
+                    </div>
                     <div class="dropdown">
                         <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="admin_name">
