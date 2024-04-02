@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (mysqli_query($conn, $sql)) {
             // If update successful, send success response
-            echo "Remarks and Status updated successfully!";
+            $_SESSION['alert'] = 'Remarks and Status updated successfully!';
         } else {
             // If update failed, send error response
             echo "Error updating remarks and status: " . mysqli_error($conn);

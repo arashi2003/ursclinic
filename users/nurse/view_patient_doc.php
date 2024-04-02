@@ -237,6 +237,9 @@ include('../../includes/pagination-limit.php')
                     <?php } ?>
                 </div>
                 <?php
+                include('../../includes/alert.php');
+                ?>
+                <?php
                 include('medical-doc.php');
                 ?>
             </div>

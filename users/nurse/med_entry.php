@@ -191,7 +191,7 @@ if ($pages > 4) {
                                         </div>
                                         <div class="col-md-3 mb-2">
                                             <select name="med_admin" class="form-select">
-                                                <option value="">Select Administration</option>
+                                                <option value="" disabled selected>-Select Administration-</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT med_admin FROM medicine ORDER BY med_admin ASC";
@@ -204,7 +204,7 @@ if ($pages > 4) {
                                         </div>
                                         <div class="col-md-3 mb-2">
                                             <select name="dform" class="form-select">
-                                                <option value="">Select Dosage Form</option>
+                                                <option value="" disabled selected>-Select Dosage Form-</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT dosage_form FROM medicine ORDER BY dosage_form ASC";

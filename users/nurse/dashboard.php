@@ -179,11 +179,11 @@ include('../../includes/pagination-limit.php');
                           <?php
                           if ($data['type'] == 'supply') {
                           ?>
-                            <td><a class="stock_name" href="sup_stocks_total.php?supply=<?php echo urlencode(substr($data['stock_name'], 0, 10)); ?>"><span><?php echo $data['stock_name']; ?></span></a> &ThickSpace; <i class='bx bx-error error'></i></td>
+                            <td><a class="stock_name" href="sup_stocks_total.php?supply=<?php echo urlencode(substr($data['stock_name'], 0, 10)); ?>"><span><?php echo $data['stock_name']; ?></span></a> &ThickSpace; <i style="font-size: 24px;" class='bx bx-error error'></i></td>
                           <?php
                           } else {
                           ?>
-                            <td><a class="stock_name" href="med_stocks_total.php?medicine=<?php echo urlencode(substr($data['stock_name'], 0, 10)); ?>"><span><?php echo $data['stock_name']; ?></span></a> &ThickSpace; <i class='bx bx-error error'></i></td>
+                            <td><a class="stock_name" href="med_stocks_total.php?medicine=<?php echo urlencode(substr($data['stock_name'], 0, 10)); ?>"><span><?php echo $data['stock_name']; ?></span></a> &ThickSpace; <i style="font-size: 24px;" class='bx bx-error error'></i></td>
                           <?php } ?>
                           <td><?php echo $data['qty']; ?></td>
                           </tr>

@@ -617,9 +617,7 @@ if ($result) {
                     id: id
                 },
                 success: function(response) {
-                    // Handle success, e.g., show a message
-                    alert('Remarks and Status updated successfully!');
-                    // You might want to refresh the table or update only the specific row if needed
+                    location.reload();
                 },
                 error: function(xhr, status, error) {
                     // Handle error

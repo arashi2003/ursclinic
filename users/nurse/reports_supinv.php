@@ -151,7 +151,7 @@ if ($pages > 4) {
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <form action="reports/reports_medinv" method="post" id="exportPdfForm" target="_blank">
+                    <form action="reports/reports_supinv" method="post" id="exportPdfForm" target="_blank">
                         <!-- Hidden input fields to store filter values -->
                         <input type="hidden" value="<?= isset($_GET['month']) == true ? $_GET['month'] : '' ?>" name="month" id="month">
 
@@ -163,10 +163,10 @@ if ($pages > 4) {
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
-                                <form action="reports_filter.php" method="POST">
+                                <form action="reports_filter.php" method="POST" id="reportForm">
                                     <div class="row">
                                         <div class="col-md-2 mb-2">
-                                            <select name="reports" class="form-select">
+                                            <select name="reports" class="form-select" id="reportSelect">
                                                 <option value="" disabled>Select Report</option>
                                                 <option value="appointment">Appointment Report</option>
                                                 <option value="docvisit">Doctor's Visit Schedule Report</option>
@@ -177,9 +177,6 @@ if ($pages > 4) {
                                                 <option value="teinv">Tools and Equipment Inventory Report</option>
                                                 <option value="tecalimain">Tools and Equipment Calibration and Maintenance Report</option>
                                             </select>
-                                        </div>
-                                        <div class="col-md-2 mb-2">
-                                            <button type="submit" class="btn btn-primary">View</button>
                                         </div>
                                     </div>
                                 </form>
@@ -328,6 +325,12 @@ if ($pages > 4) {
     document.getElementById("filterForm").addEventListener("submit", function(event) {
         // Update hidden input fields with filter values
         updateExportPdfForm();
+    });
+</script>
+
+<script>
+    document.getElementById('reportSelect').addEventListener('change', function() {
+        document.getElementById('reportForm').submit();
     });
 </script>
 
