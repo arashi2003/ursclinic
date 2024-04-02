@@ -94,8 +94,8 @@ include('../../includes/pagination-limit.php')
                                 <table class="table" id="myTable">
                                     <thead class="head">
                                         <tr>
-                                            <th>Patient ID</th>
-                                            <th>College</th>
+                                            <th>Patient ID <i class='bx bxs-sort-alt'></i></th>
+                                            <th>Patient Name <i class='bx bxs-sort-alt'></i></th>
                                             <th>Program</th>
                                             <th>Patient Name</th>
                                             <th>Action</th>
@@ -136,9 +136,9 @@ include('../../includes/pagination-limit.php')
                                         ?>
                                                     <tr>
                                                         <td><?php echo $data['patientid']; ?></td>
+                                                        <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname'])); ?></td>
                                                         <td><?php echo $data['college']; ?></td>
                                                         <td><?php echo $data['program']; ?></td>
-                                                        <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname'])); ?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'view_patient_doc?patientid=<?php echo $data['patientid'] ?>'">View</button>
                                                             <?php $count++; ?>
@@ -179,14 +179,20 @@ include('../../includes/pagination-limit.php')
 
 <script>
     $(document).ready(function() {
-            $('#myTable').tablesorter({
-                headers: {
-                    2: { sorter: false },
-                    3: { sorter: false },
-                    4: { sorter: false }
+        $('#myTable').tablesorter({
+            headers: {
+                2: {
+                    sorter: false
+                },
+                3: {
+                    sorter: false
+                },
+                4: {
+                    sorter: false
                 }
-            });
+            }
         });
+    });
 </script>
 
 <script>
