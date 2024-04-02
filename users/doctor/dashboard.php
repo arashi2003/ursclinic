@@ -172,7 +172,6 @@ include('../../includes/pagination-limit.php');
                       <th>Time from</th>
                       <th>Time to</th>
                       <th>Patient</th>
-                      <th>Action</th>
                   </thead>
                   <tbody>
                     <?php
@@ -265,8 +264,6 @@ include('../../includes/pagination-limit.php');
                             <td><?php echo date("g:i a", strtotime($data['time_from'])) ?></td>
                             <td><?php echo date("g:i a", strtotime($data['time_to'])) ?></td>
                             <td><?php echo $data['firstname'] . " " . $middleinitial . " " . $data['lastname'] ?></td>
-                            <td><?php //cancel button; 
-                                ?></td>
                           </tr>
                         <?php
                           include('modals/update_account_modal.php');

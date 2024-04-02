@@ -12,47 +12,6 @@
                         <input type="text" class="form-control" name="accountid" id="accountid" value="<?php echo $userid?>" disabled>
                     </div>
                     <div class="mb-2">
-                        <label for="firstname" class="form-label">First Name:</label>
-                        <input type="text" class="form-control" name="firstname" id="firstname" value="<?php echo $row['firstname']?>" required>
-                    </div>
-                    <div class="mb-2">
-                        <label for="middlename" class="form-label">Middle Name:</label>
-                        <input type="text" class="form-control" name="middlename" id="middlename" value="<?php echo $row['middlename']?>">
-                    </div>
-                    <div class="mb-2">
-                        <label for="lastname" class="form-label">Last Name:</label>
-                        <input type="text" class="form-control" name="lastname" id="lastname" value="<?php echo $row['lastname']?>" required>
-                    </div>
-                    <div class="mb-2">
-                        <label for="email" class="form-label">Email Address:</label>
-                        <input type="text" class="form-control" name="email" id="email" value="<?php echo $row['email']?>" required>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-2">
-                            <label for="contactno" class="form-label">Contact Number:</label>
-                            <input type="text" maxlength="13" class="form-control" name="contactno" id="contactno" value="<?php echo $row['contactno']?>" required>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <label for="email" class="form-label">Birthday:</label>
-                            <input type="date" class="form-control" name="birthday" id="birthday" value="<?php echo $row['birthday']?>" required>
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <label for="email" class="form-label">Emergency Contact Name:</label>
-                        <input type="text" class="form-control" name="emcon_name" id="emcon_name" value="<?php echo $row['emcon_name']?>" required>
-                    </div>
-                    <div class="mb-2">
-                        <label for="contactno" class="form-label">Emergency Contact Number:</label>
-                        <input type="text" maxlength="13" class="form-control" name="emcon_number" id="emcon_number" value="<?php echo $row['emcon_number'] ?>" required>
-                    </div>
-                    <div class="mb-2">
-                        <label for="email" class="form-label">Home Address:</label>
-                        <textarea style="resize: none;" class="form-control" name="address" id="address" required><?php echo $row['address']?></textarea>
-                    </div>
-
-                    <!-- responsive na magiging required fields ung mga password related textbox-->
-
-                    <div class="mb-2">
                         <label for="cupassword" class="form-label">Current Password:</label>
                         <input type="password" class="form-control" name="cupassword" id="cupassword">
                     </div>
@@ -64,10 +23,6 @@
                         <label for="copassword" class="form-label">Confirm Password:</label>
                         <input type="password" maxlength="13" class="form-control" name="copassword" id="copassword" oninput="checkPasswordMatch()">
                         <div id="passwordMatchError" style="color: red;"></div>
-                    </div>
-                    <div class="mb-2">
-                        <label for="status" class="form-label">Status:</label>
-                        <input type="text" class="form-control" name="status" id="status" value="<?php echo $row['status']?>" disabled>
                     </div>
                 </div>
                 <div class="modal-footer">

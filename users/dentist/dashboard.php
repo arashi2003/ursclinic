@@ -166,7 +166,6 @@ include('../../includes/pagination-limit.php');
                       <th>Time from</th>
                       <th>Time to</th>
                       <th>Patient</th>
-                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -175,21 +174,6 @@ include('../../includes/pagination-limit.php');
                       $patient = $_GET['patient'];
                       $query = "SELECT * from account WHERE accountid = '$userid'";
                       $result = mysqli_query($conn, $query);
-                      while ($data = mysqli_fetch_array($result)) {
-                        if (count(explode(" ", $data['middlename'])) > 1) {
-                          $middle = explode(" ", $data['middlename']);
-                          $letter = $middle[0][0] . $middle[1][0];
-                          $middleinitial = $letter . ".";
-                        } else {
-                          $middle = $data['middlename'];
-                          if ($middle == "" or $middle == " ") {
-                            $middleinitial = "";
-                          } else {
-                            $middleinitial = substr($middle, 0, 1) . ".";
-                          }
-                        }
-                        $fullname = strtoupper($data['firstname'] . " " . $middleinitial . " " . $data['lastname']);
-                      }
                       $query = "SELECT * from account WHERE accountid = '$userid'";
                       $result = mysqli_query($conn, $query);
                       $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='APPROVED' AND physician = '$fullname' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
@@ -266,12 +250,12 @@ include('../../includes/pagination-limit.php');
                         <?php
                         }
                       } else { ?>
-                        <td colspan="6">
-                          <?php
-                          include('../../includes/no-data.php');
-                          ?>
-                        </td>
-                      <?php } ?>
+                          <td colspan="6">
+                            <?php
+                            include('../../includes/no-data.php');
+                            ?>
+                          </td>
+                        <?php } ?>
                   </tbody>
                 </table>
                 <?php include('../../includes/pagination.php') ?>

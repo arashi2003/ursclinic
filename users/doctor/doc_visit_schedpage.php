@@ -1,17 +1,19 @@
 <?php
 
 session_start();
+include ('../../connection.php');
+include ('../../includes/doctor-auth.php');
 $campus = $_SESSION['campus'];
-include('../../connection.php');
-include('../../includes/doctor-auth.php');
+$name = $_SESSION['username'];
 $userid = $_SESSION['userid'];
+$usertype = $_SESSION['usertype'];
 $today = date('Y-m-d');
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * FROM schedule WHERE physician = '$userid' AND date >= '$today'");
 $nr_of_rows = $records->num_rows;
 
-include('../../includes/pagination-limit.php');
+include ('../../includes/pagination-limit.php');
 
 ?>
 
@@ -20,11 +22,11 @@ include('../../includes/pagination-limit.php');
 
 <head>
     <title>Doctor's Visit</title>
-    <?php include('../../includes/header.php'); ?>
+    <?php include ('../../includes/header.php'); ?>
 </head>
 
 <body id="<?php echo $id ?>">
-    <?php include('../../includes/sidebar.php') ?>
+    <?php include ('../../includes/sidebar.php') ?>
     <section class="home-section">
         <nav>
             <div class="sidebar-button">
@@ -32,19 +34,23 @@ include('../../includes/pagination-limit.php');
                 <span class="dashboard">DOCTOR'S VISIT</span>
             </div>
             <div class="right-nav">
-                <div class="notification-button">
-                    <i class='bx bx-bell'></i>
-                </div>
                 <div class="profile-details">
                     <i class='bx bx-user-circle'></i>
                     <div class="dropdown">
-                        <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             <span class="admin_name">
                                 <?php
-                                echo $_SESSION['usertype'] . ' ' . $_SESSION['username'] ?>
+                                echo $name ?>
                             </span>
                         </a>
                         <ul class="dropdown-menu">
+                            <li class="usertype">
+                                <?= $usertype ?>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="profile">Profile</a></li>
                             <li><a class="dropdown-item" href="../../logout">Logout</a></li>
                         </ul>
@@ -55,10 +61,11 @@ include('../../includes/pagination-limit.php');
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addsched">Add Walk-In Schedule</button>
-                    <?php include('modals/add_sched_modal.php'); ?>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addsched">Add
+                        Walk-In Schedule</button>
+                    <?php include ('modals/add_sched_modal.php'); ?>
                 </div>
-                <?php include('../../includes/alert.php'); ?>
+                <?php include ('../../includes/alert.php'); ?>
                 <div class="content">
                     <div class="row">
                         <div class="col-sm-12">
@@ -78,7 +85,7 @@ include('../../includes/pagination-limit.php');
                                         <?php
                                         $count = 1;
                                         $date = date("Y-m-d");
-                                        $sql = "SELECT s.id, s.date, s.time_from, s.time_to, s.physician, s.maxp, s.campus, a.firstname, a.middlename, a.lastname FROM schedule s INNER JOIN account a on a.accountid=s.physician WHERE date >= '$today' AND physician = '$userid' ORDER BY date, time_from LIMIT $start, $rows_per_page";
+                                        $sql = "SELECT s.id, s.status, s.date, s.time_from, s.time_to, s.physician, s.maxp, s.campus, a.firstname, a.middlename, a.lastname FROM schedule s INNER JOIN account a on a.accountid=s.physician WHERE date >= '$today' AND physician = '$userid' ORDER BY date, time_from LIMIT $start, $rows_per_page";
                                         $result = mysqli_query($conn, $sql);
                                         if ($result) {
                                             if (mysqli_num_rows($result) > 0) {
@@ -95,48 +102,75 @@ include('../../includes/pagination-limit.php');
                                                             $middleinitial = substr($middle, 0, 1) . ".";
                                                         }
                                                     }
-                                        ?>
+                                                    ?>
                                                     <tr>
-                                                        <td><?php $id = $count;
+                                                        <td>
+                                                            <?php $id = $count;
                                                             $date = date("F d, Y", strtotime($data['date']));
                                                             $time = date("g:i A", strtotime($data['time_from'])) . " - " . date("g:i A", strtotime($data['time_to']));
                                                             $physician = $data['firstname'] . " " . $middleinitial . " " . $data['lastname'];
-                                                            echo $id; ?></td>
-                                                        <td><?php echo $data['campus'] ?></td>
-                                                        <td><?php echo $date ?></td>
-                                                        <td><?php echo $time ?></td>
-                                                        <td><?php echo $data['maxp'] ?></td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelsched<?php echo $data['id']; ?>">Cancel</button>
+                                                            echo $id; ?>
                                                         </td>
-                                                        <?php $count++; ?></td>
+                                                        <td>
+                                                            <?php echo $data['campus'] ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $date ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $time ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $data['maxp'] ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php
+                                                            if ($data['status'] == 'CANCELLED') { ?>
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#reason<?php echo $data['id']; ?>">Cancelled</button>
+                                                            <?php } else { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#updatesched<?php echo $data['id']; ?>">Update</button>
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#cancelsched<?php echo $data['id']; ?>">Cancel</button>
+                                                            <?php }
+                                                            ?>
+                                                        </td>
+                                                        <?php $count++; ?>
+                                                        </td>
                                                     </tr>
-                                                <?php include('modals/cancel_sched_modal.php');
+                                                    <?php include ('modals/cancel_sched_modal.php');
+                                                    include ('modals/update_sched_modal.php');
+                                                    include ('modals/reason_sched_modal.php');
                                                 }
+
                                                 ?>
-                                    </tbody>
-                                </table>
-                                <?php include('../../includes/pagination.php'); ?>
-                            <?php
+                                            </tbody>
+                                        </table>
+                                        <?php include ('../../includes/pagination.php'); ?>
+                                        <?php
                                             } else { ?>
-                                <td colspan="7">
-                                    <?php
-                                                include('../../includes/no-data.php');
-                                    ?>
-                                </td>
-                            <?php
+                                        <td colspan="7">
+                                            <?php
+                                            include ('../../includes/no-data.php');
+                                            ?>
+                                        </td>
+                                        <?php
                                             }
                                         } else {
-                            ?>
-                            <td colspan="7">
-                                <?php
-                                            include('../../includes/no-data.php');
-                                ?>
-                            </td>
-                        <?php
+                                            ?>
+                                    <td colspan="7">
+                                        <?php
+                                        include ('../../includes/no-data.php');
+                                        ?>
+                                    </td>
+                                    <?php
                                         }
                                         mysqli_close($conn);
-                        ?>
+                                        ?>
                             </div>
                         </div>
                     </div>

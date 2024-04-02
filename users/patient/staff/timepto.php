@@ -1,5 +1,7 @@
 <?php
 include('modals/connection.php');
+session_start();
+$campus = $_SESSION['campus'];
 
 // Check if the POST data is set
 if (isset($_POST['time_fromp'])) {
@@ -18,7 +20,7 @@ if (isset($_POST['time_fromp'])) {
     }
 
     // Perform SQL injection prevention here if necessary
-    $sql = "SELECT * FROM time_pickup WHERE time > '$sched_time' AND time <= '$ttp' "; // Fix: Changed $time_from to $sched_time
+    $sql = "SELECT * FROM time_pickup WHERE time > '$sched_time' AND time < '$ttp' AND campus='$campus'"; // Fix: Changed $time_from to $sched_time
     $output = '';
     $result = mysqli_query($conn, $sql);
 

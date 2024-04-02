@@ -59,7 +59,7 @@
                         </div>
                         <div class="col-md-4 mb-2 hidden" id="timeToPDiv">
                             <label for="time_to" class="col-form-label">Time To:</label>
-                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_top" id="time_top">
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_top" id="time_top" disabled>
                                 <option value="" disabled selected>-:-- --</option>
                             </select>
                         </div>
@@ -70,7 +70,15 @@
                                 <option value="" disabled selected>-:-- --</option>
                                 <?php
                                 include('connection.php');
-                                $sql = "SELECT * FROM time_pickup";
+                                session_start();
+                                $campus = $_SESSION['campus'];
+                                
+                                $beng = "SELECT count(id) FROM time_pickup WHERE campus = '$campus' ";
+                                $result = mysqli_query($conn, $beng);
+                                while ($toot = mysqli_fetch_array($result)) {
+                                    $numrows = $toot['count(id)'] - 1;
+                                }
+                                $sql = "SELECT * FROM time_pickup WHERE campus = '$campus' LIMIT $numrows";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_array($result)) {
                                     $time = date('g:i A', strtotime($row['time'])); // Format time as '12:00 PM'
@@ -81,7 +89,7 @@
                         </div>
                         <div class="col-md-4 mb-2 hidden" id="timeToNDiv">
                             <label for="time_to" class="col-form-label">Time To:</label>
-                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_ton" id="time_ton">
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_ton" id="time_ton" disabled>
                                 <option value="" disabled selected>-:-- --</option>
                             </select>
                         </div>

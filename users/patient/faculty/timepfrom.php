@@ -1,5 +1,7 @@
 <?php
 include('modals/connection.php');
+session_start();
+$campus = $_SESSION['campus'];
 
 // Check if the POST data is set
 if (isset($_POST['date'])) {
@@ -15,7 +17,7 @@ if (isset($_POST['date'])) {
     }
 
     // Perform SQL injection prevention here if necessary
-    $sql = "SELECT * FROM time_pickup WHERE time BETWEEN '$tfp' AND '$ttp'";
+    $sql = "SELECT * FROM time_pickup WHERE time >='$tfp' AND time < '$ttp' AND campus='$campus'";
     $output = '<option value="" disabled selected>-:-- --</option>';
     $result = mysqli_query($conn, $sql);
 
