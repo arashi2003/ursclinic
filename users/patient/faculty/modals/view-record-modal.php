@@ -56,6 +56,10 @@
                     <input type="text" class="form-control" name="medcase_desc" value="<?php echo $data['medcase_desc'] ?>" readonly>
                 </div>
             </div>
+            
+            <div class="modal-footer">
+                <input type="reset" class="btn btn-danger" value="Close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
+            </div>
         </div>
     </div>
 </div>

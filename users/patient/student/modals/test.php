@@ -1,6 +1,6 @@
 <?php
 
-echo $_POST['time_top'];
+// echo $_POST['time_top'];
 /*
 // TIME SETTINGS FOR APPOINTMENT
 

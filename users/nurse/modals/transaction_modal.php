@@ -184,11 +184,11 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4 mb-2">
+                                <div class="col-md-6 mb-2">
                                     <label for="" class="form-label">Respiratory Rate:</label>
                                     <input type="number" min="0" maxlength="4" class="form-control" name="respiratory" id="respiratory">
                                 </div>
-                                <div class="col-md-4 mb-2">
+                                <div class="col-md-6 mb-2">
                                     <label for="" class="form-label">Oxygen Saturation:</label>
                                     <input type="text" maxlength="4" class="form-control" name="oxygen" id="oxygen">
                                 </div>

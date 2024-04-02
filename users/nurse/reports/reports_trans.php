@@ -152,9 +152,103 @@ while ($data = mysqli_fetch_array($query)) {
     $pdf->SetFont('Arial', '', 7);
     $pdf->Cell(65, 6, ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])), 1, 0);
     $pdf->SetFont('Arial', '', 8);
+<<<<<<< HEAD
     $pdf->Cell(20, 6, $data['designation'], 1, 0, 'C');
     $pdf->SetFont('Arial', '', 7);
     $pdf->Cell(40, 6, $data['pod_nod'], 1, 0);
+=======
+
+    $dt_from = $_POST['date_from']; 
+    $dt_to = $_POST['date_to'];
+    $type = "";//$_POST['type'];
+
+    //campus filter
+    if ($campus == "")
+    {
+        $ca = "";
+    }
+    else
+    {
+        $ca = " WHERE campus = '$campus'";
+    }
+    //date filter
+
+    if ($dt_from == "" and $dt_to == "") {
+        // No date range provided
+        $date = "";
+    } elseif ($dt_to == $dt_from) {
+        // Same start and end date
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " AND datetime LIKE '$fdate%'";
+    } elseif ($dt_to == "" and $dt_from != "") {
+        // Only start date provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " AND datetime >= '$fdate'";
+    } elseif ($dt_from == "" and $dt_to != "") {
+        // Only end date provided
+        $d = date("Y-m-d", strtotime($dt_to));
+        $date = " AND datetime <= '$d'";
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+        // Start and end date range provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $ldate = date("Y-m-d", strtotime($dt_to));
+        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+    }
+
+    
+    $count = 1;
+    $query = mysqli_query($conn, "SELECT id, patient, firstname, middlename, lastname, designation, age, sex, department, college, program, birthday, yearlevel, section, type, transaction, purpose, height, weight, bp, pr, temp, heent, chest_lungs, heart, abdomen, extremities, bronchial_asthma, surgery, lmp, heart_disease, allergies, epilepsy, hernia, respiratory, oxygen_saturation, chief_complaint, findiag, remarks, medsup, pod_nod, medcase, medcase_others, datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial FROM transaction_history $ca $date ORDER BY datetime DESC "
+    );
+    while($data=mysqli_fetch_array($query))
+    {
+        if (count(explode(" ", $data['middlename'])) > 1)
+        {
+            $middle = explode(" ", $data['middlename']);
+            $letter = $middle[0][0].$middle[1][0];
+            $middleinitial = $letter . ".";
+        }
+        else
+        {
+            $middle = $data['middlename'];
+            if ($middle == "" OR $middle == " ")
+            {
+                $middleinitial = "";
+            }
+            else
+            {
+                $middleinitial = substr($middle, 0, 1) . ".";
+            }    
+        }
+        
+        $id = $count;
+        $pdf->Cell(6, 6, $id, 1, 0, 'C');
+        $pdf->SetFont('Arial', '', 7);
+        $pdf->Cell(65, 6, ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " .ucwords(strtolower($data['lastname'])), 1, 0);
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(20, 6, $data['designation'], 1, 0, 'C');
+        $pdf->SetFont('Arial', '', 7);
+        $pdf->Cell(40, 6, $data['pod_nod'], 1, 0);
+        $pdf->SetFont('Arial', '', 8);
+        if($data['type'] != 'Walk-In')
+        {
+            $pdf->Cell(57, 6, $data['type'] . " - " . $data['transaction'], 1, 0);
+            $pdf->Cell(40, 6, $data['purpose'], 1, 0);
+        }
+        else
+        {
+            $pdf->Cell(57, 6, $data['type'], 1, 0);
+            $pdf->Cell(40, 6, $data['transaction'], 1, 0);
+        }
+        $pdf->Cell(47, 6, date("M d, Y", strtotime($data['datetime'])) . " " . date("g:i A", strtotime( $data['datetime'])), 1, 0, 'C');
+        $pdf->Cell(0, 6, '', 0, 1);
+        $count++;
+    }
+
+
+    // footer for pirma and stuff 
+
+    // Date submitted is 1st weekday of the month;
+>>>>>>> 42adf7f184a01343c052e5c4c84b13ed2eef8bc5
     $pdf->SetFont('Arial', '', 8);
     if ($data['type'] != 'Walk-In') {
         $pdf->Cell(57, 6, $data['type'] . " - " . $data['transaction'], 1, 0);

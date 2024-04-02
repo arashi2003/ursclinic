@@ -99,7 +99,7 @@ include('../../includes/pagination-limit.php');
             <div class="box-topic">Total Appointments for this Month</div>
             <div class="number">
               <?php
-              $query = "SELECT * from appointment WHERE physician = '$fullname' AND date LIKE '$month%'";
+              $query = "SELECT * from appointment WHERE physician = '$fullname' AND date LIKE '$month%' AND status = 'APPROVED'";
               $result = mysqli_query($conn, $query);
               $totalCount = mysqli_num_rows($result);
               echo $totalCount;
@@ -181,7 +181,6 @@ include('../../includes/pagination-limit.php');
                       $result = mysqli_query($conn, $sql);
                     } elseif (isset($_GET['date']) && $_GET['date'] != '') {
                       $date = $_GET['date'];
-                      $physician = $_GET['physician'];
                       $query = "SELECT * from account WHERE accountid = '$userid'";
                       $result = mysqli_query($conn, $query);
                       while ($data = mysqli_fetch_array($result)) {

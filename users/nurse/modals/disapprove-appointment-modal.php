@@ -12,7 +12,9 @@
                     <textarea type="text" style="resize:none;" class="form-control" name="reason" id="reason" required></textarea>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-danger" value="Cancel Request"></input>
+                    <input type="submit" class="btn btn-danger" value="Confirm"></input>
+                    &ThickSpace;
+                    <input type="reset" class="btn btn-danger" value="Cancel" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
                 </div>
             </form>
         </div>

@@ -207,6 +207,8 @@
                 <input type="text" class="form-control" name="age" value="<?php echo $data['age'] ?>" hidden>
                 <input type="text" class="form-control" name="sex" value="<?php echo $data['sex'] ?>" hidden>
                 <input type="text" class="form-control" name="pys" value="<?php echo $data['program'] . " " . $data['yearlevel'] . "-" . $data['section'] . $data['block'] ?>" hidden>
+                    &ThickSpace;
+                    <input type="reset" class="btn btn-danger" value="Cancel" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
             </div>
         </div>
     </div>

@@ -68,22 +68,10 @@
                     <label for="pod_nod" class="form-label">Physician/Nurse on Duty:</label>
                     <input type="text" class="form-control" name="pod_nod" value="<?= $data['pod_nod'] ?>" id="pod_nod" disabled>
                 </div>
-            </div>
-
-            <div class="modal-footer">
-                <input type="text" class="form-control" name="medsup" value="<?php echo $data['medsup'] ?>" hidden>
-                <input type="text" class="form-control" name="cc" value="<?php echo $data['chief_complaint'] ?>" hidden>
-                <input type="text" class="form-control" name="findiag" value="<?php echo $data['findiag'] ?>" hidden>
-                <input type="text" class="form-control" name="remarks" value="<?php echo $data['remarks'] ?>" hidden>
-                <input type="text" class="form-control" name="referral" value="<?php echo $data['referral'] ?>" hidden>
-                <input type="text" class="form-control" name="pod_nod" value="<?php echo $data['pod_nod'] ?>" hidden>
-                <input type="text" class="form-control" name="datetime" value="<?php echo $data['datetime'] ?>" hidden>
-
-                <input type="text" class="form-control" name="patientid" value="<?php echo $data['patient'] ?>" hidden>
-                <input type="text" class="form-control" name="patient" value="<?php echo $fullname ?>" hidden>
-                <input type="text" class="form-control" name="age" value="<?php echo $age = floor((time() - strtotime($data['birthday'])) / 31556926);  ?>" hidden>
-                <input type="text" class="form-control" name="sex" value="<?php echo $data['sex'] ?>" hidden>
-                <input type="text" class="form-control" name="pys" value="<?php echo $data['program'] . " " . $data['yearlevel'] . "-" . $data['section'] . $data['block'] ?>" hidden>
+                
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-danger" value="Close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
+                </div>
             </div>
         </div>
     </div>

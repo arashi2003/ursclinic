@@ -133,7 +133,7 @@
                             <input type="text" class="form-control" name="remarks" id="remarks">
                         </div>
                         <div class="row duplicate_med">
-                            <div class="col-md-8 mb-2">
+                            <div class="col-md-7 mb-2">
                                 <label for="" class="form-label">Medicine:</label>
                                 <select class="form-select" aria-label=".form-select-md example" name="medicine[]" id="medicine">
                                     <option value="" selected></option>
@@ -149,17 +149,17 @@
                             <div class="col-md-4 mb-2">
                                 <label for="" class="form-label">Quantity:</label>
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col-md-10">
                                         <input type="number" min="0" class="form-control" name="quantity_med[]">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-2">
                                         <button type="button" class="btn btn-primary" onclick="duplicate_med()">+</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row duplicate_sup">
-                            <div class="col-md-8 mb-2">
+                            <div class="col-md-7 mb-2">
                                 <label for="" class="form-label">Medical Supply:</label>
                                 <select class="form-select" aria-label=".form-select-md example" name="supply[]" id="supply">
                                     <option value="" selected></option>
@@ -175,10 +175,10 @@
                             <div class="col-md-4 mb-2">
                                 <label for="" class="form-label">Quantity:</label>
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col-md-10">
                                         <input type="number" min="0" class="form-control" name="quantity_sup[]">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-2">
                                         <button type="button" class="btn btn-primary" onclick="duplicate_sup()">+</button>
                                     </div>
                                 </div>
@@ -212,6 +212,8 @@
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-primary" value="Record"></input>
+                    &ThickSpace;
+                    <input type="reset" class="btn btn-danger" value="Cancel" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
                 </div>
             </div>
         </div>

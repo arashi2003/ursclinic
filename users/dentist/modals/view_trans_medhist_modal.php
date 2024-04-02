@@ -169,44 +169,10 @@
                     <label for="referral" class="form-label">Recommendations:</label>
                     <input type="text" class="form-control" name="referral" value="<?php echo $data['referral'] ?>" id="referral" disabled>
                 </div>
-            </div>
-
-            <div class="modal-footer">
-                <input type="text" class="form-control" name="height" value="<?php echo $data['height'] ?>" hidden>
-                <input type="text" class="form-control" name="weight" value="<?php echo $data['weight'] ?>" hidden>
-                <input type="text" class="form-control" name="birthday" value="<?php echo $data['birthday'] ?>" hidden>
-                <input type="text" class="form-control" name="datetime" value="<?php echo $data['datetime'] ?>" hidden>
-                <input type="text" class="form-control" name="bp" value="<?php echo $data['bp'] ?>" hidden>
-                <input type="text" class="form-control" name="pr" value="<?php echo $data['pr'] ?>" hidden>
-                <input type="text" class="form-control" name="temp" value="<?php echo $data['temp'] ?>" hidden>
-
-                <input type="text" class="form-control" name="heent" value="<?php echo $data['heent'] ?>" hidden>
-                <input type="text" class="form-control" name="chest_lungs" value="<?php echo $data['chest_lungs'] ?>" hidden>
-                <input type="text" class="form-control" name="heart" value="<?php echo $data['heart'] ?>" hidden>
-                <input type="text" class="form-control" name="abdomen" value="<?php echo $data['abdomen'] ?>" hidden>
-                <input type="text" class="form-control" name="extremities" value="<?php echo $data['extremities'] ?>" hidden>
-
-                <input type="text" class="form-control" name="ddefects" value="<?php echo $data['ddefects'] ?>" hidden>
-                <input type="text" class="form-control" name="dcs" value="<?php echo $data['dcs'] ?>" hidden>
-                <input type="text" class="form-control" name="gp" value="<?php echo $data['gp'] ?>" hidden>
-                <input type="text" class="form-control" name="scaling_polish" value="<?php echo $data['scaling_polish'] ?>" hidden>
-                <input type="text" class="form-control" name="dento_facial" value="<?php echo $data['dento_facial'] ?>" hidden>
-                <input type="text" class="form-control" name="remarks" value="<?php echo $data['remarks'] ?>" hidden>
-                <input type="text" class="form-control" name="referral" value="<?php echo $data['referral'] ?>" hidden>
-
-                <input type="text" class="form-control" name="bronchial_asthma" value="<?php echo $data['bronchial_asthma'] ?>" hidden>
-                <input type="text" class="form-control" name="surgery" value="<?php echo $data['surgery'] ?>" hidden>
-                <input type="text" class="form-control" name="lmp" value="<?php echo $data['lmp'] ?>" hidden>
-                <input type="text" class="form-control" name="heart_disease" value="<?php echo $data['heart_disease'] ?>" hidden>
-                <input type="text" class="form-control" name="allergies" value="<?php echo $data['allergies'] ?>" hidden>
-                <input type="text" class="form-control" name="epilepsy" value="<?php echo $data['epilepsy'] ?>" hidden>
-                <input type="text" class="form-control" name="hernia" value="<?php echo $data['hernia'] ?>" hidden>
-
-                <input type="text" class="form-control" name="patientid" value="<?php echo $data['patient'] ?>" hidden>
-                <input type="text" class="form-control" name="patient" value="<?php echo $fullname ?>" hidden>
-                <input type="text" class="form-control" name="age" value="<?php echo $age = floor((time() - strtotime($data['birthday'])) / 31556926);  ?>" hidden>
-                <input type="text" class="form-control" name="sex" value="<?php echo $data['sex'] ?>" hidden>
-                <input type="text" class="form-control" name="pys" value="<?php echo $data['program'] . " " . $data['yearlevel'] . "-" . $data['section'] . $data['block'] ?>" hidden>
+                
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-danger" value="Close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
+                </div>
             </div>
         </div>
     </div>

@@ -4,10 +4,12 @@ include('../../connection.php');
 include('../../includes/doctor-auth.php');
 $campus = $_SESSION['campus'];
 $name = $_SESSION['username'];
+$fullname = $_SESSION['name'];
 $userid = $_SESSION['userid'];
 $usertype = $_SESSION['usertype'];
 $module = 'dashboard';
 $date = date("Y-m-d");
+$month = date('Y-m');
 
 // get the total nr of rows.
 $records = $conn->query("SELECT * from appointment");
@@ -146,14 +148,6 @@ include('../../includes/pagination-limit.php');
                     <div class="col-md-2 mb-3">
                       <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
                     </div>
-                    <div class="col-md-2 mb-3">
-                      <select name="physician" class="form-select">
-                        <option value="">Select Physician</option>
-                        <option value="NONE" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
-                        <option value="GODWIN A. OLIVAS" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == 'GODWIN A. OLIVAS' ? 'selected' : '') : '' ?>>GODWIN A. OLIVAS</option>
-                        <option value="EDNA C. MAYCACAYAN" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == 'EDNA C. MAYCACAYAN' ? 'selected' : '') : '' ?>>EDNA C. MAYCACAYAN</option>
-                      </select>
-                    </div>
                     <div class="col mb-3">
                       <button type="submit" class="btn btn-primary">Filter</button>
                       <a href="dashboard" class="btn btn-danger">Reset</a>
@@ -196,7 +190,6 @@ include('../../includes/pagination-limit.php');
                       $result = mysqli_query($conn, $sql);
                     } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
                       $date = $_GET['date'];
-                      $physician = $_GET['physician'];
                       while ($data = mysqli_fetch_array($result)) {
                         if (count(explode(" ", $data['middlename'])) > 1) {
                           $middle = explode(" ", $data['middlename']);

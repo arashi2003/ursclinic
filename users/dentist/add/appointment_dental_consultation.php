@@ -102,6 +102,9 @@ if ($result = mysqli_query($conn, $sql)) {
         }
     }
 
+    $sql = "UPDATE appointment SET status='COMPLETED' WHERE id='$id'";
+    mysqli_query($conn, $sql);
+    
     // check if may existing na sa medcase report
     $enddate = date("Y-m-t");
     $med_case =  $_POST['medcase'];
