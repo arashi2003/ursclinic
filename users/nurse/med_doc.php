@@ -91,7 +91,7 @@ include('../../includes/pagination-limit.php')
                         </div>
                         <div class="col-sm-12">
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table" id="myTable">
                                     <thead class="head">
                                         <tr>
                                             <th>Patient ID</th>
@@ -174,6 +174,20 @@ include('../../includes/pagination-limit.php')
     </section>
 
 </body>
+
+<script src="../../js/tablesorter.js"></script>
+
+<script>
+    $(document).ready(function() {
+            $('#myTable').tablesorter({
+                headers: {
+                    2: { sorter: false },
+                    3: { sorter: false },
+                    4: { sorter: false }
+                }
+            });
+        });
+</script>
 
 <script>
     let arrow = document.querySelectorAll(".arrow");
