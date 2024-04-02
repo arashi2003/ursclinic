@@ -223,7 +223,7 @@ if ($pages > 4) {
                                 </div>
                             </div>
                             <?php
-                            if ($designation != "STAFF") { ?>
+                            if ($designation == "STUDENT" && $designation != "FACULTY" && $designation != "STAFF") { ?>
                                 <div class="accordion-item">
                                     <h2 class="accordion-header">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
@@ -249,6 +249,26 @@ if ($pages > 4) {
                                                     <div class="input-group input-group-md mb-2">
                                                         <span class="input-group-text" id="inputGroup-sizing-md">Program, Year and Section:</span>
                                                         <input type="text" class="form-control" name="pys" value="<?php echo $pys ?>" readonly disabled>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } elseif ($designation == "FACULTY" && $designation != "STUDENT" && $designation != "STAFF") { ?>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                            <h5>Academic Information</h5>
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                                        <div class="accordion-body">
+                                            <div class="row">
+                                                <div class="col-md-12 mb-2">
+                                                    <div class="input-group input-group-md mb-2">
+                                                        <span class="input-group-text" id="inputGroup-sizing-md">Department:</span>
+                                                        <input type="text" class="form-control" name="department" value="<?php echo $department ?>" readonly disabled>
                                                     </div>
                                                 </div>
                                             </div>
