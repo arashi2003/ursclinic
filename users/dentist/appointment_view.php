@@ -232,7 +232,7 @@ include('../../includes/pagination-limit.php');
                                     <input type="text" class="form-control" name="transaction" value="Appointment" hidden>
                                     <input type="text" class="form-control" name="service" value="Dental Consultation" hidden>
                                     <input type="text" class="form-control" name="patientid" value="<?= $patientid ?>" id="patientid" hidden>
-                                    <input type="submit" class="btn btn-primary" value="Add Record"></input>
+                                    <input type="submit" class="btn btn-primary" value="Save"></input>
                                     &ThickSpace;
                                     <input type="reset" class="btn btn-danger" value="Cancel"></input>
                                 </div>

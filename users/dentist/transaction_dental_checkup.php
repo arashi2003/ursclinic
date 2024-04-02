@@ -1065,7 +1065,7 @@ $usertype = $_SESSION['usertype'];
                             <input type="text" class="form-control" name="type" value="Walk-In" id="type" hidden>
                             <input type="text" class="form-control" name="transaction" value="Checkup" hidden>
                             <input type="text" class="form-control" name="service" value="Dental" hidden>
-                            <input type="submit" class="btn btn-primary" value="Add Record"></input>
+                            <input type="submit" class="btn btn-primary" value="Save"></input>
                             &ThickSpace;
                             <input type="reset" class="btn btn-danger" value="Cancel"></input>
                         </div>

@@ -326,17 +326,17 @@ include('../../includes/pagination-limit.php');
                                                 }
                                                 ?>
                                             <?php
-                                            }
-                                        } else {
+                                            } else {
                                             ?>
-                                            <tr>
-                                                <td colspan="12">
-                                                    <?php
-                                                    include('../../includes/no-data.php');
-                                                    ?>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <?php
+                                                        include('../../includes/no-data.php');
+                                                        ?>
+                                                    </td>
+                                                </tr>
                                         <?php
+                                            }
                                         }
                                         mysqli_close($conn);
                                         ?>
