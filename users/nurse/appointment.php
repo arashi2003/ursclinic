@@ -284,6 +284,9 @@ if ($approved_pages > 4) {
                                         <table class="table">
                                             <thead class="head">
                                                 <tr>
+                                                    <th>
+                                                        <input class="form-check-input" type="checkbox" id="checkAll">
+                                                    </th>
                                                     <th>ID</th>
                                                     <th>Date</th>
                                                     <th>Time</th>
@@ -292,7 +295,11 @@ if ($approved_pages > 4) {
                                                     <th>Patient</th>
                                                     <th>Physician</th>
                                                     <th>Action</th>
+                                                    <th>
+                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" id="disapproveBtnHeader" style="display: none;" data-bs-target="#disapproveselectedappointment">Disapprove All</button>
+                                                    </th>
                                                 </tr>
+                                                <?php include('modals/disapprove-selected-appointment-modal.php'); ?>
                                             </thead>
                                             <tbody>
                                                 <?php
@@ -496,6 +503,9 @@ if ($approved_pages > 4) {
 
                                                 ?>
                                                             <tr>
+                                                                <td>
+                                                                    <input class="form-check-input checkbox" type="checkbox" name="app_disapprove_id[]" value="<?php echo $id; ?>">
+                                                                </td>
                                                                 <td><?php echo $id ?></td>
                                                                 <td><?php echo date("F d, Y", strtotime($date)) ?></td>
                                                                 <td><?php echo date("g:i A", strtotime($time_from)) . " - " . date("g:i A", strtotime($time_to)) ?></td>
@@ -619,6 +629,9 @@ if ($approved_pages > 4) {
                                         <table class="table">
                                             <thead class="head">
                                                 <tr>
+                                                    <th>
+                                                        <input class="form-check-input" type="checkbox" id="checkCancelAll">
+                                                    </th>
                                                     <th>ID</th>
                                                     <th>Date</th>
                                                     <th>Time</th>
@@ -627,7 +640,11 @@ if ($approved_pages > 4) {
                                                     <th>Patient</th>
                                                     <th>Physician</th>
                                                     <th>Action</th>
+                                                    <th>
+                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" id="cancelBtnHeader" style="display: none;" data-bs-target="#cancelselectedappointment">Cancel All</button>
+                                                    </th>
                                                 </tr>
+                                                <?php include('modals/app_cancel_selected_modal.php'); ?>
                                             </thead>
                                             <tbody>
                                                 <?php
@@ -670,6 +687,9 @@ if ($approved_pages > 4) {
                                                             }
                                                 ?>
                                                             <tr>
+                                                                <td>
+                                                                    <input class="form-check-input cancelcheckbox" type="checkbox" name="app_cancel_id[]" value="<?php echo $data['id']; ?>">
+                                                                </td>
                                                                 <td><?php echo $id = $data['id']; ?></td>
                                                                 <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
                                                                 <td><?php echo date("g:i A", strtotime($data['time_from'])) . " - " .  date("g:i A", strtotime($data['time_to'])) ?></td>
@@ -782,27 +802,118 @@ if ($approved_pages > 4) {
 </body>
 
 <script>
-    let arrow = document.querySelectorAll(".arrow");
-    for (var i = 0; i < arrow.length; i++) {
-        arrow[i].addEventListener("click", (e) => {
-            let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
-            arrowParent.classList.toggle("showMenu");
-        });
-    }
-    let sidebar = document.querySelector(".sidebar");
-    let sidebarBtn = document.querySelector(".bx-menu");
-    console.log(sidebarBtn);
-    sidebarBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("close");
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        let tabParam = '<?php echo isset($_GET['tab']) ? $_GET['tab'] : ''; ?>';
-        if (tabParam) {
-            document.querySelector('.nav-tabs a[href="#' + tabParam + '"]').classList.add('active');
-            document.querySelector('.tab-pane#' + tabParam).classList.add('show', 'active');
+    $(document).ready(function() {
+        // Function to check if all checkboxes in the table rows are checked
+        function areAllChecked() {
+            return $(".checkbox:checked").length === $(".checkbox").length;
         }
+
+        // Function to synchronize the "Select All" checkbox state with checkboxes in the table rows
+        function syncSelectAllCheckbox() {
+            $("#checkAll").prop('checked', areAllChecked());
+        }
+
+        // Function to toggle the visibility of the "Disapprove" button in the header
+        function toggleDisapproveButton() {
+            if ($(".checkbox:checked").length > 1) {
+                $("#disapproveBtnHeader").show();
+            } else {
+                $("#disapproveBtnHeader").hide();
+            }
+        }
+
+        // Function to handle disapprove action
+        $("#disapproveBtnHeader").click(function() {
+            var disapprovedIDs = [];
+            $(".checkbox:checked").each(function() {
+                disapprovedIDs.push($(this).val());
+            });
+
+            // Pass disapprovedIDs to the modal
+            openDisapproveModal(disapprovedIDs);
+        });
+
+        // Open modal function
+        function openDisapproveModal(disapprovedIDs) {
+            // Set the value of a hidden input field inside the modal to pass disapprovedIDs
+            $("#disapprovedIDsInput").val(disapprovedIDs.join(','));
+
+            // Open the disapprove modal
+            $('#disapproveselectedappointment').modal('show');
+            console.log(disapprovedIDs);
+        }
+
+        // When any checkbox in the table rows is clicked
+        $(".checkbox").click(function() {
+            syncSelectAllCheckbox();
+            toggleDisapproveButton();
+        });
+
+        // When the "Select All" checkbox in the header is clicked
+        $("#checkAll").click(function() {
+            // Check/uncheck all checkboxes in the table rows based on the "Select All" checkbox status
+            $(".checkbox").prop('checked', $(this).prop('checked'));
+            toggleDisapproveButton();
+        });
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+        // Function to check if all checkboxes in the table rows are checked
+        function areAllCancelChecked() {
+            return $(".cancelcheckbox:checked").length === $(".cancelcheckbox").length;
+        }
+
+        // Function to synchronize the "Select All" checkbox state with checkboxes in the table rows
+        function syncSelectCancelAllCheckbox() {
+            $("#checkCancelAll").prop('checked', areAllCancelChecked());
+        }
+
+        // Function to toggle the visibility of the "Disapprove" button in the header
+        function toggleCancelButton() {
+            if ($(".cancelcheckbox:checked").length > 1) {
+                $("#cancelBtnHeader").show();
+            } else {
+                $("#cancelBtnHeader").hide();
+            }
+        }
+
+        // Function to handle disapprove action
+        $("#cancelBtnHeader").click(function() {
+            var cancelIDs = [];
+            $(".cancelcheckbox:checked").each(function() {
+                cancelIDs.push($(this).val());
+            });
+
+            // Pass disapprovedIDs to the modal
+            openCancelModal(cancelIDs);
+        });
+
+        // Open modal function
+        function openCancelModal(cancelIDs) {
+            // Set the value of a hidden input field inside the modal to pass disapprovedIDs
+            $("#cancelIDsInput").val(cancelIDs.join(','));
+
+            // Open the disapprove modal
+            $('#cancelselectedappointment').modal('show');
+            console.log(cancelIDs);
+        }
+
+        // When any checkbox in the table rows is clicked
+        $(".cancelcheckbox").click(function() {
+            syncSelectCancelAllCheckbox();
+            toggleCancelButton();
+        });
+
+        // When the "Select All" checkbox in the header is clicked
+        $("#checkCancelAll").click(function() {
+            // Check/uncheck all checkboxes in the table rows based on the "Select All" checkbox status
+            $(".cancelcheckbox").prop('checked', $(this).prop('checked'));
+            toggleCancelButton();
+        });
+    });
+</script>
+
 
 </html>

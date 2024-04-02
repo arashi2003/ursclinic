@@ -51,49 +51,39 @@ $fullname = strtoupper($_SESSION['name']);
 $au_status = "unread";
 $activity = "sent a request for appointment";
 
-$sql = "SELECT * FROM appointment WHERE date='$date' AND time_from='$time_from' AND patient='$patient'";
-$result = mysqli_query($conn, $sql);
-if (mysqli_num_rows($result) > 0) {
-  $_SESSION['alert'] = 'Request for this date and time already exists.';
+$sql = "INSERT INTO appointment SET date='$date', time_from='$time_from', time_to= '$time_to', physician='$physician', patient='$patient', type='$type', purpose='$purpose', chiefcomplaint='$chiefcomplaint', others='$others', $medsup status='$status', created_at=now()";
+if (mysqli_query($conn, $sql)) {
+  $query = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
+  if ($result = mysqli_query($conn, $query)) {
+    $sql = "UPDATE time_pickup SET isSelected = 'Yes' WHERE time IN ('$time_from', '$time_to')";
+    mysqli_query($conn, $sql) or die(mysqli_error($conn));
 ?>
+    <script>
+      setTimeout(function() {
+        window.location = "../appointment";
+      });
+    </script>
+  <?php
+    $_SESSION['alert'] = 'Request was sent. Nurse has been notified.';
+  } else {
+  ?>
+    <script>
+      setTimeout(function() {
+        window.location = "../appointment";
+      });
+    </script>
+  <?php
+    $_SESSION['alert'] = 'Request was sent.';
+  }
+} else {
+  $_SESSION['alert'] = 'Request was not sent.';
+  ?>
   <script>
     setTimeout(function() {
       window.location = "../appointment.php";
     });
   </script>
-  <?php
-} else {
-  $sql = "INSERT INTO appointment SET date='$date', time_from='$time_from', time_to= '$time_to', physician='$physician', patient='$patient', type='$type', purpose='$purpose', chiefcomplaint='$chiefcomplaint', others='$others', $medsup status='$status', created_at=now()";
-  if (mysqli_query($conn, $sql)) {
-    $query = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
-    if ($result = mysqli_query($conn, $query)) {
-  ?>
-      <script>
-        setTimeout(function() {
-          window.location = "../appointment";
-        });
-      </script>
-    <?php
-      $_SESSION['alert'] = 'Request was sent. Nurse has been notified.';
-    } else {
-    ?>
-      <script>
-        setTimeout(function() {
-          window.location = "../appointment";
-        });
-      </script>
-    <?php
-      $_SESSION['alert'] = 'Request was sent.';
-    }
-  } else {
-    $_SESSION['alert'] = 'Request was not sent.';
-    ?>
-    <script>
-      setTimeout(function() {
-        window.location = "../appointment.php";
-      });
-    </script>
 <?php
-  }
 }
+
 mysqli_close($conn);

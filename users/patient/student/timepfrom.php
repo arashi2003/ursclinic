@@ -17,7 +17,7 @@ if (isset($_POST['date'])) {
     }
 
     // Perform SQL injection prevention here if necessary
-    $sql = "SELECT * FROM time_pickup WHERE time >='$tfp' AND time < '$ttp' AND campus='$campus'";
+    $sql = "SELECT * FROM time_pickup WHERE time >='$tfp' AND time < '$ttp' AND campus='$campus' AND isSelected = 'No'";
     $output = '<option value="" disabled selected>-:-- --</option>';
     $result = mysqli_query($conn, $sql);
 

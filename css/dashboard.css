@@ -625,6 +625,7 @@ th {
 .home-content table {
   border-collapse: collapse;
   width: 100%;
+  vertical-align: middle;
 }
 
 .home-content table input {
