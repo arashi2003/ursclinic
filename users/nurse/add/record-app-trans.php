@@ -21,6 +21,8 @@ $referral = $_POST['referral'];
 $doot = "SELECT * FROM appointment WHERE id='$id'";
 $result0 = mysqli_query($conn, $doot);
 while ($row = mysqli_fetch_array($result0)) {
+    $time_from = $row['time_from'];
+    $time_to = $row['time_to'];
     $patientid = $row['patient'];
     $trans = $row['type'];
     $purp = $row['purpose'];
@@ -459,7 +461,8 @@ while ($row = mysqli_fetch_array($result0)) {
         $sql = "INSERT INTO reports_medcase (campus, type, medcase, sm, sf, st, pm, pf, pt, gm, gf, gt, date) VALUES ('$campus', '$medcase_type', '$medcase', '$sm', '$sf', '$st', '$pm', '$pf', '$pt', '$gm', '$gf', '$gt', '$enddate')";
         $result = mysqli_query($conn, $sql);
     }
-
+    $sql = "UPDATE time_pickup SET isSelected = 'No' WHERE time IN ('$time_from', '$time_to')";
+    mysqli_query($conn, $sql);
     // Audit trail 
     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
     if ($result = mysqli_query($conn, $sql)) {

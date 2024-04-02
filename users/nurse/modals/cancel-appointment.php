@@ -21,7 +21,9 @@ $result = mysqli_query($conn, $query);
 while ($data = mysqli_fetch_array($result)) {
     $patientid = $data['patient'];
     $date = date("F d, Y", strtotime($data['date']));
-    $time = $data['time_from'] . " - " . $data['time_from'];
+    $time = $data['time_from'] . " - " . $data['time_to'];
+    $time_from = $data['time_from'];
+    $time_to = $data['time_to'];
     $physician = $data['physician'];
 }
 
@@ -56,6 +58,9 @@ if ($result) {
     mysqli_query($conn, $query) or die(mysqli_error($conn));
 
     $_SESSION['alert'] = "Appointment has been disapproved!";
+
+    $sql = "UPDATE time_pickup SET isSelected = 'No' WHERE time IN ('$time_from', '$time_to')";
+    mysqli_query($conn, $sql) or die(mysqli_error($conn));
 
     // Send email
     $mail = new PHPMailer();

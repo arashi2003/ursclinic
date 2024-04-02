@@ -1,52 +1,176 @@
 <?php
 session_start();
 include('../connection.php');
-$id = $_POST['id'];
+
+// Include PHPMailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../../../../phpmailer/src/Exception.php';
+require '../../../../phpmailer/src/PHPMailer.php';
+require '../../../../phpmailer/src/SMTP.php';
+
+
 $reason = $_POST['reason'];
 
+$id = $_POST['id'];
+$sql = "UPDATE appointment SET status='CANCELLED', reason = '$reason' WHERE id = '$id'";
+$result = mysqli_query($conn, $sql);
 $query = "SELECT * FROM appointment WHERE id = '$id'";
 $result = mysqli_query($conn, $query);
-while($data=mysqli_fetch_array($result)){
-    $patientid=$data['patient'];
+while ($data = mysqli_fetch_array($result)) {
+    $patientid = $data['patient'];
+    $date = date("F d, Y", strtotime($data['date']));
+    $time = $data['time_from'] . " - " . $data['time_to'];
+    $time_from = $data['time_from'];
+    $time_to = $data['time_to'];
+    $physician = $data['physician'];
 }
 
-$userid = $_SESSION['userid'];
-$au_campus = $_SESSION['campus'];
-$fullname = strtoupper($_SESSION['name']);
-$activity = "cancelled an appointment of " . $patientid;
-$au_status = "unread";
 
-$query = "UPDATE appointment SET status='CANCELLED', reason = '$reason' WHERE id = '$id'";
-if ($result = mysqli_query($conn, $query)) {
-    $query = "INSERT INTO audit_trail (user, campus, fullname, activity, status, datetime) VALUES ('$userid', '$au_campus', '$fullname', '$activity', '$au_status', now())";
-    if ($result = mysqli_query($conn, $query)) {
-        $_SESSION['alert'] = "Appointment has been cancelled.";
-?>
-        <script>
-            setTimeout(function() {
-                window.location = "../../appoinment?tab=approved";
-            });
-        </script>
-    <?php
+$grr = "SELECT * FROM account WHERE accountid = '$patientid'";
+$result = mysqli_query($conn, $grr);
+while ($brr = mysqli_fetch_array($result)) {
+    if (count(explode(" ", $brr['middlename'])) > 1) {
+        $middle = explode(" ", $brr['middlename']);
+        $letter = $middle[0][0] . $middle[1][0];
+        $middleinitial = $letter . ".";
     } else {
-        $_SESSION['alert'] = "Appointment has been cancelled.";
-    ?>
-        <script>
-            setTimeout(function() {
-                window.location = "../../appoinment?tab=approved";
-            });
-        </script>
-    <?php
+        $middle = $brr['middlename'];
+        if ($middle == "" or $middle == " ") {
+            $middleinitial = "";
+        } else {
+            $middleinitial = substr($middle, 0, 1) . ".";
+        }
     }
-} else {
-    $_SESSION['alert'] = "Appointment was not cancelled.";
-    ?>
+    $name = ucwords(strtolower($brr['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($brr['lastname']));
+    $email = $brr['email'];
+}
+
+if ($result) {
+    $userid = $_SESSION['userid'];
+    $au_campus = $_SESSION['campus'];
+    $fullname = strtoupper($_SESSION['name']);
+    $au_status = "unread";
+    $activity = "cancelled an appointment of " . $patientid;
+
+    $query = "INSERT INTO audit_trail (user, campus, fullname, activity, status, datetime) VALUES ('$userid', '$au_campus', '$fullname', '$activity', '$au_status', now())";
+    mysqli_query($conn, $query) or die(mysqli_error($conn));
+
+    $_SESSION['alert'] = "Appointment has been cancelled!";
+
+    $sql = "UPDATE time_pickup SET isSelected = 'No' WHERE time IN ('$time_from', '$time_to')";
+    mysqli_query($conn, $sql) or die(mysqli_error($conn));
+
+    // Send email
+    $mail = new PHPMailer();
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com'; // Your SMTP host
+    $mail->SMTPAuth = true;
+    $mail->Username = 'urshealthservice@gmail.com'; // Your SMTP username
+    $mail->Password = 'viwnydtwfagjlzyy'; // Your SMTP password
+    $mail->SMTPSecure = 'ssl';
+    $mail->Port = 465; // TCP port to connect to
+    $mail->setFrom('urshealthservice@gmail.com', 'URS Health Service Unit');
+    $mail->addAddress($email);
+    $mail->isHTML(true);
+    $mail->Subject = 'Appointment Cancelled';
+    $mail->Body = '
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Email Template</title>
+        <style>
+            /* Add your custom CSS styles here */
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+                line-height: 1.6;
+                color: #333;
+            }
+
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .header {
+                background-color: #052659; /* Header background color */
+                padding: 20px;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+                text-align: center; /* Center align text */
+                color: #fff; /* Header text color */
+            }
+
+            .body {
+                background-color: #f2f2f2; /* Body background color */
+                padding: 20px;
+            }
+
+            .footer {
+                background-color: #f9f9f9; /* Footer background color */
+                padding: 20px;
+                border-bottom-left-radius: 8px;
+                border-bottom-right-radius: 8px;
+                text-align: center; /* Center align text */
+                color: #666; /* Footer text color */
+            }
+
+            h1, h2 {
+                margin-top: 0;
+            }
+
+            ul {
+                margin-top: 0;
+                padding-left: 20px;
+            }
+        </style>
+    </head>
+    <div class="container">
+        <div class="header">
+            <h1 style="margin: 0;">URS Health Services Unit</h1>
+        </div>
+        <div class="body">
+            <h2>Appointment Cancelled</h2>
+            <p>Dear ' . $name . ',</p>
+            <p>Your appointment has been cancelled due to ' . $reason . '</p>
+            <p><strong>Appointment Details:</strong></p>
+            <ul>
+                <li><strong>Date:</strong> ' . $date . '</li>
+                <li><strong>Time:</strong> ' . $time . '</li>
+                <li><strong>Physician:</strong> ' . $physician . '</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <p>Please feel free to reach out to us at <a href="mailto:urshealthservice@gmail.com">urshealthservice@gmail.com</a>
+            for any further assistance.</p>
+        </div>
+    </div>
+    </html>
+    ';
+
+    if ($mail->send()) {
+        // Email sent successfully
+        $_SESSION['alert'] .= " An email has been sent to the patient.";
+    } else {
+        // Email sending failed
+        $_SESSION['alert'] .= " Email could not be sent to the patient.";
+    }
+?>
     <script>
         setTimeout(function() {
-            window.location = "../../appoinment?tab=approved";
+            window.location = "../../appointment?tab=approved";
         });
     </script>
 <?php
+} else {
+    echo "Failed: " . mysqli_error($conn);
 }
-
-mysqli_close($conn);

@@ -9,6 +9,7 @@
                 <div class="modal-body">
                     <div class="default" id="defaultDiv">
                         <input type="text" name="id" value="<?= $data['id']; ?>" hidden>
+                        
                         <?php
                         $id = $data['id'];
                         $sql = "SELECT a.id, a.chiefcomplaint, t.type, p.purpose, a.patient FROM appointment a INNER JOIN appointment_purpose p ON p.id=a.purpose INNER JOIN appointment_type t ON t.id=a.type WHERE a.id = '$id'";
