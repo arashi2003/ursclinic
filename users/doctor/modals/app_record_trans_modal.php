@@ -37,6 +37,7 @@
                             $patient = ucwords(strtolower($grr['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($grr['lastname']));
                             $age = floor((time() - strtotime($grr['birthday'])) / 31556926);
                             $sex = $grr['sex'];
+                            $cam = $grr['campus'];
                             $designation = $grr['designation'];
                             $pys = $grr['program'] . " " . $grr['yearlevel'] . "-" . $grr['section'] . $grr['block'];
                         }
@@ -137,7 +138,7 @@
                                 <select class="form-select" aria-label=".form-select-md example" name="medicine[]" id="medicine">
                                     <option value="" selected></option>
                                     <?php
-                                    $sql = "SELECT * FROM inv_total WHERE type = 'medicine' AND qty >= 0 AND campus='$campus' ORDER BY stock_name";
+                                    $sql = "SELECT * FROM inv_total WHERE type = 'medicine' AND qty >= 0 AND campus='$cam' ORDER BY stock_name";
                                     $result = mysqli_query($conn, $sql);
                                     while ($row = mysqli_fetch_array($result)) {
                                     ?>
@@ -163,7 +164,7 @@
                                 <select class="form-select" aria-label=".form-select-md example" name="supply[]" id="supply">
                                     <option value="" selected></option>
                                     <?php
-                                    $sql = "SELECT * FROM inv_total WHERE type = 'supply' AND qty >= 0 AND campus='$campus' ORDER BY stock_name";
+                                    $sql = "SELECT * FROM inv_total WHERE type = 'supply' AND qty >= 0 AND campus='$cam' ORDER BY stock_name";
                                     $result = mysqli_query($conn, $sql);
                                     while ($row = mysqli_fetch_array($result)) {
                                     ?>
@@ -211,6 +212,8 @@
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-primary" value="Record"></input>
+                    &ThickSpace;
+                    <input type="reset" class="btn btn-danger" value="Cancel" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
                 </div>
             </div>
         </div>

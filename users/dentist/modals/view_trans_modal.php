@@ -68,6 +68,10 @@
                     <label for="pod_nod" class="form-label">Physician/Nurse on Duty:</label>
                     <input type="text" class="form-control" name="pod_nod" value="<?= $data['pod_nod'] ?>" id="pod_nod" disabled>
                 </div>
+                
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-danger" value="Close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
+                </div>
             </div>
         </div>
     </div>

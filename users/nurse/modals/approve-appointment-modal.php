@@ -41,25 +41,29 @@
                     </div>
                     <div class="mb-2">
                         <?php
-                        $apdate = $data['date'];
-                        $boop = "SELECT count(id) FROM appointment WHERE physician = '$physician' AND date = '$apdate' AND status = 'APPROVED'";
-                        $result = mysqli_query($conn, $boop);
-                        while ($brr = mysqli_fetch_array($result)) {
-                            $num_app = $brr['count(id)'];
-                        }
-                        $boop = "SELECT maxp FROM schedule WHERE name = '$physician' AND date = '$apdate'";
-                        $result = mysqli_query($conn, $boop);
-                        while ($grr = mysqli_fetch_array($result)) {
-                            $maxp = $grr['maxp'];
-                        }
-                        if ($num_app >= $maxp) {?>
-                            <br><b><i>Notice:</i></b> The maximum patients for this day has been reached.
-                        <?php }
+                        if($physician != "NONE"){
+                            $apdate = $data['date'];
+                            $boop = "SELECT count(id) FROM appointment WHERE physician = '$physician' AND date = '$apdate' AND status = 'APPROVED'";
+                            $result = mysqli_query($conn, $boop);
+                            while ($brr = mysqli_fetch_array($result)) {
+                                $num_app = $brr['count(id)'];
+                            }
+                            $boop = "SELECT maxp FROM schedule WHERE name = '$physician' AND date = '$apdate'";
+                            $result = mysqli_query($conn, $boop);
+                            while ($grr = mysqli_fetch_array($result)) {
+                                $maxp = $grr['maxp'];
+                            }
+                            if ($num_app >= $maxp) {?>
+                                <br><b><i>Notice:</i></b> The maximum patients for this day has been reached.
+                            <?php }
+                            }
                         ?>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-primary" value="Approve"></input>
+                    &ThickSpace;
+                    <input type="reset" class="btn btn-danger" value="Close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
                 </div>
             </form>
         </div>

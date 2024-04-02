@@ -33,12 +33,12 @@ if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
   $medsup = "";
 }
 
-if (!empty($_POST['physician'])) {
+if (!empty($_POST['physician']) AND $_POST['physician'] != 'NONE') {
   $physician  = $_POST['physician'];
   $date = date("Y-m-d", strtotime($_POST['datep']));
   $time_from = date("H:i:s", strtotime($_POST['time_fromp']));
   $time_to =  date("H:i:s", strtotime($_POST['time_top']));
-} else {
+} elseif (!empty($_POST['physician']) AND $_POST['physician'] == 'NONE') {
   $physician  = "NONE";
   $date = date("Y-m-d", strtotime($_POST['daten']));
   $time_from = date("H:i:s", strtotime($_POST['time_fromn']));

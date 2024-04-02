@@ -14,6 +14,8 @@
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-primary" value="Add Findings/Diagnosis"></input>
+                    &ThickSpace;
+                    <input type="reset" class="btn btn-danger" value="Cancel" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
                 </div>
             </form>
         </div>

@@ -11,6 +11,9 @@
                     <label for="cancelreasonling" class="form-label">Reason for cancellation:</label>
                     <textarea class="form-control" name="reason" id="reason" style="resize: none;" disabled><?= $data['reason'] ?></textarea>
                 </div>
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-danger" value="Close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
+                </div>
             </div>
         </div>
     </div>

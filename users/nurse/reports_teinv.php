@@ -153,7 +153,7 @@ if ($pages > 4) {
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <form action="reports/reports_medinv" method="post" id="exportPdfForm" target="_blank">
+                    <form action="reports/reports_teinv" method="post" id="exportPdfForm" target="_blank">
                         <!-- Hidden input fields to store filter values -->
                         <input type="hidden" value="<?= isset($_GET['month']) == true ? $_GET['month'] : '' ?>" name="month" id="month">
 

@@ -111,6 +111,8 @@
                     <input type="text" class="form-control" name="sex" value="<?php echo $data['sex'] ?>" hidden>
                     <input type="text" class="form-control" name="pys" value="<?php echo $data['program'] . " " . $data['yearlevel'] . "-" . $data['section'] . $data['block'] ?>" hidden>
                     <input type="submit" class="btn btn-primary" value="Print"></input>
+                    &ThickSpace;
+                    <input type="reset" class="btn btn-danger" value="Close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
                 </div>
             </form>
         </div>

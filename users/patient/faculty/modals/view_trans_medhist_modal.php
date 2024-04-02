@@ -170,6 +170,10 @@
                     <input type="text" class="form-control" name="referral" value="<?php echo $data['referral'] ?>" id="referral" disabled>
                 </div>
             </div>
+
+            <div class="modal-footer">
+                <input type="reset" class="btn btn-danger" value="Close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
+            </div>
         </div>
     </div>
 </div>

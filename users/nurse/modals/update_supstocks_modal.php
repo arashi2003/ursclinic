@@ -24,6 +24,8 @@
                 <div class="modal-footer">
                     <!-- Modal muna to confirm add stocks -->
                     <input type="submit" class="btn btn-primary" value="Update"></input>
+                    &ThickSpace;
+                    <input type="reset" class="btn btn-danger" value="Cancel" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
                 </div>
             </form>
         </div>

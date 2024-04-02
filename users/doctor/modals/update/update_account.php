@@ -1,145 +1,74 @@
 <?php
-    session_start();
-    include('../connection.php');
-    $userid = $_SESSION['userid'];
-    $cupassword = $_POST['cupassword'];
-    $password = $_POST['npassword'];
-    $copassword = $_POST['copassword'];
-    $firstname = strtoupper($_POST['firstname']);
-    $middlename = strtoupper($_POST['middlename']);
-    $lastname = strtoupper($_POST['lastname']);
-    $email = $_POST['email'];
-    $contactno = $_POST['contactno'];
+session_start();
+include('../connection.php');
+$userid = $_SESSION['userid'];
+$cupassword = $_POST['cupassword'];
+$password = $_POST['npassword'];
+$copassword = $_POST['copassword'];
 
-    $user = $_SESSION['userid'];
-    $au_campus = $_SESSION['campus'];
-    $fullname = strtoupper($_SESSION['name']);
-    $activity = "updated their account details";
-    $au_status = "unread";
+$user = $_SESSION['userid'];
+$au_campus = $_SESSION['campus'];
+$fullname = strtoupper($_SESSION['name']);
+$activity = "updated their password";
+$au_status = "unread";
 
-    if ($middlename == "" || $middlename == NULL)
-    {
-        $middle = "";
-    }
-    else
-    {
-        $middle = $middlename;
-    }
-    
-    $sql[0] = "SELECT * FROM account WHERE accountid = '$userid'";
-    $result = mysqli_query($conn, $sql[0]);
-    $resultCheck = mysqli_num_rows($result);
-    if ($password != "")
-    {
-        //check current pass na in-enter is same sa db
-        $sql = "SELECT password from account WHERE accountid = '$userid' AND password = '$cupassword'";
-        $result = mysqli_query($conn, $sql);
-        $resultCheck = mysqli_num_rows($result);
-        if($resultCheck > 0)
-        {
-            if($password == $copassword)
-            {
-                $sql= "UPDATE account SET password='$password', firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', datetime_updated=now() WHERE accountid='$userid'";
-                if (mysqli_query($conn, $sql))
-                {
-                    $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
-                    if($result = mysqli_query($conn, $sql))
-                    {
-                        $_SESSION['alert'] = "Account has been updated."
-                        ?>
-                        <script>
-                            setTimeout(function() {
-                                window.location = "../../profile";
-                            });
-                        </script>
-                        <?php
-                    }
-                    else
-                    {
-                        $_SESSION['alert'] = "Account has been updated."
-                        ?>
-                        <script>
-                            setTimeout(function() {
-                                window.location = "../../profile";
-                            });
-                        </script>
-                        <?php
-                    }
-                }
-                else
-                {
-                    $_SESSION['alert'] = "Account was not updated."
-                    ?>
-                    <script>
-                        setTimeout(function() {
-                            window.location = "../../profile";
-                        });
-                    </script>
-                    <?php
-                }
-            }
-            else
-            {
-                $_SESSION['alert'] = "New Password and Confirm Password does not match."
-                ?>
+//check current pass na in-enter is same sa db
+$sql = "SELECT password from account WHERE accountid = '$user' AND password = '$cupassword'";
+$result = mysqli_query($conn, $sql);
+$resultCheck = mysqli_num_rows($result);
+if ($resultCheck > 0) {
+    if ($password == $copassword) {
+        $sql0 = "UPDATE account SET password='$password', datetime_updated=now() WHERE accountid='$user'";
+        if (mysqli_query($conn, $sql0)) {
+            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
+            if ($result = mysqli_query($conn, $sql)) {
+                $_SESSION['alert'] = "Password has been updated.";
+?>
                 <script>
                     setTimeout(function() {
                         window.location = "../../profile";
                     });
                 </script>
-                <?php
+            <?php
+            } else {
+                $_SESSION['alert'] = "Password has been updated.";
+            ?>
+                <script>
+                    setTimeout(function() {
+                        window.location = "../../profile";
+                    });
+                </script>
+            <?php
             }
-        }
-        else
-        {
-            $_SESSION['alert'] = "Current Password input does not match the current password."
+        } else {
+            $_SESSION['alert'] = "Password was not updated.";
             ?>
             <script>
                 setTimeout(function() {
                     window.location = "../../profile";
                 });
             </script>
-            <?php
+        <?php
         }
-    } 
-    else
-    {
-        $sql= "UPDATE account SET firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', datetime_updated=now() WHERE accountid='$userid'";
-        if (mysqli_query($conn, $sql))
-        {
-            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
-            if($result = mysqli_query($conn, $sql))
-            {
-                $_SESSION['alert'] = "Account has been updated."
-                ?>
-                <script>
-                    setTimeout(function() {
-                        window.location = "../../profile";
-                    });
-                </script>
-                <?php
-            }
-            else
-            {
-                $_SESSION['alert'] = "Account has been updated."
-                ?>
-                <script>
-                    setTimeout(function() {
-                        window.location = "../../profile";
-                    });
-                </script>
-                <?php
-            }
-        }
-        else
-        {
-            $_SESSION['alert'] = "Account was not updated."
+    } else {
+        $_SESSION['alert'] = "New Password and Confirm Password did not match.";
+        ?>
+        <script>
+            setTimeout(function() {
+                window.location = "../../profile";
+            });
+        </script>
+    <?php
+    }
+} else {
+    $_SESSION['alert'] = "Current Password input does not match the current password.";
     ?>
-<script>
-    setTimeout(function() {
-        window.location = "../../profile";
-    });
-</script>
+    <script>
+        setTimeout(function() {
+            window.location = "../../profile";
+        });
+    </script>
 <?php
-}}
+}
+
 mysqli_close($conn);

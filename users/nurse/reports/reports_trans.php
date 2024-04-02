@@ -102,55 +102,29 @@
         $ca = " WHERE campus = '$campus'";
     }
     //date filter
-    if ($dt_from =="" AND $dt_to =="")
-    {
-        $datetime = "";
-    }
-    elseif ($ca == "" AND $dt_to == $dt_from)
-    {
+
+    if ($dt_from == "" and $dt_to == "") {
+        // No date range provided
+        $date = "";
+    } elseif ($dt_to == $dt_from) {
+        // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
-        $ldate = date("Y-m-t", strtotime($dt_to));
-        $date = " WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
-    }
-    elseif ($ca != "" AND $dt_to == $dt_from)
-    {
+        $date = " AND datetime LIKE '$fdate%'";
+    } elseif ($dt_to == "" and $dt_from != "") {
+        // Only start date provided
         $fdate = date("Y-m-d", strtotime($dt_from));
-        $ldate = date("Y-m-t", strtotime($dt_to));
+        $date = " AND datetime >= '$fdate'";
+    } elseif ($dt_from == "" and $dt_to != "") {
+        // Only end date provided
+        $d = date("Y-m-d", strtotime($dt_to));
+        $date = " AND datetime <= '$d'";
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+        // Start and end date range provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $ldate = date("Y-m-d", strtotime($dt_to));
         $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
     }
 
-    elseif ($ca == "" AND $dt_to == "" AND $dt_from != "" )
-    {
-        $fdate = date("Y-m-d", strtotime($dt_from));
-        $date = " AND datetime >= '$fdate'";
-    }
-    elseif ($ca != "" AND $dt_to == "" AND $dt_from != "" )
-    {
-        $fdate = date("Y-m-d", strtotime($dt_from));
-        $date = " AND datetime >= '$fdate'";
-    }
-    elseif ($ca == "" AND $dt_from == "" AND $dt_to != "" )
-    {
-        $d = date("Y-m-t", strtotime($dt_to));
-        $date = " WHERE datetime <= '$d'";
-    }
-    elseif ($ca != "" AND $dt_from == "" AND $dt_to != "" )
-    {
-        $d = date("Y-m-t", strtotime($dt_to));
-        $date = " AND datetime <= '$d'";
-    }
-    elseif ($ca == "" AND $dt_from != "" AND $dt_to != "" AND $dt_from != $dt_to)
-    {
-        $fdate = date("Y-m-d", strtotime($dt_from));
-        $ldate = date("Y-m-t", strtotime($dt_to));
-        $date = " WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
-    }
-    elseif ($ca != "" AND $dt_from != "" AND $dt_to != "" AND $dt_from != $dt_to)
-    {
-        $fdate = date("Y-m-d", strtotime($dt_from));
-        $ldate = date("Y-m-t", strtotime($dt_to));
-        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
-    }
     
     $count = 1;
     $query = mysqli_query($conn, "SELECT id, patient, firstname, middlename, lastname, designation, age, sex, department, college, program, birthday, yearlevel, section, type, transaction, purpose, height, weight, bp, pr, temp, heent, chest_lungs, heart, abdomen, extremities, bronchial_asthma, surgery, lmp, heart_disease, allergies, epilepsy, hernia, respiratory, oxygen_saturation, chief_complaint, findiag, remarks, medsup, pod_nod, medcase, medcase_others, datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial FROM transaction_history $ca $date ORDER BY datetime DESC "
