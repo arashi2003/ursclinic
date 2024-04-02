@@ -14,7 +14,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="appointment" class="col-form-label">Type of Appointment:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="appointment" id="appointment" onchange="enableAppointment(this)">
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="appointment" id="appointment" onchange="enableAppointment(this)" required>
                             <option value="" disabled selected></option>
                             <?php
                             include('connection.php');
@@ -28,7 +28,7 @@
                     </div>
                     <div class="mb-2 hidden" id="purposeDiv">
                         <label for="purposes" class="col-form-label">Request:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose">
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose" required>
                             <option value="" disabled selected></option>
                         </select>
                     </div>
@@ -39,32 +39,31 @@
                         </select>
                     </div>
                     <div class="row hidden" id="datetimeDiv">
-                        <div class="col-md-4 mb-2 hidden" id="dateNDiv">
+                        <div class="col-md-6 mb-2 hidden" id="dateNDiv">
                             <label for="date" class="col-form-label">Date:</label>
                             <input type="text" class="form-control" name="daten" id="showDate" placeholder="mm/dd/yyyy">
                         </div>
 
-                        <div class="col-md-4 mb-2 hidden" id="datePDiv">
+                        <div class="col-md-6 mb-2 hidden" id="datePDiv">
                             <label for="date" class="col-form-label">Date:</label>
                             <select class="form-select form-select-md" aria-label=".form-select-md example" name="datep" id="dateSelect" onchange="datepchange(this)">
                                 <option value="" disabled selected></option>
                             </select>
                         </div>
 
-                        <div class="col-md-4 mb-2 hidden" id="timeFromPDiv">
-                            <label for="time_from" class="col-form-label">Time From:</label>
+                        <div class="col-md-6 mb-2 hidden" id="timeFromPDiv">
+                            <label for="time_from" class="col-form-label">Time:</label>
                             <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_fromp" id="time_fromp" onchange="timeToPchange(this)">
                                 <option value="" disabled selected>-:-- --</option>
                             </select>
                         </div>
                         <div class="col-md-4 mb-2 hidden" id="timeToPDiv">
-                            <label for="time_to" class="col-form-label">Time To:</label>
-                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_top" id="time_top" disabled>
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_top" id="time_top" hidden>
                                 <option value="" disabled selected>-:-- --</option>
                             </select>
                         </div>
 
-                        <div class="col-md-4 mb-2 hidden" id="timeFromNDiv">
+                        <div class="col-md-6 mb-2 hidden" id="timeFromNDiv">
                             <label for="time_from" class="col-form-label">Time From:</label>
                             <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_fromn" id="time_fromn">
                                 <option value="" disabled selected>-:-- --</option>
@@ -88,8 +87,7 @@
                             </select>
                         </div>
                         <div class="col-md-4 mb-2 hidden" id="timeToNDiv">
-                            <label for="time_to" class="col-form-label">Time To:</label>
-                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_ton" id="time_ton" disabled>
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_ton" id="time_ton" hidden>
                                 <option value="" disabled selected>-:-- --</option>
                             </select>
                         </div>
@@ -97,7 +95,7 @@
 
                     <div class="mb-2 hidden" id="ccDiv">
                         <label for="chiefcomplaint" class="col-form-label">Chief Complaint:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="chiefcomplaint" id="chiefcomplaint" onchange="enableOther(this)">
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="chiefcomplaint" id="chiefcomplaint" onchange="enableOther(this)" required>
                             <option value="" disabled selected></option>
                         </select>
                     </div>

@@ -20,7 +20,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="designation" class="form-label">Designation:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="designation" id="designation">
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="designation" id="designation" required>
                             <option value="" disabled selected>-Select Designation-</option>
                             <?php
                             include('connection.php');
@@ -39,7 +39,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="sex" class="form-label">Sex:</label>
-                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sex" id="sex">
+                        <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sex" id="sex" required>
                             <option value="" disabled selected>-Select Sex-</option>
                             <?php
                                 if ($data['sex'] == "MALE")
@@ -56,7 +56,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="birthday" class="form-label">Birthday:</label>
-                        <input type="date" class="form-control" name="birthday" id="birthday" value="<?php echo $data['birthday']?>">
+                        <input type="date" class="form-control" name="birthday" id="birthday" value="<?php echo $data['birthday']?>" required>
                     </div>
 
                     <?php 
