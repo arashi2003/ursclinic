@@ -54,8 +54,8 @@ if (isset($_GET['patient']) || isset($_GET['date']) || isset($_GET['physician'])
                            INNER JOIN appointment_purpose p ON p.id=ap.purpose 
                            INNER JOIN appointment_type t ON t.id=p.type 
                            WHERE (ap.status='APPROVED' OR ap.status='COMPLETED') 
-                           AND ac.campus='$campus' AND date >= '$today' ORDER BY ap.status 
-                           DESC, ap.date, ap.time_from, ap.time_to";
+                           AND ac.campus='$campus' AND date = '$today' 
+                           ORDER BY ap.status DESC, ap.date, ap.time_from, ap.time_to";
 }
 
 // Execute the count queries for pending and approved appointments
@@ -800,6 +800,30 @@ if ($approved_pages > 4) {
         </div>
     </section>
 </body>
+
+<script>
+    let arrow = document.querySelectorAll(".arrow");
+    for (var i = 0; i < arrow.length; i++) {
+        arrow[i].addEventListener("click", (e) => {
+            let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
+            arrowParent.classList.toggle("showMenu");
+        });
+    }
+    let sidebar = document.querySelector(".sidebar");
+    let sidebarBtn = document.querySelector(".bx-menu");
+    console.log(sidebarBtn);
+    sidebarBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("close");
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        let tabParam = '<?php echo isset($_GET['tab']) ? $_GET['tab'] : ''; ?>';
+        if (tabParam) {
+            document.querySelector('.nav-tabs a[href="#' + tabParam + '"]').classList.add('active');
+            document.querySelector('.tab-pane#' + tabParam).classList.add('show', 'active');
+        }
+    });
+</script>
 
 <script>
     $(document).ready(function() {

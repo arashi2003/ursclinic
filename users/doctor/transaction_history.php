@@ -6,7 +6,7 @@ include('../../includes/doctor-auth.php');
 
 $module = 'transaction_history';
 $userid = $_SESSION['userid'];
-$fullname=$_SESSION['name'];
+$fullname = $_SESSION['name'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 
@@ -21,10 +21,10 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     $whereClause = ""; // Initialize the WHERE clause
 
     if ($account !== '') {
-        $whereClause .= " AND (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%')";
+        $whereClause .= " (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%')";
     }
     if ($type !== '') {
-        $whereClause .= " AND type = '$type'";
+        $whereClause .= " type = '$type'";
     }
 
     // Initialize the date filter
@@ -50,36 +50,25 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-d", strtotime($dt_to));
         $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
-    }
+    } 
 
     // Construct and execute SQL query for pending appointments count
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE  $whereClause $date ORDER BY datetime DESC";
-
-    $count_result = $conn->query($sql_count);
-
-    // Check if count query was successful
-    if ($count_result) {
-        // Fetch the total number of rows
-        $count_row = $count_result->fetch_assoc();
-        $nr_of_rows = $count_row['total_rows'];
-    } else {
-        // Handle count query error
-        echo "Error: " . $conn->error;
-    }
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE $whereClause $date ORDER BY datetime DESC";
 } else {
     // If no filters are applied, count all rows in the database
     $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history ORDER BY datetime DESC";
-    $count_result = $conn->query($sql_count);
+}
 
-    // Check if count query was successful
-    if ($count_result) {
-        // Fetch the total number of rows
-        $count_row = $count_result->fetch_assoc();
-        $nr_of_rows = $count_row['total_rows'];
-    } else {
-        // Handle count query error
-        echo "Error: " . $conn->error;
-    }
+$count_result = $conn->query($sql_count);
+
+// Check if count query was successful
+if ($count_result) {
+    // Fetch the total number of rows
+    $count_row = $count_result->fetch_assoc();
+    $nr_of_rows = $count_row['total_rows'];
+} else {
+    // Handle count query error
+    echo "Error: " . $conn->error;
 }
 
 // Setting the number of rows to display in a page.
@@ -189,7 +178,7 @@ if ($pages > 4) {
                                         </div>
                                         <div class="col-md-2 mb-2">
                                             <select name="type" class="form-select">
-                                                <option value="">Select Transaction Type</option>
+                                                <option value="" disabled selected>-Select Transaction Type-</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT type FROM transaction_history ORDER BY type";
@@ -301,7 +290,7 @@ if ($pages > 4) {
                                                             <?php
                                                             if ($data['purpose'] == 'Dental' && $data['transaction'] == 'Consultation') { ?>
                                                                 <button type="button" class="btn btn-primary btn-sm" onclick="window.open('reports/reports_treatment_record.php?patientid=<?= $data['patient'] ?>')" target="_blank">Expand</button>
-                                                                <?php } elseif ($data['purpose'] == 'Medical History' || $data['transaction'] == 'Medical History') { ?>
+                                                            <?php } elseif ($data['purpose'] == 'Medical History' || $data['transaction'] == 'Medical History') { ?>
                                                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
                                                             <?php } else { ?>
                                                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
