@@ -30,27 +30,46 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     // Initialize the date filter
     $date = "";
 
-    if ($dt_from == "" and $dt_to == "") {
+    if ($dt_from == "" and $dt_to == "" and $type!="") {
         // No date range provided
         $date = "";
-    } elseif ($dt_to == $dt_from) {
+    } elseif ($dt_to == $dt_from and $type!="") {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime LIKE '$fdate%'";
-    } elseif ($dt_to == "" and $dt_from != "") {
+    } elseif ($dt_to == "" and $dt_from != "" and $type!="") {
         // Only start date provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime >= '$fdate'";
-    } elseif ($dt_from == "" and $dt_to != "") {
+    } elseif ($dt_from == "" and $dt_to != "" and $type!="") {
         // Only end date provided
         $d = date("Y-m-d", strtotime($dt_to));
         $date = " AND datetime <= '$d'";
-    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type!="") {
         // Start and end date range provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-d", strtotime($dt_to));
         $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
     } 
+    
+    elseif ($dt_to == $dt_from && $type == "") {
+        // Same start and end date
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " datetime LIKE '$fdate%'";
+    } elseif ($dt_to == "" and $dt_from != "" && $type == "") {
+        // Only start date provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " datetime >= '$fdate'";
+    } elseif ($dt_from == "" and $dt_to != "" && $type == "") {
+        // Only end date provided
+        $d = date("Y-m-d", strtotime($dt_to));
+        $date = " datetime <= '$d'";
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to && $type == "") {
+        // Start and end date range provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $ldate = date("Y-m-d", strtotime($dt_to));
+        $date = " datetime >= '$fdate' AND datetime <= '$ldate'";
+    }
 
     // Construct and execute SQL query for pending appointments count
     $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE $whereClause $date ORDER BY datetime DESC";
@@ -133,7 +152,7 @@ if ($pages > 4) {
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">MEDICAL HISTORY</span>
+                <span class="dashboard">MEDICAL RECORDS</span>
             </div>
             <div class="right-nav">
                 <div class="profile-details">
@@ -179,7 +198,7 @@ if ($pages > 4) {
                                         <div class="col-md-2 mb-2">
                                             <select name="type" class="form-select">
                                                 <option value="" disabled selected>-Select Transaction Type-</option>
-                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                <option value="" <?= isset($_GET['type']) == true ? ($_GET['type'] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT type FROM transaction_history ORDER BY type";
                                                 $result = mysqli_query($conn, $sql);
