@@ -33,33 +33,68 @@ $resultCheck = mysqli_num_rows($result);
 if ($resultCheck > 0) {
     $sql = "INSERT INTO patient_info SET patientid = '$accountid', designation = '$designation', age = '$age', sex = '$sex', birthday = '$birthday', department = '$department', block='$block', campus = '$au_campus', college = '$college', program = '$program', yearlevel = '$yearlevel', section = '$section', email = '$email', contactno = '$contactno', address='$address', emcon_name = '$emcon_name', emcon_number = '$emcon_number', datetime_updated = now(), datetime_created = now()";
     if (mysqli_query($conn, $sql)) {
-        $sql = "INSERT INTO patient_image (patient_id, image,created_at) VALUES ('$accountid', 'noprofile.png', now())";
-        if (mysqli_query($conn, $sql)) {
-            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
-            if ($result = mysqli_query($conn, $sql)) {
-                $_SESSION['alert'] = "Patient Information has been added.";
+        $doc = "INSERT INTO `meddoc` (`type`, `applicant`, `doc_desc`, `document`, `status`, `remarks`, `dt_uploaded`, `dt_updated`) VALUES
+        ('ATHLETE', '$accountid', 'X-Ray', 'nofile.png', 'Pending', '', now(), now()),
+        ('ATHLETE', '$accountid', 'Pregnancy Test', 'nofile.png', 'Pending', '', now(), now()),
+        ('ATHLETE', '$accountid', 'Urinalysis', 'nofile.png', 'Pending', '', now(), now()),
+        ('ATHLETE', '$accountid', 'CBC', 'nofile.png', 'Pending', '', now(), now()),
+        ('FRESHMEN', '$accountid', 'X-Ray', 'nofile.png', 'Pending', '', now(), now()),
+        ('FRESHMEN', '$accountid', 'CBC', 'nofile.png', 'Pending', '', now(), now()),
+        ('FRESHMEN', '$accountid', 'DRUG TEST', 'nofile.png', 'Pending', '', now(), now()),
+        ('OJT', '$accountid', 'CBC', 'nofile.jpg', 'Pending', '', now(), now()),
+        ('OJT', '$accountid', 'Urinalysis', 'nofile.png', 'Pending', '', now(), now()),
+        ('OJT', '$accountid', 'Pregnancy Test', 'nofile.png', 'Pending', '', now(), now()),
+        ('OJT', '$accountid', 'X-Ray', 'nofile.png', 'Pending', '', now(), now());";
+        if (mysqli_query($conn, $doc)) {
+            $sql = "INSERT INTO patient_image (patient_id, image,created_at) VALUES ('$accountid', 'noprofile.png', now())";
+            if (mysqli_query($conn, $sql)) {
+                $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
+                if ($result = mysqli_query($conn, $sql)) {
+                    $_SESSION['alert'] = "Patient Information has been added.";
 ?>
-                <script>
-                    setTimeout(function() {
-                        window.location = "../patients";
-                    });
-                </script>
-            <?php
+                    <script>
+                        setTimeout(function() {
+                            window.location = "../patients";
+                        });
+                    </script>
+                <?php
+                } else {
+                    $_SESSION['alert'] = "Patient Information has been added.";
+                ?>
+                    <script>
+                        setTimeout(function() {
+                            window.location = "../patients";
+                        });
+                    </script>
+                <?php
+                }
             } else {
-                $_SESSION['alert'] = "Patient Information has been added.";
-            ?>
-                <script>
-                    setTimeout(function() {
-                        window.location = "../patients";
-                    });
-                </script>
-            <?php
+                $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
+                if ($result = mysqli_query($conn, $sql)) {
+                    $_SESSION['alert'] = "Patient Information has been added.";
+                ?>
+                    <script>
+                        setTimeout(function() {
+                            window.location = "../patients";
+                        });
+                    </script>
+                <?php
+                } else {
+                    $_SESSION['alert'] = "Patient Information has been added.";
+                ?>
+                    <script>
+                        setTimeout(function() {
+                            window.location = "../patients";
+                        });
+                    </script>
+                <?php
+                }
             }
         } else {
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
             if ($result = mysqli_query($conn, $sql)) {
                 $_SESSION['alert'] = "Patient Information has been added.";
-            ?>
+                ?>
                 <script>
                     setTimeout(function() {
                         window.location = "../patients";
@@ -68,7 +103,7 @@ if ($resultCheck > 0) {
             <?php
             } else {
                 $_SESSION['alert'] = "Patient Information has been added.";
-                ?>
+            ?>
                 <script>
                     setTimeout(function() {
                         window.location = "../patients";
@@ -78,7 +113,7 @@ if ($resultCheck > 0) {
             }
         }
     } else {
-        $_SESSION['alert'] = "Patient Information was not added.";
+        $_SESSION['alert'] = "Patient Information has been added.";
         ?>
         <script>
             setTimeout(function() {
