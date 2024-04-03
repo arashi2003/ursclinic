@@ -24,7 +24,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'fetch_patient_data' && isse
     } else {
         // Patient not found
         // Return an error message as JSON
-        echo json_encode(array('error' => 'Patient not found'));
+        echo json_encode(array('error' => 'Patient is not registered'));
     }
 
     // Close database connections and resources

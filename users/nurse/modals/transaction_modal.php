@@ -7,7 +7,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
                 </div>
                 <div class="modal-body patients">
-                    <div class="patient_info">
+                    <div class="patient_info" id="patientDiv">
                         <div class="row">
                             <div class="mb-2">
                                 <label for="patientid" class="form-label">Patient ID:</label>
@@ -126,6 +126,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="nextButton" data-bs-toggle="modal" data-bs-target="#addtransaction">Next</button>
                 </div>
@@ -506,7 +507,6 @@
                         var response = JSON.parse(xhr.responseText);
                         console.log(response); // Check response in console
                         if (response.error) {
-                            document.getElementById('patientid').classList.add('is-invalid');
                             document.getElementById('patientid').setCustomValidity(response.error);
                             document.getElementById('patientid').reportValidity();
                         } else {
@@ -750,9 +750,6 @@
                     success: function(data) {
                         // Update program options
                         $("#programSelect").html(data);
-
-                        // Reset year level options
-                        $("#yearlevelSelect").html('<option value="" disabled selected></option>');
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
@@ -761,7 +758,6 @@
             } else {
                 // Reset program and year level options if college_id is empty
                 $("#programSelect").html('<option value="" disabled selected></option>');
-                $("#yearlevelSelect").html('<option value="" disabled selected></option>');
             }
         });
 

@@ -65,7 +65,7 @@
                                 <input type="text" class="form-control" name="designation" value="<?= $designation ?>" id="designation" disabled>
                             </div>
                             <div class="col-md-6 mb-2">
-                                <label for="pys" class="form-label">Program, Year Level and Section:</label>
+                                <label for="pys" class="form-label">Program/Yr. Level/Section:</label>
                                 <input type="text" class="form-control" name="pys" value="<?= $pys ?>" id="pys" disabled>
                             </div>
 
