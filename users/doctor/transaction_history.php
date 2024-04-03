@@ -350,8 +350,10 @@ if ($pages > 4) {
                                                             <?php
                                                             if ($data['purpose'] == 'Dental' && $data['transaction'] == 'Consultation') { ?>
                                                                 <button type="button" class="btn btn-primary btn-sm" onclick="window.open('reports/reports_treatment_record.php?patientid=<?= $data['patient'] ?>')" target="_blank">Expand</button>
-                                                            <?php } elseif ($data['purpose'] == 'Medical History' || $data['transaction'] == 'Medical History') { ?>
+                                                            <?php } elseif ($data['purpose'] == 'Medical History') { ?>
                                                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
+                                                            <?php } elseif ($data['purpose'] == 'Dental Checkup' && $data['transaction'] == 'Medical History') { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" onclick="window.open('reports/reports_dentalform.php?patientid=<?= $data['patient'] ?>')" target="_blank">Expand</button>
                                                             <?php } else { ?>
                                                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">Expand</button>
                                                             <?php }
