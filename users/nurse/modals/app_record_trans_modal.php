@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <div class="default" id="defaultDiv">
                         <input type="text" name="id" value="<?= $data['id']; ?>" hidden>
-                        
+
                         <?php
                         $id = $data['id'];
                         $sql = "SELECT a.id, a.chiefcomplaint, t.type, p.purpose, a.patient FROM appointment a INNER JOIN appointment_purpose p ON p.id=a.purpose INNER JOIN appointment_type t ON t.id=a.type WHERE a.id = '$id'";
@@ -41,7 +41,7 @@
                             $designation = $grr['designation'];
                             $pys = $grr['program'] . " " . $grr['yearlevel'] . "-" . $grr['section'] . $grr['block'];
                         }
-                    
+
                         ?>
                         <div class="col-md-6 mb-2">
                             <label for="id" class="form-label">Appointment ID:</label>
@@ -153,7 +153,7 @@
                                         <input type="number" min="0" class="form-control" name="quantity_med[]">
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="button" class="btn btn-primary" onclick="duplicate_med()">+</button>
+                                        <button type="button" class="btn btn-primary" onclick="duplicate_med(this)">+</button>
                                     </div>
                                 </div>
                             </div>
@@ -179,7 +179,7 @@
                                         <input type="number" min="0" class="form-control" name="quantity_sup[]">
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="button" class="btn btn-primary" onclick="duplicate_sup()">+</button>
+                                        <button type="button" class="btn btn-primary" onclick="duplicate_sup(this)">+</button>
                                     </div>
                                 </div>
                             </div>
@@ -220,10 +220,10 @@
     </div>
 </form>
 <script type="text/javascript">
-    function duplicate_med() {
-        var row = $('.duplicate_med').first().clone();
+    function duplicate_med(btn) {
+        var row = $(btn).closest('.duplicate_med').clone();
         row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_med(this)');
-        $('.duplicate_med').last().after(row);
+        $(btn).closest('.duplicate_med').after(row);
         // Increment the index for each duplicated input
         row.find('input[type="number"]').val(''); // Clear the value of the new input
         row.find('select[name="medicine[]"]').val(''); // Clear the value of the new select
@@ -233,10 +233,10 @@
         $(btn).closest('.duplicate_med').remove();
     };
 
-    function duplicate_sup() {
-        var row = $('.duplicate_sup').first().clone();
+    function duplicate_sup(btn) {
+        var row = $(btn).closest('.duplicate_sup').clone();
         row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_sup(this)');
-        $('.duplicate_sup').last().after(row);
+        $(btn).closest('.duplicate_sup').after(row);
         // Increment the index for each duplicated input
         row.find('input[type="number"]').val(''); // Clear the value of the new input
         row.find('select[name="supply[]"]').val(''); // Clear the value of the new select

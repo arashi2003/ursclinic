@@ -54,32 +54,21 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
 
     // Construct and execute SQL query for pending appointments count
     $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' $whereClause $date ORDER BY datetime DESC";
-
-    $count_result = $conn->query($sql_count);
-
-    // Check if count query was successful
-    if ($count_result) {
-        // Fetch the total number of rows
-        $count_row = $count_result->fetch_assoc();
-        $nr_of_rows = $count_row['total_rows'];
-    } else {
-        // Handle count query error
-        echo "Error: " . $conn->error;
-    }
 } else {
     // If no filters are applied, count all rows in the database
     $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' ORDER BY datetime DESC";
-    $count_result = $conn->query($sql_count);
+}
 
-    // Check if count query was successful
-    if ($count_result) {
-        // Fetch the total number of rows
-        $count_row = $count_result->fetch_assoc();
-        $nr_of_rows = $count_row['total_rows'];
-    } else {
-        // Handle count query error
-        echo "Error: " . $conn->error;
-    }
+$count_result = $conn->query($sql_count);
+
+// Check if count query was successful
+if ($count_result) {
+    // Fetch the total number of rows
+    $count_row = $count_result->fetch_assoc();
+    $nr_of_rows = $count_row['total_rows'];
+} else {
+    // Handle count query error
+    echo "Error: " . $conn->error;
 }
 
 // Setting the number of rows to display in a page.
@@ -207,7 +196,7 @@ if ($pages > 4) {
                                         </div>
                                         <div class="col-md-2 mb-2">
                                             <select name="type" class="form-select">
-                                                <option value="">Select Transaction Type</option>
+                                                <option value="" disabled selected>-Select Transaction Type-</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT type FROM transaction_history WHERE campus='$campus' ORDER BY type";

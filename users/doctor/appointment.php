@@ -144,180 +144,176 @@ if ($approved_pages > 4) {
             include('../../includes/alert.php')
             ?>
             <div class="overview-boxes">
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade <?= isset($_GET['tab']) && $_GET['tab'] == 'approved' ? 'show active' : '' ?>" id="approve" role="tabpanel" aria-labelledby="approve-tab">
-                        <div class="content appointment">
-                            <div class="row">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <form action="appointment" method="get">
-                                            <input type="hidden" name="tab" value="approved">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="input-group mb-2">
-                                                        <input type="text" name="patient" value="<?= isset($_GET['patient']) == true ? $_GET['patient'] : '' ?>" class="form-control" placeholder="Search patient">
-                                                        <button type="submit" class="btn btn-primary">Search</button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2 mb-2">
-                                                    <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
-                                                </div>
-                                                <div class="col mb-2">
-                                                    <button type="submit" class="btn btn-primary">Filter</button>
-                                                    <a href="appointment?tab=approved" class="btn btn-danger">Reset</a>
-                                                </div>
+                <div class="content">
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form action="appointment" method="get">
+                                    <input type="hidden" name="tab" value="approved">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="input-group mb-2">
+                                                <input type="text" name="patient" value="<?= isset($_GET['patient']) == true ? $_GET['patient'] : '' ?>" class="form-control" placeholder="Search patient">
+                                                <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
-                                        </form>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
+                                        </div>
+                                        <div class="col mb-2">
+                                            <button type="submit" class="btn btn-primary">Filter</button>
+                                            <a href="appointment?tab=approved" class="btn btn-danger">Reset</a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead class="head">
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Date</th>
-                                                    <th>Time</th>
-                                                    <th>Type</th>
-                                                    <th>Request</th>
-                                                    <th>Patient</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                if (isset($_GET['patient']) && $_GET['patient'] != '') {
-                                                    $patient = $_GET['patient'];
-                                                    $count = 1;
-                                                    $sql = "SELECT ap.id, ap.date, ap.reason ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND (ap.status='APPROVED' OR ap.status='COMPLETED') AND physician='$fullname' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
-                                                    $result = mysqli_query($conn, $sql);
-                                                } elseif (isset($_GET['date']) && $_GET['date'] != '') {
-                                                    $date = $_GET['date'];
-                                                    $count = 1;
-                                                    $sql = "SELECT ap.id, ap.date, ap.reason, ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE ap.date = '$date' AND physician='$fullname' AND (ap.status='APPROVED' OR ap.status='COMPLETED') ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
-                                                    $result = mysqli_query($conn, $sql);
-                                                } else {
-                                                    $count = 1;
-                                                    $today = date("Y-m-d");
-                                                    $sql = "SELECT ap.id, ap.date, ap.reason, ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE (ap.status='APPROVED' OR ap.status='COMPLETED') AND physician='$fullname' AND date = '$today' ORDER BY ap.status DESC, ap.date, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";
-                                                    $result = mysqli_query($conn, $sql);
-                                                }
-                                                if ($result) {
-                                                    if (mysqli_num_rows($result) > 0) {
-                                                        foreach ($result as $data) {
-                                                            if (count(explode(" ", $data['middlename'])) > 1) {
-                                                                $middle = explode(" ", $data['middlename']);
-                                                                $letter = $middle[0][0] . $middle[1][0];
-                                                                $middleinitial = $letter . ".";
-                                                            } else {
-                                                                $middle = $data['middlename'];
-                                                                if ($middle == "" or $middle == " ") {
-                                                                    $middleinitial = "";
-                                                                } else {
-                                                                    $middleinitial = substr($middle, 0, 1) . ".";
-                                                                }
-                                                            }
-                                                ?>
-                                                            <tr>
-                                                                <td><?php echo $id = $data['id']; ?></td>
-                                                                <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
-                                                                <td><?php echo date("g:i A", strtotime($data['time_from'])) . " - " .  date("g:i A", strtotime($data['time_to'])) ?></td>
-                                                                <td><?php echo $data['type']; ?></td>
-                                                                <td><?php echo $data['purpose']; ?></td>
-                                                                <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])) ?></td>
-                                                                <td>
-                                                                    <?php
-                                                                    if ($data['status'] == 'CANCELLED') {
-                                                                    ?>
-                                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancelled<?php echo $data['id'] ?>">
-                                                                            <?php echo $data['status']; ?>
-                                                                        </button>
-                                                                    <?php
-                                                                    } elseif ($data['status'] == 'APPROVED') { 
-                                                                        if($data['date'] == $today){ ?>
-                                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#recordppointment<?php echo $data['id'] ?>">Record</button>
-                                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?=$id ?>">Cancel</button>
-                                                                    <?php } else{?>
-                                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#recordppointment<?php echo $data['id'] ?>" disabled>Record</button>
-                                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?=$id ?>">Cancel</button>
-                                                                    <?php }
-                                                                    } elseif ($data['status'] == 'COMPLETED') {
-                                                                    ?>
-                                                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#app_completed<?php echo $data['id'] ?>">
-                                                                            <?php echo $data['status']; ?>
-                                                                        </button>
-                                                                    <?php } elseif ($data['status'] == 'DISMISSED') {
-                                                                    ?>
-                                                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_dismissed<?php echo $data['id'] ?>">
-                                                                            <?php echo $data['status']; ?>
-                                                                        </button>
-                                                                    <?php } ?>
-                                                                </td>
-                                                            </tr>
-                                                        <?php
-                                                            if ($data['status'] == 'CANCELLED') {
-                                                                include('modals/app_cancelled_modal.php');
-                                                            } elseif ($data['status'] == 'APPROVED') {
-                                                                if ($data['type'] == "Request for Medicine" || $data['purpose'] == "Request for Medicine" || $data['type'] == "Request for Medical Supply" || $data['purpose'] == "Request for Medical Supply") {
-                                                                    include('modals/app_record_medsup_modal.php');
-                                                                    include('modals/app_cancel_modal.php');
-                                                                } else {
-                                                                    include('modals/app_record_trans_modal.php');
-                                                                    include('modals/app_cancel_modal.php');
-                                                                }
-                                                            } elseif ($data['status'] == 'COMPLETED') {
-                                                                include('modals/app_completed_modal.php');
-                                                            } elseif ($data['status'] == 'DISMISSED') {
-                                                                include('modals/app_dismissed_modal.php');
-                                                            }
-                                                        }
-                                                    } else {
-                                                        ?>
-                                                        <tr>
-                                                            <td colspan="12">
-                                                                <?php
-                                                                include('../../includes/no-data.php');
-                                                                ?>
-                                                            </td>
-                                                        </tr>
-                                                    <?php
-                                                    }
-                                                    ?>
-
-                                                <?php
-                                                }
-                                                mysqli_close($conn);
-                                                ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <?php
-                                    if (mysqli_num_rows($result) > 0) {
-                                    ?>
-                                        <ul class="pagination justify-content-end">
-                                            <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
-                                            </li>
-                                            <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_previous; ?>">&lt;</a>
-                                            </li>
-                                            <?php for ($i = $approved_start_loop; $i <= $approved_end_loop; $i++) : ?>
-                                                <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-                                                    <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
-                                                </li>
-                                            <?php endfor; ?>
-                                            <li class="page-item <?php echo $page == $approved_pages ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_next; ?>">&gt;</a>
-                                            </li>
-                                            <li class="page-item <?php echo $page == $approved_pages ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_pages; ?>">&raquo;</a>
-                                            </li>
-                                        </ul>
-                                    <?php
-                                    }
-                                    ?>
-                                </div>
+                                </form>
                             </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class="head">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Type</th>
+                                            <th>Request</th>
+                                            <th>Patient</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($_GET['patient']) && $_GET['patient'] != '') {
+                                            $patient = $_GET['patient'];
+                                            $count = 1;
+                                            $sql = "SELECT ap.id, ap.date, ap.reason ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND (ap.status='APPROVED' OR ap.status='COMPLETED') AND physician='$fullname' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['date']) && $_GET['date'] != '') {
+                                            $date = $_GET['date'];
+                                            $count = 1;
+                                            $sql = "SELECT ap.id, ap.date, ap.reason, ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE ap.date = '$date' AND physician='$fullname' AND (ap.status='APPROVED' OR ap.status='COMPLETED') ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } else {
+                                            $count = 1;
+                                            $today = date("Y-m-d");
+                                            $sql = "SELECT ap.id, ap.date, ap.reason, ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE (ap.status='APPROVED' OR ap.status='COMPLETED') AND physician='$fullname' AND date = '$today' ORDER BY ap.status DESC, ap.date, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        }
+                                        if ($result) {
+                                            if (mysqli_num_rows($result) > 0) {
+                                                foreach ($result as $data) {
+                                                    if (count(explode(" ", $data['middlename'])) > 1) {
+                                                        $middle = explode(" ", $data['middlename']);
+                                                        $letter = $middle[0][0] . $middle[1][0];
+                                                        $middleinitial = $letter . ".";
+                                                    } else {
+                                                        $middle = $data['middlename'];
+                                                        if ($middle == "" or $middle == " ") {
+                                                            $middleinitial = "";
+                                                        } else {
+                                                            $middleinitial = substr($middle, 0, 1) . ".";
+                                                        }
+                                                    }
+                                        ?>
+                                                    <tr>
+                                                        <td><?php echo $id = $data['id']; ?></td>
+                                                        <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
+                                                        <td><?php echo date("g:i A", strtotime($data['time_from'])) . " - " .  date("g:i A", strtotime($data['time_to'])) ?></td>
+                                                        <td><?php echo $data['type']; ?></td>
+                                                        <td><?php echo $data['purpose']; ?></td>
+                                                        <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])) ?></td>
+                                                        <td>
+                                                            <?php
+                                                            if ($data['status'] == 'CANCELLED') {
+                                                            ?>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancelled<?php echo $data['id'] ?>">
+                                                                    <?php echo $data['status']; ?>
+                                                                </button>
+                                                                <?php
+                                                            } elseif ($data['status'] == 'APPROVED') {
+                                                                if ($data['date'] == $today) { ?>
+                                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#recordppointment<?php echo $data['id'] ?>">Record</button>
+                                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?= $id ?>">Cancel</button>
+                                                                <?php } else { ?>
+                                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#recordppointment<?php echo $data['id'] ?>" disabled>Record</button>
+                                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?= $id ?>">Cancel</button>
+                                                                <?php }
+                                                            } elseif ($data['status'] == 'COMPLETED') {
+                                                                ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#app_completed<?php echo $data['id'] ?>">
+                                                                    <?php echo $data['status']; ?>
+                                                                </button>
+                                                            <?php } elseif ($data['status'] == 'DISMISSED') {
+                                                            ?>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_dismissed<?php echo $data['id'] ?>">
+                                                                    <?php echo $data['status']; ?>
+                                                                </button>
+                                                            <?php } ?>
+                                                        </td>
+                                                    </tr>
+                                                <?php
+                                                    if ($data['status'] == 'CANCELLED') {
+                                                        include('modals/app_cancelled_modal.php');
+                                                    } elseif ($data['status'] == 'APPROVED') {
+                                                        if ($data['type'] == "Request for Medicine" || $data['purpose'] == "Request for Medicine" || $data['type'] == "Request for Medical Supply" || $data['purpose'] == "Request for Medical Supply") {
+                                                            include('modals/app_record_medsup_modal.php');
+                                                            include('modals/app_cancel_modal.php');
+                                                        } else {
+                                                            include('modals/app_record_trans_modal.php');
+                                                            include('modals/app_cancel_modal.php');
+                                                        }
+                                                    } elseif ($data['status'] == 'COMPLETED') {
+                                                        include('modals/app_completed_modal.php');
+                                                    } elseif ($data['status'] == 'DISMISSED') {
+                                                        include('modals/app_dismissed_modal.php');
+                                                    }
+                                                }
+                                            } else {
+                                                ?>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <?php
+                                                        include('../../includes/no-data.php');
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                            <?php
+                                            }
+                                            ?>
+
+                                        <?php
+                                        }
+                                        mysqli_close($conn);
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <?php
+                            if (mysqli_num_rows($result) > 0) {
+                            ?>
+                                <ul class="pagination justify-content-end">
+                                    <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                                    </li>
+                                    <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_previous; ?>">&lt;</a>
+                                    </li>
+                                    <?php for ($i = $approved_start_loop; $i <= $approved_end_loop; $i++) : ?>
+                                        <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                                            <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                                        </li>
+                                    <?php endfor; ?>
+                                    <li class="page-item <?php echo $page == $approved_pages ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_next; ?>">&gt;</a>
+                                    </li>
+                                    <li class="page-item <?php echo $page == $approved_pages ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_pages; ?>">&raquo;</a>
+                                    </li>
+                                </ul>
+                            <?php
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>

@@ -479,7 +479,7 @@
             <li class="<?php if ($module == 'appointment') {
                             echo 'active';
                         } ?>">
-                <a href="appointment?tab=approved">
+                <a href="appointment">
                     <i class='bx bx-calendar'></i>
                     <span class="link_name">Appointment</span>
                 </a>
