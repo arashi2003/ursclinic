@@ -14,8 +14,8 @@ $civil_status = $_POST['civil_status'];
 //logbook info
 $type = "Walk-In";
 $transaction = "Consultation";
-$purpose = "Dental";
-$medcaseid = $_POST['medcase'];
+$purpose = "Dental Consultation";
+$med_case = $purpose;
 $medcase_others = $_POST['medcase_others'];
 $pod_nod = $fullname;
 $dentist = $fullname;
@@ -124,6 +124,7 @@ if ($result = mysqli_query($conn, $sql)) {
     // check if may existing na sa medcase report
     $enddate = date("Y-m-t");
     $medcase_others = $_POST['medcase_others'];
+    $med_case = $purpose;
 
     //kunin medcase as text
     $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
@@ -160,6 +161,7 @@ if ($result = mysqli_query($conn, $sql)) {
         }
         $enddate = date("Y-m-t");
         $medcase_others = $_POST['medcase_others'];
+        $med_case = $purpose;
 
         //kunin medcase as text
         $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
@@ -284,6 +286,7 @@ if ($result = mysqli_query($conn, $sql)) {
         }
         $enddate = date("Y-m-t");
         $medcase_others = $_POST['medcase_others'];
+        $med_case = $purpose;
 
         // check san sya i-add na column sa database
         switch (true) {

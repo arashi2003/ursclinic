@@ -15,8 +15,8 @@ $civil_status = $_POST['civil_status'];
 //logbook info
 $type = "Appointment";
 $transaction = "Consultation";
-$purpose = "Dental";
-$med_case = $_POST['medcase'];
+$purpose = "Dental Consultation";
+$med_case = $purpose;
 $medcase_others = $_POST['medcase_others'];
 $pod_nod = $fullname;
 $dentist = $fullname;
@@ -226,7 +226,7 @@ if ($result = mysqli_query($conn, $sql)) {
             }
         }
         // update if meron
-        $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+        $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate' AND campus='$campus'";
         if ($result = mysqli_query($conn, $sql)) {
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
             if ($result = mysqli_query($conn, $sql)) {
@@ -345,7 +345,7 @@ if ($result = mysqli_query($conn, $sql)) {
                 }
         }
 
-        $sql = "INSERT INTO reports_medcase (campus, type, medcase, sm, sf, st, pm, pf, pt, gm, gf, gt, date) VALUES ('$au_campus', '$medcase_type', '$medcase', '$sm', '$sf', '$st', '$pm', '$pf', '$pt', '$gm', '$gf', '$gt', '$enddate')";
+        $sql = "INSERT INTO reports_medcase (campus, type, medcase, sm, sf, st, pm, pf, pt, gm, gf, gt, date) VALUES ('$campus', '$medcase_type', '$medcase', '$sm', '$sf', '$st', '$pm', '$pf', '$pt', '$gm', '$gf', '$gt', '$enddate')";
         if ($result = mysqli_query($conn, $sql)) {
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
             if ($result = mysqli_query($conn, $sql)) {

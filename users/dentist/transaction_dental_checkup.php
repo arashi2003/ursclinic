@@ -1039,28 +1039,6 @@ $usertype = $_SESSION['usertype'];
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="content">
-                        <!-- responsive pag others pinili lalabas additional na textbox-->
-                        <div class="input-group input-group-md mb-2">
-                            <span class="input-group-text" id="inputGroup-sizing-md">Medical Case:</span>
-                            <select class="form-control" aria-label=".form-select-md example" name="medcase" id="medcase" required>
-                                <option value="" disabled selected></option>
-                                <?php
-                                include('connection.php');
-                                $sql = "SELECT * FROM med_case WHERE (type = 'checkups' AND medcase NOT LIKE '%BP%' AND medcase NOT LIKE '%Medical Certification%') OR medcase LIKE '%Others%' ORDER BY type, medcase";
-                                $result = mysqli_query($conn, $sql);
-                                while ($row = mysqli_fetch_array($result)) { ?>
-                                    <option value="<?= $row['id']; ?>"><?= $row['medcase']; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="input-group input-group-md mb-2">
-                            <span class="input-group-text" id="inputGroup-sizing-md">Others:</span>
-                            <input type="text" class="form-control" name="medcase_others" id="medcase_others">
-                        </div>
-
                         <div class="modal-footer">
                             <input type="text" class="form-control" name="type" value="Walk-In" id="type" hidden>
                             <input type="text" class="form-control" name="transaction" value="Checkup" hidden>

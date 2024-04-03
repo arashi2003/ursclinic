@@ -15,8 +15,8 @@ $civil_status = $_POST['civil_status'];
 $type = "Walk-In";
 $transaction = "Medical History";
 $purpose = "Dental Checkup";
-$medcaseid = $_POST['medcase'];
-$medcase_others = $_POST['medcase_others'];
+$med_case = "Others:";
+$medcase_others = "";
 $pod_nod = $fullname;
 $dentist = $fullname;
 $enddate = date("Y-m-t");
@@ -55,18 +55,18 @@ $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
     while ($data = mysqli_fetch_array($result)) {
         if ($data['medcase'] != 'Others:') {
-            $medcase =  $data['medcase'];
+            $medcase =  "Dental Checkup";
             $medcase_type = $data['type'];
             $medcase_others = $purpose;
         } else {
             $medcase_type = "others";
-            $medcase_others = $med_case;
+            $medcase_others = "";
             $medcase = $purpose;
         }
     }
 } else {
     $medcase_type = "others";
-    $medcase_others = $med_case;
+    $medcase_others = "";
     $medcase = $purpose;
 }
 
@@ -76,7 +76,7 @@ $doe = date("Y-m-d");
 $alb = floor((time() - strtotime($birthday)) / 31556926); // ung number is total seconds in a year
 
 // add record to transaction_history
-$sql = "INSERT transaction_history (patient, firstname, middlename, lastname, designation, sex, birthday, department, college, program, yearlevel, section, block, type, transaction, purpose, pod_nod, medcase, medcase_others, campus, datetime) VALUES ('$patientid', '$firstname', '$middlename', '$lastname',' $designation', '$age', '$sex', '$birthday', '$department', '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction', '$purpose', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";
+$sql = "INSERT transaction_history (patient, firstname, middlename, lastname, designation, age, sex, birthday, department, college, program, yearlevel, section, block, type, transaction, purpose, pod_nod, medcase, medcase_others, campus, datetime) VALUES ('$patientid', '$firstname', '$middlename', '$lastname',' $designation', '$age', '$sex', '$birthday', '$department', '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction', '$purpose', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";
 if ($result = mysqli_query($conn, $sql)) {
     // check if may existing record na sa dental record
     $sql = "SELECT patientid FROM dental_record_2 WHERE patientid='$patientid' AND ((year_1 = '' OR year_1 IS NULL) OR (year_2 = '' OR year_2 IS NULL) OR (year_3 = '' OR year_3 IS NULL) OR (year_4 = '' OR year_4 IS NULL) OR (year_5 = '' OR year_5 IS NULL))";
@@ -93,8 +93,8 @@ if ($result = mysqli_query($conn, $sql)) {
         $type = "Walk-In";
         $transaction = "Medical History";
         $purpose = "Dental Checkup";
-        $medcaseid = $_POST['medcase'];
-        $medcase_others = $_POST['medcase_others'];
+        $med_case = "Others:";
+        $medcase_others = "";
         $pod_nod = $fullname;
         $dentist = $fullname;
         $enddate = date("Y-m-t");
@@ -295,7 +295,8 @@ if ($result = mysqli_query($conn, $sql)) {
             if ($result = mysqli_query($conn, $sql)) {
                 // check if may existing na sa medcase report
                 $enddate = date("Y-m-t");
-                $medcase_others = $_POST['medcase_others'];
+                $med_case = "Others:";
+                $medcase_others = "";
 
                 //kunin medcase as text
                 $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
@@ -308,13 +309,13 @@ if ($result = mysqli_query($conn, $sql)) {
                             $medcase_others = $purpose;
                         } else {
                             $medcase_type = "others";
-                            $medcase_others = $med_case;
+                            $medcase_others = "";
                             $medcase = $purpose;
                         }
                     }
                 } else {
                     $medcase_type = "others";
-                    $medcase_others = $med_case;
+                    $medcase_others = "";
                     $medcase = $purpose;
                 }
                 $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
@@ -329,7 +330,8 @@ if ($result = mysqli_query($conn, $sql)) {
                         $sex = $data['sex'];
                     }
                     $enddate = date("Y-m-t");
-                    $medcase_others = $_POST['medcase_others'];
+                    $med_case = "Others:";
+                    $medcase_others = "";
 
                     //kunin medcase as text
                     $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
@@ -342,13 +344,13 @@ if ($result = mysqli_query($conn, $sql)) {
                                 $medcase_others = $purpose;
                             } else {
                                 $medcase_type = "others";
-                                $medcase_others = $med_case;
+                                $medcase_others = "";
                                 $medcase = $purpose;
                             }
                         }
                     } else {
                         $medcase_type = "others";
-                        $medcase_others = $med_case;
+                        $medcase_others = "";
                         $medcase = $purpose;
                     }
 
@@ -411,7 +413,7 @@ if ($result = mysqli_query($conn, $sql)) {
                         }
                     }
                     // update if meron
-                    $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+                    $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND campus='$campus' AND date='$enddate'";
                     if ($result = mysqli_query($conn, $sql)) {
                         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
                         if ($result = mysqli_query($conn, $sql)) {
@@ -453,7 +455,8 @@ if ($result = mysqli_query($conn, $sql)) {
                         $sex = $data['sex'];
                     }
                     $enddate = date("Y-m-t");
-                    $medcase_others = $_POST['medcase_others'];
+                    $med_case = "Others:";
+                    $medcase_others = "";
                     // check san sya i-add na column sa database
                     switch (true) {
                         case ($designation == "STUDENT" and $sex == "MALE"): {
@@ -519,17 +522,17 @@ if ($result = mysqli_query($conn, $sql)) {
                                 $medcase_others = $purpose;
                             } else {
                                 $medcase_type = "others";
-                                $medcase_others = $med_case;
+                                $medcase_others = "";
                                 $medcase = $purpose;
                             }
                         }
                     } else {
                         $medcase_type = "others";
-                        $medcase_others = $med_case;
+                        $medcase_others = "";
                         $medcase = $purpose;
                     }
 
-                    $sql = "INSERT INTO reports_medcase (campus, type, medcase, sm, sf, st, pm, pf, pt, gm, gf, gt, date) VALUES ('$au_campus', '$medcase_type', '$medcase', '$sm', '$sf', '$st', '$pm', '$pf', '$pt', '$gm', '$gf', '$gt', '$enddate')";
+                    $sql = "INSERT INTO reports_medcase (campus, type, medcase, sm, sf, st, pm, pf, pt, gm, gf, gt, date) VALUES ('$campus', '$medcase_type', '$medcase', '$sm', '$sf', '$st', '$pm', '$pf', '$pt', '$gm', '$gf', '$gt', '$enddate')";
                     if ($result = mysqli_query($conn, $sql)) {
                         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
                         if ($result = mysqli_query($conn, $sql)) {
@@ -592,8 +595,8 @@ if ($result = mysqli_query($conn, $sql)) {
         $type = "Walk-In";
         $transaction = "Medical History";
         $purpose = "Dental Checkup";
-        $medcaseid = $_POST['medcase'];
-        $medcase_others = $_POST['medcase_others'];
+        $med_case = "Others:";
+        $medcase_others = "";
         $pod_nod = $fullname;
         $dentist = $fullname;
         $enddate = date("Y-m-t");
@@ -763,7 +766,8 @@ if ($result = mysqli_query($conn, $sql)) {
             if ($result = mysqli_query($conn, $sql)) {
                 // check if may existing na sa medcase report
                 $enddate = date("Y-m-t");
-                $medcase_others = $_POST['medcase_others'];
+                echo $med_case = "Others:";
+                $medcase_others = "";
 
                 //kunin medcase as text
                 $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
@@ -776,13 +780,13 @@ if ($result = mysqli_query($conn, $sql)) {
                             $medcase_others = $purpose;
                         } else {
                             $medcase_type = "others";
-                            $medcase_others = $med_case;
+                            $medcase_others = "";
                             $medcase = $purpose;
                         }
                     }
                 } else {
                     $medcase_type = "others";
-                    $medcase_others = $med_case;
+                    $medcase_others = "";
                     $medcase = $purpose;
                 }
 
@@ -799,7 +803,8 @@ if ($result = mysqli_query($conn, $sql)) {
                         $sex = $data['sex'];
                     }
                     $enddate = date("Y-m-t");
-                    $medcase_others = $_POST['medcase_others'];
+                    $med_case = "Others:";
+                    $medcase_others = "";
 
                     //kunin medcase as text
                     $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
@@ -812,13 +817,13 @@ if ($result = mysqli_query($conn, $sql)) {
                                 $medcase_others = $purpose;
                             } else {
                                 $medcase_type = "others";
-                                $medcase_others = $med_case;
+                                $medcase_others = "";
                                 $medcase = $purpose;
                             }
                         }
                     } else {
                         $medcase_type = "others";
-                        $medcase_others = $med_case;
+                        $medcase_others = "";
                         $medcase = $purpose;
                     }
                     $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
@@ -880,10 +885,11 @@ if ($result = mysqli_query($conn, $sql)) {
                         }
                     }
                     // update if meron
-                    $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+                    $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND campus ='$campus' AND date='$enddate'";
                     if ($result = mysqli_query($conn, $sql)) {
                         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
                         if ($result = mysqli_query($conn, $sql)) {
+                            $_SESSION['alert'] = "Checkup has been recorded.";
             ?>
                             <script>
                                 setTimeout(function() {
@@ -891,8 +897,8 @@ if ($result = mysqli_query($conn, $sql)) {
                                 });
                             </script>
                         <?php
-                            // Dental Health Record was recorded
                         } else {
+                            $_SESSION['alert'] = "Checkup has been recorded.";
                         ?>
                             <script>
                                 setTimeout(function() {
@@ -900,9 +906,9 @@ if ($result = mysqli_query($conn, $sql)) {
                                 });
                             </script>
                         <?php
-                            // Dental Health Record was recorded
                         }
                     } else {
+                        $_SESSION['alert'] = "Checkup has been recorded.";
                         ?>
                         <script>
                             setTimeout(function() {
@@ -910,7 +916,6 @@ if ($result = mysqli_query($conn, $sql)) {
                             });
                         </script>
                         <?php
-                        // Dental Health Record was recorded
                     }
                 } else {
                     // add pag wala
@@ -922,7 +927,8 @@ if ($result = mysqli_query($conn, $sql)) {
                         $sex = $data['sex'];
                     }
                     $enddate = date("Y-m-t");
-                    $medcase_others = $_POST['medcase_others'];
+                    $med_case = "Others:";
+                    $medcase_others = "";
 
                     // check san sya i-add na column sa database
                     switch (true) {
@@ -989,20 +995,21 @@ if ($result = mysqli_query($conn, $sql)) {
                                 $medcase_others = $purpose;
                             } else {
                                 $medcase_type = "others";
-                                $medcase_others = $med_case;
+                                $medcase_others = "";
                                 $medcase = $purpose;
                             }
                         }
                     } else {
                         $medcase_type = "others";
-                        $medcase_others = $med_case;
+                        $medcase_others = "";
                         $medcase = $purpose;
                     }
 
-                    $sql = "INSERT INTO reports_medcase (campus, type, medcase, sm, sf, st, pm, pf, pt, gm, gf, gt, date) VALUES ('$au_campus', '$medcase_type', '$medcase', '$sm', '$sf', '$st', '$pm', '$pf', '$pt', '$gm', '$gf', '$gt', '$enddate')";
+                    $sql = "INSERT INTO reports_medcase (campus, type, medcase, sm, sf, st, pm, pf, pt, gm, gf, gt, date) VALUES ('$campus', '$medcase_type', '$medcase', '$sm', '$sf', '$st', '$pm', '$pf', '$pt', '$gm', '$gf', '$gt', '$enddate')";
                     if ($result = mysqli_query($conn, $sql)) {
                         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
                         if ($result = mysqli_query($conn, $sql)) {
+                            
                             $_SESSION['alert'] = "Checkup has been recorded.";
                         ?>
                             <script>

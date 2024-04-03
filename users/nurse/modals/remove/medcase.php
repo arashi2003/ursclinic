@@ -14,7 +14,7 @@
         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
         if($result = mysqli_query($conn, $sql))
         {
-            $_SESSION['alert'] = "Mediccal Case has been removed.";
+            $_SESSION['alert'] = "Medical Case has been removed.";
             ?>
             <script>
                 setTimeout(function() {
@@ -25,7 +25,7 @@
         }
         else
         {
-            $_SESSION['alert'] = "Mediccal Case has been removed.";
+            $_SESSION['alert'] = "Medical Case has been removed.";
             ?>
             <script>
                 setTimeout(function() {
@@ -37,7 +37,7 @@
     }
     else
     {
-        $_SESSION['alert'] = "Mediccal Case was not removed.";
+        $_SESSION['alert'] = "Medical Case was not removed.";
     ?>
 <script>
     setTimeout(function() {
