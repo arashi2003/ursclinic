@@ -18,7 +18,11 @@ $firstname = strtoupper($_POST['firstname']);
 $middlename = strtoupper($_POST['middlename']);
 $lastname = strtoupper($_POST['lastname']);
 $designation = strtoupper($_POST['designation']);
+if(!empty($_POST['birthday'])){
 $age = floor((time() - strtotime($_POST['birthday'])) / 31556926);
+}else{
+    $age = "";
+}
 $sex = strtoupper($_POST['sex']);
 $birthday = date("Y-m-d", strtotime($_POST['birthday']));
 $department = $_POST['department'];

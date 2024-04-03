@@ -41,7 +41,7 @@
                             </div>
                             <div class="col-md-6 mb-2">
                                 <label for="designation" class="form-label">Designation:</label>
-                                <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="designation" id="designation" onchange="enableDesignation(this)">
+                                <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="designation" id="designation" onchange="enableDesignation(this)" required>
                                     <option value="" disabled selected></option>
                                     <?php
                                     include('connection.php');

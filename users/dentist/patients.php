@@ -189,10 +189,9 @@ if ($pages > 4) {
                                     <thead class="head">
                                         <tr>
                                             <th>Patient ID</th>
+                                            <th>Patient</th>
                                             <th>Designation</th>
                                             <th>Department</th>
-                                            <th>College</th>
-                                            <th>Patient Name</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -244,10 +243,9 @@ if ($pages > 4) {
                                         ?>
                                                     <tr>
                                                         <td><?php echo $data['patientid']; ?></td>
+                                                        <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname'])); ?></td>
                                                         <td><?php echo $data['designation']; ?></td>
                                                         <td><?php echo $dep; ?></td>
-                                                        <td><?php echo $college; ?></td>
-                                                        <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($data['lastname'])); ?></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href = 'view_patient?patientid=<?php echo $data['patientid'] ?>'">View</button>
                                                             <?php $count++; ?>

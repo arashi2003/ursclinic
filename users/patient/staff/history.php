@@ -194,7 +194,7 @@ if ($pages > 4) {
         </nav>
         <div class="home-content">
             <?php
-            include('../../includes/alert.php');
+            include('../../../includes/alert.php');
             ?>
             <div class="overview-boxes">
                 <div class="content">
