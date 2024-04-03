@@ -109,6 +109,7 @@ include('../../includes/pagination-limit.php');
                                     <div class="col-md-4 mb-2">
                                         <div class="input-group input-group-md mb-2">
                                             <span class="input-group-text" id="inputGroup-sizing-md">Appointment ID:</span>
+                                            <input type="text" class="form-control" value="<?= $id ?>" name="id" id="id" hidden>
                                             <input type="text" class="form-control" value="<?= $id ?>" name="id" id="id" disabled>
                                         </div>
                                     </div>

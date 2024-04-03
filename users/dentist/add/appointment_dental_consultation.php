@@ -8,6 +8,7 @@ $activity = "added a Appointment Record for " . $_POST['patientid'];
 $au_status = "unread";
 
 //patient info
+$id = $_POST['id'];
 $patientid = $_POST['patientid'];
 $civil_status = $_POST['civil_status'];
 
