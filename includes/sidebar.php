@@ -94,7 +94,7 @@
                     <li><a class="link_name" href="#">Reports</a></li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'app' or $module == 'apptype_set' or $module == 'apppurpose_set' or $module == 'appcc_set' or $module == 'appphysician_set' or $module == 'medrec' or $module == 'chiefcomplaint' or $module == 'findings' or $module == 'medcase' or $module == 'designation' or $module == 'inv' or $module == 'medadmin_set' or $module == 'dform_set' or $module == 'umeasure_set') {
+            <li class="<?php if ($module == 'app' or $module == 'apptype_set' or $module == 'apppurpose_set' or $module == 'transaction_set' or $module == 'appcc_set' or $module == 'appphysician_set' or $module == 'medrec' or $module == 'chiefcomplaint' or $module == 'findings' or $module == 'medcase' or $module == 'designation' or $module == 'inv' or $module == 'medadmin_set' or $module == 'dform_set' or $module == 'umeasure_set') {
                             echo 'active showMenu';
                         } ?>">
                 <div class="icon-link">
@@ -111,7 +111,7 @@
                                     } ?>" href="apptype_set">Appointment</a>
                     </li>
                     <li>
-                        <a class="<?php if ($module == 'medrec' or $module == 'chiefcomplaint' or $module == 'findings' or $module == 'medcase' or $module == 'designation') {
+                        <a class="<?php if ($module == 'medrec' or $module == 'chiefcomplaint' or $module == 'transaction_set' or $module == 'findings' or $module == 'medcase' or $module == 'designation') {
                                         echo 'active';
                                     } ?>" href="chiefcomplaint">Medical Records</a>
                     </li>

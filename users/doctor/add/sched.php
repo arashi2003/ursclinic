@@ -31,7 +31,7 @@ if ($resultCheck > 0) {
     if ($result = mysqli_query($conn, $query)) {
         $query = "INSERT INTO audit_trail (user, campus, fullname, activity, status, datetime) VALUES ('$userid', '$au_campus', '$fullname', '$activity', '$au_status', now())";
         if ($result = mysqli_query($conn, $query)) {
-            $_SESSION['alert'] = "Walk-In Schedule has added.";
+            $_SESSION['alert'] = "Walk-In Schedule has been added.";
     ?>
             <script>
                 setTimeout(function() {
@@ -40,7 +40,7 @@ if ($resultCheck > 0) {
             </script>
         <?php
         } else {
-            $_SESSION['alert'] = "Walk-In Schedule has added.";
+            $_SESSION['alert'] = "Walk-In Schedule has been added.";
         ?>
             <script>
                 setTimeout(function() {

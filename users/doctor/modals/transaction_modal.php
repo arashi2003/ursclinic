@@ -6,6 +6,20 @@
                     <h1 class="modal-title fs-5" id="addpatient">Add Patient</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
                 </div>
+                <?php
+                include('connection.php');
+                $physician = $_SESSION['userid'];
+                $rn = date("Y-m-d");
+                $bedoo = "SELECT campus FROM schedule WHERE physician = '$userid' AND date = '$rn'";
+                $result = mysqli_query($conn, $bedoo);
+                if(mysqli_num_rows($result) > 0){
+                    while($fr=mysqli_fetch_array($result)){
+                        $campus = $fr['campus'];
+                    }
+                }else{
+                    $campus = "MORONG";
+                }
+                ?>
                 <div class="modal-body patients">
                     <div class="patient_info">
                         <div class="row">

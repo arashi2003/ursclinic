@@ -162,6 +162,9 @@ if ($pages > 4) {
                             <li class="nav-item">
                                 <a class="nav-link" href="designation">Designation</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="transaction_set">Transaction/Service</a>
+                            </li>
                         </ul>
                     </div>
                     <div>
