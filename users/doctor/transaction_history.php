@@ -30,41 +30,82 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     // Initialize the date filter
     $date = "";
 
-    if ($dt_from == "" and $dt_to == "" and $type!="") {
+    if ($dt_from == "" and $dt_to == "" and $type!="" and $account != "") {
         // No date range provided
         $date = "";
-    } elseif ($dt_to == $dt_from and $type!="") {
+    } elseif ($dt_to == $dt_from and $type!="" and $account != "") {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime LIKE '$fdate%'";
-    } elseif ($dt_to == "" and $dt_from != "" and $type!="") {
+    } elseif ($dt_to == "" and $dt_from != "" and $type!="" and $account != "") {
         // Only start date provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime >= '$fdate'";
-    } elseif ($dt_from == "" and $dt_to != "" and $type!="") {
+    } elseif ($dt_from == "" and $dt_to != "" and $type!="" and $account != "") {
         // Only end date provided
         $d = date("Y-m-d", strtotime($dt_to));
         $date = " AND datetime <= '$d'";
-    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type!="") {
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type!="" and $account != "") {
+        // Start and end date range provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $ldate = date("Y-m-d", strtotime($dt_to));
+        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+    } 
+
+    if ($dt_from == "" and $dt_to == "" and $type!="" and $account == "") {
+        // No date range provided
+        $date = "";
+    } elseif ($dt_to == $dt_from and $type!="" and $account == "") {
+        // Same start and end date
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " AND datetime LIKE '$fdate%'";
+    } elseif ($dt_to == "" and $dt_from != "" and $type!="" and $account == "") {
+        // Only start date provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " AND datetime >= '$fdate'";
+    } elseif ($dt_from == "" and $dt_to != "" and $type!="" and $account == "") {
+        // Only end date provided
+        $d = date("Y-m-d", strtotime($dt_to));
+        $date = " AND datetime <= '$d'";
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type!="" and $account == "") {
         // Start and end date range provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-d", strtotime($dt_to));
         $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
     } 
     
-    elseif ($dt_to == $dt_from && $type == "") {
+    elseif ($dt_to == $dt_from && $type == "" && $account == "") {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " datetime LIKE '$fdate%'";
-    } elseif ($dt_to == "" and $dt_from != "" && $type == "") {
+    } elseif ($dt_to == "" and $dt_from != "" && $type == "" && $account == "") {
         // Only start date provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " datetime >= '$fdate'";
-    } elseif ($dt_from == "" and $dt_to != "" && $type == "") {
+    } elseif ($dt_from == "" and $dt_to != "" && $type == "" && $account == "") {
         // Only end date provided
         $d = date("Y-m-d", strtotime($dt_to));
         $date = " datetime <= '$d'";
-    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to && $type == "") {
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to && $type == "" && $account == "") {
+        // Start and end date range provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $ldate = date("Y-m-d", strtotime($dt_to));
+        $date = " datetime >= '$fdate' AND datetime <= '$ldate'";
+    }
+
+    elseif ($dt_to == $dt_from && $type == "" && $account != "") {
+        // Same start and end date
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " datetime LIKE '$fdate%'";
+    } elseif ($dt_to == "" and $dt_from != "" && $type == "" && $account != "") {
+        // Only start date provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " datetime >= '$fdate'";
+    } elseif ($dt_from == "" and $dt_to != "" && $type == "" && $account != "") {
+        // Only end date provided
+        $d = date("Y-m-d", strtotime($dt_to));
+        $date = " datetime <= '$d'";
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to && $type == "" && $account != "") {
         // Start and end date range provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-d", strtotime($dt_to));

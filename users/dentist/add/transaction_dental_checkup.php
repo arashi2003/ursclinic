@@ -766,7 +766,7 @@ if ($result = mysqli_query($conn, $sql)) {
             if ($result = mysqli_query($conn, $sql)) {
                 // check if may existing na sa medcase report
                 $enddate = date("Y-m-t");
-                echo $med_case = "Others:";
+                $med_case = "Others:";
                 $medcase_others = "";
 
                 //kunin medcase as text
