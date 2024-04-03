@@ -11,7 +11,7 @@ $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 
 // Check if the month filter is set
-if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to']) || isset($_GET['physician'])) {
+if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to']) || isset($_GET['type'])) {
     // Validate and sanitize input
     $account = isset($_GET['account']) ? $_GET['account'] : '';
     $type = isset($_GET['type']) ? $_GET['type'] : '';
@@ -96,20 +96,20 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     elseif ($dt_to == $dt_from && $type == "" && $account != "") {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
-        $date = " datetime LIKE '$fdate%'";
+        $date = " AND datetime LIKE '$fdate%'";
     } elseif ($dt_to == "" and $dt_from != "" && $type == "" && $account != "") {
         // Only start date provided
         $fdate = date("Y-m-d", strtotime($dt_from));
-        $date = " datetime >= '$fdate'";
+        $date = " AND datetime >= '$fdate'";
     } elseif ($dt_from == "" and $dt_to != "" && $type == "" && $account != "") {
         // Only end date provided
         $d = date("Y-m-d", strtotime($dt_to));
-        $date = " datetime <= '$d'";
+        $date = " AND datetime <= '$d'";
     } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to && $type == "" && $account != "") {
         // Start and end date range provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-d", strtotime($dt_to));
-        $date = " datetime >= '$fdate' AND datetime <= '$ldate'";
+        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
     }
 
     // Construct and execute SQL query for pending appointments count
@@ -277,14 +277,14 @@ if ($pages > 4) {
                                     <tbody>
                                         <?php
                                         if (isset($_GET['account']) && $_GET['account'] != '') {
-                                            $account = $_GET['account'];
+                                            $account = isset($_GET['account']) ? $_GET['account'] : '';
                                             $count = 1;
                                             $sql = "SELECT * FROM transaction_history WHERE (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['type']) && $_GET['type'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
-                                            $type = $_GET['type'];
-                                            $dt_from = $_GET['date_from'];
-                                            $dt_to = $_GET['date_to'];
+                                            $type = isset($_GET['type']) ? $_GET['type'] : '';
+                                            $dt_from = isset($_GET['date_from']) ? $_GET['date_from'] : '';
+                                            $dt_to = isset($_GET['date_to']) ? $_GET['date_to'] : '';
                                             $count = 1;
 
                                             //date filter
