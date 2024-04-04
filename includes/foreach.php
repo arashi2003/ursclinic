@@ -55,8 +55,11 @@ if ($resultCheck > 0) {
                 $bqty = $data['eqty'];
                 $buc = $data['eamt'] / $data['eqty'];
                 $admin = $data['admin'];
+                $eqty = $data['eqty'];
+                $eamt = $data['eamt'];
 
-                $sql = "INSERT INTO report_medsupinv SET campus = '$campus', type = 'medicine', admin = '$admin', medid = '$medid', medicine = '$medicine', bqty = '$bqty', buc = '$buc', eqty = '$eqty', eamt = '$eamt', date = '$tmonth'";
+                $sql = "INSERT INTO report_medsupinv SET campus = '$campus', type = 'medicine', admin = '$admin', medid = '$medid', 
+                medicine = '$medicine', bqty = '$bqty', buc = '$buc', eqty = '$eqty', eamt = '$eamt', date = '$tmonth'";
                 mysqli_query($conn, $sql);
             }
         }

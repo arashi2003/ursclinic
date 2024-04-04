@@ -211,7 +211,7 @@ if ($pages > 4) {
                                     <div class="row">
                                         <div class="col-md-2 mb-2">
                                             <select name="physician" class="form-select">
-                                                <option value="" selected disabled>-Select Physician-</option>
+                                                <option value="" selected>-Select Physician-</option>\
                                                 <?php
                                                 $sql = "SELECT DISTINCT physician FROM appointment ORDER BY physician";
                                                 if ($result = mysqli_query($conn, $sql)) {

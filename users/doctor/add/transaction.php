@@ -2,7 +2,6 @@
 session_start();
 include('../connection.php');
 $user = $_SESSION['userid'];
-$campus = $_SESSION['campus'];
 $fullname = strtoupper($_SESSION['name']);
 $au_status = "unread";
 
@@ -21,12 +20,30 @@ $designation = strtoupper($_POST['designation']);
 $age = floor((time() - strtotime($_POST['birthday'])) / 31556926);
 $sex = strtoupper($_POST['sex']);
 $birthday = date("Y-m-d", strtotime($_POST['birthday']));
-$department = $_POST['department'];
-$college = $_POST['college'];
-$program = $_POST['program'];
-$yearlevel = $_POST['yearlevel'];
-$section = $_POST['section'];
-$block = strtoupper($_POST['block']);
+if ($designation != 'STUDENT') {
+    $department = "";
+    $college = "";
+    $program = "";
+    $yearlevel = "";
+    $section = "";
+    $block = "";
+} else {
+    $department = $_POST['department'];
+    $college = $_POST['college'];
+    $program = $_POST['program'];
+    $yearlevel = $_POST['yearlevel'];
+    $section = $_POST['section'];
+    $block = $_POST['block'];
+}
+$chu = "SELECT campus FROM patient_info WHERE patientid='$patientid'";
+$result = mysqli_query($conn, $chu);
+if (mysqli_num_rows($result) > 0) {
+    while ($data = mysqli_fetch_array($result)) {
+        $campus = $data['campus'];
+    }
+} else {
+    $campus = $_SESSION['campus'];
+}
 
 // Logbook info
 $bp = $_POST['bp'];
@@ -331,7 +348,7 @@ if (mysqli_num_rows($result) > 0) {
         }
     }
     // update if meron
-    $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+    $sql = "UPDATE reports_medcase SET sm='$sm', sf='$sf', st='$st', pm='$pm', pf='$pf', pt='$pt', gm='$gm', gf='$gf', gt='$gt' WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate' AND campus='$campus'";
     $result = mysqli_query($conn, $sql);
 } else {
     // add pag wala

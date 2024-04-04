@@ -91,6 +91,7 @@ include('../../includes/pagination-limit.php');
                                             <th>Campus</th>
                                             <th>Patient</th>
                                             <th>Designation</th>
+                                            <th>Transaction</th>
                                             <th>Date</th>
                                             <th>Action</th>
                                         </tr>
@@ -129,11 +130,11 @@ include('../../includes/pagination-limit.php');
                                                 $date = "WHERE datetime >= '$datetime' datetime date <= '$ldate'";
                                             }
 
-                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient $date AND (transaction = 'Consultation' AND purpose = 'Dental') GROUP BY patient ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient $date AND ((transaction = 'Consultation' AND purpose = 'Dental') OR (transaction = 'Medical History' AND purpose = 'Dental Checkup')) ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient WHERE transaction = 'Consultation' AND purpose = 'Dental' GROUP BY patient ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient WHERE ((transaction = 'Consultation' AND purpose = 'Dental') OR (transaction = 'Medical History' AND purpose = 'Dental Checkup')) ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -154,19 +155,26 @@ include('../../includes/pagination-limit.php');
                                                     $patientid = $data['patient'];
                                                     $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
 
-                                                    $sql = "SELECT date FROM treatment_record WHERE patientid='$patientid'";
+                                                   /* $sql = "SELECT date FROM treatment_record WHERE patientid='$patientid'";
                                                     $result = mysqli_query($conn, $sql);
                                                     foreach ($result as $row) {
                                                         $datelatest = $row['date'];
-                                                    }
+                                                    }*/
                                         ?>
                                                     <tr>
                                                         <td><?= $data['campus'] ?></td>
                                                         <td><?= $fullname ?></td>
                                                         <td><?= $data['designation'] ?></td>
-                                                        <td><?= date("F d, Y", strtotime($datelatest)) ?></td>
+                                                        <td><?= $data['transaction'] ?></td>
+                                                        <td><?= date("F d, Y", strtotime($data['datetime'])) ?></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary btn-sm" onclick="window.open('reports/reports_treatment_record.php?patientid=<?= $patientid ?>')" target="_blank">View</button>
+                                                            <?php
+                                                            if ($data['transaction'] == 'Consultation') {
+                                                            ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" onclick="window.open('reports/reports_treatment_record.php?patientid=<?= $patientid ?>')" target="_blank">View</button>
+                                                            <?php } elseif ($data['transaction'] == 'Medical History') { ?>
+                                                                <button type="button" class="btn btn-primary btn-sm" onclick="window.open('reports/reports_dentalform.php?patientid=<?= $patientid ?>')" target="_blank">View</button>
+                                                            <?php } ?>
                                                         </td>
                                                     </tr>
                                                 <?php

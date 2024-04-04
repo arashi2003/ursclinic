@@ -73,7 +73,7 @@
     $pdf->SetAutoPageBreak(true, 15);
     $pdf->SetFont('Arial', '', 8);
 
-    $patientid = $_REQUEST['id'];
+    $patientid = $_REQUEST['patientid'];
     
    
     $sql = "SELECT * FROM dental_record_1 INNER JOIN dental_record_2 ON dental_record_2.patientid=dental_record_1.patientid WHERE dental_record_1.patientid='$patientid' AND dental_record_2.patientid='$patientid' LIMIT 1";
@@ -421,11 +421,33 @@
         $pdf->Cell(17.8, 5, '', 0);
         $pdf->Cell(77.2, 5, 'Year', 1, 0);
         $pdf->SetFont('Arial', '', 7);
+
+        if(!empty($data['year_2'])){
+            $year2 = date("Y", strtotime($data['year_2']));
+        } else{
+            $year2 = "";
+        }
+        if(!empty($data['year_3'])){
+            $year3 = date("Y", strtotime($data['year_3']));
+        } else{
+            $year3 = "";
+        }
+        if(!empty($data['year_4'])){
+            $year4 = date("Y", strtotime($data['year_4']));
+        } else{
+            $year4 = "";
+        }
+        if(!empty($data['year_5'])){
+            $year5 = date("Y", strtotime($data['year_5']));
+        } else{
+            $year5 = "";
+        }
+
         $pdf->Cell(15.7, 5, date("Y", strtotime($data['year_1'])) , 1, 0, 'C');// 
-        $pdf->Cell(15.5, 5, date("Y", strtotime($data['year_2'])) , 1, 0, 'C');// 
-        $pdf->Cell(15.7, 5, date("Y", strtotime($data['year_3'])) , 1, 0, 'C');// 
-        $pdf->Cell(15.3, 5, date("Y", strtotime($data['year_4'])) , 1, 0, 'C');// 
-        $pdf->Cell(15.8, 5, date("Y", strtotime($data['year_5'])) , 1, 0, 'C');// 
+        $pdf->Cell(15.5, 5, $year2, 1, 0, 'C');// 
+        $pdf->Cell(15.7, 5, $year3 , 1, 0, 'C');// 
+        $pdf->Cell(15.3, 5, $year4 , 1, 0, 'C');// 
+        $pdf->Cell(15.8, 5, $year5 , 1, 0, 'C');// 
 
         $pdf->Cell(0, 5, '', 0, 1);
         $pdf->SetFont('Arial', 'B', 8);

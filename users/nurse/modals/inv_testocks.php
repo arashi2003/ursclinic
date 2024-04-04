@@ -118,7 +118,7 @@ if (mysqli_query($conn, $query0)) {
                     $no_buc = ($data['eamt'] + ($qty * $cost)) / $etqty;
                     $eamt = $no_buc * $etqty;
                 } else {
-                    $buc = $data['buc'];
+                    $buc = $data['buc'] ;
                     $no_buc = (($buc * $no_btqty) + ($qty * $cost)) / $etqty;
                     $eamt = $no_buc * $etqty;
                 }
@@ -126,7 +126,7 @@ if (mysqli_query($conn, $query0)) {
 
             $enddate = date("Y-m-t");
 
-            $query = "UPDATE report_teinv SET bnw = '$bnw', bum = '$bum', bgc = '$bgc', bd = '$bd', btqty = '$no_btqty', buc = '$buc', rnw = '$rnw', rum = '$rum', rgc = '$rgc', rd = '$rd', rtqty = '$rtqty', enw = '$enw', eum = '$eum', egc = '$egc', ed = '$ed', etqty = '$etqty', eamt = '$eamt' WHERE teid = '$teid' AND date = '$enddate' AND campus = '$campus'";
+            $query = "UPDATE report_teinv SET bnw = '$bnw', bum = '$bum', bgc = '$bgc', bd = '$bd', btqty = '$no_btqty', buc = '$no_buc', rnw = '$rnw', rum = '$rum', rgc = '$rgc', rd = '$rd', rtqty = '$rtqty', enw = '$enw', eum = '$eum', egc = '$egc', ed = '$ed', etqty = '$etqty', eamt = '$eamt' WHERE teid = '$teid' AND date = '$enddate' AND campus = '$campus'";
             if (mysqli_query($conn, $query)) {
                 $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
                 if ($result = mysqli_query($conn, $sql)) {

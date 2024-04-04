@@ -57,6 +57,7 @@ while ($row = mysqli_fetch_array($result0)) {
         $college = $data['college'];
         $program = $data['program'];
         $yearlevel = $data['yearlevel'];
+        $campus = $data['campus'];
         $section = $data['section'];
         $block = strtoupper($data['block']);
     }
@@ -94,7 +95,6 @@ while ($row = mysqli_fetch_array($result0)) {
 
 
     $user = $_SESSION['userid'];
-    $campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $au_status = "unread";
     $activity = 'added a appointment record for  of ' . $patientid;
@@ -671,7 +671,6 @@ while ($row = mysqli_fetch_array($result0)) {
 
     // check if may existing na
     $enddate = date("Y-m-t");
-    $campus = $_SESSION['campus'];
     //kunin medcase type
     $med_case = $transaction;
     $sql = "SELECT * FROM med_case WHERE medcase='$med_case'";
@@ -700,7 +699,6 @@ while ($row = mysqli_fetch_array($result0)) {
         // fetch data ng existing entry
 
         $enddate = date("Y-m-t");
-        $campus = $_SESSION['campus'];
 
         //kunin medcase type
         $med_case = $transaction;
@@ -788,8 +786,6 @@ while ($row = mysqli_fetch_array($result0)) {
         $result = mysqli_query($conn, $sql);
     } else {
         // add pag wala
-
-        $campus = $_SESSION['campus'];
         // check san sya i-add na column sa database
         switch (true) {
             case ($designation == "STUDENT" and $sex == "MALE"): {

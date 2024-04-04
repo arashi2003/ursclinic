@@ -79,10 +79,11 @@
         $campus = $data['campus'];
         $designation = $data['designation'];
         $department = $data['department'];
+        $birthday = $data['birthday'];
         if(!empty($_POST['age'])){
-            $age = floor((time() - strtotime($data['department']) / 31556926)); 
+            $age =  floor((time() - strtotime($birthday)) / 31556926); 
         }else{
-        $age = $_POST['age'];
+        $age = ""; 
         }
     }
 

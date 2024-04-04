@@ -267,21 +267,21 @@ if ($pages > 4) {
                                 <?php
                                 if (mysqli_num_rows($result) > 0) : ?>
                                     <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['medicine']) ? 'medicine=' . $_GET['medicine'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                                        <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
                                     </li>
                                     <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['medicine']) ? 'medicine=' . $_GET['medicine'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
+                                        <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
                                     </li>
                                     <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
                                         <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['medicine']) ? 'medicine=' . $_GET['medicine'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                                            <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
                                         </li>
                                     <?php endfor; ?>
                                     <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['medicine']) ? 'medicine=' . $_GET['medicine'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
+                                        <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
                                     </li>
                                     <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['medicine']) ? 'medicine=' . $_GET['medicine'] . '&' : '', isset($_GET['batch']) ? 'batch=' . $_GET['batch'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
+                                        <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
                                     </li>
                                 <?php endif; ?>
                             </ul>

@@ -790,7 +790,7 @@ if ($result = mysqli_query($conn, $sql)) {
                     $medcase = $purpose;
                 }
 
-                $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+                $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate' AND campus='$campus'";
                 $result = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($result) > 0) {
                     // fetch data ng existing entry
@@ -826,7 +826,7 @@ if ($result = mysqli_query($conn, $sql)) {
                         $medcase_others = "";
                         $medcase = $purpose;
                     }
-                    $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate'";
+                    $sql = "SELECT * FROM reports_medcase WHERE type='$medcase_type' AND medcase='$medcase' AND date='$enddate' AND campus='$campus'";
                     $result = mysqli_query($conn, $sql);
                     while ($data = mysqli_fetch_array($result)) {
                         // check san sya i-add na column sa database

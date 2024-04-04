@@ -161,7 +161,7 @@ while ($data = mysqli_fetch_array($query)) {
         $pdf->Cell(40, 6, $data['purpose'], 1, 0);
     } else {
         $pdf->Cell(57, 6, $data['type'], 1, 0);
-        $pdf->Cell(40, 6, $data['transaction'], 1, 0);
+        $pdf->Cell(40, 6, $data['purpose'], 1, 0);
     }
     $pdf->Cell(47, 6, date("M d, Y", strtotime($data['datetime'])) . " " . date("g:i A", strtotime($data['datetime'])), 1, 0, 'C');
     $pdf->Cell(0, 6, '', 0, 1);

@@ -78,10 +78,10 @@ if ($data = mysqli_fetch_array($query)) {
     $campus = $data['campus'];
     $designation = $data['designation'];
     $department = $data['department'];
-    if (!empty($_POST['age'])) {
-        $age = floor((time() - strtotime($data['department']) / 31556926));
-    } else {
-        $age = $_POST['age'];
+    if(!empty($_POST['age'])){
+        $age =  floor((time() - strtotime($birthday)) / 31556926); 
+    }else{
+    $age = ""; 
     }
 }
 

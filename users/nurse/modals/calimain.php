@@ -15,7 +15,6 @@
     $fullname = $_SESSION['name'];
     $activity = "added a record to the calibration and maintenance of " . $te;
     $au_status = "unread";
-    
     $query = "INSERT INTO te_calimain (campus, tools_equip, date_from, date_to, status) VALUES 
     ('$campus', '$te', '$date_from', '$date_to', '$status')";    
     if($result = mysqli_query($conn, $query))
@@ -97,7 +96,7 @@
           default: 
             break;
         }
-        $sql = "UPDATE report_teinv SET $end WHERE id='$id' AND date='$ldate'";
+        $sql = "UPDATE report_teinv SET $end WHERE teid='$te' AND date='$ldate'";
         if($result = mysqli_query($conn, $sql))
         {
           $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";

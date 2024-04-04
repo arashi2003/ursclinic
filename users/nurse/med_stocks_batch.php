@@ -217,7 +217,7 @@ if ($pages > 4) {
                                     <div class="row">
                                         <div class="col-md-9 mb-2">
                                             <select name="batch" class="form-select">
-                                                <option value="">Select Batch ID</option>
+                                                <option value="" disabled selected>Select Batch ID</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT batchid FROM inventory WHERE stock_type = 'medicine' AND campus = '$campus' ORDER BY batchid ASC";

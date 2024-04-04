@@ -8,14 +8,93 @@ $userid = $_SESSION['userid'];
 $fullname = $_SESSION['name'];
 $usertype = $_SESSION['usertype'];
 $date = date("Y-m-d");
-$month = date("Y-m");
 $module = 'dashboard';
+$today = date("Y-m-d");
+$month = date('Y-m');
 
-// get the total nr of rows.
-$records = $conn->query("SELECT * from appointment");
-$nr_of_rows = $records->num_rows;
+// Check if the patient or date filter is set
+if (isset($_GET['patient']) || isset($_GET['date'])) {
+  // Validate and sanitize input
+  $patient = isset($_GET['patient']) ? $_GET['patient'] : '';
+  $date = isset($_GET['date']) ? $_GET['date'] : '';
 
-include('../../includes/pagination-limit.php');
+  // Initialize the WHERE clause
+  $whereClause = ""; // Start with common conditions
+
+  // Add conditions based on filters
+  if ($patient !== '') {
+    $whereClause .= " AND (CONCAT(ac.firstname, ' ', ac.middlename, ' ', ac.lastname) LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.lastname) LIKE '%$patient%') "; // Add patient filter
+  }
+  if ($date !== '') {
+    $whereClause .= " AND ap.date = '$date'"; // Add date filter
+  }
+
+  // Construct and execute SQL query for counting total rows
+  $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE date > '$today'  AND physician = '$fullname' AND (ap.status='APPROVED' OR ap.status='COMPLETED') $whereClause ORDER BY ap.date, ap.time_from, ap.time_to";
+} else {
+  // If filters are not set, count all rows
+  $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE date > '$today'  AND physician = '$fullname' AND (ap.status='APPROVED' OR ap.status='COMPLETED') ORDER BY ap.date, ap.time_from, ap.time_to";
+}
+
+// Execute the count query
+$count_result = $conn->query($sql_count);
+
+// Check if count query was successful
+if ($count_result) {
+  // Fetch the total number of rows
+  $count_row = $count_result->fetch_assoc();
+  $nr_of_rows = $count_row['total_rows'];
+} else {
+  // Handle count query error
+  echo "Error: " . $conn->error;
+}
+
+// Setting the number of rows to display in a page.
+$rows_per_page = 10;
+
+// determine the page
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Setting the start from, value.
+$start = ($page - 1) * $rows_per_page;
+
+// calculating the nr of pages.
+$pages = ceil($nr_of_rows / $rows_per_page);
+
+// calculate the range of page numbers to be displayed
+$start_loop = max(1, $page - 2);
+$end_loop = min($pages, $page + 2);
+
+// adjust the range if the current page is near the beginning or end
+if ($start_loop > 1) {
+  $start_loop--;
+  $end_loop++;
+}
+
+// ensure that the range is never smaller than 4
+if ($end_loop - $start_loop < 4) {
+  $start_loop = max(1, $end_loop - 4);
+}
+
+$previous = $page - 1;
+$next = $page + 1;
+
+// calculate the start and end loop variables
+$start_loop = $page > 2 ? $page - 2 : 1;
+$end_loop = $page < $pages - 2 ? $page + 2 : $pages;
+
+// limit the number of pages displayed to a maximum of 4
+if ($pages > 4) {
+  if ($page > 2 && $page < $pages - 1) {
+    $end_loop = $page + 1;
+  } elseif ($page == 1) {
+    $start_loop = 1;
+    $end_loop = 4;
+  } elseif ($page == $pages) {
+    $start_loop = $pages - 3;
+    $end_loop = $pages;
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -141,15 +220,15 @@ include('../../includes/pagination-limit.php');
                 <form action="" method="get">
                   <div class="row">
                     <div class="col-md-4">
-                      <div class="input-group mb-3">
+                      <div class="input-group">
                         <input type="text" name="patient" value="<?= isset($_GET['patient']) == true ? $_GET['patient'] : '' ?>" class="form-control" placeholder="Search patient">
                         <button type="submit" class="btn btn-primary">Search</button>
                       </div>
                     </div>
-                    <div class="col-md-2 mb-3">
+                    <div class="col-md-2">
                       <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
                     </div>
-                    <div class="col mb-3">
+                    <div class="col">
                       <button type="submit" class="btn btn-primary">Filter</button>
                       <a href="dashboard" class="btn btn-danger">Reset</a>
                     </div>
@@ -257,21 +336,42 @@ include('../../includes/pagination-limit.php');
                         </td>
                       <?php } ?>
                   </tbody>
-                </table>
-                <?php include('../../includes/pagination.php') ?>
-              <?php
+                <?php
                     } else {
-              ?>
-                <td colspan="6">
-                  <?php
+                ?>
+                  <td colspan="6">
+                    <?php
                       include('../../includes/no-data.php');
-                  ?>
-                </td>
+                    ?>
+                  </td>
+                </table>
               <?php
                     }
                     mysqli_close($conn);
               ?>
               </div>
+              <ul class="pagination justify-content-end">
+                <?php
+                if (mysqli_num_rows($result) > 0) : ?>
+                  <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
+                    <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                  </li>
+                  <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
+                    <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
+                  </li>
+                  <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
+                    <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
+                      <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                    </li>
+                  <?php endfor; ?>
+                  <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                    <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
+                  </li>
+                  <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
+                    <a class="page-link" href="?<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
+                  </li>
+                <?php endif; ?>
+              </ul>
             </div>
           </div>
         </div>

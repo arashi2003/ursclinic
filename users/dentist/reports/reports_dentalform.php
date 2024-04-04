@@ -73,7 +73,7 @@
     $pdf->SetAutoPageBreak(true, 15);
     $pdf->SetFont('Arial', '', 8);
 
-    $patientid = $_REQUEST['id'];
+    $patientid = $_REQUEST['patientid'];
     
    
     $sql = "SELECT * FROM dental_record_1 INNER JOIN dental_record_2 ON dental_record_2.patientid=dental_record_1.patientid WHERE dental_record_1.patientid='$patientid' AND dental_record_2.patientid='$patientid' LIMIT 1";
