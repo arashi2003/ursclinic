@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 04, 2024 at 12:57 PM
+-- Generation Time: Apr 04, 2024 at 04:07 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -692,7 +692,7 @@ INSERT INTO `appointment` (`id`, `date`, `time_from`, `time_to`, `physician`, `p
 (57, '2024-04-03', '15:45:00', '16:00:00', 'NONE', 'B2021-0569', 1, 1, 'Nausea', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CANCELLED', 'The appointment had to be cancelled as it was not fulfilled within the allocated timeframe.', '2024-04-04 00:00:00'),
 (58, '2024-04-03', '16:00:00', '16:15:00', 'NONE', 'B2021-0569', 1, 1, 'Constipation', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CANCELLED', 'The appointment had to be cancelled as it was not fulfilled within the allocated timeframe.', '2024-04-04 00:00:00'),
 (59, '2024-04-04', '09:00:00', '09:15:00', 'EDNA C. MAYCACAYAN', 'B2021-0569', 1, 1, 'Constipation', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'COMPLETED', NULL, '2024-04-03 15:26:02'),
-(60, '2024-04-04', '10:15:00', '10:30:00', 'EDNA C. MAYCACAYAN', 'B2021-0569', 1, 1, 'Allergy', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'APPROVED', NULL, '2024-04-03 15:26:23');
+(60, '2024-04-04', '10:15:00', '10:30:00', 'EDNA C. MAYCACAYAN', 'B2021-0569', 1, 1, 'Allergy', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'COMPLETED', NULL, '2024-04-03 15:26:23');
 
 -- --------------------------------------------------------
 
@@ -3222,7 +3222,14 @@ INSERT INTO `audit_trail` (`id`, `user`, `fullname`, `campus`, `activity`, `stat
 (2553, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'added a record to the calibration and maintenance of 11', 'unread', '2024-04-04 14:08:42'),
 (2554, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'added a record to the calibration and maintenance of 7', 'unread', '2024-04-04 14:14:25'),
 (2555, 'URSN-001', 'DIOSA A SALVADOR', 'BINANGONAN', 'Logged Out', 'unread', '2024-04-04 18:55:13'),
-(2556, 'B2021-0569', 'Juleanne Rozier  Caranza', 'BINANGONAN', 'Logged In', 'unread', '2024-04-04 18:55:20');
+(2556, 'B2021-0569', 'Juleanne Rozier  Caranza', 'BINANGONAN', 'Logged In', 'unread', '2024-04-04 18:55:20'),
+(2557, 'URSD-002', 'GODWIN A OLIVAS', 'ALL', 'Logged Out', 'unread', '2024-04-04 22:01:17'),
+(2558, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'Logged In', 'unread', '2024-04-04 22:01:32'),
+(2559, 'URSN-001', 'DIOSA A SALVADOR', 'BINANGONAN', 'Logged Out', 'unread', '2024-04-04 22:03:04'),
+(2560, 'URSD-001', 'Edna C. Maycacayan', 'ALL', 'Logged In', 'unread', '2024-04-04 22:03:31'),
+(2561, 'URSD-001', 'EDNA C. MAYCACAYAN', 'BINANGONAN', 'added a appointment record for  of B2021-0569', 'unread', '2024-04-04 22:05:32'),
+(2562, 'URSD-001', 'EDNA C MAYCACAYAN', 'ALL', 'Logged Out', 'unread', '2024-04-04 22:05:41'),
+(2563, 'URSN-001', 'Diosa A. Salvador', 'BINANGONAN', 'Logged In', 'unread', '2024-04-04 22:06:13');
 
 -- --------------------------------------------------------
 
@@ -6653,7 +6660,8 @@ INSERT INTO `reports_medcase` (`id`, `campus`, `type`, `medcase`, `sm`, `sf`, `s
 (725, 'TANAY', 'checkups', 'Athlete/Varsity', 0, 0, 0, 0, 0, 0, 0, 0, 0, '2024-04-30'),
 (726, 'TANAY', 'checkups', 'ROTC', 0, 0, 0, 0, 0, 0, 0, 0, 0, '2024-04-30'),
 (727, 'TANAY', 'checkups', 'OJT/SIT/WAP', 0, 0, 0, 0, 0, 0, 0, 0, 0, '2024-04-30'),
-(728, 'TANAY', 'checkups', 'BP/Ht/RBS/Wt Monitoring', 0, 0, 0, 0, 0, 0, 0, 0, 0, '2024-04-30');
+(728, 'TANAY', 'checkups', 'BP/Ht/RBS/Wt Monitoring', 0, 0, 0, 0, 0, 0, 0, 0, 0, '2024-04-30'),
+(729, 'BINANGONAN', 'others', 'General', 0, 1, 1, 0, 0, 0, 0, 1, 1, '2024-04-30');
 
 -- --------------------------------------------------------
 
@@ -8668,7 +8676,8 @@ INSERT INTO `transaction_history` (`id`, `patient`, `firstname`, `middlename`, `
 (231, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Appointment', 'Checkup', 'General', NULL, NULL, '119/70', '65', '34.5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '18', '96%', 'Constipation ', 'Dysmenorrhea ', 'Drink more water, sleep more.', '', '1 Ibuprofen 200 mg/capgel', 'EDNA C. MAYCACAYAN', 'General', 'Checkup', 'BINANGONAN', '2024-04-04 12:29:08'),
 (236, 'URS-0327', 'ALEX', 'SANDHYA', 'RANSOM', 'FACULTY', 37, 'FEMALE', '1987-01-23', 'COLLEGE', '', '', '', '', '', 'Walk-In', 'Consultation', 'Medical History', '157 cm', '57 kg.', '119/70', '65', '34.5', 'Clear', 'Clear', 'Clear', 'Clear', 'Clear', '', '', '2024-04-18', '', '', '', '', 'x', '', '', '', '', NULL, NULL, NULL, NULL, '', '', NULL, 'EDNA C. MAYCACAYAN', 'Medical History', 'Others:', '', '2024-04-04 13:05:35'),
 (237, 'URS-0227', 'ALEXIA', 'VAISHAKI', 'JOHNSON', 'FACULTY', 35, 'FEMALE', '1988-08-24', '', '', '', '', '', '', 'Walk-In', 'Consultation', 'Medical History', '150 cm', '50 kg.', '120/80', '46', '36.4', 'Clear', 'Clear', 'Clear', 'Clear', 'Clear', '', '', '2024-03-20', '', '', '', '', 'x', '', '', '', '', NULL, NULL, NULL, NULL, 'Cleared', '', NULL, 'EDNA C. MAYCACAYAN', 'Medical History', 'Others:', 'ANGONO', '2024-04-04 13:21:21'),
-(238, 'URS-0327', 'ALEX', 'SANDHYA', 'RANSOM', ' FACULTY', 37, 'FEMALE', '1987-01-23', 'COLLEGE', '', '', '', '', '', 'Walk-In', 'Medical History', 'Dental Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Checkup', '', 'TANAY', '2024-04-04 13:33:52');
+(238, 'URS-0327', 'ALEX', 'SANDHYA', 'RANSOM', ' FACULTY', 37, 'FEMALE', '1987-01-23', 'COLLEGE', '', '', '', '', '', 'Walk-In', 'Medical History', 'Dental Checkup', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GODWIN A. OLIVAS', 'Dental Checkup', '', 'TANAY', '2024-04-04 13:33:52'),
+(239, 'B2021-0569', 'JULEANNE ROZIER', '', 'CARANZA', 'STUDENT', 20, 'FEMALE', NULL, 'COLLEGE', 'COMPUTER STUDIES', 'BSIT', '3', '1', 'A', 'Appointment', 'Checkup', 'General', NULL, NULL, '119/70', '65', '34.5', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '18', '96%', 'Allergy ', 'Others: Cleared', 'None', '', '', 'EDNA C. MAYCACAYAN', 'General', 'Checkup', 'BINANGONAN', '2024-04-04 22:05:32');
 
 -- --------------------------------------------------------
 
@@ -9242,7 +9251,7 @@ ALTER TABLE `appointment_type`
 -- AUTO_INCREMENT for table `audit_trail`
 --
 ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2557;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2564;
 
 --
 -- AUTO_INCREMENT for table `campus`
@@ -9398,7 +9407,7 @@ ALTER TABLE `program`
 -- AUTO_INCREMENT for table `reports_medcase`
 --
 ALTER TABLE `reports_medcase`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=729;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=730;
 
 --
 -- AUTO_INCREMENT for table `report_medsupinv`
@@ -9464,7 +9473,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `transaction_history`
 --
 ALTER TABLE `transaction_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=239;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
 
 --
 -- AUTO_INCREMENT for table `transaction_request`

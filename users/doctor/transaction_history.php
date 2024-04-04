@@ -279,7 +279,7 @@ if ($pages > 4) {
                                         if (isset($_GET['account']) && $_GET['account'] != '') {
                                             $account = isset($_GET['account']) ? $_GET['account'] : '';
                                             $count = 1;
-                                            $sql = "SELECT * FROM transaction_history WHERE (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history WHERE (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') AND transaction NOT LIKE '%Dental%' AND purpose NOT LIKE '%Dental%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['type']) && $_GET['type'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
                                             $type = isset($_GET['type']) ? $_GET['type'] : '';
@@ -314,11 +314,11 @@ if ($pages > 4) {
                                                 $tp = " AND type = '$type'";
                                             }
 
-                                            $sql = "SELECT * FROM transaction_history WHERE $date $tp ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history WHERE $date $tp AND transaction NOT LIKE '%Dental%' AND purpose NOT LIKE '%Dental%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT * FROM transaction_history ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history WHERE transaction NOT LIKE '%Dental%' AND purpose NOT LIKE '%Dental%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
