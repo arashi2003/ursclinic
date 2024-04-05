@@ -11,7 +11,7 @@ $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 
 // Check if the month filter is set
-if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to']) || isset($_GET['physician'])) {
+if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to']) || isset($_GET['type'])) {
     // Validate and sanitize input
     $account = isset($_GET['account']) ? $_GET['account'] : '';
     $type = isset($_GET['type']) ? $_GET['type'] : '';
@@ -30,22 +30,78 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     // Initialize the date filter
     $date = "";
 
-    if ($dt_from == "" and $dt_to == "") {
+    if ($dt_from == "" and $dt_to == "" and $type != "" and $account != "") {
         // No date range provided
         $date = "";
-    } elseif ($dt_to == $dt_from) {
+    } elseif ($dt_to == $dt_from and $type != "" and $account != "") {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime LIKE '$fdate%'";
-    } elseif ($dt_to == "" and $dt_from != "") {
+    } elseif ($dt_to == "" and $dt_from != "" and $type != "" and $account != "") {
         // Only start date provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime >= '$fdate'";
-    } elseif ($dt_from == "" and $dt_to != "") {
+    } elseif ($dt_from == "" and $dt_to != "" and $type != "" and $account != "") {
         // Only end date provided
         $d = date("Y-m-d", strtotime($dt_to));
         $date = " AND datetime <= '$d'";
-    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type != "" and $account != "") {
+        // Start and end date range provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $ldate = date("Y-m-d", strtotime($dt_to));
+        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+    }
+
+    if ($dt_from == "" and $dt_to == "" and $type != "" and $account == "") {
+        // No date range provided
+        $date = "";
+    } elseif ($dt_to == $dt_from and $type != "" and $account == "") {
+        // Same start and end date
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " AND datetime LIKE '$fdate%'";
+    } elseif ($dt_to == "" and $dt_from != "" and $type != "" and $account == "") {
+        // Only start date provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " AND datetime >= '$fdate'";
+    } elseif ($dt_from == "" and $dt_to != "" and $type != "" and $account == "") {
+        // Only end date provided
+        $d = date("Y-m-d", strtotime($dt_to));
+        $date = " AND datetime <= '$d'";
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type != "" and $account == "") {
+        // Start and end date range provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $ldate = date("Y-m-d", strtotime($dt_to));
+        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+    } elseif ($dt_to == $dt_from && $type == "" && $account == "") {
+        // Same start and end date
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " AND datetime LIKE '$fdate%'";
+    } elseif ($dt_to == "" and $dt_from != "" && $type == "" && $account == "") {
+        // Only start date provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " AND datetime >= '$fdate'";
+    } elseif ($dt_from == "" and $dt_to != "" && $type == "" && $account == "") {
+        // Only end date provided
+        $d = date("Y-m-d", strtotime($dt_to));
+        $date = " AND datetime <= '$d'";
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to && $type == "" && $account == "") {
+        // Start and end date range provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $ldate = date("Y-m-d", strtotime($dt_to));
+        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+    } elseif ($dt_to == $dt_from && $type == "" && $account != "") {
+        // Same start and end date
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " AND datetime LIKE '$fdate%'";
+    } elseif ($dt_to == "" and $dt_from != "" && $type == "" && $account != "") {
+        // Only start date provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $date = " AND datetime >= '$fdate'";
+    } elseif ($dt_from == "" and $dt_to != "" && $type == "" && $account != "") {
+        // Only end date provided
+        $d = date("Y-m-d", strtotime($dt_to));
+        $date = " AND datetime <= '$d'";
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to && $type == "" && $account != "") {
         // Start and end date range provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-d", strtotime($dt_to));
@@ -240,27 +296,89 @@ if ($pages > 4) {
                                             $sql = "SELECT * FROM transaction_history WHERE campus='$campus' AND (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') AND transaction NOT LIKE '%Dental%' AND purpose NOT LIKE '%Dental%' ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['type']) && $_GET['type'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
-                                            $type = $_GET['type'];
-                                            $dt_from = $_GET['date_from'];
-                                            $dt_to = $_GET['date_to'];
+                                            $type = isset($_GET['type']) ? $_GET['type'] : '';
+                                            $dt_from = isset($_GET['date_from']) ? $_GET['date_from'] : '';
+                                            $dt_to = isset($_GET['date_to']) ? $_GET['date_to'] : '';
                                             $count = 1;
 
                                             //date filter
-                                            if ($dt_from == "" and $dt_to == "") {
+
+                                            if ($dt_from == "" and $dt_to == "" and $type != "") {
+                                                // No date range provided
                                                 $date = "";
-                                            } elseif ($dt_to == $dt_from) {
+                                            } elseif ($dt_to == $dt_from and $type != "") {
+                                                // Same start and end date
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $date = " AND datetime LIKE '$fdate%'";
-                                            } elseif ($dt_to == "" and $dt_from != "") {
+                                            } elseif ($dt_to == "" and $dt_from != "" and $type != "") {
+                                                // Only start date provided
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $date = " AND datetime >= '$fdate'";
-                                            } elseif ($dt_from == "" and $dt_to != "") {
+                                            } elseif ($dt_from == "" and $dt_to != "" and $type != "") {
+                                                // Only end date provided
                                                 $d = date("Y-m-d", strtotime($dt_to));
                                                 $date = " AND datetime <= '$d'";
-                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type != "") {
+                                                // Start and end date range provided
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $ldate = date("Y-m-d", strtotime($dt_to));
                                                 $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+                                            }
+
+                                            if ($dt_from == "" and $dt_to == "" and $type != "") {
+                                                // No date range provided
+                                                $date = "";
+                                            } elseif ($dt_to == $dt_from and $type != "") {
+                                                // Same start and end date
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime LIKE '$fdate%'";
+                                            } elseif ($dt_to == "" and $dt_from != "" and $type != "") {
+                                                // Only start date provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime >= '$fdate'";
+                                            } elseif ($dt_from == "" and $dt_to != "" and $type != "") {
+                                                // Only end date provided
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type != "") {
+                                                // Start and end date range provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+                                            } elseif ($dt_to == $dt_from && $type == "") {
+                                                // Same start and end date
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime LIKE '$fdate%'";
+                                            } elseif ($dt_to == "" and $dt_from != "" && $type == "") {
+                                                // Only start date provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime >= '$fdate'";
+                                            } elseif ($dt_from == "" and $dt_to != "" && $type == "") {
+                                                // Only end date provided
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to && $type == "") {
+                                                // Start and end date range provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime("$dt_to + 1 day"));
+                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+                                            } elseif ($dt_to == $dt_from && $type == "") {
+                                                // Same start and end date
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime LIKE '$fdate%'";
+                                            } elseif ($dt_to == "" and $dt_from != "" && $type == "") {
+                                                // Only start date provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime >= '$fdate'";
+                                            } elseif ($dt_from == "" and $dt_to != "" && $type == "") {
+                                                // Only end date provided
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to && $type == "") {
+                                                // Start and end date range provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " (AND datetime >= '$fdate' AND datetime <= '$ldate')";
                                             }
 
                                             //type filter
@@ -345,40 +463,25 @@ if ($pages > 4) {
                                     <?php
                                     if (mysqli_num_rows($result) > 0) : ?>
                                         <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '',
-                                                                        isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '',
-                                                                        isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '',
-                                                                        isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
                                                 page=<?= 1; ?>">&laquo;</a>
                                         </li>
                                         <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '',
-                                                                        isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '',
-                                                                        isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '',
-                                                                        isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
                                                 page=<?= $previous; ?>">&lt;</a>
                                         </li>
                                         <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
                                             <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-                                                <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '',
-                                                                            isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '',
-                                                                            isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '',
-                                                                            isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                                <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
                                                 page=<?= $i; ?>"><?= $i; ?></a>
                                             </li>
                                         <?php endfor; ?>
                                         <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '',
-                                                                        isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '',
-                                                                        isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '',
-                                                                        isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
                                                 page=<?= $next; ?>">&gt;</a>
                                         </li>
                                         <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '',
-                                                                        isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '',
-                                                                        isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '',
-                                                                        isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>
                                                 page=<?= $pages; ?>">&raquo;</a>
                                         </li>
                                     <?php endif; ?>
