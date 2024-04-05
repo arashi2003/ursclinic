@@ -1,4 +1,5 @@
 <?php
+session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['restoreBtn'])) {
     // Target database configuration
     $target_host = "localhost";
@@ -25,9 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['restoreBtn'])) {
         // If the target database does not exist, create it
         $create_database_query = "CREATE DATABASE $target_database_name";
         if (mysqli_query($con, $create_database_query)) {
-            echo "<div class='container mt-3 alert alert-success' role='alert'>";
-            echo "Database '$target_database_name' created successfully.";
-            echo "</div>";
+            $_SESSION['alert'] .= "Database '$target_database_name' created successfully.";
         } else {
             echo "<div class='container mt-3 alert alert-danger' role='alert'>";
             echo "Error creating database: " . mysqli_error($con);
@@ -75,15 +74,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['restoreBtn'])) {
             }
         }
 
-        echo "<div class='container mt-3 alert alert-success' role='alert'>";
-        echo "Database restored successfully.";
-        echo "</div>";
+        $_SESSION['alert'] .= ' Database has been restored';
     } else {
-        echo "<div class='container mt-3 alert alert-danger' role='alert'>";
-        echo "Failed to upload file. Please try again.";
-        echo "</div>";
+        $_SESSION['alert'] .= ' Database was not restored';
     }
-
+    header('location: index');
     // Close connection
     mysqli_close($con);
 }

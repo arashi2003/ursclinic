@@ -45,13 +45,45 @@ $name = $_SESSION['username'];
                             </span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../../logout">Logout</a></li>
+                            <li><a class="dropdown-item" href="logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>
+            </div>
         </nav>
         <div class="home-content">
-            <div class="overview-boxes">
+            <div class="overview-boxes mt-5">
+                <?php
+
+                if (isset($_SESSION['alert'])) {
+                ?>
+                    <div class="alert-message">
+                        <div class="alert alert-info alert-dismissible fade show" role="alert" id="success-alert">
+                            <?= $_SESSION['alert']; ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+
+                    <script>
+                        $(document).ready(function() {
+                            setTimeout(function() {
+                                $(".alert").alert('close');
+                            }, 5000);
+                        });
+                    </script>
+                <?php
+                    unset($_SESSION['alert']);
+                }
+
+                ?>
+                <div class="container mt-5">
+                    <h1 class="mb-4">Database Drop</h1>
+                    <div class="input-group">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#dropmodal">Drop Database</button>
+                    </div>
+                    <?php include('drop-modal.php') ?>
+                </div>
+
                 <div class="container mt-5">
                     <h1>Database Restore</h1>
                     <form method="post" action="restore.php" enctype="multipart/form-data" class="mt-4">
@@ -64,7 +96,6 @@ $name = $_SESSION['username'];
             </div>
         </div>
     </section>
-
 </body>
 
 <script>
