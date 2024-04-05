@@ -1,6 +1,5 @@
 <?php
 session_start();
-include('connection.php');
 
 // Destroy Sessions
 if (session_destroy()) {
@@ -8,7 +7,7 @@ if (session_destroy()) {
 ?>
     <script>
         setTimeout(function() {
-            window.location = "index";
+            window.location = "../../index";
         });
     </script>
 <?php
