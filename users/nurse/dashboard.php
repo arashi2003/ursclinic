@@ -25,7 +25,7 @@ include('../../includes/pagination-limit.php');
 <html lang="en" dir="ltr">
 
 <head>
-  <title>Nurse Dashboard</title>
+  <title>Dashboard</title>
   <?php include('../../includes/header.php'); ?>
 </head>
 
