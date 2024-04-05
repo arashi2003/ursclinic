@@ -8,7 +8,7 @@ if (session_destroy()) {
 ?>
     <script>
         setTimeout(function() {
-            window.location = "index";
+            window.location = "../../index";
         });
     </script>
 <?php
