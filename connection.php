@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
-$user = "u442253511_dburs_usu";
-$password = 'Ursclinic1.';
+$user = "u442253511_dburs_usu";//"root";//
+$password = 'Ursclinic1.';//"" ;//
 $db_name = "u442253511_dburs_usu";
 
 $conn = mysqli_connect($host, $user, $password, $db_name);

@@ -22,9 +22,14 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
 
     if ($account !== '') {
         $whereClause .= " AND (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%')";
+    }elseif ($account == '') {
+        $whereClause .= "";
     }
     if ($type !== '') {
         $whereClause .= " AND type = '$type'";
+    }
+    else if($type == '') {
+        $whereClause .= "";
     }
 
     // Initialize the date filter
@@ -33,7 +38,7 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     if ($dt_from == "" and $dt_to == "" and $type != "" and $account != "") {
         // No date range provided
         $date = "";
-    } elseif ($dt_to == $dt_from and $type != "" and $account != "") {
+    } elseif ($dt_to == $dt_from AND $dt_to!="" and $type != "" and $account != "") {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime LIKE '$fdate%'";
@@ -55,7 +60,7 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     if ($dt_from == "" and $dt_to == "" and $type != "" and $account == "") {
         // No date range provided
         $date = "";
-    } elseif ($dt_to == $dt_from and $type != "" and $account == "") {
+    } elseif ($dt_to == $dt_from AND $dt_to!="" and $type != "" and $account == "") {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime LIKE '$fdate%'";
@@ -72,7 +77,9 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-d", strtotime($dt_to));
         $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
-    } elseif ($dt_to == $dt_from && $type == "" && $account == "") {
+    } 
+    
+    elseif ($dt_to == $dt_from AND $dt_to!="" && $type == "" && $account == "") {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime LIKE '$fdate%'";
@@ -89,7 +96,7 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-d", strtotime($dt_to));
         $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
-    } elseif ($dt_to == $dt_from && $type == "" && $account != "") {
+    } elseif ($dt_to == $dt_from AND $dt_to!="" && $type == "" && $account != "") {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime LIKE '$fdate%'";
@@ -109,12 +116,11 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     }
 
     // Construct and execute SQL query for pending appointments count
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' $whereClause $date ORDER BY datetime DESC";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' $whereClause $date   AND transaction NOT LIKE '%Dental%' AND purpose NOT LIKE '%Dental%' ORDER BY datetime DESC";
 } else {
     // If no filters are applied, count all rows in the database
     $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE campus='$campus' AND transaction NOT LIKE '%Dental%' AND purpose NOT LIKE '%Dental%' ORDER BY datetime DESC";
 }
-
 $count_result = $conn->query($sql_count);
 
 // Check if count query was successful

@@ -18,63 +18,72 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     $dt_from = isset($_GET['date_from']) ? $_GET['date_from'] : '';
     $dt_to = isset($_GET['date_to']) ? $_GET['date_to'] : '';
 
-    $whereClause = ""; // Initialize the WHERE clause
+    if ($account != "" || $type != "" || $dt_from != "" || $dt_to != "") {
+        $whereClause = "WHERE"; // Initialize the WHERE clause
+    }
+    else{
+        $whereClause = ""; // Initialize the WHERE clause
+    }
 
     if ($account !== '') {
         $whereClause .= " (patient LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%')";
+    } elseif ($account == '') {
+        $whereClause .= "";
     }
-    if ($type !== '') {
+    if ($type !== '' AND $account != "") {
+        $whereClause .= " AND type = '$type'";
+    } else if ($type !== '' and $account == "") {
         $whereClause .= " type = '$type'";
+    }else if ($type == '') {
+        $whereClause .= "";
     }
 
     // Initialize the date filter
     $date = "";
 
-    if ($dt_from == "" and $dt_to == "" and $type!="" and $account != "") {
+    if ($dt_from == "" and $dt_to == "" and $type != "" and $account != "") {
         // No date range provided
         $date = "";
-    } elseif ($dt_to == $dt_from and $type!="" and $account != "") {
+    } elseif ($dt_to == $dt_from and $dt_to != "" and $type != "" and $account != "") {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
-        $date = " AND datetime LIKE '$fdate%'";
-    } elseif ($dt_to == "" and $dt_from != "" and $type!="" and $account != "") {
+        $date = " datetime LIKE '$fdate%'";
+    } elseif ($dt_to == "" and $dt_from != "" and $type != "" and $account != "") {
         // Only start date provided
         $fdate = date("Y-m-d", strtotime($dt_from));
-        $date = " AND datetime >= '$fdate'";
-    } elseif ($dt_from == "" and $dt_to != "" and $type!="" and $account != "") {
+        $date = " datetime >= '$fdate'";
+    } elseif ($dt_from == "" and $dt_to != "" and $type != "" and $account != "") {
         // Only end date provided
         $d = date("Y-m-d", strtotime($dt_to));
-        $date = " AND datetime <= '$d'";
-    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type!="" and $account != "") {
+        $date = " datetime <= '$d'";
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type != "" and $account != "") {
         // Start and end date range provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-d", strtotime($dt_to));
-        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
-    } 
+        $date = " datetime >= '$fdate' AND datetime <= '$ldate'";
+    }
 
-    if ($dt_from == "" and $dt_to == "" and $type!="" and $account == "") {
+    if ($dt_from == "" and $dt_to == "" and $type != "" and $account == "") {
         // No date range provided
         $date = "";
-    } elseif ($dt_to == $dt_from and $type!="" and $account == "") {
+    } elseif ($dt_to == $dt_from and $dt_to != "" and $type != "" and $account == "") {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime LIKE '$fdate%'";
-    } elseif ($dt_to == "" and $dt_from != "" and $type!="" and $account == "") {
+    } elseif ($dt_to == "" and $dt_from != "" and $type != "" and $account == "") {
         // Only start date provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime >= '$fdate'";
-    } elseif ($dt_from == "" and $dt_to != "" and $type!="" and $account == "") {
+    } elseif ($dt_from == "" and $dt_to != "" and $type != "" and $account == "") {
         // Only end date provided
         $d = date("Y-m-d", strtotime($dt_to));
         $date = " AND datetime <= '$d'";
-    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type!="" and $account == "") {
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type != "" and $account == "") {
         // Start and end date range provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-d", strtotime($dt_to));
         $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
-    } 
-    
-    elseif ($dt_to == $dt_from && $type == "" && $account == "") {
+    } elseif ($dt_to == $dt_from and $dt_to != "" && $type == "" && $account == "") {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " datetime LIKE '$fdate%'";
@@ -91,9 +100,7 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-d", strtotime($dt_to));
         $date = " datetime >= '$fdate' AND datetime <= '$ldate'";
-    }
-
-    elseif ($dt_to == $dt_from && $type == "" && $account != "") {
+    } elseif ($dt_to == $dt_from and $dt_to != "" && $type == "" && $account != "") {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
         $date = " AND datetime LIKE '$fdate%'";
@@ -113,12 +120,11 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     }
 
     // Construct and execute SQL query for pending appointments count
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE $whereClause $date ORDER BY datetime DESC";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history $whereClause $date ORDER BY datetime DESC";
 } else {
     // If no filters are applied, count all rows in the database
     $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history ORDER BY datetime DESC";
 }
-
 $count_result = $conn->query($sql_count);
 
 // Check if count query was successful
@@ -222,7 +228,8 @@ if ($pages > 4) {
             <div class="overview-boxes">
                 <div class="schedule-button">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addpatient">Add Record</button>
-                    <?php include('modals/transaction_modal.php'); ?>
+                    <?php include('modals/transaction_modal.php'); 
+                    ?>
                 </div>
                 <div class="content">
                     <div class="row">
