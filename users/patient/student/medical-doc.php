@@ -66,7 +66,9 @@ $rowCounter = 0;
                                         <td><?php echo $data['remarks'] ?></td>
                                         <td>
                                             <?php if ($data['status'] === 'Disapproved') : ?>
-                                                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>">Update</button>
+                                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>">Update</button>
+                                            <?php elseif ($data['status'] === 'Approved') : ?>
+                                                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>" disabled>Upload</button>
                                             <?php else : ?>
                                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploaddocument<?php echo $rowCounter; ?>">Upload</button>
                                             <?php endif; ?>
@@ -198,7 +200,7 @@ $rowCounter = 0;
                 if ($total_approved === $total_medical_docs && $total_medical_docs > 0) {
                     // If all medical documents are approved and there are documents available, show the button
                 ?>
-                    <button type="button" class="btn btn-primary" >Download Medical Certificate</button>
+                    <button type="button" class="btn btn-primary">Download Medical Certificate</button>
                 <?php } ?>
             </div>
         </div>
@@ -236,7 +238,9 @@ $rowCounter = 0;
                                         <td><?php echo $data['remarks'] ?></td>
                                         <td>
                                             <?php if ($data['status'] === 'Disapproved') : ?>
-                                                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>">Update</button>
+                                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>">Update</button>
+                                            <?php elseif ($data['status'] === 'Approved') : ?>
+                                                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>" disabled>Upload</button>
                                             <?php else : ?>
                                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploaddocument<?php echo $rowCounter; ?>">Upload</button>
                                             <?php endif; ?>
@@ -408,8 +412,10 @@ $rowCounter = 0;
                                         <td>
                                             <?php if ($data['status'] === 'Disapproved') : ?>
                                                 <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>">Update</button>
+                                            <?php elseif ($data['status'] === 'Approved') : ?>
+                                                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>" disabled>Upload</button>
                                             <?php else : ?>
-                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploaddocument<?php echo $rowCounter; ?>" onclick="handleUploadSuccess()">Upload</button>
+                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploaddocument<?php echo $rowCounter; ?>">Upload</button>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -501,6 +507,8 @@ $rowCounter = 0;
                                         <td>
                                             <?php if ($data['status'] === 'Disapproved') : ?>
                                                 <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>">Update</button>
+                                            <?php elseif ($data['status'] === 'Approved') : ?>
+                                                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#updatedocument<?php echo $rowCounter; ?>" disabled>Upload</button>
                                             <?php else : ?>
                                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploaddocument<?php echo $rowCounter; ?>">Upload</button>
                                             <?php endif; ?>
