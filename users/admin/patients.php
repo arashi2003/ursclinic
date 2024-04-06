@@ -182,7 +182,7 @@ if ($pages > 4) {
                                                 $sql = "SELECT DISTINCT designation FROM patient_info ORDER BY designation";
                                                 if ($result = mysqli_query($conn, $sql)) {
                                                     while ($row = mysqli_fetch_array($result)) { ?>
-                                                        <option value="<?php echo $row["designation"]; ?> <?= isset($_GET['']) == true ? ($_GET[''] == $row["designation"] ? 'selected' : '') : '' ?>"><?php echo $row["designation"]; ?></option><?php }
+                                                        <option value="<?php echo $row["designation"]; ?>" <?= isset($_GET['designation']) == true ? ($_GET['designation'] == $row["designation"] ? 'selected' : '') : '' ?>><?php echo $row["designation"]; ?></option><?php }
                                                                                                                                                                                                                                             } ?>
                                             </select>
                                         </div>
