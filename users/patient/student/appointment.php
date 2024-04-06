@@ -29,10 +29,10 @@ if (isset($_GET['physician']) || isset($_GET['date'])) {
     }
 
     // Construct and execute SQL query for counting total rows
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment WHERE $whereClause patient='$userid'  ORDER BY date, time_from, time_to";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment WHERE $whereClause patient='$userid'  ORDER BY status DESC, date, time_from, time_to";
 } else {
     // If filters are not set, count all rows
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment WHERE patient='$userid' ORDER BY date, time_from, time_to";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment WHERE patient='$userid' ORDER BY status DESC, date, time_from, time_to";
 }
 
 // Execute the count query
@@ -221,16 +221,16 @@ if ($pages > 4) {
                                         if (isset($_GET['date']) && $_GET['date'] != '') {
                                             $date = $_GET['date'];
                                             $count = 1;
-                                            $sql = "SELECT * FROM appointment WHERE date='$date' AND patient='$userid' ORDER BY date DESC, time_from, time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM appointment WHERE date='$date' AND patient='$userid' ORDER BY status DESC, date DESC, time_from, time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['physician']) && $_GET['physician'] != '') {
                                             $physician = $_GET['physician'];
                                             $count = 1;
-                                            $sql = "SELECT * FROM appointment WHERE physician='$physician' AND patient='$userid' ORDER BY date DESC, time_from, time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM appointment WHERE physician='$physician' AND patient='$userid' ORDER BY status DESC, date DESC, time_from, time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT * FROM appointment WHERE patient='$userid' ORDER BY date DESC, time_from, time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM appointment WHERE patient='$userid' ORDER BY status DESC, date DESC, time_from, time_to LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
