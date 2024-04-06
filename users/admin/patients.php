@@ -152,7 +152,7 @@ if ($pages > 4) {
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
-                                <form action="" method="get">
+                                <form action="patients.php" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="input-group mb-2">
@@ -218,8 +218,22 @@ if ($pages > 4) {
                                         } elseif (isset($_GET['designation']) && $_GET['designation'] != '' || isset($_GET['campus']) && $_GET['campus'] != '') {
                                             $designation = isset($_GET['designation']) ? $_GET['designation'] : '';
                                             $campus = isset($_GET['campus']) ? $_GET['campus'] : '';
+                                            $whereClause = " WHERE ";
+
+                                            if ($designation !== '') {
+                                                $whereClause .= " p.designation = '$designation'";
+                                            } else {
+                                                $whereClause .= " ";
+                                            }
+
+                                            if ($campus != '' and $designation != "") {
+                                                $whereClause .= " AND p.campus = '$campus'";
+                                            } elseif ($campus !== '' and $designation == "") {
+                                                $whereClause .= " p.campus = '$campus'";
+                                            }
+
                                             $count = 1;
-                                            $sql = "SELECT p.patientid, p.address, p.campus, p.designation, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid WHERE (p.designation = '$designation' OR p.campus = '$campus') ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT p.patientid, p.address, p.campus, p.designation, p.sex, p.birthday, p.department, p.college, p.program, p.yearlevel, p.section, p.email, p.contactno, p.emcon_name, p.emcon_number, ac.firstname, ac.middlename, ac.lastname FROM patient_info p INNER JOIN account ac on ac.accountid=p.patientid $whereClause ORDER BY department, designation, ac.firstname LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;

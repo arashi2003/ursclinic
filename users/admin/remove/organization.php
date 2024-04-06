@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include('../add/connection.php');
+    include('connection.php');
     $id = $_GET['no'];
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
@@ -14,7 +14,7 @@
         $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
         if($result = mysqli_query($conn, $sql))
         {
-            $_SESSION['alert'] = "Entry has been removed.";
+            $_SESSION['alert'] = "Organization has been removed.";
             ?>
             <script>
                 setTimeout(function() {

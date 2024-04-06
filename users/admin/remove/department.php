@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include('../add/connection');
+    include('connection.php');
     $id = $_GET['no'];
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
