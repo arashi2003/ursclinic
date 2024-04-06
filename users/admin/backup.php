@@ -2,9 +2,9 @@
 session_start();
 // Database configuration
 $host = "localhost";
-$username = "root";
-$password = "";
-$database_name = "dburs_usu";
+$username = "u442253511_dburs_usu";
+$password = "Ursclinic1.";
+$database_name = "u442253511_dburs_usu";
 
 // Get conection object and set the charset
 $con = mysqli_connect($host, $username, $password, $database_name);
@@ -65,16 +65,9 @@ foreach ($tables as $table) {
 }
 
 if (!empty($sqlScript)) {
-    // Define the directory where the backup files will be saved
-    $backup_directory = dirname('__FILE__') . '../../../../backup/';
-
-    // Check if the backup directory exists, if not, create it
-    if (!is_dir($backup_directory)) {
-        mkdir($backup_directory, 0777, true);
-    }
 
     // Construct the file path within the backup directory
-    $backup_file_name = $backup_directory . $database_name . '_backup_' . date('Ymd') . '.sql';
+    $backup_file_name = $database_name . '_backup_' . date('Ymd') . '.sql';
 
     // Save the SQL script to the backup file
     $fileHandler = fopen($backup_file_name, 'w+');
