@@ -21,7 +21,7 @@ if (isset($_POST['patientid'])) {
     } else {
         // Account does not exist
         // Return an error message
-        echo json_encode(array('error' => 'Account ID does not exist. Patient Information was not added.'));
+        echo json_encode(array('error' => 'Account ID does not exist.'));
     }
 
     // Close database connections and resources
