@@ -19,14 +19,14 @@ if (isset($_GET['yearlevel']) || isset($_GET['department'])) {
 
     // Add conditions based on filters
     if ($yearlevel !== '') {
-        $whereClause .= " WHERE yearlevel LIKE '%$yearlevel%'";
-    }
+        $whereClause .= " yearlevel LIKE '%$yearlevel%'";
+    }   
     if ($department !== '') {
-        $whereClause .= " WHERE department LIKE '%$department%'";
+        $whereClause .= " department LIKE '%$department%'";
     }
 
     // Construct and execute SQL query for counting total rows
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM yearlevel $whereClause ORDER BY department, yearlevel";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM yearlevel WHERE $whereClause ORDER BY department, yearlevel";
 } else {
     // If filters are not set, count all rows
     $sql_count = "SELECT COUNT(*) AS total_rows FROM yearlevel ORDER BY department, yearlevel";
