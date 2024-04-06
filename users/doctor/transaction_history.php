@@ -295,21 +295,82 @@ if ($pages > 4) {
                                             $count = 1;
 
                                             //date filter
-                                            if ($dt_from == "" and $dt_to == "") {
+                                            if ($dt_from == "" and $dt_to == "" and $type != "") {
+                                                // No date range provided
                                                 $date = "";
-                                            } elseif ($dt_to == $dt_from) {
+                                            } elseif ($dt_to == $dt_from and $dt_to != "" and $type != "") {
+                                                // Same start and end date
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $date = "  datetime LIKE '$fdate%'";
-                                            } elseif ($dt_to == "" and $dt_from != "") {
+                                                $date = " datetime LIKE '$fdate%'";
+                                            } elseif ($dt_to == "" and $dt_from != "" and $type != "") {
+                                                // Only start date provided
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $date = "  datetime >= '$fdate'";
-                                            } elseif ($dt_from == "" and $dt_to != "") {
+                                                $date = " datetime >= '$fdate'";
+                                            } elseif ($dt_from == "" and $dt_to != "" and $type != "") {
+                                                // Only end date provided
                                                 $d = date("Y-m-d", strtotime($dt_to));
-                                                $date = "  datetime <= '$d'";
-                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                                $date = " datetime <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type != "") {
+                                                // Start and end date range provided
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $ldate = date("Y-m-d", strtotime($dt_to));
-                                                $date = "  datetime >= '$fdate' AND datetime <= '$ldate'";
+                                                $date = " datetime >= '$fdate' AND datetime <= '$ldate'";
+                                            }
+                                        
+                                            if ($dt_from == "" and $dt_to == "" and $type != "") {
+                                                // No date range provided
+                                                $date = "";
+                                            } elseif ($dt_to == $dt_from and $dt_to != "" and $type != "") {
+                                                // Same start and end date
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime LIKE '$fdate%'";
+                                            } elseif ($dt_to == "" and $dt_from != "" and $type != "") {
+                                                // Only start date provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime >= '$fdate'";
+                                            } elseif ($dt_from == "" and $dt_to != "" and $type != "") {
+                                                // Only end date provided
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type != "") {
+                                                // Start and end date range provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+                                            } elseif ($dt_to == $dt_from and $dt_to != "" && $type == "") {
+                                                // Same start and end date
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " datetime LIKE '$fdate%'";
+                                            } elseif ($dt_to == "" and $dt_from != "" && $type == "") {
+                                                // Only start date provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " datetime >= '$fdate'";
+                                            } elseif ($dt_from == "" and $dt_to != "" && $type == "") {
+                                                // Only end date provided
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " datetime <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to && $type == "") {
+                                                // Start and end date range provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " datetime >= '$fdate' AND datetime <= '$ldate'";
+                                            } elseif ($dt_to == $dt_from and $dt_to != "" && $type == "") {
+                                                // Same start and end date
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime LIKE '$fdate%'";
+                                            } elseif ($dt_to == "" and $dt_from != "" && $type == "") {
+                                                // Only start date provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime >= '$fdate'";
+                                            } elseif ($dt_from == "" and $dt_to != "" && $type == "") {
+                                                // Only end date provided
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to && $type == "") {
+                                                // Start and end date range provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
                                             }
 
                                             //type filter

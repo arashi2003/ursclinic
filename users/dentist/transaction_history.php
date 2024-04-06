@@ -114,7 +114,6 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     // If no filters are applied, count all rows in the database
     $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE ((transaction = 'Consultation' AND purpose = 'Dental') OR (transaction = 'Medical History' AND purpose = 'Dental Checkup')) ORDER BY datetime DESC";
 }
-
 $count_result = $conn->query($sql_count);
 
 // Check if count query was successful
@@ -268,24 +267,81 @@ if ($pages > 4) {
 
                                             //date filter
                                             if ($dt_from == "" and $dt_to == "") {
+                                                // No date range provided
                                                 $date = "";
-                                            } elseif ($dt_to == $dt_from) {
+                                            } elseif ($dt_to == $dt_from and $dt_to != "") {
+                                                // Same start and end date
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $ldate = date("Y-m-d", strtotime($dt_to));
-                                                $date = "WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
+                                                $date = " AND datetime LIKE '$fdate%'";
                                             } elseif ($dt_to == "" and $dt_from != "") {
+                                                // Only start date provided
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $date = "WHERE datetime >= '$fdate'";
-                                            } elseif ($dt_to == "" and $dt_from != "") {
-                                                $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $date = "WHERE datetime >= '$fdate'";
+                                                $date = " AND datetime >= '$fdate'";
                                             } elseif ($dt_from == "" and $dt_to != "") {
+                                                // Only end date provided
                                                 $d = date("Y-m-d", strtotime($dt_to));
-                                                $date = "WHERE datetime <= '$d'";
+                                                $date = " AND datetime <= '$d'";
                                             } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                                // Start and end date range provided
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
                                                 $ldate = date("Y-m-d", strtotime($dt_to));
-                                                $date = "WHERE datetime >= '$datetime' datetime date <= '$ldate'";
+                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+                                            }
+                                        
+                                            if ($dt_from == "" and $dt_to == "") {
+                                                // No date range provided
+                                                $date = "";
+                                            } elseif ($dt_to == $dt_from and $dt_to != "") {
+                                                // Same start and end date
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime LIKE '$fdate%'";
+                                            } elseif ($dt_to == "" and $dt_from != "") {
+                                                // Only start date provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime >= '$fdate'";
+                                            } elseif ($dt_from == "" and $dt_to != "") {
+                                                // Only end date provided
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                                // Start and end date range provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+                                            } elseif ($dt_to == $dt_from and $dt_to != "") {
+                                                // Same start and end date
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime LIKE '$fdate%'";
+                                            } elseif ($dt_to == "" and $dt_from != "") {
+                                                // Only start date provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime >= '$fdate'";
+                                            } elseif ($dt_from == "" and $dt_to != "") {
+                                                // Only end date provided
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                                // Start and end date range provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+                                            } elseif ($dt_to == $dt_from and $dt_to != "") {
+                                                // Same start and end date
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime LIKE '$fdate%'";
+                                            } elseif ($dt_to == "" and $dt_from != "") {
+                                                // Only start date provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $date = " AND datetime >= '$fdate'";
+                                            } elseif ($dt_from == "" and $dt_to != "") {
+                                                // Only end date provided
+                                                $d = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime <= '$d'";
+                                            } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+                                                // Start and end date range provided
+                                                $fdate = date("Y-m-d", strtotime($dt_from));
+                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
                                             }
 
                                             $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient $date AND ((transaction = 'Consultation' AND purpose = 'Dental') OR (transaction = 'Medical History' AND purpose = 'Dental Checkup')) ORDER BY datetime DESC LIMIT $start, $rows_per_page";
