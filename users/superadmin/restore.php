@@ -3,9 +3,9 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['restoreBtn'])) {
     // Target database configuration
     $target_host = "localhost";
-    $target_username = "root";
-    $target_password = "";
-    $target_database_name = "dburs_usu";
+    $target_username = "u442253511_dburs_usu"; //"root";//
+    $target_password = 'Ursclinic1.'; //"" ;//
+    $target_database_name = "u442253511_dburs_usu"; //"dburs_usu";//
 
     // Connect to MySQL server
     $con = mysqli_connect($target_host, $target_username, $target_password);
