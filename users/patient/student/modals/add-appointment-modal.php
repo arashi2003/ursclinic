@@ -413,6 +413,14 @@
             document.getElementById('timeToNDiv').value = "";
             document.getElementById('timeFromPDiv').value = "";
             document.getElementById('timeToPDiv').value = "";
+
+            document.getElementById('datePDiv').classList.add('hidden');
+            document.getElementById('dateNDiv').classList.remove('hidden');
+            document.getElementById('timeToNDiv').classList.remove('hidden');
+            document.getElementById('timeFromNDiv').classList.remove('hidden');
+            document.getElementById('timeToPDiv').classList.add('hidden');
+            document.getElementById('timeFromPDiv').classList.add('hidden');
+
             document.getElementById('datetimeDiv').classList.remove('hidden');
             document.getElementById('purposeDiv').classList.remove('hidden');
             document.getElementById('ccDiv').classList.remove('hidden');
@@ -428,6 +436,14 @@
             document.getElementById('timeToNDiv').value = "";
             document.getElementById('timeFromPDiv').value = "";
             document.getElementById('timeToPDiv').value = "";
+            
+            document.getElementById('datePDiv').classList.add('hidden');
+            document.getElementById('dateNDiv').classList.remove('hidden');
+            document.getElementById('timeToNDiv').classList.remove('hidden');
+            document.getElementById('timeFromNDiv').classList.remove('hidden');
+            document.getElementById('timeToPDiv').classList.add('hidden');
+            document.getElementById('timeFromPDiv').classList.add('hidden');
+            
             document.getElementById('datetimeDiv').classList.remove('hidden');
             document.getElementById('purposeDiv').classList.remove('hidden');
             document.getElementById('ccDiv').classList.remove('hidden');
