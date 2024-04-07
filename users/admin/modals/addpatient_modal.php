@@ -24,8 +24,8 @@
                             <label for="sex" class="form-label">Sex:</label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sex" id="sex" required>
                                 <option value="" disabled selected>-Select Sex-</option>
-                                <option value="MALE>">MALE</option>
-                                <option value="FEMALE>">FEMALE</option>
+                                <option value="MALE">MALE</option>
+                                <option value="FEMALE">FEMALE</option>
                             </select>
                         </div>
                     </div>

@@ -159,13 +159,20 @@ if ($pages > 4) {
             ?>
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_audit_trail?date_from=<?= !empty($_GET['date_from']) ?>&date_to=<?= !empty($_GET['date_to']) ?>');" target="_blank">Export to PDF</button>
+                    <form action="reports/reports_audit_trail" method="post" id="exportPdfForm" target="_blank">
+                        <!-- Hidden input fields to store filter values -->
+                        <input type="hidden" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>" name="date_from" id="date_from">
+                        <input type="hidden" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>" name="date_to" id="date_to">
+
+                        <!-- Export PDF button -->
+                        <button type="submit" class="btn btn-primary" name="export_pdf">Export PDF</button>
+                    </form>
                 </div>
                 <div class="content">
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
-                                <form action="" method="get">
+                                <form action="" method="GET"  id="filterForm">
                                     <div class="row">
                                         <div class="col-md-2">
                                             <input type="text" name="date_from" id="from" placeholder="Date From" class="form-control" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>">
@@ -344,6 +351,27 @@ if ($pages > 4) {
 
             return date;
         }
+    });
+</script>
+
+<script>
+    function updateExportPdfForm() {
+        var dateFromInput = document.querySelector("input[name='date_from']");
+        var dateToInput = document.querySelector("input[name='date_to']");
+        document.getElementById("date_from").value = dateFromInput.value;
+        document.getElementById("date_to").value = dateToInput.value;
+    }
+
+    // Event listener for Export PDF form submission
+    document.getElementById("exportPdfForm").addEventListener("submit", function(event) {
+        // Update hidden input fields with filter values
+        updateExportPdfForm();
+    });
+
+    // Event listener for Filter form submission
+    document.getElementById("filterForm").addEventListener("submit", function(event) {
+        // Update hidden input fields with filter values
+        updateExportPdfForm();
     });
 </script>
 

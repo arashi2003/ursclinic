@@ -18,20 +18,20 @@ if (isset($_POST['save_excel_data'])) {
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileNamePath);
         $data = $spreadsheet->getActiveSheet()->toArray();
 
-        $count = "0";
+        $count = 0; // Start count from 0 to skip header row
         foreach ($data as $row) {
-            if ($count > 0) {
-                if (count($data) == 10) {
-                    $accountid = $row['0'];
-                    $password = $row['1'];
-                    $usertype = $row['2'];
-                    $firstname = $row['3'];
-                    $middlename = $row['4'];
-                    $lastname = $row['5'];
-                    $email = $row['6'];
-                    $contactno = $row['7'];
-                    $campus = $row['8'];
-                    $status = $row['9'];
+            if ($count > 0) { // Skip the first row (header row)
+                if (count($row) == 10) { // Check if the number of columns matches
+                    $accountid = $row[0];
+                    $password = $row[1];
+                    $usertype = $row[2];
+                    $firstname = $row[3];
+                    $middlename = $row[4];
+                    $lastname = $row[5];
+                    $email = $row[6];
+                    $contactno = $row[7];
+                    $campus = $row[8];
+                    $status = $row[9];
 
                     $dup = "SELECT accountid FROM account WHERE accountid = '$accountid'";
                     $result = mysqli_query($conn, $dup);
@@ -44,13 +44,13 @@ if (isset($_POST['save_excel_data'])) {
                         header('Location: ../account_users');
                         exit(0);
                     }
-                } else{
+                } else {
                     $_SESSION['alert'] = "Invalid File. Column number does not match.";
                     header('Location: ../account_users');
                     exit(0);
                 }
             } else {
-                $count = "1";
+                $count++;
             }
         }
 

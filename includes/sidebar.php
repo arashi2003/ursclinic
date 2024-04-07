@@ -342,7 +342,7 @@
             <li class="<?php if ($module == 'audittrail') {
                             echo 'active';
                         } ?>">
-                <a href="audittrail.php">
+                <a href="audittrail">
                     <i class='bx bxs-report'></i>
                     <span class="link_name">Audit Trail</span>
                 </a>
