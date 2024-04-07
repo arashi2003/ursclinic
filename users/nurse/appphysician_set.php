@@ -205,11 +205,11 @@ if ($pages > 4) {
                                         if (isset($_GET['physician']) && $_GET['physician'] != '') {
                                             $physician = $_GET['physician'];
                                             $count = 1;
-                                            $sql = "SELECT * FROM appointment_physician ap INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE physician LIKE '%$physician%' ORDER BY ap.purpose, ap.physician LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.purpose, ap.physician, p.purpose, t.type FROM appointment_physician ap INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE physician LIKE '%$physician%' ORDER BY ap.purpose, ap.physician LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT * FROM appointment_physician ap INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type ORDER BY ap.purpose, ap.physician LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.purpose, ap.physician, p.purpose, t.type FROM appointment_physician ap INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type ORDER BY ap.purpose, ap.physician LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
