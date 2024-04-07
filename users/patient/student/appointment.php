@@ -212,6 +212,8 @@ if ($pages > 4) {
                                             <th>Date</th>
                                             <th>Time from</th>
                                             <th>Time to</th>
+                                            <th>Type</th>
+                                            <th>Request</th>
                                             <th>Physician</th>
                                             <th>Status</th>
                                         </tr>
@@ -221,16 +223,16 @@ if ($pages > 4) {
                                         if (isset($_GET['date']) && $_GET['date'] != '') {
                                             $date = $_GET['date'];
                                             $count = 1;
-                                            $sql = "SELECT * FROM appointment WHERE date='$date' AND patient='$userid' ORDER BY status DESC, date DESC, time_from, time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT a.date, a.time_from, a.time_to, a.physician, a.status, a.id, p.purpose, t.type FROM appointment a INNER JOIN appointment_type t ON t.id=a.type INNER JOIN appointment_purpose p ON p.id=a.purpose W WHERE date='$date' AND patient='$userid' ORDER BY a.status DESC, a.date DESC, a.time_from, a.time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['physician']) && $_GET['physician'] != '') {
                                             $physician = $_GET['physician'];
                                             $count = 1;
-                                            $sql = "SELECT * FROM appointment WHERE physician='$physician' AND patient='$userid' ORDER BY status DESC, date DESC, time_from, time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT a.date, a.time_from, a.time_to, a.physician, a.status, a.id, p.purpose, t.type FROM appointment a INNER JOIN appointment_type t ON t.id=a.type INNER JOIN appointment_purpose p ON p.id=a.purpose W WHERE physician='$physician' AND patient='$userid' ORDER BY a.status DESC, a.date DESC, a.time_from, a.time_to  LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT * FROM appointment WHERE patient='$userid' ORDER BY status DESC, date DESC, time_from, time_to LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT a.date, a.time_from, a.time_to, a.physician, a.status, a.id, p.purpose, t.type FROM appointment a INNER JOIN appointment_type t ON t.id=a.type INNER JOIN appointment_purpose p ON p.id=a.purpose WHERE patient='$userid' ORDER BY a.status DESC, a.date DESC, a.time_from, a.time_to LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -251,6 +253,8 @@ if ($pages > 4) {
                                                         <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
                                                         <td><?php echo date("g:i A", strtotime($data['time_from'])) ?></td>
                                                         <td><?php echo date("g:i A", strtotime($data['time_to'])) ?></td>
+                                                        <td><?php echo $data['type']; ?></td>
+                                                        <td><?php echo $data['purpose']; ?></td>
                                                         <td><?php echo $physician; ?></td>
                                                         <td>
                                                             <?php

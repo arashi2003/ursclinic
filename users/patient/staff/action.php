@@ -1,6 +1,7 @@
 <?php
 include ('../../../connection.php');
-
+session_start();
+$campus = $_SESSION['campus'];
 $type = $_POST['type'];
 
 if ($type == 'purpose') {
@@ -24,7 +25,7 @@ if ($type == 'purpose') {
 } else if ($type == 'date') {
     $today = date("Y-m-d");
     $output = '';
-    $sql = "SELECT * FROM schedule WHERE name = '" . $_POST['pid'] . "' AND date > '$today' ORDER BY date";
+    $sql = "SELECT * FROM schedule WHERE name = '" . $_POST['pid'] . "' AND date > '$today' AND campus = '$campus' ORDER BY date";
     $result = mysqli_query($conn, $sql);
     $output .= '<option value="" disabled selected>-Select Date-</option>';
     foreach($result as $row) {

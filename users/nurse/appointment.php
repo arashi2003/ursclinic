@@ -628,17 +628,19 @@ if ($approved_pages > 4) {
                                                                         <?php
                                                                     } elseif ($data['status'] == 'APPROVED') {
                                                                         if ($data['physician'] == 'NONE') {
-                                                                        ?>
-                                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#recordppointment<?php echo $data['id'] ?>">Record</button>
-                                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?= $id; ?>">Cancel</button>
-                                                                        <?php } else { ?>
-                                                                            <button type="button" class="btn btn-primary btn-sm" disabled>Record</button>
-                                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?= $id; ?>">Cancel</button>
+                                                                            if ($data['date'] == $today) { ?>
+                                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#recordppointment<?php echo $data['id'] ?>">Record</button>
+                                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?= $id ?>">Cancel</button>
+                                                                            <?php } else { ?>
+                                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#recordppointment<?php echo $data['id'] ?>" disabled>Record</button>
+                                                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?= $id ?>">Cancel</button>
+                                                                            <?php }
+                                                                        } else { ?>
+                                                                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#recordppointment<?php echo $data['id'] ?>" disabled>Record</button>
+                                                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?= $id ?>">Cancel</button>
                                                                         <?php }
-                                                                        ?>
-                                                                    <?php
                                                                     } elseif ($data['status'] == 'COMPLETED') {
-                                                                    ?>
+                                                                        ?>
                                                                         <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#app_completed<?php echo $data['id'] ?>">
                                                                             <?php echo $data['status']; ?>
                                                                         </button>

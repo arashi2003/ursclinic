@@ -8,15 +8,15 @@
             <form method="POST" action="modals/cancel/appointment.php" id="form">
                 <div class="modal-body">
                     <input type="hidden" name="id" value="<?php echo $data['id'] ?>">
+                    <input type="hidden" name="time_from" value="<?php echo $data['time_from'] ?>">
+                    <input type="hidden" name="time_to" value="<?php echo $data['time_to'] ?>">
                     <div class="mb-2">
                         <label for="cancelreasonling" class="form-label">Reason for cancellation:</label>
                         <textarea class="form-control" name="reason" id="reason" style="resize: none;" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" value="Confirm"></input>
-                    &ThickSpace;
-                    <input type="reset" class="btn btn-danger" value="Cancel" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
+                    <input type="submit" class="btn btn-primary" value="Cancel Appointment Request"></input>
                 </div>
             </form>
         </div>

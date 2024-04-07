@@ -475,20 +475,9 @@
             document.getElementById('timeToNDiv').value = "";
             document.getElementById('timeFromPDiv').value = "";
             document.getElementById('timeToPDiv').value = "";
-<<<<<<< HEAD
-
-            document.getElementById('datePDiv').classList.add('hidden');
-            document.getElementById('dateNDiv').classList.remove('hidden');
-            document.getElementById('timeToNDiv').classList.remove('hidden');
-            document.getElementById('timeFromNDiv').classList.remove('hidden');
-            document.getElementById('timeToPDiv').classList.add('hidden');
-            document.getElementById('timeFromPDiv').classList.add('hidden');
-
-=======
             document.getElementById('dateMedDiv').value = "";
             document.getElementById('timeToMedDiv').value = "";
             document.getElementById('timeFromMedDiv').value = "";
->>>>>>> eec1b5e6af3e5c4be6579beeb362cdf84d22bb9f
             document.getElementById('datetimeDiv').classList.remove('hidden');
             document.getElementById('dateMedDiv').classList.remove('hidden');
             document.getElementById('timeToMedDiv').classList.remove('hidden');
@@ -513,20 +502,9 @@
             document.getElementById('timeToNDiv').value = "";
             document.getElementById('timeFromPDiv').value = "";
             document.getElementById('timeToPDiv').value = "";
-<<<<<<< HEAD
-            
-            document.getElementById('datePDiv').classList.add('hidden');
-            document.getElementById('dateNDiv').classList.remove('hidden');
-            document.getElementById('timeToNDiv').classList.remove('hidden');
-            document.getElementById('timeFromNDiv').classList.remove('hidden');
-            document.getElementById('timeToPDiv').classList.add('hidden');
-            document.getElementById('timeFromPDiv').classList.add('hidden');
-            
-=======
             document.getElementById('dateMedDiv').value = "";
             document.getElementById('timeToMedDiv').value = "";
             document.getElementById('timeFromMedDiv').value = "";
->>>>>>> eec1b5e6af3e5c4be6579beeb362cdf84d22bb9f
             document.getElementById('datetimeDiv').classList.remove('hidden');
             document.getElementById('datePDiv').classList.add('hidden');
             document.getElementById('dateMedDiv').classList.remove('hidden');

@@ -11,14 +11,8 @@
                         <label for="department" class="form-label">Department:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="department" required>
                             <option value="" disabled selected>-Select Department-</option>
-                            <?php
-                            include('connection.php');
-                            $sql = "SELECT * FROM department ORDER BY department";
-                            $result = mysqli_query($conn, $sql);
-                            while ($row = mysqli_fetch_array($result)) {
-                            ?>
-                                <option value="<?= $row['department']; ?>"><?= $row['department']; ?></option>
-                            <?php } ?>
+                            <option value="COLLEGE">COLLEGE</option>
+                            <option value="SENIOR HIGH SCHOOL">SENIOR HIGH SCHOOL</option>
                         </select>
                     </div>
                     <div class="mb-2">

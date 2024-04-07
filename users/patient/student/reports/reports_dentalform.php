@@ -421,33 +421,96 @@
         $pdf->Cell(17.8, 5, '', 0);
         $pdf->Cell(77.2, 5, 'Year', 1, 0);
         $pdf->SetFont('Arial', '', 7);
-        $pdf->Cell(15.7, 5, date("Y", strtotime($data['year_1'])) , 1, 0, 'C');// 
-        $pdf->Cell(15.5, 5, date("Y", strtotime($data['year_2'])) , 1, 0, 'C');// 
-        $pdf->Cell(15.7, 5, date("Y", strtotime($data['year_3'])) , 1, 0, 'C');// 
-        $pdf->Cell(15.3, 5, date("Y", strtotime($data['year_4'])) , 1, 0, 'C');// 
-        $pdf->Cell(15.8, 5, date("Y", strtotime($data['year_5'])) , 1, 0, 'C');// 
+        
+        if(!empty($data['year_2']) AND $data['year_2'] != '0000-00-00'){
+            $year2 = date("Y", strtotime($data['year_2']));
+        } else{
+            $year2 = "";
+        }
+        if(!empty($data['year_3']) AND $data['year_3'] != '0000-00-00'){
+            $year3 = date("Y", strtotime($data['year_3']));
+        } else{
+            $year3 = "";
+        }
+        if(!empty($data['year_4']) AND $data['year_4'] != '0000-00-00'){
+            $year4 = date("Y", strtotime($data['year_4']));
+        } else{
+            $year4 = "";
+        }
+        if(!empty($data['year_5']) AND $data['year_5'] != '0000-00-00'){
+            $year5 = date("Y", strtotime($data['year_5']));
+        } else{
+            $year5 = "";
+        }
 
+        $pdf->Cell(15.7, 5, date("Y", strtotime($data['year_1'])) , 1, 0, 'C');// 
+        $pdf->Cell(15.5, 5, $year2, 1, 0, 'C');// 
+        $pdf->Cell(15.7, 5, $year3 , 1, 0, 'C');// 
+        $pdf->Cell(15.3, 5, $year4 , 1, 0, 'C');// 
+        $pdf->Cell(15.8, 5, $year5 , 1, 0, 'C');// 
+
+        if(!empty($data['doe_2']) AND $data['doe_2'] != '0000-00-00'){
+            $doe_2 = date("Y", strtotime($data['doe_2']));
+        } else{
+            $doe_2 = "";
+        }
+        if(!empty($data['doe_3']) AND $data['doe_3'] != '0000-00-00'){
+            $doe_3 = date("Y", strtotime($data['year_3']));
+        } else{
+            $doe_3 = "";
+        }
+        if(!empty($data['doe_4']) AND $data['doe_4'] != '0000-00-00'){
+            $doe_4 = date("Y", strtotime($data['doe_4']));
+        } else{
+            $doe_4 = "";
+        }
+        if(!empty($data['doe_5']) AND $data['doe_5'] != '0000-00-00'){
+            $doe_5 = date("Y", strtotime($data['doe_5']));
+        } else{
+            $doe_5 = "";
+        }
         $pdf->Cell(0, 5, '', 0, 1);
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->Cell(17.8, 5, '', 0);
         $pdf->Cell(77.2, 5, 'DATE of EXAMINATION', 1, 0);
         $pdf->SetFont('Arial', '', 7);
         $pdf->Cell(15.7, 5, $data['doe_1'] , 1, 0, 'C');// 
-        $pdf->Cell(15.5, 5, $data['doe_2'] , 1, 0, 'C');// 
-        $pdf->Cell(15.7, 5, $data['doe_3'] , 1, 0, 'C');// 
-        $pdf->Cell(15.3, 5, $data['doe_4'] , 1, 0, 'C');// 
-        $pdf->Cell(15.8, 5, $data['doe_5'] , 1, 0, 'C');// 
+        $pdf->Cell(15.5, 5, $doe_2 , 1, 0, 'C');// 
+        $pdf->Cell(15.7, 5, $doe_3 , 1, 0, 'C');// 
+        $pdf->Cell(15.3, 5, $doe_4 , 1, 0, 'C');// 
+        $pdf->Cell(15.8, 5, $doe_5 , 1, 0, 'C');// 
 
+        if(!empty($data['alb_2']) AND $data['alb_2'] != '0000-00-00'){
+            $alb_2 = date("Y", strtotime($data['alb_2']));
+        } else{
+            $alb_2 = "";
+        }
+        if(!empty($data['alb_3']) AND $data['alb_3'] != '0000-00-00'){
+            $alb_3 = date("Y", strtotime($data['alb_3']));
+        } else{
+            $alb_3 = "";
+        }
+        if(!empty($data['alb_4']) AND $data['alb_4'] != '0000-00-00'){
+            $alb_4 = date("Y", strtotime($data['alb_4']));
+        } else{
+            $alb_4 = "";
+        }
+        if(!empty($data['alb_5']) AND $data['alb_5'] != '0000-00-00'){
+            $alb_5 = date("Y", strtotime($data['alb_5']));
+        } else{
+            $alb_5 = "";
+        }
         $pdf->Cell(0, 5, '', 0, 1);
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->Cell(17.8, 5, '', 0);
         $pdf->Cell(77.2, 5, 'AGE LAST BIRTHDAY', 1, 0);
         $pdf->SetFont('Arial', '', 7);
         $pdf->Cell(15.7, 5, $data['alb_1'] , 1, 0, 'C');// 
-        $pdf->Cell(15.5, 5, $data['alb_2'] , 1, 0, 'C');// 
-        $pdf->Cell(15.7, 5, $data['alb_3'] , 1, 0, 'C');// 
-        $pdf->Cell(15.3, 5, $data['alb_4'] , 1, 0, 'C');// 
-        $pdf->Cell(15.8, 5, $data['alb_5'] , 1, 0, 'C');// 
+        $pdf->Cell(15.5, 5, $alb_2, 1, 0, 'C');// 
+        $pdf->Cell(15.7, 5, $alb_3 , 1, 0, 'C');// 
+        $pdf->Cell(15.3, 5, $alb_4 , 1, 0, 'C');// 
+        $pdf->Cell(15.8, 5, $alb_5, 1, 0, 'C');// 
+
 
         $pdf->Cell(0, 5, '', 0, 1);
         $pdf->SetFont('Arial', 'B', 8);

@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="te" class="form-label">Tool/Equipment:</label>
-                        <input type="text" value="<?php echo $data['teid']?>" hidden>
+                        <input type="text" name="teid" value="<?php echo $data['teid']?>" hidden>
                         <input type="text" class="form-control" name="tools_equip" value="<?php echo $data['tools_equip']?>" id="tools_equip">
                     </div>
                     <div class="mb-2">

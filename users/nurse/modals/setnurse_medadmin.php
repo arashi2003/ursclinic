@@ -3,7 +3,7 @@
     include('connection.php');
     $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
-    $med_admin = $_POST['med_admin'];
+    $med_admin = $_POST['medadmin'];
     $fullname = strtoupper($_SESSION['name']);
     $au_status = "unread";
 
@@ -26,7 +26,7 @@
         $query = "INSERT INTO med_admin SET med_admin='$med_admin'";
         if($result = mysqli_query($conn, $query))
         {
-            $query = "INSERT INTO audit_trail (user, '$fullname', activity, status, datetime) VALUES ('$accountid', '$fullname', 'added a medicine administration', '$au_status', now())";
+            $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'added a medicine administration', '$au_status', now())";
             if($result = mysqli_query($conn, $query))
             {
                 $_SESSION['alert'] = "Medicine Administration has been added.";

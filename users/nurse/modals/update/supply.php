@@ -9,9 +9,9 @@
     $activity = "added supply ID " . $_POST['supid'] . " inventory stocks";
     $batchid = "B" . date("Ymd");
     $medid = $_POST['supid'];
-    $qty = $_POST['quantity'];
     $o = $_POST['opened'];
     $c = $_POST['close'];
+    $qty = $o + $c;
 
     $au_campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
@@ -34,7 +34,7 @@
     {
         
         // update inventory total
-        $query = "UPDATE inv_total SET open='$o', closed='$c', qty='$qty' WHERE stockid='$medid'";
+        $query = "UPDATE inv_total SET open='$o', closed='$c', qty='$qty' WHERE stockid='$medid' AND type = 'supply'";
         if(mysqli_query($conn, $query))
         {
             //update inventory by batch

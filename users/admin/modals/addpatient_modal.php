@@ -5,23 +5,15 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Add Patient Information</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
             </div>
-            <form method="POST" action="modals/update/update_patient.php" id="form">
+            <form method="POST" action="add/patient_add.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="patientid" class="form-label">Patient ID:</label>
                         <input type="text" class="form-control" name="patientid" id="patientid" onchange="fetchPatientData()" required>
                     </div>
                     <div class="mb-2">
-                        <label for="firstname" class="form-label">First Name:</label>
-                        <input type="text" class="form-control" name="firstname" id="firstname" required>
-                    </div>
-                    <div class="mb-2">
-                        <label for="middlename" class="form-label">Middle Name:</label>
-                        <input type="text" class="form-control" name="middlename" id="middlename">
-                    </div>
-                    <div class="mb-2">
-                        <label for="lastname" class="form-label">Last Name:</label>
-                        <input type="text" class="form-control" name="lastname" id="lastname" required>
+                        <label for="fullname" class="form-label">Full name:</label>
+                        <input type="text" class="form-control" name="fullname" id="fullname" disabled>
                     </div>
                     <div class="row">
                         <div class="col mb-2">
@@ -106,11 +98,11 @@
                     </div>
                     <div class="mb-2">
                         <label for="email" class="form-label">Email Address:</label>
-                        <input type="text" class="form-control" name="email" id="email" required>
+                        <input type="text" class="form-control" name="email" id="email" required disabled>
                     </div>
                     <div class="mb-2">
                         <label for="contactno" class="form-label">Contact Number:</label>
-                        <input type="text" maxlength="13" class="form-control" name="contactno" id="contactno" required>
+                        <input type="text" maxlength="13" class="form-control" name="contactno" id="contactno" required disabled>
                     </div>
                     <div class="mb-2">
                         <label for="email" class="form-label">Home Address:</label>
@@ -235,9 +227,9 @@
 
 <script>
     function fetchPatientData() {
-        var patientId = document.getElementById('patientid').value;
+        var patientId = document.getElementById('patientid').value.trim(); // Trim the input
         console.log('Patient ID:', patientId);
-        if (patientId.trim() !== '') {
+        if (patientId !== '') {
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'modals/check_patient.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -247,15 +239,21 @@
                         var response = JSON.parse(xhr.responseText);
                         console.log(response); // Check response in console
                         if (response.error) {
-                            // Account does not exist
+                            // Account does not exist or patient info already exists
                             document.getElementById('patientid').classList.add('is-invalid');
                             document.getElementById('patientid').setCustomValidity(response.error);
                             document.getElementById('patientid').reportValidity();
+                            document.getElementById('fullname').value = ''; // Clear full name
+                            document.getElementById('email').value = ''; // Clear full name
+                            document.getElementById('contactno').value = ''; // Clear full name
                         } else {
-                            // Account exists
+                            // Account exists and patient info does not exist
                             document.getElementById('patientid').classList.remove('is-invalid');
                             document.getElementById('patientid').setCustomValidity('');
-                            // Additional actions if needed
+                            // Auto-populate full name
+                            document.getElementById('fullname').value = response.fullname;
+                            document.getElementById('email').value = response.email;
+                            document.getElementById('contactno').value = response.contactno;
                         }
                     } else {
                         console.error('Error: Unable to fetch account data');
@@ -267,6 +265,9 @@
             // Clear any previous errors
             document.getElementById('patientid').classList.remove('is-invalid');
             document.getElementById('patientid').setCustomValidity('');
+            document.getElementById('fullname').value = ''; // Clear full name
+            document.getElementById('email').value = ''; // Clear email
+            document.getElementById('contactno').value = ''; // Clear contact
         }
     }
 </script>

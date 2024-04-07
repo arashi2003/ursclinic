@@ -3,22 +3,37 @@ session_start();
 include('connection.php');
 $accountid = $_POST['patientid'];
 $designation = $_POST['designation'];
-$firstname  = strtoupper($_POST['firstname']);
-$middlename = strtoupper($_POST['middlename']);
-$lastname  = strtoupper($_POST['lastname']);
 $age  = floor((time() - strtotime($_POST['birthday'])) / 31556926);
 $sex = strtoupper($_POST['sex']);
 $birthday = date("Y-m-d", strtotime($_POST['birthday']));
 $department = $_POST['department'];
-$college = $_POST['college'];
-$program = $_POST['program'];
-$yearlevel = $_POST['yearlevel'];
-$section = $_POST['section'];
-$block = $_POST['block'];
-$email = $_POST['email'];
-$contactno = $_POST['contactno'];
+if (!empty($_POST['college'])) {
+    $college = $_POST['college'];
+} else{
+    $college = "";
+}
+if (!empty($_POST['program'])) {
+    $program = $_POST['program'];
+} else{
+    $program = "";
+}
+if (!empty($_POST['yearlevel'])) {
+    $yearlevel = $_POST['yearlevel'];
+} else{
+    $yearlevel = "";
+}
+if (!empty($_POST['section'])) {
+    $section = $_POST['section'];
+} else{
+    $section = "";
+}
+if (!empty($_POST['block'])) {
+    $block = $_POST['block'];
+} else{
+    $block = "";
+}
 $address = $_POST['address'];
-$emcon_name = $_POST['emcon_name'];
+$emcon_name = $_POST['emcon_name']; 
 $emcon_number = $_POST['emcon_number'];
 
 $user = $_SESSION['userid'];
@@ -27,11 +42,15 @@ $fullname = strtoupper($_SESSION['name']);
 $activity = "added a patient information";
 $au_status = "unread";
 
-$sql = "SELECT accountid, firstname, lastname FROM account WHERE accountid = '$accountid' AND firstname = '$firstname' AND lastname='$lastname'";
+$sql = "SELECT accountid, email, contactno FROM account WHERE accountid = '$accountid'";
 $result = mysqli_query($conn, $sql);
 $resultCheck = mysqli_num_rows($result);
 if ($resultCheck > 0) {
-    $sql = "INSERT INTO patient_info SET patientid = '$accountid', designation = '$designation', age = '$age', sex = '$sex', birthday = '$birthday', department = '$department', block='$block', campus = '$au_campus', college = '$college', program = '$program', yearlevel = '$yearlevel', section = '$section', email = '$email', contactno = '$contactno', address='$address', emcon_name = '$emcon_name', emcon_number = '$emcon_number', datetime_updated = now(), datetime_created = now()";
+    while($tss = mysqli_fetch_array($result)){
+        $email = $tss['email'];
+        $contactno = $tss['contactno'];
+    }
+    $sql = "INSERT INTO patient_info SET patientid = '$accountid', designation = '$designation', sex = '$sex', birthday = '$birthday', department = '$department', block='$block', campus = '$au_campus', college = '$college', program = '$program', yearlevel = '$yearlevel', section = '$section', email = '$email', contactno = '$contactno', address='$address', emcon_name = '$emcon_name', emcon_number = '$emcon_number', datetime_updated = now(), datetime_created = now()";
     if (mysqli_query($conn, $sql)) {
         $doc = "INSERT INTO `meddoc` (`type`, `applicant`, `doc_desc`, `document`, `status`, `remarks`, `dt_uploaded`, `dt_updated`) VALUES
         ('ATHLETE', '$accountid', 'X-Ray', 'nofile.png', 'Pending', '', now(), now()),
@@ -123,7 +142,7 @@ if ($resultCheck > 0) {
     <?php
     }
 } else {
-    $_SESSION['alert'] = "Account ID has been used. Patient Information was not added.";
+    $_SESSION['alert'] = "Account ID does not exist.";
     ?>
     <script>
         setTimeout(function() {

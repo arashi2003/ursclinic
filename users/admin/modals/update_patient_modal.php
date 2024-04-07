@@ -181,6 +181,10 @@
                         <label for="section" class="form-label">Section:</label>
                         <input type="text" class="form-control" name="section" id="section" value="<?php echo $data['section']?>">
                     </div>
+                    <div class="mb-2">
+                        <label for="section" class="form-label">Block:</label>
+                        <input type="text" class="form-control" name="block" id="block" value="<?php echo $data['block']?>">
+                    </div>
                     <?php }?>
 
                     <div class="mb-2">

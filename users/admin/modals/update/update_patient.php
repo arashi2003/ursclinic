@@ -11,6 +11,7 @@ $college = $_POST['college'];
 $program = $_POST['program'];
 $yearlevel = $_POST['yearlevel'];
 $section = $_POST['section'];
+$block = $_POST['block'];
 $email = $_POST['email'];
 $contactno = $_POST['contactno'];
 $address = $_POST['address'];
@@ -23,7 +24,7 @@ $fullname = strtoupper($_SESSION['name']);
 $activity = "updated the patient information of " . $accountid;
 $au_status = "unread";
 
-$sql = "UPDATE patient_info SET designation = '$designation', age = '$age', sex = '$sex', birthday = '$birthday', department = '$department', college = '$college', program = '$program', yearlevel = '$yearlevel', section = '$section', email = '$email', contactno = '$contactno', address='$address', emcon_name = '$emcon_name', emcon_number = '$emcon_number', datetime_updated = now() WHERE patientid='$accountid'";
+$sql = "UPDATE patient_info SET designation = '$designation', sex = '$sex', birthday = '$birthday', department = '$department', college = '$college', program = '$program', yearlevel = '$yearlevel', section = '$section', email = '$email', contactno = '$contactno', address='$address', emcon_name = '$emcon_name', emcon_number = '$emcon_number', datetime_updated = now() WHERE patientid='$accountid'";
 if (mysqli_query($conn, $sql)) {
     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
     if ($result = mysqli_query($conn, $sql)) {

@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="supply" class="form-label">Medical Supply:</label>
-                        <input type="text" value="<?php echo $data['supid']?>" hidden>
+                        <input type="text" name="supid" value="<?php echo $data['supid']?>"  hidden>
                         <input type="text" class="form-control" name="supply" value="<?php echo $data['supply']?>" id="supply">
                     </div>
                     <div class="mb-2">

@@ -3,11 +3,13 @@ session_start();
 include('../connection.php');
 $id = $_POST['id'];
 $reason = $_POST['reason'];
+$time_from = $_POST['time_from'];
+$time_to = $_POST['time_to'];
 
 $query = "SELECT * FROM appointment WHERE id = '$id'";
 $result = mysqli_query($conn, $query);
-while($data=mysqli_fetch_array($result)){
-    $patientid=$data['patient'];
+while ($data = mysqli_fetch_array($result)) {
+    $patientid = $data['patient'];
 }
 
 $userid = $_SESSION['userid'];
@@ -21,6 +23,9 @@ if ($result = mysqli_query($conn, $query)) {
     $query = "INSERT INTO audit_trail (user, campus, fullname, activity, status, datetime) VALUES ('$userid', '$au_campus', '$fullname', '$activity', '$au_status', now())";
     if ($result = mysqli_query($conn, $query)) {
         $_SESSION['alert'] = "Appointment has been cancelled.";
+
+        $sql = "UPDATE time_pickup SET isSelected = 'No' WHERE time IN ('$time_from', '$time_to')";
+        mysqli_query($conn, $sql) or die(mysqli_error($conn));
 ?>
         <script>
             setTimeout(function() {

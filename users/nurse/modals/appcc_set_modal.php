@@ -16,11 +16,9 @@
                         $result = mysqli_query($conn, $sql);
                         while ($row = mysqli_fetch_array($result)) {
                         ?>
-                            <option value="<?= $row['purpose']; ?>"><?= $row['type'] . ' - ' . $row['purpose']; ?></option>
+                            <option value="<?= $row['id']; ?>"><?= $row['type'] . ' - ' . $row['purpose']; ?></option>
                         <?php } ?>
                     </select>
-                </div>
-                <div class="modal-body">
                     <label for="appcc" class="form-label">Appointment Chief Complaint:</label>
                     <div class="mb-2">
                         <input type="text" class="form-control" name="appcc" id="appcc" required>

@@ -243,8 +243,8 @@ if ($pages > 4) {
                                             $sql = "SELECT * FROM medicine WHERE CONCAT(medicine, ' ', dosage, unit_measure) LIKE '%$medicine%' ORDER BY med_admin, medicine LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['med_admin']) && $_GET['med_admin'] != '' || isset($_GET['dform']) && $_GET['dform'] != '') {
-                                            $med_admin = $_GET['med_admin'];
-                                            $dform = $_GET['dform'];
+                                            $med_admin = isset($_GET['med_admin']) ? $_GET['med_admin'] : '';
+                                            $dform = isset($_GET['dform']) ? $_GET['dform'] : '';
                                             if ($med_admin == "") {
                                                 $medadmin = "";
                                             } else {

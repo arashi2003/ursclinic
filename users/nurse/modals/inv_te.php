@@ -1,7 +1,8 @@
 <?php
     session_start();
     include('connection.php');
-    $te = $_POST['te'];
+    
+    $te = $_POST['tools_equip'];
     $unit = $_POST['unit_measure'];
 
     $user = $_SESSION['userid'];
@@ -26,7 +27,7 @@
     }
     else
     {
-        $query = "INSERT INTO tools_equip (te, unit_measure, datetime) VALUES ('$te', '$unit', now())";
+        $query = "INSERT INTO tools_equip (tools_equip, unit_measure, datetime) VALUES ('$te', '$unit', now())";
         if($result = mysqli_query($conn, $query))
         {
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";

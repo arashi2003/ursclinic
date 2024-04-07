@@ -1,16 +1,17 @@
 <?php
     session_start();
     include('../connection.php');
-    $te = $_POST['te'];
+    
+    $te = $_POST['tools_equip'];
     $unit = $_POST['unit_measure'];
-    $id=$_POST['teid'];
+    $teid=$_POST['teid'];
     
     $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     $fullname = strtoupper($_SESSION['name']);
     $au_status = "unread";
 
-    $query = "UPDATE tools_equip SET te='$te', unit_measure='$unit', datetime=now() WHERE teid='$teid'";
+    $query = "UPDATE tools_equip SET tools_equip='$te', unit_measure='$unit', datetime=now() WHERE teid='$teid'";
     if($result = mysqli_query($conn, $query))
     {
         $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'updated a tool/equipment entry', '$au_status', now())";

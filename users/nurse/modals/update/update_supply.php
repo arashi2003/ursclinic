@@ -19,7 +19,7 @@
         $volume = $_POST['volume'];
     }
     
-    $query = "UPDATE supply SET supply='$supply', volume='$volume', unit_measure=,'$unit' datetime=now() WHERE supid='$id'";
+    $query = "UPDATE supply SET supply='$supply', volume='$volume', unit_measure='$unit', datetime=now() WHERE supid='$id'";
     if($result = mysqli_query($conn, $query))
     {
         $query = "INSERT INTO audit_trail (user, fullname, activity, status, datetime) VALUES ('$accountid', '$fullname', 'updated a medical supply entry', '$au_status', now())";

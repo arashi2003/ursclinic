@@ -33,8 +33,7 @@ if (isset($_GET['supply'])) {
 } else {
     // If filters are not set, count all rows
     $sql_count = "SELECT COUNT(*) AS total_rows 
-                  FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid
-                  WHERE campus = '$campus' AND i.qty > 0 ORDER BY stock_name";
+                  FROM inv_total i INNER JOIN supply s ON s.supid=i.stockid WHERE campus = '$campus' AND type = 'supply' AND qty > 0  ORDER BY stock_name";
 }
 
 // Execute the count query

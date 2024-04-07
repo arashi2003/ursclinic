@@ -31,7 +31,7 @@ $today = date("Y-m-d");
 $query0 = "UPDATE inventory_medicine SET closed = '$c', open = '$o', qty = '$qty' WHERE campus = '$campus' AND medid = '$medid' AND expiration > '$today' AND closed != 0 AND open != 0 AND qty != 0 LIMIT 1";
 mysqli_query($conn, $query0);
 // update inventory total
-$query = "UPDATE inv_total SET open='$o', closed='$c', qty='$qty' WHERE stockid='$medid'";
+$query = "UPDATE inv_total SET open='$o', closed='$c', qty='$qty' WHERE stockid='$medid' AND type = 'medicine'";
 mysqli_query($conn, $query);
 
 //update inventory by batch
