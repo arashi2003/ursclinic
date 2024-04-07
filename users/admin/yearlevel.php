@@ -15,14 +15,14 @@ if (isset($_GET['yearlevel']) || isset($_GET['department'])) {
     $department = isset($_GET['department']) ? $_GET['department'] : '';
 
     // Initialize the WHERE clause
-    $whereClause = ""; // Start with a default condition that is always true
+    $whereClause = " WHERE 1"; // Add space before WHERE
 
     // Add conditions based on filters
     if ($yearlevel !== '') {
-        $whereClause .= " WHERE yearlevel LIKE '%$yearlevel%'";
+        $whereClause .= " AND yearlevel LIKE '%$yearlevel%'";
     }
     if ($department !== '') {
-        $whereClause .= " WHERE department LIKE '%$department%'";
+        $whereClause .= " AND department LIKE '%$department%'";
     }
 
     // Construct and execute SQL query for counting total rows
@@ -216,11 +216,9 @@ if ($pages > 4) {
                                                 <?php
                                                     include('modals/update_yearlevel_modal.php');
                                                     include('modals/rem_yearlevel_modal.php');
-                                                } ?>
-
-                                            <?php
+                                                }
                                             } else {
-                                            ?>
+                                                ?>
                                                 <td colspan="15">
                                                     <?php
                                                     include('../../includes/no-data.php');

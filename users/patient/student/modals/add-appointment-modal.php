@@ -39,6 +39,38 @@
                         </select>
                     </div>
                     <div class="row hidden" id="datetimeDiv">
+                        <div class="col-md-6 mb-2 hidden" id="dateMedDiv">
+                            <label for="date" class="col-form-label">Date:</label>
+                            <input type="text" class="form-control" name="datem" id="showDate" placeholder="mm/dd/yyyy">
+                        </div>
+                        <div class="col-md-6 mb-2 hidden" id="timeFromMedDiv">
+                            <label for="time_from" class="col-form-label">Time From:</label>
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_fromm" id="time_fromm">
+                                <option value="" disabled selected>-:-- --</option>
+                                <?php
+                                include('connection.php');
+                                session_start();
+                                $campus = $_SESSION['campus'];
+
+                                $beng = "SELECT count(id) FROM time_pickup WHERE campus = '$campus' ";
+                                $result = mysqli_query($conn, $beng);
+                                while ($toot = mysqli_fetch_array($result)) {
+                                    $numrows = $toot['count(id)'] - 1;
+                                }
+                                $sql = "SELECT * FROM time_pickup WHERE campus = '$campus' LIMIT $numrows";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                    $time = date('g:i A', strtotime($row['time'])); // Format time as '12:00 PM'
+                                ?>
+                                    <option value="<?= $row['time']; ?>"><?= $time; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-2 hidden" id="timeToMedDiv">
+                            <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_tom" id="time_tom" hidden>
+                                <option value="" disabled selected>-:-- --</option>
+                            </select>
+                        </div>
                         <div class="col-md-6 mb-2 hidden" id="dateNDiv">
                             <label for="date" class="col-form-label">Date:</label>
                             <input type="text" class="form-control" name="daten" id="showDate" placeholder="mm/dd/yyyy">
@@ -71,7 +103,7 @@
                                 include('connection.php');
                                 session_start();
                                 $campus = $_SESSION['campus'];
-                                
+
                                 $beng = "SELECT count(id) FROM time_pickup WHERE campus = '$campus' ";
                                 $result = mysqli_query($conn, $beng);
                                 while ($toot = mysqli_fetch_array($result)) {
@@ -332,6 +364,30 @@
             }
         });
     });
+
+    $(document).ready(function() {
+        $("#time_fromm").change(function() {
+            var time_frommid = $(this).val();
+            if (time_frommid == '') {
+                $("#time_tom").html('<option value="" disabled selected>-:-- --</option>');
+            } else {
+                $.ajax({
+                    url: "timem.php", // Ensure this URL is correct
+                    method: "POST",
+                    data: {
+                        time_fromm: time_frommid
+                    },
+                    success: function(data) {
+                        $("#time_tom").html('<option value="" disabled selected>-:-- --</option>');
+                        $("#time_tom").html(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
 </script>
 <script>
     $(document).ready(function() {
@@ -398,6 +454,9 @@
             document.getElementById('timeToNDiv').value = "";
             document.getElementById('timeFromPDiv').value = "";
             document.getElementById('timeToPDiv').value = "";
+            document.getElementById('dateMedDiv').value = "";
+            document.getElementById('timeToMedDiv').value = "";
+            document.getElementById('timeFromMedDiv').value = "";
             document.getElementById('datetimeDiv').classList.remove('hidden');
             document.getElementById('purposeDiv').classList.remove('hidden');
             document.getElementById('ccDiv').classList.remove('hidden');
@@ -406,6 +465,9 @@
             document.getElementById('quantityDiv').classList.add('hidden');
             document.getElementById('physicianDiv').classList.remove('hidden');
             document.getElementById('others').classList.add('hidden');
+            document.getElementById('dateMedDiv').classList.add('hidden');
+            document.getElementById('timeToMedDiv').classList.add('hidden');
+            document.getElementById('timeFromMedDiv').classList.add('hidden');
         } else if (answer.value == 4) {
             document.getElementById('dateNDiv').value = "";
             document.getElementById('datePDiv').value = "";
@@ -413,6 +475,7 @@
             document.getElementById('timeToNDiv').value = "";
             document.getElementById('timeFromPDiv').value = "";
             document.getElementById('timeToPDiv').value = "";
+<<<<<<< HEAD
 
             document.getElementById('datePDiv').classList.add('hidden');
             document.getElementById('dateNDiv').classList.remove('hidden');
@@ -421,7 +484,21 @@
             document.getElementById('timeToPDiv').classList.add('hidden');
             document.getElementById('timeFromPDiv').classList.add('hidden');
 
+=======
+            document.getElementById('dateMedDiv').value = "";
+            document.getElementById('timeToMedDiv').value = "";
+            document.getElementById('timeFromMedDiv').value = "";
+>>>>>>> eec1b5e6af3e5c4be6579beeb362cdf84d22bb9f
             document.getElementById('datetimeDiv').classList.remove('hidden');
+            document.getElementById('dateMedDiv').classList.remove('hidden');
+            document.getElementById('timeToMedDiv').classList.remove('hidden');
+            document.getElementById('timeFromMedDiv').classList.remove('hidden');
+            document.getElementById('datePDiv').classList.add('hidden');
+            document.getElementById('dateNDiv').classList.add('hidden');
+            document.getElementById('timeToNDiv').classList.add('hidden');
+            document.getElementById('timeFromNDiv').classList.add('hidden');
+            document.getElementById('timeToPDiv').classList.add('hidden');
+            document.getElementById('timeFromPDiv').classList.add('hidden');
             document.getElementById('purposeDiv').classList.remove('hidden');
             document.getElementById('ccDiv').classList.remove('hidden');
             document.getElementById('supDupDiv').classList.add('hidden');
@@ -436,6 +513,7 @@
             document.getElementById('timeToNDiv').value = "";
             document.getElementById('timeFromPDiv').value = "";
             document.getElementById('timeToPDiv').value = "";
+<<<<<<< HEAD
             
             document.getElementById('datePDiv').classList.add('hidden');
             document.getElementById('dateNDiv').classList.remove('hidden');
@@ -444,7 +522,21 @@
             document.getElementById('timeToPDiv').classList.add('hidden');
             document.getElementById('timeFromPDiv').classList.add('hidden');
             
+=======
+            document.getElementById('dateMedDiv').value = "";
+            document.getElementById('timeToMedDiv').value = "";
+            document.getElementById('timeFromMedDiv').value = "";
+>>>>>>> eec1b5e6af3e5c4be6579beeb362cdf84d22bb9f
             document.getElementById('datetimeDiv').classList.remove('hidden');
+            document.getElementById('datePDiv').classList.add('hidden');
+            document.getElementById('dateMedDiv').classList.remove('hidden');
+            document.getElementById('timeToMedDiv').classList.remove('hidden');
+            document.getElementById('timeFromMedDiv').classList.remove('hidden');
+            document.getElementById('dateNDiv').classList.add('hidden');
+            document.getElementById('timeToNDiv').classList.add('hidden');
+            document.getElementById('timeFromNDiv').classList.add('hidden');
+            document.getElementById('timeToPDiv').classList.add('hidden');
+            document.getElementById('timeFromPDiv').classList.add('hidden');
             document.getElementById('purposeDiv').classList.remove('hidden');
             document.getElementById('ccDiv').classList.remove('hidden');
             document.getElementById('medDupDiv').classList.add('hidden');
@@ -465,6 +557,12 @@
             document.getElementById('timeToPDiv').value = "";
             document.getElementById('dateNDiv').value = "";
             document.getElementById('datePDiv').value = "";
+            document.getElementById('dateMedDiv').value = "";
+            document.getElementById('timeToMedDiv').value = "";
+            document.getElementById('timeFromMedDiv').value = "";
+            document.getElementById('dateMedDiv').classList.add('hidden');
+            document.getElementById('timeToMedDiv').classList.add('hidden');
+            document.getElementById('timeFromMedDiv').classList.add('hidden');
             document.getElementById('dateNDiv').classList.remove('hidden');
             document.getElementById('datePDiv').classList.add('hidden');
             document.getElementById('timeFromNDiv').classList.remove('hidden');
@@ -478,6 +576,12 @@
             document.getElementById('timeToNDiv').value = "";
             document.getElementById('timeFromPDiv').value = "";
             document.getElementById('timeToPDiv').value = "";
+            document.getElementById('dateMedDiv').value = "";
+            document.getElementById('timeToMedDiv').value = "";
+            document.getElementById('timeFromMedDiv').value = "";
+            document.getElementById('dateMedDiv').classList.add('hidden');
+            document.getElementById('timeToMedDiv').classList.add('hidden');
+            document.getElementById('timeFromMedDiv').classList.add('hidden');
             document.getElementById('dateNDiv').classList.add('hidden');
             document.getElementById('datePDiv').classList.remove('hidden');
             document.getElementById('timeFromNDiv').classList.add('hidden');
@@ -487,6 +591,7 @@
         }
     };
 </script>
+
 <script>
     var duplicateCount = 1; // Initialize the duplicate count
 

@@ -11,6 +11,10 @@ $status   = "PENDING";
 
 if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
   $count = 1;
+  $physician  = "NONE";
+  $date = date("Y-m-d", strtotime($_POST['datem']));
+  $time_from = date("H:i:s", strtotime($_POST['time_fromm']));
+  $time_to =  date("H:i:s", strtotime($_POST['time_tom']));
   foreach ($_POST['medicine'] as $key => $medicine) {
     $mqty = $_POST['quantity'][$key];
     $rmed[] = "med_$count = '$medicine', mqty_$count = '$mqty'";
@@ -21,6 +25,10 @@ if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
   $medsup = "$ms,";
 } elseif (!empty($_POST['supply']) && isset($_POST['supply'])) {
   $count = 1;
+  $physician  = "NONE";
+  $date = date("Y-m-d", strtotime($_POST['datem']));
+  $time_from = date("H:i:s", strtotime($_POST['time_fromm']));
+  $time_to =  date("H:i:s", strtotime($_POST['time_tom']));
   foreach ($_POST['supply'] as $key => $supply) {
     $sqty = $_POST['quantity'][$key];
     $rsup[] = "sup_$count = '$supply', sqty_$count = '$sqty'";
@@ -33,12 +41,12 @@ if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
   $medsup = "";
 }
 
-if (!empty($_POST['physician']) AND $_POST['physician'] != 'NONE') {
+if (!empty($_POST['physician']) and $_POST['physician'] != 'NONE') {
   $physician  = $_POST['physician'];
   $date = date("Y-m-d", strtotime($_POST['datep']));
   $time_from = date("H:i:s", strtotime($_POST['time_fromp']));
   $time_to =  date("H:i:s", strtotime($_POST['time_top']));
-} elseif (!empty($_POST['physician']) AND $_POST['physician'] == 'NONE') {
+} elseif (!empty($_POST['physician']) and $_POST['physician'] == 'NONE') {
   $physician  = "NONE";
   $date = date("Y-m-d", strtotime($_POST['daten']));
   $time_from = date("H:i:s", strtotime($_POST['time_fromn']));

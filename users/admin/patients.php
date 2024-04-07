@@ -161,7 +161,7 @@ if ($pages > 4) {
                     <div class="row">
                         <div class="row">
                             <div class="col-md-12">
-                                <form action="" method="get">
+                                <form action="patients.php" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="input-group mb-2">
@@ -190,8 +190,7 @@ if ($pages > 4) {
                                                 <?php
                                                 $sql = "SELECT DISTINCT designation FROM patient_info ORDER BY designation";
                                                 if ($result = mysqli_query($conn, $sql)) {
-                                                    while ($row = mysqli_fetch_array($result)) {
-                                                        $designation = $row["designation"]; ?>
+                                                    while ($row = mysqli_fetch_array($result)) { ?>
                                                         <option value="<?php echo $row["designation"]; ?>" <?= isset($_GET['designation']) == true ? ($_GET['designation'] == $row["designation"] ? 'selected' : '') : '' ?>><?php echo $row["designation"]; ?></option>
                                                 <?php }
                                                 } ?>
@@ -232,13 +231,13 @@ if ($pages > 4) {
 
                                             if ($designation !== '') {
                                                 $whereClause .= " p.designation = '$designation'";
-                                            } else{
+                                            } else {
                                                 $whereClause .= " ";
-                                            } 
-                                        
-                                            if ($campus != '' AND $designation !="") {
+                                            }
+
+                                            if ($campus != '' and $designation != "") {
                                                 $whereClause .= " AND p.campus = '$campus'";
-                                            } elseif ($campus !== '' AND $designation =="") {
+                                            } elseif ($campus !== '' and $designation == "") {
                                                 $whereClause .= " p.campus = '$campus'";
                                             }
 

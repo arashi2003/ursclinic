@@ -542,44 +542,6 @@ if ($result) {
                     </div>
                 </div>
 
-            <?php else : ?>
-
-                <div class="content">
-                    <div class="d-flex justify-content-between">
-                        <div class="p-2">
-                            <h3>Medical Documents</h3>
-                        </div>
-                        <div class="p-2">
-                            <button type="button" class="btn btn-primary" hidden>Download Medical Certificate</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead class="head">
-                                    <tr>
-                                        <th></th>
-                                        <th>Medical Documents</th>
-                                        <th>Date & Time Submitted</th>
-                                        <th>Last Updated</th>
-                                        <th>Status</th>
-                                        <th>Remarks</th>
-                                        <th>Action</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td colspan="12">
-                                            <?php
-                                            include('../../includes/no-data.php');
-                                            ?>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
             <?php endif ?>
 <?php
         }

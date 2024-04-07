@@ -24,7 +24,7 @@ if ($result = mysqli_query($conn, $query)) {
 ?>
         <script>
             setTimeout(function() {
-                window.location = "../../appoinment";
+                window.location = "../../appointment";
             });
         </script>
     <?php
@@ -33,7 +33,7 @@ if ($result = mysqli_query($conn, $query)) {
     ?>
         <script>
             setTimeout(function() {
-                window.location = "../../appoinment";
+                window.location = "../../appointment";
             });
         </script>
     <?php
@@ -43,7 +43,7 @@ if ($result = mysqli_query($conn, $query)) {
     ?>
     <script>
         setTimeout(function() {
-            window.location = "../../appoinment";
+            window.location = "../../appointment";
         });
     </script>
 <?php

@@ -722,6 +722,10 @@ th {
     width: 0px;
   }
 
+  .sidebar .logo_name {
+    display: none;
+  }
+
   .home-section {
     width: 100%;
     left: 0;

@@ -180,7 +180,7 @@ if ($pages > 4) {
                 <div class="content">
                     <div class="row">
                         <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-12">
                                 <form action="" method="get">
                                     <div class="row">
                                         <div class="col-md-4">
@@ -189,7 +189,7 @@ if ($pages > 4) {
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 mb-2">
+                                        <div class="col-md-2 mb-2">
                                             <select name="med_admin" class="form-select">
                                                 <option value="" disabled selected>-Select Administration-</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -202,7 +202,7 @@ if ($pages > 4) {
                                                                                                                                                                                                                                                         } ?>
                                             </select>
                                         </div>
-                                        <div class="col-md-3 mb-2">
+                                        <div class="col-md-2 mb-2">
                                             <select name="dform" class="form-select">
                                                 <option value="" disabled selected>-Select Dosage Form-</option>
                                                 <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
@@ -215,7 +215,7 @@ if ($pages > 4) {
                                                                                                                                                                                                                 } ?>
                                             </select>
                                         </div>
-                                        <div class="col mb-2">
+                                        <div class="col-md-2 mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                             <a href="med_entry" class="btn btn-danger">Reset</a>
                                         </div>

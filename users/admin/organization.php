@@ -153,7 +153,7 @@ if ($pages > 4) {
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="input-group mb-2">
-                                                <input type="text" name="organization" value="<?= isset($_GET['organization']) == true ? $_GET['organization'] : '' ?>" class="form-control" placeholder="Search organization">
+                                                <input type="text" name="organization" value="<?= isset($_GET['organization']) == true ? $_GET['organization'] : '' ?>" class="form-control" placeholder="Search fullname">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
                                         </div>

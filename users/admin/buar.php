@@ -54,9 +54,10 @@ include('../../includes/pagination-limit.php') ?>
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-                        <div class="schedule-button">
-                            <a href="backup" class="btn btn-primary">Back Up</a>
-                        </div>
+                <div class="schedule-button">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backupmodal">Backup Database</button>
+                </div>
+                <?php include('modals/backup-modal.php'); ?>
                 <div class="content">
                     <div class="col-sm-12">
                         <div class="table-responsive">
