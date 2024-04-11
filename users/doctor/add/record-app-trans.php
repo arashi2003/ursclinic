@@ -185,7 +185,7 @@ while ($row = mysqli_fetch_array($result0)) {
 
                 if ($mstate == 'per piece') {
                     // Update inventory_medicine
-                    $query0 = "UPDATE inventory_medicine SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE campus='$campus' AND medid='$medicine' AND expiration > '$datenow' AND qty > 0";
+                    $query0 = "UPDATE inventory_medicine SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE campus='$campus' AND medid='$medicine' AND expiration > '$datenow' AND qty > 0 LIMIT 1";
                     mysqli_query($conn, $query0);
                     // Update inv_total
                     $query1 = "UPDATE inv_total SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE stockid='$medicine' AND type = 'medicine' AND campus='$campus'";
@@ -231,7 +231,7 @@ while ($row = mysqli_fetch_array($result0)) {
 
                 if ($sstate == 'per piece') {
                     // Update inventory_supply
-                    $query0 = "UPDATE inventory_supply SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE campus='$campus' AND supid='$supply' AND expiration > '$datenow' AND qty > 0";
+                    $query0 = "UPDATE inventory_supply SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE campus='$campus' AND supid='$supply' AND expiration > '$datenow' AND qty > 0 LIMIT 1";
                     mysqli_query($conn, $query0);
                     // Update inv_total
                     $query1 = "UPDATE inv_total SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE stockid='$supply' AND type = 'supply' AND campus='$campus'";
