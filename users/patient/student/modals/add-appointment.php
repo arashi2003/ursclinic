@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('connection.php');
+$t=date("Y-m-d");
 
 $patient  = $_SESSION['userid'];
 $type  = $_POST['appointment'];
@@ -8,6 +9,7 @@ $purpose = $_POST['purpose'];
 $chiefcomplaint  = $_POST['chiefcomplaint'];
 $others = $_POST['others'];
 $status   = "PENDING";
+date_default_timezone_set("Asia/Manila");
 
 if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
   $count = 1;
@@ -41,6 +43,7 @@ if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
   $medsup = "";
 }
 
+
 if (!empty($_POST['physician']) and $_POST['physician'] != 'NONE') {
   $physician  = $_POST['physician'];
   $date = date("Y-m-d", strtotime($_POST['datep']));
@@ -65,6 +68,7 @@ if (mysqli_query($conn, $sql)) {
   if ($result = mysqli_query($conn, $query)) {
     $sql = "UPDATE time_pickup SET isSelected = 'Yes' WHERE time IN ('$time_from', '$time_to')";
     mysqli_query($conn, $sql) or die(mysqli_error($conn));
+    $_SESSION['alert'] = 'Request was sent. Nurse has been notified.';
 ?>
     <script>
       setTimeout(function() {
@@ -72,8 +76,8 @@ if (mysqli_query($conn, $sql)) {
       });
     </script>
   <?php
-    $_SESSION['alert'] = 'Request was sent. Nurse has been notified.';
   } else {
+    $_SESSION['alert'] = 'Request was sent.';
   ?>
     <script>
       setTimeout(function() {
@@ -81,7 +85,6 @@ if (mysqli_query($conn, $sql)) {
       });
     </script>
   <?php
-    $_SESSION['alert'] = 'Request was sent.';
   }
 } else {
   $_SESSION['alert'] = 'Request was not sent.';

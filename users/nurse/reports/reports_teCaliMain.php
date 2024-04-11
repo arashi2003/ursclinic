@@ -28,8 +28,10 @@
             $this->Cell(0, 4, '', 0, 1);
             $this->SetFont('Arial','',8);
             $this->Cell(0, 0, $campus . " CAMPUS", 0, 1, 'C');
+            $this->Cell(0, 4, '', 0, 1);
+            $this->Cell(0, .1, '', 1, 0);
+            $this->Cell(0, 8, '', 0, 1);
             $this->SetFont('Arial','',10);
-            $this->Cell(0, 10, '', 0, 1);
 
             $dt = $_POST['month'];
             if ($dt == "")

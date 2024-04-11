@@ -1,5 +1,6 @@
 <?php
 $rowCounter = 0;
+session_start();
 ?>
 
 <?php if ($data['yearlevel'] == 1) : ?>
@@ -28,7 +29,7 @@ $rowCounter = 0;
                 if ($total_approved === $total_medical_docs && $total_medical_docs > 0) {
                     // If all medical documents are approved and there are documents available, show the button
                 ?>
-                    <button type="button" class="btn btn-primary">Download Medical Clearance</button>
+                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medclearance_new')">Download Medical Clearance</button>
                 <?php } ?>
             </div>
         </div>
@@ -39,7 +40,7 @@ $rowCounter = 0;
                         <tr>
                             <th></th>
                             <th>Medical Documents</th>
-                            <th>Date & Time Submitted</th>
+                            <th>Date Submitted</th>
                             <th>Last Updated</th>
                             <th>Status</th>
                             <th>Remarks</th>
@@ -118,7 +119,7 @@ $rowCounter = 0;
                         <tr>
                             <th></th>
                             <th>Medical Documents</th>
-                            <th>Date & Time Submitted</th>
+                            <th>Date Submitted</th>
                             <th>Last Updated</th>
                             <th>Status</th>
                             <th>Remarks</th>
@@ -211,7 +212,7 @@ $rowCounter = 0;
                         <tr>
                             <th></th>
                             <th>Medical Documents</th>
-                            <th>Date & Time Submitted</th>
+                            <th>Date Submitted</th>
                             <th>Last Updated</th>
                             <th>Status</th>
                             <th>Remarks</th>
@@ -291,7 +292,7 @@ $rowCounter = 0;
                         <tr>
                             <th></th>
                             <th>Medical Documents</th>
-                            <th>Date & Time Submitted</th>
+                            <th>Date Submitted</th>
                             <th>Last Updated</th>
                             <th>Status</th>
                             <th>Remarks</th>
@@ -384,7 +385,7 @@ $rowCounter = 0;
                         <tr>
                             <th></th>
                             <th>Medical Documents</th>
-                            <th>Date & Time Submitted</th>
+                            <th>Date Submitted</th>
                             <th>Last Updated</th>
                             <th>Status</th>
                             <th>Remarks</th>
@@ -479,7 +480,7 @@ $rowCounter = 0;
                         <tr>
                             <th></th>
                             <th>Medical Documents</th>
-                            <th>Date & Time Submitted</th>
+                            <th>Date Submitted</th>
                             <th>Last Updated</th>
                             <th>Status</th>
                             <th>Remarks</th>
@@ -560,7 +561,7 @@ $rowCounter = 0;
                         <tr>
                             <th></th>
                             <th>Medical Documents</th>
-                            <th>Date & Time Submitted</th>
+                            <th>Date Submitted</th>
                             <th>Last Updated</th>
                             <th>Status</th>
                             <th>Remarks</th>

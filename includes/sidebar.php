@@ -1,5 +1,7 @@
 <!-- NURSE SIDEBAR -->
-<?php if ($_SESSION['usertype'] == "NURSE") : ?>
+<?php 
+date_default_timezone_set("Asia/Manila");
+if ($_SESSION['usertype'] == "NURSE") : ?>
 
     <div class="sidebar">
         <div class="logo-details">
@@ -127,7 +129,7 @@
 
 
     <!-- STUDENT SIDEBAR: COLLEGE -->
-<?php elseif ($_SESSION['usertype'] == "STUDENT" && $_SESSION['department'] == 'COLLEGE') : ?>
+<?php elseif ($_SESSION['usertype'] == "STUDENT" && $_SESSION['department'] == 'COLLEGE' && $_SESSION['status'] != 'ALUMNUS') : ?>
 
     <div class="sidebar">
         <div class="logo-details">
@@ -206,7 +208,7 @@
     </div>
 
     <!-- STUDENT SIDEBAR: ALUMNUS -->
-<?php elseif ($_SESSION['usertype'] == "STUDENT" && $_SESSION['status'] == 'ALUMNUS') : ?>
+<?php elseif ($_SESSION['status'] == 'ALUMNUS') : ?>
 
     <div class="sidebar">
         <div class="logo-details">

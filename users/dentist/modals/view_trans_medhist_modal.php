@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <div class="mb-2">
                     <label for="datetime" class="form-label">Date and Time:</label>
-                    <input type="text" class="form-control" name="datetime" value="<?php echo date("F d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'])) ?>" id="datetime" disabled>
+                    <input type="text" class="form-control" name="datetime" value="<?php echo date("F d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime']  . "+ 8 hours")); ?>" id="datetime" disabled>
                 </div>
                 <div class="row">
                     <div class="col mb-2">

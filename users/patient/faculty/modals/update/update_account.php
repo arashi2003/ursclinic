@@ -4,6 +4,7 @@ include('../connection.php');
 $cupassword = $_POST['cupassword'];
 $password = $_POST['npassword'];
 $copassword = $_POST['copassword'];
+date_default_timezone_set("Asia/Manila");
 
 $user = $_SESSION['userid'];
 $au_campus = $_SESSION['campus'];

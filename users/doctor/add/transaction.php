@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('../connection.php');
+date_default_timezone_set("Asia/Manila");
 $user = $_SESSION['userid'];
 $fullname = strtoupper($_SESSION['name']);
 $au_status = "unread";

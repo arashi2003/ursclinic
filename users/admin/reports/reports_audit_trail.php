@@ -58,8 +58,8 @@ $pdf->AliasNbPages();
 $pdf->SetAutoPageBreak(true, 15);
 $pdf->SetFont('Arial', '', 10);
 
-$dt_from = $_POST['date_from'];
-$dt_to = $_POST['date_to'];
+$dt_from = isset($_REQUEST['date_from']) ? $_REQUEST['date_from'] : '';
+$dt_to = isset($_REQUEST['date_to']) ? $_REQUEST['date_to'] : '';
 
 $campus = "";//$_SESSION['campus'];
 
@@ -74,37 +74,37 @@ if ($campus == "") {
 //date filter
 if ($dt_from == "" && $dt_to == "") {
     $date = "";
-} elseif ($ca == "" && $dt_to == $dt_from) {
+} elseif ($dt_to == $dt_from) {
     $fdate = date("Y-m-d", strtotime($dt_from));
     $ldate = date("Y-m-d", strtotime($dt_to));
-    $date = " WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
-} elseif ($ca != "" && $dt_to == $dt_from) {
+    $date = " WHERE datetime LIKE '$fdate%'";
+} elseif ($dt_to == $dt_from) {
     $fdate = date("Y-m-d", strtotime($dt_from));
     $ldate = date("Y-m-d", strtotime($dt_to));
-    $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
-} elseif ($ca == "" && $dt_to == "" && $dt_from != "") {
+    $date = " WHERE datetime LIKE '$fdate%'";
+} elseif ($dt_to == "" && $dt_from != "") {
     $fdate = date("Y-m-d", strtotime($dt_from));
-    $date = " AND datetime >= '$fdate'";
-} elseif ($ca != "" && $dt_to == "" && $dt_from != "") {
+    $date = " WHERE datetime >= '$fdate'";
+} elseif ($dt_to == "" && $dt_from != "") {
     $fdate = date("Y-m-d", strtotime($dt_from));
-    $date = " AND datetime >= '$fdate'";
-} elseif ($ca == "" && $dt_from == "" && $dt_to != "") {
+    $date = " WHERE datetime >= '$fdate'";
+} elseif ($dt_from == "" && $dt_to != "") {
     $d = date("Y-m-d", strtotime($dt_to));
     $date = " WHERE datetime <= '$d'";
-} elseif ($ca != "" && $dt_from == "" && $dt_to != "") {
+} elseif ($dt_from == "" && $dt_to != "") {
     $d = date("Y-m-d", strtotime($dt_to));
-    $date = " AND datetime <= '$d'";
-} elseif ($ca == "" && $dt_from != "" && $dt_to != "" && $dt_from != $dt_to) {
+    $date = " WHERE datetime <= '$d'";
+} elseif ($dt_from != "" && $dt_to != "" && $dt_from != $dt_to) {
     $fdate = date("Y-m-d", strtotime($dt_from));
     $ldate = date("Y-m-d", strtotime($dt_to));
     $date = " WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
-} elseif ($ca != "" && $dt_from != "" && $dt_to != "" && $dt_from != $dt_to) {
+} elseif ($dt_from != "" && $dt_to != "" && $dt_from != $dt_to) {
     $fdate = date("Y-m-d", strtotime($dt_from));
     $ldate = date("Y-m-d", strtotime($dt_to));
-    $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
+    $date = " WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
 }
 
-$query = mysqli_query($conn, "SELECT * FROM audit_trail INNER JOIN account ON account.accountid=audit_trail.user $ca $date ORDER BY datetime DESC");
+$query = mysqli_query($conn, "SELECT * FROM audit_trail INNER JOIN account ON account.accountid=audit_trail.user $date ORDER BY datetime DESC");
 $count = 1;
 while ($data = mysqli_fetch_array($query)) {
     if (count(explode(" ", $data['middlename'])) > 1) {
@@ -122,7 +122,7 @@ while ($data = mysqli_fetch_array($query)) {
 
     $id = $count;
     $fullname = ucwords(strtolower($data['firstname'] . " " . strtoupper($middleinitial) . " " . $data['lastname']));
-    $dt = date("F d, Y h:i:s A", strtotime($data['datetime']));
+    $dt = date("F d, Y h:i:s A", strtotime($data['datetime'] . "+ 8 hours"));
     $pdf->Cell(8, 6, $id, 1, 0, 'C');
     //$pdf->Cell(30, 6, $data['campus'], 1, 0, 'C');
     $pdf->SetFont('Arial', '', 8);

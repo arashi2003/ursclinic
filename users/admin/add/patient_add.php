@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('connection.php');
+date_default_timezone_set("Asia/Manila");
 $accountid = $_POST['patientid'];
 $designation = $_POST['designation'];
 $age  = floor((time() - strtotime($_POST['birthday'])) / 31556926);

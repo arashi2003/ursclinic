@@ -73,7 +73,7 @@
                         </div>
                         <div class="col-md-6 mb-2 hidden" id="dateNDiv">
                             <label for="date" class="col-form-label">Date:</label>
-                            <input type="text" class="form-control" name="daten" id="showDate" placeholder="mm/dd/yyyy">
+                            <input type="text" class="form-control" name="daten" id="showDate1" placeholder="mm/dd/yyyy">
                         </div>
 
                         <div class="col-md-6 mb-2 hidden" id="datePDiv">
@@ -331,6 +331,16 @@
 
     $(document).ready(function() {
         $('#showDate').datepicker({
+            dateFormat: "yy-mm-dd",
+            minDate: 0, // Disable past dates
+            beforeShowDay: function(date) {
+                var day = date.getDay();
+                return [(day != 0)]; // Disable Sundays
+            }
+        });
+    });
+    $(document).ready(function() {
+        $('#showDate1').datepicker({
             dateFormat: "yy-mm-dd",
             minDate: 0, // Disable past dates
             beforeShowDay: function(date) {

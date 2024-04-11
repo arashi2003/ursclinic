@@ -333,8 +333,8 @@ if ($pages > 4) {
                           <tr>
                             <td><?php echo $data['id']; ?></td>
                             <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
-                            <td><?php echo date("g:i a", strtotime($data['time_from'])) ?></td>
-                            <td><?php echo date("g:i a", strtotime($data['time_to'])) ?></td>
+                            <td><?php echo date("g:i a", strtotime($data['time_from'] . "+ 8 hours")); ?></td>
+                            <td><?php echo date("g:i a", strtotime($data['time_to'] . "+ 8 hours")); ?></td>
                             <td><?php echo $data['firstname'] . " " . $middleinitial . " " . $data['lastname'] ?></td>
                           </tr>
                         <?php

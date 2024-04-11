@@ -3,6 +3,8 @@ session_start();
 //connection
 include('connection.php');
 
+date_default_timezone_set("Asia/Manila");
+
 // Check if user is already logged in, redirect to respective dashboard
 if (isset($_SESSION['usertype'])) {
   if ($_SESSION['usertype'] == "NURSE") {

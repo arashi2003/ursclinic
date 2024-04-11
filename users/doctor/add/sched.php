@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('../connection.php');
+date_default_timezone_set("Asia/Manila");
 $campus = $_POST['campus'];
 $date = date("Y-m-d", strtotime($_POST['date']));
 $time_from = date("H:i:s", strtotime($_POST['time_from']));

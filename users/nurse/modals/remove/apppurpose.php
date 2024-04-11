@@ -1,6 +1,7 @@
 <?php
     session_start();
     include('../connection.php');
+date_default_timezone_set("Asia/Manila");
     $id = $_GET['no'];
     $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];

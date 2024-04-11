@@ -213,8 +213,8 @@ if ($pages > 4) {
                                                     <tr>
                                                         <td><?php echo $id = $data['id']; ?></td>
                                                         <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
-                                                        <td><?php echo date("g:i A", strtotime($data['time_from'])) ?></td>
-                                                        <td><?php echo date("g:i A", strtotime($data['time_to'])) ?></td>
+                                                        <td><?php echo date("g:i A", strtotime($data['time_from'])); ?></td>
+                                                        <td><?php echo date("g:i A", strtotime($data['time_to'])); ?></td>
                                                         <td><?php echo ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname'])) ?></td>
                                                         <td>
                                                             <?php

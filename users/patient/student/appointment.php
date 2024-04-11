@@ -9,6 +9,7 @@ $userid = $_SESSION['userid'];
 $usertype = $_SESSION['usertype'];
 $name = $_SESSION['username'];
 $campus = $_SESSION['campus'];
+$today =date('Y-m-d');
 
 // Check if the patient or designation filter is set
 if (isset($_GET['physician']) || isset($_GET['date'])) {
@@ -32,7 +33,7 @@ if (isset($_GET['physician']) || isset($_GET['date'])) {
     $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment WHERE $whereClause patient='$userid'  ORDER BY status DESC, date, time_from, time_to";
 } else {
     // If filters are not set, count all rows
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment WHERE patient='$userid' ORDER BY status DESC, date, time_from, time_to";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM appointment a INNER JOIN appointment_type t ON t.id=a.type INNER JOIN appointment_purpose p ON p.id=a.purpose WHERE patient='$userid'";
 }
 
 // Execute the count query
@@ -223,16 +224,16 @@ if ($pages > 4) {
                                         if (isset($_GET['date']) && $_GET['date'] != '') {
                                             $date = $_GET['date'];
                                             $count = 1;
-                                            $sql = "SELECT a.date, a.time_from, a.time_to, a.physician, a.status, a.id, p.purpose, t.type FROM appointment a INNER JOIN appointment_type t ON t.id=a.type INNER JOIN appointment_purpose p ON p.id=a.purpose W WHERE date='$date' AND patient='$userid' ORDER BY a.status DESC, a.date DESC, a.time_from, a.time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT a.date, a.time_from, a.time_to, a.reason, a.physician, a.status, a.id, p.purpose, t.type FROM appointment a INNER JOIN appointment_type t ON t.id=a.type INNER JOIN appointment_purpose p ON p.id=a.purpose W WHERE date='$date' AND patient='$userid' ORDER BY a.date DESC, a.time_from, a.time_to, a.status DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['physician']) && $_GET['physician'] != '') {
                                             $physician = $_GET['physician'];
                                             $count = 1;
-                                            $sql = "SELECT a.date, a.time_from, a.time_to, a.physician, a.status, a.id, p.purpose, t.type FROM appointment a INNER JOIN appointment_type t ON t.id=a.type INNER JOIN appointment_purpose p ON p.id=a.purpose W WHERE physician='$physician' AND patient='$userid' ORDER BY a.status DESC, a.date DESC, a.time_from, a.time_to  LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT a.date, a.time_from, a.time_to, a.physician, a.status, a.reason, a.id, p.purpose, t.type FROM appointment a INNER JOIN appointment_type t ON t.id=a.type INNER JOIN appointment_purpose p ON p.id=a.purpose W WHERE physician='$physician' AND patient='$userid' ORDER BY a.date DESC, a.time_from, a.time_to, a.status DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT a.date, a.time_from, a.time_to, a.physician, a.status, a.id, p.purpose, t.type FROM appointment a INNER JOIN appointment_type t ON t.id=a.type INNER JOIN appointment_purpose p ON p.id=a.purpose WHERE patient='$userid' ORDER BY a.status DESC, a.date DESC, a.time_from, a.time_to LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT a.date, a.time_from, a.time_to, a.reason, a.physician, a.status, a.id, p.purpose, t.type FROM appointment a INNER JOIN appointment_type t ON t.id=a.type INNER JOIN appointment_purpose p ON p.id=a.purpose WHERE patient='$userid' ORDER BY a.date DESC, a.time_from, a.time_to, a.status DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -314,7 +315,7 @@ if ($pages > 4) {
                                             } else {
                                                 ?>
                                                 <tr>
-                                                    <td colspan="6">
+                                                    <td colspan="8">
                                                         <?php
                                                         include('../../../includes/no-data.php');
                                                         ?>

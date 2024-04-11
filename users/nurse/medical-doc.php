@@ -46,7 +46,7 @@ if ($result) {
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
-                                        <th>Date & Time Submitted</th>
+                                        <th>Date Submitted</th>
                                         <th>Last Updated</th>
                                         <th>Status</th>
                                         <th>Remarks</th>
@@ -123,7 +123,7 @@ if ($result) {
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
-                                        <th>Date & Time Submitted</th>
+                                        <th>Date Submitted</th>
                                         <th>Last Updated</th>
                                         <th>Status</th>
                                         <th>Remarks</th>
@@ -217,7 +217,7 @@ if ($result) {
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
-                                        <th>Date & Time Submitted</th>
+                                        <th>Date Submitted</th>
                                         <th>Last Updated</th>
                                         <th>Status</th>
                                         <th>Remarks</th>
@@ -294,7 +294,7 @@ if ($result) {
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
-                                        <th>Date & Time Submitted</th>
+                                        <th>Date Submitted</th>
                                         <th>Last Updated</th>
                                         <th>Status</th>
                                         <th>Remarks</th>
@@ -386,7 +386,7 @@ if ($result) {
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
-                                        <th>Date & Time Submitted</th>
+                                        <th>Date Submitted</th>
                                         <th>Last Updated</th>
                                         <th>Status</th>
                                         <th>Remarks</th>
@@ -481,7 +481,7 @@ if ($result) {
                                     <tr>
                                         <th></th>
                                         <th>Medical Documents</th>
-                                        <th>Date & Time Submitted</th>
+                                        <th>Date Submitted</th>
                                         <th>Last Updated</th>
                                         <th>Status</th>
                                         <th>Remarks</th>

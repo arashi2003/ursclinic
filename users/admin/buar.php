@@ -80,7 +80,7 @@ include('../../includes/pagination-limit.php') ?>
                                             foreach ($result as $data) {
                                             ?>
                                                 <tr>
-                                                    <td><?php echo date("F d, Y  |  g:i A", strtotime($data['datetime'])) ?></td>
+                                                    <td><?php echo date("F d, Y  |  g:i A", strtotime($data['datetime'] . "+ 8 hours")); ?></td>
                                                     <td><?php echo $data['fullname'] . " " . $data['activity'] ?></td>
                                                 </tr>
                                             <?php

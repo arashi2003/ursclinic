@@ -121,8 +121,8 @@ include('../../includes/pagination-limit.php');
                                     </div>
                                     <div class="col-md-4 mb-2">
                                         <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">Date:</span>
-                                            <input type="text" class="form-control" value="<?= date("g:i A", strtotime($time_from)) . "-" . date("g:i A", strtotime($time_to)) ?>" name="datetime" id="datetime" disabled>
+                                            <span class="input-group-text" id="inputGroup-sizing-md">Time:</span>
+                                            <input type="text" class="form-control" value="<?= date("g:i A", strtotime($time_from . "+ 8 hours")) . "-" . date("g:i A", strtotime($time_to . "+ 8 hours")); ?>" name="datetime" id="datetime" disabled>
                                         </div>
                                     </div>
                                 </div>

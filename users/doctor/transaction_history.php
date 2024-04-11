@@ -413,7 +413,7 @@ if ($pages > 4) {
                                                         <td><?= $fullname ?></td>
                                                         <td><?= $data['transaction'] ?></td>
                                                         <td><?= $data['purpose'] ?></td>
-                                                        <td><?= date("M. d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'])) ?></td>
+                                                        <td><?= date("M. d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'] . "+ 8 hours")); ?></td>
                                                         <td>
                                                             <?php
                                                             if ($data['purpose'] == 'Dental' && $data['transaction'] == 'Consultation') { ?>

@@ -13,11 +13,11 @@
                 </div>
                 <div class="mb-2">
                     <label for="timefrom" class="col-form-label">Time from:</label>
-                    <input type="text" class="form-control" name="timefrom" value="<?php echo $data['time_from'] ?>" readonly>
+                    <input type="text" class="form-control" name="timefrom" value="<?php echo strtotime($data['time_from'] . "+ 8 hours")); ?>" readonly>
                 </div>
                 <div class="mb-2">
                     <label for="timeto" class="col-form-label">Time to:</label>
-                    <input type="text" class="form-control" name="timeto" value="<?php echo $data['time_to'] ?>" readonly>
+                    <input type="text" class="form-control" name="timeto" value="<?php echo strtotime($data['time_to'] . "+ 8 hours")); ?>" readonly>
                 </div>
                 <div class="mb-2">
                     <label for="physician" class="col-form-label">Physician:</label>

@@ -1,5 +1,6 @@
 <?php
 
+date_default_timezone_set("Asia/Manila");
 $campus = $_SESSION['campus'];
 $today = date("Y-m-d");
 $tmonth = date("Y-m-t");
@@ -109,13 +110,15 @@ $query = "SELECT * FROM inventory_medicine WHERE expiration <= '$today' AND camp
 $result = mysqli_query($conn, $query);
 $resultCheck = mysqli_num_rows($result);
 if ($resultCheck > 0) {
-    $query = "SELECT * FROM audit_trail WHERE activity LIKE '%expired%' AND campus='$campus' AND datetime LIKE '%$today%'";
+    $query = "SELECT * FROM audit_trail WHERE activity LIKE '%expired%' AND campus='$campus' AND datetime LIKE '$today%'";
     $result = mysqli_query($conn, $query);
     $resultCheck = mysqli_num_rows($result);
-    if ($resultCheck == 0) {
+    if ($resultCheck > 0) {
+    }
+    else{
         $user = $_SESSION['userid'];
         $campus = $_SESSION['campus'];
-         $fullname = strtoupper($_SESSION['name']);
+        $fullname = strtoupper($_SESSION['name']);
         $query = "SELECT * FROM account WHERE campus = '$campus' AND usertype='ADMIN'";
         $result = mysqli_query($conn, $query);
         while($data=mysqli_fetch_array($result)) {

@@ -377,7 +377,7 @@
     $pdf->Cell(0, 3, '', 0, 1);
 
     $pdf->SetFont('Arial', 'B', 8);
-    $pdf->Cell(0, 3, 'Recommendation: ' . $referral, 0);
+    $pdf->Cell(0, 3, 'Recommendation:      ' . $referral, 0);
     $pdf->SetFont('Arial', '', 8);
     $pdf->Cell(0, 3, '______________________________________________________________________________________________________', 0, 1, 'R');
     

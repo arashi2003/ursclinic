@@ -1,7 +1,7 @@
 <?php
     session_start();
-    require('../../../../fpdf/fpdf.php');
-    include('../modals/connection.php');
+    require('../../../fpdf/fpdf.php');
+    include('connection.php');
     $accountid = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     date_default_timezone_set("Asia/Manila");
@@ -12,8 +12,8 @@
         {
             $campus = $_SESSION['campus'];
 
-            $this->Image('../../../../images/urs.png', 25, 12, 12);
-            $this->Image('../../../../images/medlogo.png', 110, 12, 22);
+            $this->Image('../../../images/urs.png', 25, 12, 12);
+            $this->Image('../../../images/medlogo.png', 110, 12, 22);
             $this->Cell(0, 4, '', 0, 1);
             $this->SetFont('Arial','',10);
             $this->Cell(0, 0, 'Republic of the Philippines', 0, 1, 'C');
@@ -59,7 +59,7 @@
     $pdf->AliasNbPages();
     $pdf->SetAutoPageBreak(true, 15);
 
-    $account_no = $_REQUEST['userid'];
+    $account_no = $_SESSION['userid'];
 
     $query = mysqli_query($conn, "SELECT firstname, middlename, lastname, account.campus,designation, sex, birthday, department, college, program, yearlevel, section FROM account INNER JOIN patient_info pi ON pi.patientid=account.accountid WHERE accountid = '$account_no'");
     if($data=mysqli_fetch_array($query))

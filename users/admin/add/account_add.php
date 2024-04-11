@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('connection.php');
+date_default_timezone_set("Asia/Manila");
 $accountid = strtoupper($_POST['accountid']);
 $password = $_POST['password'];
 $cpassword = $_POST['cpassword'];

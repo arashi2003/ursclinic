@@ -11,6 +11,7 @@ require '../../../../phpmailer/src/PHPMailer.php';
 require '../../../../phpmailer/src/SMTP.php';
 
 
+date_default_timezone_set("Asia/Manila");
 $reason = $_POST['reason'];
 
 $id = $_POST['id'];

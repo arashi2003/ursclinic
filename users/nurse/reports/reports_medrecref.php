@@ -69,7 +69,8 @@ $cc = $_POST['cc'];
 $findiag = $_POST['findiag'];
 $remarks = $_POST['remarks'];
 $referral = $_POST['referral'];
-$datetime = date("F d, Y | g:i A", strtotime($_POST['datetime']));
+$phys = $_POST['pod_nod'];
+$datetime = date("F d, Y | g:i A", strtotime($_POST['datetime'] . "+ 8 hours"));
 
 $query = mysqli_query($conn, "SELECT designation, birthday, department, college, campus FROM patient_info WHERE patientid = '$account_no'");
 if ($data = mysqli_fetch_array($query)) {
@@ -209,13 +210,13 @@ $pdf->Cell(65, 6, 'Physician on Duty/Nurse on Duty:', 0, 0);
 
 $pdf->SetFont('Arial', '', 8);
 $pdf->Cell(0, 10, '', 0, 1);
-$pdf->Cell(65, 5, $name1, 0, 0, 'C');
+$pdf->Cell(65, 5, $phys, 0, 0, 'C');
 
 $pdf->Cell(0, 3, '', 0, 1);
 $pdf->Cell(65, 0, $line, 0, 0, 'C');
 $pdf->Cell(0, 4, '', 0, 1);
 
-$pdf->Cell(65, -2, $title1, 0, 0, 'C');
+$pdf->Cell(65, -2, 'Medical Officer', 0, 0, 'C');
 
 
 //date kung kelan prinint/sinave

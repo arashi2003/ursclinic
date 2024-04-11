@@ -1,7 +1,7 @@
 <?php
     session_start();
     include('../../add/connection.php');
-    $accountid = $_POST['userid'];
+    $accountid = $_SESSION['userid'];
     $cupassword = $_POST['cupassword'];
     $password = $_POST['npassword'];
     $copassword = $_POST['copassword'];
@@ -42,7 +42,7 @@
         {
             if($password == $copassword)
             {
-                $sql= "UPDATE account SET accountid='$accountid', campus='$campus', status = '$status', password='$password', usertype='$usertype', firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', campus='$campus', status='$status', datetime_updated=now() WHERE accountid='$accountid'";
+                $sql= "UPDATE account SET campus='$campus', status = '$status', password='$password', usertype='$usertype', firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', datetime_updated=now() WHERE accountid='$accountid'";
                 if (mysqli_query($conn, $sql))
                 {
                     $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";
@@ -107,7 +107,7 @@
     } 
     else
     {
-        $sql= "UPDATE account SET accountid='$accountid', campus='$campus', status = '$status', usertype='$usertype', firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', campus='$campus', status='$status', datetime_updated=now() WHERE accountid='$accountid'";
+        $sql= "UPDATE account SET usertype='$usertype', firstname='$firstname', middlename='$middlename', lastname='$lastname', email='$email', contactno='$contactno', campus='$campus', status='$status', datetime_updated=now() WHERE accountid='$accountid'";
         if (mysqli_query($conn, $sql))
         {
             $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$au_campus', '$activity', '$au_status', now())";

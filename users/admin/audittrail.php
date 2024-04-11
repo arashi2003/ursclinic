@@ -161,8 +161,8 @@ if ($pages > 4) {
                 <div class="schedule-button">
                     <form action="reports/reports_audit_trail" method="post" id="exportPdfForm" target="_blank">
                         <!-- Hidden input fields to store filter values -->
-                        <input type="hidden" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>" name="date_from" id="date_from">
-                        <input type="hidden" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>" name="date_to" id="date_to">
+                        <input type="text" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>" name="date_from" id="date_from" hidden>
+                        <input type="text" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>" name="date_to" id="date_to" hidden>
 
                         <!-- Export PDF button -->
                         <button type="submit" class="btn btn-primary" name="export_pdf">Export PDF</button>
@@ -228,7 +228,7 @@ if ($pages > 4) {
                                             } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
                                                 // Start and end date range provided
                                                 $fdate = date("Y-m-d", strtotime($dt_from));
-                                                $ldate = date("Y-m-d", strtotime($dt_to));
+                                                $ldate = date("Y-m-d", strtotime($dt_to . "+1 day"));
                                                 $date = " datetime >= '$fdate' AND datetime <= '$ldate'";
                                             }
 
@@ -260,7 +260,7 @@ if ($pages > 4) {
                                                         <td><?php echo $row['usertype'] ?></td>
                                                         <td><?php echo ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($row['lastname'])) . " " . lcfirst($row['activity']) ?></td>
                                                         <td><?php echo date("F d, Y", strtotime($row['datetime'])) ?></td>
-                                                        <td><?php echo date("g:i A", strtotime($row['datetime'])) ?></td>
+                                                        <td><?php echo date("g:i A", strtotime($row['datetime'] . "+ 8 hours")); ?></td>
                                                     </tr>
                                                 <?php
                                                 }

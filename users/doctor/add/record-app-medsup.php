@@ -5,6 +5,7 @@ include('../connection.php');
 // Patient info
 $id = $_POST['id'];
 $remarks = $_POST['remarks'];
+date_default_timezone_set("Asia/Manila");
 
 $doot = "SELECT * FROM appointment WHERE id='$id'";
 $result0 = mysqli_query($conn, $doot);

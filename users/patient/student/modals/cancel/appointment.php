@@ -5,6 +5,7 @@ $id = $_POST['id'];
 $reason = $_POST['reason'];
 $time_from = $_POST['time_from'];
 $time_to = $_POST['time_to'];
+date_default_timezone_set("Asia/Manila");
 
 $query = "SELECT * FROM appointment WHERE id = '$id'";
 $result = mysqli_query($conn, $query);

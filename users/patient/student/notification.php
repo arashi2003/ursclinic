@@ -132,9 +132,9 @@ include('../../../includes/pagination-limit.php');
                                             }
 
                                             if ($data['datetime'] < date("Y-m-d")) {
-                                                $dt = date("F d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime']));
+                                                $dt = date("F d, Y", strtotime($data['datetime'])) . " | " . date("g:i A", strtotime($data['datetime'] . "+ 8 hours"));
                                             } else {
-                                                $dt = date("g:i A", strtotime($data['datetime']));
+                                                $dt = date("g:i A", strtotime($data['datetime'] . "+ 8 hours"));
                                             }
 
                                             $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));

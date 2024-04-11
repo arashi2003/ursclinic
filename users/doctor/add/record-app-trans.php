@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('../connection.php');
+date_default_timezone_set("Asia/Manila");
 
 // Patient info
 $id = $_POST['id'];
