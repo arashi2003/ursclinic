@@ -38,11 +38,9 @@ if (isset($_POST['save_excel_data'])) {
                     if (mysqli_num_rows($result) == 0) {
                         $studentQuery = "INSERT INTO account (accountid, password, usertype, firstname, middlename, lastname, email, contactno, campus, status, datetime_created, datetime_updated) VALUES ('$accountid','$password','$usertype','$firstname','$middlename','$lastname','$email','$contactno','$campus','$status', now(), now())";
                         $result = mysqli_query($conn, $studentQuery);
-                        $msg = true;
+                        $_SESSION['alert'] = "Successfully Imported";
                     } else {
-                        $_SESSION['alert'] = "Not Imported. There is a duplicate entry for Account ID.";
-                        header('Location: ../account_users');
-                        exit(0);
+                        $_SESSION['alert'] = "Not Imported. Account ID already exists.";
                     }
                 } else {
                     $_SESSION['alert'] = "Invalid File. Column number does not match.";
@@ -54,15 +52,8 @@ if (isset($_POST['save_excel_data'])) {
             }
         }
 
-        if (isset($msg)) {
-            $_SESSION['alert'] = "Successfully Imported";
-            header('Location: ../account_users');
-            exit(0);
-        } else {
-            $_SESSION['alert'] = "Not Imported";
-            header('Location: ../account_users');
-            exit(0);
-        }
+        header('Location: ../account_users');
+        exit(0);
     } else {
         $_SESSION['alert'] = "Invalid File";
         header('Location: ../account_users');
