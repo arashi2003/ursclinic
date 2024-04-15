@@ -212,36 +212,14 @@ if ($pages > 4) {
           </div>
         </button>
         <div class="content">
-          <h3>Approved Appointments</h3>
+          <h3>Scheduled Appointments Today</h3>
           <div class="row">
-            <div class="row">
-              <div class="col-md-12">
-                <form action="" method="get">
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="input-group mb-3">
-                        <input type="text" name="patient" value="<?= isset($_GET['patient']) == true ? $_GET['patient'] : '' ?>" class="form-control" placeholder="Search patient">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                      </div>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                      <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
-                    </div>
-                    <div class="col mb-3">
-                      <button type="submit" class="btn btn-primary">Filter</button>
-                      <a href="dashboard" class="btn btn-danger">Reset</a>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
             <div class="col-sm-12">
               <div class="table-responsive">
                 <table class="table">
                   <thead class="head">
                     <tr>
                       <th>Appointment No.</th>
-                      <th>Date</th>
                       <th>Time from</th>
                       <th>Time to</th>
                       <th>Patient</th>
@@ -266,25 +244,6 @@ if ($pages > 4) {
                         $fullname = strtoupper($data['firstname'] . " " . $middleinitial . " " . $data['lastname']);
                       }
                       $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE  CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
-                      $result = mysqli_query($conn, $sql);
-                    } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
-                      $date = $_GET['date'];
-                      while ($data = mysqli_fetch_array($result)) {
-                        if (count(explode(" ", $data['middlename'])) > 1) {
-                          $middle = explode(" ", $data['middlename']);
-                          $letter = $middle[0][0] . $middle[1][0];
-                          $middleinitial = $letter . ".";
-                        } else {
-                          $middle = $data['middlename'];
-                          if ($middle == "" or $middle == " ") {
-                            $middleinitial = "";
-                          } else {
-                            $middleinitial = substr($middle, 0, 1) . ".";
-                          }
-                        }
-                        $fullname = strtoupper($data['firstname'] . " " . $middleinitial . " " . $data['lastname']);
-                      }
-                      $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient WHERE ap.date = '$date' or ap.physician = '$physician' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                       $result = mysqli_query($conn, $sql);
                     } else {
                       $query = "SELECT * from account WHERE accountid = '$userid'";
@@ -332,7 +291,6 @@ if ($pages > 4) {
                     ?>
                           <tr>
                             <td><?php echo $data['id']; ?></td>
-                            <td><?php echo date("F d, Y", strtotime($data['date'])) ?></td>
                             <td><?php echo date("g:i a", strtotime($data['time_from'] . "+ 8 hours")); ?></td>
                             <td><?php echo date("g:i a", strtotime($data['time_to'] . "+ 8 hours")); ?></td>
                             <td><?php echo $data['firstname'] . " " . $middleinitial . " " . $data['lastname'] ?></td>

@@ -38,18 +38,18 @@ class PDF extends FPDF
         $this->Cell(0, 0, 'PATIENT INFORMATION', 0, 1, 'C');
         $this->Cell(0, 5, '', 0, 1);
 
-        $this->SetFont('Arial', '', 8);
-        $this->Cell(8, 8, '', 1, 0, 'C');
-        $this->Cell(61, 8, 'Full Name', 1, 0, 'C');
-        $this->Cell(8, 8, 'Age', 1, 0, 'C');
-        $this->Cell(13, 8, 'Sex', 1, 0, 'C');
-        $this->Cell(20, 8, 'Designation', 1, 0, 'C');
-        $this->Cell(25, 8, 'Prog. Year & Sec.', 1, 0, 'C');
-        $this->Cell(45, 8, 'Email', 1, 0, 'C');
-        $this->Cell(25, 8, 'Contact #', 1, 0, 'C');
-        $this->Cell(45, 8, 'Emergency Contact', 1, 0, 'C');
-        $this->Cell(25, 8, 'E. Contact #', 1, 0, 'C');
-        $this->Cell(0, 8, '', 0, 1);
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(8, 6, '', 1, 0, 'C');
+        $this->Cell(61, 6, 'Full Name', 1, 0, 'C');
+        $this->Cell(8, 6, 'Age', 1, 0, 'C');
+        $this->Cell(13, 6, 'Sex', 1, 0, 'C');
+        $this->Cell(20, 6, 'Designation', 1, 0, 'C');
+        $this->Cell(25, 6, 'Prog. Year & Sec.', 1, 0, 'C');
+        $this->Cell(45, 6, 'Email', 1, 0, 'C');
+        $this->Cell(25, 6, 'Contact #', 1, 0, 'C');
+        $this->Cell(45, 6, 'Emergency Contact', 1, 0, 'C');
+        $this->Cell(25, 6, 'E. Contact #', 1, 0, 'C');
+        $this->Cell(0, 6, '', 0, 1);
     }
 
     function Footer()
@@ -162,27 +162,37 @@ while ($data = mysqli_fetch_array($query)) {
             $middleinitial = substr($middle, 0, 1) . ".";
         }
     }
+
+    if($data['designation'] != 'STUDENT'){
+        $pys = "N/A";
+    }
+    elseif($data['yearlevel']!='GRADUATE'){
+        $pys = $data['program'] . " " . $data['yearlevel'] . "-" . $data['section'];
+    } elseif($data['yearlevel']=='GRADUATE'){
+        $pys = $data['program'];
+    }
+
     $age = floor((time() - strtotime($data['birthday'])) / 31556926);
 
     $id = $count;
-    $pdf->SetFont('Arial', '', 8);
-    $pdf->Cell(8, 8, $id, 1, 0, 'C');
+    $pdf->SetFont('Arial', '', 9);
+    $pdf->Cell(8, 6, $id, 1, 0, 'C');
+    $pdf->Cell(61, 6,  ucwords(strtolower($data['lastname'])) . ", " . ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial), 1, 0, '');
+    $pdf->Cell(8, 6, $age, 1, 0, 'C');
     $pdf->SetFont('Arial', '', 7);
-    $pdf->Cell(61, 8,  ucwords(strtolower($data['lastname'])) . ", " . ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial), 1, 0, '');
+    $pdf->Cell(13, 6, $data['sex'], 1, 0, 'C');
+    $pdf->Cell(20, 6, $data['designation'], 1, 0, 'C');
+    $pdf->SetFont('Arial', '', 6);
+    $pdf->Cell(25, 6, $pys, 1, 0, 'C');
     $pdf->SetFont('Arial', '', 8);
-    $pdf->Cell(8, 8, $age, 1, 0, 'C');
-    $pdf->Cell(13, 8, $data['sex'], 1, 0, 'C');
-    $pdf->Cell(20, 8, $data['designation'], 1, 0, 'C');
-    $pdf->Cell(25, 8, $data['program'] . " " . $data['yearlevel'] . "-" . $data['section'], 1, 0, 'C');
+    $pdf->Cell(45, 6, $data['email'], 1, 0);
+    $pdf->SetFont('Arial', '', 8);
+    $pdf->Cell(25, 6, $data['contactno'], 1, 0, 'C');
     $pdf->SetFont('Arial', '', 7);
-    $pdf->Cell(45, 8, $data['email'], 1, 0);
+    $pdf->Cell(45, 6, $data['emcon_name'], 1, 0);
     $pdf->SetFont('Arial', '', 8);
-    $pdf->Cell(25, 8, $data['contactno'], 1, 0, 'C');
-    $pdf->SetFont('Arial', '', 7);
-    $pdf->Cell(45, 8, $data['emcon_name'], 1, 0);
-    $pdf->SetFont('Arial', '', 8);
-    $pdf->Cell(25, 8, $data['emcon_number'], 1, 0, 'C');
-    $pdf->Cell(0, 8, '', 0, 1);
+    $pdf->Cell(25, 6, $data['emcon_number'], 1, 0, 'C');
+    $pdf->Cell(0, 6, '', 0, 1);
     $count++;
 }
 

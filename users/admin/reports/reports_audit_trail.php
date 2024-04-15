@@ -122,11 +122,18 @@ while ($data = mysqli_fetch_array($query)) {
 
     $id = $count;
     $fullname = ucwords(strtolower($data['firstname'] . " " . strtoupper($middleinitial) . " " . $data['lastname']));
+    
+    if($data['fullname'] != 'SYSTEM ALERT'){
+        $act = $fullname . " " . lcfirst($data['activity']);
+    }
+    else{
+        $act = "SYSTEM ALERT : " . $data['activity'];
+    }
     $dt = date("F d, Y h:i:s A", strtotime($data['datetime'] . "+ 8 hours"));
     $pdf->Cell(8, 6, $id, 1, 0, 'C');
     //$pdf->Cell(30, 6, $data['campus'], 1, 0, 'C');
     $pdf->SetFont('Arial', '', 8);
-    $pdf->Cell(132, 6, $fullname . " " .  $data['activity'], 1, 0);
+    $pdf->Cell(132, 6, $act, 1, 0);
     $pdf->SetFont('Arial', '', 8);
     $pdf->Cell(50, 6, $dt, 1, 0, 'C');
     $pdf->Cell(0, 6, '', 0, 1);

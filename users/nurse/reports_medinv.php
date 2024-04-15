@@ -170,10 +170,12 @@ if ($pages > 4) {
                                                 <option value="" disabled>Select Report</option>
                                                 <option value="appointment">Appointment Report</option>
                                                 <option value="docvisit">Doctor's Visit Schedule Report</option>
-                                                <option value="transaction">Transaction Report</option>
                                                 <option value="medcase">Medical Cases</option>
+                                                <option value="meddoc">Medical Documents Accomplishment Report</option>
                                                 <option value="medinv" selected>Medicine Consumption Report</option>
                                                 <option value="supinv">Medical Supply Consumption Report</option>
+                                                <option value="patinfo">Patient Information Report</option>
+                                                <option value="transaction">Transaction Report</option>
                                                 <option value="teinv">Tools and Equipment Inventory Report</option>
                                                 <option value="tecalimain">Tools and Equipment Calibration and Maintenance Report</option>
                                             </select>

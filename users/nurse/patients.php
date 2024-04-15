@@ -166,7 +166,7 @@ if ($pages > 4) {
                                         <div class="col-md-2 mb-2">
                                             <select name="designation" class="form-select">
                                                 <option value="">Select Designation</option>
-                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                <option value="" <?= isset($_GET['designation']) == true ? ($_GET['designation'] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT designation FROM patient_info ORDER BY designation";
                                                 if ($result = mysqli_query($conn, $sql)) {

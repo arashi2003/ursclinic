@@ -27,8 +27,13 @@
         case "transaction":
             header('Location: reports_trans');
             break;
+        case "patinfo":
+            header('Location: reports_patinfo');
+            break;
+        case "meddoc":
+            header('Location: reports_meddoc');
+            break;
         default:
-            header('Location: reports');
             break;
     }
 ?>

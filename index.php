@@ -389,12 +389,32 @@ if (isset($_POST['submit'])) {
 
     } elseif ($count == 1 && $row['status'] == 'INACTIVE') {
       $error = "Account is Inactive";
-
     } else {
       $error = "Incorrect User ID or Password.";
 
       // Check if login attempts exceed 3, if yes, start timer
       if ($_SESSION['login_attempts'] >= 3 && $_SESSION['timer_start'] == 0) {
+
+        //audit
+        $sql = "SELECT * FROM account WHERE accountid='$username'";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+          while ($doot = mysqli_fetch_array($result)) {
+            $ca = $doot['campus'];
+          }
+          $pow = "SELECT * FROM account WHERE usertype='ADMIN' AND campus = '$ca' LIMIT 1";
+          $boom = mysqli_query($conn, $pow);
+          while ($fo = mysqli_fetch_array($boom)) {
+            $accid = $fo['accountid'];
+            $au_campus = $fo['campus'];
+          }
+          $fn = 'SYSTEM ALERT';
+          $activity = "Someone was attempting to access Account ID " . $username;
+          $au_status = "unread";
+          $poo = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$accid', '$fn', '$au_campus', '$activity', '$au_status', now())";
+          mysqli_query($conn, $poo);
+        }
+
         $_SESSION['timer_start'] = time();
       }
     }
@@ -476,7 +496,7 @@ if ($_SESSION['timer_start'] > 0) {
           timer--;
           seconds = 59;
         }
-        countdownElement.innerText = 'Please wait for ' + timer + ':' + (seconds < 10 ? '0' + seconds : seconds) + ' minutes';
+        countdownElement.innerText = 'Please wait for ' + timer + ':' + (seconds < 10 ? '0' + seconds : seconds) + ' seconds';
         if (timer <= 0 && seconds <= 0) {
           clearInterval(interval);
           window.location = 'index';

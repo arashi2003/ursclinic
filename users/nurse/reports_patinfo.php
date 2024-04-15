@@ -4,7 +4,7 @@ session_start();
 include('../../connection.php');
 include('../../includes/nurse-auth.php');
 
-$module = 'reports_medcase';
+$module = 'reports_patinfo';
 $campus = $_SESSION['campus'];
 $userid = $_SESSION['userid'];
 $name = $_SESSION['username'];
@@ -109,7 +109,7 @@ if ($pages > 4) {
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
                 <span class="dashboard">
-                    <H1>MEDICAL CASES REPORT</H1>
+                    <H1>PATIENT INFORMATION REPORT</H1>
                 </span>
             </div>
             <div class="right-nav">

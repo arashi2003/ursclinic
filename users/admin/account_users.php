@@ -271,7 +271,7 @@ if ($pages > 4) {
                                                 $utype = "";
                                             } elseif ($ca == "" and $stat == "" and $usertype != "") {
                                                 $utype = " WHERE usertype = '$usertype'";
-                                            } elseif ($ca != "" or $stat != "" and $statususertype != "") {
+                                            } elseif ($ca != "" or $stat != "" and $usertype != "") {
                                                 $utype = " AND usertype = '$usertype'";
                                             }
                                             $sql = "SELECT * FROM account $ca $stat $utype ORDER BY accountid LIMIT $start, $rows_per_page";

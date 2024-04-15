@@ -232,11 +232,11 @@ if ($pages > 4) {
                                                 $date = " datetime >= '$fdate' AND datetime <= '$ldate'";
                                             }
 
-                                            $sql = "SELECT au.id, au.user, au.activity, au.datetime, ac.firstname, ac.middlename, ac.lastname, ac.usertype FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user WHERE $date ORDER BY id DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT au.id, au.user, au.fullname, au.activity, au.datetime, ac.firstname, ac.middlename, ac.lastname, ac.usertype FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user WHERE $date ORDER BY id DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT au.id, au.user, au.activity, au.datetime, ac.firstname, ac.middlename, ac.lastname, ac.usertype FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user ORDER BY id DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT au.id, au.user, au.fullname, au.activity, au.datetime, ac.firstname, ac.middlename, ac.lastname, ac.usertype FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user ORDER BY id DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -254,11 +254,17 @@ if ($pages > 4) {
                                                             $middleinitial = substr($middle, 0, 1) . ".";
                                                         }
                                                     }
+                                                    if($row['fullname'] != 'SYSTEM ALERT'){
+                                                        $act = ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($row['lastname'])) . " " . lcfirst($row['activity']);
+                                                    }
+                                                    else{
+                                                        $act = "SYSTEM ALERT : " . $row['activity'];
+                                                    }
                                         ?>
                                                     <tr>
                                                         <td><?php echo $row['id'] ?></td>
                                                         <td><?php echo $row['usertype'] ?></td>
-                                                        <td><?php echo ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucfirst(strtolower($row['lastname'])) . " " . lcfirst($row['activity']) ?></td>
+                                                        <td><?php echo $act ?></td>
                                                         <td><?php echo date("F d, Y", strtotime($row['datetime'])) ?></td>
                                                         <td><?php echo date("g:i A", strtotime($row['datetime'] . "+ 8 hours")); ?></td>
                                                     </tr>

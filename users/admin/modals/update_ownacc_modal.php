@@ -21,7 +21,7 @@
                                 $sql = "SELECT * FROM campus ORDER BY campus";
                                 $result = mysqli_query($conn, $sql);
                                 while ($data = mysqli_fetch_array($result)) {
-                                    if ($data['campus'] = $row['campus']) { ?>
+                                    if ($data['campus'] == $row['campus']) { ?>
                                         <option value="<?= $data['campus']; ?>" selected><?= $data['campus']; ?></option>
                                     <?php } else { ?>
                                         <option value="<?= $data['campus']; ?>"><?= $data['campus']; ?></option>

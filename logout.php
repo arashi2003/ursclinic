@@ -25,7 +25,7 @@ $campus = $row['campus'];
 $userno = $row['accountid'];
 
 //audit trail
-$sql = "INSERT INTO audit_trail SET campus='$campus', user='$userno', fullname='$fullname', activity='Logged Out'";
+$sql = "INSERT INTO audit_trail SET campus='$campus', user='$userno', fullname='$fullname', activity='Logged out'";
 mysqli_query($conn, $sql) or die(mysqli_error($conn));
 
 ?>

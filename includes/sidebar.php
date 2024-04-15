@@ -85,7 +85,7 @@ if ($_SESSION['usertype'] == "NURSE") : ?>
                     </li>
                 </ul>
             </li>
-            <li class="<?php if ($module == 'reports' or $module == 'reports_appointment' or $module == 'report_doc_visit' or $module == 'reports_transaction' or $module == 'reports_medcase' or $module == 'reports_medinv' or $module == 'reports_supinv' or $module == 'reports_teinv' or $module == 'reports_tecalimain') {
+            <li class="<?php if ($module == 'reports' or $module == 'reports_appointment' or $module == 'reports_patinfo' or $module == 'reports_meddoc' or $module == 'report_doc_visit' or $module == 'reports_transaction' or $module == 'reports_medcase' or $module == 'reports_medinv' or $module == 'reports_supinv' or $module == 'reports_teinv' or $module == 'reports_tecalimain') {
                             echo 'active';
                         } ?>">
                 <a href="reports_appointment">
