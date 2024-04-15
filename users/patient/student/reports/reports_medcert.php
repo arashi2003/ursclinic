@@ -1,7 +1,8 @@
 <?php
     session_start();
-    require('../../../fpdf/fpdf.php');
-    include('connection.php');
+    require('../../../../fpdf/fpdf.php');
+    include('../../../../connection.php');
+    $user = $_SESSION['userid'];
     $campus = $_SESSION['campus'];
     date_default_timezone_set("Asia/Manila");
     
@@ -11,8 +12,8 @@
         {
             $campus = $_SESSION['campus'];
 
-            $this->Image('../../../images/urs.png', 55, 12, 12);
-            $this->Image('../../../images/medlogo.png', 140, 12, 22);
+            $this->Image('../../../../images/urs.png', 25, 12, 12);
+            $this->Image('../../../../images/medlogo.png', 110, 12, 22);
             $this->Cell(0, 4, '', 0, 1);
             $this->SetFont('Arial','',10);
             $this->Cell(0, 0, 'Republic of the Philippines', 0, 1, 'C');
@@ -82,11 +83,9 @@
     $pdf->SetFont('Arial', '', 10);
 
     //account_no from session
-    $account_no = $_REQUEST['patientid'];
-
 
     $query = mysqli_query($conn, 
-    "SELECT firstname,  middlename, lastname, a.campus, sex, birthday, department, designation, college, program, yearlevel, section FROM account a INNER JOIN patient_info pi ON pi.patientid=a.accountid WHERE accountid='$account_no'");
+    "SELECT firstname,  middlename, lastname, a.campus, sex, birthday, department, designation, college, program, yearlevel, section FROM account a INNER JOIN patient_info pi ON pi.patientid=a.accountid WHERE accountid='$user'");
 
     if($data=mysqli_fetch_array($query))
     {
@@ -150,7 +149,7 @@
 
         $pdf->Cell(52, 0, 'Student/Employee Number: ', 0,0, 'R');
         $pdf->Cell(1, 0, '___________________', 0,);
-        $pdf->Cell(19, 0, $account_no, 0, 'C');
+        $pdf->Cell(19, 0, $user, 0, 'C');
 
         $pdf->Cell(0, 7, '', 0, 1);
 
@@ -386,7 +385,7 @@
     
 
 
-    $filename = "Medical_Certificate_". $account_no . ".pdf";
+    $filename = "Medical_Certificate_". $user . ".pdf";
     $pdf->Output($filename, 'D');
     mysqli_close($conn);
 ?>

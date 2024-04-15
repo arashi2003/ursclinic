@@ -201,7 +201,7 @@ session_start();
                 if ($total_approved === $total_medical_docs && $total_medical_docs > 0) {
                     // If all medical documents are approved and there are documents available, show the button
                 ?>
-                    <button type="button" class="btn btn-primary">Download Medical Certificate</button>
+                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert')">Download Medical Certificate</button>
                 <?php } ?>
             </div>
         </div>
@@ -374,7 +374,7 @@ session_start();
                 if ($total_approved === $total_medical_docs && $total_medical_docs > 0) {
                     // If all medical documents are approved and there are documents available, show the button
                 ?>
-                    <button type="button" class="btn btn-primary">Download Medical Certificate</button>
+                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert')">Download Medical Certificate</button>
                 <?php } ?>
             </div>
         </div>
@@ -469,7 +469,7 @@ session_start();
                 if ($total_approved === $total_medical_docs && $total_medical_docs > 0) {
                     // If all medical documents are approved and there are documents available, show the button
                 ?>
-                    <button type="button" class="btn btn-primary">Download Medical Certificate</button>
+                    <button type="button" class="btn btn-primary" onclick="window.open('reports/reports_medcert')">Download Medical Certificate</button>
                 <?php } ?>
             </div>
         </div>
