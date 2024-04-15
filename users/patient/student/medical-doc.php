@@ -1,6 +1,5 @@
 <?php
 $rowCounter = 0;
-session_start();
 ?>
 
 <?php if ($data['yearlevel'] == 1) : ?>

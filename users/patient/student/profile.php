@@ -202,7 +202,7 @@ $campus = $_SESSION['campus'];
                             <div class="col-md-4 mb-2">
                                 <div class="input-group input-group-md mb-2">
                                     <span class="input-group-text" id="inputGroup-sizing-md">Year, Block, Section:</span>
-                                    <input type="text" class="form-control" name="yearlevel" value="<?php echo $row['yearlevel'] . " " . $row['section'] . "-" . $row['block'] ?>" readonly disabled>
+                                    <input type="text" class="form-control" name="yearlevel" value="<?php echo $row['yearlevel'] . "-" . $row['section'] .  $row['block'] ?>" readonly disabled>
                                 </div>
                             </div>
                             <div class="col-md-4 mb-2">
