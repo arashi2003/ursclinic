@@ -39,16 +39,16 @@ class PDF extends FPDF
         $this->Cell(0, 5, '', 0, 1);
 
         $this->SetFont('Arial', 'B', 8);
-        $this->Cell(8, 6, '', 1, 0, 'C');
-        $this->Cell(61, 6, 'Full Name', 1, 0, 'C');
+        $this->Cell(20, 6, 'Stu./Emp. ID', 1, 0, 'C');
+        $this->Cell(55, 6, 'Full Name', 1, 0, 'C');
         $this->Cell(8, 6, 'Age', 1, 0, 'C');
         $this->Cell(13, 6, 'Sex', 1, 0, 'C');
         $this->Cell(20, 6, 'Designation', 1, 0, 'C');
-        $this->Cell(25, 6, 'Prog. Year & Sec.', 1, 0, 'C');
-        $this->Cell(45, 6, 'Email', 1, 0, 'C');
+        $this->Cell(28, 6, 'Prog. Year & Sec.', 1, 0, 'C');
+        $this->Cell(48, 6, 'Email', 1, 0, 'C');
         $this->Cell(25, 6, 'Contact #', 1, 0, 'C');
-        $this->Cell(45, 6, 'Emergency Contact', 1, 0, 'C');
-        $this->Cell(25, 6, 'E. Contact #', 1, 0, 'C');
+        $this->Cell(40, 6, 'Emergency Contact', 1, 0, 'C');
+        $this->Cell(20, 6, 'E. Contact #', 1, 0, 'C');
         $this->Cell(0, 6, '', 0, 1);
     }
 
@@ -88,11 +88,12 @@ $pdf->AliasNbPages();
 $pdf->SetAutoPageBreak(true, 15);
 $pdf->SetFont('Arial', '', 10);
 
-$department = ""; //$_POST['department'];
-$college = ""; //$_POST['college'];
-$program = ""; //$_POST['course'];
-$year = ""; //$_POST['yearlevel'];
-$designation = ""; //$_POST['designation'];
+$department = $_POST['department'];
+$college = $_POST['college'];
+$program = $_POST['program'];
+$yearlevel = $_POST['yearlevel'];
+$designation = $_POST['designation'];
+$patient = $_POST['patient'];
 
 //campus filter
 if ($campus == "") {
@@ -100,54 +101,36 @@ if ($campus == "") {
 } else {
     $ca = " WHERE a.campus = '$campus'";
 }
+//designation filter
+if ($designation != "") {
+    $ca .= " AND p.designation = '$designation'";
+}
+
+//yearlevel filter
+if ($yearlevel != "") {
+    $ca .= " AND p.yearlevel = '$yearlevel'";
+}
 
 //department filter
-if ($ca == "" and $department != "") {
-    $depa = " WHERE pi.department = '$department'";
-} elseif ($department == "") {
-    $depa = "";
-} elseif ($ca != "" and $department != "") {
-    $depa = " AND pi.department = '$department'";
+if ($department != "") {
+    $ca .= " AND p.department = '$department'";
 }
 
 //college filter
-if ($college == "") {
-    $co = "";
-} elseif ($ca == "" and $depa == "" and $college != "") {
-    $co = " WHERE pi.college = '$college'";
-} elseif ($ca != "" or $depa != "" and $college != "") {
-    $co = " AND pi.college = '$college'";
+if ($college != "") {
+    $ca .= " AND p.college = '$college'";
 }
 
-//prgram filter
-if ($program == "") {
-    $pr = "";
-} elseif ($ca == "" and $depa == "" and $co == "" and $program != "") {
-    $pr = " WHERE pi.program = '$program'";
-} elseif ($ca != "" or $depa != "" or $co != "" and $program != "") {
-    $pr = " AND pi.program = '$program'";
+//program filter
+if ($program != "") {
+    $ca .= " AND p.program = '$program'";
 }
 
-//year filter
-if ($year == "") {
-    $y = "";
-} elseif ($ca == "" and $depa == "" and $co == "" and $pr == "" and $year != "") {
-    $y = " WHERE yearlevel = '$year'";
-} elseif ($ca != "" or $depa != "" or $co != ""  or $pr != "" and $year != "") {
-    $y = " AND yearlevel = '$year'";
-}
-
-//designation filter
-if ($designation == "") {
-    $des = "";
-} elseif ($ca == "" and $depa == "" and $co == "" and $pr == "" and $y == "" and $designation != "") {
-    $des = " WHERE pi.designation = '$designation'";
-} elseif ($ca != "" or $depa != "" or $co != ""  or $pr != "" or $y != "" and $designation != "") {
-    $des = " AND pi.designation = '$designation'";
-}
-
-
-$query = mysqli_query($conn, "SELECT firstname,  middlename, lastname, a.email, a.contactno, a.campus, designation, sex, birthday, pi.department, college, program, yearlevel, section, emcon_number, emcon_name FROM account a INNER JOIN patient_info pi ON pi.patientid=a.accountid $ca $depa $co $pr $y $des ORDER BY lastname");
+$query = mysqli_query($conn, "SELECT *
+FROM patient_info p
+INNER JOIN account a ON a.accountid=p.patientid
+$ca
+ORDER BY p.patientid");
 $count = 1;
 while ($data = mysqli_fetch_array($query)) {
     if (count(explode(" ", $data['middlename'])) > 1) {
@@ -163,37 +146,37 @@ while ($data = mysqli_fetch_array($query)) {
         }
     }
 
-    if($data['designation'] != 'STUDENT'){
+    if ($data['designation'] == 'STUDENT' and $data['usertype'] != 'ALUMNI' AND $data['department'] == 'COLLEGE' AND $data['college'] != 'GRADUATE STUDIES') {
+        $college = $data['college'];
+        $pys = $data['program'] . " " . $data['yearlevel'] . "-" .  $data['section'] . $data['block'];
+    } elseif ($data['designation'] == 'STUDENT' and $data['usertype'] != 'ALUMNI' AND $data['college'] == 'GRADUATE STUDIES') {
+        $college = $data['college'];
+        $pys =  $data['program'];
+    } elseif ($data['designation'] == 'STUDENT' and $data['usertype'] != 'ALUMNI' AND $data['department'] == 'JUNIOR HIGH SCHOOL') {
+        $college = "N/A";
+        $pys = $data['yearlevel'];
+    } elseif ($data['designation'] == 'STUDENT' and $data['usertype'] != 'ALUMNI' AND $data['department'] == 'SENIOR HIGH SCHOOL') {
+        $college = "N/A";
+        $pys =  $data['program'] . " - " . $data['yearlevel'];
+    } else{
+        $college = "N/A";
         $pys = "N/A";
-    }
-    elseif($data['yearlevel']!='GRADUATE'){
-        $pys = $data['program'] . " " . $data['yearlevel'] . "-" . $data['section'];
-    } elseif($data['yearlevel']=='GRADUATE'){
-        $pys = $data['program'];
     }
 
     $age = floor((time() - strtotime($data['birthday'])) / 31556926);
 
-    $id = $count;
-    $pdf->SetFont('Arial', '', 9);
-    $pdf->Cell(8, 6, $id, 1, 0, 'C');
-    $pdf->Cell(61, 6,  ucwords(strtolower($data['lastname'])) . ", " . ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial), 1, 0, '');
+    $pdf->SetFont('Arial', '', 8);
+    $pdf->Cell(20, 6, $data['patientid'], 1, 0, 'C');
+    $pdf->Cell(55, 6,  ucwords(strtolower($data['lastname'])) . ", " . ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial), 1, 0, '');
     $pdf->Cell(8, 6, $age, 1, 0, 'C');
-    $pdf->SetFont('Arial', '', 7);
     $pdf->Cell(13, 6, $data['sex'], 1, 0, 'C');
     $pdf->Cell(20, 6, $data['designation'], 1, 0, 'C');
-    $pdf->SetFont('Arial', '', 6);
-    $pdf->Cell(25, 6, $pys, 1, 0, 'C');
-    $pdf->SetFont('Arial', '', 8);
-    $pdf->Cell(45, 6, $data['email'], 1, 0);
-    $pdf->SetFont('Arial', '', 8);
+    $pdf->Cell(28, 6, $pys, 1, 0, 'C');
+    $pdf->Cell(48, 6, $data['email'], 1, 0);
     $pdf->Cell(25, 6, $data['contactno'], 1, 0, 'C');
-    $pdf->SetFont('Arial', '', 7);
-    $pdf->Cell(45, 6, $data['emcon_name'], 1, 0);
-    $pdf->SetFont('Arial', '', 8);
-    $pdf->Cell(25, 6, $data['emcon_number'], 1, 0, 'C');
+    $pdf->Cell(40, 6, $data['emcon_name'], 1, 0);
+    $pdf->Cell(20, 6, $data['emcon_number'], 1, 0, 'C');
     $pdf->Cell(0, 6, '', 0, 1);
-    $count++;
 }
 
 

@@ -65,11 +65,7 @@ $campus = "";//$_SESSION['campus'];
 
 
 //campus filter
-if ($campus == "") {
-    $ca = "";
-} else {
-    $ca = " ";
-}
+$ca = "";
 
 //date filter
 if ($dt_from == "" && $dt_to == "") {

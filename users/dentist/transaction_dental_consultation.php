@@ -205,7 +205,7 @@ $usertype = $_SESSION['usertype'];
                                     </div>
                                     <div class="col-md-4 mb-2">
                                         <div class="input-group input-group-md mb-2">
-                                            <span class="input-group-text" id="inputGroup-sizing-md">Civl Status:</span>
+                                            <span class="input-group-text" id="inputGroup-sizing-md">Civil Status:</span>
                                             <select class="form-control" aria-label=".form-select-md example" name="civil_status" id="civil_status" required>
                                                 <option value="" disabled selected></option>
                                                 <option value="Single">Single</option>
