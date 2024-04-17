@@ -12,17 +12,33 @@ $usertype = $_SESSION['usertype'];
 
 
 // Check if the supply or batch filter is set
-if (isset($_GET['physician']) || isset($_GET['status']) || isset($_GET['date_from']) || isset($_GET['date_to'])) {
+if (isset($_GET['patient']) || isset($_GET['designation']) || isset($_GET['type']) || isset($_GET['purpose']) || isset($_GET['physician']) || isset($_GET['status']) || isset($_GET['date_from']) || isset($_GET['date_to'])) {
     // Validate and sanitize input
     $physician = isset($_GET['physician']) ? $_GET['physician'] : '';
     $status = isset($_GET['status']) ? $_GET['status'] : '';
     $date_from = isset($_GET['date_from']) ? $_GET['date_from'] : '';
     $date_to = isset($_GET['date_to']) ? $_GET['date_to'] : '';
+    $patient = isset($_GET['patient']) ? $_GET['patient'] : '';
+    $type = isset($_GET['type']) ? $_GET['type'] : '';
+    $purpose = isset($_GET['purpose']) ? $_GET['purpose'] : '';
+    $designation = isset($_GET['designation']) ? $_GET['designation'] : '';
 
     // Initialize the WHERE clause
-    $whereClause = " campus = '$campus'"; // Start with common conditions
+    $whereClause = " ac.campus = '$campus'"; // Start with common conditions
 
     // Add conditions based on filters
+    if ($patient != "") {
+        $whereClause .= " AND (CONCAT(ac.firstname,' ', ac.lastname) LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.middlename,' ', ac.lastname) LIKE '%$patient%' OR ap.patient LIKE '%$patient%')";
+    }
+    if ($type !== '') {
+        $whereClause .= " AND t.type = '$type'";
+    }
+    if ($purpose !== '') {
+        $whereClause .= " AND p.purpose = '$purpose'";
+    }
+    if ($designation !== '') {
+        $whereClause .= " AND pi.designation = '$designation'";
+    }
     if ($physician !== '') {
         $whereClause .= " AND ap.physician = '$physician'"; // Add physician filter
     }
@@ -44,6 +60,7 @@ if (isset($_GET['physician']) || isset($_GET['status']) || isset($_GET['date_fro
                   INNER JOIN account ac ON ac.accountid = ap.patient 
                   INNER JOIN appointment_type t ON t.id = ap.type 
                   INNER JOIN appointment_purpose p ON p.id = ap.purpose 
+                  INNER JOIN patient_info pi ON pi.patientid=ap.patient
                   WHERE $whereClause";
 } else {
     // If filters are not set, count all rows
@@ -52,7 +69,7 @@ if (isset($_GET['physician']) || isset($_GET['status']) || isset($_GET['date_fro
                   INNER JOIN account ac ON ac.accountid = ap.patient 
                   INNER JOIN appointment_type t ON t.id = ap.type 
                   INNER JOIN appointment_purpose p ON p.id = ap.purpose 
-                  WHERE campus = '$campus'";
+                  WHERE ac.campus = '$campus'";
 }
 
 // Execute the count query
@@ -175,9 +192,13 @@ if ($pages > 4) {
                 <div class="schedule-button">
                     <form action="reports/reports_appointment" method="post" id="exportPdfForm" target="_blank">
                         <!-- Hidden input fields to store filter values -->
+                        <input type="hidden" value="<?= isset($_GET['designation']) == true ? $_GET['designation'] : '' ?>" name="designation" id="designation">
                         <input type="hidden" value="<?= isset($_GET['physician']) == true ? $_GET['physician'] : '' ?>" name="physician" id="physician">
                         <input type="hidden" value="<?= isset($_GET['status']) == true ? $_GET['status'] : '' ?>" name="status" id="status">
                         <input type="hidden" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>" name="date_from" id="date_from">
+                        <input type="hidden" value="<?= isset($_GET['patient']) == true ? $_GET['patient'] : '' ?>" name="patient" id="patient">
+                        <input type="hidden" value="<?= isset($_GET['type']) == true ? $_GET['type'] : '' ?>" name="type" id="type">
+                        <input type="hidden" value="<?= isset($_GET['purpose']) == true ? $_GET['purpose'] : '' ?>" name="purpose" id="purpose">
                         <input type="hidden" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>" name="date_to" id="date_to">
 
                         <!-- Export PDF button -->
@@ -211,9 +232,39 @@ if ($pages > 4) {
                             <div class="col">
                                 <form action="" method="GET" id="filterForm">
                                     <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="input-group mb-2">
+                                                <input type="text" name="patient" value="<?= isset($_GET['patient']) == true ? $_GET['patient'] : '' ?>" class="form-control" placeholder="Search patient">
+                                                <button type="submit" class="btn btn-primary">Search</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <select name="type" class="form-select">
+                                                <option value="" selected>-Select Type-</option>\
+                                                <?php
+                                                $sql = "SELECT * FROM appointment_type ORDER BY type";
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) { ?>
+                                                        <option value="<?php echo $row['type']; ?>" <?= isset($_GET['type']) == true ? ($_GET['type'] == $row['type'] ? 'selected' : '') : '' ?>><?php echo $row['type']; ?></option><?php }
+                                                                                                                                                                                                                                                        } ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <select name="purpose" class="form-select">
+                                                <option value="" selected>-Select Request For-</option>
+                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                <?php
+                                                $sql = "SELECT DISTINCT purpose FROM appointment_purpose ORDER BY purpose";
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) { ?>
+                                                        <option value="<?php echo $row['purpose']; ?>" <?= isset($_GET['purpose']) == true ? ($_GET['purpose'] == $row['purpose'] ? 'selected' : '') : '' ?>><?php echo $row['purpose']; ?></option><?php }
+                                                                                                                                                                                                                                                        } ?>
+                                            </select>
+                                        </div>
                                         <div class="col-md-2 mb-2">
                                             <select name="physician" class="form-select">
-                                                <option value="" selected>-Select Physician-</option>\
+                                                <option value="" selected>-Select Physician-</option>
+                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 $sql = "SELECT DISTINCT physician FROM appointment ORDER BY physician";
                                                 if ($result = mysqli_query($conn, $sql)) {
@@ -234,13 +285,25 @@ if ($pages > 4) {
                                                                                                                                                                                                                                                     } ?>
                                             </select>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2 mb-2">
+                                            <select name="designation" class="form-select">
+                                                <option value="" selected disabled>-Select Designation-</option>
+                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                <?php
+                                                $sql = "SELECT DISTINCT designation FROM patient_info ORDER BY designation";
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) {  ?>
+                                                        <option value="<?php echo $row['designation']; ?>" <?= isset($_GET['designation']) == true ? ($_GET['designation'] == $row['designation'] ? 'selected' : '') : '' ?>><?php echo strtoupper($row['designation']); ?></option><?php }
+                                                                                                                                                                                                                                                    } ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
                                             <input type="text" name="date_from" id="from" placeholder="Date From" class="form-control" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>">
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2 mb-2">
                                             <input type="text" name="date_to" id="to" placeholder="Date To" class="form-control" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>">
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2 mb-2">
                                             <button type="submit" class="btn btn-primary">Filter</button>
                                             <a href="reports_appointment" class="btn btn-danger">Reset</a>
                                         </div>
@@ -258,17 +321,24 @@ if ($pages > 4) {
                                             <th>Time</th>
                                             <th>Physician</th>
                                             <th>Patient</th>
-                                            <th>Type and Purpose</th>
+                                            <th>Type - Request For</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        if (isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '' || isset($_GET['physician']) && $_GET['physician'] != '' || isset($_GET['status']) && $_GET['status'] != '') {
+                                        if (isset($_GET['patient']) && $_GET['patient'] != '') {
+                                            $patient = $_GET['patient'];
+                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.patient, ap.type, ap.status, ap.purpose, ac.campus, ac.firstname, ac.middlename, ac.lastname, t.type, p.purpose, pi.designation FROM appointment ap INNER JOIN account ac ON ac.accountid=ap.patient INNER JOIN appointment_type t ON t.id=ap.type INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN patient_info pi ON pi.patientid=ap.patient WHERE ac.campus='$campus' AND (CONCAT(ac.firstname,' ', ac.lastname) LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.middlename,' ', ac.lastname) LIKE '%$patient%' OR ap.patient LIKE '%$patient%') ORDER BY ap.date DESC, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['designation']) && $_GET['designation'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '' || isset($_GET['physician']) && $_GET['physician'] != '' || isset($_GET['status']) && $_GET['status'] != '' || isset($_GET['type']) && $_GET['type'] != '' || isset($_GET['purpose']) && $_GET['purpose'] != '') {
                                             $dt_from = $_GET['date_from'];
                                             $dt_to = $_GET['date_to'];
                                             $pod = isset($_GET['physician']) ? $_GET['physician'] : "";
                                             $status = isset($_GET['status']) ? $_GET['status'] : "";
+                                            $purpose = isset($_GET['purpose']) ? $_GET['purpose'] : "";
+                                            $type = isset($_GET['type']) ? $_GET['type'] : "";
+                                            $designation = isset($_GET['designation']) ? $_GET['designation'] : "";
 
                                             //campus filter
                                             if ($campus == "") {
@@ -324,11 +394,31 @@ if ($pages > 4) {
                                                 $st = " AND ap.status = '$status'";
                                             }
 
-                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.patient, ap.type, ap.status, ap.purpose, ac.campus, ac.firstname, ac.middlename, ac.lastname, t.type, p.purpose FROM appointment ap INNER JOIN account ac ON ac.accountid=ap.patient INNER JOIN appointment_type t ON t.id=ap.type INNER JOIN appointment_purpose p ON p.id=ap.purpose $ca $date $doc $st ORDER BY ap.date DESC, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";
+                                            //type filter
+                                            if ($type == "") {
+                                                $ty = "";
+                                            } else {
+                                                $ty = " AND t.type = '$type'";
+                                            }
+
+                                            //purpose filter
+                                            if ($purpose == "") {
+                                                $purp = "";
+                                            } else {
+                                                $purp = " AND p.purpose = '$purpose'";
+                                            }
+                                            //purpose filter
+                                            if ($designation == "") {
+                                                $des = "";
+                                            } else {
+                                                $des = " AND pi.designation = '$designation'";
+                                            }
+
+                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.patient, ap.type, ap.status, ap.purpose, ac.campus, ac.firstname, ac.middlename, ac.lastname, t.type, p.purpose, pi.designation FROM appointment ap INNER JOIN account ac ON ac.accountid=ap.patient INNER JOIN appointment_type t ON t.id=ap.type INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN patient_info pi ON pi.patientid=ap.patient $ca $date $doc $st $ty $purp $des ORDER BY ap.date DESC, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.patient, ap.type, ap.status, ap.purpose, ac.campus, ac.firstname, ac.middlename, ac.lastname, t.type, p.purpose FROM appointment ap INNER JOIN account ac ON ac.accountid=ap.patient INNER JOIN appointment_type t ON t.id=ap.type INNER JOIN appointment_purpose p ON p.id=ap.purpose WHERE campus = '$campus' ORDER BY ap.date DESC, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT ap.id, ap.date, ap.time_from, ap.time_to, ap.physician, ap.patient, ap.type, ap.status, ap.purpose, ac.campus, ac.firstname, ac.middlename, ac.lastname, t.type, p.purpose, pi.designation FROM appointment ap INNER JOIN account ac ON ac.accountid=ap.patient INNER JOIN appointment_type t ON t.id=ap.type INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN patient_info pi ON pi.patientid=ap.patient WHERE ac.campus = '$campus' ORDER BY ap.date DESC, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -379,21 +469,21 @@ if ($pages > 4) {
                                     <?php
                                     if (mysqli_num_rows($result) > 0) : ?>
                                         <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '', isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['purpose']) ? 'purpose=' . $_GET['purpose'] . '&' : '',  isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
                                         </li>
                                         <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '', isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['purpose']) ? 'purpose=' . $_GET['purpose'] . '&' : '',  isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
                                         </li>
                                         <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
                                             <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-                                                <a class="page-link" href="?<?= isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                                                <a class="page-link" href="?<?= isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '', isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['purpose']) ? 'purpose=' . $_GET['purpose'] . '&' : '',  isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
                                             </li>
                                         <?php endfor; ?>
                                         <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '', isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['purpose']) ? 'purpose=' . $_GET['purpose'] . '&' : '',  isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
                                         </li>
                                         <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '', isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['purpose']) ? 'purpose=' . $_GET['purpose'] . '&' : '',  isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
                                         </li>
                                     <?php endif; ?>
                                 </ul>

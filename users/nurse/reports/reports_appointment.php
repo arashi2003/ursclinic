@@ -42,7 +42,7 @@ class PDF extends FPDF
         $this->Cell(30, 8, 'Time', 1, 0, 'C');
         $this->Cell(50, 8, 'Physician', 1, 0, 'C');
         $this->Cell(70, 8, 'Patient', 1, 0, 'C');
-        $this->Cell(65, 8, 'Type and Purpose', 1, 0, 'C');
+        $this->Cell(65, 8, 'Type - Request For', 1, 0, 'C');
         $this->Cell(30, 8, 'Status', 1, 0, 'C');
         $this->Cell(0, 8, '', 0, 1);
     }
@@ -86,14 +86,13 @@ $pdf->SetFont('Arial', '', 8);
 $dt_from = $_POST['date_from'];
 $dt_to = $_POST['date_to'];
 $pod = $_POST['physician'];
+$purpose = $_POST['purpose'];
+$type = $_POST['type'];
+$patient = $_POST['patient'];
 $status = $_POST['status'];
+$designation = $_POST['designation'];
 
-//campus filter
-if ($campus == "") {
-    $ca = "";
-} else {
-    $ca = " WHERE ac.campus = '$campus'";
-}
+$ca = " WHERE ac.campus = '$campus'";
 
 //date filter
 if ($dt_from == "" && $dt_to == "") {
@@ -147,7 +146,21 @@ if ($status == "") {
 }
 
 
-$query = mysqli_query($conn, "SELECT ap.date, ap.time_from, ap.time_to, ap.physician, ap.patient, ap.type, ap.status, ap.purpose, ac.campus, ac.firstname, ac.middlename, ac.lastname, t.type, p.purpose FROM appointment ap INNER JOIN account ac ON ac.accountid=ap.patient INNER JOIN appointment_type t ON t.id=ap.type INNER JOIN appointment_purpose p ON p.id=ap.purpose $ca $date $doc $st ORDER BY ap.date DESC, ap.time_from");
+if ($patient != "") {
+    $ca .= " AND (CONCAT(ac.firstname,' ', ac.lastname) LIKE '%$patient%' OR CONCAT(ac.firstname, ' ', ac.middlename,' ', ac.lastname) LIKE '%$patient%' OR ap.patient LIKE '%$patient%')";
+}
+if ($type !== '') {
+    $ca .= " AND t.type = '$type'";
+}
+if ($purpose !== '') {
+    $ca .= " AND p.purpose = '$purpose'";
+}
+if ($designation !== '') {
+    $ca .= " AND pi.designation = '$designation'";
+}
+
+
+$query = mysqli_query($conn, "SELECT ap.date, ap.time_from, ap.time_to, ap.physician, ap.patient, ap.type, ap.status, ap.purpose, ac.campus, ac.firstname, ac.middlename, ac.lastname, t.type, p.purpose, pi.designation FROM appointment ap INNER JOIN account ac ON ac.accountid=ap.patient INNER JOIN appointment_type t ON t.id=ap.type INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN patient_info pi ON pi.patientid=ap.patient $ca $date $doc $st ORDER BY ap.date DESC, ap.time_from");
 while ($data = mysqli_fetch_array($query)) {
     if (count(explode(" ", $data['middlename'])) > 1) {
         $middle = explode(" ", $data['middlename']);

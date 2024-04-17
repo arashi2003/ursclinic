@@ -13,13 +13,34 @@ $usertype = $_SESSION['usertype'];
 $now = date("Y-m-t");
 
 // Check if the supply or batch filter is set
-if (isset($_GET['date_from']) || isset($_GET['date_to'])) {
+if (isset($_GET['patient']) || isset($_GET['designation']) || isset($_GET['transaction']) || isset($_GET['type']) || isset($_GET['purpose']) || isset($_GET['date_from']) || isset($_GET['date_to'])) {
     // Validate and sanitize input
     $date_from = isset($_GET['date_from']) ? $_GET['date_from'] : '';
     $date_to = isset($_GET['date_to']) ? $_GET['date_to'] : '';
+    $patient = isset($_GET['patient']) ? $_GET['patient'] : '';
+    $type = isset($_GET['type']) ? $_GET['type'] : '';
+    $purpose = isset($_GET['purpose']) ? $_GET['purpose'] : '';
+    $transaction = isset($_GET['transaction']) ? $_GET['transaction'] : '';
+    $designation = isset($_GET['designation']) ? $_GET['designation'] : '';
 
     $whereClause = " campus = '$campus'"; // Start with common conditions
 
+    if ($patient != "") {
+        $whereClause .= " AND (CONCAT(firstname,' ', lastname) LIKE '%$patient%' OR CONCAT(firstname, ' ', middlename,' ', lastname) LIKE '%$patient%' OR patient LIKE '%$patient%')";
+    }
+    if ($type !== '') {
+        $whereClause .= " AND type = '$type'";
+    }
+    if ($purpose !== '') {
+        $whereClause .= " AND purpose = '$purpose'";
+    }
+    if ($transaction !== '') {
+        $whereClause .= " AND transaction = '$transaction'"; // Add physician filter
+    }
+    if ($designation !== '') {
+        $whereClause .= " AND designation = '$designation'"; // Add physician filter
+    }
+    
     if ($date_from !== '') {
         $date_from = date("Y-m-d", strtotime($date_from));
         $whereClause .= " AND datetime >= '$date_from'"; // Add date from filter
@@ -162,8 +183,11 @@ if ($pages > 4) {
                 <div class="schedule-button">
                     <form action="reports/reports_trans" method="post" id="exportPdfForm" target="_blank">
                         <!-- Hidden input fields to store filter values -->
-                        <!--<input type="hidden" value="<? //=  isset($_GET['physician']) == true ? $_GET['physician'] : '' 
-                                                        ?>" name="physician" id="physician">-->
+                        <input type="hidden" value="<?= isset($_GET['patient']) == true ? $_GET['patient'] : '' ?>" name="patient" id="patient">
+                        <input type="hidden" value="<?= isset($_GET['designation']) == true ? $_GET['designation'] : '' ?>" name="designation" id="designation">
+                        <input type="hidden" value="<?= isset($_GET['type']) == true ? $_GET['type'] : '' ?>" name="type" id="type">
+                        <input type="hidden" value="<?= isset($_GET['purpose']) == true ? $_GET['purpose'] : '' ?>" name="purpose" id="purpose">
+                        <input type="hidden" value="<?= isset($_GET['transaction']) == true ? $_GET['transaction'] : '' ?>" name="transaction" id="transaction">
                         <input type="hidden" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>" name="date_from" id="date_from">
                         <input type="hidden" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>" name="date_to" id="date_to">
 
@@ -198,6 +222,56 @@ if ($pages > 4) {
                             <div class="col">
                                 <form action="" method="GET" id="filterForm">
                                     <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="input-group mb-2">
+                                                <input type="text" name="patient" value="<?= isset($_GET['patient']) == true ? $_GET['patient'] : '' ?>" class="form-control" placeholder="Search patient">
+                                                <button type="submit" class="btn btn-primary">Search</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <select name="designation" class="form-select">
+                                                <option value="" selected disabled>-Select Designation-</option>
+                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                <?php
+                                                $sql = "SELECT DISTINCT designation FROM patient_info ORDER BY designation";
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) {  ?>
+                                                        <option value="<?php echo $row['designation']; ?>" <?= isset($_GET['designation']) == true ? ($_GET['designation'] == $row['designation'] ? 'selected' : '') : '' ?>><?php echo strtoupper($row['designation']); ?></option><?php }
+                                                                                                                                                                                                                                                    } ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <select name="type" class="form-select">
+                                                <option value="" disabled selected>-Select Type-</option>
+                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                <option value="Appointment" <?= isset($_GET['type']) == true ? ($_GET['type'] == 'Appointment' ? 'selected' : '') : '' ?>>Appointment</option>
+                                                <option value="Walk-In" <?= isset($_GET['type']) == true ? ($_GET['type'] == 'Walk-In' ? 'selected' : '') : '' ?>>Walk-In</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <select name="transaction" class="form-select">
+                                                <option value="" selected>-Select Transaction-</option>
+                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                <?php
+                                                $sql = "SELECT DISTINCT transaction FROM transaction_history ORDER BY transaction";
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) { ?>
+                                                        <option value="<?php echo $row['transaction']; ?>" <?= isset($_GET['transaction']) == true ? ($_GET['transaction'] == $row['transaction'] ? 'selected' : '') : '' ?>><?php echo $row['transaction']; ?></option><?php }
+                                                                                                                                                                                                                                                        } ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <select name="purpose" class="form-select">
+                                                <option value="" selected>-Select Request For-</option>
+                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                <?php
+                                                $sql = "SELECT DISTINCT purpose FROM transaction_history ORDER BY purpose";
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) { ?>
+                                                        <option value="<?php echo $row['purpose']; ?>" <?= isset($_GET['purpose']) == true ? ($_GET['purpose'] == $row['purpose'] ? 'selected' : '') : '' ?>><?php echo $row['purpose']; ?></option><?php }
+                                                                                                                                                                                                                                                        } ?>
+                                            </select>
+                                        </div>
                                         <div class="col-md-2">
                                             <input type="text" name="date_from" id="from" placeholder="Date From" class="form-control" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>">
                                         </div>
@@ -226,9 +300,17 @@ if ($pages > 4) {
                                     </thead>
                                     <tbody>
                                         <?php
-                                        if (isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
+                                        if (isset($_GET['patient']) && $_GET['patient'] != '') {
+                                            $patient = $_GET['patient'];
+                                            $sql = "SELECT id, patient, firstname, middlename, lastname, designation, age, sex, department, college, program, birthday, yearlevel, section,type, transaction, purpose, height,weight, bp, pr, temp, heent, chest_lungs,heart, abdomen, extremities, bronchial_asthma, surgery, lmp, heart_disease, allergies, epilepsy, hernia,respiratory, oxygen_saturation, chief_complaint, findiag,remarks, medsup, pod_nod, medcase, medcase_others, datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial FROM transaction_history WHERE (CONCAT(firstname,' ', lastname) LIKE '%$patient%' OR CONCAT(firstname, ' ', middlename,' ', lastname) LIKE '%$patient%' OR patient LIKE '%$patient%') AND  campus = '$campus' ORDER BY datetime DESC  LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['designation']) && $_GET['designation'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '' || isset($_GET['type']) && $_GET['type'] != '' || isset($_GET['purpose']) && $_GET['purpose'] != '' || isset($_GET['transaction']) && $_GET['transaction'] != '') {
                                             $dt_from = $_GET['date_from'];
                                             $dt_to = $_GET['date_to'];
+                                            $transaction = isset($_GET['transaction']) ? $_GET['transaction'] : "";
+                                            $purpose = isset($_GET['purpose']) ? $_GET['purpose'] : "";
+                                            $type = isset($_GET['type']) ? $_GET['type'] : "";
+                                            $designation = isset($_GET['designation']) ? $_GET['designation'] : "";
                                             $count = 1;
 
                                             //campus filter
@@ -262,7 +344,36 @@ if ($pages > 4) {
                                                 $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
                                             }
 
-                                            $sql = "SELECT id, patient, firstname, middlename, lastname, designation, age, sex, department, college, program, birthday, yearlevel, section,type, transaction, purpose, height,weight, bp, pr, temp, heent, chest_lungs,heart, abdomen, extremities, bronchial_asthma, surgery, lmp, heart_disease, allergies, epilepsy, hernia,respiratory, oxygen_saturation, chief_complaint, findiag,remarks, medsup, pod_nod, medcase, medcase_others, datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial FROM transaction_history $ca $date ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            
+                                            //type filter
+                                            if ($type == "") {
+                                                $ty = "";
+                                            } else {
+                                                $ty = " AND type = '$type'";
+                                            }
+
+                                            //purpose filter
+                                            if ($purpose == "") {
+                                                $purp = "";
+                                            } else {
+                                                $purp = " AND purpose = '$purpose'";
+                                            }
+                                            
+                                            //transaction filter
+                                            if ($transaction == "") {
+                                                $tra = "";
+                                            } else {
+                                                $tra = " AND transaction = '$transaction'";
+                                            }
+                                            
+                                            //designation filter
+                                            if ($designation == "") {
+                                                $des = "";
+                                            } else {
+                                                $des = " AND designation = '$designation'";
+                                            }
+
+                                            $sql = "SELECT id, patient, firstname, middlename, lastname, designation, age, sex, department, college, program, birthday, yearlevel, section,type, transaction, purpose, height,weight, bp, pr, temp, heent, chest_lungs,heart, abdomen, extremities, bronchial_asthma, surgery, lmp, heart_disease, allergies, epilepsy, hernia,respiratory, oxygen_saturation, chief_complaint, findiag,remarks, medsup, pod_nod, medcase, medcase_others, datetime, campus, referral, ddefects, dcs, gp, scaling_polish, dento_facial FROM transaction_history $ca $date $ty $purp $tra $des ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
@@ -290,7 +401,7 @@ if ($pages > 4) {
                                                         <td><?= $row['id'] ?></td>
                                                         <td><?= ucwords(strtolower($row['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($row['lastname'])) ?></td>
                                                         <td><?= $row['pod_nod'] ?></td>
-                                                        <td><?= $row['type'] . " - " . $row['transaction'] ?></td>
+                                                        <td><?= $row['transaction'] . " - " . $row['purpose'] ?></td>
                                                         <td><?= date("M d, Y", strtotime($row['datetime'])) . " " . date("g:i A", strtotime($row['datetime'] . "+ 8 hours")); ?></td>
                                                     </tr>
                                                 <?php
@@ -311,21 +422,21 @@ if ($pages > 4) {
                                     <?php
                                     if (mysqli_num_rows($result) > 0) : ?>
                                         <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '',isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['transaction']) ? 'transaction=' . $_GET['transaction'] . '&' : '', isset($_GET['purpose']) ? 'purpose=' . $_GET['purpose'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
                                         </li>
                                         <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '',isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['transaction']) ? 'transaction=' . $_GET['transaction'] . '&' : '', isset($_GET['purpose']) ? 'purpose=' . $_GET['purpose'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
                                         </li>
                                         <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
                                             <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-                                                <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                                                <a class="page-link" href="?<?= isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '',isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['transaction']) ? 'transaction=' . $_GET['transaction'] . '&' : '', isset($_GET['purpose']) ? 'purpose=' . $_GET['purpose'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
                                             </li>
                                         <?php endfor; ?>
                                         <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '',isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['transaction']) ? 'transaction=' . $_GET['transaction'] . '&' : '', isset($_GET['purpose']) ? 'purpose=' . $_GET['purpose'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
                                         </li>
                                         <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['designation']) ? 'designation=' . $_GET['designation'] . '&' : '',isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['transaction']) ? 'transaction=' . $_GET['transaction'] . '&' : '', isset($_GET['purpose']) ? 'purpose=' . $_GET['purpose'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
                                         </li>
                                     <?php endif; ?>
                                 </ul>

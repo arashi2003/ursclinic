@@ -86,12 +86,28 @@ $pdf->SetFont('Arial', '', 8);
 
 $dt_from = $_POST['date_from'];
 $dt_to = $_POST['date_to'];
+$purpose = $_POST['purpose'];
+$transaction = $_POST['transaction'];
+$type = $_POST['type'];
+$patient = $_POST['patient'];
+$designation = $_POST['designation'];
 
-//campus filter
-if ($campus == "") {
-    $ca = "";
-} else {
-    $ca = " WHERE campus = '$campus'";
+$ca = " WHERE campus = '$campus'";
+
+if ($patient != "") {
+    $ca .= " AND (CONCAT(firstname,' ', lastname) LIKE '%$patient%' OR CONCAT(firstname, ' ', middlename,' ', lastname) LIKE '%$patient%' OR patient LIKE '%$patient%')";
+}
+if ($transaction !== '') {
+    $ca .= " AND transaction = '$transaction'";
+}
+if ($type !== '') {
+    $ca .= " AND type = '$type'";
+}
+if ($purpose !== '') {
+    $ca .= " AND purpose = '$purpose'";
+}
+if ($designation !== '') {
+    $ca .= " AND designation = '$designation'";
 }
 
 //date filter
@@ -156,7 +172,7 @@ while ($data = mysqli_fetch_array($query)) {
     $pdf->SetFont('Arial', '', 7);
     $pdf->Cell(40, 6, $data['pod_nod'], 1, 0);
     $pdf->SetFont('Arial', '', 8);
-    if ($data['type'] != 'Walk-In') {
+    if ($data['type'] !=  $data['transaction']) {
         $pdf->Cell(57, 6, $data['type'] . " - " . $data['transaction'], 1, 0);
         $pdf->Cell(40, 6, $data['purpose'], 1, 0);
     } else {
