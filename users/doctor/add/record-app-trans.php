@@ -18,6 +18,7 @@ if (!empty($_POST['findiag'])) {
 }
 $remarks = $_POST['remarks'];
 $referral = $_POST['referral'];
+$medsup = $_POST['medicine'];
 
 $doot = "SELECT * FROM appointment WHERE id='$id'";
 $result0 = mysqli_query($conn, $doot);
@@ -90,7 +91,7 @@ while ($row = mysqli_fetch_array($result0)) {
     $user = $_SESSION['userid'];
     $fullname = strtoupper($_SESSION['name']);
     $au_status = "unread";
-    $activity = 'added a appointment record for  of ' . $patientid;
+    $activity = 'added a medical record for  of ' . $patientid;
     $pod_nod = $fullname;
 
     // Logbook info
@@ -98,50 +99,6 @@ while ($row = mysqli_fetch_array($result0)) {
     $datenow = date("Y-m-d");
     $enddate = date("Y-m-t");
     $medsup0 = "";
-
-
-    // Handling for issued medicine
-    if (!empty($_POST['medicine'])) {
-        $issued_medicine = [];
-        foreach ($_POST['medicine'] as $key => $medicine) {
-            $med = ''; // Initialize medicine string
-            // Retrieve medicine details from the database
-            $query0 = "SELECT state, medicine, dosage, unit_measure FROM medicine WHERE medid = '$medicine'";
-            $result = mysqli_query($conn, $query0);
-            while ($data = mysqli_fetch_assoc($result)) {
-                $med = $data['medicine'] . " " . $data['dosage'] . " " . $data['unit_measure'];
-            }
-            // Combine medicine and quantity into a string and add to the issued_medicine array
-            $issued_medicine[] = $_POST['quantity_med'][$key] . " " . $med;
-        }
-        // Combine issued medicine statements into a single statement
-        $issued_medicine_statement = implode(", ", $issued_medicine);
-    } else {
-        $issued_medicine_statement = ""; // Initialize as empty if no medicine is issued
-    }
-
-    // Handling for issued supply
-    if (!empty($_POST['supply'])) {
-        $issued_supply = [];
-        foreach ($_POST['supply'] as $key => $supply) {
-            $sup = ''; // Initialize supply string
-            // Retrieve supply details from the database
-            $query0 = "SELECT state, supply, volume, unit_measure FROM supply WHERE supid = '$supply'";
-            $result = mysqli_query($conn, $query0);
-            while ($data = mysqli_fetch_assoc($result)) {
-                $sup = $data['supply'] . " " . $data['volume'] . " " . $data['unit_measure'];
-            }
-            // Combine supply and quantity into a string and add to the issued_supply array
-            $issued_supply[] = $_POST['quantity_sup'][$key] . " " . $sup;
-        }
-        // Combine issued supply statements into a single statement
-        $issued_supply_statement = implode(", ", $issued_supply);
-    } else {
-        $issued_supply_statement = ""; // Initialize as empty if no supply is issued
-    }
-
-    // Combine issued medicine and supply statements into a single statement
-    $medsup = rtrim($issued_medicine_statement . ", " . $issued_supply_statement, ", ");
 
     //kunin medcase type
     $med_case = $transaction;
@@ -169,99 +126,6 @@ while ($row = mysqli_fetch_array($result0)) {
     // Insert transaction history
     $query = "INSERT INTO transaction_history (patient, firstname, middlename, lastname, designation, age, sex, department, college, program, yearlevel, section, block, type, transaction, purpose,  bp, pr, temp, respiratory, oxygen_saturation, chief_complaint, findiag, remarks, referral, medsup, pod_nod, medcase, medcase_others, campus, datetime) VALUES ('$patientid', '$firstname', '$middlename', '$lastname', '$designation', '$age', '$sex', '$department', '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction', '$purpose', '$bp', '$pr', '$temp', '$respiratory', '$oxygen', '$chief_complaint', '$findiag', '$remarks', '$referral', '$medsup', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";
     $result = mysqli_query($conn, $query);
-
-
-    // Update inventory for each medicine
-    if (!empty($_POST['medicine']) && isset($_POST['medicine'])) {
-        $medicines = $_POST['medicine'];
-        $quantities = $_POST['quantity_med'];
-        foreach ($medicines as $key => $medicine) {
-            if ($medicine != "") {
-                $query5 = "SELECT state FROM medicine WHERE medid = '$medicine'";
-                $result = mysqli_query($conn, $query5);
-                while ($data = mysqli_fetch_array($result)) {
-                    $mstate = $data['state'];
-                }
-
-                if ($mstate == 'per piece') {
-                    // Update inventory_medicine
-                    $query0 = "UPDATE inventory_medicine SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE campus='$campus' AND medid='$medicine' AND expiration > '$datenow' AND qty > 0 LIMIT 1";
-                    mysqli_query($conn, $query0);
-                    // Update inv_total
-                    $query1 = "UPDATE inv_total SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE stockid='$medicine' AND type = 'medicine' AND campus='$campus'";
-                    mysqli_query($conn, $query1);
-                    // Update inventory
-                    $query2 = "UPDATE inventory SET closed = closed - '$quantities[$key]', qty = qty - '$quantities[$key]' WHERE campus='$campus' AND stock_type='medicine' AND stockid='$medicine' AND qty != 0 AND expiration > '$datenow' ORDER BY date LIMIT 1";
-                    mysqli_query($conn, $query2);
-                    // Update report_medsupinv
-                    $query3 = "SELECT * FROM report_medsupinv WHERE medid = '$medicine' AND type = 'medicine' AND date = '$enddate' AND campus = '$campus' AND eqty > 0";
-                    $result = mysqli_query($conn, $query3);
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        // Update report_medsupinv
-                        $qty = $quantities[$key];
-                        $eqty = $row['eqty'] - $qty;
-                        $aeqty = $row['iqty'];
-
-                        $query3 = "SELECT * FROM inv_total WHERE stockid = '$medicine' AND type = 'medicine' AND campus = '$campus'";
-                        $result = mysqli_query($conn, $query3);
-                        while ($data = mysqli_fetch_assoc($result)) {
-                            $cost = $data['unit_cost'];
-                        }
-                        $aeamt = $eqty * $cost;
-                        $iamt = ($aeqty + $qty) * $cost;
-                        $query4 = "UPDATE report_medsupinv SET iqty = iqty + '$qty', iamt = '$iamt', eqty = eqty - '$qty', eamt = '$aeamt' WHERE medid = '$medicine' AND date = '$enddate' AND type = 'medicine' AND campus = '$campus'";
-                        mysqli_query($conn, $query4);
-                    }
-                }
-            }
-        }
-    }
-
-    // Update inventory for each supply
-    if (!empty($_POST['supply']) && isset($_POST['supply'])) {
-        $supplies = $_POST['supply'];
-        $quantities_sup = $_POST['quantity_sup'];
-        foreach ($supplies as $key => $supply) {
-            if ($supply != "") {
-                $query5 = "SELECT state FROM supply WHERE supid = '$supply'";
-                $result = mysqli_query($conn, $query5);
-                while ($data = mysqli_fetch_array($result)) {
-                    $sstate = $data['state'];
-                }
-
-                if ($sstate == 'per piece') {
-                    // Update inventory_supply
-                    $query0 = "UPDATE inventory_supply SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE campus='$campus' AND supid='$supply' AND expiration > '$datenow' AND qty > 0 LIMIT 1";
-                    mysqli_query($conn, $query0);
-                    // Update inv_total
-                    $query1 = "UPDATE inv_total SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE stockid='$supply' AND type = 'supply' AND campus='$campus'";
-                    mysqli_query($conn, $query1);
-                    // Update inventory
-                    $query2 = "UPDATE inventory SET closed = closed - '$quantities_sup[$key]', qty = qty - '$quantities_sup[$key]' WHERE campus='$campus' AND stock_type='supply' AND stockid='$supply' AND qty != 0 AND expiration > '$datenow' ORDER BY date LIMIT 1";
-                    mysqli_query($conn, $query2);
-                    // Update report_medsupinv
-                    $query3 = "SELECT * FROM report_medsupinv WHERE medid = '$supply' AND type = 'supply' AND date = '$enddate' AND campus = '$campus' AND eqty > 0";
-                    $result = mysqli_query($conn, $query3);
-                    while ($data = mysqli_fetch_assoc($result)) {
-                        // Update report_medsupinv
-                        $qty = $quantities_sup[$key];
-                        $eqty = $row['eqty'] - $qty;
-                        $aeqty = $row['iqty'];
-
-                        $query3 = "SELECT * FROM inv_total WHERE stockid = '$supply' AND type = 'supply' AND campus = '$campus'";
-                        $result = mysqli_query($conn, $query3);
-                        while ($data = mysqli_fetch_assoc($result)) {
-                            $cost = $data['unit_cost'];
-                        }
-                        $aeamt = $eqty * $cost;
-                        $iamt = ($aeqty + $qty) * $cost;
-                        $query4 = "UPDATE report_medsupinv SET iqty = '$iqty', iamt = '$iamt', eqty = '$eqty', eamt = '$aeamt' WHERE medid = '$supply' AND date = '$enddate' AND type = 'supply' AND campus = '$campus'";
-                        mysqli_query($conn, $query4);
-                    }
-                }
-            }
-        }
-    }
 
     $sql = "UPDATE appointment SET status='COMPLETED' WHERE id='$id'";
     mysqli_query($conn, $sql);

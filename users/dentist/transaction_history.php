@@ -109,10 +109,10 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     }
 
     // Construct and execute SQL query for pending appointments count
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE ((transaction = 'Consultation' AND purpose = 'Dental') OR (transaction = 'Medical History' AND purpose = 'Dental Checkup')) $whereClause $date ORDER BY datetime DESC";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE ((transaction = 'Consultation' AND purpose LIKE 'Dental%') OR (transaction = 'Medical History' AND purpose = 'Dental Checkup')) $whereClause $date ORDER BY datetime DESC";
 } else {
     // If no filters are applied, count all rows in the database
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE ((transaction = 'Consultation' AND purpose = 'Dental') OR (transaction = 'Medical History' AND purpose = 'Dental Checkup')) ORDER BY datetime DESC";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM transaction_history WHERE ((transaction = 'Consultation' AND purpose LIKE 'Dental%') OR (transaction = 'Medical History' AND purpose = 'Dental Checkup')) ORDER BY datetime DESC";
 }
 $count_result = $conn->query($sql_count);
 
@@ -258,7 +258,7 @@ if ($pages > 4) {
                                         if (isset($_GET['account']) && $_GET['account'] != '') {
                                             $account = $_GET['account'];
                                             $count = 1;
-                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient WHERE (patientid LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') AND ((transaction = 'Consultation' AND purpose = 'Dental') OR (transaction = 'Medical History' AND purpose = 'Dental Checkup')) GROUP BY patient ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient INNER JOIN patient_info p ON p.patientid=transaction_history.patient WHERE (patientid LIKE '%$account%' OR CONCAT(firstname, ' ', middlename, ' ', lastname) LIKE '%$account%' OR CONCAT(firstname, ' ', lastname) LIKE '%$account%') AND ((transaction = 'Consultation' AND purpose LIKE 'Dental%') OR (transaction = 'Medical History' AND purpose = 'Dental Checkup')) GROUP BY patient ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } elseif (isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
                                             $dt_from = $_GET['date_from'];
@@ -344,11 +344,11 @@ if ($pages > 4) {
                                                 $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
                                             }
 
-                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient $date AND ((transaction = 'Consultation' AND purpose = 'Dental') OR (transaction = 'Medical History' AND purpose = 'Dental Checkup')) ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient INNER JOIN patient_info p ON p.patientid=transaction_history.patient $date AND ((transaction = 'Consultation' AND purpose LIKE 'Dental%') OR (transaction = 'Medical History' AND purpose = 'Dental Checkup')) ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient WHERE ((transaction = 'Consultation' AND purpose = 'Dental') OR (transaction = 'Medical History' AND purpose = 'Dental Checkup')) ORDER BY datetime DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT * FROM transaction_history INNER JOIN account ON account.accountid=transaction_history.patient INNER JOIN patient_info p ON p.patientid=transaction_history.patient WHERE ((transaction = 'Consultation' AND purpose LIKE 'Dental%') OR (transaction = 'Medical History' AND purpose = 'Dental Checkup')) ORDER BY datetime DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -368,7 +368,6 @@ if ($pages > 4) {
                                                     }
                                                     $patientid = $data['patient'];
                                                     $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
-
                                         ?>
                                                     <tr>
                                                         <td><?= $data['campus'] ?></td>
@@ -378,15 +377,19 @@ if ($pages > 4) {
                                                         <td><?= date("F d, Y", strtotime($data['datetime'])) ?></td>
                                                         <td>
                                                             <?php
-                                                            if ($data['transaction'] == 'Consultation') {
+                                                            if ($data['transaction'] == 'Consultation' AND $data['medsup'] != "") {
                                                             ?>
-                                                                <button type="button" class="btn btn-primary btn-sm" onclick="window.open('reports/reports_treatment_record.php?patientid=<?= $patientid ?>')" target="_blank">View</button>
+                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewtrans<?php echo $data['id']; ?>">View</button>
+                                                            <?php } elseif ($data['transaction'] == 'Consultation' AND $data['medsup'] == "") {
+                                                            ?>
+                                                            <button type="button" class="btn btn-primary btn-sm" onclick="window.open('reports/reports_treatment_record.php?patientid=<?= $patientid ?>')" target="_blank">View</button>
                                                             <?php } elseif ($data['transaction'] == 'Medical History') { ?>
                                                                 <button type="button" class="btn btn-primary btn-sm" onclick="window.open('reports/reports_dentalform.php?patientid=<?= $patientid ?>')" target="_blank">View</button>
                                                             <?php } ?>
                                                         </td>
                                                     </tr>
                                                 <?php
+                                                        include('modals/view_trans_modal.php');
                                                 }
                                             } else {
                                                 ?>

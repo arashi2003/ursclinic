@@ -1,5 +1,5 @@
 <?php
-include('../../connection.php');
+include('reports/connection.php');
 
 if (isset($_POST['type'])) {
     $type = $_POST['type'];
@@ -15,10 +15,14 @@ if (isset($_POST['type'])) {
         echo $output;
     }
 } else {
-    $sql = "SELECT * FROM program WHERE college = '" . $_POST['cid'] . "'";
+    if ($_POST['did'] == 'SENIOR HIGH SCHOOL') {
+        $sql = "SELECT * FROM program WHERE department = '" . $_POST['did'] . "'";
+    } else {
+        $sql = "SELECT * FROM program WHERE college = '" . $_POST['cid'] . "'";
+    }
     $output = '';
     $result = mysqli_query($conn, $sql);
-    $output .= '<option value="" disabled selected>-Select Program-</option>';
+    $output .= '<option value="" disabled selected></option>';
     while ($row = mysqli_fetch_array($result)) {
         $output .= '<option value="' . $row['abbrev'] . '">' . $row['program'] . '</option>';
     }

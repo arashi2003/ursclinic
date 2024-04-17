@@ -171,7 +171,7 @@
                                     <option value="" disabled selected></option>
                                     <?php
                                     include('connection.php');
-                                    $sql = "SELECT DISTINCT service FROM transaction WHERE transaction_type = 'Walk-In' ORDER BY service";
+                                    $sql = "SELECT DISTINCT service FROM transaction WHERE transaction_type = 'Walk-In' AND service NOT LIKE '%Medicine%' AND service NOT LIKE '%Medical Supply%' ORDER BY service";
                                     $result = mysqli_query($conn, $sql);
                                     while ($row = mysqli_fetch_array($result)) { ?>
                                         <option value="<?= $row['service']; ?>"><?= $row['service']; ?></option>
@@ -223,6 +223,10 @@
                                 <?php } ?>
                             </select>
                         </div>
+                        <div class="mb-2 hidden" id="medicineDiv">
+                            <label for="" class="form-label">Prescription:</label>
+                            <textarea style="resize: none;" class="form-control" name="medicine" id="medicine"></textarea>
+                        </div>
                         <div class="mb-2 hidden" id="ccOthersDiv">
                             <label for="" class="form-label">Others:</label>
                             <input type="text" class="form-control" name="chief_complaint_others" id="chief_complaint_others">
@@ -249,63 +253,6 @@
                             <label for="" class="form-label">Remarks:</label>
                             <input type="text" class="form-control" name="remarks" id="remarks">
                         </div>
-                        <div class="medicine hidden" id="medicineDiv">
-                            <div class="row duplicate_med">
-                                <div class="col-md-8 mb-2">
-                                    <label for="" class="form-label">Medicine:</label>
-                                    <select class="form-select" aria-label=".form-select-md example" name="medicine[]" id="medicine">
-                                        <option value="" selected></option>
-                                        <?php
-                                        $sql = "SELECT * FROM inv_total WHERE type = 'medicine' AND qty >= 0 AND campus='$campus' ORDER BY stock_name";
-                                        $result = mysqli_query($conn, $sql);
-                                        while ($row = mysqli_fetch_array($result)) {
-                                        ?>
-                                            <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 mb-2">
-                                    <label for="" class="form-label">Quantity:</label>
-                                    <div class="row">
-                                        <div class="col">
-                                            <input type="number" min="0" class="form-control" name="quantity_med[]">
-                                        </div>
-                                        <div class="col">
-                                            <button type="button" class="btn btn-primary" onclick="duplicate_med()">+</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="medSupply hidden" id="medSupDiv">
-                            <div class="row duplicate_sup">
-                                <div class="col-md-8 mb-2">
-                                    <label for="" class="form-label">Medical Supply:</label>
-                                    <select class="form-select" aria-label=".form-select-md example" name="supply[]" id="supply">
-                                        <option value="" selected></option>
-                                        <?php
-                                        $sql = "SELECT * FROM inv_total WHERE type = 'supply' AND qty >= 0 AND campus='$campus' ORDER BY stock_name";
-                                        $result = mysqli_query($conn, $sql);
-                                        while ($row = mysqli_fetch_array($result)) {
-                                        ?>
-                                            <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 mb-2">
-                                    <label for="" class="form-label">Quantity:</label>
-                                    <div class="row">
-                                        <div class="col">
-                                            <input type="number" min="0" class="form-control" name="quantity_sup[]">
-                                        </div>
-                                        <div class="col">
-                                            <button type="button" class="btn btn-primary" onclick="duplicate_sup()">+</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="mb-2 hidden" id="referralDiv">
                             <label for="" class="form-label">Referral:</label>
                             <input type="text" class="form-control" name="referral" id="referral">
@@ -481,34 +428,6 @@
 </form>
 
 <script>
-    function duplicate_med() {
-        var row = $('.duplicate_med').first().clone();
-        row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_med(this)');
-        $('.duplicate_med').last().after(row);
-        // Increment the index for each duplicated input
-        row.find('input[type="number"]').val(''); // Clear the value of the new input
-        row.find('select[name="medicine[]"]').val(''); // Clear the value of the new select
-    }
-
-    function remove_med(btn) {
-        $(btn).closest('.duplicate_med').remove();
-    }
-
-    function duplicate_sup() {
-        var row = $('.duplicate_sup').first().clone();
-        row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_sup(this)');
-        $('.duplicate_sup').last().after(row);
-        // Increment the index for each duplicated input
-        row.find('input[type="number"]').val(''); // Clear the value of the new input
-        row.find('select[name="supply[]"]').val(''); // Clear the value of the new select
-    }
-
-    function remove_sup(btn) {
-        $(btn).closest('.duplicate_sup').remove();
-    }
-</script>
-
-<script>
     function fetchPatientData() {
         var patientId = document.getElementById('patientid').value;
         if (patientId.trim() !== '') {
@@ -605,7 +524,6 @@
                 document.getElementById('fdOthersDiv').classList.add('hidden');
                 document.getElementById('remarksDiv').classList.remove('hidden');
                 document.getElementById('medicineDiv').classList.remove('hidden');
-                document.getElementById('medSupDiv').classList.remove('hidden');
                 document.getElementById('referralDiv').classList.remove('hidden');
                 document.getElementById('medCaseDiv').classList.remove('hidden');
                 document.getElementById('medCaseOthersDiv').classList.add('hidden');
@@ -619,7 +537,6 @@
                 document.getElementById('fdOthersDiv').classList.add('hidden');
                 document.getElementById('remarksDiv').classList.remove('hidden');
                 document.getElementById('medicineDiv').classList.remove('hidden');
-                document.getElementById('medSupDiv').classList.add('hidden');
                 document.getElementById('referralDiv').classList.add('hidden');
                 document.getElementById('medCaseDiv').classList.remove('hidden');
                 document.getElementById('medCaseOthersDiv').classList.add('hidden');
@@ -631,10 +548,7 @@
                 document.getElementById('ccOthersDiv').classList.add('hidden');
                 document.getElementById('fdDiv').classList.add('hidden');
                 document.getElementById('fdOthersDiv').classList.add('hidden');
-                //document.getElementById('remarksDiv').classList.remove('hidden');
                 document.getElementById('medicineDiv').classList.add('hidden');
-                document.getElementById('medSupDiv').classList.remove('hidden');
-                //document.getElementById('referralDiv').classList.add('hidden');
                 document.getElementById('medCaseDiv').classList.remove('hidden');
                 document.getElementById('medCaseOthersDiv').classList.add('hidden');
             }

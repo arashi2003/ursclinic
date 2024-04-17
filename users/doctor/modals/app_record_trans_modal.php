@@ -128,63 +128,14 @@
                             <label for="" class="form-label">Others:</label>
                             <input type="text" class="form-control" name="findiag_others" id="findiag_others">
                         </div>
+                        <div class="mb-2">
+                            <label for="medsup" class="form-label">Prescription:</label>
+                            <textarea style="resize: none;" class="form-control" name="medsup" id="medsup"></textarea>
+                        </div>
                         <div class="mb-2" id="remarksDiv">
                             <label for="" class="form-label">Remarks:</label>
                             <input type="text" class="form-control" name="remarks" id="remarks">
                         </div>
-                        <div class="row duplicate_med">
-                            <div class="col-md-8 mb-2">
-                                <label for="" class="form-label">Medicine:</label>
-                                <select class="form-select" aria-label=".form-select-md example" name="medicine[]" id="medicine">
-                                    <option value="" selected></option>
-                                    <?php
-                                    $sql = "SELECT * FROM inv_total WHERE type = 'medicine' AND qty >= 0 AND campus='$cam' ORDER BY stock_name";
-                                    $result = mysqli_query($conn, $sql);
-                                    while ($row = mysqli_fetch_array($result)) {
-                                    ?>
-                                        <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <label for="" class="form-label">Quantity:</label>
-                                <div class="row">
-                                    <div class="col">
-                                        <input type="number" min="0" class="form-control" name="quantity_med[]">
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" class="btn btn-primary" onclick="duplicate_med(this)">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row duplicate_sup">
-                            <div class="col-md-8 mb-2">
-                                <label for="" class="form-label">Medical Supply:</label>
-                                <select class="form-select" aria-label=".form-select-md example" name="supply[]" id="supply">
-                                    <option value="" selected></option>
-                                    <?php
-                                    $sql = "SELECT * FROM inv_total WHERE type = 'supply' AND qty >= 0 AND campus='$cam' ORDER BY stock_name";
-                                    $result = mysqli_query($conn, $sql);
-                                    while ($row = mysqli_fetch_array($result)) {
-                                    ?>
-                                        <option value="<?= $row['stockid']; ?>"><?= $row['stock_name']; ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <label for="" class="form-label">Quantity:</label>
-                                <div class="row">
-                                    <div class="col">
-                                        <input type="number" min="0" class="form-control" name="quantity_sup[]">
-                                    </div>
-                                    <div class="col">
-                                        <button type="button" class="btn btn-primary" onclick="duplicate_sup(this)">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="mb-2" id="referralDiv">
                             <label for="" class="form-label">Referral:</label>
                             <input type="text" class="form-control" name="referral" id="referral">
@@ -220,32 +171,6 @@
     </div>
 </form>
 <script type="text/javascript">
-    function duplicate_med(btn) {
-        var row = $(btn).closest('.duplicate_med').clone();
-        row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_med(this)');
-        $(btn).closest('.duplicate_med').after(row);
-        // Increment the index for each duplicated input
-        row.find('input[type="number"]').val(''); // Clear the value of the new input
-        row.find('select[name="medicine[]"]').val(''); // Clear the value of the new select
-    };
-
-    function remove_med(btn) {
-        $(btn).closest('.duplicate_med').remove();
-    };
-
-    function duplicate_sup(btn) {
-        var row = $(btn).closest('.duplicate_sup').clone();
-        row.find('button').removeClass('btn-primary').addClass('btn-danger').text('-').attr('onclick', 'remove_sup(this)');
-        $(btn).closest('.duplicate_sup').after(row);
-        // Increment the index for each duplicated input
-        row.find('input[type="number"]').val(''); // Clear the value of the new input
-        row.find('select[name="supply[]"]').val(''); // Clear the value of the new select
-    };
-
-    function remove_sup(btn) {
-        $(btn).closest('.duplicate_sup').remove();
-    };
-
     function enableMedCase(answer) {
         console.log(answer.value);
         if (answer.value == 'Others:') {

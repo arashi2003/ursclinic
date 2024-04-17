@@ -79,6 +79,7 @@ if ($data = mysqli_fetch_array($query)) {
     $campus = $data['campus'];
     $designation = $data['designation'];
     $department = $data['department'];
+    $birthday = $data['birthday'];
     if(!empty($_POST['age'])){
         $age =  floor((time() - strtotime($birthday)) / 31556926); 
     }else{
@@ -156,6 +157,17 @@ $pdf->Cell(1, 4.5, '____________________________________________________________
 $pdf->SetFont('Arial', '', 8);
 $pdf->MultiCell(127.5, 4, $medsup, 'B,B', 0);
 $pdf->SetFont('Arial', '', 9);
+
+$pdf->Cell(0, 6, '', 0, 1);
+
+$pdf->SetFont('Arial', 'BI', 10);
+$pdf->Cell(44, 0, 'Remarks:', 0);
+$pdf->SetFont('Arial', '', 9);
+$pdf->Cell(0, 3, '', 0, 1);
+$pdf->Cell(1, 5.8, '________________________________________________________________________', 0);
+$pdf->SetFont('Arial', '', 9);
+$pdf->MultiCell(127.5, 4.5, $remarks, 'B,B', 0);
+$pdf->SetFont('Arial', '', 10);
 
 $pdf->Cell(0, 6, '', 0, 1);
 

@@ -5,7 +5,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Medical Record</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
             </div>
-            <form method="POST" action="reports/reports_medrecref.php" target="_blank" id="form">
+            <form method="POST" action="reports/b4.php" target="_blank" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="datetime" class="form-label">Date and Time:</label>
@@ -110,7 +110,9 @@
                     <input type="text" class="form-control" name="age" value="<?php echo $data['age'] ?>" hidden>
                     <input type="text" class="form-control" name="sex" value="<?php echo $data['sex'] ?>" hidden>
                     <input type="text" class="form-control" name="pys" value="<?php echo $data['program'] . " " . $data['yearlevel'] . "-" . $data['section'] . $data['block'] ?>" hidden>
-                    <input type="submit" class="btn btn-primary" value="Print"></input>
+                    
+                    <!--<input type="submit" class="btn btn-primary" name="b4" value="Print Prescription"></input>-->
+                    <input type="submit" class="btn btn-primary" name="b4" value="Print Medical Record"></input>
                     &ThickSpace;
                     <input type="reset" class="btn btn-danger" value="Close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></input>
                 </div>

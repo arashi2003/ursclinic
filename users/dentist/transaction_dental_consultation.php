@@ -256,6 +256,19 @@ $usertype = $_SESSION['usertype'];
 
                         <div class="col-md-12">
                             <div class="content">
+                                <h4><b>Prescription</b></h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="input-group input-group-md mb-2">
+                                            <textarea class="form-control" style="resize: none;" name="medicine" id="medicine"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="content">
                                 <!-- responsive pag others pinili lalabas additional na textbox-->
                                 <div class="input-group input-group-md mb-2">
                                     <span class="input-group-text" id="inputGroup-sizing-md">Medical Case:</span>

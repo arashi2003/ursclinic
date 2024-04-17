@@ -17,6 +17,7 @@ $transaction = "Consultation";
 $purpose = "Dental Consultation";
 $med_case = $purpose;
 $medcase_others = $_POST['medcase_others'];
+$medicine = $_POST['medicine'];
 $pod_nod = $fullname;
 $dentist = $fullname;
 $enddate = date("Y-m-t");
@@ -89,7 +90,7 @@ $alb = floor((time() - strtotime($birthday)) / 31556926); // ung number is total
 
 
 // add record to transaction_history
-$sql = "INSERT transaction_history (patient, firstname, middlename, lastname, designation, age, sex, birthday, department, college, program, yearlevel, section, block, type, transaction, purpose, pod_nod, medcase, medcase_others, campus, datetime) VALUES ('$patientid', '$firstname', '$middlename', '$lastname',' $designation', '$age', '$sex', '$birthday', '$department', '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction', '$purpose', '$pod_nod', '$medcase', '$medcase_others', '$campus', now())";
+$sql = "INSERT transaction_history (patient, firstname, middlename, lastname, designation, age, sex, birthday, department, college, program, yearlevel, section, block, type, transaction, purpose, pod_nod, medcase, medcase_others, campus, medsup, datetime) VALUES ('$patientid', '$firstname', '$middlename', '$lastname',' $designation', '$age', '$sex', '$birthday', '$department', '$college', '$program', '$yearlevel', '$section', '$block', '$type', '$transaction', '$purpose', '$pod_nod', '$medcase', '$medcase_others', '$campus', '$medicine', now())";
 if ($result = mysqli_query($conn, $sql)) {
     if (isset($_POST['tooth_no'])) {
         // treatment record info

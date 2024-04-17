@@ -341,11 +341,11 @@ if ($pages > 4) {
                                             LIMIT $start, $rows_per_page";
                                         $result = mysqli_query($conn, $sql);
                                     } elseif (isset($_GET['program']) && $_GET['program'] != '' || isset($_GET['college']) && $_GET['college'] != '' || isset($_GET['department']) && $_GET['department'] != '' || isset($_GET['yearlevel']) && $_GET['yearlevel'] != '' || isset($_GET['designation']) && $_GET['designation'] != '') {
-                                        $docu = isset($_GET['docu']) ? $_GET['docu'] : "";
+                                        $department = isset($_GET['department']) ? $_GET['department'] : "";
+                                        $designation = isset($_GET['designation']) ? $_GET['designation'] : "";
                                         $college = isset($_GET['college']) ? $_GET['college'] : "";
                                         $program = isset($_GET['program']) ? $_GET['program'] : "";
                                         $yearlevel = isset($_GET['yearlevel']) ? $_GET['yearlevel'] : "";
-                                        $status = isset($_GET['status']) ? $_GET['status'] : "";
 
                                         //campus filter
                                         if ($campus == "") {
@@ -450,21 +450,21 @@ if ($pages > 4) {
                                 <?php
                                 if (mysqli_num_rows($result) > 0) : ?>
                                     <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['yearlevel']) ? 'yearlevel=' . $_GET['yearlevel'] . '&' : '', isset($_GET['docu']) ? 'docu=' . $_GET['docu'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                                        <a class="page-link" href="?<?= isset($_GET['yearlevel']) ? 'yearlevel=' . $_GET['yearlevel'] . '&' : '', isset($_GET['designation']) ? 'docu=' . $_GET['designation'] . '&' : '', isset($_GET['department']) ? 'department=' . $_GET['department'] . '&' : '', isset($_GET['program']) ? 'program=' . $_GET['program'] . '&' : '', isset($_GET['college']) ? 'college=' . $_GET['college'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
                                     </li>
                                     <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['yearlevel']) ? 'yearlevel=' . $_GET['yearlevel'] . '&' : '', isset($_GET['docu']) ? 'docu=' . $_GET['docu'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
+                                        <a class="page-link" href="?<?= isset($_GET['yearlevel']) ? 'yearlevel=' . $_GET['yearlevel'] . '&' : '', isset($_GET['designation']) ? 'docu=' . $_GET['designation'] . '&' : '', isset($_GET['department']) ? 'department=' . $_GET['department'] . '&' : '', isset($_GET['program']) ? 'program=' . $_GET['program'] . '&' : '', isset($_GET['college']) ? 'college=' . $_GET['college'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
                                     </li>
                                     <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
                                         <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['yearlevel']) ? 'yearlevel=' . $_GET['yearlevel'] . '&' : '', isset($_GET['docu']) ? 'docu=' . $_GET['docu'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                                            <a class="page-link" href="?<?= isset($_GET['yearlevel']) ? 'yearlevel=' . $_GET['yearlevel'] . '&' : '', isset($_GET['designation']) ? 'docu=' . $_GET['designation'] . '&' : '', isset($_GET['department']) ? 'department=' . $_GET['department'] . '&' : '', isset($_GET['program']) ? 'program=' . $_GET['program'] . '&' : '', isset($_GET['college']) ? 'college=' . $_GET['college'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
                                         </li>
                                     <?php endfor; ?>
                                     <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['yearlevel']) ? 'yearlevel=' . $_GET['yearlevel'] . '&' : '', isset($_GET['docu']) ? 'docu=' . $_GET['docu'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
+                                        <a class="page-link" href="?<?= isset($_GET['yearlevel']) ? 'yearlevel=' . $_GET['yearlevel'] . '&' : '', isset($_GET['designation']) ? 'docu=' . $_GET['designation'] . '&' : '', isset($_GET['department']) ? 'department=' . $_GET['department'] . '&' : '', isset($_GET['program']) ? 'program=' . $_GET['program'] . '&' : '', isset($_GET['college']) ? 'college=' . $_GET['college'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
                                     </li>
                                     <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="?<?= isset($_GET['yearlevel']) ? 'yearlevel=' . $_GET['yearlevel'] . '&' : '', isset($_GET['docu']) ? 'docu=' . $_GET['docu'] . '&' : '', isset($_GET['status']) ? 'status=' . $_GET['status'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
+                                        <a class="page-link" href="?<?= isset($_GET['yearlevel']) ? 'yearlevel=' . $_GET['yearlevel'] . '&' : '', isset($_GET['designation']) ? 'docu=' . $_GET['designation'] . '&' : '', isset($_GET['department']) ? 'department=' . $_GET['department'] . '&' : '', isset($_GET['program']) ? 'program=' . $_GET['program'] . '&' : '', isset($_GET['college']) ? 'college=' . $_GET['college'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
                                     </li>
                                 <?php endif; ?>
                             </ul>
