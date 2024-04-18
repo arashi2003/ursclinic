@@ -10,13 +10,50 @@ $userid = $_SESSION['userid'];
 $name = $_SESSION['username'];
 $usertype = $_SESSION['usertype'];
 $today = date("Y-m-d");
+$now = date("H:i:s", strtotime("+ 8 hours"));
+
+//auto cancel appointment
+$query = "SELECT * FROM appointment WHERE appointment.status='APPROVED' AND date < '$today' AND time_from < '$now'";
+$result = mysqli_query($conn, $query);
+$resultCheck = mysqli_num_rows($result);
+if ($resultCheck > 0) {
+    foreach ($result as $data) {
+        $today = date("Y-m-d");
+        $now = date("H:i:s", strtotime("+ 8 hours"));
+
+        $query = "SELECT * FROM appointment WHERE appointment.status='APPROVED' AND date < '$today' AND time_from < '$now'";
+        $result = mysqli_query($conn, $query);
+        $resultCheck = mysqli_num_rows($result);
+        if ($resultCheck > 0) {
+            foreach ($result as $data) {
+                $sql = "UPDATE appointment SET status='CANCELLED', reason='The appointment had to be cancelled as it was not fulfilled within the allocated timeframe.', created_at='$today' WHERE status='APPROVED' AND date < '$today' AND time_from < '$now'";
+                if (mysqli_query($conn, $sql)) {
+                    $query = "SELECT * FROM appointment WHERE appointment.status='DISMISSED' AND created_at = '$today'";
+                    $result = mysqli_query($conn, $query);
+                    while ($data = mysqli_fetch_array($result)) {
+                        $user = $_SESSION['userid'];
+                        $campus = $_SESSION['campus'];
+                        $fullname = strtoupper($_SESSION['name']);
+                        $au_status = "unread";
+                        $patient = $data['patient'];
+                        $activity = 'cancelled an appointment of ' . $patient;
+                        $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
+                        mysqli_query($conn, $sql);
+                    }
+                }
+            }
+        }
+    }
+}
 
 // Check if the month filter is set
-if (isset($_GET['patient']) || isset($_GET['date']) || isset($_GET['physician'])) {
+if (isset($_GET['request']) || isset($_GET['type']) || isset($_GET['patient']) || isset($_GET['date']) || isset($_GET['physician'])) {
     // Validate and sanitize input
     $patient = isset($_GET['patient']) ? $_GET['patient'] : '';
     $date = isset($_GET['date']) ? $_GET['date'] : '';
     $physician = isset($_GET['physician']) ? $_GET['physician'] : '';
+    $request = isset($_GET['request']) ? $_GET['request'] : '';
+    $type = isset($_GET['type']) ? $_GET['type'] : '';
 
     // Construct WHERE clause based on filters
     $whereClause = "";
@@ -29,17 +66,27 @@ if (isset($_GET['patient']) || isset($_GET['date']) || isset($_GET['physician'])
     if ($physician !== '') {
         $whereClause .= " AND ap.physician = '$physician'";
     }
+    if ($type !== '') {
+        $whereClause .= " AND t.type = '$type'";
+    }
+    if ($request !== '') {
+        $whereClause .= " AND p.purpose = '$request'";
+    }
 
     // Construct and execute SQL query for pending appointments count
     $pending_sql_count = "SELECT COUNT(*) AS total_rows 
                       FROM appointment ap 
                       INNER JOIN account ac ON ac.accountid = ap.patient
+                      INNER JOIN appointment_type t ON t.id=ap.type
+                      INNER JOIN appointment_purpose p ON p.id=ap.purpose
                       WHERE campus ='$campus' AND ap.status = 'PENDING' $whereClause";
 
     // Construct and execute SQL query for approved appointments count
     $approved_sql_count = "SELECT COUNT(*) AS total_rows 
                        FROM appointment ap 
                        INNER JOIN account ac ON ac.accountid = ap.patient
+                      INNER JOIN appointment_type t ON t.id=ap.type
+                      INNER JOIN appointment_purpose p ON p.id=ap.purpose
                        WHERE campus ='$campus' AND (ap.status='APPROVED' OR ap.status='COMPLETED') $whereClause";
 } else {
     // If no filter is set, count all rows
@@ -243,37 +290,68 @@ if ($approved_pages > 4) {
                                                         <button type="submit" class="btn btn-primary">Search</button>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2 mb-2">
-                                                    <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
-                                                </div>
-                                                <div class="col-md-2 mb-2">
-                                                    <select name="physician" class="form-select">
-                                                        <option value="" disabled selected>-Select Physician-</option>
-                                                        <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
-                                                        <?php
-                                                        $sql = "SELECT * FROM account WHERE usertype='DOCTOR' OR usertype='DENTIST' ORDER BY firstname";
-                                                        if ($result = mysqli_query($conn, $sql)) {
-                                                            while ($row = mysqli_fetch_array($result)) {
-                                                                if (count(explode(" ", $row['middlename'])) > 1) {
-                                                                    $middle = explode(" ", $row['middlename']);
-                                                                    $letter = $middle[0][0] . $middle[1][0];
-                                                                    $middleinitial = $letter . ".";
-                                                                } else {
-                                                                    $middle = $row['middlename'];
-                                                                    if ($middle == "" or $middle == " ") {
-                                                                        $middleinitial = "";
-                                                                    } else {
-                                                                        $middleinitial = substr($middle, 0, 1) . ".";
-                                                                    }
-                                                                }
-                                                                $physician = strtoupper($row['firstname'] . " " . $middleinitial . " " . $row['lastname']); ?>
-                                                                <option value="<?php echo $physician; ?>" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == $physician ? 'selected' : '') : '' ?>><?php echo $physician; ?></option><?php }
-                                                                                                                                                                                                                                            } ?>
-                                                    </select>
-                                                </div>
-                                                <div class="col mb-2">
-                                                    <button type="submit" class="btn btn-primary">Filter</button>
-                                                    <a href="appointment?tab=pending" class="btn btn-danger">Reset</a>
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-2 mb-2">
+                                                            <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
+                                                        </div>
+                                                        <div class="col-md-2 mb-2">
+                                                            <select name="physician" class="form-select">
+                                                                <option value="" disabled selected>-Select Physician-</option>
+                                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                                <?php
+                                                                $sql = "SELECT * FROM account WHERE usertype='DOCTOR' OR usertype='DENTIST' ORDER BY firstname";
+                                                                if ($result = mysqli_query($conn, $sql)) {
+                                                                    while ($row = mysqli_fetch_array($result)) {
+                                                                        if (count(explode(" ", $row['middlename'])) > 1) {
+                                                                            $middle = explode(" ", $row['middlename']);
+                                                                            $letter = $middle[0][0] . $middle[1][0];
+                                                                            $middleinitial = $letter . ".";
+                                                                        } else {
+                                                                            $middle = $row['middlename'];
+                                                                            if ($middle == "" or $middle == " ") {
+                                                                                $middleinitial = "";
+                                                                            } else {
+                                                                                $middleinitial = substr($middle, 0, 1) . ".";
+                                                                            }
+                                                                        }
+                                                                        $physician = strtoupper($row['firstname'] . " " . $middleinitial . " " . $row['lastname']); ?>
+                                                                        <option value="<?php echo $physician; ?>" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == '$physician' ? 'selected' : '') : '' ?>><?php echo $physician; ?></option>
+                                                                <?php }
+                                                                } ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <select name="type" class="form-select">
+                                                                <option value="" disabled selected>-Select Type-</option>
+                                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                                <?php
+                                                                $sql = "SELECT DISTINCT type FROM appointment_type ORDER BY type";
+                                                                if ($result = mysqli_query($conn, $sql)) {
+                                                                    while ($row = mysqli_fetch_array($result)) { ?>
+                                                                        <option value="<?php echo $row['type']; ?>" <?= isset($_GET['type']) == true ? ($_GET['type'] == $row['type'] ? 'selected' : '') : '' ?>><?php echo $row['type']; ?></option>
+                                                                <?php }
+                                                                } ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <select name="request" class="form-select">
+                                                                <option value="" disabled selected>-Select Request For-</option>
+                                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                                <?php
+                                                                $sql = "SELECT DISTINCT purpose FROM appointment_purpose ORDER BY purpose";
+                                                                if ($result = mysqli_query($conn, $sql)) {
+                                                                    while ($row = mysqli_fetch_array($result)) { ?>
+                                                                        <option value="<?php echo $row['purpose']; ?>" <?= isset($_GET['request']) == true ? ($_GET['request'] == $row['purpose'] ? 'selected' : '') : '' ?>><?php echo $row['purpose']; ?></option>
+                                                                <?php }
+                                                                } ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-2 mb-2">
+                                                            <button type="submit" class="btn btn-primary">Filter</button>
+                                                            <a href="appointment?tab=approved" class="btn btn-danger">Reset</a>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </form>
@@ -291,7 +369,7 @@ if ($approved_pages > 4) {
                                                     <th>Date</th>
                                                     <th>Time</th>
                                                     <th>Type</th>
-                                                    <th>Request</th>
+                                                    <th>Request for</th>
                                                     <th>Patient</th>
                                                     <th>Physician</th>
                                                     <th>Action</th>
@@ -313,14 +391,29 @@ if ($approved_pages > 4) {
                                                     // Filter by patient name
                                                     $patient = $_GET['patient'];
                                                     $sql .= " WHERE CONCAT(ac.firstname, ac.middlename, ac.lastname) LIKE '%$patient%' AND ap.status = 'PENDING' AND ac.campus = '$campus'";
-                                                } elseif (isset($_GET['date']) && $_GET['date'] != '') {
+                                                } elseif (isset($_GET['physician']) && $_GET['physician'] != '' || isset($_GET['request']) && $_GET['request'] != '' || isset($_GET['type']) && $_GET['type'] != '' || isset($_GET['date']) && $_GET['date'] != '') {
                                                     // Filter by date
-                                                    $date = $_GET['date'];
-                                                    $sql .= " WHERE ap.date = '$date' AND ap.status = 'PENDING' AND ac.campus = '$campus'";
-                                                } elseif (isset($_GET['physician']) && $_GET['physician'] != '') {
-                                                    // Filter by physician
-                                                    $physician = $_GET['physician'];
-                                                    $sql .= " WHERE ap.physician = '$physician' AND ap.status = 'PENDING' AND ac.campus = '$campus'";
+                                                    $date = isset($_GET['date']) ? $_GET['date'] : '';
+                                                    $type = isset($_GET['type']) ? $_GET['type'] : '';
+                                                    $request = isset($_GET['request']) ? $_GET['request'] : '';
+                                                    $physician = isset($_GET['physician']) ? $_GET['physician'] : '';
+
+                                                    $whereClause = "";
+
+                                                    if ($date !== '') {
+                                                        $whereClause .= " AND ap.date = '$date'";
+                                                    }
+                                                    if ($physician !== '') {
+                                                        $whereClause .= " AND ap.physician = '$physician'";
+                                                    }
+                                                    if ($type !== '') {
+                                                        $whereClause .= " AND t.type = '$type'";
+                                                    }
+                                                    if ($request !== '') {
+                                                        $whereClause .= " AND p.purpose = '$request'";
+                                                    }
+
+                                                    $sql .= " WHERE ap.status = 'PENDING' $whereClause  AND ac.campus = '$campus'";
                                                 } else {
                                                     // No filter, retrieve all pending appointments
                                                     $sql .= " WHERE ap.status = 'PENDING' AND ac.campus = '$campus'";
@@ -464,21 +557,21 @@ if ($approved_pages > 4) {
                                     ?>
                                         <ul class="pagination justify-content-end">
                                             <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=pending&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                                                <a class="page-link" href="appointment?tab=pending&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['request']) ? 'request=' . $_GET['request'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
                                             </li>
                                             <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=pending&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $pending_previous; ?>">&lt;</a>
+                                                <a class="page-link" href="appointment?tab=pending&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['request']) ? 'request=' . $_GET['request'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $pending_previous; ?>">&lt;</a>
                                             </li>
                                             <?php for ($i = $pending_start_loop; $i <= $pending_end_loop; $i++) : ?>
                                                 <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-                                                    <a class="page-link" href="appointment?tab=pending&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                                                    <a class="page-link" href="appointment?tab=pending&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['request']) ? 'request=' . $_GET['request'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
                                                 </li>
                                             <?php endfor; ?>
                                             <li class="page-item <?php echo $page == $pending_pages ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=pending&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $pending_next; ?>">&gt;</a>
+                                                <a class="page-link" href="appointment?tab=pending&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['request']) ? 'request=' . $_GET['request'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $pending_next; ?>">&gt;</a>
                                             </li>
                                             <li class="page-item <?php echo $page == $pending_pages ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=pending&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $pending_pages; ?>">&raquo;</a>
+                                                <a class="page-link" href="appointment?tab=pending&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['request']) ? 'request=' . $_GET['request'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $pending_pages; ?>">&raquo;</a>
                                             </li>
                                         </ul>
                                     <?php
@@ -504,38 +597,68 @@ if ($approved_pages > 4) {
                                                         <button type="submit" class="btn btn-primary">Search</button>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2 mb-2">
-                                                    <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
-                                                </div>
-                                                <div class="col-md-2 mb-2">
-                                                    <select name="physician" class="form-select">
-                                                        <option value="" disabled selected>-Select Physician-</option>
-                                                        <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
-                                                        <?php
-                                                        $sql = "SELECT * FROM account WHERE usertype='DOCTOR' OR usertype='DENTIST' ORDER BY firstname";
-                                                        if ($result = mysqli_query($conn, $sql)) {
-                                                            while ($row = mysqli_fetch_array($result)) {
-                                                                if (count(explode(" ", $row['middlename'])) > 1) {
-                                                                    $middle = explode(" ", $row['middlename']);
-                                                                    $letter = $middle[0][0] . $middle[1][0];
-                                                                    $middleinitial = $letter . ".";
-                                                                } else {
-                                                                    $middle = $row['middlename'];
-                                                                    if ($middle == "" or $middle == " ") {
-                                                                        $middleinitial = "";
-                                                                    } else {
-                                                                        $middleinitial = substr($middle, 0, 1) . ".";
-                                                                    }
-                                                                }
-                                                                $physician = strtoupper($row['firstname'] . " " . $middleinitial . " " . $row['lastname']); ?>
-                                                                <option value="<?php echo $physician; ?>" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == '$physician' ? 'selected' : '') : '' ?>><?php echo $physician; ?></option>
-                                                        <?php }
-                                                        } ?>
-                                                    </select>
-                                                </div>
-                                                <div class="col mb-2">
-                                                    <button type="submit" class="btn btn-primary">Filter</button>
-                                                    <a href="appointment?tab=approved" class="btn btn-danger">Reset</a>
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-2 mb-2">
+                                                            <input type="date" name="date" value="<?= isset($_GET['date']) == true ? $_GET['date'] : '' ?>" class="form-control">
+                                                        </div>
+                                                        <div class="col-md-2 mb-2">
+                                                            <select name="physician" class="form-select">
+                                                                <option value="" disabled selected>-Select Physician-</option>
+                                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                                <?php
+                                                                $sql = "SELECT * FROM account WHERE usertype='DOCTOR' OR usertype='DENTIST' ORDER BY firstname";
+                                                                if ($result = mysqli_query($conn, $sql)) {
+                                                                    while ($row = mysqli_fetch_array($result)) {
+                                                                        if (count(explode(" ", $row['middlename'])) > 1) {
+                                                                            $middle = explode(" ", $row['middlename']);
+                                                                            $letter = $middle[0][0] . $middle[1][0];
+                                                                            $middleinitial = $letter . ".";
+                                                                        } else {
+                                                                            $middle = $row['middlename'];
+                                                                            if ($middle == "" or $middle == " ") {
+                                                                                $middleinitial = "";
+                                                                            } else {
+                                                                                $middleinitial = substr($middle, 0, 1) . ".";
+                                                                            }
+                                                                        }
+                                                                        $physician = strtoupper($row['firstname'] . " " . $middleinitial . " " . $row['lastname']); ?>
+                                                                        <option value="<?php echo $physician; ?>" <?= isset($_GET['physician']) == true ? ($_GET['physician'] == '$physician' ? 'selected' : '') : '' ?>><?php echo $physician; ?></option>
+                                                                <?php }
+                                                                } ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <select name="type" class="form-select">
+                                                                <option value="" disabled selected>-Select Type-</option>
+                                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                                <?php
+                                                                $sql = "SELECT DISTINCT type FROM appointment_type ORDER BY type";
+                                                                if ($result = mysqli_query($conn, $sql)) {
+                                                                    while ($row = mysqli_fetch_array($result)) { ?>
+                                                                        <option value="<?php echo $row['type']; ?>" <?= isset($_GET['type']) == true ? ($_GET['type'] == $row['type'] ? 'selected' : '') : '' ?>><?php echo $row['type']; ?></option>
+                                                                <?php }
+                                                                } ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <select name="request" class="form-select">
+                                                                <option value="" disabled selected>-Select Request For-</option>
+                                                                <option value="" <?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>>NONE</option>
+                                                                <?php
+                                                                $sql = "SELECT DISTINCT purpose FROM appointment_purpose ORDER BY purpose";
+                                                                if ($result = mysqli_query($conn, $sql)) {
+                                                                    while ($row = mysqli_fetch_array($result)) { ?>
+                                                                        <option value="<?php echo $row['purpose']; ?>" <?= isset($_GET['request']) == true ? ($_GET['request'] == $row['purpose'] ? 'selected' : '') : '' ?>><?php echo $row['purpose']; ?></option>
+                                                                <?php }
+                                                                } ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-2 mb-2">
+                                                            <button type="submit" class="btn btn-primary">Filter</button>
+                                                            <a href="appointment?tab=approved" class="btn btn-danger">Reset</a>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </form>
@@ -553,7 +676,7 @@ if ($approved_pages > 4) {
                                                     <th>Date</th>
                                                     <th>Time</th>
                                                     <th>Type</th>
-                                                    <th>Request</th>
+                                                    <th>Request for</th>
                                                     <th>Patient</th>
                                                     <th>Physician</th>
                                                     <th>Action</th>
@@ -570,11 +693,30 @@ if ($approved_pages > 4) {
                                                     $count = 1;
                                                     $sql = "SELECT ap.id, ap.date, ap.reason, ap.patient, ap.med_1, ap.mqty_1, ap.med_2, ap.mqty_2, ap.med_3, ap.mqty_3, ap.med_4, ap.mqty_4, ap.med_5, ap.mqty_5, ap.sup_1, ap.sqty_1, ap.sup_2, ap.sqty_2, ap.sup_3, ap.sqty_3, ap.sup_4, ap.sqty_4, ap.sup_5, ap.sqty_5, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE CONCAT(ac.firstname, ac.middlename,ac.lastname) LIKE '%$patient%' AND ap.status='APPROVED' AND ac.campus='$campus' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
-                                                } elseif (isset($_GET['date']) && $_GET['date'] != '' || isset($_GET['physician']) && $_GET['physician'] != '') {
+                                                } elseif (isset($_GET['physician']) && $_GET['physician'] != '' || isset($_GET['request']) && $_GET['request'] != '' || isset($_GET['type']) && $_GET['type'] != '' || isset($_GET['date']) && $_GET['date'] != '') {
+                                                    // Filter by date
                                                     $date = isset($_GET['date']) ? $_GET['date'] : '';
+                                                    $type = isset($_GET['type']) ? $_GET['type'] : '';
+                                                    $request = isset($_GET['request']) ? $_GET['request'] : '';
                                                     $physician = isset($_GET['physician']) ? $_GET['physician'] : '';
+
+                                                    $whereClause = "";
+
+                                                    if ($date !== '') {
+                                                        $whereClause .= " AND ap.date = '$date'";
+                                                    }
+                                                    if ($physician !== '') {
+                                                        $whereClause .= " AND ap.physician = '$physician'";
+                                                    }
+                                                    if ($type !== '') {
+                                                        $whereClause .= " AND t.type = '$type'";
+                                                    }
+                                                    if ($request !== '') {
+                                                        $whereClause .= " AND p.purpose = '$request'";
+                                                    }
                                                     $count = 1;
-                                                    $sql = "SELECT ap.id, ap.date, ap.reason, ap.med_1, ap.mqty_1, ap.med_2, ap.mqty_2, ap.med_3, ap.mqty_3, ap.med_4, ap.mqty_4, ap.med_5, ap.mqty_5, ap.sup_1, ap.sqty_1, ap.sup_2, ap.sqty_2, ap.sup_3, ap.sqty_3, ap.sup_4, ap.sqty_4, ap.sup_5, ap.sqty_5, ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE (ap.date = '$date' or ap.physician = '$physician') AND ac.campus='$campus' AND ap.status='APPROVED' ORDER BY ap.time_from, ap.time_to  LIMIT $start, $rows_per_page";
+                                                    $today = date("Y-m-d");
+                                                    $sql = "SELECT ap.id, ap.date, ap.reason, ap.patient, t.type, p.purpose, ap.time_from, ap.time_to, ap.physician, ap.status, ac.firstname,  ac.middlename, ac.lastname, ac.campus FROM appointment ap INNER JOIN account ac on ac.accountid=ap.patient INNER JOIN appointment_purpose p ON p.id=ap.purpose INNER JOIN appointment_type t ON t.id=p.type WHERE (ap.status='APPROVED' OR ap.status='COMPLETED') AND ac.campus='$campus' AND date = '$today' $whereClause ORDER BY ap.status DESC, ap.date, ap.time_from, ap.time_to LIMIT $start, $rows_per_page";
                                                     $result = mysqli_query($conn, $sql);
                                                 } else {
                                                     $count = 1;
@@ -690,21 +832,21 @@ if ($approved_pages > 4) {
                                     ?>
                                         <ul class="pagination justify-content-end">
                                             <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['request']) ? 'request=' . $_GET['request'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
                                             </li>
                                             <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_previous; ?>">&lt;</a>
+                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['request']) ? 'request=' . $_GET['request'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_previous; ?>">&lt;</a>
                                             </li>
                                             <?php for ($i = $approved_start_loop; $i <= $approved_end_loop; $i++) : ?>
                                                 <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-                                                    <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                                                    <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['request']) ? 'request=' . $_GET['request'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
                                                 </li>
                                             <?php endfor; ?>
                                             <li class="page-item <?php echo $page == $approved_pages ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_next; ?>">&gt;</a>
+                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['request']) ? 'request=' . $_GET['request'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_next; ?>">&gt;</a>
                                             </li>
                                             <li class="page-item <?php echo $page == $approved_pages ? 'disabled' : ''; ?>">
-                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_pages; ?>">&raquo;</a>
+                                                <a class="page-link" href="appointment?tab=approved&<?= isset($_GET['patient']) ? 'patient=' . $_GET['patient'] . '&' : '', isset($_GET['type']) ? 'type=' . $_GET['type'] . '&' : '', isset($_GET['request']) ? 'request=' . $_GET['request'] . '&' : '', isset($_GET['date']) ? 'date=' . $_GET['date'] . '&' : '', isset($_GET['physician']) ? 'physician=' . $_GET['physician'] . '&' : '' ?>page=<?= $approved_pages; ?>">&raquo;</a>
                                             </li>
                                         </ul>
                                     <?php

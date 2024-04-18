@@ -27,7 +27,7 @@
                         </select>
                     </div>
                     <div class="mb-2 hidden" id="purposeDiv">
-                        <label for="purposes" class="col-form-label">Request:</label>
+                        <label for="purposes" class="col-form-label">Request for:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose" required>
                             <option value="" disabled selected></option>
                         </select>
@@ -47,23 +47,6 @@
                             <label for="time_from" class="col-form-label">Time From:</label>
                             <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_fromm" id="time_fromm">
                                 <option value="" disabled selected>-:-- --</option>
-                                <?php
-                                include('connection.php');
-                                session_start();
-                                $campus = $_SESSION['campus'];
-
-                                $beng = "SELECT count(id) FROM time_pickup WHERE campus = '$campus' ";
-                                $result = mysqli_query($conn, $beng);
-                                while ($toot = mysqli_fetch_array($result)) {
-                                    $numrows = $toot['count(id)'] - 1;
-                                }
-                                $sql = "SELECT * FROM time_pickup WHERE campus = '$campus' LIMIT $numrows";
-                                $result = mysqli_query($conn, $sql);
-                                while ($row = mysqli_fetch_array($result)) {
-                                    $time = date('g:i A', strtotime($row['time'])); // Format time as '12:00 PM'
-                                ?>
-                                    <option value="<?= $row['time']; ?>"><?= $time; ?></option>
-                                <?php } ?>
                             </select>
                         </div>
                         <div class="col-md-4 mb-2 hidden" id="timeToMedDiv">
@@ -73,7 +56,7 @@
                         </div>
                         <div class="col-md-6 mb-2 hidden" id="dateNDiv">
                             <label for="date" class="col-form-label">Date:</label>
-                            <input type="text" class="form-control" name="daten" id="showDateN" placeholder="mm/dd/yyyy">
+                            <input type="text" class="form-control" name="daten" id="showDate1" placeholder="mm/dd/yyyy">
                         </div>
 
                         <div class="col-md-6 mb-2 hidden" id="datePDiv">
@@ -99,23 +82,6 @@
                             <label for="time_from" class="col-form-label">Time From:</label>
                             <select class="form-select form-select-md" aria-label=".form-select-md example" name="time_fromn" id="time_fromn">
                                 <option value="" disabled selected>-:-- --</option>
-                                <?php
-                                include('connection.php');
-                                session_start();
-                                $campus = $_SESSION['campus'];
-
-                                $beng = "SELECT count(id) FROM time_pickup WHERE campus = '$campus' ";
-                                $result = mysqli_query($conn, $beng);
-                                while ($toot = mysqli_fetch_array($result)) {
-                                    $numrows = $toot['count(id)'] - 1;
-                                }
-                                $sql = "SELECT * FROM time_pickup WHERE campus = '$campus' LIMIT $numrows";
-                                $result = mysqli_query($conn, $sql);
-                                while ($row = mysqli_fetch_array($result)) {
-                                    $time = date('g:i A', strtotime($row['time'])); // Format time as '12:00 PM'
-                                ?>
-                                    <option value="<?= $row['time']; ?>"><?= $time; ?></option>
-                                <?php } ?>
                             </select>
                         </div>
                         <div class="col-md-4 mb-2 hidden" id="timeToNDiv">
@@ -131,7 +97,7 @@
                             <option value="" disabled selected></option>
                         </select>
                     </div>
-                    <div class="mb-2 hidden" id="others">
+                    <div class="mb-2 hidden" id="othersDiv">
                         <label for="other" class="col-form-label">Others:</label>
                         <input type="text" class="form-control" name="others">
                     </div>
@@ -300,10 +266,10 @@
     function enableOther(answer) {
         console.log(answer.value);
         {
-            if (answer.value == 'Others:') {
-                document.getElementById('others').classList.remove('hidden');
+            if (answer.value == 'Others') {
+                document.getElementById('othersDiv').classList.remove('hidden');
             } else {
-                document.getElementById('others').classList.add('hidden');
+                document.getElementById('othersDiv').classList.add('hidden');
             }
         }
     };
@@ -340,7 +306,7 @@
         });
     });
     $(document).ready(function() {
-        $('#showDateN').datepicker({
+        $('#showDate1').datepicker({
             dateFormat: "yy-mm-dd",
             minDate: 0, // Disable past dates
             beforeShowDay: function(date) {
@@ -454,6 +420,43 @@
     });
 </script>
 
+<script>
+    //copu paste if nagawa
+    $(document).ready(function() {
+        $("#showDate").change(function() {
+            var dateSelect_id = $(this).val();
+            console.log(dateSelect_id);
+            console.log(time_frommid);
+            $.ajax({
+                url: "time_fromm.php",
+                method: "POST",
+                data: {
+                    date: dateSelect_id,
+                },
+                success: function(data) {
+                    $("#time_fromm").html(data);
+                }
+            });
+        });
+    });
+    $(document).ready(function() {
+        $("#showDate1").change(function() {
+            var dateSelect_id = $(this).val();
+            console.log(dateSelect_id);
+            $.ajax({
+                url: "time_fromm.php",
+                method: "POST",
+                data: {
+                    date: dateSelect_id,
+                },
+                success: function(data) {
+                    $("#time_fromn").html(data);
+                }
+            });
+        });
+    });
+</script>
+
 <script type="text/javascript">
     function enableAppointment(answer) {
         console.log(answer.value);
@@ -538,7 +541,7 @@
     function enablePhys(answer) {
         console.log(answer.value);
         var physicianValue = document.getElementById('physician').value;
-        if (answer.value == "NONE") {
+        if (answer.value == "N/A") {
             document.getElementById('timeFromNDiv').value = "";
             document.getElementById('timeToNDiv').value = "";
             document.getElementById('timeFromPDiv').value = "";

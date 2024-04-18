@@ -264,7 +264,7 @@ if ($pages > 4) {
                                                 <option value="" <?= isset($_GET['program']) == true ? ($_GET['program'] == "" ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 include('connection.php');
-                                                $sql = "SELECT * FROM program";
+                                                $sql = "SELECT * FROM program ORDER BY department DESC, program";
                                                 $result = mysqli_query($conn, $sql);
                                                 while ($row = mysqli_fetch_array($result)) {
                                                 ?>
@@ -278,7 +278,7 @@ if ($pages > 4) {
                                                 <option value="" <?= isset($_GET['yearlevel']) == true ? ($_GET['yearlevel'] == "" ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 include('connection.php');
-                                                $sql = "SELECT * FROM yearlevel";
+                                                $sql = "SELECT DISTINCT yearlevel FROM yearlevel";
                                                 $result = mysqli_query($conn, $sql);
                                                 while ($row = mysqli_fetch_array($result)) {
                                                 ?>

@@ -3,6 +3,7 @@
 date_default_timezone_set("Asia/Manila");
 $campus = $_SESSION['campus'];
 $today = date("Y-m-d");
+$now = date("Y-m-d H:i:s", strtotime("+ 8 hours"));
 $tmonth = date("Y-m-t");
 $month = date("Y-m-t", strtotime("$tmonth - 1 month"));
 $endmonth =  date("Y-m-t", strtotime($month));

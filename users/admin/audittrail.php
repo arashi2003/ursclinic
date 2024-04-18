@@ -14,41 +14,60 @@ if (!isset($_SESSION['username'])) {
 }
 
 // Check if the medicine, med_admin, or dosage form filter is set
-if (isset($_GET['date_from']) || isset($_GET['date_to'])) {
+if (isset($_GET['date_from']) || isset($_GET['date_to']) || isset($_GET['account']) || isset($_GET['campus']) || isset($_GET['usertype'])) {
     // Validate and sanitize input
+    $account = isset($_GET['account']) ? $_GET['account'] : '';
+    $campus = isset($_GET['campus']) ? $_GET['campus'] : '';
+    $usertype = isset($_GET['usertype']) ? $_GET['usertype'] : '';
     $dt_from = isset($_GET['date_from']) ? $_GET['date_from'] : '';
     $dt_to = isset($_GET['date_to']) ? $_GET['date_to'] : '';
 
     // Initialize the WHERE clause
     $whereClause = "WHERE"; // Start with a default condition that is always true
 
-    // Initialize the date filter
-    $date = "";
-
     if ($dt_from == "" and $dt_to == "") {
         // No date range provided
-        $date = "";
+        $whereClause .= "";
     } elseif ($dt_to == $dt_from) {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
-        $date = " datetime LIKE '$fdate%'";
+        $whereClause .= " datetime LIKE '$fdate%'";
     } elseif ($dt_to == "" and $dt_from != "") {
         // Only start date provided
         $fdate = date("Y-m-d", strtotime($dt_from));
-        $date = " datetime >= '$fdate'";
+        $whereClause .= " datetime >= '$fdate'";
     } elseif ($dt_from == "" and $dt_to != "") {
         // Only end date provided
         $d = date("Y-m-d", strtotime($dt_to));
-        $date = " datetime <= '$d'";
+        $whereClause .= " datetime <= '$d'";
     } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
         // Start and end date range provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-d", strtotime($dt_to));
-        $date = " datetime >= '$fdate' AND datetime <= '$ldate'";
+        $whereClause .= " datetime >= '$fdate' AND datetime <= '$ldate'";
+    }
+    
+    if ($account !== '' AND ($dt_from != "" OR $dt_to != "")) {
+        $account = strtoupper($account);
+        $whereClause .= " AND (CONCAT(ac.firstname, ' ', ac.middlename, ' ' , ac.lastname) LIKE '%$account%' OR CONCAT(ac.firstname, ' ' , ac.lastname) LIKE '%$account%' OR ac.accountid LIKE '%$account%')";
+    }elseif ($account !== '' AND $dt_from == "" AND $dt_to == "") {
+        $account = strtoupper($account);
+        $whereClause .= " (CONCAT(ac.firstname, ' ', ac.middlename, ' ' , ac.lastname) LIKE '%$account%' OR CONCAT(ac.firstname, ' ' , ac.lastname) LIKE '%$account%' OR ac.accountid LIKE '%$account%')";
+    }
+
+    if ($campus !== '' AND ($account !== '' OR $dt_from != "" OR $dt_to != "")) {
+        $whereClause .= " AND ac.campus = '$campus'";
+    } elseif ($campus !== '' AND $account == '' AND $dt_from == "" AND $dt_to == "") {
+        $whereClause .= " ac.campus = '$campus'";
+    } 
+    if ($usertype !== '' AND ($campus !== '' OR $account !== '' OR $dt_from != "" OR $dt_to != "")) {
+        $whereClause .= " AND ac.usertype = '$usertype'";
+    } elseif ($usertype !== '' AND $campus == '' AND $account == '' AND $dt_from == "" AND $dt_to == "") {
+        $whereClause .= " ac.usertype = '$usertype'";
     }
 
     // Construct and execute SQL query for counting total rows
-    $sql_count = "SELECT COUNT(*) AS total_rows FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user $whereClause $date";
+    $sql_count = "SELECT COUNT(*) AS total_rows FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user $whereClause";
 } else {
     // If filters are not set, count all rows
     $sql_count = "SELECT COUNT(*) AS total_rows FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user ORDER BY id DESC";
@@ -163,6 +182,10 @@ if ($pages > 4) {
                         <!-- Hidden input fields to store filter values -->
                         <input type="text" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>" name="date_from" id="date_from" hidden>
                         <input type="text" value="<?= isset($_GET['date_to']) == true ? $_GET['date_to'] : '' ?>" name="date_to" id="date_to" hidden>
+                        <input type="hidden" value="<?= isset($_GET['usertype']) == true ? $_GET['usertype'] : '' ?>" name="usertype" id="usertype">
+                        <input type="hidden" value="<?= isset($_GET['campus']) == true ? $_GET['campus'] : '' ?>" name="campus" id="campus">
+                        <input type="hidden" value="<?= isset($_GET['status']) == true ? $_GET['status'] : '' ?>" name="status" id="status">
+                        <input type="hidden" value="<?= isset($_GET['account']) == true ? $_GET['account'] : '' ?>" name="account" id="account">
 
                         <!-- Export PDF button -->
                         <button type="submit" class="btn btn-primary" name="export_pdf">Export PDF</button>
@@ -174,6 +197,40 @@ if ($pages > 4) {
                             <div class="col-md-12">
                                 <form action="" method="GET"  id="filterForm">
                                     <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="input-group mb-2">
+                                                <input type="text" name="account" value="<?= isset($_GET['account']) == true ? $_GET['account'] : '' ?>" class="form-control" placeholder="Search user account">
+                                                <button type="submit" class="btn btn-primary">Search</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-2">
+                                            <select name="campus" class="form-select">
+                                                <option value="" disabled selected>-Select Campus-</option>
+                                                <option value="<?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>">NONE</option>
+                                                <?php
+                                                $sql = "SELECT * FROM campus ORDER BY campus";
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) {
+                                                        $campus = $row["campus"]; ?>
+                                                        <option value="<?php echo $row["campus"]; ?>" <?= isset($_GET['campus']) == true ? ($_GET['campus'] == $row["campus"] ? 'selected' : '') : '' ?>><?php echo $row["campus"]; ?></option>
+                                                <?php }
+                                                } ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1 mb-2">
+                                            <select name="usertype" class="form-select">
+                                                <option value="" disabled selected>-Usertype-</option>
+                                                <option value="<?= isset($_GET['']) == true ? ($_GET[''] == 'NONE' ? 'selected' : '') : '' ?>">NONE</option>
+                                                <?php
+                                                $sql = "SELECT DISTINCT usertype FROM account ORDER BY usertype";
+                                                if ($result = mysqli_query($conn, $sql)) {
+                                                    while ($row = mysqli_fetch_array($result)) {
+                                                        $usertype = $row["usertype"]; ?>
+                                                        <option value="<?php echo $row["usertype"]; ?>" <?= isset($_GET['usertype']) == true ? ($_GET['usertype'] == $row["usertype"] ? 'selected' : '') : '' ?>><?php echo $row["usertype"]; ?></option>
+                                                <?php }
+                                                } ?>
+                                            </select>
+                                        </div>
                                         <div class="col-md-2">
                                             <input type="text" name="date_from" id="from" placeholder="Date From" class="form-control" value="<?= isset($_GET['date_from']) == true ? $_GET['date_from'] : '' ?>">
                                         </div>
@@ -194,6 +251,7 @@ if ($pages > 4) {
                                     <thead class="head">
                                         <tr>
                                             <th>ID</th>
+                                            <th>Campus</th>
                                             <th>Usertype</th>
                                             <th>Activity</th>
                                             <th>Date</th>
@@ -202,9 +260,15 @@ if ($pages > 4) {
                                     </thead>
                                     <tbody>
                                         <?php
-                                        if (isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
+                                        if (isset($_GET['account']) && $_GET['account'] != '') {
+                                            $account = strtoupper($_GET['account']);
+                                            $sql = "SELECT au.id, au.user, au.fullname, au.activity, au.datetime, ac.usertype, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user WHERE (CONCAT(ac.firstname, ' ', ac.middlename, ' ' , ac.lastname) LIKE '%$account%' OR CONCAT(ac.firstname, ' ' , ac.lastname) LIKE '%$account%' OR ac.accountid LIKE '%$account%') ORDER BY id DESC LIMIT $start, $rows_per_page";
+                                            $result = mysqli_query($conn, $sql);
+                                        } elseif (isset($_GET['campus']) && $_GET['campus'] != '' || isset($_GET['status']) && $_GET['status'] != '' || isset($_GET['usertype']) && $_GET['usertype'] != '' || isset($_GET['date_from']) && $_GET['date_from'] != '' || isset($_GET['date_to']) && $_GET['date_to'] != '') {
                                             $dt_from = $_GET['date_from'];
                                             $dt_to = $_GET['date_to'];
+                                            $campus = isset($_GET['campus']) ? $_GET['campus'] : '';
+                                            $usertype = isset($_GET['usertype']) ? $_GET['usertype'] : '';
                                             $count = 1;
 
                                             // Initialize the date filter
@@ -231,12 +295,25 @@ if ($pages > 4) {
                                                 $ldate = date("Y-m-d", strtotime($dt_to . "+1 day"));
                                                 $date = " datetime >= '$fdate' AND datetime <= '$ldate'";
                                             }
+                                            //campus filter
+                                            if ($campus != "" AND ($dt_to != "" OR $dt_from != "")) {
+                                                $date .= " AND ac.campus = '$campus'";
+                                            } elseif ($campus != "" AND $dt_to == "" AND $dt_from == "") {
+                                                $date .= " ac.campus = '$campus'";
+                                            }
 
-                                            $sql = "SELECT au.id, au.user, au.fullname, au.activity, au.datetime, ac.firstname, ac.middlename, ac.lastname, ac.usertype FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user WHERE $date ORDER BY id DESC LIMIT $start, $rows_per_page";
+                                            //usertype filter
+                                            if ($usertype != "" AND ($campus !="" OR $dt_to != "" OR $dt_from != "")){
+                                                $date .= " AND ac.usertype = '$usertype'";
+                                            }elseif ($usertype != "" AND $campus =="" AND $dt_to == "" AND $dt_from == ""){
+                                                $date .= " ac.usertype = '$usertype'";
+                                            }
+
+                                            $sql = "SELECT au.id, au.user, au.fullname, au.activity, au.datetime, ac.usertype, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user WHERE $date ORDER BY id DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         } else {
                                             $count = 1;
-                                            $sql = "SELECT au.id, au.user, au.fullname, au.activity, au.datetime, ac.firstname, ac.middlename, ac.lastname, ac.usertype FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user ORDER BY id DESC LIMIT $start, $rows_per_page";
+                                            $sql = "SELECT au.id, au.user, au.fullname, au.activity, au.datetime, ac.usertype, ac.firstname, ac.middlename, ac.lastname, ac.campus FROM audit_trail au INNER JOIN account ac on ac.accountid=au.user ORDER BY id DESC LIMIT $start, $rows_per_page";
                                             $result = mysqli_query($conn, $sql);
                                         }
                                         if ($result) {
@@ -263,6 +340,7 @@ if ($pages > 4) {
                                         ?>
                                                     <tr>
                                                         <td><?php echo $row['id'] ?></td>
+                                                        <td><?php echo $row['campus'] ?></td>
                                                         <td><?php echo $row['usertype'] ?></td>
                                                         <td><?php echo $act ?></td>
                                                         <td><?php echo date("F d, Y", strtotime($row['datetime'])) ?></td>
@@ -287,21 +365,21 @@ if ($pages > 4) {
                                     <?php
                                     if (mysqli_num_rows($result) > 0) : ?>
                                         <li class="page-item <?= $page == 1 ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['campus']) ? 'campus=' . $_GET['campus'] . '&' : '', isset($_GET['usertype']) ? 'usertype=' . $_GET['usertype'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= 1; ?>">&laquo;</a>
                                         </li>
                                         <li class="page-item <?php echo $page == 1 ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['campus']) ? 'campus=' . $_GET['campus'] . '&' : '', isset($_GET['usertype']) ? 'usertype=' . $_GET['usertype'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $previous; ?>">&lt;</a>
                                         </li>
                                         <?php for ($i = $start_loop; $i <= $end_loop; $i++) : ?>
                                             <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
-                                                <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
+                                                <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['campus']) ? 'campus=' . $_GET['campus'] . '&' : '', isset($_GET['usertype']) ? 'usertype=' . $_GET['usertype'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $i; ?>"><?= $i; ?></a>
                                             </li>
                                         <?php endfor; ?>
                                         <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['campus']) ? 'campus=' . $_GET['campus'] . '&' : '', isset($_GET['usertype']) ? 'usertype=' . $_GET['usertype'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $next; ?>">&gt;</a>
                                         </li>
                                         <li class="page-item <?php echo $page == $pages ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?<?= isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
+                                            <a class="page-link" href="?<?= isset($_GET['account']) ? 'account=' . $_GET['account'] . '&' : '', isset($_GET['campus']) ? 'campus=' . $_GET['campus'] . '&' : '', isset($_GET['usertype']) ? 'usertype=' . $_GET['usertype'] . '&' : '', isset($_GET['date_from']) ? 'date_from=' . $_GET['date_from'] . '&' : '', isset($_GET['date_to']) ? 'date_to=' . $_GET['date_to'] . '&' : '' ?>page=<?= $pages; ?>">&raquo;</a>
                                         </li>
                                     <?php endif; ?>
                                 </ul>

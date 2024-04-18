@@ -58,49 +58,60 @@ $pdf->AliasNbPages();
 $pdf->SetAutoPageBreak(true, 15);
 $pdf->SetFont('Arial', '', 10);
 
-$dt_from = isset($_REQUEST['date_from']) ? $_REQUEST['date_from'] : '';
-$dt_to = isset($_REQUEST['date_to']) ? $_REQUEST['date_to'] : '';
+$dt_from = $_POST['date_from'];
+$dt_to = $_POST['date_to'];
+$account = $_POST['account'];
+$usertype = $_POST['usertype'];
+$campus = $_POST['campus'];
 
-$campus = "";//$_SESSION['campus'];
+if (!empty($_POST['date_from']) || !empty($_POST['date_to']) || !empty($_POST['account']) || !empty($_POST['usertype']) || !empty($_POST['campus'])) {
+    $whereClause = " WHERE";
 
+    //campus filter
+    if ($dt_from == "" and $dt_to == "") {
+        // No date range provided
+        $whereClause .= "";
+    } elseif ($dt_to == $dt_from) {
+        // Same start and end date
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $whereClause .= " datetime LIKE '$fdate%'";
+    } elseif ($dt_to == "" and $dt_from != "") {
+        // Only start date provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $whereClause .= " datetime >= '$fdate'";
+    } elseif ($dt_from == "" and $dt_to != "") {
+        // Only end date provided
+        $d = date("Y-m-d", strtotime($dt_to));
+        $whereClause .= " datetime <= '$d'";
+    } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to) {
+        // Start and end date range provided
+        $fdate = date("Y-m-d", strtotime($dt_from));
+        $ldate = date("Y-m-d", strtotime($dt_to));
+        $whereClause .= " datetime >= '$fdate' AND datetime <= '$ldate'";
+    }
+    if ($account !== '' and ($dt_from != "" or $dt_to != "")) {
+        $account = strtoupper($account);
+        $whereClause .= " AND (CONCAT(ac.firstname, ' ', ac.middlename, ' ' , ac.lastname) LIKE '%$account%' OR CONCAT(ac.firstname, ' ' , ac.lastname) LIKE '%$account%' OR ac.accountid LIKE '%$account%')";
+    } elseif ($account !== '' and $dt_from == "" and $dt_to == "") {
+        $account = strtoupper($account);
+        $whereClause .= " (CONCAT(ac.firstname, ' ', ac.middlename, ' ' , ac.lastname) LIKE '%$account%' OR CONCAT(ac.firstname, ' ' , ac.lastname) LIKE '%$account%' OR ac.accountid LIKE '%$account%')";
+    }
 
-//campus filter
-$ca = "";
-
-//date filter
-if ($dt_from == "" && $dt_to == "") {
-    $date = "";
-} elseif ($dt_to == $dt_from) {
-    $fdate = date("Y-m-d", strtotime($dt_from));
-    $ldate = date("Y-m-d", strtotime($dt_to));
-    $date = " WHERE datetime LIKE '$fdate%'";
-} elseif ($dt_to == $dt_from) {
-    $fdate = date("Y-m-d", strtotime($dt_from));
-    $ldate = date("Y-m-d", strtotime($dt_to));
-    $date = " WHERE datetime LIKE '$fdate%'";
-} elseif ($dt_to == "" && $dt_from != "") {
-    $fdate = date("Y-m-d", strtotime($dt_from));
-    $date = " WHERE datetime >= '$fdate'";
-} elseif ($dt_to == "" && $dt_from != "") {
-    $fdate = date("Y-m-d", strtotime($dt_from));
-    $date = " WHERE datetime >= '$fdate'";
-} elseif ($dt_from == "" && $dt_to != "") {
-    $d = date("Y-m-d", strtotime($dt_to));
-    $date = " WHERE datetime <= '$d'";
-} elseif ($dt_from == "" && $dt_to != "") {
-    $d = date("Y-m-d", strtotime($dt_to));
-    $date = " WHERE datetime <= '$d'";
-} elseif ($dt_from != "" && $dt_to != "" && $dt_from != $dt_to) {
-    $fdate = date("Y-m-d", strtotime($dt_from));
-    $ldate = date("Y-m-d", strtotime($dt_to));
-    $date = " WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
-} elseif ($dt_from != "" && $dt_to != "" && $dt_from != $dt_to) {
-    $fdate = date("Y-m-d", strtotime($dt_from));
-    $ldate = date("Y-m-d", strtotime($dt_to));
-    $date = " WHERE datetime >= '$fdate' AND datetime <= '$ldate'";
+    if ($campus !== '' and ($account !== '' or $dt_from != "" or $dt_to != "")) {
+        $whereClause .= " AND ac.campus = '$campus'";
+    } elseif ($campus !== '' and $account == '' and $dt_from == "" and $dt_to == "") {
+        $whereClause .= " ac.campus = '$campus'";
+    }
+    if ($usertype !== '' and ($campus !== '' or $account !== '' or $dt_from != "" or $dt_to != "")) {
+        $whereClause .= " AND ac.usertype = '$usertype'";
+    } elseif ($usertype !== '' and $campus == '' and $account == '' and $dt_from == "" and $dt_to == "") {
+        $whereClause .= " ac.usertype = '$usertype'";
+    }
+} else {
+    $whereClause = "";
 }
 
-$query = mysqli_query($conn, "SELECT * FROM audit_trail INNER JOIN account ON account.accountid=audit_trail.user $date ORDER BY datetime DESC");
+$query = mysqli_query($conn, "SELECT * FROM audit_trail INNER JOIN account ac ON ac.accountid=audit_trail.user $whereClause ORDER BY datetime DESC");
 $count = 1;
 while ($data = mysqli_fetch_array($query)) {
     if (count(explode(" ", $data['middlename'])) > 1) {
@@ -117,12 +128,11 @@ while ($data = mysqli_fetch_array($query)) {
     }
 
     $id = $count;
-    $fullname = ucwords(strtolower($data['firstname'] . " " . strtoupper($middleinitial) . " " . $data['lastname']));
-    
-    if($data['fullname'] != 'SYSTEM ALERT'){
+    $fullname = ucwords(strtolower($data['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($data['lastname']));
+
+    if ($data['fullname'] != 'SYSTEM ALERT') {
         $act = $fullname . " " . lcfirst($data['activity']);
-    }
-    else{
+    } else {
         $act = "SYSTEM ALERT : " . $data['activity'];
     }
     $dt = date("F d, Y h:i:s A", strtotime($data['datetime'] . "+ 8 hours"));

@@ -9,8 +9,43 @@ $fullname = $_SESSION['name'];
 $usertype = $_SESSION['usertype'];
 $date = date("Y-m-d");
 $module = 'dashboard';
-$today = date("Y-m-d");
 $month = date('Y-m');
+$today = date("Y-m-d");
+$now = date("H:i:s", strtotime("+ 8 hours"));
+
+//auto cancel appointment
+$query = "SELECT * FROM appointment WHERE appointment.status='APPROVED' AND date < '$today' AND time_from < '$now'";
+$result = mysqli_query($conn, $query);
+$resultCheck = mysqli_num_rows($result);
+if ($resultCheck > 0) {
+  foreach ($result as $data) {
+    $today = date("Y-m-d");
+    $now = date("H:i:s", strtotime("+ 8 hours"));
+
+    $query = "SELECT * FROM appointment WHERE appointment.status='APPROVED' AND date < '$today' AND time_from < '$now'";
+    $result = mysqli_query($conn, $query);
+    $resultCheck = mysqli_num_rows($result);
+    if ($resultCheck > 0) {
+      foreach ($result as $data) {
+        $sql = "UPDATE appointment SET status='CANCELLED', reason='The appointment had to be cancelled as it was not fulfilled within the allocated timeframe.', created_at='$today' WHERE status='APPROVED' AND date < '$today' AND time_from < '$now'";
+        if (mysqli_query($conn, $sql)) {
+          $query = "SELECT * FROM appointment WHERE appointment.status='DISMISSED' AND created_at = '$today'";
+          $result = mysqli_query($conn, $query);
+          while ($data = mysqli_fetch_array($result)) {
+            $user = $_SESSION['userid'];
+            $campus = $_SESSION['campus'];
+            $fullname = strtoupper($_SESSION['name']);
+            $au_status = "unread";
+            $patient = $data['patient'];
+            $activity = 'cancelled an appointment of ' . $patient;
+            $sql = "INSERT INTO audit_trail (user, fullname, campus, activity, status, datetime) VALUES ('$user', '$fullname', '$campus', '$activity', '$au_status', now())";
+            mysqli_query($conn, $sql);
+          }
+        }
+      }
+    }
+  }
+}
 
 // Check if the patient or date filter is set
 if (isset($_GET['patient']) || isset($_GET['date'])) {

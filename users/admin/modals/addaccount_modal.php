@@ -9,7 +9,17 @@
                 <div class="modal-body">
                     <div class="mb-2">
                         <label for="accountid" class="form-label">Student/Employee ID: <i style="color: red; font-size: 20px">*</i></label>
-                        <input type="text" class="form-control" name="accountid" id="accountid" onchange="fetchAccountData()" required>
+                        <?php
+                        $camm = $_SESSION['campus'];
+                        $ini = strtoupper(substr($_SESSION['campus'], 0, 1));
+                        $ay = date("Y");
+                        $sql = "SELECT count(accountid) FROM account WHERE campus = '$camm' AND datetime_created LIKE '$ay%'";
+                        $result = mysqli_query($conn, $sql);
+                        while ($gg = mysqli_fetch_array($result)) {
+                            $total = str_pad($gg['count(accountid)'], 4, '0', STR_PAD_LEFT);
+                        }
+                        ?>
+                        <input type="text" class="form-control" name="accountid" id="accountid" value="<?= $ini . $ay . '-' . $total ?>" onchange="fetchAccountData()" required>
                     </div>
                     <div class="row">
                         <div class="col mb-2">

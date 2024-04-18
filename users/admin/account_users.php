@@ -222,7 +222,6 @@ if ($pages > 4) {
                                             <a href="account_users" class="btn btn-danger">Reset</a>
                                         </div>
                                     </div>
-
                                 </div>
                         </div>
                         </form>
@@ -266,7 +265,7 @@ if ($pages > 4) {
                                                 $stat = " AND status = '$status'";
                                             }
 
-                                            //status filter
+                                            //usertype filter
                                             if ($usertype == "") {
                                                 $utype = "";
                                             } elseif ($ca == "" and $stat == "" and $usertype != "") {
