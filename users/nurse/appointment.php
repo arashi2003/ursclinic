@@ -438,7 +438,7 @@ if ($approved_pages > 4) {
                                                                 }
                                                             }
                                                             if ($data['physician'] == NULL || $data['physician'] == "") {
-                                                                $physician = "NONE";
+                                                                $physician = "N/A";
                                                             } else {
                                                                 $physician = $data['physician'];
                                                             }
@@ -740,7 +740,7 @@ if ($approved_pages > 4) {
                                                                 }
                                                             }
                                                             if ($data['physician'] == NULL || $data['physician'] == "") {
-                                                                $physician = "NONE";
+                                                                $physician = "N/A";
                                                             } else {
                                                                 $physician = $data['physician'];
                                                             }
@@ -765,7 +765,7 @@ if ($approved_pages > 4) {
                                                                         </button>
                                                                         <?php
                                                                     } elseif ($data['status'] == 'APPROVED') {
-                                                                        if ($data['physician'] == 'NONE') {
+                                                                        if ($data['physician'] == 'N/A') {
                                                                             if ($data['date'] == $today) { ?>
                                                                                 <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#recordppointment<?php echo $data['id'] ?>">Record</button>
                                                                                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#app_cancel<?= $id ?>">Cancel</button>
