@@ -131,7 +131,7 @@
                             <option value="" disabled selected></option>
                         </select>
                     </div>
-                    <div class="mb-2 hidden" id="others">
+                    <div class="mb-2 hidden" id="othersDiv">
                         <label for="other" class="col-form-label">Others:</label>
                         <input type="text" class="form-control" name="others">
                     </div>
@@ -300,10 +300,10 @@
     function enableOther(answer) {
         console.log(answer.value);
         {
-            if (answer.value == 'Others:') {
-                document.getElementById('others').classList.remove('hidden');
+            if (answer.value == 'Others') {
+                document.getElementById('othersDiv').classList.remove('hidden');
             } else {
-                document.getElementById('others').classList.add('hidden');
+                document.getElementById('othersDiv').classList.add('hidden');
             }
         }
     };

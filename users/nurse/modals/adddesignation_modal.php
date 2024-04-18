@@ -7,7 +7,7 @@
             </div>
             <form method="POST" action="modals/setnurse_designation.php" id="form">
                 <div class="modal-body">
-                    <label for="designation" class="form-label">Designation:</label>
+                    <label for="designation" class="form-label">Designation: <i style="color: red; font-size: 20px">*</i></label>
                     <div class="mb-2">
                         <input type="text" class="form-control" name="designation" id="designation" required>
                     </div>

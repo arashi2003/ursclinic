@@ -8,24 +8,24 @@
             <form method="POST" action="modals/update/sched.php" id="form">
                 <div class="modal-body">
                     <div class="col mb-2">
-                        <label for="campus" class="form-label">Campus:</label>
+                        <label for="campus" class="form-label">Campus: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="id" value="<?= $data['id']?>" id="id" hidden>
                         <input type="text" class="form-control" name="campus" value="<?= $data['campus']?>" id="campus" disabled>
                     </div>
                     <div class="mb-2">
-                        <label for="date" class="col-form-label">Date:</label>
+                        <label for="date" class="col-form-label">Date: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="date" id="date" value="<?= date("F d, Y", strtotime($data['date']))?>" disabled>
                     </div>
                     <div class="mb-2">
-                        <label for="time_from" class="col-form-label">Time From:</label>
+                        <label for="time_from" class="col-form-label">Time From: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="time" class="form-control" name="time_from" value="<?= $data['time_from']?>"  required>
                     </div>
                     <div class="mb-2">
-                        <label for="time_to" class="col-form-label">Time To:</label>
+                        <label for="time_to" class="col-form-label">Time To: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="time" class="form-control" name="time_to" value="<?= $data['time_to']?>" required>
                     </div>
                     <div class="mb-2">
-                        <label for="maxp" class="col-form-label">Maximum Number of Patients:</label>
+                        <label for="maxp" class="col-form-label">Maximum Number of Patients: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="number" min="0" class="form-control" min="1" name="maxp" value="<?= $data['maxp']?>"  required>
                     </div>
                 </div>

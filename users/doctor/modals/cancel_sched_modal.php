@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <input type="hidden" name="id" value="<?php echo $data['id'] ?>">
                     <div class="mb-2">
-                        <label for="cancelling" class="form-label">Reason for cancellation:</label>
+                        <label for="cancelling" class="form-label">Reason for cancellation: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="cancelling" id="cancelling" required>
                     </div>
                 </div>

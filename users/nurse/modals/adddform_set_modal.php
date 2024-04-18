@@ -7,7 +7,7 @@
             </div>
             <form method="POST" action="modals/setnurse_dosageform.php" id="form">
                 <div class="modal-body">
-                    <label for="dosage_form" class="form-label">Dosage Form:</label>
+                    <label for="dosage_form" class="form-label">Dosage Form: <i style="color: red; font-size: 20px">*</i></label>
                     <div class="mb-2">
                         <input type="text" class="form-control" name="dosage_form" id="dosage_form" required>
                     </div>

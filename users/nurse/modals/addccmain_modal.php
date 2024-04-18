@@ -7,7 +7,7 @@
             </div>
             <form method="POST" action="modals/setnurse_chiefcomplaint.php" id="form">
                 <div class="modal-body">
-                    <label for="cc" class="form-label">Chief Complaint:</label>
+                    <label for="cc" class="form-label">Chief Complaint: <i style="color: red; font-size: 20px">*</i></label>
                     <div class="mb-2">
                         <input type="text" class="form-control" name="chief_complaint" id="chief_complaint" required>
                     </div>

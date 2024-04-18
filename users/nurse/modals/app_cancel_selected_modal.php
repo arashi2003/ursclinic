@@ -11,7 +11,7 @@
                     <input type="text" id="cancelIDsInput" name="cancelIDs">
                     <!-- Rest of your modal content -->
                     <div class="mb-2">
-                        <label for="cancelreasonling" class="form-label">Reason for cancellation:</label>
+                        <label for="cancelreasonling" class="form-label">Reason for cancellation: <i style="color: red; font-size: 20px">*</i></label>
                         <textarea class="form-control" name="reason" id="reason" style="resize: none;" required></textarea>
                     </div>
                 </div>

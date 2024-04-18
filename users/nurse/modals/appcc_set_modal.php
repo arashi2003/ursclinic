@@ -7,7 +7,7 @@
             </div>
             <form method="POST" action="modals/setnurse_appcc.php" id="form">
                 <div class="modal-body">
-                    <label for="purpose" class="form-label">Appointment Purpose:</label>
+                    <label for="purpose" class="form-label">Appointment Purpose: <i style="color: red; font-size: 20px">*</i></label>
                     <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose" required>
                         <option value="" disabled selected>-Select Appointment Purpose-</option>
                         <?php
@@ -19,7 +19,7 @@
                             <option value="<?= $row['id']; ?>"><?= $row['type'] . ' - ' . $row['purpose']; ?></option>
                         <?php } ?>
                     </select>
-                    <label for="appcc" class="form-label">Appointment Chief Complaint:</label>
+                    <label for="appcc" class="form-label">Appointment Chief Complaint: <i style="color: red; font-size: 20px">*</i></label>
                     <div class="mb-2">
                         <input type="text" class="form-control" name="appcc" id="appcc" required>
                     </div>

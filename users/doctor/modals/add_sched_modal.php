@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6 mb-2">
-                            <label for="campus" class="form-label">Campus:</label>
+                            <label for="campus" class="form-label">Campus: <i style="color: red; font-size: 20px">*</i></label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="campus" id="campus" required>
                                 <option value="" disabled selected></option>
                                 <?php
@@ -22,21 +22,21 @@
                             </select>
                         </div>
                         <div class="col-md-6 mb-2">
-                            <label for="maxp" class="col-form-label">Maximum Number of Patients:</label>
+                            <label for="maxp" class="col-form-label">Maximum Number of Patients: <i style="color: red; font-size: 20px">*</i></label>
                             <input type="number" min="0" class="form-control" min="1" name="maxp" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 mb-2">
-                            <label for="date" class="col-form-label">Date:</label>
+                            <label for="date" class="col-form-label">Date: <i style="color: red; font-size: 20px">*</i></label>
                             <input type="text" class="form-control" name="date" id="showDate" placeholder="yyyy/mm/dd" required>
                         </div>
                         <div class="col-md-4 mb-2">
-                            <label for="time_from" class="col-form-label">Time From:</label>
+                            <label for="time_from" class="col-form-label">Time From: <i style="color: red; font-size: 20px">*</i></label>
                             <input type="time" class="form-control" name="time_from" required>
                         </div>
                         <div class="col-md-4 mb-2">
-                            <label for="time_to" class="col-form-label">Time To:</label>
+                            <label for="time_to" class="col-form-label">Time To: <i style="color: red; font-size: 20px">*</i></label>
                             <input type="time" class="form-control" name="time_to" required>
                         </div>
                     </div>

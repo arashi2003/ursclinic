@@ -67,8 +67,8 @@ if (isset($_GET['patient']) || isset($_GET['designation']) || isset($_GET['campu
     }
 
     //program filter
-    if ($program != "" and $college != "" and $department == "" and $yearlevel == "" and $patient == "" and $designation == "" and $campus == "") {
-        $whereClause .= " AND p.program = '$program'";
+    if ($program != "" and $college == "" and $department == "" and $yearlevel == "" and $patient == "" and $designation == "" and $campus == "") {
+        $whereClause .= " p.program = '$program'";
     } elseif ($program != "" and ($college != "" or $department != "" or $yearlevel != "" or $patient != "" or $designation != "" or $campus != "")) {
         $whereClause .= " AND p.program = '$program'";
     }
@@ -273,7 +273,7 @@ if ($pages > 4) {
                                             </select>
                                         </div>
                                         <div class="col-md-1 mb-2" id="yearlevelDiv">
-                                            <select class="form-select" id="yearlevelSelect">
+                                            <select class="form-select" name="yearlevel" id="yearlevelSelect">
                                                 <option value="" disabled selected>-Year Level-</option>
                                                 <option value="" <?= isset($_GET['yearlevel']) == true ? ($_GET['yearlevel'] == "" ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
@@ -371,8 +371,8 @@ if ($pages > 4) {
                                             }
 
                                             //program filter
-                                            if ($program != "" and $college != "" and $department == "" and $yearlevel == "" and $patient == "" and $designation == "" and $campus == "") {
-                                                $whereClause .= " AND p.program = '$program'";
+                                            if ($program != "" and $college == "" and $department == "" and $yearlevel == "" and $patient == "" and $designation == "" and $campus == "") {
+                                                $whereClause .= " p.program = '$program'";
                                             } elseif ($program != "" and ($college != "" or $department != "" or $yearlevel != "" or $patient != "" or $designation != "" or $campus != "")) {
                                                 $whereClause .= " AND p.program = '$program'";
                                             }
@@ -442,7 +442,7 @@ if ($pages > 4) {
                                             <?php
                                             } else {
                                             ?>
-                                                <td colspan="6">
+                                                <td colspan="15">
                                                     <?php
                                                     include('../../includes/no-data.php');
                                                     ?>

@@ -24,29 +24,29 @@
                     <div class="patient_info">
                         <div class="row">
                             <div class="mb-2">
-                                <label for="patientid" class="form-label">Patient ID:</label>
+                                <label for="patientid" class="form-label">Patient ID: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="text" class="form-control" name="patientid" id="patientid" onchange="fetchPatientData()">
                             </div>
                             <div class="mb-2">
-                                <label for="" class="form-label">First Name:</label>
+                                <label for="" class="form-label">First Name: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="text" maxlength="45" class="form-control" name="firstname" id="firstname" required>
                             </div>
                             <div class="mb-2">
-                                <label for="" class="form-label">Middle Name:</label>
+                                <label for="" class="form-label">Middle Name: <i style="color: gray; font-size: 14px">(optional)</i></label>
                                 <input type="text" maxlength="45" class="form-control" name="middlename" id="middlename">
                             </div>
                             <div class="mb-2">
-                                <label for="" class="form-label">Last Name:</label>
+                                <label for="" class="form-label">Last Name: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="text" maxlength="45" class="form-control" name="lastname" id="lastname" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-2">
-                                <label for="" class="form-label">Birthday:</label>
+                                <label for="" class="form-label">Birthday: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="date" class="form-control" name="birthday" id="birthday" required>
                             </div>
                             <div class="col-md-6 mb-2">
-                                <label for="" class="form-label">Sex:</label>
+                                <label for="" class="form-label">Sex: <i style="color: red; font-size: 20px">*</i></label>
                                 <select class="form-control" aria-label=".form-select-md example" name="sex" id="sex" required>
                                     <option value="" disabled selected></option>
                                     <option value="MALE">MALE</option>
@@ -54,7 +54,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6 mb-2">
-                                <label for="designation" class="form-label">Designation:</label>
+                                <label for="designation" class="form-label">Designation: <i style="color: red; font-size: 20px">*</i></label>
                                 <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="designation" id="designation" onchange="enableDesignation(this)">
                                     <option value="" disabled selected></option>
                                     <?php
@@ -68,7 +68,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6 mb-2" id="departmentDiv">
-                                <label for="department" class="form-label">Department:</label>
+                                <label for="department" class="form-label">Department: <i style="color: red; font-size: 20px">*</i></label>
                                 <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="departmentSelect" onchange="enableDepartment(this)">
                                     <option value="" disabled selected></option>
                                     <?php
@@ -86,7 +86,7 @@
                         <div class="row">
                             <!-- RESPONSIVE ROR ROR-->
                             <div class="mb-2" id="collegeDiv">
-                                <label for="college" class="form-label">College:</label>
+                                <label for="college" class="form-label">College: <i style="color: red; font-size: 20px">*</i></label>
                                 <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="college" id="collegeSelect">
                                     <option value="" disabled selected></option>
                                     <?php
@@ -100,7 +100,7 @@
                                 </select>
                             </div>
                             <div class="mb-2" id="programDiv">
-                                <label for="program" class="form-label">Program:</label>
+                                <label for="program" class="form-label">Program: <i style="color: red; font-size: 20px">*</i></label>
                                 <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="program" id="programSelect">
                                     <option value="" disabled selected></option>
                                     <?php
@@ -115,7 +115,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-4 mb-2" id="yearlevelDiv">
-                                    <label for="yearlevel" class="form-label">Year Level:</label>
+                                    <label for="yearlevel" class="form-label">Year Level: <i style="color: red; font-size: 20px">*</i></label>
                                     <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="yearlevel" id="yearlevelSelect">
                                         <option value="" disabled selected></option>
                                         <?php
@@ -129,11 +129,11 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4 mb-2" id="sectionDiv">
-                                    <label for="section" class="form-label">Section:</label>
+                                    <label for="section" class="form-label">Section: <i style="color: red; font-size: 20px">*</i></label>
                                     <input type="text" class="form-control" name="section" id="section">
                                 </div>
                                 <div class="col-md-4 mb-2" id="blockDiv">
-                                    <label for="section" class="form-label">Block:</label>
+                                    <label for="section" class="form-label">Block: <i style="color: red; font-size: 20px">*</i></label>
                                     <input type="text" class="form-control" name="block" id="block">
                                 </div>
                             </div>
@@ -150,7 +150,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="addtransaction">Add Medical Record</h1>
+                    <h1 class="modal-title fs-5" id="addtransaction">Add Transcation</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="location.reload()"></button>
                 </div>
                 <div class="modal-body">
@@ -166,7 +166,7 @@
                     <div class="transaction hidden" id="transactDiv">
                         <div class="row">
                             <div class="mb-2">
-                                <label for="" class="form-label">Transaction:</label>
+                                <label for="" class="form-label">Transaction: <i style="color: red; font-size: 20px">*</i></label>
                                 <select class="form-control" aria-label=".form-select-md example" name="service" id="service" onchange="enableService(this)">
                                     <option value="" disabled selected></option>
                                     <?php
@@ -185,25 +185,25 @@
                         <div class="vitals hidden" id="vitalsDiv">
                             <div class="row">
                                 <div class="col-md-4 mb-2">
-                                    <label for="" class="form-label">Blood Pressure:</label>
+                                    <label for="" class="form-label">Blood Pressure: <i style="color: red; font-size: 20px">*</i></label>
                                     <input type="text" maxlength="7" class="form-control" name="bp" id="bp">
                                 </div>
                                 <div class="col-md-4 mb-2">
-                                    <label for="" class="form-label">Pulse Rate:</label>
+                                    <label for="" class="form-label">Pulse Rate: <i style="color: red; font-size: 20px">*</i></label>
                                     <input type="number" min="0" maxlength="4" class="form-control" name="pr" id="pr">
                                 </div>
                                 <div class="col-md-4 mb-2">
-                                    <label for="" class="form-label">Temperature:</label>
+                                    <label for="" class="form-label">Temperature: <i style="color: red; font-size: 20px">*</i></label>
                                     <input type="text" maxlength="4" class="form-control" name="temp" id="temp">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4 mb-2">
-                                    <label for="" class="form-label">Respiratory Rate:</label>
+                                    <label for="" class="form-label">Respiratory Rate: <i style="color: red; font-size: 20px">*</i></label>
                                     <input type="number" min="0" maxlength="4" class="form-control" name="respiratory" id="respiratory">
                                 </div>
                                 <div class="col-md-4 mb-2">
-                                    <label for="" class="form-label">Oxygen Saturation:</label>
+                                    <label for="" class="form-label">Oxygen Saturation: <i style="color: red; font-size: 20px">*</i></label>
                                     <input type="text" maxlength="4" class="form-control" name="oxygen" id="oxygen">
                                 </div>
                             </div>
@@ -211,7 +211,7 @@
 
                         <!-- responsive pag others pinili lalabas additional na textbox-->
                         <div class="mb-2 hidden" id="ccDiv">
-                            <label for="" class="form-label">Chief Complaints:</label>
+                            <label for="" class="form-label">Chief Complaints: <i style="color: red; font-size: 20px">*</i></label>
                             <select class="form-control" aria-label=".form-select-md example" name="chief_complaint" id="chief_complaint" onchange="enableCc(this)">
                                 <option value="" disabled selected></option>
                                 <?php
@@ -228,12 +228,12 @@
                             <textarea style="resize: none;" class="form-control" name="medicine" id="medicine"></textarea>
                         </div>
                         <div class="mb-2 hidden" id="ccOthersDiv">
-                            <label for="" class="form-label">Others:</label>
+                            <label for="" class="form-label">Others: <i style="color: red; font-size: 20px">*</i></label>
                             <input type="text" class="form-control" name="chief_complaint_others" id="chief_complaint_others">
                         </div>
                         <!-- responsive pag others pinili lalabas additional na textbox-->
                         <div class="mb-2 hidden" id="fdDiv">
-                            <label for="" class="form-label">Findings/Diagnosis:</label>
+                            <label for="" class="form-label">Findings/Diagnosis: <i style="color: red; font-size: 20px">*</i></label>
                             <select class="form-control" aria-label=".form-select-md example" name="findiag" id="findiag" onchange="enableFd(this)">
                                 <option value="" disabled selected></option>
                                 <?php
@@ -246,7 +246,7 @@
                             </select>
                         </div>
                         <div class="mb-2 hidden" id="fdOthersDiv">
-                            <label for="" class="form-label">Others:</label>
+                            <label for="" class="form-label">Others: <i style="color: red; font-size: 20px">*</i></label>
                             <input type="text" class="form-control" name="findiag_others" id="findiag_others">
                         </div>
                         <div class="mb-2 hidden" id="remarksDiv">
@@ -260,7 +260,7 @@
 
                         <!-- responsive pag others pinili lalabas additional na textbox-->
                         <div class="mb-2 hidden" id="medCaseDiv">
-                            <label for="" class="form-label">Medical Case:</label>
+                            <label for="" class="form-label">Medical Case: <i style="color: red; font-size: 20px">*</i></label>
                             <select class="form-control" aria-label=".form-select-md example" name="medcase" id="medcase" onchange="enableMedCase(this)">
                                 <option value="" disabled selected></option>
                                 <?php
@@ -281,84 +281,84 @@
                     <div class="medhist hidden" id="medHistoryDiv">
                         <div class="row">
                             <div class="col-md-6 mb-2">
-                                <label for="" class="form-label">Height (cm):</label>
+                                <label for="" class="form-label">Height (cm): <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="number" min="0" maxlength="7" class="form-control" name="height" id="height">
                             </div>
                             <div class="col-md-6 mb-2">
-                                <label for="" class="form-label">Weight:</label>
+                                <label for="" class="form-label">Weight: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="text" maxlength="7" class="form-control" name="weight" id="weight">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-2">
-                                <label for="" class="form-label">Blood Pressure:</label>
+                                <label for="" class="form-label">Blood Pressure: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="text" maxlength="7" class="form-control" name="bp" id="bp">
                             </div>
                             <div class="col-md-6 mb-2">
-                                <label for="" class="form-label">Pulse Rate:</label>
+                                <label for="" class="form-label">Pulse Rate: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="number" min="0" maxlength="3" class="form-control" name="pr" id="pr">
                             </div>
                             <div class="col-md-6 mb-2">
-                                <label for="" class="form-label">Temperature:</label>
+                                <label for="" class="form-label">Temperature: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="text" maxlength="4" class="form-control" name="temp" id="temp">
                             </div>
                         </div>
                         <div class="row">
                             <div class="mb-2">
-                                <label for="" class="form-label">H.E.E.N.T.:</label>
+                                <label for="" class="form-label">H.E.E.N.T.: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="text" maxlength="65" class="form-control" name="heent" id="heent">
                             </div>
                             <div class="mb-2">
-                                <label for="" class="form-label">Chest/Lungs:</label>
+                                <label for="" class="form-label">Chest/Lungs: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="text" maxlength="65" class="form-control" name="chest_lungs" id="chest_lungs">
                             </div>
                             <div class="mb-2">
-                                <label for="" class="form-label">Heart:</label>
+                                <label for="" class="form-label">Heart: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="text" maxlength="65" class="form-control" name="heart" id="heart">
                             </div>
                             <div class="mb-2">
-                                <label for="" class="form-label">Abdomen:</label>
+                                <label for="" class="form-label">Abdomen: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="text" maxlength="65" class="form-control" name="abdomen" id="abdomen">
                             </div>
                             <div class="mb-2">
-                                <label for="" class="form-label">Extremities:</label>
+                                <label for="" class="form-label">Extremities: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="text" maxlength="65" class="form-control" name="extremities" id="extremities">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-2">
-                                <label for="" class="form-label">Last Menstrual Period:</label>
+                                <label for="" class="form-label">Last Menstrual Period: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="date" class="form-control" name="lmp" id="lmp">
                             </div>
                             <div class="col-md-6 mb-2">
-                                <label for="" class="form-label">Bronchial Asthma:</label>
+                                <label for="" class="form-label">Bronchial Asthma: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="date" class="form-control" name="bronchial_asthma" id="bronchial_asthma">
                             </div>
                             <div class="col-md-6 mb-2">
-                                <label for="" class="form-label">Surgery:</label>
+                                <label for="" class="form-label">Surgery: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="date" class="form-control" name="surgery" id="" surgery>
                             </div>
                             <div class="col-md-6 mb-2">
-                                <label for="" class="form-label">Heart Disease:</label>
+                                <label for="" class="form-label">Heart Disease: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="date" class="form-control" name="heart_disease" id="heart_disease">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-2">
-                                <label for="" class="form-label">Allergies:</label>
+                                <label for="" class="form-label">Allergies: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="date" class="form-control" name="allergies" id="allergies">
                             </div>
                             <div class="col-md-6 mb-2">
-                                <label for="" class="form-label">Epilepsy:</label>
+                                <label for="" class="form-label">Epilepsy: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="date" class="form-control" name="epilepsy" id="epilepsy">
                             </div>
                             <div class="col-md-6 mb-2">
-                                <label for="" class="form-label">Hernia:</label>
+                                <label for="" class="form-label">Hernia: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="date" class="form-control" name="hernia" id="hernia">
                             </div>
                         </div>
                         <div class="row">
-                            <label for="" class="form-label">Dental:</label>
+                            <label for="" class="form-label">Dental: <i style="color: red; font-size: 20px">*</i></label>
                             <div class="mb-2">
                                 <input type="text" id="ddefects" name="ddefects" value="" hidden>
                                 <input type="checkbox" id="ddefects" name="ddefects" value="x">
@@ -384,7 +384,7 @@
                         </div>
                         <div class="row">
                             <div class="mb-2">
-                                <label for="" class="form-label">Other Dento-Facial Findings:</label>
+                                <label for="" class="form-label">Other Dento-Facial Findings: <i style="color: red; font-size: 20px">*</i></label>
                                 <input type="text" maxlength="45" class="form-control" name="dento_facial" id="dento_facial">
                             </div>
                             <div class="mb-2">
@@ -399,7 +399,7 @@
 
                         <!-- responsive pag others pinili lalabas additional na textbox-->
                         <div class="mb-2">
-                            <label for="" class="form-label">Medical Case:</label>
+                            <label for="" class="form-label">Medical Case: <i style="color: red; font-size: 20px">*</i></label>
                             <select class="form-control" aria-label=".form-select-md example" name="medcase" id="medcase">
                                 <option value="" disabled selected></option>
                                 <?php
@@ -412,7 +412,7 @@
                             </select>
                         </div>
                         <div class="mb-2">
-                            <label for="" class="form-label">Others:</label>
+                            <label for="" class="form-label">Others: <i style="color: red; font-size: 20px">*</i></label>
                             <input type="text" maxlength="45" class="form-control" name="medcase_other" id="medcase_other">
                         </div>
                     </div>

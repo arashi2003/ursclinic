@@ -7,7 +7,7 @@
             </div>
             <form method="POST" action="modals/setnurse_findiag.php" id="form">
                 <div class="modal-body">
-                    <label for="findiag" class="form-label">Findings/Diagnosis:</label>
+                    <label for="findiag" class="form-label">Findings/Diagnosis: <i style="color: red; font-size: 20px">*</i></label>
                     <div class="mb-2">
                         <input type="text" class="form-control" name="findiag" id="findiag" required>
                     </div>

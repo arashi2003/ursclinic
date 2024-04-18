@@ -8,7 +8,7 @@
             <form method="POST" action="modals/setnurse_medcase.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
-                        <label for="type" class="form-label">Type:</label>
+                        <label for="type" class="form-label">Type: <i style="color: red; font-size: 20px">*</i></label>
                         <select name="type" class="form-control" id="type" required>
                             <option value="" disabled selected>-Select Medical Case Type-</option>
                             <option value="main">Main</option>
@@ -17,7 +17,7 @@
                         </select>
                     </div>
                     <div class="mb-2">
-                        <label for="medcase" class="form-label">Medical Case:</label>
+                        <label for="medcase" class="form-label">Medical Case: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="medcase" id="medcase" required>
                     </div>
                 </div>

@@ -164,10 +164,10 @@ if ($_SESSION['usertype'] == "NURSE") : ?>
                         } ?>">
                 <a href="history">
                     <i class='bx bx-collection'></i>
-                    <span class="link_name">Transactions</span>
+                    <span class="link_name">Transaction Histroy</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="history">Transactions</a></li>
+                    <li><a class="link_name" href="history">Transaction Histroy</a></li>
                 </ul>
             </li>
         </ul>
@@ -198,10 +198,10 @@ if ($_SESSION['usertype'] == "NURSE") : ?>
                         } ?>">
                 <a href="history">
                     <i class='bx bx-collection'></i>
-                    <span class="link_name">Transactions</span>
+                    <span class="link_name">Transaction Histroy</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="history">Transactions</a></li>
+                    <li><a class="link_name" href="history">Transaction Histroy</a></li>
                 </ul>
             </li>
         </ul>
@@ -232,10 +232,10 @@ if ($_SESSION['usertype'] == "NURSE") : ?>
                         } ?>">
                 <a href="history">
                     <i class='bx bx-collection'></i>
-                    <span class="link_name">Transactions</span>
+                    <span class="link_name">Transaction Histroy</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="history">Transactions</a></li>
+                    <li><a class="link_name" href="history">Transaction Histroy</a></li>
                 </ul>
             </li>
         </ul>
@@ -266,10 +266,10 @@ if ($_SESSION['usertype'] == "NURSE") : ?>
                         } ?>">
                 <a href="history">
                     <i class='bx bx-collection'></i>
-                    <span class="link_name">Transactions</span>
+                    <span class="link_name">Transaction Histroy</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="history">Transactions</a></li>
+                    <li><a class="link_name" href="history">Transaction Histroy</a></li>
                 </ul>
             </li>
         </ul>
@@ -301,10 +301,10 @@ if ($_SESSION['usertype'] == "NURSE") : ?>
                         } ?>">
                 <a href="history">
                     <i class='bx bx-collection'></i>
-                    <span class="link_name">Transactions</span>
+                    <span class="link_name">Transaction Histroy</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="history">Transactions</a></li>
+                    <li><a class="link_name" href="history">Transaction Histroy</a></li>
                 </ul>
             </li>
         </ul>
