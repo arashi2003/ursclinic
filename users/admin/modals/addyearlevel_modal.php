@@ -8,7 +8,7 @@
             <form method="POST" action="modals/settings/yearlevel.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
-                        <label for="department" class="form-label">Department:</label>
+                        <label for="department" class="form-label">Department: <i style="color: red; font-size: 20px">*</i></label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="department" required>
                             <option value="" disabled selected>-Select Department-</option>
                             <?php
@@ -22,7 +22,7 @@
                         </select>
                     </div>
                     <div class="mb-2">
-                        <label for="yearlevel" class="form-label">Year Level:</label>
+                        <label for="yearlevel" class="form-label">Year Level: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="yearlevel" id="yearlevel" required>
                     </div>
                 </div>

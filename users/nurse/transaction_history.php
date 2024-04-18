@@ -185,7 +185,7 @@ if ($pages > 4) {
 <html lang="en" dir="ltr">
 
 <head>
-    <title>Medical Records</title>
+    <title>Transactions</title>
     <?php include('../../includes/header.php'); ?>
 </head>
 
@@ -195,7 +195,7 @@ if ($pages > 4) {
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">MEDICAL RECORDS</span>
+                <span class="dashboard">TRANSACTIONS</span>
             </div>
             <div class="right-nav">
                 <div class="notification-button">
@@ -238,7 +238,7 @@ if ($pages > 4) {
         <div class="home-content">
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addpatient">Add Record</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addpatient">Add Transaction</button>
                     <?php include('modals/transaction_modal.php'); ?>
                 </div>
                 <?php

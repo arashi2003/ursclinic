@@ -162,7 +162,7 @@ if ($pages > 4) {
                         </ul>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addteentry">Add Entry</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addteentry">Add Tools/Equipment</button>
                         <?php include('modals/nurseaddteentrymodal.php'); ?>
                     </div>
                 </div>

@@ -8,7 +8,7 @@
             <form method="POST" action="modals/settings/program.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
-                        <label for="department" class="form-label">Department:</label>
+                        <label for="department" class="form-label">Department: <i style="color: red; font-size: 20px">*</i></label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="department" required>
                             <option value="" disabled selected>-Select Department-</option>
                             <option value="COLLEGE">COLLEGE</option>
@@ -16,7 +16,7 @@
                         </select>
                     </div>
                     <div class="mb-2">
-                        <label for="college" class="form-label">College:</label>
+                        <label for="college" class="form-label">College: <i style="color: red; font-size: 20px">*</i></label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="college" id="college">
                             <option value="" selected>-Select College-</option>
                             <?php
@@ -30,11 +30,11 @@
                         </select>
                     </div>
                     <div class="mb-2">
-                        <label for="program" class="form-label">Program:</label>
+                        <label for="program" class="form-label">Program: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="program" id="program" required>
                     </div>
                     <div class="mb-2">
-                        <label for="abbrev" class="form-label">Abbreviation:</label>
+                        <label for="abbrev" class="form-label">Abbreviation: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="abbrev" id="abbrev" required>
                     </div>
                 </div>

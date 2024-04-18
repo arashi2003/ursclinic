@@ -171,7 +171,7 @@ if ($pages > 4) {
                         </ul>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addsupstocks">Add Entry</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addsupstocks">Add Supply</button>
                         <?php include('modals/nurseaddsupstocks_exp_modal.php'); ?>
                     </div>
                 </div>

@@ -34,6 +34,7 @@ if (isset($_POST['patientid'])) {
         $fullname = ucwords(strtolower($account['firstname'])) . " " . strtoupper($middleinitial) . " " . ucwords(strtolower($account['lastname'])); // Get the full name
         $email = $account['email'];
         $contactno = $account['contactno'];
+        $designation = $account['usertype'];
 
         // Perform a database query to check if patient info exists
         $query1 = "SELECT * FROM patient_info WHERE patientid = ?";
@@ -53,7 +54,8 @@ if (isset($_POST['patientid'])) {
                 'success' => true,
                 'fullname' => $fullname,
                 'email' => $email,
-                'contactno' => $contactno
+                'contactno' => $contactno,
+                'designation' => $designation
             );
             echo json_encode($response);
         }

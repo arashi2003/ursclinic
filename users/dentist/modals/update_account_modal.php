@@ -8,19 +8,19 @@
             <form method="POST" action="modals/update/update_account.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
-                        <label for="accountid" class="form-label">Account ID:</label>
+                        <label for="accountid" class="form-label">Account ID: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="accountid" id="accountid" value="<?php echo $userid?>" readonly disabled>
                     </div>
                     <div class="mb-2">
-                        <label for="cupassword" class="form-label">Current Password:</label>
+                        <label for="cupassword" class="form-label">Current Password: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="password" class="form-control" name="cupassword" id="cupassword">
                     </div>
                     <div class="mb-2">
-                        <label for="npassword" class="form-label">New Password:</label>
+                        <label for="npassword" class="form-label">New Password: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="password" class="form-control" name="npassword" id="npassword">
                     </div>
                     <div class="mb-2">
-                        <label for="copassword" class="form-label">Confirm Password:</label>
+                        <label for="copassword" class="form-label">Confirm Password: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="password" maxlength="13" class="form-control" name="copassword" id="copassword" oninput="checkPasswordMatch()">
                         <div id="passwordMatchError" style="color: red;"></div>
                     </div>

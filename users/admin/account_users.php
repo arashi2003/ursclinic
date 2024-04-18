@@ -169,7 +169,7 @@ if ($pages > 4) {
                             <form action="" method="GET" id="filterForm">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="input-group mb-2">
                                                 <input type="text" name="account" value="<?= isset($_GET['account']) == true ? $_GET['account'] : '' ?>" class="form-control" placeholder="Search user account">
                                                 <button type="submit" class="btn btn-primary">Search</button>

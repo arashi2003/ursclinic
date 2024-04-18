@@ -8,7 +8,7 @@
             <form method="POST" action="modals/cancel/appointment.php">
                 <div class="modal-body">
                     <div class="mb-2">
-                        <label for="cancelreasonling" class="form-label text-start">Reason for cancellation:</label>
+                        <label for="cancelreasonling" class="form-label text-start">Reason for cancellation: <i style="color: red; font-size: 20px">*</i></label>
                         <textarea class="form-control" name="reason" id="reason" style="resize: none;" required></textarea>
                     </div>
                 </div>

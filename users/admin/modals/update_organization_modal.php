@@ -8,12 +8,12 @@
             <form method="POST" action="modals/update/organization.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
-                        <label for="adminid" class="form-label">Account ID:</label>
+                        <label for="adminid" class="form-label">Account ID: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" name="id" value="<?php echo $data['id']?>" hidden>
                         <input type="text" class="form-control" name="adminid" id="adminid" value="<?php echo $data['adminid']?>">
                     </div>
                     <div class="mb-2">
-                        <label for="campus" class="form-label">Campus:</label>
+                        <label for="campus" class="form-label">Campus: <i style="color: red; font-size: 20px">*</i></label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="campus" id="campus" required>
                             <option value="" disabled selected>-Select Campus-</option>
                             <?php
@@ -32,24 +32,24 @@
                         </select>
                     </div>
                     <div class="mb-2">
-                        <label for="firstname" class="form-label">First Name:</label>
+                        <label for="firstname" class="form-label">First Name: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="firstname" id="firstname" value="<?php echo $data['firstname']?>" required>
                     </div>
                     <div class="mb-2">
-                        <label for="middlename" class="form-label">Middle Name:</label>
+                        <label for="middlename" class="form-label">Middle Name: <i style="color: gray; font-size: 14px">(optional)</i></label>
                         <input type="text" class="form-control" name="middlename" id="middlename" value="<?php echo $data['middlename']?>">
                     </div>
                     <div class="mb-2">
-                        <label for="lastname" class="form-label">Last Name:</label>
+                        <label for="lastname" class="form-label">Last Name: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="lastname" id="lastname" value="<?php echo $data['lastname']?>" required>
                     </div>
                     <div class="row">
                         <div class="col mb-2">
-                            <label for="extension" class="form-label">Title:</label>
+                            <label for="extension" class="form-label">Title: <i style="color: red; font-size: 20px">*</i></label>
                             <input type="text" class="form-control" name="extension" id="extension" value="<?php echo $data['extension']?>" required>
                         </div>
                         <div class="col mb-2">
-                            <label for="title" class="form-label">Position:</label>
+                            <label for="title" class="form-label">Position: <i style="color: red; font-size: 20px">*</i></label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="position" id="position" required>
                                 <option value="" disabled selected>-Select Position-</option>
                                 <?php

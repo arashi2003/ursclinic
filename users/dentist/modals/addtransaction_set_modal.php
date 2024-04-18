@@ -8,7 +8,7 @@
             <form method="POST" action="modals/setnurse_transaction.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
-                        <label for="transaction" class="form-label">Transaction:</label>
+                        <label for="transaction" class="form-label">Transaction: <i style="color: red; font-size: 20px">*</i></label>
                         <select name="transaction" class="form-control" id="transaction" required>
                             <option value="" disabled selected></option>
                             <option value="Appointment">Appointment</option>
@@ -16,7 +16,7 @@
                         </select>
                     </div>
                     <div class="mb-2">
-                        <label for="service" class="form-label">Service:</label>
+                        <label for="service" class="form-label">Service: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="service" id="service">
                     </div>
                 </div>

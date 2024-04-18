@@ -8,12 +8,12 @@
             <form method="POST" action="modals/update/update_account.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
-                        <label for="accountid" class="form-label">Account ID:</label>
+                        <label for="accountid" class="form-label">Account ID: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="accountid" id="accountid" value="<?php echo $data['accountid']?>" required>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-2">
-                            <label for="campus" class="form-label">Campus:</label>
+                            <label for="campus" class="form-label">Campus: <i style="color: red; font-size: 20px">*</i></label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="campus" id="campus" required>
                                 <option value="" disabled selected>-Select Campus-</option>
                                 <?php
@@ -32,7 +32,7 @@
                             </select>
                         </div>
                         <div class="col-md-6 mb-2">
-                            <label for="usertype" class="form-label">Usertype:</label>
+                            <label for="usertype" class="form-label">Usertype: <i style="color: red; font-size: 20px">*</i></label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="usertype" id="usertype" required>
                                 <option value="" disabled selected>-Select Usertype-</option>
                                 <?php
@@ -52,45 +52,45 @@
                         </div>
                     </div>
                     <div class="mb-2">
-                        <label for="firstname" class="form-label">First Name:</label>
+                        <label for="firstname" class="form-label">First Name: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="firstname" id="firstname" value="<?php echo $data['firstname']?>" required>
                     </div>
                     <div class="mb-2">
-                        <label for="middlename" class="form-label">Middle Name:</label>
+                        <label for="middlename" class="form-label">Middle Name: <i style="color: gray; font-size: 14px">(optional)</i></label>
                         <input type="text" class="form-control" name="middlename" id="middlename" value="<?php echo $data['middlename']?>">
                     </div>
                     <div class="mb-2">
-                        <label for="lastname" class="form-label">Last Name:</label>
+                        <label for="lastname" class="form-label">Last Name: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="lastname" id="lastname" value="<?php echo $data['lastname']?>" required>
                     </div>
                     <div class="mb-2">
-                        <label for="email" class="form-label">Email Address:</label>
+                        <label for="email" class="form-label">Email Address: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="email" id="email" value="<?php echo $data['email']?>" required>
                     </div>
                     <div class="mb-2">
-                        <label for="contactno" class="form-label">Contact Number:</label>
+                        <label for="contactno" class="form-label">Contact Number: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" maxlength="13" class="form-control" name="contactno" id="contactno" value="<?php echo $data['contactno']?>" required>
                     </div>
 
                     <!-- responsive na magiging required fields ung mga password related textbox-->
 
                     <div class="mb-2">
-                        <label for="cupassword" class="form-label">Current Password:</label>
+                        <label for="cupassword" class="form-label">Current Password: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="password" class="form-control" name="cupassword" id="cupassword">
                     </div>
                     <div class="mb-2">
-                        <label for="npassword" class="form-label">New Password:</label>
+                        <label for="npassword" class="form-label">New Password: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="password" class="form-control" name="npassword" id="npassword">
                     </div>
                     <div class="mb-2">
-                        <label for="copassword" class="form-label">Confirm Password:</label>
+                        <label for="copassword" class="form-label">Confirm Password: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="password" maxlength="13" class="form-control" name="copassword" id="copassword" oninput="checkPasswordMatch()">
                         <div id="passwordMatchError" style="color: red;"></div>
                     </div>
 
 
                     <div class="mb-2">
-                        <label for="status" class="form-label">Status:</label>
+                        <label for="status" class="form-label">Status: <i style="color: red; font-size: 20px">*</i></label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="status" id="status" required>
                             <option value="" disabled selected>-Select Status-</option>
                             <?php

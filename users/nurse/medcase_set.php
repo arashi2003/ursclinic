@@ -168,7 +168,7 @@ if ($pages > 4) {
                         </ul>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmedcase">Add Entry</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmedcase">Add Medical Case</button>
                         <?php include('modals/addmedcase_modal.php'); ?>
                     </div>
                 </div>

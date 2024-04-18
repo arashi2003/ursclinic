@@ -7,7 +7,7 @@
             </div>
             <form method="POST" action="modals/update/campus.php?id=<?php echo $data['id']; ?>" id="form">
                 <div class="modal-body">
-                    <label for="campus" class="form-label">Campus:</label>
+                    <label for="campus" class="form-label">Campus: <i style="color: red; font-size: 20px">*</i></label>
                     <div class="mb-2">
                         <input type="text" name="id" value="<?php echo $data['id']?>" hidden>
                         <input type="text" class="form-control" name="campus" id="campus" value="<?php echo $data['campus']?>" required>

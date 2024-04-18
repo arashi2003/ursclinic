@@ -168,7 +168,7 @@ if ($pages > 4) {
                         </ul>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addtransaction_set">Add Entry</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addtransaction_set">Add Transaction/Service</button>
                         <?php include('modals/addtransaction_set_modal.php'); ?>
                     </div>
                 </div>

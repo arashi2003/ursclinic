@@ -27,7 +27,7 @@
                         </select>
                     </div>
                     <div class="mb-2 hidden" id="purposeDiv">
-                        <label for="purposes" class="col-form-label">Request:</label>
+                        <label for="purposes" class="col-form-label">Request for:</label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="purpose" id="purpose" required>
                             <option value="" disabled selected></option>
                         </select>

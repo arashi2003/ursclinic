@@ -196,15 +196,15 @@ if ($pages > 4) {
                             <div class="col-md-12">
                                 <form action="" method="GET" id="filterForm">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="input-group mb-2">
                                                 <input type="text" name="patient" value="<?= isset($_GET['patient']) == true ? $_GET['patient'] : '' ?>" class="form-control" placeholder="Search patient">
                                                 <button type="submit" class="btn btn-primary">Search</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 mb-2">
+                                        <div class="col-md-1 mb-2">
                                             <select name="campus" class="form-select">
-                                                <option value="" disabled selected>-Select Campus-</option>
+                                                <option value="" disabled selected>-Campus-</option>
                                                 <option value="<?= isset($_GET['campus']) == true ? ($_GET['campus'] == 'NONE' ? 'selected' : '') : '' ?>">NONE</option>
                                                 <?php
                                                 $sql = "SELECT * FROM campus ORDER BY campus";
@@ -216,9 +216,9 @@ if ($pages > 4) {
                                                 } ?>
                                             </select>
                                         </div>
-                                        <div class="col-md-2 mb-2">
+                                        <div class="col-md-1 mb-2">
                                             <select class="form-select" name="designation" id="designation">
-                                                <option value="" disabled selected>-Select Designation-</option>
+                                                <option value="" disabled selected>-Designation-</option>
                                                 <option value="" <?= isset($_GET['designation']) == true ? ($_GET['designation'] == "" ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 include('connection.php');
@@ -230,9 +230,9 @@ if ($pages > 4) {
                                                 <?php } ?>
                                             </select>
                                         </div>
-                                        <div class="col-md-2 mb-2" id="departmentDiv">
+                                        <div class="col-md-1 mb-2" id="departmentDiv">
                                             <select class="form-select" name="department" id="departmentSelect">
-                                                <option value="" disabled selected>-Select Department-</option>
+                                                <option value="" disabled selected>-Department-</option>
                                                 <option value="" <?= isset($_GET['department']) == true ? ($_GET['department'] == "" ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 include('connection.php');
@@ -244,9 +244,9 @@ if ($pages > 4) {
                                                 <?php } ?>
                                             </select>
                                         </div>
-                                        <div class="col-md-2" id="collegeDiv">
+                                        <div class="col-md-1 mb-2" id="collegeDiv">
                                             <select class="form-select" name="college" id="collegeSelect">
-                                                <option value="" disabled selected>-Select College-</option>
+                                                <option value="" disabled selected>-College-</option>
                                                 <option value="" <?= isset($_GET['college']) == true ? ($_GET['college'] == "" ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 include('connection.php');
@@ -258,9 +258,9 @@ if ($pages > 4) {
                                                 <?php } ?>
                                             </select>
                                         </div>
-                                        <div class="col-md-4" id="programDiv">
+                                        <div class="col-md-1 mb-2" id="programDiv">
                                             <select class="form-select" name="program" id="programSelect">
-                                                <option value="" disabled selected>-Select Program-</option>
+                                                <option value="" disabled selected>-Program-</option>
                                                 <option value="" <?= isset($_GET['program']) == true ? ($_GET['program'] == "" ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 include('connection.php');
@@ -272,9 +272,9 @@ if ($pages > 4) {
                                                 <?php } ?>
                                             </select>
                                         </div>
-                                        <div class="col-md-2 mb-2" id="yearlevelDiv">
+                                        <div class="col-md-1 mb-2" id="yearlevelDiv">
                                             <select class="form-select" id="yearlevelSelect">
-                                                <option value="" disabled selected>-Select Year Level-</option>
+                                                <option value="" disabled selected>-Year Level-</option>
                                                 <option value="" <?= isset($_GET['yearlevel']) == true ? ($_GET['yearlevel'] == "" ? 'selected' : '') : '' ?>>NONE</option>
                                                 <?php
                                                 include('connection.php');

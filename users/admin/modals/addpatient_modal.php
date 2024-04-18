@@ -8,20 +8,20 @@
             <form method="POST" action="add/patient_add.php" id="form">
                 <div class="modal-body">
                     <div class="mb-2">
-                        <label for="patientid" class="form-label">Patient ID:</label>
+                        <label for="patientid" class="form-label">Patient ID: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="patientid" id="patientid" onchange="fetchPatientData()" required>
                     </div>
                     <div class="mb-2">
-                        <label for="fullname" class="form-label">Full name:</label>
+                        <label for="fullname" class="form-label">Full name: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="fullname" id="fullname" disabled>
                     </div>
                     <div class="row">
                         <div class="col mb-2">
-                            <label for="birthday" class="form-label">Birthday:</label>
+                            <label for="birthday" class="form-label">Birthday: <i style="color: red; font-size: 20px">*</i></label>
                             <input type="date" class="form-control" name="birthday" id="birthday" required>
                         </div>
                         <div class="col mb-2">
-                            <label for="sex" class="form-label">Sex:</label>
+                            <label for="sex" class="form-label">Sex: <i style="color: red; font-size: 20px">*</i></label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="sex" id="sex" required>
                                 <option value="" disabled selected>-Select Sex-</option>
                                 <option value="MALE">MALE</option>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="row">
                         <div class="col mb-2">
-                            <label for="designation" class="form-label">Designation:</label>
+                            <label for="designation" class="form-label">Designation: <i style="color: red; font-size: 20px">*</i></label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="designation" id="designation" onchange="enableDesignation(this)" required>
                                 <option value="" disabled selected>-Select Designation-</option>
                                 <?php
@@ -46,7 +46,7 @@
                         </div>
                         <!-- RESPONSIVE ROR ROR-->
                         <div class="col mb-2 hidden" id="departmentDiv">
-                            <label for="department" class="form-label">Department:</label>
+                            <label for="department" class="form-label">Department: <i style="color: red; font-size: 20px">*</i></label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="department" id="departmentSelect" onchange="enableDepartment(this)" required>
                                 <option value="" selected>-Select Department-</option>
                                 <?php
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <div class="mb-2 hidden" id="collegeDiv">
-                        <label for="college" class="form-label">College:</label>
+                        <label for="college" class="form-label">College: <i style="color: red; font-size: 20px">*</i></label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="college" id="collegeSelect">
                             <option value="" disabled selected>-Select College-</option>
                             <?php
@@ -75,45 +75,45 @@
                         </select>
                     </div>
                     <div class="mb-2 hidden" id="programDiv">
-                        <label for="program" class="form-label">Program:</label>
+                        <label for="program" class="form-label">Program: <i style="color: red; font-size: 20px">*</i></label>
                         <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="program" id="programSelect">
                             <option value="" disabled selected>-Select Program-</option>
                         </select>
                     </div>
                     <div class="row">
                         <div class="col-md-4 mb-2 hidden" id="yearlevelDiv">
-                            <label for="yearlevel" class="form-label">Year Level:</label>
+                            <label for="yearlevel" class="form-label">Year Level: <i style="color: red; font-size: 20px">*</i></label>
                             <select class="form-select form-select-md mb-2" aria-label=".form-select-md example" name="yearlevel" id="yearlevelSelect">
                                 <option value="" disabled selected>-Select Year Level-</option>
                             </select>
                         </div>
                         <div class="col-md-4 mb-2 hidden" id="section">
-                            <label for="section" class="form-label">Section:</label>
+                            <label for="section" class="form-label">Section: <i style="color: red; font-size: 20px">*</i></label>
                             <input type="text" class="form-control" name="section" id="section">
                         </div>
                         <div class="col-md-4 mb-2 hidden" id="block">
-                            <label for="section" class="form-label">Block:</label>
+                            <label for="section" class="form-label">Block: <i style="color: red; font-size: 20px">*</i></label>
                             <input type="text" class="form-control" name="block" id="block">
                         </div>
                     </div>
                     <div class="mb-2">
-                        <label for="email" class="form-label">Email Address:</label>
+                        <label for="email" class="form-label">Email Address: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="email" id="email" required disabled>
                     </div>
                     <div class="mb-2">
-                        <label for="contactno" class="form-label">Contact Number:</label>
+                        <label for="contactno" class="form-label">Contact Number: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" maxlength="13" class="form-control" name="contactno" id="contactno" required disabled>
                     </div>
                     <div class="mb-2">
-                        <label for="email" class="form-label">Home Address:</label>
+                        <label for="email" class="form-label">Home Address: <i style="color: red; font-size: 20px">*</i></label>
                         <textarea class="form-control" name="address" id="address" style="resize: none;" required></textarea>
                     </div>
                     <div class="mb-2">
-                        <label for="emcon_name" class="form-label">Emergency Contact Name:</label>
+                        <label for="emcon_name" class="form-label">Emergency Contact Name: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" class="form-control" name="emcon_name" id="emcon_name">
                     </div>
                     <div class="mb-2">
-                        <label for="emcon_number" class="form-label">Emergency Contact Number:</label>
+                        <label for="emcon_number" class="form-label">Emergency Contact Number: <i style="color: red; font-size: 20px">*</i></label>
                         <input type="text" maxlength="13" class="form-control" name="emcon_number" id="emcon_number">
                     </div>
                 </div>
@@ -246,6 +246,7 @@
                             document.getElementById('fullname').value = ''; // Clear full name
                             document.getElementById('email').value = ''; // Clear full name
                             document.getElementById('contactno').value = ''; // Clear full name
+                            document.getElementById('designation').value = ''; // Clear full name
                         } else {
                             // Account exists and patient info does not exist
                             document.getElementById('patientid').classList.remove('is-invalid');
@@ -254,6 +255,9 @@
                             document.getElementById('fullname').value = response.fullname;
                             document.getElementById('email').value = response.email;
                             document.getElementById('contactno').value = response.contactno;
+                            const designationField = document.getElementById('designation');
+                            designationField.value = response.designation;
+                            designationField.dispatchEvent(new Event('change'));
                         }
                     } else {
                         console.error('Error: Unable to fetch account data');
@@ -268,6 +272,7 @@
             document.getElementById('fullname').value = ''; // Clear full name
             document.getElementById('email').value = ''; // Clear email
             document.getElementById('contactno').value = ''; // Clear contact
+            document.getElementById('designation').value = ''; // Clear full name
         }
     }
 </script>

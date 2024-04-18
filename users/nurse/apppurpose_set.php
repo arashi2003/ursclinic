@@ -165,7 +165,7 @@ if ($pages > 4) {
                         </ul>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#apppurpose_set">Add Entry</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#apppurpose_set">Add Request</button>
                         <?php include('modals/apppurpose_set_modal.php'); ?>
                     </div>
                 </div>

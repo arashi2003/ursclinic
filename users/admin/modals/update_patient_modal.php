@@ -7,8 +7,6 @@
             </div>
             <form method="POST" action="modals/update/update_patient.php" id="form">
                 <div class="modal-body">
-                    
-                <?php echo $data['program'];?>
                     <div class="mb-2">
                         <label for="patientid" class="form-label">Patient ID:</label>
                         <input type="text" class="form-control" name="patientid" id="patientid" value="<?php echo $data['patientid']?>" hidden>

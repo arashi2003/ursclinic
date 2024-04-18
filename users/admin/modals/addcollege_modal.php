@@ -7,7 +7,7 @@
             </div>
             <form method="POST" action="modals/settings/college.php" id="form">
                 <div class="modal-body">
-                    <label for="college" class="form-label">College:</label>
+                    <label for="college" class="form-label">College: <i style="color: red; font-size: 20px">*</i></label>
                     <div class="mb-2">
                         <input type="text" class="form-control" name="college" id="college" required>
                     </div>
