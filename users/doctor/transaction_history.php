@@ -47,20 +47,20 @@ if (isset($_GET['account']) || isset($_GET['date_from']) || isset($_GET['date_to
     } elseif ($dt_to == $dt_from and $dt_to != "" and $type != "" and $account != "") {
         // Same start and end date
         $fdate = date("Y-m-d", strtotime($dt_from));
-        $date = " datetime LIKE '$fdate%'";
+        $date = " AND datetime LIKE '$fdate%'";
     } elseif ($dt_to == "" and $dt_from != "" and $type != "" and $account != "") {
         // Only start date provided
         $fdate = date("Y-m-d", strtotime($dt_from));
-        $date = " datetime >= '$fdate'";
+        $date = " AND datetime >= '$fdate'";
     } elseif ($dt_from == "" and $dt_to != "" and $type != "" and $account != "") {
         // Only end date provided
         $d = date("Y-m-d", strtotime($dt_to));
-        $date = " datetime <= '$d'";
+        $date = " AND datetime <= '$d'";
     } elseif ($dt_from != "" and $dt_to != "" and $dt_from != $dt_to and $type != "" and $account != "") {
         // Start and end date range provided
         $fdate = date("Y-m-d", strtotime($dt_from));
         $ldate = date("Y-m-d", strtotime($dt_to));
-        $date = " datetime >= '$fdate' AND datetime <= '$ldate'";
+        $date = " AND datetime >= '$fdate' AND datetime <= '$ldate'";
     }
 
     if ($dt_from == "" and $dt_to == "" and $type != "" and $account == "") {
@@ -189,7 +189,7 @@ if ($pages > 4) {
 <html lang="en" dir="ltr">
 
 <head>
-    <title>Medical Records</title>
+    <title>Transactions</title>
     <?php include('../../includes/header.php'); ?>
 </head>
 
@@ -199,7 +199,7 @@ if ($pages > 4) {
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">MEDICAL RECORDS</span>
+                <span class="dashboard">TRANSACTIONS</span>
             </div>
             <div class="right-nav">
                 <div class="profile-details">
@@ -227,7 +227,7 @@ if ($pages > 4) {
             <?php include('../../includes/alert.php'); ?>
             <div class="overview-boxes">
                 <div class="schedule-button">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addpatient">Add Record</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addpatient">Add Transaction</button>
                     <?php include('modals/transaction_modal.php'); 
                     ?>
                 </div>

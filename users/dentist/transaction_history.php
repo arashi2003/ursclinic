@@ -178,7 +178,7 @@ if ($pages > 4) {
 <html lang="en" dir="ltr">
 
 <head>
-    <title>Medical Records</title>
+    <title>History</title>
     <?php include('../../includes/header.php'); ?>
 </head>
 
@@ -188,7 +188,7 @@ if ($pages > 4) {
         <nav>
             <div class="sidebar-button">
                 <i class='bx bx-menu sidebarBtn'></i>
-                <span class="dashboard">MEDICAL RECORDS</span>
+                <span class="dashboard">HISTORY</span>
             </div>
             <div class="right-nav">
                 <div class="profile-details">
